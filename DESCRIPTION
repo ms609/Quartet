@@ -1,0 +1,10 @@
+Package: Tetrad
+Version: 0.1
+Date: 2017-01-30
+Title: Tetrad Similarity Metric for Phylogenetic Trees
+Author: Martin R. Smith
+Maintainer: Martin R. Smith <martins@gmail.com>
+Description: Calculates the number of four-taxon subtrees consistent with a pair of cladograms.
+Imports: phangorn, memoise
+License: Unlimited
+URL: https://github.com/ms609/Tetrad
