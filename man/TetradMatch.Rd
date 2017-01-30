@@ -30,10 +30,9 @@
 Martin R. Smith
 }
 \examples{
-  n_tip <- 6
   library(ape)
-  trees <- list(rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
-                rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
+  n_tip <- 6
+  trees <- lapply(1:12, function (x) rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
   compare_result <- TetradMatch(trees)
   dissimilar_tetrads <- choose(n_tip, 4) - colSums(compare_result)  
   result <- rbind(compare_result, dissimilar_tetrads)
