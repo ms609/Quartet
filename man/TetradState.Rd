@@ -30,6 +30,7 @@ Martin R. Smith
 }
 \examples{
   n_tip <- 6
+  library(ape)
   trees <- list(rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
                 rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
   splits <- lapply(trees, Tree2Splits)

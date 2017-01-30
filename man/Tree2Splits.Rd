@@ -21,5 +21,6 @@ Martin R. Smith
 \code{phangorn:::bip}
 }
 \examples{
+  library(ape)
   Tree2Splits(rtree(6, tip.label=1:6, br=NULL))
 }

@@ -22,12 +22,16 @@
        that DIFFER between the two relevant trees can be calculated by deducting the tetrads in
        of the other two categories from the total number of tetrads, 
        given by \code{\link{choose}(n_tip, 4)}.
+       
+       A random pair of fully-resolved trees is expected to share \code{choose(n_tip, 4) / 3} 
+       four-taxon trees.
 }
 \author{
 Martin R. Smith
 }
 \examples{
   n_tip <- 6
+  library(ape)
   trees <- list(rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
                 rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
   compare_result <- TetradMatch(trees)
