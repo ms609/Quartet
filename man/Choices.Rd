@@ -2,7 +2,6 @@
 \alias{Choices}
 
 \title{Choices}
-\description{List all choices of four taxa from a tree.}
 \usage{
 Choices(n_tips)
 }
@@ -11,6 +10,7 @@ Choices(n_tips)
   \item{n_tips}{integer, specifying the number of tips in a tree.}
 }
 \description{
+  List all choices of four taxa from a tree.
   A more computationally efficient alternative to \code{\link{combn}}.
   Uses \code{\link{memoise}} to make repeated calls faster.
 }

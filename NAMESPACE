@@ -1,1 +1,1 @@
-export(Tree2Splits, TetradState, Choices, Splits2Tetrads, CompareTetrads, TetraDist)
+export(Tree2Splits, TetradState, Choices, Splits2Tetrads, CompareTetrads, TetradMatch)
