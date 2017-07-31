@@ -6,6 +6,8 @@ a measure of their similarity based on the number of shared four-taxon subtrees.
 It's named Slow Quartet as it calculates the metric rather inefficiently; it may not be of use for large trees. 
 Faster algorithms are available: try the R package tqDist.
 
+What other implementations don't seem to do is report how many quartets are resolved in one tree and unresolved in another.
+
 The package will soon be compiled and uploaded to the CRAN repository.  
 Meanwhile, you can install the latest version of the package into R thus:
 
