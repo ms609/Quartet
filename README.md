@@ -1,3 +1,10 @@
+<!--[![Build Status](https://travis-ci.org/ms609/SlowQuartet.svg?branch=master)](https://travis-ci.org/ms609/SlowQuartet)
+[![codecov](https://codecov.io/gh/ms609/SlowQuartet/branch/master/graph/badge.svg)](https://codecov.io/gh/ms609/SlowQuartet)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/SlowQuartet)](https://cran.r-project.org/package=SlowQuartet)
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/SlowQuartet)](https://cran.r-project.org/package=SlowQuartet)<!--
+[![Research software impact](http://depsy.org/api/package/cran/SlowQuartet/badge.svg)](http://depsy.org/package/r/SlowQuartet)-->
+[![Project Status: Inactive.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
+
 # SlowQuartet
 
 SlowQuartet is an R package that calculates the Quartet distance between two trees:
