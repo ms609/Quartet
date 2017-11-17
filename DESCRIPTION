@@ -1,10 +1,15 @@
-Package: Tetrad
-Version: 0.1
+Package: SlowQuartet
+Version: 0.1.0.9000
 Date: 2017-01-30
-Title: Tetrad Similarity Metric for Phylogenetic Trees
+Title: Quartet distance: A Similarity Metric for Phylogenetic Trees
 Author: Martin R. Smith
 Maintainer: Martin R. Smith <martins@gmail.com>
 Description: Calculates the number of four-taxon subtrees consistent with a pair of cladograms.
-Imports: phangorn, memoise
-License: Unlimited
-URL: https://github.com/ms609/Tetrad
+Depends: R (>= 3.1.4)
+Imports: 
+    phangorn,
+    memoise
+LazyData: true
+License: CC0
+URL: https://github.com/ms609/SlowQuartet
+BugReports: https://github.com/ms609/SlowQuartet/issues
