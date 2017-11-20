@@ -45,36 +45,21 @@ test_that("Quartets are counted correctly", {
     m1mid_colsome = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), (7, 8, 9, 10, 11)));"),
     m2mid_col1    = ape::read.tree(text="(((1, 2), 3), ((((4, (10, 11)), 5), 6), (7, 8, 9)));"),
     m2mid_colsome = ape::read.tree(text="(((1, 2), 3), ((4, (10, 11)), 5, 6, 7, 8, 9));"),
-    opposite_tree = ape::read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 6)), (5, 7))));"),
-    random_tree   = ape::rtree(11, tip.label=1:11, br=NULL)
+    opposite_tree = ape::read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 6)), (5, 7))));")
   )
   n_tip <- 11
+  expected_identical <- c(322, 270, 152, 306, 196, 186, 322, 207, 262, 205, 189, 119, 87)
+  expected_ambiguous <- c(rep(0, 6), 8, 123, 8, 65, 8, 155, 14)
   
-  dist_measures <- c('symmetric', 'path', 'R-F', 'uSPR', 'TBR', 'PH85', '4tet_=', '4tet_?', '4tet_X')
-  dists <- matrix(NA, nrow=length(dist_measures), ncol=length(test_trees))
-  rownames(dists) <- dist_measures
-  colnames(dists) <- names(test_trees)
-  dists[1:2, ] <- vapply(test_trees, phangorn::treedist, tree2=ref_tree, double(2))
-  dists[3, ] <- vapply(test_trees, phangorn::RF.dist, tree2=ref_tree, double(1))
-  dists[4, ] <- c(0, 1, 1, 1, 1, 1, 1, NA, NA, NA, NA, NA, NA, 999, 999)
-  dists[5, ] <- c(0, 1, 1, 1, 1, 1, 1, NA, NA, NA, NA, NA, NA, 999, 999)
-  
-  class(test_trees) <- 'multiPhylo'
-  dists[6, ] <- as.matrix(ape::dist.topo(test_trees, method='PH85'))[, 1]
-  
-  n_quartets <- choose(n_tip, 4)
   quartet_matches <- MatchingQuartets(test_trees)
-  other_trees <- seq_along(test_trees)[-1]
-  
-  dists[7:8, other_trees] <- quartet_matches / n_quartets * 100
-  dists[9, other_trees] <- (n_quartets - colSums(quartet_matches)) / n_quartets * 100
-  dists[7:9, 1] <- c(100, 0, 0)
-  dists
-  
-)}
+  expect_equal(expected_identical, quartet_matches[1, ])
+  expect_equal(expected_ambiguous, quartet_matches[2, ])
+})
 
-testthat("Random trees are 1/3 similar", {
-  random_trees = 
-  
-  
+test_that("Random trees are 1/3 similar", {
+  for (n_tip in c(11, 22, 44)) {
+    random_trees <- lapply(rep(n_tip, 1000), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
+    matches <- MatchingQuartets(random_trees)[1, ]
+    expect_true(abs(mean(matches) - (choose(n_tip, 4) / 3)) < 3)
+  }
 })
