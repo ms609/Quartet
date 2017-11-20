@@ -3,7 +3,7 @@ WHICH_OTHER_NODE <- 2:4
 #' Tree2Splits
 #' Converts a phylogenetic tree to an array of bipartition splits.
 #' 
-#' @param tr A tree of class \code{phylo}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).
+#' @param tr A tree of class \code{\link[ape]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).
 #' @return Returns a two-dimensional array, with columns corresponding to bipartitions and rows corresponding
 #' to tips 1:N.
 #'
@@ -35,8 +35,11 @@ NumberTips <- function (tr, sorted.labels) {
 
 #' Column Sums
 #' An accellerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}
+#' @param x Matrix whose columns are to be summed.
+#' @param n_cols Number of columns in said matrix.
 #' @author Martin R. Smith
-ColSums <- function (x, n_cols) .Internal(colSums(x, 4, n_cols, FALSE))
+#' @keywords internal
+ColSums <- function (x, n_cols = ncol(x)) .Internal(colSums(x, 4, n_cols, FALSE))
 
 
 #' Choices
@@ -114,7 +117,8 @@ QuartetState <- function (tips, bips) {
 }
 
 #' describeIn QuartetStates A wrapper that need only be provided with a list of splits
-#' @param splits a list of bipartition splits.
+#' @param splits a list of bipartition splits, perhaps generated using 
+#' \code{\link{Tree2Splits}}.
 #' @author Martin R. Smith
 #' @export
 QuartetStates <- function (splits) {
@@ -127,34 +131,38 @@ QuartetStates <- function (splits) {
 #' Compare Quartets
 #' Compare tetrad states between trees
 #'
-#'  Compares two lists of quartet states, detailing how many are identical and how many 
-#'  are unresolved.
+#'  Compares two lists of quartet states, detailing how many are identical and 
+#'  how many are unresolved.
 #' 
-#' @param x A list of tetrad states, generated using \code{\link{Splits2Quartets}}.
+#' @param x A list of tetrad states, perhaps generated in
+#'  \code{\link{CompareQuartets}}.
 #' @param cf a second such list.
 #'
-#' Compares each tetrad in a list, calculating how many statements are identical in both lists.
+#' Compares each tetrad in a list, calculating how many statements are identical
+#'  in both lists.
 #' @return {
 #'   Returns an array of two elements:
-#'   1: the number of tetrads that are present in both trees
-#'   2: the number of tetrads that are not resolved in both trees
-#'   The number of tetrads that are present in one tree and contradicted in the other can be calcluated
-#'   by deducting the total from the total number of tetrads, \code{choose(n_tip, 4)}.
+#'   1: the number of quartets that are present in both trees
+#'   2: the number of quartets that are not resolved in both trees
+#'   The number of quartets that are present in one tree and contradicted in the
+#'   other can be calcluated by deducting the total from the total number of 
+#'   quartets, \code{choose(n_tip, 4)}.
 #' }
 #'
 #' @author Martin R. Smith
 #'
-#' @seealso \code{\link{TetradMatch}}, generates this output from a list of trees.
+#' @seealso \code{\link{MatchingQuartets}}, generates this output from a list of
+#'  trees.
 #'
 #' @examples{
 #'   n_tip <- 6
 #'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
 #'                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
 #'   splits <- lapply(trees, Tree2Splits)
-#'   tetrads <- Splits2Quartets(splits)
-#'   compare_result <- CompareQuartets(tetrads[[1]], tetrads[[2]])
-#'   dissimilar_tetrads <- choose(n_tip, 4) - sum(compare_result)  
-#'   result <- c(compare_result, dissimilar_tetrads)
+#'   quartets <- QuartetStates(splits)
+#'   compare_result <- CompareQuartets(quartets[[1]], quartets[[2]])
+#'   dissimilar_quartets <- choose(n_tip, 4) - sum(compare_result)  
+#'   result <- c(compare_result, dissimilar_quartets)
 #'   names(result) <- c('Shared', 'Unresolved', 'Dissimilar')
 #'   result
 #' }
@@ -165,7 +173,7 @@ CompareQuartets <- function (x, cf) {
 }
 
 #' Matching Quartets
-#' Count matching tetrads
+#' Count matching quartets
 #' Determines the number of four-taxon trees consistent with multiple cladograms
 #' 
 #' Given a list of trees, returns the nubmer of quartet statements present in the first tree
@@ -176,26 +184,27 @@ CompareQuartets <- function (x, cf) {
 #'   the integers 1:n_tip.  Support for different-sized trees will be added if there is demand; 
 #'   contact the author if you would appreciate this functionality.
 #' 
-#' @param trees A list of trees of class \code{\link{phylo}}, with identically-labelled tips.
+#' @param trees A list of trees of class \code{\link[ape]{phylo}}, with identically-labelled tips.
 #'
-#' @return Returns a two dimensional array; columns correspond to the input trees; rows report the 
-#'       number of four-taxon trees that : 1, are present in trees[[1]] and the corresponding input tree;
-#'       2: are unresolved in (at least) one of trees[[1]] and the corresponding input tree. Tetrads
-#'       that DIFFER between the two relevant trees can be calculated by deducting the tetrads in
-#'       of the other two categories from the total number of tetrads, 
-#'       given by \code{\link{choose}(n_tip, 4)}.
+#' @return Returns a two dimensional array; columns correspond to the input trees;
+#'       rows report the number of four-taxon trees that : 1, are present in 
+#'       \code{trees[[1]]} and the corresponding input tree;
+#'       2: are unresolved in (at least) one of trees[[1]] and the corresponding 
+#'       input tree. Tetrads that DIFFER between the two relevant trees can be 
+#'       calculated by deducting the quartets in either of the other two
+#'       categories from the total number of quartets, given by
+#'        \code{\link{choose}(n_tip, 4)}.
 #'       
-#'       A random pair of fully-resolved trees is expected to share \code{choose(n_tip, 4) / 3} 
-#'       four-taxon trees.
+#'       A random pair of fully-resolved trees is expected to share 
+#'       \code{choose(n_tip, 4) / 3} four-taxon trees.
 #'
 #' @author Martin R. Smith
 #' @examples{
-#'  
 #'  n_tip <- 6
 #'  trees <- lapply(1:12, function (x) ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
 #'  compare_result <- TetradMatch(trees)
-#'  dissimilar_tetrads <- choose(n_tip, 4) - colSums(compare_result)  
-#'  result <- rbind(compare_result, dissimilar_tetrads)
+#'  dissimilar_quartets <- choose(n_tip, 4) - colSums(compare_result)  
+#'  result <- rbind(compare_result, dissimilar_quartets)
 #'  rownames(result) <- c('Shared', 'Unresolved', 'Dissimilar')
 #'  result
 #' }
