@@ -1,1 +1,2 @@
-export(Tree2Splits, TetradState, Choices, Splits2Tetrads, CompareTetrads, TetradMatch)
+export(Tree2Splits, QuartetState, Choices, Splits2Quartets, CompareQuartets, QuartetMatch)
+importFrom(memoise, memoise)

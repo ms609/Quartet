@@ -1,6 +1,3 @@
-require(phangorn)
-library(memoise)
-
 WHICH_OTHER_NODE <- 2:4
 
 Tree2Splits <- function (tr) {
@@ -13,9 +10,9 @@ Tree2Splits <- function (tr) {
 ## An accellerated version of the R function (x, na.rm = FALSE, dims = 1L) 
 ColSums <- function (x, n_cols) .Internal(colSums(x, 4, n_cols, FALSE))
 
-TetradState <- function (tips, bips) {
-  tetra_splits <- bips[tips, ]
-  statement <- tetra_splits[, ColSums(tetra_splits, n_cols=dim(tetra_splits)[2]) == 2, drop=FALSE]
+QuartetStates <- function (tips, bips) {
+  quartets <- bips[tips, ]
+  statement <- quartets[, ColSums(quartets, n_cols=dim(quartets)[2]) == 2, drop=FALSE]
   if (length(statement)) {
     statement <- statement[, 1]
     if (statement[1]) return (WHICH_OTHER_NODE[statement[WHICH_OTHER_NODE]])
@@ -38,21 +35,21 @@ Choices <- memoise(function (n_tips) {
   }), recursive=FALSE)
 })
 
-Splits2Tetrads <- function (splits) {
+Splits2Quartets <- function (splits) {
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
-    vapply(Choices(n_tips), TetradState, double(1), bips=bips)
+    vapply(Choices(n_tips), QuartetState, double(1), bips=bips)
   })
 }
 
-CompareTetrads <- function (x, cf) {
+CompareQuartets <- function (x, cf) {
   resolved <- as.logical(x) & as.logical(cf)
   c(sum(x[resolved] == cf[resolved]), sum(!resolved))
 }
 
-## Given a list of trees, returns the nubmer of tetrad statements present in the first tree
+## Given a list of trees, returns the nubmer of quartet statements present in the first tree
 ## in the list also present in each other tree. 
-TetradMatch <- function (trees) {
-  tetrads <- Splits2Tetrads(lapply(trees, Tree2Splits))
-  vapply(tetrads, CompareTetrads, cf=tetrads[[1]], double(2))
+QuartetMatch <- function (trees) {
+  quartets <- Splits2Quartets(lapply(trees, Tree2Splits))
+  vapply(quartets, CompareQuartets, cf=quartets[[1]], double(2))
 }
