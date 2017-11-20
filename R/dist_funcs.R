@@ -4,24 +4,16 @@ Tree2Splits <- function (tr) {
   tip_label <- tr$tip.label
   n_tip <- length(tip_label)
   root <- length(tip_label) + 1
-  vapply(phangorn:::bip(tr)[-seq_len(root)], function (x) seq_len(n_tip) %in% x, logical(n_tip))[as.double(tr$tip.), ]
+  vapply(phangorn:::bip(tr)[-seq_len(root)], function (x) seq_len(n_tip) %in% x, logical(n_tip))[as.double(tip_label), , drop=FALSE]
+}
+
+NumberTips <- function (tr, sorted.labels) {
+  tr$tip.label <- match(tr$tip.label, sorted.labels)
+  return(tr)
 }
 
 ## An accellerated version of the R function (x, na.rm = FALSE, dims = 1L) 
 ColSums <- function (x, n_cols) .Internal(colSums(x, 4, n_cols, FALSE))
-
-QuartetStates <- function (tips, bips) {
-  quartets <- bips[tips, ]
-  statement <- quartets[, ColSums(quartets, n_cols=dim(quartets)[2]) == 2, drop=FALSE]
-  if (length(statement)) {
-    statement <- statement[, 1]
-    if (statement[1]) return (WHICH_OTHER_NODE[statement[WHICH_OTHER_NODE]])
-    if (statement[2]) if (statement[3]) return (4) else return (3)
-    return (2)
-  } else {
-    return (0)
-  }
-}
 
 Choices <- memoise(function (n_tips) {
   ret <- unlist(lapply(seq_len(n_tips - 3), function (i) {
@@ -35,10 +27,23 @@ Choices <- memoise(function (n_tips) {
   }), recursive=FALSE)
 })
 
-Splits2Quartets <- function (splits) {
+QuartetState <- function (tips, bips) {
+  tetra_splits <- bips[tips, , drop=FALSE]
+  statement <- tetra_splits[, ColSums(tetra_splits, n_cols=dim(tetra_splits)[2]) == 2, drop=FALSE]
+  if (length(statement)) {
+    statement <- statement[, 1]
+    if (statement[1]) return (WHICH_OTHER_NODE[statement[WHICH_OTHER_NODE]])
+    if (statement[2]) if (statement[3]) return (4) else return (3)
+    return (2)
+  } else {
+    return (0)
+  }
+}
+
+QuartetStates <- function (splits) {
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
-    vapply(Choices(n_tips), QuartetStates, double(1), bips=bips)
+    vapply(Choices(n_tips), QuartetState, double(1), bips=bips)
   })
 }
 
@@ -48,8 +53,10 @@ CompareQuartets <- function (x, cf) {
 }
 
 ## Given a list of trees, returns the nubmer of quartet statements present in the first tree
-## in the list also present in each other tree. 
-QuartetMatch <- function (trees) {
-  quartets <- Splits2Quartets(lapply(trees, Tree2Splits))
-  vapply(quartets, CompareQuartets, cf=quartets[[1]], double(2))
+## in the list also present in each other tree.
+MatchingQuartets <- function (trees) {
+  tree1.labels <- trees[[1]]$tip.label
+  if (class(tree1.labels) == 'character') trees <- lapply(trees, NumberTips, sorted.labels = tree1.labels)
+  quartets <- QuartetStates(lapply(trees, Tree2Splits))
+  vapply(quartets[-1], CompareQuartets, cf=quartets[[1]], double(2))
 }
