@@ -9,6 +9,8 @@ Depends: R (>= 3.1.4)
 Imports: 
     phangorn,
     memoise
+Suggests:
+    ape
 LazyData: true
 License: CC0
 URL: https://github.com/ms609/SlowQuartet
