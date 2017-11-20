@@ -10,7 +10,7 @@ Tree2Splits <- function (tr) {
 ## An accellerated version of the R function (x, na.rm = FALSE, dims = 1L) 
 ColSums <- function (x, n_cols) .Internal(colSums(x, 4, n_cols, FALSE))
 
-QuartetState <- function (tips, bips) {
+QuartetStates <- function (tips, bips) {
   quartets <- bips[tips, ]
   statement <- quartets[, ColSums(quartets, n_cols=dim(quartets)[2]) == 2, drop=FALSE]
   if (length(statement)) {
@@ -38,7 +38,7 @@ Choices <- memoise(function (n_tips) {
 Splits2Quartets <- function (splits) {
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
-    vapply(Choices(n_tips), QuartetState, double(1), bips=bips)
+    vapply(Choices(n_tips), QuartetStates, double(1), bips=bips)
   })
 }
 
