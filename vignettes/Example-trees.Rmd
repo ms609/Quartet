@@ -1,0 +1,87 @@
+---
+title: "Example trees"
+author: "Martin R. Smith"
+date: "20 November 2017"
+output: html_document,
+        pdf_document
+---
+
+```{r Initialize plot, include=FALSE}
+# Colourblind palette from http://mkweb.bcgsc.ca/biovis2012/color-blindness-palette.png
+tip_colours <- c(
+  rgb(000,000,000, maxColorValue=255),
+  rgb(000,073,073, maxColorValue=255),
+  rgb(000,146,146, maxColorValue=255),
+  rgb(255,109,182, maxColorValue=255),
+  rgb(255,182,219, maxColorValue=255),
+  rgb(073,000,146, maxColorValue=255),
+  rgb(000,109,219, maxColorValue=255),
+  rgb(182,109,255, maxColorValue=255),
+  rgb(109,182,255, maxColorValue=255),
+  rgb(182,219,255, maxColorValue=255),
+  rgb(146,000,000, maxColorValue=255),
+  rgb(146,073,000, maxColorValue=255),
+  rgb(219,109,000, maxColorValue=255),
+  rgb(036,255,036, maxColorValue=255),
+  rgb(255,255,109, maxColorValue=255)
+)[-c(4, 7)] # Rm Tritamopia duplicates of 13 and 3
+```
+
+# Quartet distances
+
+```{r Example trees}
+
+  ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
+  test_trees <- list (
+  ref_tree      = ref_tree,
+  move_one_near = read.tree(text="(((2, 3), 1), (((4, 5), 6), ((7, (8, 9)), (10, 11))));"),
+  move_one_mid  = read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, (8, 9)), (10, 11))));"),
+  move_one_far  = read.tree(text="((2, 3), (((4, 5), 6), ((7, (8, 9)), (10, (11, 1)))));"),
+  move_two_near = read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (10, 11)), (8, 9))));"),
+  move_two_mid  = read.tree(text="(((1, 2), 3), ((((4, (10, 11)), 5), 6), (7, (8, 9))));"),
+  move_two_far  = read.tree(text="((((1, (10, 11)), 2), 3), (((4, 5), 6), (7, (8, 9))));"),
+  collapse_one  = read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, 8, 9), (10, 11))));"),
+  collapse_some = read.tree(text="((1, 2, 3, 4, 5, 6), ((7, 8, 9), (10, 11)));"),
+  m1mid_col1    = read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, 8, 9), (10, 11))));"),
+  m1mid_colsome = read.tree(text="((2, 3), ((((1, 4), 5), 6), (7, 8, 9, 10, 11)));"),
+  m2mid_col1    = read.tree(text="(((1, 2), 3), ((((4, (10, 11)), 5), 6), (7, 8, 9)));"),
+  m2mid_colsome = read.tree(text="(((1, 2), 3), ((4, (10, 11)), 5, 6, 7, 8, 9));"),
+  opposite_tree = read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 6)), (5, 7))));"),
+  random_tree = rtree(11, tip.label=1:11, br=NULL)
+)
+n_tip <- 11
+```
+
+```{r Plot trees, echo=FALSE}
+colplot <- function (tr, title=NULL) plot(tr, tip.col=tip_colours[as.integer(tr$tip.label)], main=title)
+
+par(mfrow=c(3,5), mar=rep(1.2, 4), cex.main=2/3, cex=0.9)
+for (i in seq_along(test_trees)) colplot(test_trees[[i]], names(test_trees)[i])
+
+```
+
+```{R Calculate distances, message=FALSE, warning=FALSE}
+
+dist_measures <- c('symmetric', 'path', 'R-F', 'uSPR', 'TBR', 'PH85', '4tet_=', '4tet_?', '4tet_X')
+dists <- matrix(NA, nrow=length(dist_measures), ncol=length(test_trees))
+rownames(dists) <- dist_measures
+colnames(dists) <- names(test_trees)
+dists[1:2, ] <- vapply(test_trees, phangorn::treedist, tree2=ref_tree, double(2))
+dists[3, ] <- vapply(test_trees, phangorn::RF.dist, tree2=ref_tree, double(1))
+# Exact distance not calculated for latter trees, but will be highish
+dists[4, ] <- c(0, 1, 1, 1, 1, 1, 1, NA, NA, NA, NA, NA, NA, 10, 10)
+dists[5, ] <- c(0, 1, 1, 1, 1, 1, 1, NA, NA, NA, NA, NA, NA, 10, 10) 
+
+class(test_trees) <- 'multiPhylo'
+dists[6, ] <- as.matrix(ape::dist.topo(test_trees, method='PH85'))[, 1]
+
+n_quartets <- choose(n_tip, 4)
+quartet_matches <- MatchingQuartets(test_trees)
+other_trees <- seq_along(test_trees)[-1]
+
+dists[7:8, other_trees] <- quartet_matches / n_quartets * 100
+dists[9, other_trees] <- (n_quartets - colSums(quartet_matches)) / n_quartets * 100
+dists[7:9, 1] <- c(100, 0, 0)
+dists
+
+```
