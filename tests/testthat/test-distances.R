@@ -29,14 +29,15 @@ test_that("Quartets are counted correctly", {
   expected_ambiguous <- c(rep(0, 6), 8, 123, 8, 65, 8, 155, 14)
   
   quartet_matches <- MatchingQuartets(test_trees)
-  expect_equal(expected_identical, quartet_matches[1, ])
-  expect_equal(expected_ambiguous, quartet_matches[2, ])
+  expect_equal(expected_identical, as.integer(quartet_matches[1, ]))
+  expect_equal(expected_ambiguous, as.integer(quartet_matches[2, ]))
 })
 
 test_that("Random trees are 1/3 similar", {
-  for (n_tip in c(11, 22, 44)) {
-    random_trees <- lapply(rep(n_tip, 1000), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
+  for (n_tip in c(7, 13, 26)) {
+    random_trees <- lapply(rep(n_tip, 200), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
     matches <- MatchingQuartets(random_trees)[1, ]
-    expect_true(abs(mean(matches) - (choose(n_tip, 4) / 3)) < 3)
-  }
+    cat(n_tip, abs(mean(matches) - (choose(n_tip, 4) / 3)) / choose(n_tip, 4))
+    expect_true(abs(mean(matches) - (choose(n_tip, 4) / 3)) / choose(n_tip, 4) < 0.01)
+ } 
 })

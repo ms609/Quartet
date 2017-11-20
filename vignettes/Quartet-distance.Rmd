@@ -2,9 +2,19 @@
 title: "Exploring the quartet distance"
 author: "Martin R. Smith"
 date: "20 November 2017"
-output: html_document
----
+output: 
+  html_document: 
+    keep_md: yes
+  pdf_document: default
 
+vignette: >
+  %\VignetteIndexEntry{Understanding the quartet distance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r Load package, include=FALSE}
+require('SlowQuartet')
+```
 # Minimum quartet distance
 
 The quartet distance is necessarily greater than zero when there are more than 

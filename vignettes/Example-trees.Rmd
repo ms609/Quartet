@@ -2,11 +2,20 @@
 title: "Example trees"
 author: "Martin R. Smith"
 date: "20 November 2017"
-output: html_document,
-        pdf_document
+output:
+  html_document: 
+    keep_md: yes
+  pdf_document: default
+vignette: >
+  %\VignetteIndexEntry{Example Trees}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r Initialize plot, include=FALSE}
+```{r Initialize, include=FALSE}
+require('SlowQuartet')
+set.seed(100)
+
 # Colourblind palette from http://mkweb.bcgsc.ca/biovis2012/color-blindness-palette.png
 tip_colours <- c(
   rgb(000,000,000, maxColorValue=255),
@@ -29,27 +38,35 @@ tip_colours <- c(
 
 # Quartet distances
 
-```{r Example trees}
+Here are some example trees.  I've made a reference tree, then peturbed it by
+some simple transformations: moving one taxon (labelled 1) or a pair of taxa
+(10, 11) a short, medium or large distance from their original position.
 
-  ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
-  test_trees <- list (
-  ref_tree      = ref_tree,
-  move_one_near = read.tree(text="(((2, 3), 1), (((4, 5), 6), ((7, (8, 9)), (10, 11))));"),
-  move_one_mid  = read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, (8, 9)), (10, 11))));"),
-  move_one_far  = read.tree(text="((2, 3), (((4, 5), 6), ((7, (8, 9)), (10, (11, 1)))));"),
-  move_two_near = read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (10, 11)), (8, 9))));"),
-  move_two_mid  = read.tree(text="(((1, 2), 3), ((((4, (10, 11)), 5), 6), (7, (8, 9))));"),
-  move_two_far  = read.tree(text="((((1, (10, 11)), 2), 3), (((4, 5), 6), (7, (8, 9))));"),
-  collapse_one  = read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, 8, 9), (10, 11))));"),
-  collapse_some = read.tree(text="((1, 2, 3, 4, 5, 6), ((7, 8, 9), (10, 11)));"),
-  m1mid_col1    = read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, 8, 9), (10, 11))));"),
-  m1mid_colsome = read.tree(text="((2, 3), ((((1, 4), 5), 6), (7, 8, 9, 10, 11)));"),
-  m2mid_col1    = read.tree(text="(((1, 2), 3), ((((4, (10, 11)), 5), 6), (7, 8, 9)));"),
-  m2mid_colsome = read.tree(text="(((1, 2), 3), ((4, (10, 11)), 5, 6, 7, 8, 9));"),
-  opposite_tree = read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 6)), (5, 7))));"),
-  random_tree = rtree(11, tip.label=1:11, br=NULL)
-)
+In certain trees, I have also collapsed particular nodes.
+
+`opposite_tree` is a tree designed to be as different as possible from the 
+reference tree. `random_tree` is generated at random.
+
+```{r Example trees}
 n_tip <- 11
+ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
+test_trees <- list (
+  ref_tree      = ref_tree,
+  move_one_near = ape::read.tree(text="(((2, 3), 1), (((4, 5), 6), ((7, (8, 9)), (10, 11))));"),
+  move_one_mid  = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, (8, 9)), (10, 11))));"),
+  move_one_far  = ape::read.tree(text="((2, 3), (((4, 5), 6), ((7, (8, 9)), (10, (11, 1)))));"),
+  move_two_near = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (10, 11)), (8, 9))));"),
+  move_two_mid  = ape::read.tree(text="(((1, 2), 3), ((((4, (10, 11)), 5), 6), (7, (8, 9))));"),
+  move_two_far  = ape::read.tree(text="((((1, (10, 11)), 2), 3), (((4, 5), 6), (7, (8, 9))));"),
+  collapse_one  = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, 8, 9), (10, 11))));"),
+  collapse_some = ape::read.tree(text="((1, 2, 3, 4, 5, 6), ((7, 8, 9), (10, 11)));"),
+  m1mid_col1    = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, 8, 9), (10, 11))));"),
+  m1mid_colsome = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), (7, 8, 9, 10, 11)));"),
+  m2mid_col1    = ape::read.tree(text="(((1, 2), 3), ((((4, (10, 11)), 5), 6), (7, 8, 9)));"),
+  m2mid_colsome = ape::read.tree(text="(((1, 2), 3), ((4, (10, 11)), 5, 6, 7, 8, 9));"),
+  opposite_tree = ape::read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 6)), (5, 7))));"),
+  random_tree   = ape::rtree(n_tip, tip.label=seq_along(n_tip), br=NULL)
+)
 ```
 
 ```{r Plot trees, echo=FALSE}
