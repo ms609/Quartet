@@ -37,7 +37,7 @@ At present the trees must bear the same number of tips, and each tree$tip.label 
 {
  n_tip <- 6
  trees <- lapply(1:12, function (x) ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
- compare_result <- TetradMatch(trees)
+ compare_result <- MatchingQuartets(trees)
  dissimilar_quartets <- choose(n_tip, 4) - colSums(compare_result)  
  result <- rbind(compare_result, dissimilar_quartets)
  rownames(result) <- c('Shared', 'Unresolved', 'Dissimilar')

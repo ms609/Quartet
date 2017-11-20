@@ -2,21 +2,31 @@
 % Please edit documentation in R/dist_funcs.R
 \name{Choices}
 \alias{Choices}
-\title{Choices}
+\title{Column Sums
+An accellerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}.
+Using this function makes \code{MatchingQuartets} 8% faster.
+But it is \emph{very} naughty to call \code{.Internal}, so I use the 
+internal R colSums function instead.}
 \usage{
 Choices(n_tips)
 }
 \arguments{
 \item{n_tips}{Integer, specifying the number of tips in a tree.}
+
+\item{x}{Matrix whose columns are to be summed.}
+
+\item{n_cols}{Number of columns in said matrix.}
 }
 \value{
 Returns a list of length \code{choose(n_tips, 4)}, with each entry corresponding to a unique 
 selection of four different integers <= n_tips
 }
 \description{
-List all choices of four taxa from a tree.
- A more computationally efficient alternative to \code{\link{combn}}.
- Uses \code{\link{memoise}} to make repeated calls faster.
+Column Sums
+An accellerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}.
+Using this function makes \code{MatchingQuartets} 8% faster.
+But it is \emph{very} naughty to call \code{.Internal}, so I use the 
+internal R colSums function instead.
 }
 \examples{
 {
@@ -28,4 +38,30 @@ List all choices of four taxa from a tree.
 }
 \author{
 Martin R. Smith
+
+Martin R. Smith
 }
+\keyword{A}
+\keyword{Choices}
+\keyword{List}
+\keyword{Uses}
+\keyword{\code{\link{combn}}.}
+\keyword{\code{\link{memoise}}}
+\keyword{a}
+\keyword{all}
+\keyword{alternative}
+\keyword{calls}
+\keyword{choices}
+\keyword{computationally}
+\keyword{efficient}
+\keyword{faster.}
+\keyword{four}
+\keyword{from}
+\keyword{internal}
+\keyword{make}
+\keyword{more}
+\keyword{of}
+\keyword{repeated}
+\keyword{taxa}
+\keyword{to}
+\keyword{tree.}

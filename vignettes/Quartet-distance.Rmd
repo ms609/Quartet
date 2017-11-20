@@ -1,12 +1,8 @@
-
 ---
 title: "Exploring the quartet distance"
 author: "Martin R. Smith"
 date: "20 November 2017"
-output: 
-  html_document: 
-    keep_md: yes
-  pdf_document: default
+output: rmarkdown::html_document
 
 vignette: >
   %\VignetteIndexEntry{Understanding the quartet distance}

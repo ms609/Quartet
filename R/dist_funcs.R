@@ -42,7 +42,7 @@ NumberTips <- function (tr, sorted.labels) {
 #' @param n_cols Number of columns in said matrix.
 #' @author Martin R. Smith
 #' @keywords internal
-ColSums <- function (x, n_cols = ncol(x)) .Internal(colSums(x, 4, n_cols, FALSE))
+# ColSums <- function (x, n_cols = ncol(x)) .Internal(colSums(x, 4, n_cols, FALSE))
 
 
 #' Choices
@@ -52,8 +52,8 @@ ColSums <- function (x, n_cols = ncol(x)) .Internal(colSums(x, 4, n_cols, FALSE)
 #'  Uses \code{\link{memoise}} to make repeated calls faster.
 #'
 #' @param n_tips Integer, specifying the number of tips in a tree.
-#' @return Returns a list of length \code{choose(n_tips, 4)}, with each entry corresponding to a unique 
-#' selection of four different integers <= n_tips
+#' @return Returns a list of length \code{choose(n_tips, 4)}, with each entry 
+#' corresponding to a unique selection of four different integers <= n_tips
 #' @author Martin R. Smith
 #'
 #' @ seealso \code{\link{combn}}
@@ -61,7 +61,8 @@ ColSums <- function (x, n_cols = ncol(x)) .Internal(colSums(x, 4, n_cols, FALSE)
 #'  n_tips <- 6
 #'  choice_list <- Choices(n_tips)
 #'  choice_list
-#'  combn(n_tips, 4) # Provides the same information, but for large values of n_tips is significantly slower.
+#'  combn(n_tips, 4) # Provides the same information, but for large 
+#'                   # values of n_tips is significantly slower.
 #' }
 #' @importFrom memoise memoise
 #' @export
@@ -205,7 +206,7 @@ CompareQuartets <- function (x, cf) {
 #' @examples{
 #'  n_tip <- 6
 #'  trees <- lapply(1:12, function (x) ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-#'  compare_result <- TetradMatch(trees)
+#'  compare_result <- MatchingQuartets(trees)
 #'  dissimilar_quartets <- choose(n_tip, 4) - colSums(compare_result)  
 #'  result <- rbind(compare_result, dissimilar_quartets)
 #'  rownames(result) <- c('Shared', 'Unresolved', 'Dissimilar')
