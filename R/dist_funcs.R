@@ -10,7 +10,7 @@ Tree2Splits <- function (tr) {
 ## An accellerated version of the R function (x, na.rm = FALSE, dims = 1L) 
 ColSums <- function (x, n_cols) .Internal(colSums(x, 4, n_cols, FALSE))
 
-QuartetStates <- function (tips, bips) {
+QuartetState <- function (tips, bips) {
   quartets <- bips[tips, ]
   statement <- quartets[, ColSums(quartets, n_cols=dim(quartets)[2]) == 2, drop=FALSE]
   if (length(statement)) {
