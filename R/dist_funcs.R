@@ -34,7 +34,10 @@ NumberTips <- function (tr, sorted.labels) {
 }
 
 #' Column Sums
-#' An accellerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}
+#' An accellerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}.
+#' Using this function makes \code{MatchingQuartets} 8% faster.
+#' But it is \emph{very} naughty to call \code{.Internal}, so I use the 
+#' internal R colSums function instead.
 #' @param x Matrix whose columns are to be summed.
 #' @param n_cols Number of columns in said matrix.
 #' @author Martin R. Smith
@@ -105,7 +108,7 @@ Choices <- memoise(function (n_tips) {
 #' @export
 QuartetState <- function (tips, bips) {
   tetra_splits <- bips[tips, , drop=FALSE]
-  statement <- tetra_splits[, ColSums(tetra_splits, n_cols=dim(tetra_splits)[2]) == 2, drop=FALSE]
+  statement <- tetra_splits[, colSums(tetra_splits) == 2, drop=FALSE]
   if (length(statement)) {
     statement <- statement[, 1]
     if (statement[1]) return (WHICH_OTHER_NODE[statement[WHICH_OTHER_NODE]])
