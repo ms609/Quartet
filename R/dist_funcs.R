@@ -11,6 +11,7 @@ WHICH_OTHER_NODE <- 2:4
 #' 
 #' @examples Tree2Splits(ape::rtree(6, tip.label=1:6, br=NULL))
 #'
+#' @useDynLib SlowQuartet, .registration = TRUE
 #' @export
 Tree2Splits <- function (tr) {
   tr <- reorder(tr, 'postorder')
@@ -176,6 +177,24 @@ CompareQuartets <- function (x, cf) {
   c(sum(x[resolved] == cf[resolved]), sum(!resolved))
 }
 
+#' tqDist wrapper
+#' 
+#' @param treeList List of phylogenetic trees, of class \code{list} or
+#'                 \code{phylo}. All trees must be bifurcating.
+#' @return Quartet distances between each pair of trees
+#' @references {
+#'   @template refTqDist
+#' }
+#' @export
+TQDist <- function (treeList) {
+  if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
+  if (class(treeList) != 'multiPhylo') stop("treeList must be a list of phylogenetic trees")
+  fileName <- paste0('~temp', substring(runif(1), 3), '.trees')
+  write.tree(treeList, file=fileName)
+  on.exit(file.remove(fileName))
+  rtqdist::allPairsQuartetDistance(fileName)
+}
+
 #' Matching Quartets
 #' Count matching quartets
 #' Determines the number of four-taxon trees consistent with multiple cladograms
@@ -225,10 +244,26 @@ CompareQuartets <- function (x, cf) {
 #' }
 #' 
 #' @references {
-#' @template refTqDist
+#'   @template refTqDist
 #' }
 #' @export
 MatchingQuartets <- function (trees) {
+  treeStats <- vapply(trees, function (tr)
+    c(tr$Nnode, length(tr$tip.label)), double(2))
+  if (length(unique(treeStats[2, ])) > 1) {
+    stop("All trees must have the same number of tips")
+  }
+  if (length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
+    if (require('rtqdist')) {
+      tqDistances <- TQDist(trees)
+      return (matrix(c(choose(length(trees[[1]]$tip.label), 4) - tqDistances,
+                       rep(0, length(trees))),
+                     nrow=2, ncol=length(trees)))
+    } else {
+      cat("Faster results can be obtained by installing rtqDist;",
+          "see ?MatchingQuartets for installation instructions")
+    }
+  }
   tree1.labels <- trees[[1]]$tip.label
   if (class(tree1.labels) == 'character') trees <- lapply(trees, NumberTips, sorted.labels = tree1.labels)
   quartets <- QuartetStates(lapply(trees, Tree2Splits))
