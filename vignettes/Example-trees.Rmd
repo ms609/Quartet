@@ -1,7 +1,7 @@
 ---
 title: "Example trees"
 author: "Martin R. Smith"
-date: "20 November 2017"
+date: "21 November 2017"
 output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{Example Trees}
@@ -93,8 +93,8 @@ n_quartets <- choose(n_tip, 4)
 quartet_matches <- MatchingQuartets(test_trees)
 other_trees <- seq_along(test_trees)[-1]
 
-dists[7:8, other_trees] <- quartet_matches / n_quartets * 100
-dists[9, other_trees] <- (n_quartets - colSums(quartet_matches)) / n_quartets * 100
+dists[7:8, ] <- quartet_matches / n_quartets * 100
+dists[9, ] <- (n_quartets - colSums(quartet_matches)) / n_quartets * 100
 dists[7:9, 1] <- c(100, 0, 0)
 dists
 
