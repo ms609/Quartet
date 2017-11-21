@@ -46,14 +46,12 @@ test_that("Quartets are counted correctly", {
 
 test_that("Random trees are 1/3 similar", {
   for (n_tip in c(7, 13, 26)) {
-    #random_trees <- lapply(rep(n_tip, 500), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
-    random_trees <- lapply(rep(n_tip, 15), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
+    random_trees <- lapply(rep(n_tip, 50), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
     
     tq_distances <- TQDist(random_trees)
     tq_unique <- tq_distances[upper.tri(tq_distances)]
     tq_mean <- mean(tq_unique)
     tq_sd <- sd(tq_unique)
-    
     
     sq_matches <- MatchingQuartets(random_trees, use.tqDist=FALSE)
     expect_equal(rep(0, length(random_trees)), sq_matches[2, ])
@@ -62,13 +60,10 @@ test_that("Random trees are 1/3 similar", {
     
     n_quartets <- choose(n_tip, 4)
     
-    choices <- Choices(n_tip)
-    plot()
-    
     expect_equal(tq_distances[1, ], n_quartets - sq_matches[1, ])
-    cat(n_tip, "tips: expect", n_quartets, "=", n_quartets * 2 / 3, "+", n_quartets / 3,
-        "\nTQ", tq_mean, "+-", tq_sd, "; SQ:", sq_mean, "+-", sq_sd)
-    expect_true(abs((n_quartets * 1 / 3) - sq_mean) < (3 * sq_sd))
-    expect_true(abs((n_quartets * 2 / 3) - tq_mean) < (3 * tq_sd))
+    cat("\n", n_tip, "tips: expect", n_quartets, "=", n_quartets * 2 / 3, "+", n_quartets / 3,
+        "\n          TQ", tq_mean, "+-", tq_sd, "| SQ:", sq_mean, "+-", sq_sd)
+    expect_true(abs((n_quartets * 1 / 3) - sq_mean) < (2 * sq_sd))
+    expect_true(abs((n_quartets * 2 / 3) - tq_mean) < (2 * tq_sd))
   } 
 })
