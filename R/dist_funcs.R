@@ -9,16 +9,16 @@ WHICH_OTHER_NODE <- 2:4
 #'
 #' @author Martin R. Smith
 #' 
-#' @seealso \code{phangorn:::bip}
-#'
 #' @examples Tree2Splits(ape::rtree(6, tip.label=1:6, br=NULL))
 #'
 #' @export
 Tree2Splits <- function (tr) {
+  tr <- reorder(tr, 'postorder')
   tip_label <- tr$tip.label
-  n_tip <- length(tip_label)
+  n_tip <- as.integer(length(tip_label))
   root <- length(tip_label) + 1
-  vapply(phangorn:::bip(tr)[-seq_len(root)], function (x) seq_len(n_tip) %in% x, logical(n_tip))[as.double(tip_label), , drop=FALSE]
+  bipartitions <- .Call("_phangorn_bipCPP", tr$edge, nTips)
+  vapply(bipartitions[-seq_len(root)], function (x) seq_len(n_tip) %in% x, logical(n_tip))[as.double(tip_label), , drop=FALSE]
 }
 
 #' Number Tips
