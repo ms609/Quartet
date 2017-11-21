@@ -15,7 +15,8 @@ License: GPL (>= 2)
 Depends: R (>= 3.2.0)
 Imports: 
     phangorn,
-    memoise
+    memoise,
+    TreeSearch
 Suggests:
     ape,
     knitr,

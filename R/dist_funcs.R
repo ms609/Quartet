@@ -46,6 +46,34 @@ NumberTips <- function (tr, sorted.labels) {
 # ColSums <- function (x, n_cols = ncol(x)) .Internal(colSums(x, 4, n_cols, FALSE))
 
 
+#' Plot Quartet
+#' 
+#' Plots a given quartet
+#' @param tree A tree of class \code{phylo}, or a list of such trees.
+#' @param quartet A vector of four integers, corresponding to numbered tips on
+#'                the tree.
+#' @author Martin R. Smith
+#' @importFrom graphics par plot
+#' @importFrom TreeSearch RenumberTips
+#' @export
+PlotQuartet <- function (tree, quartet) {
+  if (class(tree) == 'phylo') tree <- list(tree)
+  n_tip <- length(tree[[1]]$tip.label)
+  originalPar <- par(mfrow=c(1, length(tree)), mar=rep(1, 4))
+  on.exit(par(originalPar))
+  labelOrder <- tree[[1]]$tip.label
+  state1 <- QuartetState(quartet, Tree2Splits(tree[[1]]))
+  tip_colours <- integer(n_tip) + 1L
+  tip_colours[quartet] <- 3L
+  tip_colours[c(quartet[1], quartet[state1])] <- 2L
+  for (tr in tree) {
+    tr <- RenumberTips(tr, labelOrder)
+    plot(tr, tip.color=tip_colours)
+    text(1.1, 1.1, 
+         if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
+  }
+}
+
 #' Choices
 #'
 #'  List all choices of four taxa from a tree.
@@ -82,8 +110,8 @@ Choices <- memoise(function (n_tips) {
 #' Quartet State
 #' State of quartets
 #'
-#' Report the status of a given tetrad.
-#' @param tips A four-element array listing the tips of the four-taxon tree (tetrad).
+#' Report the status of a given quartet.
+#' @param tips A four-element array listing a quartet of tips.
 #' @param bips bipartitions to evaluate.
 #'
 #'
@@ -109,8 +137,8 @@ Choices <- memoise(function (n_tips) {
 #' }
 #' @export
 QuartetState <- function (tips, bips) {
-  tetra_splits <- bips[tips, , drop=FALSE]
-  statement <- tetra_splits[, colSums(tetra_splits) == 2, drop=FALSE]
+  quartet_splits <- bips[tips, , drop=FALSE]
+  statement <- quartet_splits[, colSums(quartet_splits) == 2, drop=FALSE]
   if (length(statement)) {
     statement <- statement[, 1]
     if (statement[1]) return (WHICH_OTHER_NODE[statement[WHICH_OTHER_NODE]])
@@ -134,16 +162,16 @@ QuartetStates <- function (splits) {
 }
 
 #' Compare Quartets
-#' Compare tetrad states between trees
+#' Compare quartet states between trees
 #'
 #'  Compares two lists of quartet states, detailing how many are identical and 
 #'  how many are unresolved.
 #' 
-#' @param x A list of tetrad states, perhaps generated in
+#' @param x A list of quartet states, perhaps generated in
 #'  \code{\link{CompareQuartets}}.
 #' @param cf a second such list.
 #'
-#' Compares each tetrad in a list, calculating how many statements are identical
+#' Compares each quartet in a list, calculating how many statements are identical
 #'  in both lists.
 #' @return {
 #'   Returns an array of two elements:
@@ -185,6 +213,7 @@ CompareQuartets <- function (x, cf) {
 #' @references {
 #'   @template refTqDist
 #' }
+#' @importFrom ape write.tree
 #' @export
 TQDist <- function (treeList) {
   if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
@@ -217,25 +246,29 @@ TQDist <- function (treeList) {
 #'   At present the trees must bear the same number of tips, and each tree$tip.label must use
 #'   the integers 1:n_tip.  Support for different-sized trees will be added if there is demand; 
 #'   contact the author if you would appreciate this functionality.
-#' 
-#' @param trees A list of trees of class \code{\link[ape]{phylo}}, with identically-labelled tips.
-#'
-#' @return Returns a two dimensional array; columns correspond to the input trees;
-#'       rows report the number of four-taxon trees that : 1, are present in 
-#'       \code{trees[[1]]} and the corresponding input tree;
-#'       2: are unresolved in (at least) one of trees[[1]] and the corresponding 
-#'       input tree. Tetrads that DIFFER between the two relevant trees can be 
-#'       calculated by deducting the quartets in either of the other two
-#'       categories from the total number of quartets, given by
-#'        \code{\link{choose}(n_tip, 4)}.
 #'       
 #'       A random pair of fully-resolved trees is expected to share 
 #'       \code{choose(n_tip, 4) / 3} four-taxon trees.
+#' 
+#' @param trees A list of trees of class \code{\link[ape]{phylo}}, with identically-labelled tips.
+#' @param use.tqDist Logical specifying whether to attempt to use the tqDist algorithm.
+#'               Requires that the `rtqdist` package is installed.
+#'
+#' @return Returns a two dimensional array. 
+#'         Columns correspond to the input trees; the first column will always
+#'         report a perfect match as it compares the first tree to itself.
+#'         Rows report the number of quartets that : 1, are present in 
+#'         \code{trees[[1]]} and the corresponding input tree;
+#'         2: are unresolved in (at least) one of trees[[1]] and the corresponding 
+#'         input tree. Quartets that DIFFER between the two relevant trees can be 
+#'         calculated by deducting the quartets in either of the other two
+#'         categories from the total number of quartets, given by
+#'         \code{\link{choose}(n_tip, 4)}.
 #'
 #' @author Martin R. Smith
 #' @examples{
 #'  n_tip <- 6
-#'  trees <- lapply(1:12, function (x) ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
+#'  trees <- lapply(logical(12), function (x) ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
 #'  compare_result <- MatchingQuartets(trees)
 #'  dissimilar_quartets <- choose(n_tip, 4) - colSums(compare_result)  
 #'  result <- rbind(compare_result, dissimilar_quartets)
@@ -246,26 +279,28 @@ TQDist <- function (treeList) {
 #' @references {
 #'   @template refTqDist
 #' }
+#' @importFrom TreeSearch RenumberTips
 #' @export
-MatchingQuartets <- function (trees) {
+MatchingQuartets <- function (trees, use.tqDist=TRUE) {
   treeStats <- vapply(trees, function (tr)
     c(tr$Nnode, length(tr$tip.label)), double(2))
   if (length(unique(treeStats[2, ])) > 1) {
     stop("All trees must have the same number of tips")
   }
-  if (length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
-    if (require('rtqdist')) {
+  if (use.tqDist && length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
+    if ('rtqdist' %in% installed.packages()[, 'Package']) {
       tqDistances <- TQDist(trees)
-      return (matrix(c(choose(length(trees[[1]]$tip.label), 4) - tqDistances,
-                       rep(0, length(trees))),
-                     nrow=2, ncol=length(trees)))
+      tqMatches <- choose(length(trees[[1]]$tip.label), 4) - tqDistances[1, ]
+      ret <- rbind(tqMatches, rep(0, length(trees)))
+      rownames(ret) <- NULL
+      return (ret)
     } else {
       cat("Faster results can be obtained by installing rtqDist;",
           "see ?MatchingQuartets for installation instructions")
     }
   }
-  tree1.labels <- trees[[1]]$tip.label
-  if (class(tree1.labels) == 'character') trees <- lapply(trees, NumberTips, sorted.labels = tree1.labels)
+  tree1Labels <- trees[[1]]$tip.label
+  trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   quartets <- QuartetStates(lapply(trees, Tree2Splits))
-  vapply(quartets[-1], CompareQuartets, cf=quartets[[1]], double(2))
+  vapply(quartets, CompareQuartets, cf=quartets[[1]], double(2))
 }
