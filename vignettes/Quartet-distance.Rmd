@@ -40,11 +40,27 @@ Now create Tree C by adding a 6th tip as a sister to tip `3` on Tree A.
 
 ```{r Add tip 6, fig.height=2, fig.width=2, echo=FALSE}
 par(mar=rep(0.3, 4))
-plot(ape::read.tree(text="((1, 2), ((3, 6), (4, 5)));"), tip.color=c(1,1,1,2,1,1))
+plot(tree_c <- ape::read.tree(text="((1, 2), ((3, 6), (4, 5)));"), tip.color=c(1,1,1,2,1,1))
 ```
 
 There's nowhere to add tip `6` to Tree B without creating a quartet that 
 exists in Tree C.
+
+```{r Cannot add tip 6, fig.height=4, fig.width=8, echo=FALSE}
+PlotApeTree <- function (text, quartet) {
+  orig <- TreeSearch::RenumberTips(tree_c, as.character(1:6))
+  tree <- ape::read.tree(text=text)
+  PlotQuartet(list(orig, TreeSearch::RenumberTips(tree, as.character(1:6))), quartet)
+}
+
+PlotApeTree("(((1, 6), 5), (3, (2, 4)));", c(1, 6, 4, 5))
+PlotApeTree("((1, 5), (3, ((2, 6), 4)));", c(2, 6, 4, 5))
+PlotApeTree("((1, 5), ((3, 6), (2, 4)));", c(3, 6, 4, 5))
+PlotApeTree("((1, 5), (3, (2, (4, 6))));", c(4, 6, 1, 2))
+PlotApeTree("((1, (5, 6)), (3, (2, 4)));", c(5, 6, 1, 2))
+PlotApeTree("(((1, 5), 6), (3, (2, 4)));", c(1, 5, 3, 6))
+PlotApeTree("((1, 5), (3, ((2, 4), 6)));", c(4, 2, 3, 6))
+```
 
 
 # Quartet distance in a pair of random trees
