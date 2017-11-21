@@ -20,7 +20,9 @@ Suggests:
     ape,
     knitr,
     rmarkdown,
+    rtqdist,
     testthat
+Remotes: url::http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz
 LinkingTo: Rcpp
 LazyData: true
 URL: https://github.com/ms609/SlowQuartet
