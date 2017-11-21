@@ -37,6 +37,9 @@ internal R colSums function instead.
                   # values of n_tips is significantly slower.
 }
 }
+\seealso{
+\code{\link{combn}}
+}
 \author{
 Martin R. Smith
 
