@@ -19,7 +19,7 @@ Tree2Splits <- function (tr) {
   tip_label <- tr$tip.label
   n_tip <- as.integer(length(tip_label))
   root <- length(tip_label) + 1
-  bipartitions <- .Call("_phangorn_bipCPP", tr$edge, n_tip)
+  bipartitions <- phangorn_bipCPP(tr$edge, n_tip)
   vapply(bipartitions[-seq_len(root)], function (x) seq_len(n_tip) %in% x, logical(n_tip))[as.double(tip_label), , drop=FALSE]
 }
 

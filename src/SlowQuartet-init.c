@@ -3,10 +3,10 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-extern SEXP _phangorn_bipCPP(SEXP, SEXP);
+extern SEXP _SlowQuartet_phangorn_bipCPP(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_phangorn_bipCPP", (DL_FUNC) &_phangorn_bipCPP, 2},
+    {"_SlowQuartet_phangorn_bipCPP", (DL_FUNC) &_SlowQuartet_phangorn_bipCPP, 2},
     {NULL, NULL, 0}
 };
 

@@ -5,7 +5,7 @@ using namespace Rcpp;
 // import: edge matrix, number of tips
 // export: Descendants(x, 1:max(x$edge), "all")
 // [[Rcpp::export]]
-List bipCPP(IntegerMatrix orig, int nTips) {
+List phangorn_bipCPP(IntegerMatrix orig, int nTips) {
     IntegerVector parent = orig( _, 0);
     IntegerVector children = orig( _, 1);
     int m = max(parent), j=0;
@@ -27,16 +27,4 @@ List bipCPP(IntegerMatrix orig, int nTips) {
         sort(out[i].begin(), out[i].end());
     }
     return wrap(out);    // return the list
-}
-
-// bipCPP
-RcppExport SEXP _phangorn_bipCPP(SEXP origSEXP, SEXP nTipsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix >::type orig(origSEXP);
-    Rcpp::traits::input_parameter< int >::type nTips(nTipsSEXP);
-    rcpp_result_gen = Rcpp::wrap(bipCPP(orig, nTips));
-    return rcpp_result_gen;
-END_RCPP
 }
