@@ -11,10 +11,11 @@ WHICH_OTHER_NODE <- 2:4
 #' 
 #' @examples Tree2Splits(ape::rtree(6, tip.label=1:6, br=NULL))
 #'
+#' @importFrom ape reorder.phylo
 #' @useDynLib SlowQuartet, .registration = TRUE
 #' @export
 Tree2Splits <- function (tr) {
-  tr <- reorder(tr, 'postorder')
+  tr <- reorder.phylo(tr, 'postorder')
   tip_label <- tr$tip.label
   n_tip <- as.integer(length(tip_label))
   root <- length(tip_label) + 1
@@ -53,7 +54,7 @@ NumberTips <- function (tr, sorted.labels) {
 #' @param quartet A vector of four integers, corresponding to numbered tips on
 #'                the tree.
 #' @author Martin R. Smith
-#' @importFrom graphics par plot
+#' @importFrom graphics par plot text
 #' @importFrom TreeSearch RenumberTips
 #' @export
 PlotQuartet <- function (tree, quartet) {
@@ -214,6 +215,7 @@ CompareQuartets <- function (x, cf) {
 #'   @template refTqDist
 #' }
 #' @importFrom ape write.tree
+#' @importFrom stats runif
 #' @export
 TQDist <- function (treeList) {
   if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
@@ -280,6 +282,7 @@ TQDist <- function (treeList) {
 #'   @template refTqDist
 #' }
 #' @importFrom TreeSearch RenumberTips
+#' @importFrom utils installed.packages
 #' @export
 MatchingQuartets <- function (trees, use.tqDist=TRUE) {
   treeStats <- vapply(trees, function (tr)
