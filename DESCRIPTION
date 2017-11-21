@@ -3,6 +3,8 @@ Version: 0.1.0.9001
 Date: 2017-11-21
 Title: Quartet distance: A Similarity Metric for Phylogenetic Trees
 Description: Calculates the number of four-taxon subtrees consistent with a pair of cladograms.
+URL: https://github.com/ms609/SlowQuartet
+BugReports: https://github.com/ms609/SlowQuartet/issues
 Authors@R: c(person("Martin R.", 'Smith',
                   email="martins@gmail.com", 
                   role=c("aut", "cre", "cph"), 
@@ -26,6 +28,6 @@ Suggests:
 Remotes: url::http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz
 LinkingTo: Rcpp
 LazyData: true
-URL: https://github.com/ms609/SlowQuartet
-BugReports: https://github.com/ms609/SlowQuartet/issues
+ByteCompile: true
+VignetteBuilder: knitr
 RoxygenNote: 6.0.1
