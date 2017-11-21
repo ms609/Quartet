@@ -12,7 +12,7 @@ Authors@R: c(person("Martin R.", 'Smith',
             )
 Copyright: Incorporates code from Phangorn (Klaus Vigo)
 License: GPL (>= 2)
-Depends: R (>= 3.1.4)
+Depends: R (>= 3.2.0)
 Imports: 
     phangorn,
     memoise
