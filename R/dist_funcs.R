@@ -66,7 +66,7 @@ NumberTips <- function (tr, sorted.labels) {
 #' }
 #' @importFrom memoise memoise
 #' @export
-Choices <- memoise(function (n_tips) {
+Choices <- memoise::memoise(function (n_tips) {
   ret <- unlist(lapply(seq_len(n_tips - 3), function (i) {
     unlist(lapply((i + 1):(n_tips - 2), function (j) {
       unlist(lapply((j + 1):(n_tips - 1), function (k) {

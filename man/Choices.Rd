@@ -18,8 +18,8 @@ Choices(n_tips)
 \item{n_cols}{Number of columns in said matrix.}
 }
 \value{
-Returns a list of length \code{choose(n_tips, 4)}, with each entry corresponding to a unique 
-selection of four different integers <= n_tips
+Returns a list of length \code{choose(n_tips, 4)}, with each entry 
+corresponding to a unique selection of four different integers <= n_tips
 }
 \description{
 Column Sums
@@ -33,7 +33,8 @@ internal R colSums function instead.
  n_tips <- 6
  choice_list <- Choices(n_tips)
  choice_list
- combn(n_tips, 4) # Provides the same information, but for large values of n_tips is significantly slower.
+ combn(n_tips, 4) # Provides the same information, but for large 
+                  # values of n_tips is significantly slower.
 }
 }
 \author{

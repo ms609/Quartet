@@ -22,9 +22,6 @@ Converts a phylogenetic tree to an array of bipartition splits.
 Tree2Splits(ape::rtree(6, tip.label=1:6, br=NULL))
 
 }
-\seealso{
-\code{phangorn:::bip}
-}
 \author{
 Martin R. Smith
 }
