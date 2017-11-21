@@ -33,7 +33,10 @@ tip_colours <- c(
 )[-c(4, 7)] # Rm Tritamopia duplicates of 13 and 3
 ```
 
-# Quartet distances
+# Tree distance metrics
+
+The advantages of the Quartet distance over other tree distance metrics are
+best illustrated by examining a contrived set of example trees.
 
 Here are some example trees.  I've made a reference tree, then peturbed it by
 some simple transformations: moving one taxon (labelled 1) or a pair of taxa
@@ -47,7 +50,7 @@ reference tree. `random_tree` is generated at random.
 ```{r Example trees}
 n_tip <- 11
 ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
-test_trees <- list (
+trs <- test_trees <- list (
   ref_tree      = ref_tree,
   move_one_near = ape::read.tree(text="(((2, 3), 1), (((4, 5), 6), ((7, (8, 9)), (10, 11))));"),
   move_one_mid  = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, (8, 9)), (10, 11))));"),
@@ -67,12 +70,63 @@ test_trees <- list (
 ```
 
 ```{r Plot trees, echo=FALSE}
-colplot <- function (tr, title=NULL) plot(tr, tip.col=tip_colours[as.integer(tr$tip.label)], main=title)
+colplot <- function (tr, title=NULL, bold=NULL) {
+  tr$edge.length <- rep(1, dim(tr$edge)[1])
+  font <- rep(1, length(tr$tip.label))
+  if (!is.null(bold)) font[tr$tip.label %in% bold] <- 4
+  plot(tr, tip.col=tip_colours[as.integer(tr$tip.label)], main=title, cex.main=0.8, font=font)
+}
 
 par(mfrow=c(3,5), mar=rep(1.2, 4), cex.main=2/3, cex=0.9)
 for (i in seq_along(test_trees)) colplot(test_trees[[i]], names(test_trees)[i])
 
 ```
+
+## Moving a single taxon
+
+If trees differ only in the location of a single taxon, then the distance between
+two trees should correspond to the distance that this taxon has been moved.
+
+```{R Moving a single taxon, fig.height=3, fig.width=12, echo=FALSE}
+par(mfrow=c(1, 4), mar=rep(0.4, 4), cex=1)
+colplot(tt$ref_tree, 'Reference tree')
+rfplot <- function (tr, title, highlight) {
+  colplot(tr, title, highlight)
+  text(0, 10.5, paste0('Quartet = ', choose(11, 4) - MatchingQuartets(list(tr, ref_tree))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(0,  9.5, paste0("RF = ", phangorn::RF.dist(tr, ref_tree)), cex=0.8, pos=4)
+  text(0,  8.5, paste0("SPR = ", 1), cex=0.8, pos=4)
+}
+rfplot(trs$move_one_near, 'Short move', 1)
+rfplot(trs$move_one_mid, 'Medium move', 1)
+rfplot(trs$move_one_far,   'Long move', 1)
+
+```
+
+Note that all these trees have an SPR (or TBR) distance of 1.
+Moreover, the RF distances for a medium or long move are equal, whereas the Quartet
+distances identify the Long move as representing a greater modification of the
+reference tree.
+
+Surprisingly, if two rather than one taxa are moved, RF distances recover a smaller 
+distance:
+
+```{R Moving a cherry, fig.height=6, fig.width=9, echo=FALSE}
+par(mfrow=c(3, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+
+colplot(tt$ref_tree, 'Reference tree')
+rfplot(trs$move_one_near, 'Short move 1', 1)
+rfplot(trs$move_two_near, 'Short move 2', 10:11)
+
+colplot(tt$ref_tree, 'Reference tree')
+rfplot(trs$move_one_mid, 'Medium move 1', 1)
+rfplot(trs$move_two_mid, 'Medium move 2', 10:11)
+
+colplot(tt$ref_tree, 'Reference tree')
+rfplot(trs$move_one_far,   'Long move 1', 1)
+rfplot(trs$move_two_far,   'Long move 2', 10:11)
+
+```
+
 
 ```{R Calculate distances, message=FALSE, warning=FALSE}
 
