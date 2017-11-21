@@ -57,7 +57,7 @@ NumberTips <- function (tr, sorted.labels) {
 #' corresponding to a unique selection of four different integers <= n_tips
 #' @author Martin R. Smith
 #'
-#' @ seealso \code{\link{combn}}
+#' @seealso \code{\link{combn}}
 #' @examples{
 #'  n_tips <- 6
 #'  choice_list <- Choices(n_tips)
@@ -67,8 +67,8 @@ NumberTips <- function (tr, sorted.labels) {
 #' }
 #' @importFrom memoise memoise
 #' @export
-Choices <- memoise::memoise(function (n_tips) {
-  ret <- unlist(lapply(seq_len(n_tips - 3), function (i) {
+Choices <- memoise(function (n_tips) {
+  unlist(lapply(seq_len(n_tips - 3), function (i) {
     unlist(lapply((i + 1):(n_tips - 2), function (j) {
       unlist(lapply((j + 1):(n_tips - 1), function (k) {
         lapply((k + 1):n_tips, function (l) {
