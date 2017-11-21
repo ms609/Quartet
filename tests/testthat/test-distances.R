@@ -2,10 +2,10 @@ context("Slow quartet distance")
 library("ape")
 
 test_that("Quartets are counted correctly", {
-  expect_equal(matrix(c(2, 0), 2, 1), MatchingQuartets(list(
+  expect_identical(as.integer(rbind(c(15, 2), c(0, 0))), as.integer(MatchingQuartets(list(
     ape::read.tree(text='((1, 2), ((3, 4), (6, 5)));'),
     ape::read.tree(text='((1, 5), (3, (4, (2, 6))));'))
-  ))
+  )))
   
   set.seed(0)
   ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
@@ -31,13 +31,12 @@ test_that("Quartets are counted correctly", {
   bifurcators <- treeNodes == n_tip - 1L
   tq_distances <- TQDist(treeList <- test_trees[bifurcators])
   tq_matches <- choose(n_tip, 4) - tq_distances[1, ]
-  quartet_matches <- cbind(ref_tree = c(choose(n_tip, 4), 0), MatchingQuartets(test_trees))
+  quartet_matches <- MatchingQuartets(test_trees)
   qb_matches <- quartet_matches[1, bifurcators]
-  qb_matches - tq_matches
   
   expect_equal(tq_matches, as.integer(qb_matches))
   
-  expected_identical <- c(choose(n_tip, 4), 322, 270, 152, 306, 196, 186, 322, 207, 262, 205, 189, 119, 86, 141)
+  expected_identical <- c(330, 322, 270, 254, 306, 238, 238, 322, 207, 262, 205, 230, 131, 86, 157)
   expected_ambiguous <- c(rep(0, 7), 8, 123, 8, 65, 8, 155, 0, 0)
   
   expect_equal(expected_identical, as.integer(quartet_matches[1, ]))
