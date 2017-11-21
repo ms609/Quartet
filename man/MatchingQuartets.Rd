@@ -29,7 +29,19 @@ Given a list of trees, returns the nubmer of quartet statements present in the f
 in the list also present in each other tree.
 }
 \details{
-At present the trees must bear the same number of tips, and each tree$tip.label must use
+If all trees are bifurcating and the package `rtqdist` is installed, then the
+function will use the faster `rtqdist`` package to generate quartet distances.
+Otherwise the distances will be generated (slowly) within R.
+
+rtqDist can be installed by copying the following code into your console:
+\code{install.packages(
+'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
+ repos=NULL, type='source')}
+ Or by [downloading the package](http://users-cs.au.dk/cstorm/software/tqdist/)
+ and extracting the zipped directory into your library directory (which you 
+ can locate by typing `.libPaths()` into your console).
+  
+  At present the trees must bear the same number of tips, and each tree$tip.label must use
   the integers 1:n_tip.  Support for different-sized trees will be added if there is demand; 
   contact the author if you would appreciate this functionality.
 }
@@ -42,6 +54,17 @@ At present the trees must bear the same number of tips, and each tree$tip.label 
  result <- rbind(compare_result, dissimilar_quartets)
  rownames(result) <- c('Shared', 'Unresolved', 'Dissimilar')
  result
+}
+
+}
+\references{
+{
+\cite{SAND, A., HOLT, M. K., JOHANSEN, J., BRODAL, G. S., MAILUND, T. and 
+PEDERSEN, C. N. S. 2014. 
+tqDist: a library for computing the quartet and triplet distances between 
+binary or general trees. \emph{Bioinformatics}, 30, 2079–2080.
+<doi:10.1093/bioinformatics/btu157>
+}
 }
 }
 \author{
