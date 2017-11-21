@@ -1,4 +1,14 @@
+src-*
+src/*.o
+src/*.so
+src/*.dll
 .Rproj.user
 .Rhistory
-.RData
+.RData*
 .Ruserdata
+*.Rd
+*/RcppExports.*
+inst/doc
+vignettes/*.html
+vignettes/*.pdf
+vignettes/*_files
