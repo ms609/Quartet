@@ -56,7 +56,7 @@ trs <- test_trees <- list (
   move_one_mid  = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, (8, 9)), (10, 11))));"),
   move_one_far  = ape::read.tree(text="((2, 3), (((4, 5), 6), ((7, (8, 9)), (10, (11, 1)))));"),
   move_two_near = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (10, 11)), (8, 9))));"),
-  move_two_mid  = ape::read.tree(text="(((1, 2), 3), ((((4, (10, 11)), 5), 6), (7, (8, 9))));"),
+  move_two_mid  = ape::read.tree(text="(((1, 2), 3), ((((4, 5), (10, 11)), 6), (7, (8, 9))));"),
   move_two_far  = ape::read.tree(text="((((1, (10, 11)), 2), 3), (((4, 5), 6), (7, (8, 9))));"),
   collapse_one  = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, 8, 9), (10, 11))));"),
   collapse_some = ape::read.tree(text="((1, 2, 3, 4, 5, 6), ((7, 8, 9), (10, 11)));"),
@@ -91,10 +91,18 @@ two trees should correspond to the distance that this taxon has been moved.
 par(mfrow=c(1, 4), mar=rep(0.4, 4), cex=1)
 colplot(tt$ref_tree, 'Reference tree')
 rfplot <- function (tr, title, highlight) {
+  tree_dist <- phangorn::treedist(tr, ref_tree)
+  tree_pair <- lapply(list(tr, ref_tree), ape::root, outgroup='1', resolve.root=FALSE)
+  class(tree_pair) <- 'multiPhylo'
+  topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
+  
   colplot(tr, title, highlight)
-  text(0, 10.5, paste0('Quartet = ', choose(11, 4) - MatchingQuartets(list(tr, ref_tree))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
-  text(0,  9.5, paste0("RF = ", phangorn::RF.dist(tr, ref_tree)), cex=0.8, pos=4)
-  text(0,  8.5, paste0("SPR = ", 1), cex=0.8, pos=4)
+  text(0, 10.6, paste0('Quartet = ', choose(11, 4) - MatchingQuartets(list(tr, ref_tree))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(0,  9.6, paste0("RF = ", phangorn::RF.dist(tr, ref_tree)), cex=0.8, pos=4)
+  text(0,  8.6, paste0("Symmetric = ", tree_dist[1]), cex=0.8, pos=4)
+  text(0,  7.6, paste0("PH85 = ", topo_dist), cex=0.8, pos=4)
+  text(0,  6.6, paste0("Path = ", signif(tree_dist[2], 3)), cex=0.8, pos=4)
+  text(0,  5.6, paste0("SPR = ", 1), cex=0.8, pos=4)
 }
 rfplot(trs$move_one_near, 'Short move', 1)
 rfplot(trs$move_one_mid, 'Medium move', 1)
@@ -107,10 +115,11 @@ Moreover, the RF distances for a medium or long move are equal, whereas the Quar
 distances identify the Long move as representing a greater modification of the
 reference tree.
 
+## Moving two taxa
 Surprisingly, if two rather than one taxa are moved, RF distances recover a smaller 
 distance:
 
-```{R Moving a cherry, fig.height=6, fig.width=9, echo=FALSE}
+```{R Moving a cherry, fig.height=8, fig.width=9, echo=FALSE}
 par(mfrow=c(3, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(tt$ref_tree, 'Reference tree')
@@ -127,6 +136,44 @@ rfplot(trs$move_two_far,   'Long move 2', 10:11)
 
 ```
 
+## Unresolved trees
+
+A further benefit is that the Quartet distance can meaningfully score trees
+where not every node is resolved as bifurcating.
+
+
+```{R Polytomies - same topology, fig.height=3, fig.width=9, echo=FALSE}
+par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+
+polyplot <- function (tr, title, highlight) {
+  tree_pair <- lapply(list(tr, ref_tree), ape::root, outgroup='1', resolve.root=FALSE)
+  class(tree_pair) <- 'multiPhylo'
+  topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
+  
+  colplot(tr, title, highlight)
+  text(0, 10.6, paste0('Quartets contradicted = ', choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)), cex=0.8, pos=4)
+  text(0,  9.6, paste0('Quartets unresolved = ', MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(0,  8.6, paste0("PH85 = ", topo_dist), cex=0.8, pos=4)
+}
+
+colplot(tt$ref_tree, 'Reference tree')
+polyplot(trs$collapse_one, 'One polytomy', 7:9)
+polyplot(trs$collapse_some, 'Much polytomy', 1:9)
+
+```
+
+In the above case, the underlying topology was unchanged.  We can also change
+the topology -- here we have the same loss of resolution with the trees
+in which one taxon (1) was moved:
+
+```{R Polytomies, fig.height=3, fig.width=9, echo=FALSE}
+par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+
+polyplot(trs$move_one_mid, 'One moved, no polytomy', 1)
+polyplot(trs$m1mid_col1, 'One moved, one polytomy', 1)
+polyplot(trs$m1mid_colsome, 'One moved, much polytomy', 1)
+
+```
 
 ```{R Calculate distances, message=FALSE, warning=FALSE}
 
