@@ -8,7 +8,7 @@ State of quartets}
 QuartetState(tips, bips)
 }
 \arguments{
-\item{tips}{A four-element array listing the tips of the four-taxon tree (tetrad).}
+\item{tips}{A four-element array listing a quartet of tips.}
 
 \item{bips}{bipartitions to evaluate.
 
@@ -24,7 +24,7 @@ Returns 0 if the relationships of the four taxa are not constrained by the provi
 bipartitions, or the index of the closest relative to tips[1], otherwise.
 }
 \description{
-Report the status of a given tetrad.
+Report the status of a given quartet.
 }
 \examples{
 {

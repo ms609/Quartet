@@ -3,17 +3,17 @@
 \name{CompareQuartets}
 \alias{CompareQuartets}
 \title{Compare Quartets
-Compare tetrad states between trees}
+Compare quartet states between trees}
 \usage{
 CompareQuartets(x, cf)
 }
 \arguments{
-\item{x}{A list of tetrad states, perhaps generated in
+\item{x}{A list of quartet states, perhaps generated in
 \code{\link{CompareQuartets}}.}
 
 \item{cf}{a second such list.
 
-Compares each tetrad in a list, calculating how many statements are identical
+Compares each quartet in a list, calculating how many statements are identical
  in both lists.}
 }
 \value{

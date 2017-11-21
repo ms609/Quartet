@@ -21,7 +21,7 @@ Returns a two dimensional array.
         Rows report the number of quartets that : 1, are present in 
         \code{trees[[1]]} and the corresponding input tree;
         2: are unresolved in (at least) one of trees[[1]] and the corresponding 
-        input tree. Tetrads that DIFFER between the two relevant trees can be 
+        input tree. Quartets that DIFFER between the two relevant trees can be 
         calculated by deducting the quartets in either of the other two
         categories from the total number of quartets, given by
         \code{\link{choose}(n_tip, 4)}.

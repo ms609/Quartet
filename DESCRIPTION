@@ -14,11 +14,11 @@ Copyright: Incorporates code from Phangorn (Klaus Vigo)
 License: GPL (>= 2)
 Depends: R (>= 3.2.0)
 Imports: 
+    ape,
     phangorn,
     memoise,
     TreeSearch
 Suggests:
-    ape,
     knitr,
     rmarkdown,
     rtqdist,
