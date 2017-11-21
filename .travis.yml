@@ -22,8 +22,14 @@ r_packages:
  - roxygen2
    
 install:
+ - R -e "install.packages('ape')"
  - R -e "install.packages('devtools')"
- - R -e 'devtools::install_deps(dep = TRUE)'
+ - R -e "install.packages('knitr')"
+ - R -e "install.packages('phangorn')"
+ - R -e "install.packages('rmarkdown')"
+ - R -e "install.packages('roxygen2')"
+ - R -e "install.packages('testthat')"
+ - R -e "install.packages('TreeSearch')"
  - R -e "devtools::document()"
   
 after_success:
