@@ -15,8 +15,10 @@ r_binary_packages:
 r_packages:
  - covr
  - devtools
+ - knitr
  - memoise
  - R.cache
+ - rmarkdown
  - roxygen2
    
 install:
@@ -26,6 +28,8 @@ install:
  - R -e "install.packages('roxygen2')"
  - R -e "install.packages('R.cache')"
  - R -e "install.packages('testthat')"
+ - R -e "install.packages('knitr')"
+ - R -e "install.packages('rmarkdown')"
  - R -e "devtools::document()"
   
 after_success:
