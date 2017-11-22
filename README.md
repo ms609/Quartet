@@ -39,14 +39,14 @@ library('SlowQuartet')
 You will need Rtools installed (https://cran.r-project.org/bin/windows/Rtools/) to allow R to build the package.
 
 ## References
-- Estabrook G.F., McMorris F.R., Meacham C.A. 1985. Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units. Syst. Zool. 34:193–200.
-
-- Sand A., Holt M.K., Johansen J., Brodal G.S., Mailund T., Pedersen C.N.S. 2014. tqDist: a library for computing the quartet and triplet distances between binary or general trees. Bioinformatics. 30:2079–2080. https://doi.org/10.1093/bioinformatics/btu157
-
-- Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results. Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
-
 - Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet distance between evolutionary trees in time O(_n_ log _n_). Algorithmica. 38:377–395.
+
+- Estabrook G.F., McMorris F.R., Meacham C.A. 1985. Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units. Syst. Zool. 34:193–200.
 
 - Robinson D.F., Foulds L.R. 1981. Comparison of phylogenetic trees. Math. Biosci. 53:131–147.
 
+- Sand A., Holt M.K., Johansen J., Brodal G.S., Mailund T., Pedersen C.N.S. 2014. tqDist: a library for computing the quartet and triplet distances between binary or general trees. Bioinformatics. 30:2079–2080. https://doi.org/10.1093/bioinformatics/btu157
+
 - Smith, M.R. (forthcoming)
+
+- Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results. Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
