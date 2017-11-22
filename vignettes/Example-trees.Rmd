@@ -166,6 +166,10 @@ a given tree.  As such, two identical trees will have a quartet distance of
 no pair of trees with six or more tips can have a quartet distance of 
 `choose(n_tip, 4)`.
 
+```{R Plot a quartet, echo =FALSE}
+#TODO!
+PlotQuartet(x, y, z)
+```
 
 ## Desired behaviour of tree distance metrics
 
