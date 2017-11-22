@@ -17,8 +17,10 @@ License: GPL (>= 2)
 Depends: R (>= 3.4.0)
 Imports:
     ape,
-    phangorn,
+    ggplot2,
+    ggtern,
     memoise,
+    phangorn,
     TreeSearch
 Suggests:
     knitr,
