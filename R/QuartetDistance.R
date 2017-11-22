@@ -44,8 +44,9 @@ Tree2Splits <- function (tr) {
 #' @author Martin R. Smith
 #' @importFrom graphics par plot text
 #' @importFrom TreeSearch RenumberTips
+#' @codeCovIgnore
 #' @export
-PlotQuartet <- function (tree, quartet) {
+PlotQuartet <- function (tree, quartet) { # nocov start
   if (class(tree) == 'phylo') tree <- list(tree)
   n_tip <- length(tree[[1]]$tip.label)
   originalPar <- par(mfrow=c(1, length(tree)), mar=rep(1, 4))
@@ -61,7 +62,7 @@ PlotQuartet <- function (tree, quartet) {
     text(1.1, 1.1, 
          if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
   }
-}
+} #nocov end
 
 #' Choices
 #'
@@ -277,7 +278,7 @@ MatchingQuartets <- function (trees, use.tqDist=TRUE) {
   treeStats <- vapply(trees, function (tr)
     c(tr$Nnode, length(tr$tip.label)), double(2))
   if (length(unique(treeStats[2, ])) > 1) {
-    stop("All trees must have the same number of tips")
+    stop("All trees must have the same number of tips") #nocov
   }
   if (use.tqDist && length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
     if ('rtqdist' %in% installed.packages()[, 'Package']) {
