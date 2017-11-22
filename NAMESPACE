@@ -2,7 +2,9 @@
 
 export(Choices)
 export(CompareQuartets)
+export(CompareSplits)
 export(MatchingQuartets)
+export(MatchingSplits)
 export(NumberTips)
 export(PlotQuartet)
 export(QuartetState)
