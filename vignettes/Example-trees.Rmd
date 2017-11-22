@@ -61,27 +61,52 @@ trs <- test_trees <- list (
   random_tree   = ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL)
 )
 
-text_x <- -0.1
 rf_max <- (n_tip - 3) * 2
 
-colplot <- function (tr, title=NULL, bold=NULL) {
+colplot <- function (tr, title=NULL, bold=NULL, ...) {
   tr$edge.length <- rep(1, dim(tr$edge)[1])
   font <- rep(1, length(tr$tip.label))
   if (!is.null(bold)) font[tr$tip.label %in% bold] <- 4
-  plot(tr, tip.col=tip_colours[as.integer(tr$tip.label)], main=title, cex.main=0.8, font=font)
+  plot(tr, tip.col=tip_colours[as.integer(tr$tip.label)], main=title, cex.main=0.8, font=font, y.lim=c(-3.5, n_tip), ...)
 }
 
-rfplot <- function (tr, title, highlight=NULL, ref=ref_tree) {
+rfplot <- function (tr, title, highlight=NULL, ref=ref_tree, ...) {
   tree_dist <- phangorn::treedist(tr, ref)
   tree_pair <- lapply(list(tr, ref), ape::root, outgroup='1', resolve.root=FALSE)
   class(tree_pair) <- 'multiPhylo'
   topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
   
-  colplot(tr, title, highlight)
-  text(text_x, 10.6, paste0('Quartet = ', choose(11, 4) - MatchingQuartets(list(tr, ref))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
-  text(text_x,  9.6, paste0("RF = ", topo_dist, '/', rf_max), cex=0.8, pos=4)
-  text(text_x,  8.6, paste0("Path = ", signif(tree_dist[2], 3)), cex=0.8, pos=4)
-  text(text_x,  7.6, paste0("SPR = ", phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
+  colplot(tr, title, highlight, cex=0.8, ...)
+  text_x <- par('usr')[2] * 0.5
+  
+  text(text_x, -0.5, 'Quartet:', cex=0.8, pos=2)
+  text(text_x, -1.5, "RF:", cex=0.8, pos=2)
+  text(text_x, -2.5, "Path:", cex=0.8, pos=2)
+  text(text_x, -3.5, "SPR:", cex=0.8, pos=2)
+  text(text_x, -0.5, paste0(choose(11, 4) - MatchingQuartets(list(tr, ref))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(text_x, -1.5, paste0(topo_dist, '/', rf_max), cex=0.8, pos=4)
+  text(text_x, -2.5, paste0(signif(tree_dist[2], 3)), cex=0.8, pos=4)
+  text(text_x, -3.5, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
+}
+
+polyplot <- function (tr, title, highlight, ...) {
+  tree_pair <- lapply(list(tr, ref_tree), ape::root, outgroup='1', resolve.root=FALSE)
+  class(tree_pair) <- 'multiPhylo'
+  topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
+  unresolved <- n_tip - tr$Nnode - 1L
+  
+  colplot(tr, title, highlight, ...)
+  x_mid <- par('usr')[2] * 0.62
+  
+  text(x_mid, -0.5, 'Quartets contradicted', cex=0.8, pos=2)
+  text(x_mid, -1.5, 'Quartets unresolved', cex=0.8, pos=2)
+  text(x_mid, -2.5, "Partitions contradicted", cex=0.8, pos=2)
+  text(x_mid, -3.5, "Partitions unresolved", cex=0.8, pos=2)
+  
+  text(x_mid, -0.5, paste0(choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)), cex=0.8, pos=4)
+  text(x_mid, -1.5, paste0(MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(x_mid, -2.5, paste0(topo_dist - unresolved, '/', rf_max), cex=0.8, pos=4)
+  text(x_mid, -3.5, paste0(unresolved, '/', rf_max), cex=0.8, pos=4)
 }
 
 #par(mfrow=c(3,5), mar=rep(1.2, 4), cex.main=2/3, cex=0.9)
@@ -215,7 +240,8 @@ rfplot(trs$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
 
 An advantage of the Quartet distance is that the normalized metric of a random
 tree is $2/3$.  As such, trees that are more different than expected by chance
-can be readily recognized:
+can be readily recognized, as their quartet distance will be greater than 
+`r choose(n_tip, 4) * 2 / 3`/`r choose(n_tip, 4)`:
 
 ```{R Increasing distances, fig.height=3, fig.width=9, echo=FALSE}
 par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
@@ -226,28 +252,18 @@ rfplot(trs$opposite_tree, 'Maximum distance')
 
 ### Unresolved trees
 
-A further benefit is that the Quartet distance can meaningfully score trees
-where not every node is resolved as bifurcating.
+Whereas the path distance and SPR metrics are only defined on bifurcating trees,
+the quartet approach can be applied to trees that contain polytomies -- i.e. 
+not every node is resolved as bifurcating.
 
-The RF distance can be modified in a similar fashion to give the number of 
-partitions contradicted / unresolved.
+An equivalent metric can be generated using paritions, but is subject to all the
+same shortcomings as the RF distance discussed above.
+
+
+
 
 ```{R Polytomies - same topology, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
-
-polyplot <- function (tr, title, highlight) {
-  tree_pair <- lapply(list(tr, ref_tree), ape::root, outgroup='1', resolve.root=FALSE)
-  class(tree_pair) <- 'multiPhylo'
-  topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
-  
-  colplot(tr, title, highlight)
-  text(text_x, 10.6, paste0('Quartets contradicted = ', choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)), cex=0.8, pos=4)
-  text(text_x,  9.6, paste0('Quartets unresolved = ', MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)), cex=0.8, pos=4)
-  unresolved <- n_tip - tr$Nnode - 1L
-  
-  text(text_x,  8.6, paste0("Partitions contradicted = ", topo_dist - unresolved, '/', rf_max), cex=0.8, pos=4)
-  text(text_x,  7.6, paste0("Partitions unresolved = ", unresolved, '/', rf_max), cex=0.8, pos=4)
-}
+par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(ref_tree, 'Reference tree')
 polyplot(trs$collapse_one, 'One polytomy', 7:9)
@@ -260,7 +276,7 @@ the topology -- here we have the same loss of resolution with the trees
 in which one taxon (1) was moved:
 
 ```{R Polytomies, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
 polyplot(trs$move_one_mid, 'One moved, no polytomy', 1)
 polyplot(trs$m1mid_col1, 'One moved, one polytomy', 1)
@@ -271,7 +287,7 @@ And here again, collapsing nodes in the trees
 in which two taxa (10 & 11) were moved:
 
 ```{R Polytomies 2, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
 polyplot(trs$move_two_mid,  'Two moved, no polytomy'  , 10:11)
 polyplot(trs$m2mid_col1,    'Two moved, one polytomy' , 10:11)
