@@ -68,10 +68,7 @@ test_that("Random trees are 1/3 similar", {
   for (n_tip in c(7, 13, 26)) {
     random_trees <- lapply(rep(n_tip, 50), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
     n_quartets <- choose(n_tip, 4)
-    cat("\n", n_tip, "tips: expect", n_quartets, "=", n_quartets * 2 / 3, "+", n_quartets / 3,
-        "\n          TQ", tq_mean, "+-", tq_sd, "| SQ:", sq_mean, "+-", sq_sd)
-    
-    
+
     tq_distances <- TQDist(random_trees)
     tq_unique <- tq_distances[upper.tri(tq_distances)]
     expect_true(t.test(tq_unique,       mu=n_quartets * 2 / 3)$p.value > 0.01)
