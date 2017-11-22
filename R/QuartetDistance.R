@@ -23,18 +23,6 @@ Tree2Splits <- function (tr) {
   vapply(bipartitions[-seq_len(root)], function (x) seq_len(n_tip) %in% x, logical(n_tip))[as.double(tip_label), , drop=FALSE]
 }
 
-#' Number Tips
-#' Renumber the tips of a tree to match a list of labels
-#' @param tr A tree of class phylo.
-#' @param sorted.labels A character vector listing tip labels in the desired order
-#' @export
-#' @keywords internal
-#' @author Martin R. Smith
-NumberTips <- function (tr, sorted.labels) {
-  tr$tip.label <- match(tr$tip.label, sorted.labels)
-  return(tr)
-}
-
 #' Column Sums
 #' An accelerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}.
 #' Using this function makes \code{MatchingQuartets} 8% faster.
