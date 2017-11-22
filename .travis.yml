@@ -6,7 +6,7 @@ cache: packages
 warnings_are_errors: true
 r_check_args: --as-cran
 env:
- - _R_CHECK_FORCE_SUGGESTS_ = FALSE
+ - _R_CHECK_FORCE_SUGGESTS_=false
 
 git:
   depth: 5
