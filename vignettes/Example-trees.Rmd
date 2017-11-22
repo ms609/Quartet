@@ -3,7 +3,7 @@ title: "The quartet distance"
 author: "Martin R. Smith"
 date: "22 November 2017"
 output: rmarkdown::html_document
-bibliography: example-trees.bib
+bibliography: Example-trees.bib
 csl: systematic-biology.csl
 vignette: >
   %\VignetteIndexEntry{Example Trees}
