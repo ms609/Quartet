@@ -64,6 +64,7 @@ rtqDist can be installed by copying the following code into your console:
 }
 \references{
 {
+  @template refEstabrook1985
   @template refTqDist
 }
 }

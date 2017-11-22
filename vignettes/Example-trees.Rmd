@@ -53,8 +53,8 @@ trs <- test_trees <- list (
   move_two_far  = ape::read.tree(text="((((1, (10, 11)), 2), 3), (((4, 5), 6), (7, (8, 9))));"),
   collapse_one  = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, 8, 9), (10, 11))));"),
   collapse_some = ape::read.tree(text="((1, 2, 3, 4, 5, 6), ((7, 8, 9), (10, 11)));"),
-  m1mid_col1    = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, 8, 9), (10, 11))));"),
-  m1mid_colsome = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), (7, 8, 9, 10, 11)));"),
+  m1mid_col1    = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), ((7, 8, 9), (10, 11))));"),
+  m1mid_colsome = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), (7, 8, 9, 10, 11)));"),
   m2mid_col1    = ape::read.tree(text="(((1, 2), 3), ((((4, 5), (10, 11)), 6), (7, 8, 9)));"),
   m2mid_colsome = ape::read.tree(text="(((1, 2), 3), (4, (10, 11), 5, 6, 7, 8, 9));"),
   opposite_tree = ape::read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 2)), (5, 7))));"),
@@ -90,23 +90,23 @@ rfplot <- function (tr, title, highlight=NULL, ref=ref_tree, ...) {
 }
 
 polyplot <- function (tr, title, highlight, ...) {
-  tree_pair <- lapply(list(tr, ref_tree), ape::root, outgroup='1', resolve.root=FALSE)
+  tree_pair <- lapply(list(ref_tree, tr), ape::unroot)
   class(tree_pair) <- 'multiPhylo'
-  topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
-  unresolved <- n_tip - tr$Nnode - 1L
+  partitions <- MatchingSplits(tree_pair)[, 2]
   
   colplot(tr, title, highlight, ...)
   x_mid <- par('usr')[2] * 0.62
   
-  text(x_mid, -0.5, 'Quartets contradicted', cex=0.8, pos=2)
-  text(x_mid, -1.5, 'Quartets unresolved', cex=0.8, pos=2)
-  text(x_mid, -2.5, "Partitions contradicted", cex=0.8, pos=2)
-  text(x_mid, -3.5, "Partitions unresolved", cex=0.8, pos=2)
+  text(x_mid, -0.5, cex=0.8, pos=2, "Quartets contradicted")
+  text(x_mid, -1.5, cex=0.8, pos=2, "Quartets unresolved")
+  text(x_mid, -2.5, cex=0.8, pos=2, "Partitions contradicted")
+  text(x_mid, -3.5, cex=0.8, pos=2, "Partitions unresolved")
   
-  text(x_mid, -0.5, paste0(choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)), cex=0.8, pos=4)
-  text(x_mid, -1.5, paste0(MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)), cex=0.8, pos=4)
-  text(x_mid, -2.5, paste0(topo_dist - unresolved, '/', rf_max), cex=0.8, pos=4)
-  text(x_mid, -3.5, paste0(unresolved, '/', rf_max), cex=0.8, pos=4)
+  text(x_mid, -0.5, cex=0.8, pos=4, paste0(choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)))
+  text(x_mid, -1.5, cex=0.8, pos=4, paste0(MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)))
+  # The below assumes that ref is bifurcated, so if a partition's in cf not ref it must contradict.
+  text(x_mid, -2.5, cex=0.8, pos=4, paste0(partitions['cf_not_ref'], '/', rf_max / 2))
+  text(x_mid, -3.5, cex=0.8, pos=4, paste0(partitions['ref_not_cf'] - partitions['cf_not_ref'], '/', rf_max / 2)) 
 }
 
 #par(mfrow=c(3,5), mar=rep(1.2, 4), cex.main=2/3, cex=0.9)
@@ -147,7 +147,7 @@ The quartet metric [@Estabrook1985] counts how many of the four-taxon statements
 that are true in Tree A are not true in Tree B.
 
 For any four tips A, B, C and D, a bipartition on a bifurcating tree will separate
-tip A and either B, C or D from the other two tips  That is to say, removing
+tip A and either B, C or D from the other two tips.  That is to say, removing
 all other tips from the tree will leave one of the three trees
 
 ```{R Three four-taxon trees, echo=FALSE, fig.height=2, fig.width=6}
@@ -283,6 +283,7 @@ polyplot(trs$m1mid_col1, 'One moved, one polytomy', 1)
 polyplot(trs$m1mid_colsome, 'One moved, much polytomy', 1)
 
 ```
+
 And here again, collapsing nodes in the trees
 in which two taxa (10 & 11) were moved:
 
