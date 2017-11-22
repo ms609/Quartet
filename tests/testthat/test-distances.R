@@ -31,12 +31,14 @@ test_that("Quartets are counted correctly", {
     ape::read.tree(text='((1, 5), (3, (4, (2, 6))));'))
   )))
   
-  tq_distances <- TQDist(treeList <- test_trees[bifurcators])
-  tq_matches <- choose(n_tip, 4) - tq_distances[1, ]
   quartet_matches <- MatchingQuartets(test_trees)
   qb_matches <- quartet_matches[1, bifurcators]
   
-  expect_equal(tq_matches, as.integer(qb_matches))
+  if ('rtqdist' %in% installed.packages()[, 'Package']) {
+    tq_distances <- TQDist(treeList <- test_trees[bifurcators])
+    tq_matches <- choose(n_tip, 4) - tq_distances[1, ]
+    expect_equal(tq_matches, as.integer(qb_matches))
+  }
   
   expected_identical <- c(330, 322, 278, 254, 306, 252, 238, 322, 207, 270, 213, 244, 125, 86, 104)
   expected_ambiguous <- c(rep(0, 7), 8, 123, 8, 65, 8, 205, 0, 0)
@@ -68,15 +70,16 @@ test_that("Random trees are 1/3 similar", {
   for (n_tip in c(7, 13, 26)) {
     random_trees <- lapply(rep(n_tip, 50), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
     n_quartets <- choose(n_tip, 4)
-
-    tq_distances <- TQDist(random_trees)
-    tq_unique <- tq_distances[upper.tri(tq_distances)]
-    expect_true(t.test(tq_unique,       mu=n_quartets * 2 / 3)$p.value > 0.01)
     
     sq_matches <- MatchingQuartets(random_trees, use.tqDist=FALSE)
     expect_equal(rep(0, length(random_trees)), sq_matches[2, ])
     expect_true(t.test(sq_matches[1, ], mu=n_quartets * 1 / 3)$p.value > 0.01)
     
-    expect_equal(tq_distances[1, ], n_quartets - sq_matches[1, ])
+    if ('rtqdist' %in% installed.packages()[, 'Package']) {
+      tq_distances <- TQDist(random_trees)
+      tq_unique <- tq_distances[upper.tri(tq_distances)]
+      expect_true(t.test(tq_unique,       mu=n_quartets * 2 / 3)$p.value > 0.01)
+      expect_equal(tq_distances[1, ], n_quartets - sq_matches[1, ])
+    }
   } 
 })
