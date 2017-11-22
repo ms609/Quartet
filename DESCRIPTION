@@ -1,6 +1,6 @@
 Package: SlowQuartet
-Version: 0.1.0.9001
-Date: 2017-11-21
+Version: 0.1.0.9002
+Date: 2017-11-22
 Title: Quartet distance: A Similarity Metric for Phylogenetic Trees
 Description: Calculates the number of four-taxon subtrees consistent with a pair of cladograms.
 URL: https://github.com/ms609/SlowQuartet
