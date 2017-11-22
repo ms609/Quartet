@@ -302,7 +302,8 @@ We can use a ternary plot to visualise this data.
 The horizontal lines link points with an equal KL divergence.
 I'll explain this soon.
 
-```{R Plot some trees}
+```{R Plot some trees, echo=FALSE}
+# TODO plot side by side with gridExtra
 TernaryGrid +
 geom_point(data=QuartetPoints(trees), color=rgb(0.3, 0.2, 0.5), shape=3, size=3) +
 ggtitle(paste0("Quartets:"))
