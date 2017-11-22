@@ -174,29 +174,27 @@ polyplot(trs$m1mid_col1, 'One moved, one polytomy', 1)
 polyplot(trs$m1mid_colsome, 'One moved, much polytomy', 1)
 
 ```
+And here again, collapsing nodes in the trees
+in which two taxa (10 & 11) were moved:
 
-```{R Calculate distances, message=FALSE, warning=FALSE}
+```{R Polytomies, fig.height=3, fig.width=9, echo=FALSE}
+par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
-dist_measures <- c('symmetric', 'path', 'R-F', 'uSPR', 'TBR', 'PH85', '4tet_=', '4tet_?', '4tet_X')
-dists <- matrix(NA, nrow=length(dist_measures), ncol=length(test_trees))
-rownames(dists) <- dist_measures
-colnames(dists) <- names(test_trees)
-dists[1:2, ] <- vapply(test_trees, phangorn::treedist, tree2=ref_tree, double(2))
-dists[3, ] <- vapply(test_trees, phangorn::RF.dist, tree2=ref_tree, double(1))
-# Exact distance not calculated for latter trees, but will be highish
-dists[4, ] <- c(0, 1, 1, 1, 1, 1, 1, NA, NA, NA, NA, NA, NA, 10, 10)
-dists[5, ] <- c(0, 1, 1, 1, 1, 1, 1, NA, NA, NA, NA, NA, NA, 10, 10) 
+polyplot(trs$move_two_mid,  'Two moved, no polytomy'  , 10:11)
+polyplot(trs$m2mid_col1,    'Two moved, one polytomy' , 10:11)
+polyplot(trs$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
-class(test_trees) <- 'multiPhylo'
-dists[6, ] <- as.matrix(ape::dist.topo(test_trees, method='PH85'))[, 1]
+```
 
-n_quartets <- choose(n_tip, 4)
-quartet_matches <- MatchingQuartets(test_trees)
-other_trees <- seq_along(test_trees)[-1]
+## Maximum distance
+Finally, a distance metric should distinguish slightly-peturbed trees from
+random trees and those that are more different from the starting tree than 
+expected by chance.
 
-dists[7:8, ] <- quartet_matches / n_quartets * 100
-dists[9, ] <- (n_quartets - colSums(quartet_matches)) / n_quartets * 100
-dists[7:9, 1] <- c(100, 0, 0)
-dists
-
+```{R Increasing distances, fig.height=3, fig.width=12, echo=FALSE}
+par(mfrow=c(1, 4), mar=rep(0.4, 4), cex=1)
+colplot(tt$ref_tree, 'Reference tree')
+rfplot(trs$move_one_far,  'Small peturbation', 1, spr=FALSE)
+rfplot(trs$random_tree,   'Random tree',       1, spr=FALSE)
+rfplot(trs$opposite_tree, 'Maximum distance',  1, spr=FALSE)
 ```
