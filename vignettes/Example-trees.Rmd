@@ -297,5 +297,17 @@ polyplot(trs$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
 ```
 
+## Conclusion
+
+The quartet distance is the only available metric of tree distance that fullfils 
+all of the following desiderata:
+
+ - Allocates trees higher distances if a clade moves greater distances
+ - Allocates trees higher distances if a the clade that is moved is larger
+ - Distinguishes contradicted from unresolved information in trees that 
+   are not fully bifurcating (resolved)
+ - Identifies pairs of trees that are more random than expected by chance
+ - Does not reach its maximum value after relatively trivial rearrangements
+
 ## References
 
