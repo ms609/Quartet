@@ -29,7 +29,7 @@ install:
  - R -e "install.packages('rmarkdown')"
  - R -e "install.packages('roxygen2')"
  - R -e "install.packages('testthat')"
- - R -e "install.packages('TreeSearch')"
+ - R -e "devtools::install_github('ms609/TreeSearch')"
  - R -e "devtools::document()"
   
 after_success:
