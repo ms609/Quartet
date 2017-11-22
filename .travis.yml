@@ -23,7 +23,6 @@ r_packages:
  - TreeSearch
    
 install:
- - R -e "install.packages('ape')"
  - R -e "install.packages('devtools')"
  - R -e "install.packages('knitr')"
  - R -e "install.packages('phangorn')"
