@@ -1,5 +1,5 @@
 ---
-title: "Example trees"
+title: "The quartet distance"
 author: "Martin R. Smith"
 date: "22 November 2017"
 output: rmarkdown::html_document
@@ -62,6 +62,7 @@ trs <- test_trees <- list (
 )
 
 text_x <- -0.1
+rf_max <- (n_tip - 3) * 2
 
 colplot <- function (tr, title=NULL, bold=NULL) {
   tr$edge.length <- rep(1, dim(tr$edge)[1])
@@ -78,23 +79,10 @@ rfplot <- function (tr, title, highlight=NULL, ref=ref_tree) {
   
   colplot(tr, title, highlight)
   text(text_x, 10.6, paste0('Quartet = ', choose(11, 4) - MatchingQuartets(list(tr, ref))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
-  text(text_x,  9.6, paste0("RF = ", topo_dist), cex=0.8, pos=4)
+  text(text_x,  9.6, paste0("RF = ", topo_dist, '/', rf_max), cex=0.8, pos=4)
   text(text_x,  8.6, paste0("Path = ", signif(tree_dist[2], 3)), cex=0.8, pos=4)
   text(text_x,  7.6, paste0("SPR = ", phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
 }
-
-
-polyplot <- function (tr, title, highlight) {
-  tree_pair <- lapply(list(tr, ref_tree), ape::root, outgroup='1', resolve.root=FALSE)
-  class(tree_pair) <- 'multiPhylo'
-  topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
-  
-  colplot(tr, title, highlight)
-  text(text_x, 10.6, paste0('Quartets contradicted = ', choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)), cex=0.8, pos=4)
-  text(text_x,  9.6, paste0('Quartets unresolved = ', MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)), cex=0.8, pos=4)
-  text(text_x,  8.6, paste0("RF = ", topo_dist), cex=0.8, pos=4)
-}
-
 
 #par(mfrow=c(3,5), mar=rep(1.2, 4), cex.main=2/3, cex=0.9)
 #for (i in seq_along(test_trees)) colplot(test_trees[[i]], names(test_trees)[i])
@@ -106,19 +94,30 @@ polyplot <- function (tr, title, highlight) {
 A number of metrics area available to quantify the similarity between two undirected
 topologies (i.e. unrooted trees with no edge lengths).
 
-### Robinson Foulds
+### Partition metric
 The Robinson-Foulds (RF, 'partition' or 'symmetric') [@Robinson1981] metric 
 adds the number of bipartitions that are present in tree A (but not tree B)
-to the number of bipartitions present in tree B (but not tree A).
+to the number of bipartitions present in tree B (but not tree A).  
 
-### SPR
+It is most useful when the trees to be compared are very similar; it has
+a low range of integer values, limiting its ability to distinguish between
+trees [@Steel1993].
+
+### SPR metric
 The subtree pruning and regrafting (SPR) distance [@Penny1985] counts the 
 number of SPR rearrangements necessary to transform Tree A into Tree B.
 
-### Path distance
-path difference [@Steel1993] 
+### Path difference metric
+The length of a path from one tip to another in a tree is the number of edges
+within the tree that must be crossed to navigate from one tip to the other.
 
-### Quartet distance
+Given two trees, is possible to calculate the difference in path length between
+each pair of tips.
+
+The path difference metric [@Steel1993] is the square root of the sum of squares
+of each of these differences.
+
+### Quartet metric
 The quartet metric [@Estabrook1985] counts how many of the four-taxon statements 
 that are true in Tree A are not true in Tree B.
 
@@ -158,7 +157,6 @@ colplot(ref_tree,     'Reference tree', 1)
 rfplot(trs$move_one_near, 'Short move', 1)
 rfplot(trs$move_one_mid, 'Medium move', 1)
 rfplot(trs$move_one_far,   'Long move', 1)
-
 ```
 
 The subtree pruning and regrafting (SPR) distance [@Penny1985] does not distinguish
@@ -231,8 +229,25 @@ rfplot(trs$opposite_tree, 'Maximum distance')
 A further benefit is that the Quartet distance can meaningfully score trees
 where not every node is resolved as bifurcating.
 
+The RF distance can be modified in a similar fashion to give the number of 
+partitions contradicted / unresolved.
+
 ```{R Polytomies - same topology, fig.height=3, fig.width=9, echo=FALSE}
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+
+polyplot <- function (tr, title, highlight) {
+  tree_pair <- lapply(list(tr, ref_tree), ape::root, outgroup='1', resolve.root=FALSE)
+  class(tree_pair) <- 'multiPhylo'
+  topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
+  
+  colplot(tr, title, highlight)
+  text(text_x, 10.6, paste0('Quartets contradicted = ', choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)), cex=0.8, pos=4)
+  text(text_x,  9.6, paste0('Quartets unresolved = ', MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  unresolved <- n_tip - tr$Nnode - 1L
+  
+  text(text_x,  8.6, paste0("Partitions contradicted = ", topo_dist - unresolved, '/', rf_max), cex=0.8, pos=4)
+  text(text_x,  7.6, paste0("Partitions unresolved = ", unresolved, '/', rf_max), cex=0.8, pos=4)
+}
 
 colplot(ref_tree, 'Reference tree')
 polyplot(trs$collapse_one, 'One polytomy', 7:9)
