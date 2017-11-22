@@ -33,12 +33,19 @@ tip_colours <- c(
   rgb(255,255,109, maxColorValue=255)
 )[-c(4, 7)] # Rm Tritamopia duplicates of 13 and 3
 
+palette4 <- c(
+  rgb(000,000,000, maxColorValue=255),
+  rgb(230,159,000, maxColorValue=255),
+  rgb(086,180,233, maxColorValue = 255),
+  rgb(000,158,115, maxColorValue=255)
+)
+
 n_tip <- 11
 ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
 trs <- test_trees <- list (
   ref_tree      = ref_tree,
   move_one_near = ape::read.tree(text="(((2, 3), 1), (((4, 5), 6), ((7, (8, 9)), (10, 11))));"),
-  move_one_mid  = ape::read.tree(text="((2, 3), ((((1, 4), 5), 6), ((7, (8, 9)), (10, 11))));"),
+  move_one_mid  = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), ((7, (8, 9)), (10, 11))));"),
   move_one_far  = ape::read.tree(text="((2, 3), (((4, 5), 6), ((7, (8, 9)), (10, (11, 1)))));"),
   move_two_near = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (10, 11)), (8, 9))));"),
   move_two_mid  = ape::read.tree(text="(((1, 2), 3), ((((4, 5), (10, 11)), 6), (7, (8, 9))));"),
@@ -53,6 +60,8 @@ trs <- test_trees <- list (
   random_tree   = ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL)
 )
 
+text_x <- -0.1
+
 colplot <- function (tr, title=NULL, bold=NULL) {
   tr$edge.length <- rep(1, dim(tr$edge)[1])
   font <- rep(1, length(tr$tip.label))
@@ -60,17 +69,17 @@ colplot <- function (tr, title=NULL, bold=NULL) {
   plot(tr, tip.col=tip_colours[as.integer(tr$tip.label)], main=title, cex.main=0.8, font=font)
 }
 
-rfplot <- function (tr, title, highlight) {
-  tree_dist <- phangorn::treedist(tr, ref_tree)
-  tree_pair <- lapply(list(tr, ref_tree), ape::root, outgroup='1', resolve.root=FALSE)
+rfplot <- function (tr, title, highlight=NULL, ref=ref_tree) {
+  tree_dist <- phangorn::treedist(tr, ref)
+  tree_pair <- lapply(list(tr, ref), ape::root, outgroup='1', resolve.root=FALSE)
   class(tree_pair) <- 'multiPhylo'
   topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
   
   colplot(tr, title, highlight)
-  text(0, 10.6, paste0('Quartet = ', choose(11, 4) - MatchingQuartets(list(tr, ref_tree))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
-  text(0,  9.6, paste0("RF = ", topo_dist), cex=0.8, pos=4)
-  text(0,  8.6, paste0("Path = ", signif(tree_dist[2], 3)), cex=0.8, pos=4)
-  text(0,  7.6, paste0("SPR = ", phangorn::sprdist(tr, ref_tree)[1]), cex=0.8, pos=4)
+  text(text_x, 10.6, paste0('Quartet = ', choose(11, 4) - MatchingQuartets(list(tr, ref))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(text_x,  9.6, paste0("RF = ", topo_dist), cex=0.8, pos=4)
+  text(text_x,  8.6, paste0("Path = ", signif(tree_dist[2], 3)), cex=0.8, pos=4)
+  text(text_x,  7.6, paste0("SPR = ", phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
 }
 
 
@@ -80,9 +89,9 @@ polyplot <- function (tr, title, highlight) {
   topo_dist <- as.matrix(ape::dist.topo(tree_pair, method='PH85'))[2]
   
   colplot(tr, title, highlight)
-  text(0, 10.6, paste0('Quartets contradicted = ', choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)), cex=0.8, pos=4)
-  text(0,  9.6, paste0('Quartets unresolved = ', MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)), cex=0.8, pos=4)
-  text(0,  8.6, paste0("PH85 = ", topo_dist), cex=0.8, pos=4)
+  text(text_x, 10.6, paste0('Quartets contradicted = ', choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)), cex=0.8, pos=4)
+  text(text_x,  9.6, paste0('Quartets unresolved = ', MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(text_x,  8.6, paste0("RF = ", topo_dist), cex=0.8, pos=4)
 }
 
 
@@ -91,12 +100,47 @@ polyplot <- function (tr, title, highlight) {
 
 ```
 
-# Tree distance metrics
+## Tree distance metrics
+
+A number of metrics area available to quantify the similarity between two undirected
+topologies (i.e. unrooted trees with no edge lengths).
+
+### Robinson Foulds
+The Robinson-Foulds (RF, 'partition' or 'symmetric') [@Robinson1981] metric 
+adds the number of bipartitions that are present in tree A (but not tree B)
+to the number of bipartitions present in tree B (but not tree A).
+
+### SPR
+The subtree pruning and regrafting (SPR) distance [@Penny1985] counts the 
+number of SPR rearrangements necessary to transform Tree A into Tree B.
+
+### Path distance
+path difference [@Steel1993] 
+
+### Quartet distance
+The quartet metric [@Estabrook1985] counts how many of the four-taxon statements 
+true in Tree A are also true in Tree B.
+
+For any four tips A, B, C and D, a bipartition on a bifurcating tree will separate
+tip A and either B, C or D from the other two tips  That is to say, removing
+all other tips from the tree will leave one of the three trees
+
+```{R Three four-taxon trees, echo=FALSE, fig.height=2, fig.width=6}
+par(mfrow=c(1, 3), mar=c(0.5, 1, 0.5, 1), cex=1)
+tree1 <- ape::read.tree(text='((A, B), (C, D));')
+tree2 <- ape::read.tree(text='((A, C), (B, D));')
+tree3 <- ape::read.tree(text='((A, D), (C, B));')
+plot(tree1, tip.color=palette4[c(1, 2, 3, 4)], font=2)
+plot(tree2, tip.color=palette4[c(1, 3, 2, 4)], font=2)
+plot(tree3, tip.color=palette4[c(1, 4, 3, 2)], font=2)
+```
+
+## Desired behaviour of tree distance metrics
 
 The advantages of the Quartet distance [@Estabrook1985] over other tree distance
 metrics [@Penny1985] are best illustrated by examining a set of example trees.
 
-## Moving a single taxon
+### Moving a single taxon
 
 If trees differ only in the location of a single taxon, then the distance between
 two trees should correspond to the distance that this taxon has been moved.
@@ -110,16 +154,20 @@ rfplot(trs$move_one_far,   'Long move', 1)
 
 ```
 
-All these trees have an SPR distance of 1: they can be obtained by 
-performing one subtree pruning and regrafting operation on the reference tree.
+The subtree pruning and regrafting (SPR) distance [@Penny1985] does not distinguish
+between these trees, as they differ only in the placement of a single tip.
+The Robinson-Foulds (RF, 'partition' or 'symmetric') [@Robinson1981],
+path difference [@Steel1993] and quartet [@Estabrook1985] metrics, 
+in contrast, recognize trees in which this tip has been 
+moved further as more distant from the starting tree.
 
-The Robinson-Foulds (RF or 'symmetric') distance [@Robinson1981] fails to distinguish
-distances a medium or long move, whereas the Quartet distance identifies the
-long move as representing a greater modification of the reference tree.
+### Moving two taxa
 
-## Moving two taxa
-Surprisingly, if two rather than one taxa are moved, RF distances recover a smaller 
-distance:
+Intuitively, moving a pair of tips on a tree should lead to higher tree distances
+than moving a single tip.  In the case of a snort move, the RF distance
+does not differ whether one or two tips are moved.
+For larger moves, however, the RF distance is _less_ when two tips are moved than
+when a single tip is moved.  The path and quartet metrics perform as expected.
 
 ```{R Moving a cherry, fig.height=8, fig.width=9, echo=FALSE}
 par(mfrow=c(3, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
@@ -138,7 +186,40 @@ rfplot(trs$move_two_far,   'Long move 2', 10:11)
 
 ```
 
-## Unresolved trees
+### Maximum distance
+A distance metric should distinguish slightly-peturbed trees from
+random trees and those that are more different from the starting tree than 
+expected by chance.
+
+The worst-case scenario for the Robinson-Foulds metric involves the relocation
+of a single taxon in a pectinate tree. As there are no partitions 
+shared between the two trees, this situation generates the maximum
+RF distance, and this trivially deformed tree is considered to be as distant
+as a random tree.
+
+```{R Increasing distances, fig.height=3, fig.width=9, echo=FALSE}
+par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
+
+pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10, 11))))))))));')
+pectinate_unrooted <- ape::unroot(pectinate_tree)
+pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
+colplot(pectinate_tree, 'Pectinate tree')
+rfplot(pectinate_move1,  'Move one taxon', 1, ref=pectinate_unrooted)
+rfplot(trs$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
+```
+
+An advantage of the Quartet distance is that the normalized metric of a random
+tree is $2/3$.  As such, trees that are more different than expected by chance
+can be readily recognized:
+
+```{R Increasing distances, fig.height=3, fig.width=9, echo=FALSE}
+par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
+colplot(ref_tree, 'Reference tree')
+rfplot(trs$random_tree,   'Random tree'     )
+rfplot(trs$opposite_tree, 'Maximum distance')
+```
+
+### Unresolved trees
 
 A further benefit is that the Quartet distance can meaningfully score trees
 where not every node is resolved as bifurcating.
@@ -174,25 +255,6 @@ polyplot(trs$move_two_mid,  'Two moved, no polytomy'  , 10:11)
 polyplot(trs$m2mid_col1,    'Two moved, one polytomy' , 10:11)
 polyplot(trs$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
-```
-
-## Maximum distance
-Finally, a distance metric should distinguish slightly-peturbed trees from
-random trees and those that are more different from the starting tree than 
-expected by chance.
-
-
-
-`opposite_tree` is a tree designed to be as different as possible from the 
-reference tree. `random_tree` is generated at random.
-
-
-```{R Increasing distances, fig.height=3, fig.width=12, echo=FALSE}
-par(mfrow=c(1, 4), mar=rep(0.4, 4), cex=1)
-colplot(ref_tree, 'Reference tree')
-rfplot(trs$move_one_far,  'Small peturbation', 1)
-rfplot(trs$random_tree,   'Random tree',       1)
-rfplot(trs$opposite_tree, 'Maximum distance',  1)
 ```
 
 ## References
