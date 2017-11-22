@@ -1,9 +1,9 @@
-<!--[![Build Status](https://travis-ci.org/ms609/SlowQuartet.svg?branch=master)](https://travis-ci.org/ms609/SlowQuartet)
+[![Build Status](https://travis-ci.org/ms609/SlowQuartet.svg?branch=master)](https://travis-ci.org/ms609/SlowQuartet)
 [![codecov](https://codecov.io/gh/ms609/SlowQuartet/branch/master/graph/badge.svg)](https://codecov.io/gh/ms609/SlowQuartet)
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/SlowQuartet)](https://cran.r-project.org/package=SlowQuartet)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/SlowQuartet)](https://cran.r-project.org/package=SlowQuartet)<!--
 [![Research software impact](http://depsy.org/api/package/cran/SlowQuartet/badge.svg)](http://depsy.org/package/r/SlowQuartet)-->
-[![Project Status: Inactive.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
+[![Project Status: Active.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
 # SlowQuartet
 
@@ -11,10 +11,17 @@ SlowQuartet is an R package that calculates the Quartet distance between two tre
 a measure of their similarity based on the number of shared four-taxon subtrees.
 
 It's named Slow Quartet as it calculates the metric rather inefficiently; it may not be of use for large trees. 
-Faster algorithms are available: try the R package tqDist.
+For bifurcating trees, this package provides a gateway to the R package `tqDist`,
+which calculates quartet distances much more rapidly.
 
-What other implementations don't seem to do is report how many quartets are resolved in one tree and unresolved in another.
+What other implementations don't seem to do is to distinguish between quartets
+that are contradicted by one tree, and quartets that are simply absent due to
+a lack of resolution (i.e. the presence of polytomies).  `SlowQuartet` makes
+this distinction in both the quartet metric (function `MatchingQuartets`) and the
+partition metric (i.e. Robinson-Foulds distance; function `MatchingSplits`).
 
+
+## Using the package
 The package will soon be compiled and uploaded to the CRAN repository.  
 Meanwhile, you can install the latest version of the package into R thus:
 
@@ -32,12 +39,14 @@ library('SlowQuartet')
 You will need Rtools installed (https://cran.r-project.org/bin/windows/Rtools/) to allow R to build the package.
 
 ## References
-ESTABROOK, G. F., F. R. MCMORRIS, AND C. A. MEACHAM. 1985. Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units. Syst. Zool. 34:193-200.
+- Estabrook G.F., McMorris F.R., Meacham C.A. 1985. Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units. Syst. Zool. 34:193–200.
 
-Andreas Sand, Morten K. Holt, Jens Johansen, Gerth Stølting Brodal, Thomas Mailund and Christian N.S. Pedersen; tqDist: A Library for Computing the Quartet and Triplet Distances Between Binary or General Trees, Bioinformatics, 2014, 30 (14): 2079-2080, doi: 10.1093/bioinformatics/btu157
+- Sand A., Holt M.K., Johansen J., Brodal G.S., Mailund T., Pedersen C.N.S. 2014. tqDist: a library for computing the quartet and triplet distances between binary or general trees. Bioinformatics. 30:2079–2080. https://doi.org/10.1093/bioinformatics/btu157
 
-Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results. Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
+- Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results. Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
 
-Gerth Stølting, Brodal Rolf Fagerberg, Christian N.S. Pedersen. Computing the Quartet Distance between Evolutionary Trees in Time O(n log n) Algorithmica 38:2, pp 377–395
+- Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet distance between evolutionary trees in time O(_n_ log _n_). Algorithmica. 38:377–395.
 
-Smith, M.R. (forthcoming)
+- Robinson D.F., Foulds L.R. 1981. Comparison of phylogenetic trees. Math. Biosci. 53:131–147.
+
+- Smith, M.R. (forthcoming)
