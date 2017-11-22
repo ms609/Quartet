@@ -20,6 +20,7 @@ r_packages:
  - R.cache
  - rmarkdown
  - roxygen2
+ - TreeSearch
    
 install:
  - R -e "install.packages('ape')"
