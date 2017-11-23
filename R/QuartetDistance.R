@@ -46,23 +46,27 @@ Tree2Splits <- function (tr) {
 #' @importFrom TreeSearch RenumberTips
 #' 
 #' @export
-PlotQuartet <- function (tree, quartet) { # nocov start
+PlotQuartet <- function (tree, quartet, ...) { # nocov start
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  
   if (class(tree) == 'phylo') tree <- list(tree)
+  
   n_tip <- length(tree[[1]]$tip.label)
   originalPar <- par(mfrow=c(1, length(tree)), mar=rep(1, 4))
   on.exit(par(originalPar))
   labelOrder <- tree[[1]]$tip.label
   state1 <- QuartetState(quartet, Tree2Splits(tree[[1]]))
   tip_colours <- integer(n_tip) + 1L
+  names(tip_colours) <- tree[[1]]$tip.label
   tip_colours[quartet] <- 3L
   tip_colours[c(quartet[1], quartet[state1])] <- 2L
   for (tr in tree) {
     tr <- RenumberTips(tr, labelOrder)
-    plot(tr, tip.color=cbPalette[tip_colours])
+    plot(tr, tip.color=cbPalette[tip_colours], ...)
     text(1.1, 1.1, 
          if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
   }
+  return <- NULL
 } #nocov end
 
 #' Choices
