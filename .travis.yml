@@ -24,13 +24,10 @@ r_packages:
  - roxygen2
  - TreeSearch
    
-install:
- - R -e "install.packages('TreeSearch')"
- - R -e "install.packages('devtools')"
- - R -e "install.packages('knitr')"
- - R -e "install.packages('rmarkdown')"
- - R -e "install.packages('roxygen2')"
- - R -e "install.packages('testthat')"
+r_github_packages:
+ - ms609/Ternary
+   
+script:
  - R -e "devtools::document()"
   
 after_success:
