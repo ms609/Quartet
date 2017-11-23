@@ -278,7 +278,7 @@ MatchingQuartets <- function (trees, use.tqDist=TRUE) {
   treeStats <- vapply(trees, function (tr)
     c(tr$Nnode, length(tr$tip.label)), double(2))
   if (length(unique(treeStats[2, ])) > 1) {
-    stop("All trees must have the same number of tips") #nocov
+    stop("All trees must have the same number of tips")
   }
   if (use.tqDist && length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
     if ('rtqdist' %in% installed.packages()[, 'Package']) {
