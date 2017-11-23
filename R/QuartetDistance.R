@@ -102,7 +102,8 @@ Choices <- memoise(function (n_tips) {
 #' State of quartets
 #'
 #' Report the status of a given quartet.
-#' @param tips A four-element array listing a quartet of tips.
+#' @param tips A four-element array listing a quartet of tips, either by their
+#'             number (if class `numeric`) or their name (if class `character`).
 #' @param bips bipartitions to evaluate.
 #'
 #'
