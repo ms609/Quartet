@@ -12,7 +12,7 @@
 #'   library('Ternary')
 #'   TernaryPlot('Consistent', 'Contradicted', 'Unresolved')
 #'   TernaryLines(list(c(1/3, 2/3, 0), c(0, 0, 1)), col='red', lty='dotted')
-#'   TernaryPoints(QuartetPoints(sq_trees), pch=cbPalette7[2])
+#'   TernaryPoints(QuartetPoints(sq_trees), pch=cbPalette8[2])
 #' }
 #' 
 #' @author Martin R. Smith
