@@ -39,6 +39,10 @@ TernaryCoords <- function (abc, b_coord=NULL, c_coord=NULL) {
 #'                       bottommost and leftmost corners respectively.
 #' @param lab.cex Numeric specifying character expansion for axis titles.
 #' 
+#' @param isometric Logical specifying whether to enforce an equilateral 
+#'                  shape for the ternary plot.
+#' @param padding Numeric specifying size of internal margin of the plot; increase
+#'                if axis labels are being clipped.
 #' @param col The colour for filling the plot; see \link[graphics]{polygon}.
 #' 
 #' @param grid.lines The number of grid lines to plot.
@@ -74,7 +78,8 @@ TernaryCoords <- function (abc, b_coord=NULL, c_coord=NULL) {
 #' 
 #' @export
 TernaryPlot <- function (alab=NULL, blab=NULL, clab=NULL,
-                         lab.cex=1.0,
+                         lab.cex=1.0, isometric=TRUE, 
+                         padding = 0.04,
                          col=NA, 
                          grid.lines=10, grid.col='grey',
                          grid.lty='dotted', grid.lwd=par('lwd'),
@@ -87,7 +92,13 @@ TernaryPlot <- function (alab=NULL, blab=NULL, clab=NULL,
                          ...) {
   tick_length <- 0.025
   
-  plot(-1, -1, xlim=c(-0.04, sqrt(3/4) + 0.04), ylim=c(-0.54, +0.54), axes=FALSE, xlab='', ylab='')###, ...)
+  if (isometric) {
+    original_par <- par(pty='s')
+    on.exit(par(original_par))
+  }
+  plot(-1, -1, axes=FALSE, xlab='', ylab='',
+       xlim=c(-padding, sqrt(3/4) + padding),
+       ylim=c(-0.5 - padding, +0.5 + padding), ...)
   axes <- vapply(list(c(1, 0, 0), c(0, 1, 0), c(0, 0, 1), c(1, 0, 0)),
                  TernaryCoords, double(2))
   polygon(axes[1, ], axes[2, ], col=col, border=NA)
@@ -157,15 +168,105 @@ TernaryPlot <- function (alab=NULL, blab=NULL, clab=NULL,
   # Title corners
   text(0 + tick_length, 0.5 + (tick_length * 2), alab, pos=4)
   text(0 + tick_length, -(0.5 + (tick_length * 2)), blab, pos=4)
-  if (nchar(clab) * lab.cex < 10) {
-    text(sqrt(3/4) + 0.1, -0.15, clab, pos=2, cex=lab.cex)
-  } else if (nchar(clab) * lab.cex < 20) {
-    text(sqrt(3/4) + 0.1, -0.22, clab, pos=2, cex=lab.cex)
-  } else {
-    text(sqrt(3/4), -0.085, clab, srt=270, pos=4, cex=lab.cex)
+  if (!is.null(clab)) {
+    if (nchar(clab) * lab.cex < 10) {
+      text(sqrt(3/4) + 0.1, -0.15, clab, pos=2, cex=lab.cex)
+    } else if (nchar(clab) * lab.cex < 20) {
+      text(sqrt(3/4) + 0.1, -0.22, clab, pos=2, cex=lab.cex)
+    } else {
+      text(sqrt(3/4), -0.085, clab, srt=270, pos=4, cex=lab.cex)
+    }
   }
   
+  # Return:
+  return <- NULL
 }
+
+#' @describeIn TernaryPlot Add horizontal lines to the ternary plot
+#' 
+#' @export
+#' @keywords internal
+HorizontalGrid <- function (grid.lines = 10, grid.col='grey',
+                            grid.lty='dotted', grid.lwd=par('lwd')) {
+  
+  line_points <- seq(from=0, to=1, length.out=grid.lines + 1L)
+  
+  lapply(line_points[-c(1, grid.lines + 1L)], function (p) {
+    line_ends <- if (p <= 0.5) {
+      apply(matrix(c(1-p, 1-(2*p),  p, 0,  0, p*2), nrow=2), 1, TernaryCoords)
+    } else {
+      p <- 1 - p
+      -apply(matrix(c(1-p, 1-(2*p),  p, 0,  0, p*2), nrow=2), 1, TernaryCoords)
+    }
+    lines(abs(line_ends[1, ]), line_ends[2, ], col=grid.col, lty=grid.lty, lwd=grid.lwd)
+    
+  })
+  
+  # Return:
+  return <- NULL
+}
+
+#' Draw on Ternary Plot
+#' 
+#' Plot points onto a ternary diagram created with \code{\link{TernaryPlot}}.
+#' 
+#' @param PlottingFunction Function to add data to a plot; perhaps one of
+#'        \code{\link[graphics]{points}},
+#'        \code{\link[graphics]{lines}} or
+#'        \code{\link[graphics]{text}}.
+#' @param coordinates A list, matrix, data.frame or vector specifying 
+#'                    the three coordinates of a point or points in ternary
+#'                    space.
+#' @param \dots Additional parameters to pass to \code{PlottingFunction}.
+#' 
+#' @examples {
+#'   coords <- list(
+#'     A = c(1, 0, 2),
+#'     B = c(1, 1, 1),
+#'     C = c(1.5, 1.5, 0),
+#'     D = c(0.5, 1.5, 1)
+#'   )
+#'   TernaryPlot()
+#'   AddToTernary(lines, coords, col='green', lwd=2)
+#'   TernaryLines(coords, col='red', lty='dotted')
+#'   TernaryText(coords, cex=0.7, col='red')
+#'   TernaryPoints(coords, pch=1, cex=2, col='blue')
+#'   AddToTernary(points, coords, pch=1, cex=3)
+#' }
+#' 
+#' @author Martin R. Smith
+#' @export
+AddToTernary <- function (PlottingFunction, coordinates, ...) {
+  dims <- dim(coordinates)
+  if (is.null(dims) && mode(coordinates) == 'list') {
+    xy <- vapply(coordinates, TernaryCoords, double(2))
+    return(PlottingFunction(xy[1, ], xy[2, ], ...))
+  } else if (length(dims) == 1) {
+    xy <- TernaryCoords(coordinates)
+    return(PlottingFunction(xy[1], xy[2], ...))
+  } else if (length(dims) == 2) {
+    which_dim <- if(dims[1] == 3) 2 else if (dims[2] == 3) 1 else stop("Coordinates must be ternary points")
+    xy <- apply(coordinates, which_dim, TernaryCoords)
+    return(PlottingFunction(xy[1, ], xy[2, ], ...))
+  } else {
+    stop("coordinates must have fewer than three dimensions") 
+  }
+}
+
+#' @describeIn AddToTernary Add points
+#' @importFrom graphics points
+#' @export
+TernaryPoints <- function (coordinates, ...) AddToTernary(points, coordinates, ...)
+
+#' @describeIn AddToTernary Add points
+#' @importFrom graphics text
+#' @export
+TernaryText <- function (coordinates, ...) AddToTernary(text, coordinates, ...)
+
+#' @describeIn AddToTernary Add points
+#' @importFrom graphics lines
+#' @export
+TernaryLines <- function (coordinates, ...) AddToTernary(lines, coordinates, ...)
 
 #' Quartet Points
 #' 
@@ -215,10 +316,5 @@ SplitsPoints <- function (trees) {
              Unresolved   = status['ref_not_cf', ] - status['cf_not_ref', ])
 }
 
-#' @export
-#' @keywords internal
-KLDivergenceLine <- function (i) geom_line(data=data.frame(Consistent    = c(10-i, 10-(2*i)), 
-                                                           Contradicted  = c(i, 0),
-                                                           Unresolved = c(0, i*2)),
-                                           color=rgb(1, 1, 1, 1))
+
 
