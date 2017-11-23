@@ -21,13 +21,16 @@ Imports:
     ggtern,
     memoise,
     phangorn,
+    Ternary,
     TreeSearch
 Suggests:
     knitr,
     rmarkdown,
     rtqdist,
     testthat
-Remotes: url::http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz
+Remotes: 
+    ms609/Ternary,
+    url::http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz
 LinkingTo: Rcpp
 LazyData: true
 ByteCompile: true

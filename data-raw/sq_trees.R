@@ -18,4 +18,4 @@ sq_trees <- list (
   random_tree   = ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL)
 )
 class(sq_trees) <- 'multiPhylo'
-save(sq_trees, file='data/sq_trees.Rdata')
+devtools::use_data(sq_trees)
