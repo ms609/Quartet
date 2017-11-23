@@ -388,6 +388,9 @@ all of the following desiderata:
    are not fully bifurcating (resolved)
  - Identifies pairs of trees that are more random than expected by chance
  - Does not reach its maximum value after relatively trivial rearrangements
+ 
+ The quartet divergence is proposed as a measure of how similar two trees are,
+ taking into account the inevitable trade-off between precision and accuracy.
 
 ## References
 
