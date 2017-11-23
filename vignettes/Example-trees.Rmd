@@ -116,6 +116,21 @@ plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=palette4[c(1, 3, 2, 4)]
 plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=palette4[c(1, 4, 3, 2)], font=2)
 ```
 
+Thus two of the random trees below share the quartet `(A, B), (C, D)`, whereas 
+the third does not; these four tips are divided into `(A, D), (B, C)`.
+
+```{R Plot a quartet, fig.height=2, fig.width=6, echo=FALSE}
+par(mfrow=c(1, 3))
+set.seed(7)
+trees7 <- lapply(logical(3), function (X) {
+    tr <- ape::rtree(7, br=NULL)
+    tr$edge.length <- rep(1, 12)
+    tr$tip.label <- LETTERS[1:7]
+    tr
+  })
+PlotQuartet(trees7, LETTERS[1:4], cex=2)
+```
+
 There are `choose(n_tip, 4)` groups of four taxa in a tree with `n_tip` tips;
 for each of these groups, one of the three trees above will be consistent with
 a given tree.  As such, two identical trees will have a quartet distance of
@@ -123,11 +138,6 @@ a given tree.  As such, two identical trees will have a quartet distance of
 `choose(n_tip, 4) / 3`. Because quartets are not independent of one another,
 no pair of trees with six or more tips can have a quartet distance of 
 `choose(n_tip, 4)`.
-
-```{R Plot a quartet, echo =FALSE}
-#TODO!
-PlotQuartet(x, y, z)
-```
 
 ## Desired behaviour of tree distance metrics
 
