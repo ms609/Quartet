@@ -46,7 +46,6 @@ test_that("Quartets are counted correctly", {
   expect_equal(expected_identical, as.integer(quartet_matches[1, ]))
   expect_equal(expected_ambiguous, as.integer(quartet_matches[2, ]))
   
-  
 })
 
 test_that ("Partitions are counted correctly", {

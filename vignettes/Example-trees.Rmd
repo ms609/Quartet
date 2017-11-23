@@ -311,8 +311,8 @@ I'll explain this soon.
 TernaryGrid +
 geom_point(data=QuartetPoints(trees), color=rgb(0.3, 0.2, 0.5), shape=3, size=3) +
 ggtitle(paste0("Quartets:"))
- 
- 
+
+
 TernaryGrid +
 geom_point(data=SplitsPoints(trees), color=rgb(0.3, 0.2, 0.5), shape=3, size=3) +
 ggtitle(paste0("Partitions:"))
