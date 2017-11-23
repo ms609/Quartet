@@ -20,7 +20,13 @@ Tree2Splits <- function (tr) {
   n_tip <- as.integer(length(tip_label))
   root <- length(tip_label) + 1
   bipartitions <- phangorn_bipCPP(tr$edge, n_tip)
-  vapply(bipartitions[-seq_len(root)], function (x) seq_len(n_tip) %in% x, logical(n_tip))[as.double(tip_label), , drop=FALSE]
+  ret <- vapply(bipartitions[-seq_len(root)], 
+         function (x) seq_len(n_tip) %in% x, 
+         logical(n_tip))[seq_len(n_tip), , drop=FALSE]
+  rownames(ret) <- tip_label
+  
+  # Return:
+  ret
 }
 
 #' Column Sums
@@ -40,7 +46,10 @@ Tree2Splits <- function (tr) {
 #' Plots a given quartet
 #' @param tree A tree of class \code{phylo}, or a list of such trees.
 #' @param quartet A vector of four integers, corresponding to numbered tips on
-#'                the tree.
+#'                the tree; or a character vector specifying the labels of four
+#'                tips.
+#' @param \dots Additional parameters to send to \code{\link[graphics]{plot}} 
+#'                
 #' @author Martin R. Smith
 #' @importFrom graphics par plot text
 #' @importFrom TreeSearch RenumberTips
