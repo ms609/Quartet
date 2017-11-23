@@ -1,3 +1,172 @@
+#' XY to Ternary
+#' 
+#' @param abc A vector of length three giving the position on a ternary plot.
+#'            \code{c(100, 0, 0)} will plot in the top corner; \code{c(0, 100, 0)} 
+#'            will plot in the bottom corner; \code{c(0, 0, 1)} will plot in
+#'            the right-hand corner.
+#'            Alternatively, the a coordinate can be specified as the first parameter,
+#'            in which case the b and c coordinates must be specified via \code{b_coord}
+#'            and \code{c_coord}
+#' @param b_coord The b coordinate, if \code{abc} is a single number.
+#' @param c_coord The c coordinate, if \code{abc} is a single number.
+#'            
+#'  @return A vector of length two that converts the coordinates given in \code{abc}
+#'          into cartesian (x, y) coordinates, to be overlaid on a ternary plot
+#'          with corners at (0, -1/2), (0, 1/2), (sin(pi/3), 0)
+TernaryCoords <- function (abc, b_coord=NULL, c_coord=NULL) {
+  if (!is.null(b_coord) && !is.null(c_coord)) {
+    abc <- c(abc, b_coord, c_coord)
+  }
+  if (length(abc) != 3) stop("Parameter abc must be a vector of length three.")
+  if (mode(abc) != 'numeric') stop("Parameter abc must be numeric.")
+  
+  x_deviation <- abc[3] / sum(abc)
+  if (x_deviation == 1) return(c(cos(pi/6), 0))
+  y_deviation <- (abc[1] - abc[2]) / sum(abc[1:2])
+  
+  x <- x_deviation * cos(pi/6)
+  y <- y_deviation * (1 - x_deviation) / 2
+  
+  # Return:
+  c(x, y)
+}
+
+#' Ternary Plot
+#' 
+#' Create a blank ternary plot, rotated so that its left edge is vertical.
+#' 
+#' @param alab,blab,clab Character specifying the title for the topmost,
+#'                       bottommost and leftmost corners respectively.
+#' @param lab.cex Numeric specifying character expansion for axis titles.
+#' 
+#' @param col The colour for filling the plot; see \link[graphics]{polygon}.
+#' 
+#' @param grid.lines The number of grid lines to plot.
+#' @param grid.col The colour to draw the grid lines.
+#' @param grid.lty Character or (integer) numeric; line type of the grid lines.
+#' @param grid.lwd Non-negative numeric giving line witdh of the grid lines.
+#' 
+#' @param axis.lty  Line type for both the axis line and tick marks
+#' @param axis.labels This can either be a logical value specifying whether 
+#'                    (numerical) annotations are to be made at the tickmarks,
+#'                     or a character or expression vector of labels to be
+#'                     placed at the tickpoints.
+#' @param axis.cex Numeric specifying character expansion for axis labels.
+#' @param axis.font Font for text. Defaults to \code{par('font')}.
+#' @param axis.tick Logical specifying whether to mark the axes with tick marks.
+#' @param axis.lwd,ticks.lwd Line width for the axis line and tick marks. 
+#'                 Zero or negative values will suppress the line or ticks.
+#' @param axis.col,ticks.col Colours for the axis line and tick marks respectively. 
+#'        \code{axis.col = NULL} means to use \code{par("fg")}, possibly specified 
+#'        inline, and \code{ticks.col = NULL} means to use whatever colour
+#'        \code{axis.col} resolved to.
+#' 
+#' 
+#' @param \dots Additional parameters to \code{\link[graphics]{plot}}.
+#' 
+#' @examples {
+#' TernaryPlot(alab="Top", blab="Bottom", clab="Right", border="red", col=rgb(0.8, 0.8, 0.8))
+#' }
+#' 
+#' @author Martin R. Smith
+#' 
+#' @importFrom graphics plot polygon
+#' 
+#' @export
+TernaryPlot <- function (alab=NULL, blab=NULL, clab=NULL,
+                         lab.cex=1.0,
+                         col=NA, 
+                         grid.lines=10, grid.col='grey',
+                         grid.lty='dotted', grid.lwd=par('lwd'),
+                         axis.lty='solid', 
+                         axis.labels=TRUE, axis.cex=0.8, 
+                         axis.font=par('font'),
+                         axis.tick=TRUE, 
+                         axis.lwd=1, ticks.lwd=axis.lwd,
+                         axis.col='black', ticks.col=grid.col,
+                         ...) {
+  tick_length <- 0.025
+  
+  plot(-1, -1, xlim=c(-0.04, sqrt(3/4) + 0.04), ylim=c(-0.54, +0.54), axes=FALSE, xlab='', ylab='')###, ...)
+  axes <- vapply(list(c(1, 0, 0), c(0, 1, 0), c(0, 0, 1), c(1, 0, 0)),
+                 TernaryCoords, double(2))
+  polygon(axes[1, ], axes[2, ], col=col, border=NA)
+  
+  if (!is.integer(grid.lines)) grid.lines <- ceiling(grid.lines)
+  if (!is.null(grid.lines) && !is.na(grid.lines) && grid.lines > 1L) {
+    # Plot grid
+    line_points <- seq(from=0, to=1, length.out=grid.lines + 1L)
+    
+    lapply(line_points[-c(1, grid.lines + 1L)], function (p) {
+      q <- 1 - p
+      line_ends <- vapply(list(c(p, q, 0), c(p, 0, q),
+                               c(0, p, q), c(q, p, 0),
+                               c(q, 0, p), c(0, q, p)),
+                          TernaryCoords, double(2))
+      lapply(list(c(1, 2), c(3, 4), c(5, 6)), function (i) 
+      lines(line_ends[1, i], line_ends[2, i], col=grid.col, lty=grid.lty, lwd=grid.lwd))
+      NULL
+    })
+    
+    # Plot and annotate axes
+    lapply(seq_along(line_points), function (i) {
+      p <- line_points[i]
+      q <- 1 - p
+      line_ends <- vapply(list(c(p, 0, q),
+                               c(q, p, 0),
+                               c(0, q, p)),
+                          TernaryCoords, double(2))
+      
+      
+      if (axis.tick) {
+        lines(line_ends[1, 1] + c(0, sin(pi/3) * tick_length),
+              line_ends[2, 1] + c(0, cos(pi/3) * tick_length),
+              col=ticks.col, lwd=ticks.lwd)
+      
+        lines(line_ends[1, 2] - c(0, sin(pi/3) * tick_length),
+              line_ends[2, 2] + c(0, cos(pi/3) * tick_length),
+              col=ticks.col, lwd=ticks.lwd)
+       
+        lines(line_ends[1, 3] + c(0, 0),
+              line_ends[2, 3] - c(0, tick_length),
+              col=ticks.col, lwd=ticks.lwd)
+      }
+      
+      if (length(axis.labels) > 1 || axis.labels != FALSE) {
+        if (length(axis.labels) == 1) axis.labels <- round(line_points * 100, 1)
+        if (length(axis.labels) == grid.lines) axis.labels <- c('', axis.labels)
+        # Annotate axes
+        text(line_ends[1, 1] + sin(pi/3) * tick_length - 0.06,
+             line_ends[2, 1] + cos(pi/3) * tick_length + 0.015,
+             axis.labels[i], srt=30, pos=4, font=axis.font, cex=axis.cex)
+        text(line_ends[1, 2] - sin(pi/3) * tick_length + 0.03,
+             line_ends[2, 2] + cos(pi/3) * tick_length - 0.03,
+             axis.labels[i], srt=330, pos=2, font=axis.font, cex=axis.cex)
+        text(line_ends[1, 3],
+             line_ends[2, 3] - tick_length + 0.019,
+             axis.labels[i], srt=270, pos=4, font=axis.font, cex=axis.cex)
+      }
+      
+    })
+    
+  }
+  
+  # Draw axis lines
+  lines(axes[1, ], axes[2, ], col=axis.col)
+  
+  # Title corners
+  text(0 + tick_length, 0.5 + (tick_length * 2), alab, pos=4)
+  text(0 + tick_length, -(0.5 + (tick_length * 2)), blab, pos=4)
+  if (nchar(clab) * lab.cex < 10) {
+    text(sqrt(3/4) + 0.1, -0.15, clab, pos=2, cex=lab.cex)
+  } else if (nchar(clab) * lab.cex < 20) {
+    text(sqrt(3/4) + 0.1, -0.22, clab, pos=2, cex=lab.cex)
+  } else {
+    text(sqrt(3/4), -0.085, clab, srt=270, pos=4, cex=lab.cex)
+  }
+  
+}
+
 #' Quartet Points
 #' 
 #' Generate points to add to a ternary plot
@@ -46,41 +215,10 @@ SplitsPoints <- function (trees) {
              Unresolved   = status['ref_not_cf', ] - status['cf_not_ref', ])
 }
 
-GREY <- rgb(0.8, 0.8, 0.6, 0.7)
-
-#' @describeIn TernaryGrid Plot KL divergence lines
 #' @export
 #' @keywords internal
 KLDivergenceLine <- function (i) geom_line(data=data.frame(Consistent    = c(10-i, 10-(2*i)), 
                                                            Contradicted  = c(i, 0),
                                                            Unresolved = c(0, i*2)),
                                            color=rgb(1, 1, 1, 1))
-
-#' Ternary Grid
-#'
-#' @importFrom ggtern ggtern
-#' @importFrom ggplot2 geom_line geom_path theme_rotate
-#' @export
-#' @keywords internal
-TernaryGrid <- ggtern(mapping=aes(Contradicted, Consistent, Unresolved)) +
-  geom_path (data=data.frame(Consistent    = as.integer(sapply(10:0, function(x) c(x, 0))),
-                             Contradicted  = as.integer(sapply(0:10, function(x) c(x, 0))), 
-                             Unresolved    = rep(0:1, 11)
-  ), color=GREY, linetype=3) +
-  sapply(1:10, KLDivergenceLine) +
-  geom_path (data=data.frame(Consistent    = c(1, 0, 0, 1), 
-                             Contradicted  = c(0, 1, 0, 0), 
-                             Unresolved    = c(0, 0, 1, 0)), color=GREY) +
-  theme_rotate(degrees=30)
-
-
-
-
-
-TernaryEdges <- function (x) data.frame(Correct    = x['edges.agree', ],
-                                        Incorrect  = x['edges.conflict', ],
-                                        Unresolved = gen.nedge - x['edges.present', ])
-TernaryQuart <- function (x) data.frame(Correct    = x['quartet.agree', ],
-                                        Incorrect  = x['quartet.conflict', ],
-                                        Unresolved = x['quartet.missing', ])
 
