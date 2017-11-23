@@ -29,6 +29,7 @@ QuartetPoints <- function (trees) {
 }
 
 #' @describeIn QuartetPoints Uses partition distance instead of quartet metric.
+#' @export
 SplitsPoints <- function (trees) {
   status <- MatchingSplits(trees)
   status <- rbind(status, status[1] - colSums(status))
