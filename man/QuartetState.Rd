@@ -8,7 +8,8 @@ State of quartets}
 QuartetState(tips, bips)
 }
 \arguments{
-\item{tips}{A four-element array listing a quartet of tips.}
+\item{tips}{A four-element array listing a quartet of tips, either by their
+number (if class `numeric`) or their name (if class `character`).}
 
 \item{bips}{bipartitions to evaluate.
 

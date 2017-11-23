@@ -20,19 +20,13 @@ Tree2Splits <- function (tr) {
   n_tip <- as.integer(length(tip_label))
   root <- length(tip_label) + 1
   bipartitions <- phangorn_bipCPP(tr$edge, n_tip)
-  vapply(bipartitions[-seq_len(root)], function (x) seq_len(n_tip) %in% x, logical(n_tip))[as.double(tip_label), , drop=FALSE]
-}
-
-#' Number Tips
-#' Renumber the tips of a tree to match a list of labels
-#' @param tr A tree of class phylo.
-#' @param sorted.labels A character vector listing tip labels in the desired order
-#' @export
-#' @keywords internal
-#' @author Martin R. Smith
-NumberTips <- function (tr, sorted.labels) {
-  tr$tip.label <- match(tr$tip.label, sorted.labels)
-  return(tr)
+  ret <- vapply(bipartitions[-seq_len(root)], 
+         function (x) seq_len(n_tip) %in% x, 
+         logical(n_tip))[seq_len(n_tip), , drop=FALSE]
+  rownames(ret) <- tip_label
+  
+  # Return:
+  ret
 }
 
 #' Column Sums
@@ -52,28 +46,37 @@ NumberTips <- function (tr, sorted.labels) {
 #' Plots a given quartet
 #' @param tree A tree of class \code{phylo}, or a list of such trees.
 #' @param quartet A vector of four integers, corresponding to numbered tips on
-#'                the tree.
+#'                the tree; or a character vector specifying the labels of four
+#'                tips.
+#' @param \dots Additional parameters to send to \code{\link[graphics]{plot}} 
+#'                
 #' @author Martin R. Smith
 #' @importFrom graphics par plot text
 #' @importFrom TreeSearch RenumberTips
+#' 
 #' @export
-PlotQuartet <- function (tree, quartet) {
+PlotQuartet <- function (tree, quartet, ...) { # nocov start
+  cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  
   if (class(tree) == 'phylo') tree <- list(tree)
+  
   n_tip <- length(tree[[1]]$tip.label)
   originalPar <- par(mfrow=c(1, length(tree)), mar=rep(1, 4))
   on.exit(par(originalPar))
   labelOrder <- tree[[1]]$tip.label
   state1 <- QuartetState(quartet, Tree2Splits(tree[[1]]))
   tip_colours <- integer(n_tip) + 1L
+  names(tip_colours) <- tree[[1]]$tip.label
   tip_colours[quartet] <- 3L
   tip_colours[c(quartet[1], quartet[state1])] <- 2L
   for (tr in tree) {
     tr <- RenumberTips(tr, labelOrder)
-    plot(tr, tip.color=tip_colours)
+    plot(tr, tip.color=cbPalette[tip_colours], ...)
     text(1.1, 1.1, 
          if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
   }
-}
+  return <- NULL
+} #nocov end
 
 #' Choices
 #'
@@ -112,7 +115,8 @@ Choices <- memoise(function (n_tips) {
 #' State of quartets
 #'
 #' Report the status of a given quartet.
-#' @param tips A four-element array listing a quartet of tips.
+#' @param tips A four-element array listing a quartet of tips, either by their
+#'             number (if class `numeric`) or their name (if class `character`).
 #' @param bips bipartitions to evaluate.
 #'
 #'

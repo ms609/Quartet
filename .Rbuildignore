@@ -7,3 +7,5 @@ man-roxygen
 ^.*\.o$
 ^.*\.dll$
 ^.*\.yml$
+.covrignore
+^data-raw$
