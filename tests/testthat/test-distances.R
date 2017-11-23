@@ -64,6 +64,13 @@ test_that ("Partitions are counted correctly", {
   expect_equal(p_dist['cf_not_ref', 'move_two_mid'], p_dist['cf_not_ref', 'm2mid_col1'])
   expect_equal(1, p_dist['ref_not_cf', 'm2mid_col1']    - p_dist['cf_not_ref', 'm2mid_col1'])
   expect_equal(5, p_dist['ref_not_cf', 'm2mid_colsome'] - p_dist['cf_not_ref', 'm2mid_colsome'])
+  
+})
+
+test_that("Incomparable trees fail gracefully", {
+  # Must have same number of tips
+  expect_error(MatchingSplits(list(ref_tree, ape::rtree(6)))) 
+  expect_error(MatchingQuartets(list(ref_tree, ape::rtree(6))))
 })
 
 test_that("Random trees are 1/3 similar", {
