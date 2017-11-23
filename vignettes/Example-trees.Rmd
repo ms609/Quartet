@@ -111,9 +111,9 @@ all other tips from the tree will leave one of these three trees:
 
 ```{R Three four-taxon trees, echo=FALSE, fig.height=2, fig.width=6}
 par(mfrow=c(1, 3), mar=c(0.5, 1, 0.5, 1), cex=1)
-plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=palette4[c(1, 2, 3, 4)], font=2)
-plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=palette4[c(1, 3, 2, 4)], font=2)
-plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=palette4[c(1, 4, 3, 2)], font=2)
+plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=Ternary::cbPalette8[c(1, 4, 7, 5)], font=2)
+plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=Ternary::cbPalette8[c(1, 7, 4, 5)], font=2)
+plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=Ternary::cbPalette8[c(1, 5, 7, 4)], font=2)
 ```
 
 Thus two of the random trees below share the quartet `(A, B), (C, D)`, whereas 
@@ -128,7 +128,7 @@ trees7 <- lapply(logical(3), function (X) {
     tr$tip.label <- LETTERS[1:7]
     tr
   })
-PlotQuartet(trees7, LETTERS[1:4], cex=1.8)
+PlotQuartet(trees7, LETTERS[1:4], cex=1.4, font=2)
 ```
 
 There are `choose(n_tip, 4)` groups of four taxa in a tree with `n_tip` tips;
