@@ -190,7 +190,7 @@ rfplot(sq_trees$move_two_far,   'Long move 2', 10:11)
 ```
 
 ### Maximum distance
-A distance metric should distinguish slightly-peturbed trees from
+A distance metric should distinguish slightly-perturbed trees from
 random trees and those that are more different from the starting tree than 
 expected by chance.
 
@@ -229,7 +229,7 @@ Whereas the path distance and SPR metrics are only defined on bifurcating trees,
 the quartet approach can be applied to trees that contain polytomies -- i.e. 
 not every node is resolved as bifurcating.
 
-An equivalent metric can be generated using paritions, but is subject to all the
+An equivalent metric can be generated using partitions, but is subject to all the
 same shortcomings as the RF distance discussed above.
 
 
@@ -271,7 +271,7 @@ polyplot(sq_trees$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
 ## Plotting this data
 
-We can visualise this data using a ternary diagram.
+We can visualize this data using a ternary diagram.
 
 ```{R Plot some trees, fig.width=10, fig.height=5, echo=FALSE}
 library('Ternary')
@@ -355,14 +355,14 @@ added in their place.
 In the above instances, adding the number of quartets or partitions present in 
 one but not both of the reference and candidate trees generates a measure analogous
 to the Kullback-Leibler divergence.
-The measure is only analagous because neither the number of 
+The measure is only analogous because neither the number of 
 quartets nor the number of partitions corresponds to a specific quantity of
 information / entropy.  
 
 Counting only the number of partitions fails to capture the fact that 
 different partitions have different inherent information contents. 
 A partition separating taxa  into two evenly-sized bipartitions is consistent 
-with fewer trees than a pertition separating two taxa from all others, thus has
+with fewer trees than a partition separating two taxa from all others, thus has
 a higher (Shannon) information content.
 
 In contrast, each quartet specifies that one of three possibilities exists on a 
@@ -379,7 +379,7 @@ contour is equally informative about the reference tree.
 
 ## Conclusion
 
-The quartet distance is the only available metric of tree distance that fullfils 
+The quartet distance is the only available metric of tree distance that fulfills 
 all of the following desiderata:
 
  - Allocates trees higher distances if a clade moves greater distances
