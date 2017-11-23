@@ -21,12 +21,12 @@ Imports:
     ggtern,
     memoise,
     phangorn,
-    Ternary,
     TreeSearch
 Suggests:
     knitr,
     rmarkdown,
     rtqdist,
+    Ternary (> 0.1.0),
     testthat
 Remotes: 
     ms609/Ternary,
