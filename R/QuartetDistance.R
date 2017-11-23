@@ -44,7 +44,7 @@ Tree2Splits <- function (tr) {
 #' @author Martin R. Smith
 #' @importFrom graphics par plot text
 #' @importFrom TreeSearch RenumberTips
-#' @codeCovIgnore
+#' 
 #' @export
 PlotQuartet <- function (tree, quartet) { # nocov start
   if (class(tree) == 'phylo') tree <- list(tree)
