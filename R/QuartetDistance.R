@@ -47,6 +47,7 @@ Tree2Splits <- function (tr) {
 #' 
 #' @export
 PlotQuartet <- function (tree, quartet) { # nocov start
+  cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
   if (class(tree) == 'phylo') tree <- list(tree)
   n_tip <- length(tree[[1]]$tip.label)
   originalPar <- par(mfrow=c(1, length(tree)), mar=rep(1, 4))
@@ -58,7 +59,7 @@ PlotQuartet <- function (tree, quartet) { # nocov start
   tip_colours[c(quartet[1], quartet[state1])] <- 2L
   for (tr in tree) {
     tr <- RenumberTips(tr, labelOrder)
-    plot(tr, tip.color=tip_colours)
+    plot(tr, tip.color=cbPalette[tip_colours])
     text(1.1, 1.1, 
          if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
   }
