@@ -276,20 +276,96 @@ TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8, lab.font=
             padding=0.1)
 title(main="\r\nQuartet distances", cex.main=0.8)
 HorizontalGrid()
+AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
 
-AddToTernary(points, QuartetPoints(trees))
+pchs <- c(1, 4, 3)
+quartet_distances <- QuartetPoints(sq_trees)
+TernaryPoints(quartet_distances[collapse_perfect, ], col=cbPalette8[2], pch=pchs, cex=1.5)
+TernaryLines (quartet_distances[collapse_perfect, ], col=cbPalette8[2])
+TernaryPoints(quartet_distances[collapse_move1, ],   col=cbPalette8[3], pch=pchs, cex=1.5)
+TernaryLines (quartet_distances[collapse_move1, ],   col=cbPalette8[3])
+TernaryPoints(quartet_distances[collapse_move2, ],   col=cbPalette8[4], pch=pchs, cex=1.5)
+TernaryLines (quartet_distances[collapse_move2, ],   col=cbPalette8[4])
+legend('bottomright', 
+       lty=rep('dotted', 2),
+       lwd=c(1, 2),
+       col=c('grey', cbPalette8[8]),
+       legend=c('Divergence contours', 'Distance of random tree'), 
+       cex=0.8, bty='n')
+arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
+text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
+
+arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
+text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
+
+TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8,
+            grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
+            axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1)
+title(main="\r\nPartition distances", cex.main=0.8)
+HorizontalGrid()
+partition_distances <- SplitsPoints(sq_trees)
+TernaryPoints(partition_distances[collapse_perfect, ], col=cbPalette8[2], pch=pchs, cex=1.5)
+TernaryLines (partition_distances[collapse_perfect, ], col=cbPalette8[2])
+TernaryPoints(partition_distances[collapse_move1, ],   col=cbPalette8[3], pch=pchs, cex=1.5)
+TernaryLines (partition_distances[collapse_move1, ],   col=cbPalette8[3])
+TernaryPoints(partition_distances[collapse_move2, ],   col=cbPalette8[4], pch=pchs, cex=1.5)
+TernaryLines (partition_distances[collapse_move2, ],   col=cbPalette8[4])
+legend('topright', cex=0.8, bty='n',
+       pch=pchs, pt.cex=1.5,
+       title='Collapse:',
+       legend=c('No nodes', 'One node', 'Many nodes'))
+legend('bottomright', cex=0.8, bty='n',
+       pch=20, pt.cex=1.5, col=cbPalette8[2:4],
+       title='Move:', legend=c('No tips', 'One tip', 'Two tips'))
 
 
-# TernaryGrid +
-# geom_point(data=QuartetPoints(trees), color=rgb(0.3, 0.2, 0.5), shape=3, size=3) +
-# ggtitle(paste0("Quartets:"))
-# 
-# 
-# TernaryGrid +
-# geom_point(data=SplitsPoints(trees), color=rgb(0.3, 0.2, 0.5), shape=3, size=3) +
-# ggtitle(paste0("Partitions:"))
 ```
 
+It is sometimes of interest to establish which of a selection of trees is most 
+instructive about the reference tree.  How this might be done is not
+necessarily intuitive: there is often a tension between accuracy and precision.
+That is to say, should a tree that is perfectly accurate but poorly resolved be
+preferred to a tree that is partially inaccurate but completely resolved?
+
+One approach to this trade-off is to seek the tree of minimum entropy: that is,
+the tree that diverges least  from the reference
+tree.
+
+A tree that is perfectly resolved, yet contains some incorrect nodes, delivers 
+more information -- but also more misinformation -- than a poorly-resolved (yet
+accurate) tree. The Kullback-Leibler divergence is the sum of the information
+that is present in the reference tree, but not the candidate tree, plus the 
+(mis)information that is present in the candidate tree but not the reference tree.
+
+Put simply, to get from the candidate tree to the reference tree, one must be told
+which groupings in the candidate tree are incorrect, and which groupings should be 
+added in their place.
+
+In the above instances, adding the number of quartets or partitions present in 
+one but not both of the reference and candidate trees generates a measure analogous
+to the Kullback-Leibler divergence.
+The measure is only analagous because neither the number of 
+quartets nor the number of partitions corresponds to a specific quantity of
+information / entropy.  
+
+Counting only the number of partitions fails to capture the fact that 
+different partitions have different inherent information contents. 
+A partition separating taxa  into two evenly-sized bipartitions is consistent 
+with fewer trees than a pertition separating two taxa from all others, thus has
+a higher (Shannon) information content.
+
+In contrast, each quartet specifies that one of three possibilities exists on a 
+tree, so every quartet statement has the same information content: one trit (= 
+$log(3) / log(2)$ bits).  The problem is that quartet statements (and partition
+statements) are not independent from one another, meaning that the quartet 
+metric is at best a rough approximation of the Kullback-Leibler divergence.
+
+This important caveat notwithstanding, the quartet distance provides a promising
+(if not statistically satisfying) approach to measuring the divergence between
+two separate trees.  On the ternary diagrams presented above, points of equal 
+divergence are connected by horizontal lines:  That is to say, any tree on a given 
+contour is equally informative about the reference tree.
 
 ## Conclusion
 
