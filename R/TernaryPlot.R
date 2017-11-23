@@ -163,11 +163,11 @@ TernaryPlot <- function (alab=NULL, blab=NULL, clab=NULL,
   }
   
   # Draw axis lines
-  lines(axes[1, ], axes[2, ], col=axis.col)
+  lines(axes[1, ], axes[2, ], col=axis.col, lty=axis.lty, lwd=axis.lwd)
   
   # Title corners
-  text(0 + tick_length, 0.5 + (tick_length * 2), alab, pos=4)
-  text(0 + tick_length, -(0.5 + (tick_length * 2)), blab, pos=4)
+  text(0 + tick_length, 0.5 + (tick_length * 2), alab, pos=4, cex=lab.cex)
+  text(0 + tick_length, -(0.5 + (tick_length * 2)), blab, pos=4, cex=lab.cex)
   if (!is.null(clab)) {
     if (nchar(clab) * lab.cex < 10) {
       text(sqrt(3/4) + 0.1, -0.15, clab, pos=2, cex=lab.cex)

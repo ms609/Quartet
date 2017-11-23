@@ -308,7 +308,10 @@ I'll explain this soon.
 
 ```{R Plot some trees, fig.width=8, fig.height=4, echo=FALSE}
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
-TernaryPlot(grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', padding=0.18)
+TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8,
+            grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
+            axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
+            padding=0.18)
 HorizontalGrid()
 
 AddToTernary(points, QuartetPoints(trees))
