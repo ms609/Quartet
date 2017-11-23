@@ -18,7 +18,7 @@ data('sq_trees')
 n_tip <- 11
 ref_tree <- sq_trees[[1]]
 tip_colours <- Ternary::cbPalette15[-c(4, 7)] # Rm Tritanopia duplicates of 13 and 3
-palette4 <- Ternary::cbPalette7[1:4]
+palette4 <- Ternary::cbPalette8[1:4]
 
 rf_max <- (n_tip - 3) * 2
 
