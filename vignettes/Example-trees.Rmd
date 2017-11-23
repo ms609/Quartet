@@ -14,53 +14,11 @@ vignette: >
 ```{r Initialize, include=FALSE}
 require('ape')
 require('SlowQuartet')
-set.seed(1) # 1 produces a random tree with a Qt dist of 226 ~= 330 * 2 / 3
-
-# Colourblind palette from http://mkweb.bcgsc.ca/biovis2012/color-blindness-palette.png
-tip_colours <- c(
-  rgb(000,000,000, maxColorValue=255),
-  rgb(000,073,073, maxColorValue=255),
-  rgb(000,146,146, maxColorValue=255),
-  rgb(255,109,182, maxColorValue=255),
-  rgb(255,182,219, maxColorValue=255),
-  rgb(073,000,146, maxColorValue=255),
-  rgb(000,109,219, maxColorValue=255),
-  rgb(182,109,255, maxColorValue=255),
-  rgb(109,182,255, maxColorValue=255),
-  rgb(182,219,255, maxColorValue=255),
-  rgb(146,000,000, maxColorValue=255),
-  rgb(146,073,000, maxColorValue=255),
-  rgb(219,109,000, maxColorValue=255),
-  rgb(036,255,036, maxColorValue=255),
-  rgb(255,255,109, maxColorValue=255)
-)[-c(4, 7)] # Rm Tritamopia duplicates of 13 and 3
-
-palette4 <- c(
-  rgb(000,000,000, maxColorValue=255),
-  rgb(230,159,000, maxColorValue=255),
-  rgb(086,180,233, maxColorValue = 255),
-  rgb(000,158,115, maxColorValue=255)
-)
-
+data('sq_trees')
 n_tip <- 11
-ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
-trs <- list (
-  ref_tree      = ref_tree,
-  move_one_near = ape::read.tree(text="(((2, 3), 1), (((4, 5), 6), ((7, (8, 9)), (10, 11))));"),
-  move_one_mid  = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), ((7, (8, 9)), (10, 11))));"),
-  move_one_far  = ape::read.tree(text="((2, 3), (((4, 5), 6), ((7, (8, 9)), (10, (11, 1)))));"),
-  move_two_near = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (10, 11)), (8, 9))));"),
-  move_two_mid  = ape::read.tree(text="(((1, 2), 3), ((((4, 5), (10, 11)), 6), (7, (8, 9))));"),
-  move_two_far  = ape::read.tree(text="((((1, (10, 11)), 2), 3), (((4, 5), 6), (7, (8, 9))));"),
-  collapse_one  = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, 8, 9), (10, 11))));"),
-  collapse_some = ape::read.tree(text="((1, 2, 3, 4, 5, 6), ((7, 8, 9), (10, 11)));"),
-  m1mid_col1    = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), ((7, 8, 9), (10, 11))));"),
-  m1mid_colsome = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), (7, 8, 9, 10, 11)));"),
-  m2mid_col1    = ape::read.tree(text="(((1, 2), 3), ((((4, 5), (10, 11)), 6), (7, 8, 9)));"),
-  m2mid_colsome = ape::read.tree(text="(((1, 2), 3), (4, (10, 11), 5, 6, 7, 8, 9));"),
-  opposite_tree = ape::read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 2)), (5, 7))));"),
-  random_tree   = ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL)
-)
+ref_tree <- sq_trees[[1]]
+tip_colours <- Ternary::cbPalette15[-c(4, 7)] # Rm Tritanopia duplicates of 13 and 3
+palette4 <- Ternary::cbPalette7[1:4]
 
 rf_max <- (n_tip - 3) * 2
 
@@ -111,7 +69,7 @@ polyplot <- function (tr, title, highlight, ...) {
 }
 
 #par(mfrow=c(3,5), mar=rep(1.2, 4), cex.main=2/3, cex=0.9)
-#for (i in seq_along(trs)) colplot(trs[[i]], names(trs)[i])
+#for (i in seq_along(sq_trees)) colplot(sq_trees[[i]], names(sq_trees)[i])
 
 ```
 
@@ -184,9 +142,9 @@ two trees should correspond to the distance that this taxon has been moved.
 ```{R Moving a single taxon, fig.height=3, fig.width=12, echo=FALSE}
 par(mfrow=c(1, 4), mar=rep(0.4, 4), cex=1)
 colplot(ref_tree,     'Reference tree', 1)
-rfplot(trs$move_one_near, 'Short move', 1)
-rfplot(trs$move_one_mid, 'Medium move', 1)
-rfplot(trs$move_one_far,   'Long move', 1)
+rfplot(sq_trees$move_one_near, 'Short move', 1)
+rfplot(sq_trees$move_one_mid, 'Medium move', 1)
+rfplot(sq_trees$move_one_far,   'Long move', 1)
 ```
 
 The subtree pruning and regrafting (SPR) distance [@Penny1985] does not distinguish
@@ -208,16 +166,16 @@ when a single tip is moved.  The path and quartet metrics perform as expected.
 par(mfrow=c(3, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(ref_tree, 'Reference tree')
-rfplot(trs$move_one_near, 'Short move 1', 1)
-rfplot(trs$move_two_near, 'Short move 2', 10:11)
+rfplot(sq_trees$move_one_near, 'Short move 1', 1)
+rfplot(sq_trees$move_two_near, 'Short move 2', 10:11)
 
 colplot(ref_tree, 'Reference tree')
-rfplot(trs$move_one_mid, 'Medium move 1', 1)
-rfplot(trs$move_two_mid, 'Medium move 2', 10:11)
+rfplot(sq_trees$move_one_mid, 'Medium move 1', 1)
+rfplot(sq_trees$move_two_mid, 'Medium move 2', 10:11)
 
 colplot(ref_tree, 'Reference tree')
-rfplot(trs$move_one_far,   'Long move 1', 1)
-rfplot(trs$move_two_far,   'Long move 2', 10:11)
+rfplot(sq_trees$move_one_far,   'Long move 1', 1)
+rfplot(sq_trees$move_two_far,   'Long move 2', 10:11)
 
 ```
 
@@ -240,7 +198,7 @@ pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 colplot(pectinate_tree, 'Pectinate tree')
 rfplot(pectinate_move1,  'Move one taxon', 1, ref=pectinate_unrooted)
-rfplot(trs$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
+rfplot(sq_trees$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
 ```
 
 An advantage of the Quartet distance is that the normalized metric of a random
@@ -251,8 +209,8 @@ can be readily recognized, as their quartet distance will be greater than
 ```{R Increasing distances, fig.height=3, fig.width=9, echo=FALSE}
 par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
 colplot(ref_tree, 'Reference tree')
-rfplot(trs$random_tree,   'Random tree'     )
-rfplot(trs$opposite_tree, 'Maximum distance')
+rfplot(sq_trees$random_tree,   'Random tree'     )
+rfplot(sq_trees$opposite_tree, 'Maximum distance')
 ```
 
 ### Unresolved trees
@@ -271,8 +229,8 @@ same shortcomings as the RF distance discussed above.
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(ref_tree, 'Reference tree')
-polyplot(trs$collapse_one, 'One polytomy', 7:9)
-polyplot(trs$collapse_some, 'Much polytomy', 1:9)
+polyplot(sq_trees$collapse_one, 'One polytomy', 7:9)
+polyplot(sq_trees$collapse_some, 'Much polytomy', 1:9)
 
 ```
 
@@ -283,9 +241,9 @@ in which one taxon (1) was moved:
 ```{R Polytomies 1, fig.height=3, fig.width=9, echo=FALSE}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
-polyplot(trs$move_one_mid, 'One moved, no polytomy', 1)
-polyplot(trs$m1mid_col1, 'One moved, one polytomy', 1)
-polyplot(trs$m1mid_colsome, 'One moved, much polytomy', 1)
+polyplot(sq_trees$move_one_mid, 'One moved, no polytomy', 1)
+polyplot(sq_trees$m1mid_col1, 'One moved, one polytomy', 1)
+polyplot(sq_trees$m1mid_colsome, 'One moved, much polytomy', 1)
 
 ```
 
@@ -295,23 +253,28 @@ in which two taxa (10 & 11) were moved:
 ```{R Polytomies 2, fig.height=3, fig.width=9, echo=FALSE}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
-polyplot(trs$move_two_mid,  'Two moved, no polytomy'  , 10:11)
-polyplot(trs$m2mid_col1,    'Two moved, one polytomy' , 10:11)
-polyplot(trs$m2mid_colsome, 'Two moved, much polytomy', 10:11)
+polyplot(sq_trees$move_two_mid,  'Two moved, no polytomy'  , 10:11)
+polyplot(sq_trees$m2mid_col1,    'Two moved, one polytomy' , 10:11)
+polyplot(sq_trees$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
 ```
 
 ## Plotting this data
-We can use a ternary plot to visualise this data.
-The horizontal lines link points with an equal KL divergence.
-I'll explain this soon.
 
-```{R Plot some trees, fig.width=8, fig.height=4, echo=FALSE}
+We can visualise this data using a ternary diagram.
+
+```{R Plot some trees, fig.width=10, fig.height=5, echo=FALSE}
+library('Ternary')
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
-TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8,
+collapse_perfect <- c('ref_tree', 'collapse_one', 'collapse_some')
+collapse_move1   <- c('move_one_mid', 'm1mid_col1', 'm1mid_colsome')
+collapse_move2   <- c('move_two_mid', 'm2mid_col1', 'm2mid_colsome')
+
+TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8, lab.font=2,
             grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
             axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
-            padding=0.18)
+            padding=0.1)
+title(main="\r\nQuartet distances", cex.main=0.8)
 HorizontalGrid()
 
 AddToTernary(points, QuartetPoints(trees))
