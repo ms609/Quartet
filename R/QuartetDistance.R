@@ -158,13 +158,25 @@ QuartetState <- function (tips, bips) {
   }
 }
 
-#' describeIn QuartetStates A wrapper that need only be provided with a list of splits
+#' @describeIn QuartetStates A wrapper that need only be provided with a list of splits
 #' @param splits a list of bipartition splits, perhaps generated using 
-#' \code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
+#'        \code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
+#'        If a tree or list of trees (of class phylo) is sent instead, it will be silently converted
+#'        to its constituent splits.
+#'        
 #' @author Martin R. Smith
 #' @export
 QuartetStates <- function (splits) {
+  if (class(splits) == 'phylo') {
+    splits <- list(Tree2Splits(splits))
+  } else if (class(splits) == 'multiPhylo') {
+    splits <- lapply(splits, Tree2Splits)
+  }
+  
   if (class(splits) != 'list') splits <- list(splits)
+  
+  if (class(splits[[1]]) == 'phylo') splits <- lapply(splits, Tree2Splits)
+  
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
     vapply(Choices(n_tips), QuartetState, double(1), bips=bips[sort(rownames(bips)), ])
