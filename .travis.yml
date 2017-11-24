@@ -19,6 +19,7 @@ r_packages:
  - devtools
  - knitr
  - memoise
+ - Rdpack
  - R.cache
  - rmarkdown
  - roxygen2
@@ -31,5 +32,5 @@ before_script:
  - R -e "devtools::document()"
   
 after_success:
- - Rscript -e "install.packages('covr'); covr::codecov()"
+ - Rscript -e "covr::codecov()"
  
