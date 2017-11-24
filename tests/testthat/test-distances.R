@@ -8,7 +8,6 @@ n_tip <- 11
 treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
 bifurcators <- treeNodes == n_tip - 1L
 
-
 test_that("Quartets are counted correctly", {
   expect_identical(as.integer(rbind(c(15, 2), c(0, 0))), as.integer(MatchingQuartets(list(
     ape::read.tree(text='((1, 2), ((3, 4), (6, 5)));'),
@@ -45,6 +44,25 @@ test_that("Quartet metrics are sane", {
   mq <- MatchingQuartets(sq_trees)
   fncs <- vapply(list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions, SemiStrictJointAssertions, QuartetDivergence), function (X) X(mq), double(length(sq_trees)))
   expect_true(all(fncs - sims < 1e-08))
+})
+
+test_that("Quartet metrics handle polytomous pairs", {
+  polytomous <- list(
+    ape::read.tree(text='(A, (B, (C, (D, (E, F, G)))));'),
+    ape::read.tree(text='(A, (B, (G, (C, E, F, D))));'),
+    ape::read.tree(text='(A, (B, (C, (D, (E, (F, G))))));'),
+    ape::read.tree(text='(A, (B, (C, ((D, E), (F, G)))));')
+  )
+  polyStates <- QuartetStates(polytomous)
+  expect_equal(c(rep(2, 19), 0, rep(2, 9), 0, 2, 2, 2, 0, 0), polyStates[[1]])
+  expect_equal(c(rep(2, 10), 0, 0, 4, 0, 4, 4, 0, 4, 
+                 4, 4, 0, 0, 4, 0, 4, 4, 0, 4, 4, 4, rep(0, 5)), polyStates[[2]])
+  
+  mq <- MatchingQuartets(polytomous)
+  expect_equal(c(Q=35, s=31, d=0, r1=0, r2=0, u=4), mq[, 1])
+  expect_equal(c(Q=35, s=10, d=10, r1=2, r2=11, u=2), mq[, 2])
+  expect_equal(c(Q=35, s=31, d=0, r1=4, r2=0, u=0), mq[, 3])
+  expect_equal(c(Q=35, s=25, d=6, r1=4, r2=0, u=0), mq[, 4])
 })
 
 test_that ("Partitions are counted correctly", {
