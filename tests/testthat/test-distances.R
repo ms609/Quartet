@@ -38,9 +38,13 @@ test_that("Quartet metrics are sane", {
   expect_true(all(sims <= 1))
   expect_true(all(sims + dists == 1))
   expect_true(all(dists['ref_tree', ] == 0))
+  
+  # Metrics should be identical with bifurcating trees.
+  expect_true(apply(sims[bifurcators, ], 1, var) < 1e-08)
+  
   mq <- MatchingQuartets(sq_trees)
   fncs <- vapply(list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions, SemiStrictJointAssertions, QuartetDivergence), function (X) X(mq), double(length(sq_trees)))
-  expect_true(all(fncs - sims < 1e-8))
+  expect_true(all(fncs - sims < 1e-08))
 })
 
 test_that ("Partitions are counted correctly", {
