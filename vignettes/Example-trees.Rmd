@@ -61,8 +61,8 @@ polyplot <- function (tr, title, highlight, ...) {
   text(x_mid, -2.5, cex=0.8, pos=2, "Partitions contradicted")
   text(x_mid, -3.5, cex=0.8, pos=2, "Partitions unresolved")
   
-  text(x_mid, -0.5, cex=0.8, pos=4, paste0(choose(11, 4) - sum(MatchingQuartets(list(tr, ref_tree))[, 2]), '/', choose(11,4)))
-  text(x_mid, -1.5, cex=0.8, pos=4, paste0(MatchingQuartets(list(tr, ref_tree))[2, 2], '/', choose(11,4)))
+  text(x_mid, -0.5, cex=0.8, pos=4, paste0(sum(MatchingQuartets(tree_pair)['d', 2]), '/', choose(11,4)))
+  text(x_mid, -1.5, cex=0.8, pos=4, paste0(sum(MatchingQuartets(list(tr, ref_tree))[c('r1','r2','u'), 2]), '/', choose(11,4)))
   # The below assumes that ref is bifurcated, so if a partition's in cf not ref it must contradict.
   text(x_mid, -2.5, cex=0.8, pos=4, paste0(partitions['cf_not_ref'], '/', rf_max / 2))
   text(x_mid, -3.5, cex=0.8, pos=4, paste0(partitions['ref_not_cf'] - partitions['cf_not_ref'], '/', rf_max / 2)) 
@@ -212,7 +212,7 @@ rfplot(sq_trees$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
 ```
 
 An advantage of the Quartet distance is that the normalized metric of a random
-tree is $2/3$ [@Day1986, @Steel1993].  As such, trees that are more different than expected by chance
+tree is $2/3$ [@Day1986; @Steel1993].  As such, trees that are more different than expected by chance
 can be readily recognized, as their quartet distance will be greater than 
 `r choose(n_tip, 4) * 2 / 3`/`r choose(n_tip, 4)`:
 
@@ -229,62 +229,49 @@ Whereas the path distance and SPR metrics are only defined on bifurcating trees,
 the quartet approach can be applied to trees that contain polytomies -- i.e. 
 not every node is resolved as bifurcating.
 
-
-Estabrook _et al_. [,@Estabrook1985] propose four measures of quartet distance to 
+Estabrook _et al_. [-@Estabrook1985] propose four measures of quartet distance to 
 be applied where one or both trees contain polytomies, each of which evaluate
 to the quartet distance if both trees are bifurcating.
 
-For each of the $Q$ possible quartets for trees that contain $n$ taxa, in two trees, there are five possibilities [@Estabrook1985]:
-
-If resolved in both trees:
- 1. **S**ame ($s$)
- 2. **D**ifferent ($d$)
- 
-Otherwise:
- 3. Resolved in **T**ree **1** only ($r_1$)
- 4. Resolved in **T**ree **2** only ($r_2$)
- 5. **U**nresolved in both trees ($u$)
+For each of the $Q$ possible quartets, for a pair of trees that contain $n$ taxa, there are five possibilities [@Estabrook1985]. If the quartet is resolved in both trees, then the
+quartets may be resolved in the same way ($s$) or differently ($d$).  Otherwise, 
+the quartet may be resolved in tree 1 only ($r_1$), resolved in tree 2 only ($r_2$),
+or unresolved in both trees ($u$).
 
 Various assemblies of these measures provide four quartet measures for 
 trees that contain polytomies:
 
-#### DNC: Do not conflict
-$(Q - d) / Q$
-Number of quartets that do not conflict 
+* $(Q - d) / Q$ gives the number of quartets that do not conflict (_DNC_). 
 
-#### EA: Explicitly Agree
-$s / Q$
-Count of number of resolved quartets occurring in both trees 
+* $s / Q$ counts the number of resolved quartets that explicitly agree (_EA_) in
+both trees.
 
-#### SJA: Strict Joint Assertions
-$s / (s + d)$
-Of the quartets that are resolved on both trees, what proportion agree?
+* $s / (s + d)$ counts, of the quartets that are resolved on both trees, what 
+proportion agree -- the strict joint assertions (_SJA_) measaure.
 
-#### SSJA: Semi-strict Joint Assertions
-$(s + u) / (s + d + u)$
-Of the quartets that are either resolved or unresolved on both trees, what
-proportion do not conflict?
+* $(s + u) / (s + d + u)$ counts, 
+of the quartets that are either resolved or unresolved on both trees, what
+proportion do not conflict -- the semi-strict joint assertions (_SSJA_) measure.
 
-None of these measures is clearly appropriate in all cases. 
-
-I propose a fifth, which is analogous to both the partition metric and the 
+I propose a fifth metric, which is analogous to both the partition metric and the 
 Kullback-Leiber divergence: it measures the amount of information
 that must be supplied to change one tree into the other.
 
-Here, a resolved quartet represents a single unit of information; to navigate 
-from one tree to another, one requires a list of quartets that must be 'unpicked',
+Here, a resolved quartet represents a single unit of information.
+(Because quartets are not independent of one another,
+the term "information" is not equivalent to the Shannon entropy.)
+
+To navigate from one tree to another, one requires a list of quartets that must
+be 'unpicked',
 comprising the $d$ different quartets and the $t_1$ that are present only in
 the starting tree, and a list of quartets that must be forged, comprising the
 $d$ different quartets (which, having been removed, must now be added in their
 correct configuration) and the $t_2 quartets that are resolved only on the second
-tree.  Normalizing this count gives:
+tree.  The normalized quartet divergence (_QD_) is given by 
+$Q - ((2d + r_1 + r_2) / 2Q)$.
 
-#### Quartet divergence
-$Q - ((2d + r_1 + r_2) / 2Q)$
-
-In bifurcating trees, this measure is identical to those proposed by Estabrook
-_et al_. [,@Estabrook1985].  Because quartets are not independent of one another,
-the term "information" is not equivalent to the Shannon entropy.
+In bifurcating trees, these five measures evaluate to the same quantity
+[@Estabrook1985].  
 
 
 ```{R Polytomies - same topology, fig.height=3, fig.width=9, echo=FALSE}
