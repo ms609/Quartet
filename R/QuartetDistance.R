@@ -1,6 +1,7 @@
 WHICH_OTHER_NODE <- 2:4
 
 #' Tree2Splits
+#' 
 #' Converts a phylogenetic tree to an array of bipartition splits.
 #' 
 #' @param tr A tree of class \code{\link[ape]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).
@@ -30,6 +31,7 @@ Tree2Splits <- function (tr) {
 }
 
 #' Column Sums
+#' 
 #' An accelerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}.
 #' Using this function makes \code{MatchingQuartets} 8% faster.
 #' But it is \emph{very} naughty to call \code{.Internal}, so I use the 
@@ -81,6 +83,7 @@ PlotQuartet <- function (tree, quartet, ...) { # nocov start
 #' Choices
 #'
 #'  List all choices of four taxa from a tree.
+#'  
 #'  A more computationally efficient alternative to \code{\link{combn}}.
 #'  Uses \code{\link{memoise}} to make repeated calls faster.
 #'
@@ -112,6 +115,7 @@ Choices <- memoise(function (n_tips) {
 })
 
 #' Quartet State
+#' 
 #' State of quartets
 #'
 #' Report the status of a given quartet.
@@ -167,6 +171,7 @@ QuartetStates <- function (splits) {
 }
 
 #' Compare Quartets
+#' 
 #' Compare quartet states between trees
 #'
 #'  Compares two lists of quartet states, detailing how many are identical and 
@@ -231,7 +236,9 @@ TQDist <- function (treeList) {
 }
 
 #' Matching Quartets
+#' 
 #' Count matching quartets
+#' 
 #' Determines the number of four-taxon trees consistent with multiple cladograms
 #' 
 #' Given a list of trees, returns the number of quartet statements present in the first tree
