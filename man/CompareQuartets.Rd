@@ -2,8 +2,7 @@
 % Please edit documentation in R/QuartetDistance.R
 \name{CompareQuartets}
 \alias{CompareQuartets}
-\title{Compare Quartets
-Compare quartet states between trees}
+\title{Compare Quartets}
 \usage{
 CompareQuartets(x, cf)
 }
@@ -14,21 +13,28 @@ CompareQuartets(x, cf)
 \item{cf}{a second such list.
 
 Compares each quartet in a list, calculating how many statements are identical
- in both lists.}
+in both lists.}
 }
 \value{
 {
-  Returns an array of two elements:
-  1: the number of quartets that are present in both trees
-  2: the number of quartets that are not resolved in both trees
-  The number of quartets that are present in one tree and contradicted in the
-  other can be calculated by deducting the total from the total number of 
-  quartets, \code{choose(n_tip, 4)}.
+Returns an array of six numberic elements, each corresponding to the quantities of
+Estabrook \emph{et al}. (1985):
+\describe{
+\item{Q}{The total number of quartets for \emph{n} tips.}
+\item{s}{The number of quartets that are resolved identically in both trees.}
+\item{d}{The number of quartets that are resolved differently in each tree.}
+\item{r1}{The number of quartets that are resolved in tree 1, but not in tree 2.}
+\item{r2}{The number of quartets that are resolved in tree 2, but not in tree 1.}
+\item{u}{The number of quartets that are unresolved in both trees.}
+}
 }
 }
 \description{
-Compares two lists of quartet states, detailing how many are identical and 
- how many are unresolved.
+Compare quartet states between trees
+}
+\details{
+Compares two lists of quartet states, detailing how many are identical and
+how many are unresolved.
 }
 \examples{
 {
@@ -43,10 +49,16 @@ Compares two lists of quartet states, detailing how many are identical and
   names(result) <- c('Shared', 'Unresolved', 'Dissimilar')
   result
 }
+
+}
+\references{
+{
+\insertRef{Estabrook1985}{SlowQuartet}
+}
 }
 \seealso{
 \code{\link{MatchingQuartets}}, generates this output from a list of
- trees.
+trees.
 }
 \author{
 Martin R. Smith

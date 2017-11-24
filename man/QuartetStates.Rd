@@ -7,7 +7,7 @@
 QuartetStates(splits)
 }
 \arguments{
-\item{splits}{a list of bipartition splits, perhaps generated using 
+\item{splits}{a list of bipartition splits, perhaps generated using
 \code{\link{Tree2Splits}}.}
 }
 \description{

@@ -2,29 +2,30 @@
 % Please edit documentation in R/QuartetDistance.R
 \name{QuartetState}
 \alias{QuartetState}
-\title{Quartet State
-State of quartets}
+\title{Quartet State}
 \usage{
 QuartetState(tips, bips)
 }
 \arguments{
 \item{tips}{A four-element array listing a quartet of tips, either by their
-number (if class `numeric`) or their name (if class `character`).}
+number (if class \code{numeric}) or their name (if class \code{character}).}
 
 \item{bips}{bipartitions to evaluate.
 
-
- One of the three possible four-taxon trees will be consistent with any set of bipartitions 
- generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tree can be 
- identified by naming the sister taxon to taxon 1.
- If a set of bipartitions is generated from a tree that contains polytomies, it is possible
- that all three three four-taxon trees are consistent with the set of bipartitions.}
+One of the three possible four-taxon trees will be consistent with any set of bipartitions
+generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tree can be
+identified by naming the sister taxon to taxon 1.
+If a set of bipartitions is generated from a tree that contains polytomies, it is possible
+that all three three four-taxon trees are consistent with the set of bipartitions.}
 }
 \value{
-Returns 0 if the relationships of the four taxa are not constrained by the provided 
-bipartitions, or the index of the closest relative to tips[1], otherwise.
+Returns 0 if the relationships of the four taxa are not constrained by the provided
+bipartitions, or the index of the closest relative to \code{tips[1]}, otherwise.
 }
 \description{
+State of quartets
+}
+\details{
 Report the status of a given quartet.
 }
 \examples{

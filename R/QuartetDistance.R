@@ -353,8 +353,7 @@ MatchingQuartets <- function (trees, use.tqDist=TRUE) {
 #'                   or dissimilarity.
 #'
 #' @references 
-#' ...
-#' @template refEstabrook1985
+#' \insertRef{Estabrook1985}{SlowQuartet}
 #' 
 #' 
 #' @template MRS
@@ -393,3 +392,5 @@ SemistrictJointAssertions <- function (mq, similarity=TRUE) {
   result <- mq['d', ] / sum(mq[c('d', 's', 'u'), ])
   if (similarity) 1 - result else result
 }
+
+

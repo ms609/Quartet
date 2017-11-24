@@ -2,8 +2,7 @@
 % Please edit documentation in R/QuartetDistance.R
 \name{Tree2Splits}
 \alias{Tree2Splits}
-\title{Tree2Splits
-Converts a phylogenetic tree to an array of bipartition splits.}
+\title{Tree2Splits}
 \usage{
 Tree2Splits(tr)
 }
@@ -15,7 +14,6 @@ Returns a two-dimensional array, with columns corresponding to bipartitions and 
 to tips 1:N.
 }
 \description{
-Tree2Splits
 Converts a phylogenetic tree to an array of bipartition splits.
 }
 \examples{

@@ -234,26 +234,26 @@ Estabrook _et al_. [,@Estabrook1985] propose four measures of quartet distance t
 be applied where one or both trees contain polytomies, each of which evaluate
 to the quartet distance if both trees are bifurcating.
 
-For a quartet, in two trees, there are five possibilities [@Estabrook1985]:
+For each of the $Q$ possible quartets for trees that contain $n$ taxa, in two trees, there are five possibilities [@Estabrook1985]:
 
 If resolved in both trees:
- 1. **S**ame 
- 2. **D**ifferent
+ 1. **S**ame ($s$)
+ 2. **D**ifferent ($d$)
  
 Otherwise:
- 3. Unresolved in **T**ree **1** only
- 4. Unresolved in **T**ree **2** only
- 5. **U**nresolved in both trees
+ 3. Resolved in **T**ree **1** only ($r_1$)
+ 4. Resolved in **T**ree **2** only ($r_2$)
+ 5. **U**nresolved in both trees ($u$)
 
 Various assemblies of these measures provide four quartet measures for 
 trees that contain polytomies:
 
 #### DNC: Do not conflict
-$(n - d) / n$
+$(Q - d) / Q$
 Number of quartets that do not conflict 
 
 #### EA: Explicitly Agree
-$s / n$
+$s / Q$
 Count of number of resolved quartets occurring in both trees 
 
 #### SJA: Strict Joint Assertions
@@ -280,7 +280,7 @@ correct configuration) and the $t_2 quartets that are resolved only on the secon
 tree.  Normalizing this count gives:
 
 #### Quartet divergence
-$n - ((2d + t_1 + t_2) / 2n)$
+$Q - ((2d + r_1 + r_2) / 2Q)$
 
 In bifurcating trees, this measure is identical to those proposed by Estabrook
 _et al_. [,@Estabrook1985].  Because quartets are not independent of one another,
