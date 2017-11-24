@@ -20,12 +20,11 @@
 #' @export
 QuartetPoints <- function (trees) {
   status <- MatchingQuartets(trees)
-  status <- rbind(status, status[1] - colSums(status))
   
   # Return: 
-  data.frame(Consistent   = status[1, ], 
-             Contradicted = status[3, ],
-             Unresolved   = status[2, ])
+  data.frame(Consistent   = status['s', ], 
+             Contradicted = status['d', ],
+             Unresolved   = colSums(status[c('r1', 'r2', 'u'), ]))
 }
 
 #' @describeIn QuartetPoints Uses partition distance instead of quartet metric.
