@@ -79,8 +79,8 @@ A number of metrics area available to quantify the similarity between two undire
 topologies (i.e. unrooted trees with no edge lengths).
 
 ### Partition metric
-The Robinson-Foulds (RF, 'partition' or 'symmetric difference') [@Robinson1981, @Steel1993]
-metric adds the number of bipartitions that are present in tree A (but not tree B)
+The Robinson-Foulds (RF, 'partition' or 'symmetric difference') metric [@Robinson1981; @Steel1993]
+adds the number of bipartitions that are present in tree A (but not tree B)
 to the number of bipartitions present in tree B (but not tree A).  
 
 It is most useful when the trees to be compared are very similar; it has
@@ -131,13 +131,13 @@ trees7 <- lapply(logical(3), function (X) {
 PlotQuartet(trees7, LETTERS[1:4], cex=1.4, font=2)
 ```
 
-There are `choose(n_tip, 4)` groups of four taxa in a tree with `n_tip` tips;
+There are $n\choose4$ groups of four taxa in a tree with $n$ tips;
 for each of these groups, one of the three trees above will be consistent with
 a given tree.  As such, two identical trees will have a quartet distance of
 0, and a random pair of trees will have an expected quartet distance of 
-`choose(n_tip, 4) / 3`. Because quartets are not independent of one another,
-no pair of trees with six or more tips can have a quartet distance of 
-`choose(n_tip, 4)`.
+${n\choose{4}} / 3$. Because quartets are not independent of one another,
+no pair of trees with six or more tips can have a quartet distance of
+$n\choose4$ [@Steel1993].
 
 ## Desired behaviour of tree distance metrics
 
@@ -167,7 +167,7 @@ moved further as more distant from the starting tree.
 ### Moving two taxa
 
 Intuitively, moving a pair of tips on a tree should lead to higher tree distances
-than moving a single tip.  In the case of a snort move, the RF distance
+than moving a single tip.  In the case of a short move, the RF distance
 does not differ whether one or two tips are moved.
 For larger moves, however, the RF distance is _less_ when two tips are moved than
 when a single tip is moved.  The path and quartet metrics perform as expected.
