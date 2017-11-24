@@ -331,13 +331,20 @@ MatchingQuartets <- function (trees, use.tqDist=TRUE) {
   if (use.tqDist && length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
     if ('rtqdist' %in% installed.packages()[, 'Package']) {
       tqDistances <- TQDist(trees)
-      tqMatches <- choose(length(trees[[1]]$tip.label), 4) - tqDistances[1, ]
-      ret <- rbind(tqMatches, rep(0, length(trees)))
-      rownames(ret) <- NULL
-      return (ret)
+      nTrees <- length(trees)
+      nQuartets <- choose(length(trees[[1]]$tip.label), 4)
+      tqDiffs <- tqDistances[1, ]
+      t(data.frame(
+        Q = rep(nQuartets, nTrees),
+        s = nQuartets - tqDiffs,
+        d = tqDiffs,
+        r1 = integer(nTrees),
+        r2 = integer(nTrees),
+        u = integer(nTrees)
+      ))
     } else {
       cat("Faster results can be obtained by installing rtqDist;",
-          "see ?MatchingQuartets for installation instructions")
+          "see ?MatchingQuartets for installation instructions\n")
     }
   }
   tree1Labels <- trees[[1]]$tip.label
