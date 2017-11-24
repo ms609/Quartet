@@ -5,5 +5,4 @@
 #'   \item{r1}{The number of quartets that are resolved in tree 1, but not in tree 2.}
 #'   \item{r2}{The number of quartets that are resolved in tree 2, but not in tree 1.}
 #'   \item{u}{The number of quartets that are unresolved in both trees.}
-#'   }
 #' }

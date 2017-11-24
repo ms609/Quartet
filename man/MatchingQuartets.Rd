@@ -16,18 +16,19 @@ Requires that the \code{rtqdist} package is installed.}
 Returns a two dimensional array.
 Columns correspond to the input trees; the first column will always
 report a perfect match as it compares the first tree to itself.
-Rows report the number of quartets that : 1, are present in
-\code{trees[[1]]} and the corresponding input tree;
-2: are unresolved in (at least) one of trees[[1]] and the corresponding
-input tree. Quartets that DIFFER between the two relevant trees can be
-calculated by deducting the quartets in either of the other two
-categories from the total number of quartets, given by
-\code{\link{choose}(n_tip, 4)}.
-
-[[1]: R:[1
+Rows list the status of each quartet:
 }
 \description{
 Count matching quartets
+
+\describe{
+  \item{Q}{The total number of quartets for _n_ tips.}
+  \item{s}{The number of quartets that are resolved identically in both trees.}
+  \item{d}{The number of quartets that are resolved differently in each tree.}
+  \item{r1}{The number of quartets that are resolved in tree 1, but not in tree 2.}
+  \item{r2}{The number of quartets that are resolved in tree 2, but not in tree 1.}
+  \item{u}{The number of quartets that are unresolved in both trees.}
+}
 }
 \details{
 Determines the number of four-taxon trees consistent with multiple cladograms

@@ -2,9 +2,12 @@
 % Please edit documentation in R/QuartetDistance.R
 \name{QuartetState}
 \alias{QuartetState}
+\alias{QuartetStates}
 \title{Quartet State}
 \usage{
 QuartetState(tips, bips)
+
+QuartetStates(splits)
 }
 \arguments{
 \item{tips}{A four-element array listing a quartet of tips, either by their
@@ -17,6 +20,11 @@ generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tre
 identified by naming the sister taxon to taxon 1.
 If a set of bipartitions is generated from a tree that contains polytomies, it is possible
 that all three three four-taxon trees are consistent with the set of bipartitions.}
+
+\item{splits}{a list of bipartition splits, perhaps generated using
+\code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
+If a tree or list of trees (of class phylo) is sent instead, it will be silently converted
+to its constituent splits.}
 }
 \value{
 Returns 0 if the relationships of the four taxa are not constrained by the provided
@@ -28,6 +36,11 @@ State of quartets
 \details{
 Report the status of a given quartet.
 }
+\section{Functions}{
+\itemize{
+\item \code{QuartetStates}: A wrapper that need only be provided with a list of splits
+}}
+
 \examples{
 {
   n_tip <- 6
@@ -43,5 +56,7 @@ Report the status of a given quartet.
 \code{\link{CompareQuartets}}, used to compare sets of bipartitions
 }
 \author{
+Martin R. Smith
+
 Martin R. Smith
 }
