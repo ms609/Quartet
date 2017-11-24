@@ -158,7 +158,7 @@ QuartetState <- function (tips, bips) {
   }
 }
 
-#' @describeIn QuartetStates A wrapper that need only be provided with a list of splits
+#' @describeIn QuartetState A wrapper that need only be provided with a list of splits
 #' @param splits a list of bipartition splits, perhaps generated using 
 #'        \code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
 #'        If a tree or list of trees (of class phylo) is sent instead, it will be silently converted
