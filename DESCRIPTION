@@ -19,11 +19,11 @@ Imports:
     ape,
     memoise,
     phangorn,
+    Rdpack,
     TreeSearch
 Suggests:
     knitr,
     rmarkdown,
-    Rdpack,
     rtqdist,
     Ternary (> 0.1.0),
     testthat
