@@ -201,7 +201,8 @@ QuartetStates <- function (splits) {
 #'   Returns an array of six numberic elements, each corresponding to the quantities of 
 #'   Estabrook _et al_. (1985):
 #' @template returnEstabrook
-#'
+#' }
+#' 
 #' @author Martin R. Smith
 #'
 #' @seealso \code{\link{MatchingQuartets}}, generates this output from a list of
