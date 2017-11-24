@@ -196,8 +196,10 @@ QuartetStates <- function (splits) {
 #'
 #' Compares each quartet in a list, calculating how many statements are identical
 #'  in both lists.
-#' 
-#' @templateVar quartets quartets
+#'  
+#' @return {
+#'   Returns an array of six numberic elements, each corresponding to the quantities of 
+#'   Estabrook _et al_. (1985):
 #' @template returnEstabrook
 #'
 #' @author Martin R. Smith
@@ -294,13 +296,11 @@ TQDist <- function (treeList) {
 #' @return Returns a two dimensional array. 
 #'         Columns correspond to the input trees; the first column will always
 #'         report a perfect match as it compares the first tree to itself.
-#'         Rows report the number of quartets that : 1, are present in 
-#'         \code{trees[[1]]} and the corresponding input tree;
-#'         2: are unresolved in (at least) one of trees[[1]] and the corresponding 
-#'         input tree. Quartets that DIFFER between the two relevant trees can be 
-#'         calculated by deducting the quartets in either of the other two
-#'         categories from the total number of quartets, given by
-#'         \code{\link{choose}(n_tip, 4)}.
+#'         Rows list the status of each quartet:
+#' @templateVar Q Q
+#' @templateVar quartets quartets
+#' @template returnEstabrook
+#'         
 #'
 #' @author Martin R. Smith
 #' @examples{
