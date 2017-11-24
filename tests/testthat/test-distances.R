@@ -9,10 +9,12 @@ treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
 bifurcators <- treeNodes == n_tip - 1L
 
 test_that("Quartets are counted correctly", {
-  expect_identical(as.integer(rbind(c(15, 2), c(0, 0))), as.integer(MatchingQuartets(list(
+  easyTreesy <- list(
     ape::read.tree(text='((1, 2), ((3, 4), (6, 5)));'),
     ape::read.tree(text='((1, 5), (3, (4, (2, 6))));'))
-  )))
+  expect_identical(MatchingQuartets(easyTreesy, use.tqDist = TRUE),
+                   MatchingQuartets(easyTreesy, use.tqDist = FALSE))
+  expect_identical(c(15, 2), MatchingQuartets(easyTreesy)['s',])
   
   quartet_matches <- MatchingQuartets(sq_trees)
   qb_matches <- quartet_matches['s', bifurcators]
