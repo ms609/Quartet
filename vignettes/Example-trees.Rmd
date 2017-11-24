@@ -121,8 +121,8 @@ A number of metrics area available to quantify the similarity between two undire
 topologies (i.e. unrooted trees with no edge lengths).
 
 ### Partition metric
-The Robinson-Foulds (RF, 'partition' or 'symmetric') [@Robinson1981] metric 
-adds the number of bipartitions that are present in tree A (but not tree B)
+The Robinson-Foulds (RF, 'partition' or 'symmetric difference') [@Robinson1981, @Steel1993]
+metric adds the number of bipartitions that are present in tree A (but not tree B)
 to the number of bipartitions present in tree B (but not tree A).  
 
 It is most useful when the trees to be compared are very similar; it has
@@ -144,8 +144,8 @@ The path difference metric [@Steel1993] is the square root of the sum of squares
 of each of these differences.
 
 ### Quartet metric
-The quartet metric [@Estabrook1985] counts how many of the four-taxon statements 
-that are true in Tree A are not true in Tree B.
+The quartet metric [@Estabrook1985] counts what proportion of four-taxon statements 
+are true in both trees.
 
 For any four tips A, B, C and D, a bipartition on a bifurcating tree will separate
 tip A and either B, C or D from the other two tips.  That is to say, removing
@@ -240,7 +240,7 @@ rfplot(trs$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
 ```
 
 An advantage of the Quartet distance is that the normalized metric of a random
-tree is $2/3$.  As such, trees that are more different than expected by chance
+tree is $2/3$ [@Day1986, @Steel1993].  As such, trees that are more different than expected by chance
 can be readily recognized, as their quartet distance will be greater than 
 `r choose(n_tip, 4) * 2 / 3`/`r choose(n_tip, 4)`:
 
@@ -257,10 +257,61 @@ Whereas the path distance and SPR metrics are only defined on bifurcating trees,
 the quartet approach can be applied to trees that contain polytomies -- i.e. 
 not every node is resolved as bifurcating.
 
-An equivalent metric can be generated using paritions, but is subject to all the
-same shortcomings as the RF distance discussed above.
+Estabrook _et al_. [,@Estabrook1985] propose four measures of quartet distance to 
+be applied where one or both trees contain polytomies, each of which evaluate
+to the quartet distance if both trees are bifurcating.
 
+For a quartet, in two trees, there are five possibilities [@Estabrook1985]:
 
+If resolved in both trees:
+ 1. **S**ame 
+ 2. **D**ifferent
+ 
+Otherwise:
+ 3. Unresolved in **T**ree **1** only
+ 4. Unresolved in **T**ree **2** only
+ 5. **U**nresolved in both trees
+
+Various assemblies of these measures provide four quartet measures for 
+trees that contain polytomies:
+
+#### DNC: Do not conflict
+$(n - d) / n$
+Number of quartets that do not conflict 
+
+#### EA: Explicitly Agree
+$s / n$
+Count of number of resolved quartets occurring in both trees 
+
+#### SJA: Strict Joint Assertions
+$s / (s + d)$
+Of the quartets that are resolved on both trees, what proportion agree?
+
+#### SSJA: Semi-strict Joint Assertions
+$(s + u) / (s + d + u)$
+Of the quartets that are either resolved or unresolved on both trees, what
+proportion do not conflict?
+
+None of these measures is clearly appropriate in all cases. 
+
+I propose a fifth, which is analogous to both the partition metric and the 
+Kullback-Leiber divergence: it measures the amount of information
+that must be supplied to change one tree into the other.
+
+Here, a resolved quartet represents a single unit of information; to navigate 
+from one tree to another, one requires a list of quartets that must be 'unpicked',
+comprising the $d$ different quartets and the $t_1$ that are present only in
+the starting tree, and a list of quartets that must be forged, comprising the
+$d$ different quartets (which, having been removed, must now be added in their
+correct configuration) and the $t_2 quartets that are resolved only on the second
+tree.  Normalizing this count gives:
+
+#### Quartet divergence
+$n - ((2d + t_1 + t_2) / 2n)$
+
+In bifurcating trees, this measure is identical to those proposed by Estabrook
+_et al_. [,@Estabrook1985].  Because quartets are not independent of one another,
+the term "information" is not equivalent to the Shannon entropy.
 
 
 ```{R Polytomies - same topology, fig.height=3, fig.width=9, echo=FALSE}
@@ -299,7 +350,7 @@ polyplot(trs$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
 ## Conclusion
 
-The quartet distance is the only available metric of tree distance that fullfils 
+The quartet divergence is the only available metric of tree distance that fullfils 
 all of the following desiderata:
 
  - Allocates trees higher distances if a clade moves greater distances
