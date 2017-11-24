@@ -160,13 +160,14 @@ QuartetState <- function (tips, bips) {
 
 #' describeIn QuartetStates A wrapper that need only be provided with a list of splits
 #' @param splits a list of bipartition splits, perhaps generated using 
-#' \code{\link{Tree2Splits}}.
+#' \code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
 #' @author Martin R. Smith
 #' @export
 QuartetStates <- function (splits) {
+  if (class(splits) != 'list') splits <- list(splits)
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
-    vapply(Choices(n_tips), QuartetState, double(1), bips=bips)
+    vapply(Choices(n_tips), QuartetState, double(1), bips=bips[sort(rownames(bips)), ])
   })
 }
 
