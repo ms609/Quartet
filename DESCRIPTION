@@ -23,11 +23,13 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
+    Rdpack,
     rtqdist,
     Ternary (> 0.1.0),
     testthat
 Remotes: 
     url::http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz
+Rdmacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
 ByteCompile: true
