@@ -14,53 +14,11 @@ vignette: >
 ```{r Initialize, include=FALSE}
 require('ape')
 require('SlowQuartet')
-set.seed(1) # 1 produces a random tree with a Qt dist of 226 ~= 330 * 2 / 3
-
-# Colourblind palette from http://mkweb.bcgsc.ca/biovis2012/color-blindness-palette.png
-tip_colours <- c(
-  rgb(000,000,000, maxColorValue=255),
-  rgb(000,073,073, maxColorValue=255),
-  rgb(000,146,146, maxColorValue=255),
-  rgb(255,109,182, maxColorValue=255),
-  rgb(255,182,219, maxColorValue=255),
-  rgb(073,000,146, maxColorValue=255),
-  rgb(000,109,219, maxColorValue=255),
-  rgb(182,109,255, maxColorValue=255),
-  rgb(109,182,255, maxColorValue=255),
-  rgb(182,219,255, maxColorValue=255),
-  rgb(146,000,000, maxColorValue=255),
-  rgb(146,073,000, maxColorValue=255),
-  rgb(219,109,000, maxColorValue=255),
-  rgb(036,255,036, maxColorValue=255),
-  rgb(255,255,109, maxColorValue=255)
-)[-c(4, 7)] # Rm Tritamopia duplicates of 13 and 3
-
-palette4 <- c(
-  rgb(000,000,000, maxColorValue=255),
-  rgb(230,159,000, maxColorValue=255),
-  rgb(086,180,233, maxColorValue = 255),
-  rgb(000,158,115, maxColorValue=255)
-)
-
+data('sq_trees')
 n_tip <- 11
-ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
-trs <- list (
-  ref_tree      = ref_tree,
-  move_one_near = ape::read.tree(text="(((2, 3), 1), (((4, 5), 6), ((7, (8, 9)), (10, 11))));"),
-  move_one_mid  = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), ((7, (8, 9)), (10, 11))));"),
-  move_one_far  = ape::read.tree(text="((2, 3), (((4, 5), 6), ((7, (8, 9)), (10, (11, 1)))));"),
-  move_two_near = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (10, 11)), (8, 9))));"),
-  move_two_mid  = ape::read.tree(text="(((1, 2), 3), ((((4, 5), (10, 11)), 6), (7, (8, 9))));"),
-  move_two_far  = ape::read.tree(text="((((1, (10, 11)), 2), 3), (((4, 5), 6), (7, (8, 9))));"),
-  collapse_one  = ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, 8, 9), (10, 11))));"),
-  collapse_some = ape::read.tree(text="((1, 2, 3, 4, 5, 6), ((7, 8, 9), (10, 11)));"),
-  m1mid_col1    = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), ((7, 8, 9), (10, 11))));"),
-  m1mid_colsome = ape::read.tree(text="((2, 3), ((((4, 5), 1), 6), (7, 8, 9, 10, 11)));"),
-  m2mid_col1    = ape::read.tree(text="(((1, 2), 3), ((((4, 5), (10, 11)), 6), (7, 8, 9)));"),
-  m2mid_colsome = ape::read.tree(text="(((1, 2), 3), (4, (10, 11), 5, 6, 7, 8, 9));"),
-  opposite_tree = ape::read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 2)), (5, 7))));"),
-  random_tree   = ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL)
-)
+ref_tree <- sq_trees[[1]]
+tip_colours <- Ternary::cbPalette15[-c(4, 7)] # Rm Tritanopia duplicates of 13 and 3
+palette4 <- Ternary::cbPalette8[1:4]
 
 rf_max <- (n_tip - 3) * 2
 
@@ -111,7 +69,7 @@ polyplot <- function (tr, title, highlight, ...) {
 }
 
 #par(mfrow=c(3,5), mar=rep(1.2, 4), cex.main=2/3, cex=0.9)
-#for (i in seq_along(trs)) colplot(trs[[i]], names(trs)[i])
+#for (i in seq_along(sq_trees)) colplot(sq_trees[[i]], names(sq_trees)[i])
 
 ```
 
@@ -149,13 +107,28 @@ are true in both trees.
 
 For any four tips A, B, C and D, a bipartition on a bifurcating tree will separate
 tip A and either B, C or D from the other two tips.  That is to say, removing
-all other tips from the tree will leave one of the three trees
+all other tips from the tree will leave one of these three trees:
 
 ```{R Three four-taxon trees, echo=FALSE, fig.height=2, fig.width=6}
 par(mfrow=c(1, 3), mar=c(0.5, 1, 0.5, 1), cex=1)
-plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=palette4[c(1, 2, 3, 4)], font=2)
-plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=palette4[c(1, 3, 2, 4)], font=2)
-plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=palette4[c(1, 4, 3, 2)], font=2)
+plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=Ternary::cbPalette8[c(1, 4, 7, 5)], font=2)
+plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=Ternary::cbPalette8[c(1, 7, 4, 5)], font=2)
+plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=Ternary::cbPalette8[c(1, 5, 7, 4)], font=2)
+```
+
+Thus two of the random trees below share the quartet `(A, B), (C, D)`, whereas 
+the third does not; these four tips are divided into `(A, D), (B, C)`.
+
+```{R Plot a quartet, fig.height=2, fig.width=6, echo=FALSE}
+par(mfrow=c(1, 3))
+set.seed(7)
+trees7 <- lapply(logical(3), function (X) {
+    tr <- ape::rtree(7, br=NULL)
+    tr$edge.length <- rep(1, 12)
+    tr$tip.label <- LETTERS[1:7]
+    tr
+  })
+PlotQuartet(trees7, LETTERS[1:4], cex=1.4, font=2)
 ```
 
 There are `choose(n_tip, 4)` groups of four taxa in a tree with `n_tip` tips;
@@ -165,7 +138,6 @@ a given tree.  As such, two identical trees will have a quartet distance of
 `choose(n_tip, 4) / 3`. Because quartets are not independent of one another,
 no pair of trees with six or more tips can have a quartet distance of 
 `choose(n_tip, 4)`.
-
 
 ## Desired behaviour of tree distance metrics
 
@@ -180,9 +152,9 @@ two trees should correspond to the distance that this taxon has been moved.
 ```{R Moving a single taxon, fig.height=3, fig.width=12, echo=FALSE}
 par(mfrow=c(1, 4), mar=rep(0.4, 4), cex=1)
 colplot(ref_tree,     'Reference tree', 1)
-rfplot(trs$move_one_near, 'Short move', 1)
-rfplot(trs$move_one_mid, 'Medium move', 1)
-rfplot(trs$move_one_far,   'Long move', 1)
+rfplot(sq_trees$move_one_near, 'Short move', 1)
+rfplot(sq_trees$move_one_mid, 'Medium move', 1)
+rfplot(sq_trees$move_one_far,   'Long move', 1)
 ```
 
 The subtree pruning and regrafting (SPR) distance [@Penny1985] does not distinguish
@@ -204,21 +176,21 @@ when a single tip is moved.  The path and quartet metrics perform as expected.
 par(mfrow=c(3, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(ref_tree, 'Reference tree')
-rfplot(trs$move_one_near, 'Short move 1', 1)
-rfplot(trs$move_two_near, 'Short move 2', 10:11)
+rfplot(sq_trees$move_one_near, 'Short move 1', 1)
+rfplot(sq_trees$move_two_near, 'Short move 2', 10:11)
 
 colplot(ref_tree, 'Reference tree')
-rfplot(trs$move_one_mid, 'Medium move 1', 1)
-rfplot(trs$move_two_mid, 'Medium move 2', 10:11)
+rfplot(sq_trees$move_one_mid, 'Medium move 1', 1)
+rfplot(sq_trees$move_two_mid, 'Medium move 2', 10:11)
 
 colplot(ref_tree, 'Reference tree')
-rfplot(trs$move_one_far,   'Long move 1', 1)
-rfplot(trs$move_two_far,   'Long move 2', 10:11)
+rfplot(sq_trees$move_one_far,   'Long move 1', 1)
+rfplot(sq_trees$move_two_far,   'Long move 2', 10:11)
 
 ```
 
 ### Maximum distance
-A distance metric should distinguish slightly-peturbed trees from
+A distance metric should distinguish slightly-perturbed trees from
 random trees and those that are more different from the starting tree than 
 expected by chance.
 
@@ -236,7 +208,7 @@ pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 colplot(pectinate_tree, 'Pectinate tree')
 rfplot(pectinate_move1,  'Move one taxon', 1, ref=pectinate_unrooted)
-rfplot(trs$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
+rfplot(sq_trees$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
 ```
 
 An advantage of the Quartet distance is that the normalized metric of a random
@@ -247,8 +219,8 @@ can be readily recognized, as their quartet distance will be greater than
 ```{R Increasing distances, fig.height=3, fig.width=9, echo=FALSE}
 par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
 colplot(ref_tree, 'Reference tree')
-rfplot(trs$random_tree,   'Random tree'     )
-rfplot(trs$opposite_tree, 'Maximum distance')
+rfplot(sq_trees$random_tree,   'Random tree'     )
+rfplot(sq_trees$opposite_tree, 'Maximum distance')
 ```
 
 ### Unresolved trees
@@ -256,6 +228,7 @@ rfplot(trs$opposite_tree, 'Maximum distance')
 Whereas the path distance and SPR metrics are only defined on bifurcating trees,
 the quartet approach can be applied to trees that contain polytomies -- i.e. 
 not every node is resolved as bifurcating.
+
 
 Estabrook _et al_. [,@Estabrook1985] propose four measures of quartet distance to 
 be applied where one or both trees contain polytomies, each of which evaluate
@@ -318,8 +291,8 @@ the term "information" is not equivalent to the Shannon entropy.
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(ref_tree, 'Reference tree')
-polyplot(trs$collapse_one, 'One polytomy', 7:9)
-polyplot(trs$collapse_some, 'Much polytomy', 1:9)
+polyplot(sq_trees$collapse_one, 'One polytomy', 7:9)
+polyplot(sq_trees$collapse_some, 'Much polytomy', 1:9)
 
 ```
 
@@ -330,9 +303,9 @@ in which one taxon (1) was moved:
 ```{R Polytomies 1, fig.height=3, fig.width=9, echo=FALSE}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
-polyplot(trs$move_one_mid, 'One moved, no polytomy', 1)
-polyplot(trs$m1mid_col1, 'One moved, one polytomy', 1)
-polyplot(trs$m1mid_colsome, 'One moved, much polytomy', 1)
+polyplot(sq_trees$move_one_mid, 'One moved, no polytomy', 1)
+polyplot(sq_trees$m1mid_col1, 'One moved, one polytomy', 1)
+polyplot(sq_trees$m1mid_colsome, 'One moved, much polytomy', 1)
 
 ```
 
@@ -342,11 +315,119 @@ in which two taxa (10 & 11) were moved:
 ```{R Polytomies 2, fig.height=3, fig.width=9, echo=FALSE}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
 
-polyplot(trs$move_two_mid,  'Two moved, no polytomy'  , 10:11)
-polyplot(trs$m2mid_col1,    'Two moved, one polytomy' , 10:11)
-polyplot(trs$m2mid_colsome, 'Two moved, much polytomy', 10:11)
+polyplot(sq_trees$move_two_mid,  'Two moved, no polytomy'  , 10:11)
+polyplot(sq_trees$m2mid_col1,    'Two moved, one polytomy' , 10:11)
+polyplot(sq_trees$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
 ```
+
+## Plotting this data
+
+We can visualize this data using a ternary diagram.
+
+```{R Plot some trees, fig.width=10, fig.height=5, echo=FALSE}
+library('Ternary')
+par(mfrow=c(1, 2), mar=rep(0.3, 4))
+collapse_perfect <- c('ref_tree', 'collapse_one', 'collapse_some')
+collapse_move1   <- c('move_one_mid', 'm1mid_col1', 'm1mid_colsome')
+collapse_move2   <- c('move_two_mid', 'm2mid_col1', 'm2mid_colsome')
+
+TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8, lab.font=2,
+            grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
+            axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1)
+title(main="\r\nQuartet distances", cex.main=0.8)
+HorizontalGrid()
+AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
+
+pchs <- c(1, 4, 3)
+quartet_distances <- QuartetPoints(sq_trees)
+TernaryPoints(quartet_distances[collapse_perfect, ], col=cbPalette8[2], pch=pchs, cex=1.5)
+TernaryLines (quartet_distances[collapse_perfect, ], col=cbPalette8[2])
+TernaryPoints(quartet_distances[collapse_move1, ],   col=cbPalette8[3], pch=pchs, cex=1.5)
+TernaryLines (quartet_distances[collapse_move1, ],   col=cbPalette8[3])
+TernaryPoints(quartet_distances[collapse_move2, ],   col=cbPalette8[4], pch=pchs, cex=1.5)
+TernaryLines (quartet_distances[collapse_move2, ],   col=cbPalette8[4])
+legend('bottomright', 
+       lty=rep('dotted', 2),
+       lwd=c(1, 2),
+       col=c('grey', cbPalette8[8]),
+       legend=c('Divergence contours', 'Distance of random tree'), 
+       cex=0.8, bty='n')
+arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
+text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
+
+arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
+text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
+
+TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8,
+            grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
+            axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1)
+title(main="\r\nPartition distances", cex.main=0.8)
+HorizontalGrid()
+partition_distances <- SplitsPoints(sq_trees)
+TernaryPoints(partition_distances[collapse_perfect, ], col=cbPalette8[2], pch=pchs, cex=1.5)
+TernaryLines (partition_distances[collapse_perfect, ], col=cbPalette8[2])
+TernaryPoints(partition_distances[collapse_move1, ],   col=cbPalette8[3], pch=pchs, cex=1.5)
+TernaryLines (partition_distances[collapse_move1, ],   col=cbPalette8[3])
+TernaryPoints(partition_distances[collapse_move2, ],   col=cbPalette8[4], pch=pchs, cex=1.5)
+TernaryLines (partition_distances[collapse_move2, ],   col=cbPalette8[4])
+legend('topright', cex=0.8, bty='n',
+       pch=pchs, pt.cex=1.5,
+       title='Collapse:',
+       legend=c('No nodes', 'One node', 'Many nodes'))
+legend('bottomright', cex=0.8, bty='n',
+       pch=20, pt.cex=1.5, col=cbPalette8[2:4],
+       title='Move:', legend=c('No tips', 'One tip', 'Two tips'))
+
+
+```
+
+It is sometimes of interest to establish which of a selection of trees is most 
+instructive about the reference tree.  How this might be done is not
+necessarily intuitive: there is often a tension between accuracy and precision.
+That is to say, should a tree that is perfectly accurate but poorly resolved be
+preferred to a tree that is partially inaccurate but completely resolved?
+
+One approach to this trade-off is to seek the tree of minimum entropy: that is,
+the tree that diverges least  from the reference
+tree.
+
+A tree that is perfectly resolved, yet contains some incorrect nodes, delivers 
+more information -- but also more misinformation -- than a poorly-resolved (yet
+accurate) tree. The Kullback-Leibler divergence is the sum of the information
+that is present in the reference tree, but not the candidate tree, plus the 
+(mis)information that is present in the candidate tree but not the reference tree.
+
+Put simply, to get from the candidate tree to the reference tree, one must be told
+which groupings in the candidate tree are incorrect, and which groupings should be 
+added in their place.
+
+In the above instances, adding the number of quartets or partitions present in 
+one but not both of the reference and candidate trees generates a measure analogous
+to the Kullback-Leibler divergence.
+The measure is only analogous because neither the number of 
+quartets nor the number of partitions corresponds to a specific quantity of
+information / entropy.  
+
+Counting only the number of partitions fails to capture the fact that 
+different partitions have different inherent information contents. 
+A partition separating taxa  into two evenly-sized bipartitions is consistent 
+with fewer trees than a partition separating two taxa from all others, thus has
+a higher (Shannon) information content.
+
+In contrast, each quartet specifies that one of three possibilities exists on a 
+tree, so every quartet statement has the same information content: one trit (= 
+$log(3) / log(2)$ bits).  The problem is that quartet statements (and partition
+statements) are not independent from one another, meaning that the quartet 
+metric is at best a rough approximation of the Kullback-Leibler divergence.
+
+This important caveat notwithstanding, the quartet distance provides a promising
+(if not statistically satisfying) approach to measuring the divergence between
+two separate trees.  On the ternary diagrams presented above, points of equal 
+divergence are connected by horizontal lines:  That is to say, any tree on a given 
+contour is equally informative about the reference tree.
 
 ## Conclusion
 
@@ -359,6 +440,8 @@ all of the following desiderata:
    are not fully bifurcating (resolved)
  - Identifies pairs of trees that are more random than expected by chance
  - Does not reach its maximum value after relatively trivial rearrangements
+ 
+ The quartet divergence is proposed as a measure of how similar two trees are,
+ taking into account the inevitable trade-off between precision and accuracy.
 
 ## References
-

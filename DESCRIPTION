@@ -1,5 +1,5 @@
 Package: SlowQuartet
-Version: 0.2.0
+Version: 0.2.0.9000
 Date: 2017-11-22
 Title: Quartet Distance: A Similarity Metric for Phylogenetic Trees
 Description: Calculates the number of four-taxon subtrees consistent with a pair of cladograms.
@@ -17,15 +17,18 @@ License: GPL (>= 2)
 Depends: R (>= 3.4.0)
 Imports:
     ape,
-    phangorn,
     memoise,
+    phangorn,
     TreeSearch
 Suggests:
     knitr,
     rmarkdown,
     rtqdist,
+    Ternary (> 0.1.0),
     testthat
-Remotes: url::http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz
+Remotes: 
+    ms609/Ternary,
+    url::http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz
 LinkingTo: Rcpp
 LazyData: true
 ByteCompile: true
