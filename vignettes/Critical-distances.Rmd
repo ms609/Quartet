@@ -55,14 +55,14 @@ plot(tree_c <- ape::read.tree(text="((1, 2), ((3, 6), (4, 5)));"), tip.color=c(1
 There's nowhere to add tip `6` to Tree B without creating a quartet that 
 exists in Tree C.
 
-```{r Adding tip 6 to Tree B duplicates a quartet, fig.height=5, fig.width=2, echo=FALSE}
+```{r Adding tip 6 to Tree B duplicates a quartet, fig.height=7, fig.width=2.5, echo=FALSE}
 PlotApeTree <- function (text, quartet) {
   orig <- TreeSearch::RenumberTips(tree_c, as.character(1:6))
   tree <- ape::read.tree(text=text)
   PlotQuartet(list(orig, TreeSearch::RenumberTips(tree, as.character(1:6))), quartet, overwritePar=FALSE)
 }
 
-par(mfrow=c(7, 2), mar=rep(0.6, 4))
+par(mfrow=c(7, 2), mar=rep(0.4, 4), cex=0.9)
 PlotApeTree("(((1, 6), 5), (3, (2, 4)));", c(1, 6, 4, 5))
 PlotApeTree("((1, 5), (3, ((2, 6), 4)));", c(2, 6, 4, 5))
 PlotApeTree("((1, 5), ((3, 6), (2, 4)));", c(3, 6, 4, 5))
