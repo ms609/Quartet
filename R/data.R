@@ -31,19 +31,12 @@
 #' @format A list with 100 entries, each comprising a phyDat object of 55 characters for 22 taxa
 #'
 #' @references 
-#' Congreve, C. R., & Lamsdell, J. C. (2016). \cite{Implied weighting and its utility in 
-#'   palaeontological datasets: a study using modelled phylogenetic matrices.} Palaeontology, 
-#'   online ahead of print. doi:10.1111/pala.12236
+#' \insertRef{Congreve2016}{SlowQuartet}
 #' 
 #' Congreve, C. R., & Lamsdell, J. C. (2016). Data from: Implied weighting and its utility in 
 #' palaeontological datasets: a study using modelled phylogenetic matrices. Dryad Digital
 #' Repository, \href{http://dx.doi.org/10.5061/dryad.7dq0j}{doi:10.5061/dryad.7dq0j}
-#' 
-#' @examples 
-#'   data('referenceTree')
-#'   data('congreveLamsdellMatrices')
-#'   ProfileScore(referenceTree, PrepareDataProfile(congreveLamsdellMatrices[[17]]))
-#'
+#' #'
 #' @source \url{http://datadryad.org/resource/doi:10.5061/dryad.7dq0j}
 "congreveLamsdellMatrices"
 
@@ -55,9 +48,7 @@
 #' @format A single phylogenetic tree saved as an object of class \code{phylo}
 #'
 #' @references 
-#' Congreve, C. R., & Lamsdell, J. C. (2016). \cite{Implied weighting and its utility in 
-#'   palaeontological datasets: a study using modelled phylogenetic matrices.} Palaeontology, 
-#'   online ahead of print. doi:10.1111/pala.12236
+#' \insertRef{Congreve2016}{SlowQuartet}
 #' 
 #' Congreve, C. R., & Lamsdell, J. C. (2016). Data from: Implied weighting and its utility in 
 #' palaeontological datasets: a study using modelled phylogenetic matrices. Dryad Digital
@@ -67,7 +58,7 @@
 #'   data(referenceTree)
 #'   plot(referenceTree)
 #' 
-#' @source \url{http://dx.doi.org/10.1111/pala.12236}
+#' @source \insertRef{Congreve2016}{SlowQuartet}
 "referenceTree"
 
 #' @templateVar quartet quartet
