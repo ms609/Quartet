@@ -271,7 +271,7 @@ TQDist <- function (treeList) {
 
 #' Matching Quartets
 #' 
-#' Count matching quartets
+#' Counts matching quartets
 #' 
 #' Determines the number of four-taxon trees consistent with multiple cladograms
 #' 
@@ -286,7 +286,7 @@ TQDist <- function (treeList) {
 #' \code{install.packages(
 #' 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
 #'  repos=NULL, type='source')}
-#'  Or by [downloading the package](http://users-cs.au.dk/cstorm/software/tqdist/)
+#'  or by [downloading the package](http://users-cs.au.dk/cstorm/software/tqdist/)
 #'  and extracting the zipped directory into your library directory (which you 
 #'  can locate by typing `.libPaths()` into your console).
 #'   
@@ -294,10 +294,12 @@ TQDist <- function (treeList) {
 #'   the integers 1:n_tip.  Support for different-sized trees will be added if there is demand; 
 #'   contact the author if you would appreciate this functionality.
 #'       
-#'       A random pair of fully-resolved trees is expected to share 
-#'       \code{choose(n_tip, 4) / 3} four-taxon trees.
+#'    A random pair of fully-resolved trees is expected to share 
+#'    \code{choose(n_tip, 4) / 3} four-taxon trees.
 #' 
 #' @template treesParam
+#' @param cf Comparison tree of class \code{\link[ape]{phylo}}.  If unspecified,
+#'           trees are compared to the first tree in \code{trees}.
 #' @param use.tqDist Logical specifying whether to attempt to use the tqDist algorithm.
 #'               Requires that the `rtqdist` package is installed.
 #'
@@ -326,7 +328,8 @@ TQDist <- function (treeList) {
 #' @importFrom TreeSearch RenumberTips
 #' @importFrom utils installed.packages
 #' @export
-MatchingQuartets <- function (trees, use.tqDist=TRUE) {
+MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
+  if (!is.null(cf)) trees <- c(list(cf), trees)
   treeStats <- vapply(trees, function (tr)
     c(tr$Nnode, length(tr$tip.label)), double(2))
   if (length(unique(treeStats[2, ])) > 1) {
@@ -354,7 +357,10 @@ MatchingQuartets <- function (trees, use.tqDist=TRUE) {
   tree1Labels <- trees[[1]]$tip.label
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   quartets <- QuartetStates(lapply(trees, Tree2Splits))
-  vapply(quartets, CompareQuartets, cf=quartets[[1]], double(6))
+  ret <- vapply(quartets, CompareQuartets, cf=quartets[[1]], double(6))
+  
+  # Return:
+  if (is.null(cf)) ret else ret[, -1]
 }
 
 #' Quartet Similarity Metrics
