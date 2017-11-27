@@ -14,12 +14,12 @@ LoadSuboptimal <- function (pref) {
 
 # Load consensus trees from Equal Weights and Markov model analyses
 markov   <- lapply(sprintf(TREE_FILE, 'mk', ''), read.nexus)
-equal <- LoadSuboptimal('eq' )
-imp1  <- LoadSuboptimal('k1' )
-imp2  <- LoadSuboptimal('k2' )
-imp3  <- LoadSuboptimal('k3' )
-imp5  <- LoadSuboptimal('k5' )
-impX  <- LoadSuboptimal('k10')
+equal <- LoadSuboptimal('eq')
+imp1  <- LoadSuboptimal('k1')
+imp2  <- LoadSuboptimal('k2')
+imp3  <- LoadSuboptimal('k3')
+imp5  <- LoadSuboptimal('k5')
+impX  <- LoadSuboptimal('kX')
 
 clQuartets <- list(
   markov    = vapply(markov, MatchingQuartets, cf=referenceTree, matrix(0, ncol=20, nrow=6)),
@@ -27,7 +27,8 @@ clQuartets <- list(
   implied1  = vapply(imp1,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
   implied2  = vapply(imp2,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
   implied3  = vapply(imp3,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied5  = vapply(imp5,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6))
+  implied5  = vapply(imp5,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
+  implied10  = vapply(impX,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6))
 )
 
 clPartitions <- list(
@@ -36,7 +37,8 @@ clPartitions <- list(
   implied1  = vapply(imp1,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
   implied2  = vapply(imp2,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
   implied3  = vapply(imp3,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied5  = vapply(imp5,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6))
+  implied5  = vapply(imp5,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
+  implied10 = vapply(impX,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6))
 )
 
 
