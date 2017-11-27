@@ -12,10 +12,13 @@ vignette: >
 ```{r Load package, include=FALSE}
 require('SlowQuartet')
 ```
-# Minimum quartet distance
+# Properties of the quartet distance
 
-The quartet distance is necessarily greater than zero when there are more than 
-six tips in a tree.
+Properties of the quartet distance are explored fully in Steel [-@Steel1993].  Some key quantities are explained below:
+
+## Minimum quartet distance
+
+When there are six or more tips in a bifurcating tree, some quartets are necessarily shared between trees.
 
 Consider the tree:
 ```{r Example tree}
@@ -63,19 +66,21 @@ PlotApeTree("((1, 5), (3, ((2, 4), 6)));", c(4, 2, 3, 6))
 ```
 
 
-# Quartet distance in a pair of random trees
+## Quartet distance in a pair of random trees
 
-The quartet distance will average $1/3$ for random trees. This is because there are
+On average, $1/3$ of the quartets resolved in a pair of random trees will match. This is because there are
 three quartets involving any set of four tips, each of which is equally likely to 
 occur on a truly random tree.
 
 The below code calculates the mean proportion of matching quartets for random 
 trees with 4 to 20 tips, and the corresponding standard deviation.
 
-```{r Random trees}
+```{r}
 round(vapply(4:20, function (n_tip) {
  trees <- lapply(logical(56), function (X) ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
  results <- MatchingQuartets(trees)[1, ] / choose(n_tip, 4)
  c(mean(results[-1]), sd(results[-1]))
 }, double(2)), 3)
 ```
+
+## References
