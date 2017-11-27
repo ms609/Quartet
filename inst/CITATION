@@ -18,7 +18,7 @@ citHeader("If using the package to compare bifurcating trees
 using tqDist, please also cite:")
 
 citEntry (entry= 'article',
-          author = personList(as.person("Sand, Andreas",
+          author = personList(as.person("Sand, Andreas"),
                   as.person("Holt, Morten K."),
                   as.person("Johansen, Jens"),
                   as.person("Brodal, Gerth S."),
