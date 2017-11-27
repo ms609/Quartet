@@ -186,7 +186,7 @@ QuartetStates <- function (splits) {
   
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
-    vapply(Choices(n_tips), QuartetState, double(1), bips=bips[sort(rownames(bips)), ])
+    vapply(Choices(n_tips), QuartetState, double(1), bips=bips[sort(rownames(bips)), , drop=FALSE])
   })
 }
 
