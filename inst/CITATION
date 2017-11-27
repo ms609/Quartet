@@ -1,4 +1,4 @@
-citHeader("To cite in a publication please use:")
+citHeader("To cite this package in a publication please use:")
 
 year <- "submitted"
 vers <- paste("R package version", meta$Version)

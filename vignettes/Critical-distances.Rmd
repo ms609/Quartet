@@ -1,11 +1,11 @@
 ---
-title: "Exploring the quartet distance"
+title: "Interpreting large quartet distances"
 author: "Martin R. Smith"
 date: "21 November 2017"
 output: rmarkdown::html_document
 
 vignette: >
-  %\VignetteIndexEntry{Understanding the quartet distance}
+  %\VignetteIndexEntry{Interpreting large quartet distances}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,11 @@ require('SlowQuartet')
 ```
 # Properties of the quartet distance
 
-Properties of the quartet distance are explored fully in Steel [-@Steel1993].  Some key quantities are explained below:
+Properties of the quartet distance are explored fully in Steel [-@Steel1993].  
+As quartet distances of 1 can only be accomplished for small trees (five or fewer
+tips), it is perhaps more appropriate to consider whether or not trees are more
+dissimilar than a pair of random trees, whose distance will be, on average, 
+$2/3$.
 
 ## Minimum quartet distance
 
