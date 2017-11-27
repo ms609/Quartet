@@ -4,10 +4,13 @@
 \alias{MatchingQuartets}
 \title{Matching Quartets}
 \usage{
-MatchingQuartets(trees, use.tqDist = TRUE)
+MatchingQuartets(trees, cf = NULL, use.tqDist = TRUE)
 }
 \arguments{
 \item{trees}{A list of trees of class \code{\link[ape]{phylo}}, with identically-labelled tips.}
+
+\item{cf}{Comparison tree of class \code{\link[ape]{phylo}}.  If unspecified,
+trees are compared to the first tree in \code{trees}.}
 
 \item{use.tqDist}{Logical specifying whether to attempt to use the tqDist algorithm.
 Requires that the \code{rtqdist} package is installed.}
@@ -19,7 +22,7 @@ report a perfect match as it compares the first tree to itself.
 Rows list the status of each quartet:
 }
 \description{
-Count matching quartets
+Counts matching quartets
 
 \describe{
   \item{Q}{The total number of quartets for _n_ tips.}
@@ -44,15 +47,16 @@ rtqDist can be installed by copying the following code into your console:
 \code{install.packages(
 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
  repos=NULL, type='source')}
-Or by \href{http://users-cs.au.dk/cstorm/software/tqdist/}{downloading the package}
+or by \href{http://users-cs.au.dk/cstorm/software/tqdist/}{downloading the package}
 and extracting the zipped directory into your library directory (which you
 can locate by typing \code{.libPaths()} into your console).
 
 At present the trees must bear the same number of tips, and each tree$tip.label must use
 the integers 1:n_tip.  Support for different-sized trees will be added if there is demand;
-contact the author if you would appreciate this functionality.\preformatted{  A random pair of fully-resolved trees is expected to share 
-  \code{choose(n_tip, 4) / 3} four-taxon trees.
-}
+contact the author if you would appreciate this functionality.
+
+A random pair of fully-resolved trees is expected to share
+\code{choose(n_tip, 4) / 3} four-taxon trees.
 }
 \examples{
 {
