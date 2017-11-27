@@ -29,7 +29,7 @@ colplot <- function (tr, title=NULL, bold=NULL, ...) {
   plot(tr, tip.col=tip_colours[as.integer(tr$tip.label)], main=title, cex.main=0.8, font=font, y.lim=c(-3.5, n_tip), ...)
 }
 
-rfplot <- function (tr, title, highlight=NULL, ref=ref_tree, ...) {
+rfplot <- function (tr, title=NULL, highlight=NULL, ref=ref_tree, ...) {
   tree_dist <- phangorn::treedist(tr, ref)
   tree_pair <- lapply(list(tr, ref), ape::root, outgroup='1', resolve.root=FALSE)
   class(tree_pair) <- 'multiPhylo'
@@ -42,7 +42,7 @@ rfplot <- function (tr, title, highlight=NULL, ref=ref_tree, ...) {
   text(text_x, -1.5, "RF:", cex=0.8, pos=2)
   text(text_x, -2.5, "Path:", cex=0.8, pos=2)
   text(text_x, -3.5, "SPR:", cex=0.8, pos=2)
-  text(text_x, -0.5, paste0(choose(11, 4) - MatchingQuartets(list(tr, ref))[1, 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(text_x, -0.5, paste0(MatchingQuartets(list(tr, ref))['d', 2], '/', choose(11,4)), cex=0.8, pos=4)
   text(text_x, -1.5, paste0(topo_dist, '/', rf_max), cex=0.8, pos=4)
   text(text_x, -2.5, paste0(signif(tree_dist[2], 3)), cex=0.8, pos=4)
   text(text_x, -3.5, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
@@ -136,10 +136,10 @@ PlotQuartet(trees7, LETTERS[1:4], cex=1.4, font=2)
 There are $n\choose4$ groups of four taxa in a tree with $n$ tips;
 for each of these groups, one of the three trees above will be consistent with
 a given tree.  As such, two identical trees will have a quartet distance of
-0, and a random pair of trees will have an expected quartet distance of 
-${n\choose{4}} / 3$. Because quartets are not independent of one another,
-no pair of trees with six or more tips can have a quartet distance of
-$n\choose4$ [@Steel1993].
+0, and a random pair of trees will have an expected ${n\choose{4}} / 3$
+quartets in common. Because quartets are not independent of one another,
+no pair of trees with six or more tips can have all $n\choose4$ quartets in
+common [@Steel1993].
 
 ## Desired behaviour of tree distance metrics
 
