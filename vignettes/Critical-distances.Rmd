@@ -3,6 +3,8 @@ title: "Interpreting large quartet distances"
 author: "Martin R. Smith"
 date: "27 November 2017"
 output: rmarkdown::html_document
+bibliography: ../inst/REFERENCES.bib
+csl: systematic-biology.csl
 
 vignette: >
   %\VignetteIndexEntry{Interpreting large quartet distances}
