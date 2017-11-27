@@ -31,4 +31,4 @@ citEntry (entry= 'article',
            title = "tqDist: a library for computing the quartet and triplet distances between binary or general trees",
            volume = 30,
            year = 2014
-})
+)
