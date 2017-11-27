@@ -40,6 +40,7 @@ CompareSplits <- function (x, cf) {
 #' (symmetric partition) distance is the sum of the latter two quantities.
 #' 
 #' @template treesParam
+#' @template treesCfParam
 #' 
 #' @return Returns a two dimensional array. 
 #'         Columns correspond to the input trees; the first column will always
@@ -57,7 +58,9 @@ CompareSplits <- function (x, cf) {
 #'  }
 #' @author Martin R. Smith
 #' @export
-MatchingSplits <- function (trees) {
+MatchingSplits <- function (trees, cf=NULL) {
+  if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
+  
   treeStats <- vapply(trees, function (tr)
     c(tr$Nnode, length(tr$tip.label)), double(2))
   if (length(unique(treeStats[2, ])) > 1) {
@@ -72,5 +75,5 @@ MatchingSplits <- function (trees) {
                      'RF_dist')
   
   # Return:
-  ret
+  if (is.null(cf)) ret else ret[, -1]
 }

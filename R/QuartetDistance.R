@@ -269,6 +269,38 @@ TQDist <- function (treeList) {
   rtqdist::allPairsQuartetDistance(fileName)
 }
 
+#' Unshift Tree
+#' 
+#' Add a tree to the start of a list of trees
+#' 
+#' This function is useful where the class of a list of trees is unknown.
+#' Adding a tree to a multiPhylo object whose own attributes apply to all trees,
+#' for example trees read from a nexus file, causes data to be lost..
+#' 
+#' @param add Tree to add to the list, of class \code{phylo}
+#' @param treeList A list of trees, of class \code{list}, \code{mulitPhylo},
+#' or, if a single tree, \code{phylo}.
+#' 
+#' @return A list of class \code{list} or \code{multiPhylo} (following the 
+#' original class of \code{treeList}), whost first element is the tree specified
+#' as \code{add}.
+#' 
+#' @author Martin R. Smith
+#' 
+#' @keywords internal
+#' @export
+UnshiftTree <- function(add, treeList) {
+  if (class(treeList) == 'multiPhylo') {
+    treeList <- c(list(add), lapply(treeList, function (X) X))
+    class(treeList) <- 'multiPhylo'
+    treeList
+  } else if (class(treeList) == 'phylo') {
+    treeList <- list(add, treeList)
+  } else { # including: if (class(trees) == 'list') {
+    c(list(add), treeList)
+  }
+}
+
 #' Matching Quartets
 #' 
 #' Counts matching quartets
@@ -298,8 +330,7 @@ TQDist <- function (treeList) {
 #'    \code{choose(n_tip, 4) / 3} four-taxon trees.
 #' 
 #' @template treesParam
-#' @param cf Comparison tree of class \code{\link[ape]{phylo}}.  If unspecified,
-#'           trees are compared to the first tree in \code{trees}.
+#' @template treesCfParam
 #' @param use.tqDist Logical specifying whether to attempt to use the tqDist algorithm.
 #'               Requires that the `rtqdist` package is installed.
 #'
@@ -329,7 +360,8 @@ TQDist <- function (treeList) {
 #' @importFrom utils installed.packages
 #' @export
 MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
-  if (!is.null(cf)) trees <- c(list(cf), trees)
+  if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
+  
   treeStats <- vapply(trees, function (tr)
     c(tr$Nnode, length(tr$tip.label)), double(2))
   if (length(unique(treeStats[2, ])) > 1) {
