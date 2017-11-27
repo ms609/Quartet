@@ -32,11 +32,8 @@
 #'
 #' @references 
 #' \insertRef{Congreve2016}{SlowQuartet}
-#' 
-#' Congreve, C. R., & Lamsdell, J. C. (2016). Data from: Implied weighting and its utility in 
-#' palaeontological datasets: a study using modelled phylogenetic matrices. Dryad Digital
-#' Repository, \href{http://dx.doi.org/10.5061/dryad.7dq0j}{doi:10.5061/dryad.7dq0j}
-#' #'
+#' \insertRef{Congreve2016dd}{SlowQuartet}
+#'
 #' @source \url{http://datadryad.org/resource/doi:10.5061/dryad.7dq0j}
 "congreveLamsdellMatrices"
 
@@ -49,10 +46,7 @@
 #'
 #' @references 
 #' \insertRef{Congreve2016}{SlowQuartet}
-#' 
-#' Congreve, C. R., & Lamsdell, J. C. (2016). Data from: Implied weighting and its utility in 
-#' palaeontological datasets: a study using modelled phylogenetic matrices. Dryad Digital
-#' Repository, \href{http://dx.doi.org/10.5061/dryad.7dq0j}{doi:10.5061/dryad.7dq0j}
+#' \insertRef{Congreve2016dd}{SlowQuartet}
 #' 
 #' @examples 
 #'   data(referenceTree)
