@@ -1,0 +1,34 @@
+citHeader("To cite in a publication please use:")
+
+year <- "submitted"
+vers <- paste("R package version", meta$Version)
+
+citEntry(entry = "article",
+        title = "TBC",
+        author = personList(as.person("Martin R. Smith")),
+        year = year,
+        note = vers,
+
+        textVersion =
+        paste0("Smith (forthcoming). ",
+               "#TODO provide citation",
+               ", doi: 10.1101/XXXXX"))
+               
+citHeader("If using the package to compare bifurcating trees 
+using tqDist, please also cite:")
+
+citEntry (entry= 'article',
+          author = personList(as.person("Sand, Andreas",
+                  as.person("Holt, Morten K."),
+                  as.person("Johansen, Jens"),
+                  as.person("Brodal, Gerth St{\o}lting"),
+                  as.person("Mailund, Thomas"),
+                  as.person("Pedersen, Christian N. S.")),
+           doi = "10.1093/bioinformatics/btu157",
+           journal = "Bioinformatics",
+           number = 14,
+           pages = "2079--2080",
+           title = "tqDist: a library for computing the quartet and triplet distances between binary or general trees",
+           volume = 30,
+           year = 2014
+})

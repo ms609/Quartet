@@ -36,7 +36,7 @@ Determines the number of four-taxon trees consistent with multiple cladograms
 Given a list of trees, returns the number of quartet statements present in the first tree
 in the list also present in each other tree.
 
-If all trees are bifurcating and the package \code{rtqdist} is installed, then the
+If all trees are bifurcating and the package \code{rtqdist} (Sand 2014) is installed, then the
 function will use the faster `rtqdist`` package to generate quartet distances.
 Otherwise the distances will be generated (slowly) within R.
 
@@ -66,10 +66,8 @@ contact the author if you would appreciate this functionality.\preformatted{  A 
 
 }
 \references{
-\insertRef{Steel1993}{SlowQuartet}
-\insertRef{Rpack:bibtex}{Rdpack}
-%template refEstabrook1985
-%template refTqDist
+\insertRef{Estabrook1985}{SlowQuartet}
+\insertRef{Sand2014}{SlowQuartet}
 }
 \author{
 Martin R. Smith

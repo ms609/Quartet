@@ -271,7 +271,7 @@ TQDist <- function (treeList) {
 #' Given a list of trees, returns the number of quartet statements present in the first tree
 #' in the list also present in each other tree.
 #' 
-#' If all trees are bifurcating and the package `rtqdist` is installed, then the
+#' If all trees are bifurcating and the package `rtqdist` (Sand 2014) is installed, then the
 #' function will use the faster `rtqdist`` package to generate quartet distances.
 #' Otherwise the distances will be generated (slowly) within R.
 #' 
@@ -312,10 +312,8 @@ TQDist <- function (treeList) {
 #' }
 #' 
 #' @references
-#' \insertRef{Steel1993}{SlowQuartet}
-#' \insertRef{Rpack:bibtex}{Rdpack}
-#'   %template refEstabrook1985 
-#'   %template refTqDist
+#' \insertRef{Estabrook1985}{SlowQuartet}
+#' \insertRef{Sand2014}{SlowQuartet}
 #'
 #' @importFrom Rdpack reprompt 
 #' @importFrom TreeSearch RenumberTips
