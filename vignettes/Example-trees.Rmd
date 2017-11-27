@@ -61,8 +61,10 @@ polyplot <- function (tr, title, highlight, ...) {
   text(x_mid, -2.5, cex=0.8, pos=2, "Partitions contradicted")
   text(x_mid, -3.5, cex=0.8, pos=2, "Partitions unresolved")
   
-  text(x_mid, -0.5, cex=0.8, pos=4, paste0(sum(MatchingQuartets(tree_pair)['d', 2]), '/', choose(11,4)))
-  text(x_mid, -1.5, cex=0.8, pos=4, paste0(sum(MatchingQuartets(list(tr, ref_tree))[c('r1','r2','u'), 2]), '/', choose(11,4)))
+  text(x_mid, -0.5, cex=0.8, pos=4, 
+       paste0(MatchingQuartets(tree_pair)['d', 2], '/', choose(11,4)))
+  text(x_mid, -1.5, cex=0.8, pos=4, 
+       paste0(sum(MatchingQuartets(tree_pair)[c('r1','r2','u'), 2]), '/', choose(11,4)))
   # The below assumes that ref is bifurcated, so if a partition's in cf not ref it must contradict.
   text(x_mid, -2.5, cex=0.8, pos=4, paste0(partitions['cf_not_ref'], '/', rf_max / 2))
   text(x_mid, -3.5, cex=0.8, pos=4, paste0(partitions['ref_not_cf'] - partitions['cf_not_ref'], '/', rf_max / 2)) 
@@ -339,7 +341,7 @@ legend('bottomright',
        lty=rep('dotted', 2),
        lwd=c(1, 2),
        col=c('grey', cbPalette8[8]),
-       legend=c('Divergence contours', 'Distance of random tree'), 
+       legend=c("Lines of equal RF distance\n/ quartet divergence", 'Mean distance of random tree'), 
        cex=0.8, bty='n')
 arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
 text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
