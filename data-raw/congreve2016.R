@@ -23,12 +23,12 @@ impX  <- LoadSuboptimal('kX')
 
 clQuartets <- list(
   markov    = vapply(markov, MatchingQuartets, cf=referenceTree, matrix(0, ncol=20, nrow=6)),
-  equal     = vapply(equal , MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied1  = vapply(imp1,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied2  = vapply(imp2,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied3  = vapply(imp3,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied5  = vapply(imp5,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied10  = vapply(impX,   MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6))
+  equal     = vapply(equal, MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
+  implied1  = vapply(imp1,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
+  implied2  = vapply(imp2,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
+  implied3  = vapply(imp3,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
+  implied5  = vapply(imp5,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
+  implied10 = vapply(impX,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6))
 )
 
 clPartitions <- list(
