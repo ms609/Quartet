@@ -50,6 +50,9 @@ Tree2Splits <- function (tr) {
 #' @param quartet A vector of four integers, corresponding to numbered tips on
 #'                the tree; or a character vector specifying the labels of four
 #'                tips.
+#' @param overwritePar Logical specifying whether to use existing 
+#'                     \code{\link[graphics]{par} mfrow} and \code{mar} parameters (\code{FALSE}),
+#'                     or to plot trees side-by-side in a new graphical device.
 #' @param \dots Additional parameters to send to \code{\link[graphics]{plot}} 
 #'                
 #' @author Martin R. Smith
@@ -57,14 +60,18 @@ Tree2Splits <- function (tr) {
 #' @importFrom TreeSearch RenumberTips
 #' 
 #' @export
-PlotQuartet <- function (tree, quartet, ...) { # nocov start
+PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
   
   if (class(tree) == 'phylo') tree <- list(tree)
   
   n_tip <- length(tree[[1]]$tip.label)
-  originalPar <- par(mfrow=c(1, length(tree)), mar=rep(1, 4))
-  on.exit(par(originalPar))
+  
+  if (overwritePar) {
+    originalPar <- par(mfrow=c(1, length(tree)), mar=rep(1, 4))
+    on.exit(par(originalPar))
+  }
+  
   labelOrder <- tree[[1]]$tip.label
   state1 <- QuartetState(quartet, Tree2Splits(tree[[1]]))
   tip_colours <- integer(n_tip) + 1L
