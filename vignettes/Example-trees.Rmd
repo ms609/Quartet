@@ -449,7 +449,9 @@ TernaryQuarts<-function(zoom=1, padding=0.1) {
   
   TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
               grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
-              grid.lines=7,  axis.labels = round(seq(0, choose(22, 4), length.out=8), 0),
+              grid.lines=7,  axis.labels = 
+                if(zoom==1) round(seq(0, choose(22, 4), length.out=8), 0)
+                else FALSE,
               axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
               padding=padding, xlim=xLim, ylim=yLim)
   HorizontalGrid()
@@ -472,7 +474,7 @@ arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
 
 zoom <- 6
-TernaryQuarts(zoom=6, padding=0.05)
+TernaryQuarts(zoom=6, padding=0.01)
 
 TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
             grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
