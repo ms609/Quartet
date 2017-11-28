@@ -1,8 +1,26 @@
+# Generate MrBayes trees using bayesgen.pl
+# Convert MrBayes output into R-readable output in nexTrees folder using t2nex.pl
+library(ape)
+
 data(referenceTree)
 DIR_ROOT = 'data-raw/'
-FILE_NUMS <- formatC(1:100, width=3, format='d', flag='0') # Add leading zeroes to numbers
+FILE_NUMS <- formatC(1:31, width=3, format='d', flag='0') # Add leading zeroes to numbers
 SO_NUMS <- formatC(1:20, width=2, format='d', flag='0')
 TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex')
+BAYES_TREE <- paste0(DIR_ROOT, 'Trees/MrBayes/%s.nex.run%s.nex')
+
+BAYES_SUBOPTIMAL <- seq(1, 0.5, length.out = 21)
+for (NUM in FILE_NUMS) {
+  if (!file.exists(sprintf(TREE_FILE[as.integer(NUM)], 'mk', 'mk', ''))) {
+    trees <- unlist(lapply(1:4, function (run) {
+      read.nexus(file=sprintf(BAYES_TREE, NUM, run))
+    }), recursive=FALSE)
+    class(trees) <- 'multiPhylo'
+    consi <- lapply(BAYES_SUBOPTIMAL, function (p) consensus(trees, p=p))
+    names(consi) <- paste0('consensus_', BAYES_SUBOPTIMAL)
+    write.nexus(rev(consi), file=sprintf(TREE_FILE[as.integer(NUM)], 'mk', 'mk', ''))
+  }
+}
 
 LoadSuboptimal <- function (pref) {
   lapply(TREE_FILE, function (treeFile)
@@ -13,7 +31,7 @@ LoadSuboptimal <- function (pref) {
 }
 
 # Load consensus trees from Equal Weights and Markov model analyses
-markov   <- lapply(sprintf(TREE_FILE, 'mk', ''), read.nexus)
+markov   <- lapply(sprintf(TREE_FILE, 'mk', 'mk', ''), read.nexus)
 equal <- LoadSuboptimal('eq')
 imp1  <- LoadSuboptimal('k1')
 imp2  <- LoadSuboptimal('k2')
