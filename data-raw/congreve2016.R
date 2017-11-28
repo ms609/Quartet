@@ -1,13 +1,13 @@
 data(referenceTree)
 DIR_ROOT = 'data-raw/'
-FILE_NUMS <- formatC(1:10, width=3, format='d', flag='0') # Add leading zeroes to numbers
+FILE_NUMS <- formatC(1:100, width=3, format='d', flag='0') # Add leading zeroes to numbers
 SO_NUMS <- formatC(1:20, width=2, format='d', flag='0')
-TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s.', FILE_NUMS, '%s.con.nex')
+TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex')
 
 LoadSuboptimal <- function (pref) {
   lapply(TREE_FILE, function (treeFile)
-    lapply(c(sprintf(treeFile, pref, ''), 
-             sprintf(treeFile, pref, paste0('.so', SO_NUMS))),
+    lapply(c(sprintf(treeFile, treeFile, pref, ''), 
+             sprintf(treeFile, treeFile, pref, paste0('.so', SO_NUMS))),
            read.nexus)
   )
 }
@@ -42,4 +42,4 @@ clPartitions <- list(
 )
 
 
-devtools::use_data(clQuartets, clPartitions, overwrite=TRUE)
+
