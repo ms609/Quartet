@@ -25,11 +25,12 @@ for (NUM in FILE_NUMS) {
 }
 
 LoadSuboptimal <- function (pref) {
-  lapply(TREE_FILE, function (treeFile)
-    lapply(c(sprintf(treeFile, treeFile, pref, ''), 
-             sprintf(treeFile, treeFile, pref, paste0('.so', SO_NUMS))),
+  lapply(TREE_FILE, function (treeFile) {
+    if (!all(file.exists(sprintf(treeFile, pref, pref, paste0('.so', SO_NUMS))))) stop("Can't find ", sprintf(treeFile, pref, pref, ''))
+    lapply(c(sprintf(treeFile, pref, pref, ''), 
+             sprintf(treeFile, pref, pref, paste0('.so', SO_NUMS))),
            read.nexus)
-  )
+  })
 }
 
 # Load consensus trees from Equal Weights and Markov model analyses
