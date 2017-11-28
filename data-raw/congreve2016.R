@@ -42,24 +42,26 @@ imp3  <- LoadSuboptimal('k3')
 imp5  <- LoadSuboptimal('k5')
 impX  <- LoadSuboptimal('kX')
 
+BLANK_RETURN <- matrix(0, ncol=21, nrow=6)
+
 clQuartets <- list(
-  markov    = vapply(markov, MatchingQuartets, cf=referenceTree, matrix(0, ncol=20, nrow=6)),
-  equal     = vapply(equal, MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied1  = vapply(imp1,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied2  = vapply(imp2,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied3  = vapply(imp3,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied5  = vapply(imp5,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied10 = vapply(impX,  MatchingQuartets, cf=referenceTree, matrix(0, ncol=21, nrow=6))
+  markov    = vapply(markov, MatchingQuartets, cf=referenceTree, BLANK_RETURN),
+  equal     = vapply(equal,  MatchingQuartets, cf=referenceTree, BLANK_RETURN),
+  implied1  = vapply(imp1,   MatchingQuartets, cf=referenceTree, BLANK_RETURN),
+  implied2  = vapply(imp2,   MatchingQuartets, cf=referenceTree, BLANK_RETURN),
+  implied3  = vapply(imp3,   MatchingQuartets, cf=referenceTree, BLANK_RETURN),
+  implied5  = vapply(imp5,   MatchingQuartets, cf=referenceTree, BLANK_RETURN),
+  implied10 = vapply(impX,   MatchingQuartets, cf=referenceTree, BLANK_RETURN)
 )
 
 clPartitions <- list(
-  markov    = vapply(markov, MatchingSplits, cf=referenceTree, matrix(0, ncol=20, nrow=6)),
-  equal     = vapply(equal , MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied1  = vapply(imp1,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied2  = vapply(imp2,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied3  = vapply(imp3,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied5  = vapply(imp5,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6)),
-  implied10 = vapply(impX,   MatchingSplits, cf=referenceTree, matrix(0, ncol=21, nrow=6))
+  markov    = vapply(markov, MatchingSplits, cf=referenceTree, BLANK_RETURN),
+  equal     = vapply(equal , MatchingSplits, cf=referenceTree, BLANK_RETURN),
+  implied1  = vapply(imp1,   MatchingSplits, cf=referenceTree, BLANK_RETURN),
+  implied2  = vapply(imp2,   MatchingSplits, cf=referenceTree, BLANK_RETURN),
+  implied3  = vapply(imp3,   MatchingSplits, cf=referenceTree, BLANK_RETURN),
+  implied5  = vapply(imp5,   MatchingSplits, cf=referenceTree, BLANK_RETURN),
+  implied10 = vapply(impX,   MatchingSplits, cf=referenceTree, BLANK_RETURN)
 )
 
 
