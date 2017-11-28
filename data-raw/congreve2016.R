@@ -4,7 +4,7 @@ library(ape)
 
 data(referenceTree)
 DIR_ROOT = 'data-raw/'
-FILE_NUMS <- formatC(1:31, width=3, format='d', flag='0') # Add leading zeroes to numbers
+FILE_NUMS <- formatC(1:100, width=3, format='d', flag='0') # Add leading zeroes to numbers
 SO_NUMS <- formatC(1:20, width=2, format='d', flag='0')
 TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex')
 BAYES_TREE <- paste0(DIR_ROOT, 'Trees/MrBayes/%s.nex.run%s.nex')
