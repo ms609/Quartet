@@ -248,7 +248,7 @@ trees that contain polytomies:
 both trees.
 
 * $s / (s + d)$ counts, of the quartets that are resolved on both trees, what 
-proportion agree -- the strict joint assertions (_SJA_) measaure.
+proportion agree -- the strict joint assertions (_SJA_) measure.
 
 * $(s + u) / (s + d + u)$ counts, 
 of the quartets that are either resolved or unresolved on both trees, what
