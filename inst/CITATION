@@ -6,14 +6,15 @@ citHeader(paste0("If using this package, please cite Smith (",
           "Sand et al. (2014)."))
 
 citEntry(entry = "article",
-        journal = "TBC",
+        journal = "BioRxiv",
         author = personList(as.person("Martin R. Smith")),
-        title = "TBC",
+        title = "Quantifying and visualising divergence between pairs of phylogenetic trees",
         year = year,
 
         textVersion =
         paste0("Smith (forthcoming). ",
-               "#TODO provide citation",
+               "Quantifying and visualising divergence between pairs of phylogenetic trees. ",
+               "BioRxiv",
                ", doi: 10.1101/XXXXX"))
                
 

@@ -2,7 +2,10 @@ Package: SlowQuartet
 Version: 0.2.0.9001
 Date: 2017-11-22
 Title: Quartet Distance: A Similarity Metric for Phylogenetic Trees
-Description: Calculates the number of four-taxon subtrees consistent with a pair of cladograms.
+Description: Calculates the number of four-taxon subtrees consistent with a pair
+  of cladograms, calculating the Quartet Divergence of Smith (2017),
+  Quantifying and visualising divergence between pairs of phylogenetic trees,
+  BioRxiv <doi:10.1101/XXXXX>
 URL: https://github.com/ms609/SlowQuartet
 BugReports: https://github.com/ms609/SlowQuartet/issues
 Authors@R: c(person("Martin R.", 'Smith',
