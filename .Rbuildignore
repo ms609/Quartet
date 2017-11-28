@@ -8,6 +8,5 @@ cran-comments.md
 /^\.git/
 ^.*\.Rproj$
 man-roxygen
-man-uscript
 data-raw
 /^src\-/
