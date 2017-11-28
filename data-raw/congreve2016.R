@@ -2,7 +2,7 @@
 # Convert MrBayes output into R-readable output in nexTrees folder using t2nex.pl
 library(ape)
 
-data(referenceTree)
+data('referenceTree')
 DIR_ROOT = 'data-raw/'
 FILE_NUMS <- formatC(1:100, width=3, format='d', flag='0') # Add leading zeroes to numbers
 SO_NUMS <- formatC(1:20, width=2, format='d', flag='0')
@@ -23,31 +23,6 @@ for (NUM in FILE_NUMS) {
     names(consi) <- paste0('consensus_', BAYES_SUBOPTIMAL)
     write.nexus(rev(consi), file=sprintf(TREE_FILE[as.integer(NUM)], 'mk', 'mk', ''))
   }
-}
-
-# Determine the consistency index for each simulated dataset
-if (file.exists(CI_PATH)) {
-  i.table <- read.table(file=CI_PATH)
-  consistency.index <- i.table$x
-  names(consistency.index) <- rownames(i.table)
-  consistency.index <- consistency.index[FILE_NUMS]
-} else {
-  dat <- lapply(FILE_NUMS, function (ifileno) PhyDat(read.nexus.data(paste0(path,
-                  'S5Weights/', ifileno, '.txt.nex')), levels=1:2))
-  consistency.index <- vapply(dat, function (idat) ConsistencyIndex(referenceTree, idat), double(1))
-  names(consistency.index) <- FILE_NUMS
-  write.table(consistency.index, file=CI_PATH)
-}
-realisticMatrices   <- which(consistency.index > 0.26)
-unrealisticMatrices <- which(consistency.index <= 0.26)
-all.matrices <- as.integer(FILE_NUMS)
-LoadSuboptimal <- function (pref) {
-  lapply(TREE_FILE, function (treeFile) {
-    if (!all(file.exists(sprintf(treeFile, pref, pref, paste0('.so', SO_NUMS))))) stop("Can't find ", sprintf(treeFile, pref, pref, ''))
-    lapply(c(sprintf(treeFile, pref, pref, ''), 
-             sprintf(treeFile, pref, pref, paste0('.so', SO_NUMS))),
-           read.nexus)
-  })
 }
 
 # Load consensus trees from Equal Weights and Markov model analyses

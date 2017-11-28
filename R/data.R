@@ -63,3 +63,7 @@
 #' @template clQuartets
 "clPartitions"
 
+#' Congreve Lamsdell consistency indices
+#' @rdname congreveLamsdellMatrices
+#' Consistency indices for matrices
+"clCI"
