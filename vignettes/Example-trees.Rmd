@@ -473,7 +473,6 @@ text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
 
-zoom <- 6
 TernaryQuarts(zoom=6, padding=0.01)
 
 TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
@@ -494,26 +493,40 @@ JoinTheDots(Split2Ternary('implied1'), col=COL_1, pch=PCH_IW, cex=1.1)
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
 
-
-legend('bottomright', cex=0.8, bty='n',
-       pch=c(PCH_MK, PCH_EQ, rep(PCH_IW, 4)), pt.cex=1.1,
-       col=c(COL_MK, COL_EQ, COL_5, COL_3, COL_1),
-       legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(5, 3, 1)))
-)
+AddLegend <- function(pos='bottomright')
+  legend(pos, cex=0.8, bty='n',
+         pch=c(PCH_MK, PCH_EQ, rep(PCH_IW, 4)), pt.cex=1.1,
+         col=c(COL_MK, COL_EQ, COL_5, COL_3, COL_1),
+         legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(5, 3, 1)))
+  )
+AddLegend()
 
 ```
 
 We can also examine the situation if we average across all 100 trees:
 
-```{R Congreve Lamsdell tree, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=rep(0.3, 4))
+```{R Congreve Lamsdell tree, fig.height=4.5, fig.width=9, echo=FALSE}
+par(mfrow=c(1, 2), mar=rep(0.3, 4))
 
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , 1:10], 2, rowMeans)
 
 TernaryQuarts(AverageQuarts)
+AddLegend()
 
-zoom <- 6
-TernaryQuarts(Func=AverageQuarts, zoom=6, padding=0.01)
+TernaryQuarts(Func=AverageQuarts, zoom=4, padding=0.01)
+
+```
+
+And partitions for comparison:
+
+
+```{R CL trees - partitions, echo=FALSE}
+AverageSplits <- function (item) {
+  itemData <- apply(clPartitions[[item]][, , 1:30], 2, rowMeans)
+  rbind(itemData['cf_and_ref', ],
+        itemData['cf_not_ref', ],
+        itemData['ref', ] - itemData['cf', ])
+}
 
 TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
             grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
@@ -524,22 +537,15 @@ title(main="\r\nPartitions", cex.main=0.8)
 HorizontalGrid()
 partition_distances <- SplitsPoints(sq_trees)
 
-JoinTheDots(Split2Ternary('markov'   , TREE), col=COL_MK, pch=PCH_MK, cex=1.1)
-JoinTheDots(Split2Ternary('equal'    , TREE), col=COL_EQ, pch=PCH_EQ, cex=1.1)
-JoinTheDots(Split2Ternary('implied5' , TREE), col=COL_5, pch=PCH_IW, cex=1.1)
-JoinTheDots(Split2Ternary('implied3' , TREE), col=COL_3, pch=PCH_IW, cex=1.1)
-JoinTheDots(Split2Ternary('implied1' , TREE), col=COL_1, pch=PCH_IW, cex=1.1)
+JoinTheDots(AverageSplits('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
+JoinTheDots(AverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
+JoinTheDots(AverageSplits('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
+JoinTheDots(AverageSplits('implied3'), col=COL_3, pch=PCH_IW, cex=1.1)
+JoinTheDots(AverageSplits('implied1'), col=COL_1, pch=PCH_IW, cex=1.1)
 
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
-
-
-legend('bottomright', cex=0.8, bty='n',
-       pch=c(PCH_MK, PCH_EQ, rep(PCH_IW, 4)), pt.cex=1.1,
-       col=c(COL_MK, COL_EQ, COL_5, COL_3, COL_1),
-       legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(5, 3, 1)))
-)
-
+AddLegend()
 ```
 
 Of the concavity constants chosen for implied weights, $k=1$ is strikingly worse
