@@ -1,6 +1,6 @@
 #' Quartet Points
 #' 
-#' Generate points to add to a ternary plot
+#' Generate points to add to a ternary plot.
 #' 
 #' @template treesParam
 #' @return A data frame listing the ternary coordinates of trees, based on the
@@ -14,6 +14,9 @@
 #'   TernaryLines(list(c(1/3, 2/3, 0), c(0, 0, 1)), col='red', lty='dotted')
 #'   TernaryPoints(QuartetPoints(sq_trees), pch=cbPalette8[2])
 #' }
+#' 
+#' @references 
+#' \insertRef{ThisStudy}{SlowQuartet}
 #' 
 #' @author Martin R. Smith
 #' 

@@ -11,7 +11,7 @@
 #'         
 #' @references {
 #'  \insertRef{Estabrook1985}{SlowQuartet}
-#'   @template refRobinson1981
+#'  \insertRef{Robinson1981}{SlowQuartet}
 #' }       
 #' @author Martin R. Smith
 #' @export
@@ -54,7 +54,8 @@ CompareSplits <- function (x, cf) {
 #'         \code{(n_tip * 2) - 3}.
 #'         
 #'  @references {
-#'    @template refRobinson1981
+#'    \insertRef{Robinson1981}{SlowQuartet}
+#'    \insertRef{Penny1985}{SlowQuartet}
 #'  }
 #' @author Martin R. Smith
 #' @export
