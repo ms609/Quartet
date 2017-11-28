@@ -255,7 +255,7 @@ of the quartets that are either resolved or unresolved on both trees, what
 proportion do not conflict -- the semi-strict joint assertions (_SSJA_) measure.
 
 I propose a fifth metric, which is analogous to the 
-Kullback-Leiber divergence: it measures the amount of information
+Kullback-Leiber divergence [@Kullback1951]: it measures the amount of information
 that must be supplied to change one tree into the other.
 
 Here, a resolved quartet represents a single unit of information.
@@ -269,7 +269,7 @@ the starting tree, and a list of quartets that must be forged, comprising the
 $d$ different quartets (which, having been removed, must now be added in their
 correct configuration) and the $r_2$ quartets that are resolved only on the second
 tree.  The normalized quartet divergence (_QD_) is given by 
-$Q - ((2d + r_1 + r_2) / 2Q)$.  (An equivalent calculation underlies the
+$(2d + r_1 + r_2) / 2Q$.  (An equivalent calculation underpins the
 partition metric.)
 
 In bifurcating trees, these five measures evaluate to the same quantity
