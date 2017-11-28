@@ -51,6 +51,10 @@ Report the status of a given quartet.
   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
   vapply(Choices(n_tip), QuartetState, bips=splits[[1]], double(1))
 }
+
+}
+\references{
+\insertRef{Estabrook1985}{SlowQuartet}
 }
 \seealso{
 \code{\link{CompareQuartets}}, used to compare sets of bipartitions

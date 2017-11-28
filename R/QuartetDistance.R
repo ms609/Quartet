@@ -95,11 +95,14 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
 #'  Uses \code{\link{memoise}} to make repeated calls faster.
 #'
 #' @param n_tips Integer, specifying the number of tips in a tree.
+#' 
 #' @return Returns a list of length \code{choose(n_tips, 4)}, with each entry 
 #' corresponding to a unique selection of four different integers <= n_tips
+#' 
 #' @author Martin R. Smith
 #'
 #' @seealso \code{\link{combn}}
+#' 
 #' @examples{
 #'  n_tips <- 6
 #'  choice_list <- Choices(n_tips)
@@ -107,6 +110,7 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
 #'  combn(n_tips, 4) # Provides the same information, but for large 
 #'                   # values of n_tips is significantly slower.
 #' }
+#' 
 #' @importFrom memoise memoise
 #' @export
 Choices <- memoise(function (n_tips) {
@@ -141,6 +145,7 @@ Choices <- memoise(function (n_tips) {
 #' bipartitions, or the index of the closest relative to `tips[1]`, otherwise.
 #'
 #' @author Martin R. Smith
+#' 
 #' @seealso \code{\link{CompareQuartets}}, used to compare sets of bipartitions
 #' @examples{
 #'   n_tip <- 6
@@ -151,6 +156,10 @@ Choices <- memoise(function (n_tips) {
 #'   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
 #'   vapply(Choices(n_tip), QuartetState, bips=splits[[1]], double(1))
 #' }
+#' 
+#' @references 
+#'   \insertRef{Estabrook1985}{SlowQuartet}
+#' 
 #' @export
 QuartetState <- function (tips, bips) {
   quartet_splits <- bips[tips, , drop=FALSE]
@@ -408,7 +417,6 @@ MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
 #'
 #' @references 
 #' \insertRef{Estabrook1985}{SlowQuartet}
-#' 
 #' 
 #' @template MRS
 #' 
