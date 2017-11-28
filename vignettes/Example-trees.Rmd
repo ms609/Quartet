@@ -441,8 +441,13 @@ Split2Ternary <- function (item, i) {
         itemData['ref', ] - itemData['cf', ])
 }
 
-TernaryQuarts<-function(xLim, yLim, padding=0.1) {
-  TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8, lab.font=2,
+TernaryQuarts<-function(zoom=1, padding=0.1) {
+  
+  xLim <- c(0, sqrt(3/4)/zoom)
+  yLim <- c(0.5-(1/zoom), 0.5)
+  lab <- if (zoom == 1) c('  Same', ' Different', 'Unresolved') else rep('', 3)
+  
+  TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
               grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
               grid.lines=7,  axis.labels = round(seq(0, choose(22, 4), length.out=8), 0),
               axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
@@ -458,7 +463,7 @@ TernaryQuarts<-function(xLim, yLim, padding=0.1) {
 }
 
 
-TernaryQuarts(NULL, NULL)
+TernaryQuarts()
 title(main="\r\nQuartets", cex.main=0.8)
 arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
 text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
@@ -467,9 +472,9 @@ arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
 
 zoom <- 6
-TernaryQuarts(c(0, sqrt(3/4)/zoom), c(0.5-(1/zoom), 0.5), padding=0.05)
+TernaryQuarts(zoom=6, padding=0.05)
 
-TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8,
+TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
             grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
             axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = round(seq(0, 20, length.out=11), 0))
