@@ -2,6 +2,7 @@
 .Rhistory
 .RData*
 .Ruserdata
+~$*
 *.Rd
 *.trees
 */RcppExports.*
