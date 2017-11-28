@@ -2,36 +2,44 @@
 % Please edit documentation in R/QuartetDistance.R
 \name{MatchingQuartets}
 \alias{MatchingQuartets}
-\title{Matching Quartets
-Count matching quartets
-Determines the number of four-taxon trees consistent with multiple cladograms}
+\title{Matching Quartets}
 \usage{
-MatchingQuartets(trees, use.tqDist = TRUE)
+MatchingQuartets(trees, cf = NULL, use.tqDist = TRUE)
 }
 \arguments{
 \item{trees}{A list of trees of class \code{\link[ape]{phylo}}, with identically-labelled tips.}
 
+\item{cf}{Comparison tree of class \code{\link[ape]{phylo}}.  If unspecified,
+trees are compared to the first tree in \code{trees}.}
+
 \item{use.tqDist}{Logical specifying whether to attempt to use the tqDist algorithm.
-Requires that the `rtqdist` package is installed.}
+Requires that the \code{rtqdist} package is installed.}
 }
 \value{
-Returns a two dimensional array. 
-        Columns correspond to the input trees; the first column will always
-        report a perfect match as it compares the first tree to itself.
-        Rows report the number of quartets that : 1, are present in 
-        \code{trees[[1]]} and the corresponding input tree;
-        2: are unresolved in (at least) one of trees[[1]] and the corresponding 
-        input tree. Quartets that DIFFER between the two relevant trees can be 
-        calculated by deducting the quartets in either of the other two
-        categories from the total number of quartets, given by
-        \code{\link{choose}(n_tip, 4)}.
+Returns a two dimensional array.
+Columns correspond to the input trees; the first column will always
+report a perfect match as it compares the first tree to itself.
+Rows list the status of each quartet:
 }
 \description{
-Given a list of trees, returns the number of quartet statements present in the first tree
-in the list also present in each other tree.
+Counts matching quartets
+
+\describe{
+  \item{Q}{The total number of quartets for _n_ tips.}
+  \item{s}{The number of quartets that are resolved identically in both trees.}
+  \item{d}{The number of quartets that are resolved differently in each tree.}
+  \item{r1}{The number of quartets that are resolved in tree 1, but not in tree 2.}
+  \item{r2}{The number of quartets that are resolved in tree 2, but not in tree 1.}
+  \item{u}{The number of quartets that are unresolved in both trees.}
+}
 }
 \details{
-If all trees are bifurcating and the package `rtqdist` is installed, then the
+Determines the number of four-taxon trees consistent with multiple cladograms
+
+Given a list of trees, returns the number of quartet statements present in the first tree
+in the list also present in each other tree.
+
+If all trees are bifurcating and the package \code{rtqdist} (Sand 2014) is installed, then the
 function will use the faster `rtqdist`` package to generate quartet distances.
 Otherwise the distances will be generated (slowly) within R.
 
@@ -39,34 +47,31 @@ rtqDist can be installed by copying the following code into your console:
 \code{install.packages(
 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
  repos=NULL, type='source')}
- Or by [downloading the package](http://users-cs.au.dk/cstorm/software/tqdist/)
- and extracting the zipped directory into your library directory (which you 
- can locate by typing `.libPaths()` into your console).
-  
-  At present the trees must bear the same number of tips, and each tree$tip.label must use
-  the integers 1:n_tip.  Support for different-sized trees will be added if there is demand; 
-  contact the author if you would appreciate this functionality.
-      
-      A random pair of fully-resolved trees is expected to share 
-      \code{choose(n_tip, 4) / 3} four-taxon trees.
+or by \href{http://users-cs.au.dk/cstorm/software/tqdist/}{downloading the package}
+and extracting the zipped directory into your library directory (which you
+can locate by typing \code{.libPaths()} into your console).
+
+At present the trees must bear the same number of tips, and each tree$tip.label must use
+the integers 1:n_tip.  Support for different-sized trees will be added if there is demand;
+contact the author if you would appreciate this functionality.
+
+A random pair of fully-resolved trees is expected to share
+\code{choose(n_tip, 4) / 3} four-taxon trees.
 }
 \examples{
 {
  n_tip <- 6
- trees <- lapply(logical(12), function (x) ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
- compare_result <- MatchingQuartets(trees)
- dissimilar_quartets <- choose(n_tip, 4) - colSums(compare_result)  
- result <- rbind(compare_result, dissimilar_quartets)
- rownames(result) <- c('Shared', 'Unresolved', 'Dissimilar')
- result
+ data(sq_trees)
+ qt <- MatchingQuartets(sq_trees)
+
+ # Calculate Estabrook et al's similarity measures:
+ do_not_conflict = qt[]
 }
 
 }
 \references{
-{
-  @template refEstabrook1985
-  @template refTqDist
-}
+\insertRef{Estabrook1985}{SlowQuartet}
+\insertRef{Sand2014}{SlowQuartet}
 }
 \author{
 Martin R. Smith

@@ -10,13 +10,14 @@ Choices(n_tips)
 \item{n_tips}{Integer, specifying the number of tips in a tree.}
 }
 \value{
-Returns a list of length \code{choose(n_tips, 4)}, with each entry 
+Returns a list of length \code{choose(n_tips, 4)}, with each entry
 corresponding to a unique selection of four different integers <= n_tips
 }
 \description{
 List all choices of four taxa from a tree.
- A more computationally efficient alternative to \code{\link{combn}}.
- Uses \code{\link{memoise}} to make repeated calls faster.
+
+A more computationally efficient alternative to \code{\link{combn}}.
+Uses \code{\link{memoise}} to make repeated calls faster.
 }
 \examples{
 {
