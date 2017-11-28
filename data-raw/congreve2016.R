@@ -11,10 +11,12 @@ BAYES_TREE <- paste0(DIR_ROOT, 'Trees/MrBayes/%s.nex.run%s.nex')
 
 BAYES_SUBOPTIMAL <- seq(1, 0.5, length.out = 21)
 for (NUM in FILE_NUMS) {
-  if (!file.exists(sprintf(TREE_FILE[as.integer(NUM)], 'mk', 'mk', ''))) {
+  if (!file.exists(sprintf(TREE_FILE[as.integer(NUM)], 'mk', 'mk', ''))
+      && all(file.exists(sprintf(BAYES_TREE, NUM, 1:4)))) {
     trees <- unlist(lapply(1:4, function (run) {
       read.nexus(file=sprintf(BAYES_TREE, NUM, run))
     }), recursive=FALSE)
+    
     class(trees) <- 'multiPhylo'
     consi <- lapply(BAYES_SUBOPTIMAL, function (p) consensus(trees, p=p))
     names(consi) <- paste0('consensus_', BAYES_SUBOPTIMAL)
