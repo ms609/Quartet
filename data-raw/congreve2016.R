@@ -64,5 +64,5 @@ clPartitions <- list(
   implied10 = vapply(impX,   MatchingSplits, cf=referenceTree, BLANK_RETURN)
 )
 
-
+devtools::use_data(clQuartets, clPartitions, overwrite=TRUE)
 
