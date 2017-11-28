@@ -264,10 +264,10 @@ the term "information" is not equivalent to the Shannon entropy.)
 
 To navigate from one tree to another, one requires a list of quartets that must
 be 'unpicked',
-comprising the $d$ different quartets and the $t_1$ that are present only in
+comprising the $d$ different quartets and the $r_1$ that are present only in
 the starting tree, and a list of quartets that must be forged, comprising the
 $d$ different quartets (which, having been removed, must now be added in their
-correct configuration) and the $t_2 quartets that are resolved only on the second
+correct configuration) and the $r_2$ quartets that are resolved only on the second
 tree.  The normalized quartet divergence (_QD_) is given by 
 $Q - ((2d + r_1 + r_2) / 2Q)$.  (An equivalent calculation underlies the
 partition metric.)
