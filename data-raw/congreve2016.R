@@ -8,6 +8,7 @@ FILE_NUMS <- formatC(1:100, width=3, format='d', flag='0') # Add leading zeroes 
 SO_NUMS <- formatC(1:20, width=2, format='d', flag='0')
 TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex')
 BAYES_TREE <- paste0(DIR_ROOT, 'Trees/MrBayes/%s.nex.run%s.nex')
+CI_PATH <- paste0(DIR_ROOT, 'consistency_indices.txt')
 
 BAYES_SUBOPTIMAL <- seq(1, 0.5, length.out = 21)
 for (NUM in FILE_NUMS) {
@@ -24,6 +25,22 @@ for (NUM in FILE_NUMS) {
   }
 }
 
+# Determine the consistency index for each simulated dataset
+if (file.exists(CI_PATH)) {
+  i.table <- read.table(file=CI_PATH)
+  consistency.index <- i.table$x
+  names(consistency.index) <- rownames(i.table)
+  consistency.index <- consistency.index[FILE_NUMS]
+} else {
+  dat <- lapply(FILE_NUMS, function (ifileno) PhyDat(read.nexus.data(paste0(path,
+                  'S5Weights/', ifileno, '.txt.nex')), levels=1:2))
+  consistency.index <- vapply(dat, function (idat) ConsistencyIndex(referenceTree, idat), double(1))
+  names(consistency.index) <- FILE_NUMS
+  write.table(consistency.index, file=CI_PATH)
+}
+realisticMatrices   <- which(consistency.index > 0.26)
+unrealisticMatrices <- which(consistency.index <= 0.26)
+all.matrices <- as.integer(FILE_NUMS)
 LoadSuboptimal <- function (pref) {
   lapply(TREE_FILE, function (treeFile) {
     if (!all(file.exists(sprintf(treeFile, pref, pref, paste0('.so', SO_NUMS))))) stop("Can't find ", sprintf(treeFile, pref, pref, ''))
