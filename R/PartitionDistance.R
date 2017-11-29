@@ -53,6 +53,8 @@ CompareSplits <- function (x, cf) {
 #'         categories from the total number of partitions, given by
 #'         \code{(n_tip * 2) - 3}.
 #'         
+#'@seealso [MatchingQuartets]
+#'         
 #'  @references {
 #'    \insertRef{Robinson1981}{SlowQuartet}
 #'    \insertRef{Penny1985}{SlowQuartet}

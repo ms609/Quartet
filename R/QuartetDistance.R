@@ -360,6 +360,8 @@ UnshiftTree <- function(add, treeList) {
 #'  do_not_conflict = qt[]
 #' }
 #' 
+#' @seealso [MatchingSplits]
+#' 
 #' @references
 #' \insertRef{Estabrook1985}{SlowQuartet}
 #' \insertRef{Sand2014}{SlowQuartet}
@@ -414,6 +416,8 @@ MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
 #' [MatchingQuartets].
 #' @param similarity Logical specifying whether to caluclate the similarity
 #'                   or dissimilarity.
+#'
+#' @seealso [MatchingSplits], [CompareSplits]
 #'
 #' @references 
 #' \insertRef{Estabrook1985}{SlowQuartet}
