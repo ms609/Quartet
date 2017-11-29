@@ -511,6 +511,7 @@ AddLegend()
 
 ```
 
+### Quartet metric
 We can also examine the situation if we average across all 100 trees:
 
 ```{R CL trees - quartets, fig.height=4.5, fig.width=9, echo=FALSE}
@@ -531,7 +532,7 @@ AddLegend('topright')
 
 How good is each tree?
 
-```{R Quartet divergence for each point, echo=FALSE}
+```{R Quartet divergence for each point, echo=FALSE, fig.width=8}
 divergences <- vapply(clQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans)), double(21))
 rownames(divergences) <- c('Optimal', paste0('Subopt. ', 1:20))
 round(divergences, 4)
@@ -543,7 +544,16 @@ Which reduction is the best?
 apply(divergences, 2, which.max) - 1
 ```
 
-And partitions for comparison:
+The only analyses to produce significantly different results from implied weights
+(at $k = 3$) or Bayesian are:
+
+```{R k significance, echo=FALSE}
+treeBests <- vapply(clQuartets, function (item) apply(apply(item[, , TREES], 2, QuartetDivergence), 1, max), double(length(TREES)))
+tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'implied3'])$p.value)
+names(tests[tests < 0.01])
+```
+
+###Partition metric
 
 ```{R CL trees - partitions, fig.height=6, fig.width=6, echo=FALSE}
 AverageSplits <- function (item) {
@@ -577,6 +587,30 @@ arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
 AddLegend()
 ```
+
+How good is each tree?
+
+```{R Partition divergence for each point, echo=FALSE, fig.width=8}
+rf_dists <- vapply(clPartitions, function (item) apply(item['RF_dist', , TREES], 1, mean), double(21))
+rownames(rf_dists) <- c('Optimal', paste0('Subopt. ', 1:20))
+round(rf_dists, 4)
+```
+
+Which reduction is the best?
+
+```{R Partition divergence - best}
+apply(rf_dists, 2, which.min) - 1
+```
+
+Do different values of k produce significantly different results?
+
+```{R k significance}
+treeBests <- vapply(clPartitions, function (item) apply(item['RF_dist', , ], 2, min), double(length(TREES)))
+tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'implied3'])$p.value)
+names(tests[tests < 0.01])
+```
+
+And partitions for comparison:
 
 Of the concavity constants chosen for implied weights, $k=1$ is strikingly worse
 than other values, reflecting the extreme philosophy it represents. 
