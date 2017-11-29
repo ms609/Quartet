@@ -515,12 +515,11 @@ AddLegend()
 We can also examine the situation if we average across all 100 trees:
 
 ```{R CL trees - quartets, fig.height=4.5, fig.width=9, echo=FALSE}
-TREES <- 1:99 # TODO 1:100 this once we've generated the missing trees!
+TREES <- 1:100
 # # There is essentially no difference if we exclude datasets with a low CI.
 # # The lines just slide up a little.
 # data(clCI)
-# cis <- as.double(clCI[-c(36, 67)])
-# TREES <- TREES[cis > 0.26]
+# TREES <- TREES[clCI > 0.26]
 
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , TREES], 2, rowMeans)
