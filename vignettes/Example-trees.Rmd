@@ -525,8 +525,22 @@ par(mfrow=c(1, 2), mar=rep(0.3, 4))
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , TREES], 2, rowMeans)
 TernaryQuarts(AverageQuarts)
 AddLegend()
-TernaryQuarts(Func=AverageQuarts, zoom=2.25, padding=0.01)
+TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
 
+```
+
+How good is each tree?
+
+```{R Quartet divergence for each point, echo=FALSE}
+divergences <- vapply(clQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans)), double(21))
+rownames(divergences) <- c('Optimal', paste0('Subopt. ', 1:20))
+divergences
+```
+
+Which reduction is the best?
+
+```{R Best divergence}
+apply(divergences, 2, which.max) - 1
 ```
 
 And partitions for comparison:

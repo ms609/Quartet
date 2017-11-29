@@ -467,6 +467,7 @@ SemiStrictJointAssertions <- function (mq, similarity=TRUE) {
 }
 
 #' @rdname QuartetMetrics
+#' @references \insertRef{ThisStudy}{SlowQuartet}
 #' @export
 QuartetDivergence <- function (mq, similarity=TRUE) {
   if (is.null(dim(mq))) mq <- as.matrix(mq)
