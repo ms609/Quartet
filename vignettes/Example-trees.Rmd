@@ -504,7 +504,7 @@ AddLegend <- function(pos='bottomright')
   legend(pos, cex=0.8, bty='n',
          lty=1,
          pch=c(PCH_MK, PCH_EQ, PCH_XX, PCH_IW, PCH_XX, PCH_XX, PCH_IW, PCH_IC), pt.cex=1.1,
-         col=c(COL_MK, COL_EQ, COL10, COL_5, COL_2, COL_3, COL_1, COL_C),
+         col=c(COL_MK, COL_EQ, COL10, COL_5, COL_3, COL_2, COL_1, COL_C),
          legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(10, 5, 3, 2, 1, '2..10')))
   )
 AddLegend()
@@ -524,8 +524,8 @@ TREES <- 1:99 # TODO 1:100 this once we've generated the missing trees!
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , TREES], 2, rowMeans)
 TernaryQuarts(AverageQuarts)
-AddLegend()
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
+AddLegend('topright')
 
 ```
 
@@ -534,7 +534,7 @@ How good is each tree?
 ```{R Quartet divergence for each point, echo=FALSE}
 divergences <- vapply(clQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans)), double(21))
 rownames(divergences) <- c('Optimal', paste0('Subopt. ', 1:20))
-divergences
+round(divergences, 4)
 ```
 
 Which reduction is the best?
