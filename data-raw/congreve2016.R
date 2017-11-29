@@ -1,6 +1,7 @@
 # Generate MrBayes trees using bayesgen.pl
 # Convert MrBayes output into R-readable output in nexTrees folder using t2nex.pl
 library(ape)
+library(SlowQuartet)
 
 data('referenceTree')
 DIR_ROOT = 'data-raw/'
@@ -25,7 +26,15 @@ for (NUM in FILE_NUMS) {
   }
 }
 
-TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS[-34], '%s.con.nex')
+LoadSuboptimal <- function (pref) {
+  lapply(TREE_FILE, function (treeFile) {
+    lapply(c(sprintf(treeFile, pref, pref, ''), 
+             sprintf(treeFile, pref, pref, paste0('.so', SO_NUMS))),
+           read.nexus)
+  })
+}
+
+TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex')
 # Load consensus trees from Equal Weights and Markov model analyses
 markov   <- lapply(sprintf(TREE_FILE, 'mk', 'mk', ''), read.nexus)
 equal <- LoadSuboptimal('eq')
