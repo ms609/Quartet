@@ -424,7 +424,6 @@ PCH_EQ <- 61  #'='
 PCH_XX <- 183 #'.'
 PCH_IW <- 2   #triup
 PCH_IC <- 17  #triupfilled
-TREE <- 2
 
 COL_MK <- cbPalette8[4]
 COL_EQ <- cbPalette8[2]
@@ -471,6 +470,7 @@ TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
 }
 
 
+TREE <- 2
 TernaryQuarts()
 title(main="\r\nQuartets", cex.main=0.8)
 arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
@@ -602,7 +602,7 @@ Which reduction is the best?
 apply(rf_dists, 2, which.min) - 1
 ```
 
-Do different values of k produce significantly different results at $p = 0.01$?
+Do different values of k produce significantly different results ($p = 0.01$)?
 
 ```{R Partition significance, echo=FALSE}
 treeBests <- vapply(clPartitions, function (item) apply(item['RF_dist', , ], 2, min), double(length(TREES)))
