@@ -1,5 +1,5 @@
 ---
-title: "The quartet distance"
+title: "Comparing trees with quartets"
 author: "Martin R. Smith"
 date: "30 November 2017"
 output: rmarkdown::html_document
@@ -11,7 +11,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r Initialize, include=FALSE}
+```{r setup, include=FALSE}
 require('ape')
 require('SlowQuartet')
 data('sq_trees')
@@ -111,7 +111,7 @@ For any four tips A, B, C and D, a bipartition on a bifurcating tree will separa
 tip A and either B, C or D from the other two tips.  That is to say, removing
 all other tips from the tree will leave one of these three trees:
 
-```{R Three four-taxon trees, echo=FALSE, fig.height=2, fig.width=6}
+```{R Three four-taxon trees, echo=FALSE, cache=TRUE, fig.width=6, fig.asp=1/3, out.width='66%', fig.align='center',dev='svg'}
 par(mfrow=c(1, 3), mar=c(0.5, 1, 0.5, 1), cex=1)
 plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=Ternary::cbPalette8[c(1, 4, 7, 5)], font=2)
 plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=Ternary::cbPalette8[c(1, 7, 4, 5)], font=2)
@@ -121,7 +121,7 @@ plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=Ternary::cbPalette8[c(1
 Thus two of the random trees below share the quartet `(A, B), (C, D)`, whereas 
 the third does not; these four tips are divided into `(A, D), (B, C)`.
 
-```{R Plot a quartet, fig.height=2, fig.width=6, echo=FALSE}
+```{R Plot a quartet, echo=FALSE, cache=TRUE, fig.asp=1.3/3, fig.width=6, out.width='80%', fig.align='center',dev='svg'}
 par(mfrow=c(1, 3))
 set.seed(7)
 trees7 <- lapply(logical(3), function (X) {
@@ -151,8 +151,8 @@ metrics [@Penny1985] are best illustrated by examining a set of example trees.
 If trees differ only in the location of a single taxon, then the distance between
 two trees should correspond to the distance that this taxon has been moved.
 
-```{R Moving a single taxon, fig.height=3, fig.width=12, echo=FALSE}
-par(mfrow=c(1, 4), mar=rep(0.4, 4), cex=1)
+```{R Moving a single taxon, fig.asp=1.8/5, out.width='100%', fig.width=6, echo=FALSE, cache=TRUE, dev='svg'}
+par(mfrow=c(1, 4), mar=rep(0.4, 4))
 colplot(ref_tree,     'Reference tree', 1)
 rfplot(sq_trees$move_one_near, 'Short move', 1)
 rfplot(sq_trees$move_one_mid, 'Medium move', 1)
@@ -173,7 +173,7 @@ does not differ whether one or two tips are moved.
 For larger moves, however, the RF distance is _less_ when two tips are moved than
 when a single tip is moved.  The path and quartet metrics perform as expected.
 
-```{R Moving a cherry, fig.height=8, fig.width=9, echo=FALSE}
+```{R Moving a cherry, echo=FALSE, cache=TRUE, fig.asp=1.6*3/3, fig.width=6, out.width='66%', fig.align='center', dev='svg'}
 par(mfrow=c(3, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(ref_tree, 'Reference tree')
@@ -201,8 +201,8 @@ shared between the two trees, this situation generates the maximum
 RF distance, and this trivially deformed tree is considered to be as distant
 as a random tree.
 
-```{R Pectinate to break RF, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
+```{R Pectinate to break RF, echo=FALSE, cache=TRUE, fig.asp=1.5/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+par(mfrow=c(1, 3), mar=rep(0.4, 4))
 
 pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10, 11))))))))));')
 pectinate_unrooted <- ape::unroot(pectinate_tree)
@@ -217,8 +217,8 @@ tree is $2/3$ [@Day1986; @Steel1993].  As such, trees that are more different th
 can be readily recognized, as their quartet distance will be greater than 
 `r choose(n_tip, 4) * 2 / 3`/`r choose(n_tip, 4)`:
 
-```{R Increasing distances, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
+```{R Increasing distances, echo=FALSE, cache=TRUE, fig.asp=1.4/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+par(mfrow=c(1, 3), mar=rep(0.4, 4))
 colplot(ref_tree, 'Reference tree')
 rfplot(sq_trees$random_tree,   'Random tree'     )
 rfplot(sq_trees$opposite_tree, 'Maximum distance')
@@ -276,8 +276,8 @@ In bifurcating trees, these five measures evaluate to the same quantity
 [@Estabrook1985].  
 
 
-```{R Polytomies - same topology, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
+```{R Polytomies - same topology, echo=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 colplot(ref_tree, 'Reference tree')
 polyplot(sq_trees$collapse_one, 'One polytomy', 7:9)
@@ -290,8 +290,8 @@ of resolution.  We can also change the topology before we collpase nodes --
 here we introduce the same loss of resolution in trees in which one tip
 (tip 1) was moved:
 
-```{R Polytomies 1, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
+```{R Polytomies 1, echo=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 polyplot(sq_trees$move_one_mid, 'One moved, no polytomy', 1)
 polyplot(sq_trees$m1mid_col1, 'One moved, one polytomy', 1)
@@ -302,8 +302,8 @@ polyplot(sq_trees$m1mid_colsome, 'One moved, much polytomy', 1)
 And here again, collapsing nodes in the trees
 in which two taxa (10 & 11) were moved:
 
-```{R Polytomies 2, fig.height=3, fig.width=9, echo=FALSE}
-par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4), cex=1)
+```{R Polytomies 2, echo=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 polyplot(sq_trees$move_two_mid,  'Two moved, no polytomy'  , 10:11)
 polyplot(sq_trees$m2mid_col1,    'Two moved, one polytomy' , 10:11)
@@ -315,7 +315,7 @@ polyplot(sq_trees$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
 We can visualize this data using a ternary diagram.
 
-```{R Plot some trees, fig.width=10, fig.height=5, echo=FALSE}
+```{R Plot some trees, echo=FALSE, cache=TRUE, fig.asp=1/2, fig.width=8, out.width='100%', fig.align='center', dev='svg'}
 library('Ternary')
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
 collapse_perfect <- c('ref_tree', 'collapse_one', 'collapse_some')
@@ -326,7 +326,7 @@ TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8, lab.font=
             grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
             axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
             padding=0.1)
-title(main="\r\nQuartet distances", cex.main=0.8)
+title(main="\nQuartet distances", cex.main=0.8)
 HorizontalGrid()
 AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
 
@@ -354,7 +354,7 @@ TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8,
             grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
             axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
             padding=0.1)
-title(main="\r\nPartition distances", cex.main=0.8)
+title(main="\nPartition distances", cex.main=0.8)
 
 HorizontalGrid()
 partition_distances <- SplitsPoints(sq_trees)
@@ -368,13 +368,16 @@ TernaryLines (partition_distances[collapse_move2, ],   col=cbPalette8[4])
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
 
+legend('bottom', cex=0.8, bty='n',
+       pch=20, pt.cex=1.5, col=cbPalette8[2:4],
+       title='Move:',
+       legend=c('No tips', 'One tip', 'Two tips'))
+
 legend('bottomright', cex=0.8, bty='n',
-       pch=c(20, pchs, rep(20, 5)), pt.cex=1.5,
-       col=c('white', rep('black', 3), rep('white', 2), cbPalette8[2:4]),
-       legend=c('Collapse:', 'No nodes', 'One node', 'Many nodes',
-      '', 'Move:', 'No tips', 'One tip', 'Two tips'))
-
-
+       pch=pchs, pt.cex=1.5, col='black',
+       title='Collapse:',
+       legend=c('No nodes', 'One node', 'Many nodes')
+)
 ```
 
 ## Using ternary diagrams to inform tree reconstruction techniques
@@ -414,7 +417,7 @@ with high support are likely to be correct.  The same pattern holds here for
 Bayesian trees, though in equal weights it seems that the maximum resolution 
 attainable is already on the descending part of the curve.  
 
-```{R Congreve Lamsdell tree, fig.height=3, fig.width=9, echo=FALSE}
+```{R Congreve Lamsdell tree, echo=FALSE, cache=TRUE, fig.asp=1/3, fig.width=9, out.width='100%', fig.align='center'}
 par(mfrow=c(1, 3), mar=rep(0.3, 4))
 data(clPartitions)
 data(clQuartets)
@@ -472,7 +475,7 @@ TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
 
 TREE <- 2
 TernaryQuarts()
-title(main="\r\nQuartets", cex.main=0.8)
+title(main="\nQuartets", cex.main=0.8)
 arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
 text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
 
@@ -485,7 +488,7 @@ TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
             grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
             axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = round(seq(0, 20, length.out=11), 0))
-title(main="\r\nPartitions", cex.main=0.8)
+title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid()
 partition_distances <- SplitsPoints(sq_trees)
@@ -514,7 +517,7 @@ AddLegend()
 ### Quartet metric
 We can also examine the situation if we average across all 100 trees:
 
-```{R CL trees - quartets, fig.height=4.5, fig.width=9, echo=FALSE}
+```{R CL trees - quartets, echo=FALSE, cache=TRUE, fig.asp=1/2, fig.width=9, out.width='100%', fig.align='center', dev='svg'}
 TREES <- 1:100
 # # There is essentially no difference if we exclude datasets with a low CI.
 # # The lines just slide up a little.
@@ -555,7 +558,7 @@ names(tests[tests < 0.01])
 
 ###Partition metric
 
-```{R CL trees - partitions, fig.height=6, fig.width=6, echo=FALSE}
+```{R CL trees - partitions, echo=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center', dev='svg'}
 AverageSplits <- function (item) {
   itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
   rbind(itemData['cf_and_ref', ],
@@ -567,7 +570,7 @@ TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
             grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
             axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = round(seq(0, 20, length.out=11), 0))
-title(main="\r\nPartitions", cex.main=0.8)
+title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid()
 partition_distances <- SplitsPoints(sq_trees)
