@@ -539,14 +539,14 @@ round(divergences, 4)
 
 Which reduction is the best?
 
-```{R Best divergence}
+```{R Quartet divergence - optimals, echo=FALSE}
 apply(divergences, 2, which.max) - 1
 ```
 
 The only analyses to produce significantly different results from implied weights
 (at $k = 3$) or Bayesian are:
 
-```{R k significance, echo=FALSE}
+```{R Quartet divergence - significance, echo=FALSE}
 treeBests <- vapply(clQuartets, function (item) apply(apply(item[, , TREES], 2, QuartetDivergence), 1, max), double(length(TREES)))
 tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'implied3'])$p.value)
 names(tests[tests < 0.01])
@@ -597,16 +597,16 @@ round(rf_dists, 4)
 
 Which reduction is the best?
 
-```{R Partition divergence - best}
+```{R Partition divergence - best, echo=FALSE}
 apply(rf_dists, 2, which.min) - 1
 ```
 
-Do different values of k produce significantly different results?
+Do different values of k produce significantly different results at $p = $`r p.critical <- 0.01; p.critical`?
 
-```{R k significance}
+```{R Partition significance, echo=FALSE}
 treeBests <- vapply(clPartitions, function (item) apply(item['RF_dist', , ], 2, min), double(length(TREES)))
-tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'implied3'])$p.value)
-names(tests[tests < 0.01])
+tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
+names(tests[tests < p.critical])
 ```
 
 And partitions for comparison:
