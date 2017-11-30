@@ -126,8 +126,10 @@ AverageSplits <- function (item) {
 
 
 
-COL_WIDTH = 8/2.54
+COL_WIDTH = 7.6/2.54
 
+
+################################################################################
 
 # Figures should be drawn to publication quality and to fit into a single column
 # width (7 cm) wherever possible. Please ensure that axes, tick marks, symbols 
@@ -136,11 +138,16 @@ pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1
 par(mfrow=c(2, 1), mai=rep(0, 4))
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , TREES], 2, rowMeans)
 TernaryQuarts(AverageQuarts)
+par(mai=rep(0.15,4))
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
 AddLegend('topright')
 dev.off()
 
 
+
+################################################################################
+
+################################################################################
 
 
 pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
@@ -196,6 +203,8 @@ TernaryLines(AverageSplits('implied2' ), col=COL_2,  pch=PCH_XX)
 TernaryLines(AverageSplits('implied1' ), col=COL_1,  pch=PCH_XX)
 TernaryLines(AverageSplits('equal'    ), col=COL_EQ, pch=PCH_XX)
 TernaryLines(AverageSplits('markov'   ), col=COL_MK, pch=PCH_XX)
+
+PCH_EQ = 0
 
 TernaryPoints(AverageSplits('impliedC' )[, 1], col=COL_C,  pch=PCH_IC, cex=1.1)
 TernaryPoints(AverageSplits('implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
