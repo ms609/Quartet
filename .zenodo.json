@@ -1,0 +1,14 @@
+{
+    "description": "An R Package for Comparing Phylogenetic Trees", 
+    "license": "unlimited", 
+    "title": "SlowQuartet", 
+    "version": "v0.2.0", 
+    "upload_type": "software", 
+    "creators": [
+        {
+            "affiliation": "Department of Earth Sciences, Durham University", 
+            "name": "Martin R. Smith",
+            "orcid": "0000-0001-5660-1727"
+        }
+    ]
+}

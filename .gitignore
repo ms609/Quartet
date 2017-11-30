@@ -11,6 +11,7 @@ src-*
 src/*.o
 src/*.so
 src/*.dll
+vignettes/*_cache
 vignettes/*.html
 vignettes/*.pdf
 vignettes/*_files
