@@ -3,8 +3,10 @@
 .RData*
 .Ruserdata
 ~$*
+*.pdf
 *.Rd
 *.trees
+*.zip
 */RcppExports.*
 inst/doc
 src-*
