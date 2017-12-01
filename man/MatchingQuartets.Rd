@@ -73,6 +73,9 @@ A random pair of fully-resolved trees is expected to share
 \insertRef{Estabrook1985}{SlowQuartet}
 \insertRef{Sand2014}{SlowQuartet}
 }
+\seealso{
+\link{MatchingSplits}
+}
 \author{
 Martin R. Smith
 }

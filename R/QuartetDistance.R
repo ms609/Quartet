@@ -1,5 +1,21 @@
 WHICH_OTHER_NODE <- 2:4
 
+#' Drop Single Splits
+#' 
+#' Removes splits that pertain only to a single taxon from a splits object
+#' 
+#' @param split A matrix in whcih each column corresponds to a bipartiton split
+#' 
+#' @return The same matrix, with any columns that separate only a single pendant tip
+#'         removed.
+#'         
+#' @author Martin R. Smith
+#' 
+#' @export 
+DropSingleSplits <- function (split) {
+  split[, colSums(split) > 1 & colSums(!split) > 1, drop=FALSE]
+}
+
 #' Tree2Splits
 #' 
 #' Converts a phylogenetic tree to an array of bipartition splits.
@@ -27,7 +43,7 @@ Tree2Splits <- function (tr) {
   rownames(ret) <- tip_label
   
   # Return:
-  ret
+  DropSingleSplits(ret)
 }
 
 #' Column Sums
