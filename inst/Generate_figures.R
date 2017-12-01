@@ -71,14 +71,17 @@ PCH_XX <- 183 #'.'
 PCH_IW <- 2   #triup
 PCH_IC <- 17  #triupfilled
 
-COL_MK <- cbPalette8[4]
-COL_EQ <- cbPalette8[2]
-COL_1  <- cbPalette15[6]
-COL_2  <- cbPalette15[7]
-COL_3  <- cbPalette15[8]
-COL_5  <- cbPalette15[4]
-COL10  <- cbPalette15[5]
-COL_C  <- cbPalette15[12]
+COL_MK <- paste0(cbPalette8[4],   '99')
+COL_EQ <- paste0(cbPalette8[2],   '99')
+COL_1  <- paste0(cbPalette15[6],  '99')
+COL_2  <- paste0(cbPalette15[7],  '99')
+COL_3  <- paste0(cbPalette15[8],  '99')
+COL_5  <- paste0(cbPalette15[4],  '99')
+COL10  <- paste0(cbPalette15[5],  '99')
+COL_C  <- paste0(cbPalette15[12], '99')
+
+GRID_COL <- rgb(0.92, 0.92, 0.92)
+BG_COL   <- rgb(0.985, 0.985, 0.992)
 
 Quartet2Ternary <- function (item) clQuartets[[item]][c('s', 'd', 'r2'), , TREE]
   
@@ -96,16 +99,17 @@ TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
   lab <- if (zoom == 1) c('  Same', ' Different', '\nUnresolved') else rep('', 3)
   
   TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
-              grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
-              grid.lines=7,  axis.labels = 
-                if(zoom==1) round(seq(0, choose(22, 4), length.out=8), 0)
+              col=BG_COL,
+              grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
+              axis.labels = 
+                if(zoom==1) round(seq(0, choose(22, 4), length.out=20), 0)
                 else FALSE,
-              axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
+              axis.col=rgb(0.6, 0.6, 0.6),
               padding=padding, xlim=xLim, ylim=yLim)
-  HorizontalGrid()
+  HorizontalGrid(19)
   AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
   
-  JoinTheDots(Func('implied10'), col=COL10,  pch=PCH_XX, cex=1.1)
+  JoinTheDots(Func('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
   JoinTheDots(Func('implied5'), col=COL_5,  pch=PCH_IW, cex=1.1)
   JoinTheDots(Func('implied3'), col=COL_3,  pch=PCH_XX, cex=1.1)
   JoinTheDots(Func('implied2'), col=COL_2,  pch=PCH_XX, cex=1.1)
@@ -115,8 +119,24 @@ TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
   JoinTheDots(Func('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
 }
 
+
+AddArrows <- function (quality) {
+  arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.08)
+  text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
+  arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.08)
+  text  (sqrt(3/4) * 1.01, 0.30, pos=3, quality, cex=0.8, srt=270)
+}
+
+AddLegend <- function(pos='bottomright')
+  legend(pos, cex=0.8, bty='n',
+         lty=1,
+         pch=c(PCH_MK, PCH_EQ, PCH_XX, PCH_IW, PCH_XX, PCH_XX, PCH_IW, PCH_IC), pt.cex=1.1,
+         col=c(COL_MK, COL_EQ, COL10, COL_5, COL_3, COL_2, COL_1, COL_C),
+         legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(10, 5, 3, 2, 1, '2..10')))
+  )
+
 AverageSplits <- function (item) {
-  itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
+  itemData <- apply(clPartitions[[item]][, , ], 2, rowMeans)
   rbind(itemData['cf_and_ref', ],
         itemData['cf_not_ref', ],
         itemData['ref', ] - itemData['cf', ])
@@ -136,9 +156,10 @@ COL_WIDTH = 7.6/2.54
 # and labels are large enough to allow reduction to a final size of c. 8 point.
 pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
 par(mfrow=c(2, 1), mai=rep(0, 4))
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , TREES], 2, rowMeans)
+AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , ], 2, rowMeans)
 TernaryQuarts(AverageQuarts)
-par(mai=rep(0.15,4))
+AddArrows('Increasing Divergence')
+par(mai=c(0, 0.15, 0, 0.15))
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
 AddLegend('topright')
 dev.off()
@@ -155,27 +176,25 @@ par(mfrow=c(1,1), mai=rep(0, 4))
 
 
 TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
-            grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
-            axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = round(seq(0, 20, length.out=11), 0))
+            grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
+            col=BG_COL, 
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
 title(main="\nPartitions", cex.main=0.8)
 
-HorizontalGrid()
+HorizontalGrid(grid.col='#888888', grid.lines=19)
 partition_distances <- SplitsPoints(sq_trees)
 
-JoinTheDots(AverageSplits('impliedC'), col=COL_C, pch=PCH_IC, cex=1.1)
 JoinTheDots(AverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
 JoinTheDots(AverageSplits('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
 JoinTheDots(AverageSplits('implied3'), col=COL_3, pch=PCH_XX, cex=1.1)
 JoinTheDots(AverageSplits('implied2'), col=COL_2, pch=PCH_XX, cex=1.1)
 JoinTheDots(AverageSplits('implied1'), col=COL_1, pch=PCH_IW, cex=1.1)
-JoinTheDots(AverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
 JoinTheDots(AverageSplits('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
+JoinTheDots(AverageSplits('impliedC'), col=COL_C, pch=PCH_IC, cex=1.1)
+JoinTheDots(AverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
-arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.08)
-text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
-arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.08)
-text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
+AddArrows("Increasing RF distance")
 AddLegend()
 dev.off()
 
@@ -187,33 +206,34 @@ dev.off()
 pdf(file="inst/Figure_3.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
 par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
-            grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
-            axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = round(seq(0, 20, length.out=11), 0))
+            col=BG_COL,
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
 title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid()
 partition_distances <- SplitsPoints(sq_trees)
 
-TernaryLines(AverageSplits('impliedC' ), col=COL_C,  pch=PCH_XX)
 TernaryLines(AverageSplits('implied10'), col=COL10, pch=PCH_XX)
 TernaryLines(AverageSplits('implied5' ), col=COL_5,  pch=PCH_XX)
 TernaryLines(AverageSplits('implied3' ), col=COL_3,  pch=PCH_XX)
 TernaryLines(AverageSplits('implied2' ), col=COL_2,  pch=PCH_XX)
 TernaryLines(AverageSplits('implied1' ), col=COL_1,  pch=PCH_XX)
-TernaryLines(AverageSplits('equal'    ), col=COL_EQ, pch=PCH_XX)
+TernaryLines(AverageSplits('impliedC' ), col=COL_C,  pch=PCH_XX)
 TernaryLines(AverageSplits('markov'   ), col=COL_MK, pch=PCH_XX)
+TernaryLines(AverageSplits('equal'    ), col=COL_EQ, pch=PCH_XX)
 
 PCH_EQ = 0
 
-TernaryPoints(AverageSplits('impliedC' )[, 1], col=COL_C,  pch=PCH_IC, cex=1.1)
 TernaryPoints(AverageSplits('implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
 TernaryPoints(AverageSplits('implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
 TernaryPoints(AverageSplits('implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
 TernaryPoints(AverageSplits('implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1)
 TernaryPoints(AverageSplits('implied1' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
 TernaryPoints(AverageSplits('markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
+TernaryPoints(AverageSplits('impliedC' )[, 1], col=COL_C,  pch=PCH_IC, cex=1.1)
+TernaryPoints(AverageSplits('equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
 equal_point <- AverageSplits('equal'    )[, 1]
 equal_differents <- equal_point[2]
@@ -222,15 +242,15 @@ TernaryLines(list(c(0, equal_differents, 20-equal_differents),
              col=COL_EQ, lty='dashed', lwd=1.5)
 equal_coords <- TernaryCoords(equal_point)
 lines(c(0, sqrt(3/4) * (0.5 + equal_coords[2])), rep(equal_coords[2], 2), 
-      col=COL_EQ, lty='dotted', lwd=1.5)
+      col=COL_EQ, lty='dotted', lwd=1.75)
 lines(rep(equal_coords[1], 2), c(-1, +1) * 0.5 * (1 - equal_coords[1] / sqrt(3/4)),
       col=COL_EQ, lty='dotdash', lwd=1.5)
 
-arrow_tips <- matrix(c(TernaryCoords(3, 20-6, 3), TernaryCoords(7, 20-14, 7), TernaryCoords(20-(7+3), 7, 3)), 2, 3)
-arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 2], arrow_tips[2, 2], length=0.08)
-text(mean(arrow_tips[1, 1:2]), mean(arrow_tips[2, 1:2]), "Increasing quality\n(Congreve & Lamsdell)", cex=0.8, srt=60, pos=1)
-arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 3], arrow_tips[2, 3], length=0.08)
-text(mean(arrow_tips[1, c(1, 3)]) - 0.05, mean(arrow_tips[2, c(1, 3)]), "Increasing quality\n(Quartet divergence)", cex=0.8, srt=90, pos=3)
+arrow_tips <- matrix(c(TernaryCoords(3, 19-6, 3), TernaryCoords(7, 19-14, 7), TernaryCoords(19-(7+3), 7, 3)), 2, 3)
+arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 2], arrow_tips[2, 2], length=0.08, col='#666666')
+arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 3], arrow_tips[2, 3], length=0.08, col='#666666')
+text(mean(arrow_tips[1, 1:2]) + 0.01, mean(arrow_tips[2, 1:2]), "Increasing quality\n(Congreve & Lamsdell)", cex=0.8, srt=58, pos=1, col='#666666')
+text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increasing quality\n(Quartet divergence)", cex=0.8, srt=90, pos=3, col='#666666')
 AddLegend()
 legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
        lty=c('dotted', 'dotdash', 'dashed'), legend=c('Equal quality', 'Equal precision', 'Equal incorrect nodes'))
