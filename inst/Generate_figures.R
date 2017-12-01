@@ -83,6 +83,8 @@ COL_C  <- paste0(cbPalette15[12], '99')
 GRID_COL <- rgb(0.92, 0.92, 0.92)
 BG_COL   <- rgb(0.985, 0.985, 0.992)
 
+COL_WIDTH = 7.6/2.54
+
 Quartet2Ternary <- function (item) clQuartets[[item]][c('s', 'd', 'r2'), , TREE]
   
 Split2Ternary <- function (item) {
@@ -146,7 +148,6 @@ AverageSplits <- function (item) {
 
 
 
-COL_WIDTH = 7.6/2.54
 
 
 ################################################################################
