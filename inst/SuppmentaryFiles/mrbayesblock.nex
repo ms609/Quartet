@@ -1,0 +1,9 @@
+begin MRBAYES;
+  exclude 56-59 ;
+  lset coding=variable rates=gamma;
+  prset ratepr = variable;
+  mcmcp ngen=10000000 printfreq=4000000 printall=no samplefreq=10000 nruns=4 nchains=4 burninfrac=0.4;
+  mcmc append=no;
+  sump;
+  sumt;
+end;
