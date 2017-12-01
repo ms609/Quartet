@@ -17,7 +17,7 @@
 #' @export
 CompareSplits <- function (x, cf) {
   x <- DropSingleSplits(x)
-  cf <- DropSingpleSplits(cf)
+  cf <- DropSingleSplits(cf)
   SplitHash <- function (split) {
     min(
       sum(2 ^ (which(split) - 1)),
