@@ -98,7 +98,7 @@ TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
   
   xLim <- c(0, sqrt(3/4)/zoom)
   yLim <- c(0.5-(1/zoom), 0.5)
-  lab <- if (zoom == 1) c('  Same', ' Different', '\nUnresolved') else rep('', 3)
+  lab <- if (zoom == 1) c('      Same', "\n\nDifferent", '\n\nUnresolved') else rep('', 3)
   
   TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
               col=BG_COL,
@@ -158,10 +158,26 @@ AverageSplits <- function (item) {
 pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
 par(mfrow=c(2, 1), mai=rep(0, 4))
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , ], 2, rowMeans)
+
 TernaryQuarts(AverageQuarts)
 AddArrows('Increasing Divergence')
+rightPoint <- TernaryCoords(0, 0, 1)
+otherYs <- vapply(2*(1:8), function (p) TernaryCoords(p, 19-p, 0), double(2))[2, ]
+lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
+                                   lty='dashed', col='#00000022'))
+
+legend('bottomright', bty='n', cex=0.8,
+       lty=c('dotted', 'dashed', 'dotted'),
+       lwd=c(1, 1, 2), col=c('grey', '#00000044', cbPalette8[8]),
+       legend=c('Equal divergence', 'Equal accuracy', 'Similarity of random tree'))
+
+
 par(mai=c(0, 0.15, 0, 0.15))
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
+otherYs <- vapply(14:19, function (p) TernaryCoords(p, 19-p, 0), double(2))[2, ]
+lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
+                                   lty='dashed', col='#00000022'))
+
 AddLegend('topright')
 dev.off()
 
@@ -213,7 +229,7 @@ TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
             padding=0.1, axis.labels = 0:19)
 title(main="\nPartitions", cex.main=0.8)
 
-HorizontalGrid()
+HorizontalGrid(19)
 partition_distances <- SplitsPoints(sq_trees)
 
 TernaryLines(AverageSplits('implied10'), col=COL10, pch=PCH_XX)
@@ -236,16 +252,25 @@ TernaryPoints(AverageSplits('markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
 TernaryPoints(AverageSplits('impliedC' )[, 1], col=COL_C,  pch=PCH_IC, cex=1.1)
 TernaryPoints(AverageSplits('equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
+
+rightPoint <- TernaryCoords(0, 0, 1)
+otherYs <- vapply(2*(1:8), function (p) TernaryCoords(p, 19-p, 0), double(2))[2, ]
+lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
+                                   lty='dashed', col='#00000022'))
+
 equal_point <- AverageSplits('equal'    )[, 1]
 equal_differents <- equal_point[2]
 TernaryLines(list(c(0, equal_differents, 20-equal_differents),
                   c(20-equal_differents, equal_differents, 0)), 
-             col=COL_EQ, lty='dashed', lwd=1.5)
+             col=COL_EQ, lty='twodash', lwd=1.5)
 equal_coords <- TernaryCoords(equal_point)
 lines(c(0, sqrt(3/4) * (0.5 + equal_coords[2])), rep(equal_coords[2], 2), 
       col=COL_EQ, lty='dotted', lwd=1.75)
 lines(rep(equal_coords[1], 2), c(-1, +1) * 0.5 * (1 - equal_coords[1] / sqrt(3/4)),
       col=COL_EQ, lty='dotdash', lwd=1.5)
+
+lines(c(sqrt(0.75), 0), c(0, equal_coords[2] / (1 - (equal_coords[1] / sqrt(3/4)) ) ),
+      col=COL_EQ, lty='dashed', lwd=1.5)
 
 arrow_tips <- matrix(c(TernaryCoords(3, 19-6, 3), TernaryCoords(6.5, 19-13, 6.5), TernaryCoords(19-(6.5+3), 6.5, 3)), 2, 3)
 arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 2], arrow_tips[2, 2], length=0.08, col='#666666')
@@ -254,5 +279,5 @@ text(mean(arrow_tips[1, 1:2]) + 0.01, mean(arrow_tips[2, 1:2]), "Increasing qual
 text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increasing quality\n(Quartet divergence)", cex=0.8, srt=90, pos=3, col='#666666')
 AddLegend()
 legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
-       lty=c('dotted', 'dotdash', 'dashed'), legend=c('Equal quality', 'Equal precision', 'Equal incorrect nodes'))
+       lty=c('dotted', 'dotdash', 'dashed', 'twodash'), legend=c('Equally informative', 'Equal precision', 'Equal accuracy', 'Equal incorrect nodes'))
 dev.off()
