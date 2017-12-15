@@ -360,7 +360,6 @@ UnshiftTree <- function(add, treeList) {
 #' @templateVar intro Returns a two dimensional array. Columns correspond to the input trees; the first column will always         report a perfect match as it compares the first tree to itself.         Rows list the status of each quartet:
 #' @template returnEstabrook
 #'         
-#'
 #' @author Martin R. Smith
 #' @examples{
 #'  n_tip <- 6
