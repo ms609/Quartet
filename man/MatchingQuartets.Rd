@@ -7,9 +7,9 @@
 MatchingQuartets(trees, cf = NULL, use.tqDist = TRUE)
 }
 \arguments{
-\item{trees}{A list of trees of class \code{\link[ape]{phylo}}, with identically-labelled tips.}
+\item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}}, with identically-labelled tips.}
 
-\item{cf}{Comparison tree of class \code{\link[ape]{phylo}}.  If unspecified,
+\item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
 trees are compared to the first tree in \code{trees}.}
 
 \item{use.tqDist}{Logical specifying whether to attempt to use the tqDist algorithm.
