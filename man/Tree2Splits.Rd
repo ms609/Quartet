@@ -7,7 +7,7 @@
 Tree2Splits(tr)
 }
 \arguments{
-\item{tr}{A tree of class \code{\link[ape]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).}
+\item{tr}{A tree of class \code{\link[ape:read.tree]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).}
 }
 \value{
 Returns a two-dimensional array, with columns corresponding to bipartitions and rows corresponding
