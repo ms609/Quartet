@@ -1,7 +1,8 @@
 # SlowQuartet v0.3.0 (under development)
  - Add functions to generate ternary plots from tree similarity measures
  - Remove single "splits" from splits objects
- - Fix failure to install on R 3.4.3
+ - Simplify installation via github_install
+ - Add missing details to documentation
 
 # SlowQuartet v0.2.0
  - Add `MatchingSplits` function to calculate number of splits contradicted / unresolved.

@@ -229,9 +229,7 @@ QuartetStates <- function (splits) {
 #' Compares each quartet in a list, calculating how many statements are identical
 #'  in both lists.
 #'  
-#' @return 
-#' Returns an array of six numberic elements, each corresponding to the quantities of 
-#'   Estabrook _et al_. (1985):
+#' @templateVar intro Returns an array of six numeric elements, each corresponding to the quantities of Estabrook _et al_. (1985):
 #' @template returnEstabrook
 #' 
 #' 
@@ -359,10 +357,7 @@ UnshiftTree <- function(add, treeList) {
 #' @param use.tqDist Logical specifying whether to attempt to use the tqDist algorithm.
 #'               Requires that the `rtqdist` package is installed.
 #'
-#' @return Returns a two dimensional array. 
-#'         Columns correspond to the input trees; the first column will always
-#'         report a perfect match as it compares the first tree to itself.
-#'         Rows list the status of each quartet:
+#' @templateVar intro Returns a two dimensional array. Columns correspond to the input trees; the first column will always         report a perfect match as it compares the first tree to itself.         Rows list the status of each quartet:
 #' @template returnEstabrook
 #'         
 #'

@@ -16,14 +16,7 @@ trees are compared to the first tree in \code{trees}.}
 Requires that the \code{rtqdist} package is installed.}
 }
 \value{
-Returns a two dimensional array.
-Columns correspond to the input trees; the first column will always
-report a perfect match as it compares the first tree to itself.
-Rows list the status of each quartet:
-}
-\description{
-Counts matching quartets
-
+Returns a two dimensional array. Columns correspond to the input trees; the first column will always         report a perfect match as it compares the first tree to itself.         Rows list the status of each quartet:
 \describe{
   \item{Q}{The total number of quartets for _n_ tips.}
   \item{s}{The number of quartets that are resolved identically in both trees.}
@@ -32,6 +25,9 @@ Counts matching quartets
   \item{r2}{The number of quartets that are resolved in tree 2, but not in tree 1.}
   \item{u}{The number of quartets that are unresolved in both trees.}
 }
+}
+\description{
+Counts matching quartets
 }
 \details{
 Determines the number of four-taxon trees consistent with multiple cladograms

@@ -1,5 +1,5 @@
 Package: SlowQuartet
-Version: 0.2.0.9002
+Version: 0.2.0.9003
 Date: 2017-12-15
 Title: A Package for Comparing Phylogenetic Trees
 Description: Calculates the number of four-taxon subtrees consistent with a pair
