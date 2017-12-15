@@ -2,6 +2,7 @@
 .covrignore
 cran-comments.md
 ^.*\.dll$
+^.*\.json$
 ^.*\.o$
 ^.*\.xml$
 ^.*\.yml$
