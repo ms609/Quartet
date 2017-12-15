@@ -4,7 +4,7 @@ author: "Martin R. Smith"
 date: "27 November 2017"
 output: rmarkdown::html_document
 bibliography: ../inst/REFERENCES.bib
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/systematic-biology.csl
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
 
 vignette: >
   %\VignetteIndexEntry{Interpreting large quartet distances}

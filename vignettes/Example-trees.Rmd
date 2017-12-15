@@ -1,12 +1,12 @@
 ---
-title: "Comparing trees with quartets"
+title: "Using quartets to compare trees"
 author: "Martin R. Smith"
-date: "30 November 2017"
+date: "15 December 2017"
 output: rmarkdown::html_document
 bibliography: ../inst/REFERENCES.bib
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/systematic-biology.csl
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
 vignette: >
-  %\VignetteIndexEntry{Example Trees}
+  %\VignetteIndexEntry{Tree comparison using quartets}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -340,7 +340,7 @@ proportion agree -- the strict joint assertions (_SJA_) measure.
 of the quartets that are either resolved or unresolved on both trees, what
 proportion do not conflict -- the semi-strict joint assertions (_SSJA_) measure.
 
-I propose a fifth metric, which is analogous to the 
+I propose a fifth metric [@ThisStudy], which is analogous to the 
 Kullback-Leiber divergence [@Kullback1951]: it measures the amount of information
 that must be supplied to change one tree into the other.
 
