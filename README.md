@@ -30,7 +30,7 @@ Meanwhile, you can install the latest version of the package into R thus:
 install.packages('devtools')
 
 # Install the inapplicable package from github
-devtools::install_github('ms609/SlowQuartet')
+devtools::install_github('ms609/SlowQuartet', args='--no-multiarch')
 
 # Load the package into R
 library('SlowQuartet')

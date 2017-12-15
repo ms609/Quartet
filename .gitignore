@@ -7,7 +7,6 @@
 *.Rd
 *.trees
 *.zip
-*/RcppExports.*
 inst/doc
 src-*
 src/*.o
