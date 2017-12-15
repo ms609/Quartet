@@ -13,12 +13,31 @@ vignette: >
 
 ```{r setup, include=FALSE}
 require('ape')
+require('Ternary')
 require('SlowQuartet')
 data('sq_trees')
 n_tip <- 11
 ref_tree <- sq_trees[[1]]
 tip_colours <- Ternary::cbPalette15[-c(4, 7)] # Rm Tritanopia duplicates of 13 and 3
 palette4 <- Ternary::cbPalette8[1:4]
+
+PCH_MK <- 1   # circle
+PCH_EQ <- 61  #'='
+PCH_XX <- 183 #'.'
+PCH_IW <- 2   #triup
+PCH_IC <- 17  #triupfilled
+
+COL_MK <- paste0(cbPalette8[4],   '99')
+COL_EQ <- paste0(cbPalette8[2],   '99')
+COL_1  <- paste0(cbPalette15[6],  '99')
+COL_2  <- paste0(cbPalette15[7],  '99')
+COL_3  <- paste0(cbPalette15[8],  '99')
+COL_5  <- paste0(cbPalette15[4],  '99')
+COL10  <- paste0(cbPalette15[5],  '99')
+COL_C  <- paste0(cbPalette15[12], '99')
+
+GRID_COL <- rgb(0.92, 0.92, 0.92)
+BG_COL   <- rgb(0.985, 0.985, 0.992)
 
 rf_max <- (n_tip - 3) * 2
 
@@ -70,8 +89,75 @@ polyplot <- function (tr, title, highlight, ...) {
   text(x_mid, -3.5, cex=0.8, pos=4, paste0(partitions['ref_not_cf'] - partitions['cf_not_ref'], '/', rf_max / 2)) 
 }
 
-#par(mfrow=c(3,5), mar=rep(1.2, 4), cex.main=2/3, cex=0.9)
-#for (i in seq_along(sq_trees)) colplot(sq_trees[[i]], names(sq_trees)[i])
+
+data(clPartitions)
+data(clQuartets)
+
+Quartet2Ternary <- function (item) clQuartets[[item]][c('s', 'd', 'r2'), , TREE]
+  
+Split2Ternary <- function (item) {
+  itemData <- clPartitions[[item]][, , TREE]
+  rbind(itemData['cf_and_ref', ],
+        itemData['cf_not_ref', ],
+        itemData['ref', ] - itemData['cf', ])
+}
+
+TernaryBasis <- function (qMax = 19, zoom = 1) {
+  xLim <- c(0, sqrt(3/4)/zoom)
+  yLim <- c(0.5-(1/zoom), 0.5)
+  lab <- if (zoom == 1) c('      Same', "\n\nDifferent", '\n\nUnresolved') else rep('', 3)
+  
+  TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
+              col=BG_COL,
+              grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
+              axis.labels = 
+                if(zoom==1) round(seq(0, qMax, length.out=20), 0)
+                else FALSE,
+              axis.col=rgb(0.6, 0.6, 0.6),
+              padding=0.1, xlim=xLim, ylim=yLim)
+  
+  HorizontalGrid(19)
+}
+
+TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
+  
+  TernaryBasis(choose(22, 4), zoom)
+  AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
+  
+  JoinTheDots(Func('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
+  JoinTheDots(Func('implied5'), col=COL_5,  pch=PCH_IW, cex=1.1)
+  JoinTheDots(Func('implied3'), col=COL_3,  pch=PCH_XX, cex=1.1)
+  JoinTheDots(Func('implied2'), col=COL_2,  pch=PCH_XX, cex=1.1)
+  JoinTheDots(Func('implied1'), col=COL_1,  pch=PCH_IW, cex=1.1)
+  JoinTheDots(Func('impliedC'), col=COL_C,  pch=PCH_IC, cex=1.1)
+  JoinTheDots(Func('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
+  JoinTheDots(Func('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
+}
+
+
+AddArrows <- function (quality) {
+  arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.08)
+  text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
+  arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.08)
+  text  (sqrt(3/4) * 1.01, 0.30, pos=3, quality, cex=0.8, srt=270)
+}
+
+AddLegend <- function(pos='bottomright')
+  legend(pos, cex=0.8, bty='n',
+         lty=1,
+         pch=c(PCH_MK, PCH_EQ, PCH_XX, PCH_IW, PCH_XX, PCH_XX, PCH_IW, PCH_IC), pt.cex=1.1,
+         col=c(COL_MK, COL_EQ, COL10, COL_5, COL_3, COL_2, COL_1, COL_C),
+         legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(10, 5, 3, 2, 1, '2..10')))
+  )
+
+AverageSplits <- function (item) {
+  itemData <- apply(clPartitions[[item]][, , ], 2, rowMeans)
+  rbind(itemData['cf_and_ref', ],
+        itemData['cf_not_ref', ],
+        itemData['ref', ] - itemData['cf', ])
+}
+
+AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , ], 2, rowMeans)
 
 ```
 
@@ -316,18 +402,13 @@ polyplot(sq_trees$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 We can visualize this data using a ternary diagram.
 
 ```{R Plot some trees, echo=FALSE, cache=TRUE, fig.asp=1/2, fig.width=8, out.width='100%', fig.align='center', dev='svg'}
-library('Ternary')
+
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
 collapse_perfect <- c('ref_tree', 'collapse_one', 'collapse_some')
 collapse_move1   <- c('move_one_mid', 'm1mid_col1', 'm1mid_colsome')
 collapse_move2   <- c('move_two_mid', 'm2mid_col1', 'm2mid_colsome')
-
-TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8, lab.font=2,
-            grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
-            axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1)
+TernaryBasis(choose(22, 4))
 title(main="\nQuartet distances", cex.main=0.8)
-HorizontalGrid()
 AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
 
 pchs <- c(1, 4, 3)
@@ -350,13 +431,9 @@ text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
 
-TernaryPlot(' Consistent', ' Contradicted', 'Unresolved', lab.cex=0.8,
-            grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
-            axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1)
+TernaryBasis(19)
 title(main="\nPartition distances", cex.main=0.8)
 
-HorizontalGrid()
 partition_distances <- SplitsPoints(sq_trees)
 TernaryPoints(partition_distances[collapse_perfect, ], col=cbPalette8[2], pch=pchs, cex=1.5)
 TernaryLines (partition_distances[collapse_perfect, ], col=cbPalette8[2])
@@ -419,59 +496,6 @@ attainable is already on the descending part of the curve.
 
 ```{R Congreve Lamsdell tree, echo=FALSE, cache=TRUE, fig.asp=1/3, fig.width=9, out.width='100%', fig.align='center'}
 par(mfrow=c(1, 3), mar=rep(0.3, 4))
-data(clPartitions)
-data(clQuartets)
-
-PCH_MK <- 1   # circle
-PCH_EQ <- 61  #'='
-PCH_XX <- 183 #'.'
-PCH_IW <- 2   #triup
-PCH_IC <- 17  #triupfilled
-
-COL_MK <- cbPalette8[4]
-COL_EQ <- cbPalette8[2]
-COL_1  <- cbPalette15[6]
-COL_2  <- cbPalette15[7]
-COL_3  <- cbPalette15[8]
-COL_5  <- cbPalette15[4]
-COL10  <- cbPalette15[5]
-COL_C  <- cbPalette15[12]
-
-Quartet2Ternary <- function (item) clQuartets[[item]][c('s', 'd', 'r2'), , TREE]
-  
-Split2Ternary <- function (item) {
-  itemData <- clPartitions[[item]][, , TREE]
-  rbind(itemData['cf_and_ref', ],
-        itemData['cf_not_ref', ],
-        itemData['ref', ] - itemData['cf', ])
-}
-
-TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
-  
-  xLim <- c(0, sqrt(3/4)/zoom)
-  yLim <- c(0.5-(1/zoom), 0.5)
-  lab <- if (zoom == 1) c('  Same', ' Different', 'Unresolved') else rep('', 3)
-  
-  TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
-              grid.lty='solid', col=rgb(0.9, 0.9, 0.9), grid.col='white', 
-              grid.lines=19,  axis.labels = 
-                if(zoom==1) round(seq(0, choose(22, 4), length.out=19+1), 0)
-                else FALSE,
-              axis.col=rgb(0.6, 0.6, 0.6), ticks.col=rgb(0.6, 0.6, 0.6),
-              padding=padding, xlim=xLim, ylim=yLim)
-  HorizontalGrid()
-  AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
-  
-  JoinTheDots(Func('implied10'), col=COL10,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied5'), col=COL_5,  pch=PCH_IW, cex=1.1)
-  JoinTheDots(Func('implied3'), col=COL_3,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied2'), col=COL_2,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied1'), col=COL_1,  pch=PCH_IW, cex=1.1)
-  JoinTheDots(Func('impliedC'), col=COL_C,  pch=PCH_IC, cex=1.1)
-  JoinTheDots(Func('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
-  JoinTheDots(Func('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
-}
-
 
 TREE <- 2
 TernaryQuarts()
