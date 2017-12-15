@@ -38,7 +38,7 @@ CompareSplits <- function (x, cf) {
 #' 
 #' Calculates how many of the partitions present in tree A are also present in 
 #' tree B, how many of the partitions in tree A are absent in tree B, and how
-#' many of the partitions in tree B are absent in tree A.  The Robinson-Fould
+#' many of the partitions in tree B are absent in tree A.  The Robinson-Foulds
 #' (symmetric partition) distance is the sum of the latter two quantities.
 #' 
 #' @template treesParam

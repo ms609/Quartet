@@ -17,7 +17,7 @@
 #' For each analysis, I recorded the strict consensus of all optimal trees, and also
 #' the consensus of trees that were suboptimal by a specified degree.
 #' 
-#' I then calculated, of the totalnumber of <%= quartet %>s that were resolved in the
+#' I then calculated, of the total number of <%= quartet %>s that were resolved in the
 #' reference tree, how many were the *s*ame or *d*ifferent in the tree that resulted from
 #' the phylogenetic analysis, and how many were not resolved in this tree (*r2*).
 #' 
