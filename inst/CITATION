@@ -1,4 +1,4 @@
-year <- "submitted"
+year <- "2017"
 
 citHeader(paste0("If using this package, please cite Smith (", 
           year, "). If using the tqDist to compare ",
@@ -12,10 +12,10 @@ citEntry(entry = "article",
         year = year,
 
         textVersion =
-        paste0("Smith (forthcoming). ",
+        paste0("Smith (", year, "). ",
                "Quantifying and visualising divergence between pairs of phylogenetic trees. ",
                "BioRxiv",
-               ", doi: 10.1101/XXXXX"))
+               ", doi: 10.1101/227942"))
                
 
 citEntry (entry= 'article',

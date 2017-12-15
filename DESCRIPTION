@@ -1,11 +1,11 @@
 Package: SlowQuartet
-Version: 0.2.0.9001
-Date: 2017-11-22
+Version: 0.2.0.9002
+Date: 2017-12-15
 Title: A Package for Comparing Phylogenetic Trees
 Description: Calculates the number of four-taxon subtrees consistent with a pair
   of cladograms, calculating the Quartet Divergence of Smith (2017),
   Quantifying and visualising divergence between pairs of phylogenetic trees,
-  BioRxiv <doi:10.1101/XXXXX>.
+  BioRxiv <doi:10.1101/227942>.
 URL: https://github.com/ms609/SlowQuartet
 BugReports: https://github.com/ms609/SlowQuartet/issues
 Authors@R: c(person("Martin R.", 'Smith',
