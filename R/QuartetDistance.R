@@ -20,7 +20,7 @@ DropSingleSplits <- function (split) {
 #' 
 #' Converts a phylogenetic tree to an array of bipartition splits.
 #' 
-#' @param tr A tree of class \code{\link[ape]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).
+#' @param tr A tree of class \code{\link[ape:read.tree]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).
 #' @return Returns a two-dimensional array, with columns corresponding to bipartitions and rows corresponding
 #' to tips 1:N.
 #'
