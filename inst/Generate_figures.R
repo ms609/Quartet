@@ -157,6 +157,7 @@ AverageSplits <- function (item) {
 # width (7 cm) wherever possible. Please ensure that axes, tick marks, symbols 
 # and labels are large enough to allow reduction to a final size of c. 8 point.
 cairo_pdf(filename="Figure_1.pdf", width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
+#png(filename="Figure_1.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill Sans MT')
 #pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
 par(mfrow=c(2, 1), mai=rep(0, 4))
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , ], 2, rowMeans)
@@ -190,7 +191,8 @@ dev.off()
 ################################################################################
 
 
-cairo_pdf(filename="Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
+png(filename="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
+#cairo_pdf(filename="Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
 #pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
 par(mfrow=c(1,1), mai=rep(0, 4))
 
@@ -223,7 +225,8 @@ dev.off()
 
 ################################################################################
 
-cairo_pdf(file="Figure_3.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
+png(file="Figure_3.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
+#cairo_pdf(file="Figure_3.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
 #pdf(file="inst/Figure_3.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
 par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
