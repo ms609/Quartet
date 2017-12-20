@@ -1,5 +1,6 @@
 require('ape')
 require('SlowQuartet')
+library('Ternary')
 data('sq_trees')
 n_tip <- 11
 ref_tree <- sq_trees[[1]]
@@ -83,7 +84,7 @@ COL_C  <- paste0(cbPalette15[12], '99')
 GRID_COL <- rgb(0.92, 0.92, 0.92)
 BG_COL   <- rgb(0.985, 0.985, 0.992)
 
-COL_WIDTH = 7.6/2.54
+COL_WIDTH <- 5.6
 
 Quartet2Ternary <- function (item) clQuartets[[item]][c('s', 'd', 'r2'), , TREE]
   
@@ -155,7 +156,8 @@ AverageSplits <- function (item) {
 # Figures should be drawn to publication quality and to fit into a single column
 # width (7 cm) wherever possible. Please ensure that axes, tick marks, symbols 
 # and labels are large enough to allow reduction to a final size of c. 8 point.
-pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
+cairo_pdf(filename="Figure_1.pdf", width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
+#pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
 par(mfrow=c(2, 1), mai=rep(0, 4))
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , ], 2, rowMeans)
 
@@ -188,7 +190,8 @@ dev.off()
 ################################################################################
 
 
-pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
+cairo_pdf(filename="Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
+#pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
 par(mfrow=c(1,1), mai=rep(0, 4))
 
 
@@ -220,7 +223,8 @@ dev.off()
 
 ################################################################################
 
-pdf(file="inst/Figure_3.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
+cairo_pdf(file="Figure_3.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
+#pdf(file="inst/Figure_3.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
 par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
             col=BG_COL,
