@@ -1,7 +1,7 @@
 ---
 title: "Using quartets to compare trees"
 author: "Martin R. Smith"
-date: "15 December 2017"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
@@ -93,21 +93,22 @@ polyplot <- function (tr, title, highlight, ...) {
 data(clPartitions)
 data(clQuartets)
 
-Quartet2Ternary <- function (item) clQuartets[[item]][c('s', 'd', 'r2'), , TREE]
+Quartet2Ternary <- function (item) clQuartets[[item]][c('r2', 'd', 's'), , TREE]
   
 Split2Ternary <- function (item) {
   itemData <- clPartitions[[item]][, , TREE]
-  rbind(itemData['cf_and_ref', ],
+  rbind(itemData['ref', ] - itemData['cf', ],
         itemData['cf_not_ref', ],
-        itemData['ref', ] - itemData['cf', ])
+        itemData['cf_and_ref', ])
 }
 
 TernaryBasis <- function (qMax = 19, zoom = 1, padding=0.1) {
   xLim <- c(0, sqrt(3/4)/zoom)
   yLim <- c(0.5-(1/zoom), 0.5)
-  lab <- if (zoom == 1) c('      Same', "\n\nDifferent", '\n\nUnresolved') else rep('', 3)
+  lab <- if (zoom == 1) c('\n\nUnresolved', "\n\nDifferent", '      Same') else rep('', 3)
   
   TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
+              point='right',
               col=BG_COL,
               grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
               axis.labels = 
@@ -122,16 +123,16 @@ TernaryBasis <- function (qMax = 19, zoom = 1, padding=0.1) {
 TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
   
   TernaryBasis(choose(22, 4), zoom, padding)
-  AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
+  AddToTernary(lines, list(c(0, 2/3, 1/3), c(1, 0, 0)), lty='dotted', col=cbPalette8[8], lwd=2)
   
   JoinTheDots(Func('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied5'), col=COL_5,  pch=PCH_IW, cex=1.1)
-  JoinTheDots(Func('implied3'), col=COL_3,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied2'), col=COL_2,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied1'), col=COL_1,  pch=PCH_IW, cex=1.1)
-  JoinTheDots(Func('impliedC'), col=COL_C,  pch=PCH_IC, cex=1.1)
-  JoinTheDots(Func('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
-  JoinTheDots(Func('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
+  JoinTheDots(Func('implied5'),  col=COL_5,  pch=PCH_IW, cex=1.1)
+  JoinTheDots(Func('implied3'),  col=COL_3,  pch=PCH_XX, cex=1.1)
+  JoinTheDots(Func('implied2'),  col=COL_2,  pch=PCH_XX, cex=1.1)
+  JoinTheDots(Func('implied1'),  col=COL_1,  pch=PCH_IW, cex=1.1)
+  JoinTheDots(Func('impliedC'),  col=COL_C,  pch=PCH_IC, cex=1.1)
+  JoinTheDots(Func('equal'   ),  col=COL_EQ, pch=PCH_EQ, cex=1.1)
+  JoinTheDots(Func('markov'  ),  col=COL_MK, pch=PCH_MK, cex=1.1)
 }
 
 
@@ -157,7 +158,7 @@ AverageSplits <- function (item) {
         itemData['ref', ] - itemData['cf', ])
 }
 
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , ], 2, rowMeans)
+AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans)
 
 ```
 
@@ -409,7 +410,7 @@ collapse_move1   <- c('move_one_mid', 'm1mid_col1', 'm1mid_colsome')
 collapse_move2   <- c('move_two_mid', 'm2mid_col1', 'm2mid_colsome')
 TernaryBasis(choose(22, 4))
 title(main="\nQuartet distances", cex.main=0.8)
-AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
+AddToTernary(lines, list(c(0, 2/3, 1/3), c(1, 0, 0)), lty='dotted', col=cbPalette8[8], lwd=2)
 
 pchs <- c(1, 4, 3)
 quartet_distances <- QuartetPoints(sq_trees)
@@ -545,14 +546,14 @@ TREES <- 1:100
 # TREES <- TREES[clCI > 0.26]
 
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , TREES], 2, rowMeans)
+AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , TREES], 2, rowMeans)
 TernaryQuarts(AverageQuarts)
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
 AddLegend('topright')
 
 ```
 
-How good is each tree?
+How good is each tree?  The divergence for each tree under each method is as follows (high means a larger divergence):
 
 ```{R Quartet divergence for each point, echo=FALSE, fig.width=8}
 divergences <- vapply(clQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans), similarity = FALSE), double(21))
@@ -602,9 +603,9 @@ We can run the same analysis counting partitions in place of quartets.
 ```{R CL trees - partitions, echo=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center', dev='svg'}
 AverageSplits <- function (item) {
   itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
-  rbind(itemData['cf_and_ref', ],
+  rbind(itemData['ref', ] - itemData['cf', ],
         itemData['cf_not_ref', ],
-        itemData['ref', ] - itemData['cf', ])
+        itemData['cf_and_ref', ])
 }
 
 TernaryBasis()
@@ -628,7 +629,7 @@ text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270
 AddLegend()
 ```
 
-How good is each tree?
+How good is each tree?  The RF distance for each tree under each method is as follows (high means a larger divergence):
 
 ```{R Partition divergence for each point, echo=FALSE, fig.width=8}
 rf_dists <- vapply(clPartitions, function (item) apply(item['RF_dist', , TREES], 1, mean), double(21))
@@ -732,8 +733,7 @@ AddLegend()
 legend('bottom', bty='n', cex=0.8, lwd=2, col=COL_EQ, 
        lty=c('dotted', 'dotdash', 'dashed'), legend=c('Equal quality', 'Equal precision', 'Equal incorrect nodes'))
 ```
--->
-<!--
+--!--
 ### More discussion [To re-write]
 
 It is sometimes of interest to establish which of a selection of trees is most 

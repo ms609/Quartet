@@ -1,6 +1,6 @@
 Package: SlowQuartet
-Version: 0.2.0.9003
-Date: 2017-12-15
+Version: 0.2.0.9004
+Date: 2017-12-21
 Title: A Package for Comparing Phylogenetic Trees
 Description: Calculates the number of four-taxon subtrees consistent with a pair
   of cladograms, calculating the Quartet Divergence of Smith (2017),
@@ -28,7 +28,7 @@ Suggests:
     knitr,
     rmarkdown,
     rtqdist,
-    Ternary (> 0.1.1),
+    Ternary (>= 1.0),
     testthat
 Remotes: 
     url::http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz

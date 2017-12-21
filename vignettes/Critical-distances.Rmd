@@ -1,7 +1,7 @@
 ---
 title: "Interpreting large quartet distances"
 author: "Martin R. Smith"
-date: "27 November 2017"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl

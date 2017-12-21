@@ -86,22 +86,22 @@ BG_COL   <- rgb(0.985, 0.985, 0.992)
 
 COL_WIDTH <- 5.6
 
-Quartet2Ternary <- function (item) clQuartets[[item]][c('s', 'd', 'r2'), , TREE]
+Quartet2Ternary <- function (item) clQuartets[[item]][c('r2', 'd', 's'), , TREE]
   
 Split2Ternary <- function (item) {
   itemData <- clPartitions[[item]][, , TREE]
-  rbind(itemData['cf_and_ref', ],
+  rbind(itemData['ref', ] - itemData['cf', ],
         itemData['cf_not_ref', ],
-        itemData['ref', ] - itemData['cf', ])
+        itemData['cf_and_ref', ])
 }
 
 TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
-  
   xLim <- c(0, sqrt(3/4)/zoom)
   yLim <- c(0.5-(1/zoom), 0.5)
   lab <- if (zoom == 1) c('      Same', "\n\nDifferent", '\n\nUnresolved') else rep('', 3)
   
   TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
+              point='right',
               col=BG_COL,
               grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
               axis.labels = 
@@ -110,7 +110,7 @@ TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
               axis.col=rgb(0.6, 0.6, 0.6),
               padding=padding, xlim=xLim, ylim=yLim)
   HorizontalGrid(19)
-  AddToTernary(lines, list(c(1/3, 2/3, 0), c(0, 0, 1)), lty='dotted', col=cbPalette8[8], lwd=2)
+  AddToTernary(lines, list(c(0, 2/3, 1/3), c(1, 0, 0)), lty='dotted', col=cbPalette8[8], lwd=2)
   
   JoinTheDots(Func('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
   JoinTheDots(Func('implied5'), col=COL_5,  pch=PCH_IW, cex=1.1)
@@ -140,9 +140,9 @@ AddLegend <- function(pos='bottomright')
 
 AverageSplits <- function (item) {
   itemData <- apply(clPartitions[[item]][, , ], 2, rowMeans)
-  rbind(itemData['cf_and_ref', ],
+  rbind(itemData['ref', ] - itemData['cf', ],
         itemData['cf_not_ref', ],
-        itemData['ref', ] - itemData['cf', ])
+        itemData['cf_and_ref', ])
 }
 
 
@@ -156,11 +156,12 @@ AverageSplits <- function (item) {
 # Figures should be drawn to publication quality and to fit into a single column
 # width (7 cm) wherever possible. Please ensure that axes, tick marks, symbols 
 # and labels are large enough to allow reduction to a final size of c. 8 point.
-cairo_pdf(filename="Figure_1.pdf", width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
+#cairo_pdf(filename="Figure_1.pdf", width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
 #png(filename="Figure_1.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill Sans MT')
 #pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
+dev.new()
 par(mfrow=c(2, 1), mai=rep(0, 4))
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('s', 'd', 'r2'), , ], 2, rowMeans)
+AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans)
 
 TernaryQuarts(AverageQuarts)
 AddArrows('Increasing Divergence')
@@ -182,7 +183,7 @@ lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
                                    lty='dashed', col='#00000022'))
 
 AddLegend('topright')
-dev.off()
+#dev.off()
 
 
 
@@ -191,15 +192,16 @@ dev.off()
 ################################################################################
 
 
-png(filename="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
+#png(filename="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)
 #cairo_pdf(filename="Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
 #pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
+dev.new()
 par(mfrow=c(1,1), mai=rep(0, 4))
 
 
-TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
+TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
             grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
-            col=BG_COL, 
+            col=BG_COL, point='right',
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = 0:19)
 title(main="\nPartitions", cex.main=0.8)
@@ -218,19 +220,20 @@ JoinTheDots(AverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
 AddArrows("Increasing RF distance")
 AddLegend()
-dev.off()
+#dev.off()
 
 
 ################################################################################
 
 ################################################################################
 
-png(file="Figure_3.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
+#png(file="Figure_3.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
 #cairo_pdf(file="Figure_3.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
 #pdf(file="inst/Figure_3.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
+dev.new()
 par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
-TernaryPlot('Same', 'Different', 'Unresolved', lab.cex=0.8,
-            col=BG_COL,
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
             grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = 0:19)
@@ -239,7 +242,7 @@ title(main="\nPartitions", cex.main=0.8)
 HorizontalGrid(19)
 partition_distances <- SplitsPoints(sq_trees)
 
-TernaryLines(AverageSplits('implied10'), col=COL10, pch=PCH_XX)
+TernaryLines(AverageSplits('implied10'), col=COL10,  pch=PCH_XX)
 TernaryLines(AverageSplits('implied5' ), col=COL_5,  pch=PCH_XX)
 TernaryLines(AverageSplits('implied3' ), col=COL_3,  pch=PCH_XX)
 TernaryLines(AverageSplits('implied2' ), col=COL_2,  pch=PCH_XX)
@@ -279,7 +282,7 @@ lines(rep(equal_coords[1], 2), c(-1, +1) * 0.5 * (1 - equal_coords[1] / sqrt(3/4
 lines(c(sqrt(0.75), 0), c(0, equal_coords[2] / (1 - (equal_coords[1] / sqrt(3/4)) ) ),
       col=COL_EQ, lty='dashed', lwd=1.5)
 
-arrow_tips <- matrix(c(TernaryCoords(3, 19-6, 3), TernaryCoords(6.5, 19-13, 6.5), TernaryCoords(19-(6.5+3), 6.5, 3)), 2, 3)
+arrow_tips <- matrix(c(TernaryCoords(3, 19-6, 3), TernaryCoords(6.5, 19-13, 6.5), TernaryCoords(3, 6.5, 19-(6.5+3))), 2, 3)
 arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 2], arrow_tips[2, 2], length=0.08, col='#666666')
 arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 3], arrow_tips[2, 3], length=0.08, col='#666666')
 text(mean(arrow_tips[1, 1:2]) + 0.01, mean(arrow_tips[2, 1:2]), "Increasing quality\n(Congreve & Lamsdell)", cex=0.8, srt=58, pos=1, col='#666666')
@@ -287,4 +290,4 @@ text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increas
 AddLegend()
 legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
        lty=c('dotted', 'dotdash', 'dashed', 'twodash'), legend=c('Equally informative', 'Equal precision', 'Equal accuracy', 'Equal incorrect nodes'))
-dev.off()
+#dev.off()
