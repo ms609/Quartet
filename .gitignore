@@ -8,6 +8,8 @@
 *.trees
 *.zip
 inst/doc
+inst/*.docx
+inst/*.png
 src-*
 src/*.o
 src/*.so
