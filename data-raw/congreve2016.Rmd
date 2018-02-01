@@ -1,17 +1,62 @@
-# Generate MrBayes trees using bayesgen.pl
-# Convert MrBayes output into R-readable output in nexTrees folder using t2nex.pl
-library(ape)
-library(SlowQuartet)
+---
+title: "Generating data from trees"
+author: "Martin R. Smith"
+output: html_document
+--- 
 
-data('referenceTree')
+# Generate MrBayes trees using bayesgen.pl
+
+Before running this file, convert MrBayes output into R-readable output in 
+nexTrees folder using t2nex.pl
+
+```{R Load relevant libraries}
+library(ape) # For tree manipulation
+library(SlowQuartet) # This package
+```
+
+Before loading trees, R needs to know where abouts on the computer files are stored.
+
+If you are using RStudio, then R will by default begin in the directory
+in which the package is installed -- great, no further work is required.
+
+Otherwise you might need to run `setwd("C:/path/to/SlowQuartet")`, substituting
+in the necessary path on your machine.
+
+```{R Load trees from those bundled with SlowQuartet}
+
+# Load the tree used to generate the simulated data matrices
+data('referenceTree') 
+
+# Tree files are located in the data-raw subdirectory
 DIR_ROOT = 'data-raw/'
+
+# The file names have a number of components, whose format is defined here:
 FILE_NUMS <- formatC(1:100, width=3, format='d', flag='0') # Add leading zeroes to numbers
-SO_NUMS <- formatC(1:20, width=2, format='d', flag='0')
-TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex')
+SO_NUMS <- formatC(1:20, width=2, format='d', flag='0') # Enumeration of suboptimal trees
+
+
+# Trees themselves are saved in the data-raw/Trees subdirectory
+TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex') # Defines the pattern of the file name
 BAYES_TREE <- paste0(DIR_ROOT, 'Trees/MrBayes/%s.nex.run%s.nex')
 CI_PATH <- paste0(DIR_ROOT, 'consistency_indices.txt')
-
 BAYES_SUBOPTIMAL <- seq(1, 0.5, length.out = 21)
+
+# Helper function to load suboptimal trees
+LoadSuboptimal <- function (pref) {
+  lapply(TREE_FILE, function (treeFile) {
+    lapply(c(sprintf(treeFile, pref, pref, ''), 
+             sprintf(treeFile, pref, pref, paste0('.so', SO_NUMS))),
+           read.nexus)
+  })
+}
+
+```
+
+
+## Load trees
+
+```{R load trees}
+# For each file, load the MrBayes tree:
 for (NUM in FILE_NUMS) {
   if (!file.exists(sprintf(TREE_FILE[as.integer(NUM)], 'mk', 'mk', ''))
       && all(file.exists(sprintf(BAYES_TREE, NUM, 1:4)))) {
@@ -26,15 +71,6 @@ for (NUM in FILE_NUMS) {
   }
 }
 
-LoadSuboptimal <- function (pref) {
-  lapply(TREE_FILE, function (treeFile) {
-    lapply(c(sprintf(treeFile, pref, pref, ''), 
-             sprintf(treeFile, pref, pref, paste0('.so', SO_NUMS))),
-           read.nexus)
-  })
-}
-
-TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex')
 # Load consensus trees from Equal Weights and Markov model analyses
 markov   <- lapply(sprintf(TREE_FILE, 'mk', 'mk', ''), read.nexus)
 equal <- LoadSuboptimal('eq')
@@ -46,7 +82,14 @@ impX  <- LoadSuboptimal('kX')
 impC  <- lapply(seq_along(imp2),
                 function(i) lapply(1:21, 
                                    function (j) consensus(imp2[[i]][[j]], imp3[[i]][[j]], imp5[[i]][[j]], impX[[i]][[j]])))
+```
 
+
+## Calculate tree statistics
+
+```{R Calculate statistics}
+# Define the expected format of tree statistics (needed for vapply)
+# (Using lapply or sapply instead of vapply can be simpler, and is only slightly slower)
 BLANK_RETURN <- matrix(0, ncol=21, nrow=6)
 
 clQuartets <- list(
@@ -70,6 +113,14 @@ clPartitions <- list(
   implied10 = vapply(impX,   MatchingSplits, cf=referenceTree, BLANK_RETURN),
   impliedC  = vapply(impC,   MatchingSplits, cf=referenceTree, BLANK_RETURN)
 )
+```
 
+
+## Save statistics to data file
+This uses `devtools` (which you'll need to install using 
+`install.packages('devtools')` if you haven't already) to package the data 
+into a data file that can be bundled with the package.
+
+```{R Save statistics}
 devtools::use_data(clQuartets, clPartitions, overwrite=TRUE)
-
+```
