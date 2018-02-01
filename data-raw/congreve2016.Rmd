@@ -124,3 +124,5 @@ into a data file that can be bundled with the package.
 ```{R Save statistics}
 devtools::use_data(clQuartets, clPartitions, overwrite=TRUE)
 ```
+
+This data is used in `inst/Generate_figures.R` to generate ternary diagrams.
