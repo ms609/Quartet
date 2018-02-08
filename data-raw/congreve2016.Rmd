@@ -28,7 +28,7 @@ in the necessary path on your machine.
 data('referenceTree') 
 
 # Tree files are located in the data-raw subdirectory
-DIR_ROOT = 'data-raw/'
+DIR_ROOT = '../data-raw/'
 
 # The file names have a number of components, whose format is defined here:
 FILE_NUMS <- formatC(1:100, width=3, format='d', flag='0') # Add leading zeroes to numbers
