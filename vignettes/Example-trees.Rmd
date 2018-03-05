@@ -341,7 +341,7 @@ proportion agree -- the strict joint assertions (_SJA_) measure.
 of the quartets that are either resolved or unresolved on both trees, what
 proportion do not conflict -- the semi-strict joint assertions (_SSJA_) measure.
 
-I propose a fifth metric [@ThisStudy], which is analogous to the 
+Bandelt and Dress propose a fifth metric [@Bandelt1986], which is analogous to the 
 Kullback-Leiber divergence [@Kullback1951]: it measures the amount of information
 that must be supplied to change one tree into the other.
 
@@ -355,7 +355,7 @@ comprising the $d$ different quartets and the $r_1$ that are present only in
 the starting tree, and a list of quartets that must be forged, comprising the
 $d$ different quartets (which, having been removed, must now be added in their
 correct configuration) and the $r_2$ quartets that are resolved only on the second
-tree.  The normalized quartet divergence (_QD_) is given by 
+tree.  The normalized quartet distance (_QD_) is given by 
 $(2d + r_1 + r_2) / 2Q$.  (An equivalent calculation underpins the
 partition metric.)
 
