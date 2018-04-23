@@ -5,7 +5,7 @@ Title: A Package for Comparing Phylogenetic Trees
 Description: Calculates the number of four-taxon subtrees consistent with a pair
   of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),
   Reconstructing the shape of a tree from observed dissimilarity data,
-  Advances in Applied Mathematics, 7, 309–343 <doi:10.1016/0196-8858(86)90038-2>
+  Advances in Applied Mathematics, 7, 309-343 <doi:10.1016/0196-8858(86)90038-2>
 URL: https://github.com/ms609/SlowQuartet
 BugReports: https://github.com/ms609/SlowQuartet/issues
 Authors@R: c(person("Martin R.", 'Smith',
