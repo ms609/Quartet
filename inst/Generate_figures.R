@@ -138,11 +138,22 @@ AddLegend <- function(pos='bottomright')
          legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(10, 5, 3, 2, 1, '2..10')))
   )
 
-AverageSplits <- function (item) {
-  itemData <- apply(clPartitions[[item]][, , ], 2, rowMeans)
+PointsFromItem <- function(itemData) {
   rbind(itemData['ref', ] - itemData['cf', ],
         itemData['cf_not_ref', ],
         itemData['cf_and_ref', ])
+}
+
+AverageSplits <- function (dataset) {
+  PointsFromItem(apply(dataset[, , ], 2, rowMeans))
+}
+
+CLAverageSplits <- function (item) {
+  AverageSplits(clPartitions[[item]][, , ])
+}
+
+ORAverageSplits <- function (item) {
+  AverageSplits(orPartitions[[item]][, , ])
 }
 
 
@@ -209,14 +220,14 @@ title(main="\nPartitions", cex.main=0.8)
 HorizontalGrid(grid.col='#888888', grid.lines=19)
 partition_distances <- SplitsPoints(sq_trees)
 
-JoinTheDots(AverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
-JoinTheDots(AverageSplits('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
-JoinTheDots(AverageSplits('implied3'), col=COL_3, pch=PCH_XX, cex=1.1)
-JoinTheDots(AverageSplits('implied2'), col=COL_2, pch=PCH_XX, cex=1.1)
-JoinTheDots(AverageSplits('implied1'), col=COL_1, pch=PCH_IW, cex=1.1)
-JoinTheDots(AverageSplits('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
-JoinTheDots(AverageSplits('impliedC'), col=COL_C, pch=PCH_IC, cex=1.1)
-JoinTheDots(AverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
+JoinTheDots(CLAverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
+JoinTheDots(CLAverageSplits('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
+JoinTheDots(CLAverageSplits('implied3'), col=COL_3, pch=PCH_XX, cex=1.1)
+JoinTheDots(CLAverageSplits('implied2'), col=COL_2, pch=PCH_XX, cex=1.1)
+JoinTheDots(CLAverageSplits('implied1'), col=COL_1, pch=PCH_IW, cex=1.1)
+JoinTheDots(CLAverageSplits('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
+JoinTheDots(CLAverageSplits('impliedC'), col=COL_C, pch=PCH_IC, cex=1.1)
+JoinTheDots(CLAverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
 AddArrows("Increasing RF distance")
 AddLegend()
@@ -242,25 +253,25 @@ title(main="\nPartitions", cex.main=0.8)
 HorizontalGrid(19)
 partition_distances <- SplitsPoints(sq_trees)
 
-TernaryLines(AverageSplits('implied10'), col=COL10,  pch=PCH_XX)
-TernaryLines(AverageSplits('implied5' ), col=COL_5,  pch=PCH_XX)
-TernaryLines(AverageSplits('implied3' ), col=COL_3,  pch=PCH_XX)
-TernaryLines(AverageSplits('implied2' ), col=COL_2,  pch=PCH_XX)
-TernaryLines(AverageSplits('implied1' ), col=COL_1,  pch=PCH_XX)
-TernaryLines(AverageSplits('impliedC' ), col=COL_C,  pch=PCH_XX)
-TernaryLines(AverageSplits('markov'   ), col=COL_MK, pch=PCH_XX)
-TernaryLines(AverageSplits('equal'    ), col=COL_EQ, pch=PCH_XX)
+TernaryLines(CLAverageSplits('implied10'), col=COL10,  pch=PCH_XX)
+TernaryLines(CLAverageSplits('implied5' ), col=COL_5,  pch=PCH_XX)
+TernaryLines(CLAverageSplits('implied3' ), col=COL_3,  pch=PCH_XX)
+TernaryLines(CLAverageSplits('implied2' ), col=COL_2,  pch=PCH_XX)
+TernaryLines(CLAverageSplits('implied1' ), col=COL_1,  pch=PCH_XX)
+TernaryLines(CLAverageSplits('impliedC' ), col=COL_C,  pch=PCH_XX)
+TernaryLines(CLAverageSplits('markov'   ), col=COL_MK, pch=PCH_XX)
+TernaryLines(CLAverageSplits('equal'    ), col=COL_EQ, pch=PCH_XX)
 
 PCH_EQ = 0
 
-TernaryPoints(AverageSplits('implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('implied1' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
-TernaryPoints(AverageSplits('impliedC' )[, 1], col=COL_C,  pch=PCH_IC, cex=1.1)
-TernaryPoints(AverageSplits('equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
+TernaryPoints(CLAverageSplits('implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
+TernaryPoints(CLAverageSplits('implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
+TernaryPoints(CLAverageSplits('implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
+TernaryPoints(CLAverageSplits('implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1)
+TernaryPoints(CLAverageSplits('implied1' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
+TernaryPoints(CLAverageSplits('markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
+TernaryPoints(CLAverageSplits('impliedC' )[, 1], col=COL_C,  pch=PCH_IC, cex=1.1)
+TernaryPoints(CLAverageSplits('equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
 
 rightPoint <- TernaryCoords(0, 0, 1)
@@ -268,7 +279,7 @@ otherYs <- vapply(2*(1:8), function (p) TernaryCoords(p, 19-p, 0), double(2))[2,
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
                                    lty='dashed', col='#00000022'))
 
-equal_point <- AverageSplits('equal'    )[, 1]
+equal_point <- CLAverageSplits('equal'    )[, 1]
 equal_differents <- equal_point[2]
 TernaryLines(list(c(0, equal_differents, 20-equal_differents),
                   c(20-equal_differents, equal_differents, 0)), 
@@ -291,3 +302,22 @@ AddLegend()
 legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
        lty=c('dotted', 'dotdash', 'dashed', 'twodash'), legend=c('Equally informative', 'Equal precision', 'Equal accuracy', 'Equal incorrect nodes'))
 #dev.off()
+
+
+
+################################################################################
+
+################################################################################
+dev.new()
+par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
+title(main="\nPartitions", cex.main=0.8)
+
+HorizontalGrid(19)
+partition_distances <- SplitsPoints(sq_trees)
+
+TernaryLines(AverageSplits(markov), col=COL10,  pch=PCH_XX)
