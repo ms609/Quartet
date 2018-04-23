@@ -4,10 +4,10 @@ author: "Martin R. Smith"
 output: html_document
 --- 
 
-# Generate MrBayes trees using bayesgen.pl
+## Generate MrBayes trees using `bayesgen.pl`
 
 Before running this file, convert MrBayes output into R-readable output in 
-nexTrees folder using t2nex.pl
+nexTrees folder using `t2nex.pl`
 
 ```{R Load relevant libraries}
 library(ape) # For tree manipulation
@@ -53,7 +53,7 @@ LoadSuboptimal <- function (pref) {
 ```
 
 
-## Load trees
+### Load trees
 
 ```{R load trees}
 # For each file, load the MrBayes tree:
@@ -85,7 +85,7 @@ impC  <- lapply(seq_along(imp2),
 ```
 
 
-## Calculate tree statistics
+### Calculate tree statistics
 
 ```{R Calculate statistics}
 # Define the expected format of tree statistics (needed for vapply)
@@ -116,7 +116,7 @@ clPartitions <- list(
 ```
 
 
-## Save statistics to data file
+### Save statistics to data file
 This uses `devtools` (which you'll need to install using 
 `install.packages('devtools')` if you haven't already) to package the data 
 into a data file that can be bundled with the package.

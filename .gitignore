@@ -18,3 +18,4 @@ vignettes/*_cache
 vignettes/*.html
 vignettes/*.pdf
 vignettes/*_files
+inst/Referee*
