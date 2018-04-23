@@ -36,8 +36,8 @@ SO_NUMS <- formatC(1:20, width=2, format='d', flag='0') # Enumeration of subopti
 
 
 # Trees themselves are saved in the data-raw/Trees subdirectory
-TREE_FILE <- paste0(DIR_ROOT, 'Trees/%s/%s.', FILE_NUMS, '%s.con.nex') # Defines the pattern of the file name
-BAYES_TREE <- paste0(DIR_ROOT, 'Trees/MrBayes/%s.nex.run%s.nex')
+TREE_FILE <- paste0(DIR_ROOT, 'clTrees/%s/%s.', FILE_NUMS, '%s.con.nex') # Defines the pattern of the file name
+BAYES_TREE <- paste0(DIR_ROOT, 'clTrees/MrBayes/%s.nex.run%s.nex')
 CI_PATH <- paste0(DIR_ROOT, 'consistency_indices.txt')
 BAYES_SUBOPTIMAL <- seq(1, 0.5, length.out = 21)
 
