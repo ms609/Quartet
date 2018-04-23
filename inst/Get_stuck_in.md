@@ -36,6 +36,3 @@ Use the "Push" button (on the black toolbar) to push your local changes to the
 GitHub server.  These are now stored "in the cloud", meaning that they are
 backed up and available for you to access wherever you are.
 
-
-
-
