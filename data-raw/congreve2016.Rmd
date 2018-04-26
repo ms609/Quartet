@@ -1,5 +1,5 @@
 ---
-title: "Generating data from trees"
+title: "Generating data from Congreve & Lamsdell (2016) trees"
 author: "Martin R. Smith"
 output: html_document
 --- 
@@ -28,16 +28,16 @@ in the necessary path on your machine.
 data('referenceTree') 
 
 # Tree files are located in the data-raw subdirectory
-DIR_ROOT = '../data-raw/'
+DIR_ROOT = '../data-raw/clTrees/'
 
 # The file names have a number of components, whose format is defined here:
 FILE_NUMS <- formatC(1:100, width=3, format='d', flag='0') # Add leading zeroes to numbers
 SO_NUMS <- formatC(1:20, width=2, format='d', flag='0') # Enumeration of suboptimal trees
 
 
-# Trees themselves are saved in the data-raw/Trees subdirectory
-TREE_FILE <- paste0(DIR_ROOT, 'clTrees/%s/%s.', FILE_NUMS, '%s.con.nex') # Defines the pattern of the file name
-BAYES_TREE <- paste0(DIR_ROOT, 'clTrees/MrBayes/%s.nex.run%s.nex')
+# Trees themselves are saved in the data-raw/clTrees subdirectory
+TREE_FILE <- paste0(DIR_ROOT, '%s/%s.', FILE_NUMS, '%s.con.nex') # Defines the pattern of the file name
+BAYES_TREE <- paste0(DIR_ROOT, 'MrBayes/%s.nex.run%s.nex')
 CI_PATH <- paste0(DIR_ROOT, 'consistency_indices.txt')
 BAYES_SUBOPTIMAL <- seq(1, 0.5, length.out = 21)
 
