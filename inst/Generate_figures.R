@@ -152,11 +152,13 @@ CLAverageSplits <- function (item) {
   AverageSplits(clPartitions[[item]][, , ])
 }
 
-ORAverageSplits <- function (item) {
-  AverageSplits(orPartitions[[item]][, , ])
+ORAverageSplits <- function (nchar, item) {
+  AverageSplits(orPartitions[[as.character(nchar)]][[item]][, , ])
 }
 
 
+AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans)
+ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]][[item]][c('r2', 'd', 's'), , ], 2, rowMeans)
 
 
 
@@ -172,7 +174,6 @@ ORAverageSplits <- function (item) {
 #pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
 dev.new()
 par(mfrow=c(2, 1), mai=rep(0, 4))
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans)
 
 TernaryQuarts(AverageQuarts)
 AddArrows('Increasing Divergence')
@@ -320,4 +321,57 @@ title(main="\nPartitions", cex.main=0.8)
 HorizontalGrid(19)
 partition_distances <- SplitsPoints(sq_trees)
 
-TernaryLines(AverageSplits(markov), col=COL10,  pch=PCH_XX)
+
+TernaryLines(ORAverageSplits(350, 'implied200' ), col=COL_C,  pch=PCH_XX)
+TernaryLines(ORAverageSplits(350, 'implied20' ), col=COL_1,  pch=PCH_XX)
+TernaryLines(ORAverageSplits(350, 'implied10'), col=COL10,  pch=PCH_XX)
+TernaryLines(ORAverageSplits(350, 'implied5' ), col=COL_5,  pch=PCH_XX)
+TernaryLines(ORAverageSplits(350, 'implied3' ), col=COL_3,  pch=PCH_XX)
+TernaryLines(ORAverageSplits(350, 'implied2' ), col=COL_2,  pch=PCH_XX)
+TernaryLines(ORAverageSplits(350, 'markov'   ), col=COL_MK, pch=PCH_XX)
+TernaryLines(ORAverageSplits(350, 'equal'    ), col=COL_EQ, pch=PCH_XX)
+
+TernaryPoints(ORAverageSplits(350, 'implied200' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageSplits(350, 'implied20' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageSplits(350, 'implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageSplits(350, 'implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageSplits(350, 'implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageSplits(350, 'implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageSplits(350, 'markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
+TernaryPoints(ORAverageSplits(350, 'equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
+
+################################################################################
+# Initial results from NCHAR = 350:
+# Partition metrics slightly favour MrBayes; 
+# Quartet metrics quite strongly favour implied weighting.
+################################################################################
+dev.new()
+par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
+title(main="\nPartitions", cex.main=0.8)
+
+HorizontalGrid(19)
+partition_distances <- SplitsPoints(sq_trees)
+
+
+TernaryLines(ORAverageQuarts(350, 'implied200' ), col=COL_C,  pch=PCH_XX)
+TernaryLines(ORAverageQuarts(350, 'implied20' ), col=COL_1,  pch=PCH_XX)
+TernaryLines(ORAverageQuarts(350, 'implied10'), col=COL10,  pch=PCH_XX)
+TernaryLines(ORAverageQuarts(350, 'implied5' ), col=COL_5,  pch=PCH_XX)
+TernaryLines(ORAverageQuarts(350, 'implied3' ), col=COL_3,  pch=PCH_XX)
+TernaryLines(ORAverageQuarts(350, 'implied2' ), col=COL_2,  pch=PCH_XX)
+TernaryLines(ORAverageQuarts(350, 'markov'   ), col=COL_MK, pch=PCH_XX)
+TernaryLines(ORAverageQuarts(350, 'equal'    ), col=COL_EQ, pch=PCH_XX)
+
+TernaryPoints(ORAverageQuarts(350, 'implied200' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageQuarts(350, 'implied20' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageQuarts(350, 'implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageQuarts(350, 'implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageQuarts(350, 'implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageQuarts(350, 'implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1)
+TernaryPoints(ORAverageQuarts(350, 'markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
+TernaryPoints(ORAverageQuarts(350, 'equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
