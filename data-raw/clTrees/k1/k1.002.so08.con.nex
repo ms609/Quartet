@@ -1,32 +1,3 @@
-#NEXUS
-begin taxa;
-	dimensions ntax=22;
-	taxlabels
-		1
-		2
-		3
-		4
-		5
-		6
-		7
-		8
-		9
-		10
-		11
-		12
-		13
-		14
-		15
-		16
-		17
-		18
-		19
-		20
-		21
-		22
-	;
-end;
-begin trees;
-	tree tree1 = [&U] (1, (20, ((12, (11, (10, ((3, (2, 5)),((4, 6),(7, (8, 9))))))),(19, (13, (18, (14, (17, (15, 16))))))),(21, 22)));
-
-end;
+version https://git-lfs.github.com/spec/v1
+oid sha256:c12fb0b34dcc2ba265b74afe06f532e5b3a16953ca99c44a2c5b6601e3216b2c
+size 343
