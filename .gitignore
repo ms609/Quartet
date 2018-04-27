@@ -1,15 +1,20 @@
 .Rproj.user
 .Rhistory
+.Rprofile
 .RData*
 .Ruserdata
 ~$*
+*.nex
 *.pdf
+*.QStats
 *.Rd
 *.trees
 *.zip
 inst/doc
+inst/Referee*
 inst/*.docx
 inst/*.png
+orTrees/*.*0/
 src-*
 src/*.o
 src/*.so
@@ -18,4 +23,5 @@ vignettes/*_cache
 vignettes/*.html
 vignettes/*.pdf
 vignettes/*_files
-inst/Referee*
+# The following line is to facilitate housekeeping and should be deleted:
+*.run*.nex
