@@ -80,16 +80,30 @@ PCH <- c(
   impliedC = 17  #triupfilled
 )
 
+LTY <- c(
+  markov = 2,
+  equal  = 1, 
+  implied1   = 1,   #triup
+  implied2   = 1,   #triup
+  implied3   = 1,   #triup
+  implied5   = 1,   #triup
+  implied10  = 1,   #triup
+  implied20  = 1,   #triup
+  implied200 = 1,   #triup
+  impliedC = 1  #triupfilled
+)
+LWD <- LTY
+
 COL <- c(
   markov = paste0(cbPalette8[4],   '99'),
   equal  = paste0(cbPalette8[2],   '99'),
-  implied1   = paste0(cbPalette15[5],   '99'),
-  implied2   = paste0(cbPalette15[6],   '99'),
-  implied3   = paste0(cbPalette15[7],   '99'),
+  implied1   = paste0(cbPalette15[11],   '99'),
+  implied2   = paste0(cbPalette15[10],   '99'),
+  implied3   = paste0(cbPalette15[9],   '99'),
   implied5   = paste0(cbPalette15[8],   '99'),
-  implied10  = paste0(cbPalette15[9],   '99'),
-  implied20  = paste0(cbPalette15[10],   '99'),
-  implied200 = paste0(cbPalette15[11],   '99'),
+  implied10  = paste0(cbPalette15[7],   '99'),
+  implied20  = paste0(cbPalette15[6],   '99'),
+  implied200 = paste0(cbPalette15[5],   '99'),
   impliedC = paste0(cbPalette15[15],   '99')
 )
 
@@ -363,7 +377,7 @@ lapply(orAnalyses, function (analysis) {
 # Quartet metrics quite strongly favour implied weighting.
 ################################################################################
 dev.new()
-par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
+par(mar=rep(0, 4), mfrow=c(2,1), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
@@ -376,8 +390,25 @@ partition_distances <- SplitsPoints(sq_trees)
 ORQ350 <- function (x) ORAverageQuarts(350, x)
 
 lapply(orAnalyses, function (analysis) {
-  TernaryLines(ORQ350(analysis), col=COL[analysis],  pch=PCH['dot'])
+  TernaryLines(ORQ350(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
   TernaryPoints(ORQ350(analysis)[, 1], col=COL[analysis], 
                 pch=PCH[analysis], cex=1.1)
 })
 
+
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=3.5
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = 0:19,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ350(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryPoints(ORQ350(analysis)[, 1], col=COL[analysis], 
+                pch=PCH[analysis], cex=1.1)
+})
