@@ -118,12 +118,12 @@ THESE_FILE_NUMS <- paste0(1:10, '_1')
                              class(ret) <- 'multiPhylo'
                              ret})
                              ))
+  names(results[['impliedC']]) <- THESE_FILE_NUMS
 
   ### Calculate tree statistics
   
   # Define the expected format of tree statistics (needed for vapply)
   # (Using lapply or sapply instead of vapply can be simpler, and is only slightly slower)
-  BLANK_RETURN <- matrix(0, ncol=21, nrow=6)
   
   for (analysis in names(results)) {
     theseResults <- results[[analysis]]
