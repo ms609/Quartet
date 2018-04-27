@@ -71,14 +71,15 @@ ANALYSES <- c('markov', 'equal', 'implied2', 'implied3', 'implied5', 'implied10'
 BLANK_QUARTS <- array(NA, c(6, 21, length(FILE_NUMS)), dimnames=list(c( "Q",  "s", "d", "r1", "r2", "u"), NULL, FILE_NUMS))
 BLANK_SPLITS <- BLANK_QUARTS
 dimnames(BLANK_SPLITS)[[1]] <- c("cf", "ref", "cf_and_ref",
-                                 "cf_not_ref, ref_not_cf", "RF_dist")
-ALL_BLANKS <- lapply(ANALYSES, function(x) BLANK_SCORES)
-names(ALL_BLANKS) <- ANALYSES
-if (!exists("orPartitions")) orPartitions <- list('100'=ALL_BLANKS, '350'=ALL_BLANKS, '1000'=ALL_BLANKS)
-if (!exists("orQuartets")) orQuartets <- list('100'=ALL_BLANKS, '350'=ALL_BLANKS, '1000'=ALL_BLANKS)
+                                 "cf_not_ref", "ref_not_cf", "RF_dist")
+ALL_BLANK_Q <- lapply(ANALYSES, function(x) BLANK_QUARTS)
+ALL_BLANK_S <- lapply(ANALYSES, function(x) BLANK_SPLITS)
+names(ALL_BLANK_Q) <- names(ALL_BLANK_S) <- ANALYSES
+if (!exists("orPartitions")) orPartitions <- list('100'=ALL_BLANK_S, '350'=ALL_BLANK_S, '1000'=ALL_BLANK_S)
+if (!exists("orQuartets")) orQuartets <- list('100'=ALL_BLANK_Q, '350'=ALL_BLANK_Q, '1000'=ALL_BLANK_Q)
 #for (NCHAR in c(100, 350, 1000)) {
 NCHAR <- 350 # TODO reactivate loop
-THESE_FILE_NUMS <- paste0(1:20, '_1')
+THESE_FILE_NUMS <- paste0(1:10, '_1')
 
   
   # For each file, load the MrBayes tree:
@@ -132,9 +133,10 @@ THESE_FILE_NUMS <- paste0(1:20, '_1')
     theseResults <- results[[analysis]]
     theseScores <- orQuartets[[as.character(NCHAR)]][[analysis]]
     scoreNeeded <- is.na(theseScores[1, 1, ])
-    for (NUM in names(scoreNeeded[names(theseResults)][scoreNeeded[names(theseResults)]])) {
-      MQ <- MatchingQuartets(theseResults[[NUM]], cf=or_refTree)
-      orQuartets[[as.character(NCHAR)]][[analysis]][, , NUM] <- MQ
+    for (NUM in THESE_FILE_NUMS) {
+    #for (NUM in names(scoreNeeded[names(theseResults)][scoreNeeded[names(theseResults)]])) {
+      #MQ <- MatchingQuartets(theseResults[[NUM]], cf=or_refTree)
+      #orQuartets[[as.character(NCHAR)]][[analysis]][, , NUM] <- MQ
       MS <- MatchingSplits(theseResults[[NUM]], cf=or_refTree)
       orPartitions[[as.character(NCHAR)]][[analysis]][, , NUM] <- MS
     }
