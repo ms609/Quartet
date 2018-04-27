@@ -68,14 +68,17 @@ LoadSuboptimal <- function (fileNums, pref) {
 data("orQuartets")
 data("orPartitions")
 ANALYSES <- c('markov', 'equal', 'implied2', 'implied3', 'implied5', 'implied10', 'implied20', 'implied200', 'impliedC')
-BLANK_SCORES <- array(NA, c(6, 21, length(FILE_NUMS)), dimnames=list(c( "Q",  "s", "d", "r1", "r2", "u"), NULL, FILE_NUMS))
+BLANK_QUARTS <- array(NA, c(6, 21, length(FILE_NUMS)), dimnames=list(c( "Q",  "s", "d", "r1", "r2", "u"), NULL, FILE_NUMS))
+BLANK_SPLITS <- BLANK_QUARTS
+dimnames(BLANK_SPLITS)[[1]] <- c("cf", "ref", "cf_and_ref",
+                                 "cf_not_ref, ref_not_cf", "RF_dist")
 ALL_BLANKS <- lapply(ANALYSES, function(x) BLANK_SCORES)
 names(ALL_BLANKS) <- ANALYSES
 if (!exists("orPartitions")) orPartitions <- list('100'=ALL_BLANKS, '350'=ALL_BLANKS, '1000'=ALL_BLANKS)
 if (!exists("orQuartets")) orQuartets <- list('100'=ALL_BLANKS, '350'=ALL_BLANKS, '1000'=ALL_BLANKS)
 #for (NCHAR in c(100, 350, 1000)) {
 NCHAR <- 350 # TODO reactivate loop
-THESE_FILE_NUMS <- paste0(1:10, '_1')
+THESE_FILE_NUMS <- paste0(1:20, '_1')
 
   
   # For each file, load the MrBayes tree:
