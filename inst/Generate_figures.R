@@ -66,6 +66,33 @@ par(mfrow=c(1, 3), mar=rep(0.3, 4))
 data(clPartitions)
 data(clQuartets)
 
+PCH <- c(
+  markov = 1,
+  equal  = 61, #'='
+  dot = 183, #'.'
+  implied1   = 2,   #triup
+  implied2   = 2,   #triup
+  implied3   = 2,   #triup
+  implied5   = 2,   #triup
+  implied10  = 2,   #triup
+  implied20  = 2,   #triup
+  implied200 = 2,   #triup
+  impliedC = 17  #triupfilled
+)
+
+COL <- c(
+  markov = paste0(cbPalette8[4],   '99'),
+  equal  = paste0(cbPalette8[2],   '99'),
+  implied1   = paste0(cbPalette15[5],   '99'),
+  implied2   = paste0(cbPalette15[6],   '99'),
+  implied3   = paste0(cbPalette15[7],   '99'),
+  implied5   = paste0(cbPalette15[8],   '99'),
+  implied10  = paste0(cbPalette15[9],   '99'),
+  implied20  = paste0(cbPalette15[10],   '99'),
+  implied200 = paste0(cbPalette15[11],   '99'),
+  impliedC = paste0(cbPalette15[15],   '99')
+)
+
 PCH_MK <- 1   # circle
 PCH_EQ <- 61  #'='
 PCH_XX <- 183 #'.'
@@ -145,7 +172,7 @@ PointsFromItem <- function(itemData) {
 }
 
 AverageSplits <- function (dataset) {
-  PointsFromItem(apply(dataset[, , ], 2, rowMeans))
+  PointsFromItem(apply(dataset[, , ], 2, rowMeans, na.rm=TRUE))
 }
 
 CLAverageSplits <- function (item) {
@@ -157,8 +184,8 @@ ORAverageSplits <- function (nchar, item) {
 }
 
 
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans)
-ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]][[item]][c('r2', 'd', 's'), , ], 2, rowMeans)
+AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans, na.rm=TRUE)
+ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]][[item]][c('r2', 'd', 's'), , ], 2, rowMeans, na.rm=TRUE)
 
 
 
@@ -309,36 +336,26 @@ legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ,
 ################################################################################
 
 ################################################################################
+orAnalyses <- c('implied200', 'implied20', 'implied10', 'implied5', 'implied3',
+                'implied2','markov', 'equal')
 dev.new()
 par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = 37, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = 0:19)
+            padding=0.1, axis.labels = seq(0, 74, by=2))
 title(main="\nPartitions", cex.main=0.8)
 
-HorizontalGrid(19)
+HorizontalGrid(37)
 partition_distances <- SplitsPoints(sq_trees)
+ORS350 <- function (x) ORAverageSplits(350, x)
 
-
-TernaryLines(ORAverageSplits(350, 'implied200' ), col=COL_C,  pch=PCH_XX)
-TernaryLines(ORAverageSplits(350, 'implied20' ), col=COL_1,  pch=PCH_XX)
-TernaryLines(ORAverageSplits(350, 'implied10'), col=COL10,  pch=PCH_XX)
-TernaryLines(ORAverageSplits(350, 'implied5' ), col=COL_5,  pch=PCH_XX)
-TernaryLines(ORAverageSplits(350, 'implied3' ), col=COL_3,  pch=PCH_XX)
-TernaryLines(ORAverageSplits(350, 'implied2' ), col=COL_2,  pch=PCH_XX)
-TernaryLines(ORAverageSplits(350, 'markov'   ), col=COL_MK, pch=PCH_XX)
-TernaryLines(ORAverageSplits(350, 'equal'    ), col=COL_EQ, pch=PCH_XX)
-
-TernaryPoints(ORAverageSplits(350, 'implied200' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageSplits(350, 'implied20' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageSplits(350, 'implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageSplits(350, 'implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageSplits(350, 'implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageSplits(350, 'implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageSplits(350, 'markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
-TernaryPoints(ORAverageSplits(350, 'equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
+lapply(orAnalyses, function (analysis) {
+            TernaryLines(ORS350(analysis), col=COL[analysis],  pch=PCH['dot'])
+            TernaryPoints(ORS350(analysis)[, 1], col=COL[analysis], 
+                          pch=PCH[analysis], cex=1.1)
+         })
 
 ################################################################################
 # Initial results from NCHAR = 350:
@@ -356,22 +373,11 @@ title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(19)
 partition_distances <- SplitsPoints(sq_trees)
+ORQ350 <- function (x) ORAverageQuarts(350, x)
 
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ350(analysis), col=COL[analysis],  pch=PCH['dot'])
+  TernaryPoints(ORQ350(analysis)[, 1], col=COL[analysis], 
+                pch=PCH[analysis], cex=1.1)
+})
 
-TernaryLines(ORAverageQuarts(350, 'implied200' ), col=COL_C,  pch=PCH_XX)
-TernaryLines(ORAverageQuarts(350, 'implied20' ), col=COL_1,  pch=PCH_XX)
-TernaryLines(ORAverageQuarts(350, 'implied10'), col=COL10,  pch=PCH_XX)
-TernaryLines(ORAverageQuarts(350, 'implied5' ), col=COL_5,  pch=PCH_XX)
-TernaryLines(ORAverageQuarts(350, 'implied3' ), col=COL_3,  pch=PCH_XX)
-TernaryLines(ORAverageQuarts(350, 'implied2' ), col=COL_2,  pch=PCH_XX)
-TernaryLines(ORAverageQuarts(350, 'markov'   ), col=COL_MK, pch=PCH_XX)
-TernaryLines(ORAverageQuarts(350, 'equal'    ), col=COL_EQ, pch=PCH_XX)
-
-TernaryPoints(ORAverageQuarts(350, 'implied200' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageQuarts(350, 'implied20' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageQuarts(350, 'implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageQuarts(350, 'implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageQuarts(350, 'implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageQuarts(350, 'implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1)
-TernaryPoints(ORAverageQuarts(350, 'markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
-TernaryPoints(ORAverageQuarts(350, 'equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
