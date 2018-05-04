@@ -372,9 +372,13 @@ lapply(orAnalyses, function (analysis) {
          })
 
 ################################################################################
-# Initial results from NCHAR = 350:
+# Initial results from NCHAR = 350: [1_1 to 10_1]
 # Partition metrics slightly favour MrBayes; 
 # Quartet metrics quite strongly favour implied weighting.
+################################################################################
+# Further results from NCHAR = 350: [1_1 to 100_1]
+# Partition metrics slightly favour MrBayes; 
+# Quartet metrics marginally favour MrBayes.
 ################################################################################
 dev.new()
 par(mar=rep(0, 4), mfrow=c(2,1), mai=rep(0, 4))
