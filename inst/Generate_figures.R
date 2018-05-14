@@ -352,7 +352,18 @@ legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ,
 ################################################################################
 orAnalyses <- c('implied200', 'implied20', 'implied10', 'implied5', 'implied3',
                 'implied2','markov', 'equal')
+
+ORQ100 <- function (x) ORAverageQuarts(100, x)
+ORQ350 <- function (x) ORAverageQuarts(350, x)
+ORQ1000 <- function (x) ORAverageQuarts(1000, x)
+
+ORS100 <- function (x) ORAverageSplits(100, x)
+ORS350 <- function (x) ORAverageSplits(350, x)
+ORS1000 <- function (x) ORAverageSplits(1000, x)
+
+
 dev.new()
+########## 350
 par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
@@ -363,11 +374,27 @@ title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(37)
 partition_distances <- SplitsPoints(sq_trees)
-ORS350 <- function (x) ORAverageSplits(350, x)
 
 lapply(orAnalyses, function (analysis) {
             TernaryLines(ORS350(analysis), col=COL[analysis],  pch=PCH['dot'])
             TernaryPoints(ORS350(analysis)[, 1], col=COL[analysis], 
+                          pch=PCH[analysis], cex=1.1)
+         })
+
+########## 100
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 37, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = seq(0, 74, by=2))
+title(main="\nPartitions", cex.main=0.8)
+
+HorizontalGrid(37)
+partition_distances <- SplitsPoints(sq_trees)
+
+lapply(orAnalyses, function (analysis) {
+            TernaryLines(ORS100(analysis), col=COL[analysis],  pch=PCH['dot'])
+            TernaryPoints(ORS100(analysis)[, 1], col=COL[analysis], 
                           pch=PCH[analysis], cex=1.1)
          })
 
@@ -378,6 +405,10 @@ lapply(orAnalyses, function (analysis) {
 ################################################################################
 # Further results from NCHAR = 350: [1_1 to 100_1]
 # Partition metrics slightly favour MrBayes; 
+# Quartet metrics marginally favour MrBayes.
+################################################################################
+# Further results from NCHAR = 100: [1_1 to 100_1]
+# Partition metrics strongly favour MrBayes; 
 # Quartet metrics marginally favour MrBayes.
 ################################################################################
 dev.new()
@@ -391,7 +422,6 @@ title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(19)
 partition_distances <- SplitsPoints(sq_trees)
-ORQ350 <- function (x) ORAverageQuarts(350, x)
 
 lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ350(analysis), col=COL[analysis], pch=PCH['dot'],
@@ -414,5 +444,80 @@ lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ350(analysis), col=COL[analysis],  pch=PCH['dot'],
                lty=LTY[analysis], lwd=LWD[analysis])
   TernaryPoints(ORQ350(analysis)[, 1], col=COL[analysis], 
+                pch=PCH[analysis], cex=1.1)
+})
+
+################################################################################
+# Quartets: 
+# TODO fix axis.labels (0:19 probably wrong)
+################################################################################
+
+dev.new()
+par(mar=rep(0, 4), mfrow=c(2,1), mai=rep(0, 4))
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
+title(main="\nQuartets", cex.main=0.8)
+
+HorizontalGrid(19)
+
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ350(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryPoints(ORQ350(analysis)[, 1], col=COL[analysis], 
+                pch=PCH[analysis], cex=1.1)
+})
+
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=3.5
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = 0:19,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ350(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryPoints(ORQ350(analysis)[, 1], col=COL[analysis], 
+                pch=PCH[analysis], cex=1.1)
+})
+
+##################### 100
+par(mar=rep(0, 4), mfrow=c(2,1), mai=rep(0, 4))
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
+title(main="\nQuartets", cex.main=0.8)
+
+HorizontalGrid(19)
+
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ100(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryPoints(ORQ100(analysis)[, 1], col=COL[analysis], 
+                pch=PCH[analysis], cex=1.1)
+})
+
+
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=2.25
+HorizontalGrid(19)
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = 0:19,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ100(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryPoints(ORQ100(analysis)[, 1], col=COL[analysis],
                 pch=PCH[analysis], cex=1.1)
 })

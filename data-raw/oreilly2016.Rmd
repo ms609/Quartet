@@ -71,7 +71,7 @@ LoadSuboptimal <- function (fileNums, pref) {
 ```{R load trees, calculate and save statistics}
 ANALYSES <- c('markov', 'equal', 'implied2', 'implied3', 'implied5', 'implied10', 'implied20', 'implied200', 'impliedC')
 
-#data("orQuartets")
+data("orPartitions")
 if (!exists("orPartitions")) {
   BLANK_SPLITS <- array(NA, c(6, 21, length(FILE_NUMS)),
                         dimnames=list(c("cf", "ref", "cf_and_ref",
@@ -82,7 +82,7 @@ if (!exists("orPartitions")) {
   orPartitions <- list('100'=ALL_BLANK_S, '350'=ALL_BLANK_S, '1000'=ALL_BLANK_S)
 }
 
-#data("orPartitions")
+data("orQuartets")
 if (!exists("orQuartets")) {
   BLANK_QUARTS <- array(NA, c(6, 21, length(FILE_NUMS)),
                         dimnames=list(c( "Q",  "s", "d", "r1", "r2", "u"),
