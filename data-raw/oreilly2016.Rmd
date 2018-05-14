@@ -45,12 +45,16 @@ BAYES_TREE <- paste0(DIR_ROOT, 'MrBayes/%s_%s.mb.nex.run%s.nex')
 CI_PATH <- paste0(DIR_ROOT, 'consistency_indices.txt')
 BAYES_SUBOPTIMAL <- seq(1, 0.5, length.out = 21)
 
+ReadNexusSafely <- function(filename) {
+  if (file.exists(filename)) read.nexus(filename) else NULL
+}
+
 # Helper function to load suboptimal trees
 LoadSuboptimal <- function (fileNums, pref) {
   ret <- lapply(fileNums, function (NUM) {
     trees <- lapply(c(sprintf(TREE_FILE, pref, NCHAR, NUM, ''), 
              sprintf(TREE_FILE, pref, NCHAR, NUM, paste0('.so', SO_NUMS))),
-           read.nexus)
+           ReadNexusSafely)
     class(trees) <- 'multiPhylo'
     trees
   })
