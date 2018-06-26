@@ -249,7 +249,7 @@ AddLegend('topright')
 #cairo_pdf(filename="Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
 #pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
 dev.new()
-par(mfrow=c(1,1), mai=rep(0, 4))
+par(mfrow=c(1, 1), mai=rep(0, 4))
 
 
 TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
@@ -348,10 +348,18 @@ legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ,
 
 
 ################################################################################
-
+# 72 partition; 74 tips.
 ################################################################################
 orAnalyses <- c('implied200', 'implied20', 'implied10', 'implied5', 'implied3',
                 'implied2','markov', 'equal')
+
+orNPartitions <- choose(74, 4)
+ORQlines <- 12L
+ORQlabs <- paste0(round(seq(0, orNPartitions, length.out=ORQlines + 1L) / 1000), 'k')
+
+orLines <- 12L
+orLabs <- seq(0, 72, length.out=13)
+
 
 ORQ100 <- function (x) ORAverageQuarts(100, x)
 ORQ350 <- function (x) ORAverageQuarts(350, x)
