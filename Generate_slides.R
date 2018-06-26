@@ -128,12 +128,12 @@ LTR['implied2'] <- ''
 par(mar=rep(0, 4), mfrow=c(1,2), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = 12, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = 0:19)
+            padding=0.1, axis.labels = seq(0, 72, length.out=13))
 title(main="\nQuartets (350 characters)", cex.main=0.8)
 
-HorizontalGrid(19)
+HorizontalGrid(24)
 
 xx <- lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ350(analysis), col=COL[analysis], pch=PCH['dot'],
@@ -160,9 +160,9 @@ xx <- lapply(orAnalyses, function (analysis) {
 par(mar=rep(0, 4), mfrow=c(1, 2), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = 12, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = 0:19)
+            padding=0.1, axis.labels = seq(0, 72, length.out=13))
 title(main="\nQuartets (100 characters)", cex.main=0.8)
 
 HorizontalGrid(19)
@@ -194,9 +194,9 @@ xx <- lapply(orAnalyses, function (analysis) {
 par(mar=rep(0, 4), mfrow=c(1, 2), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = 12, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = 0:19)
+            padding=0.1, axis.labels = seq(0, 72, length.out=13))
 title(main="\nQuartets (1000 characters)", cex.main=0.8)
 
 HorizontalGrid(19)
