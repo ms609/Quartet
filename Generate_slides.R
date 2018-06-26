@@ -117,6 +117,12 @@ ORS100 <- function (x) ORAverageSplits(100, x)
 ORS350 <- function (x) ORAverageSplits(350, x)
 ORS1000 <- function (x) ORAverageSplits(1000, x)
 
+orNPartitions <- choose(74, 4)
+ORQlines <- 12L
+ORQlabs <- paste0(round(seq(0, orNPartitions, length.out=ORQlines + 1L) / 1000), 'k')
+
+ORSlines <- 12L
+ORSlabs <- seq(0, 72, length.out=13)
 
 ################################################################################
 # Quartets: 
@@ -124,13 +130,50 @@ ORS1000 <- function (x) ORAverageSplits(1000, x)
 ################################################################################
 
 dev.new()
+
+##################### 100
+LTR['implied2'] <- '2'
+par(mar=rep(0, 4), mfrow=c(1, 2), mai=rep(0, 4))
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = ORQlines, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = ORQlabs)
+title(main="\nQuartets (100 characters)", cex.main=0.8)
+
+HorizontalGrid(24)
+
+xx <- lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ100(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORQ100(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
+})
+
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=2.25
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = ORQlines, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = ORQlabs,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+HorizontalGrid(24)
+xx <- lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ100(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORQ100(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=2.2)
+})
+
+#################### 350
+
 LTR['implied2'] <- ''
 par(mar=rep(0, 4), mfrow=c(1,2), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 12, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = ORQlines, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = seq(0, 72, length.out=13))
+            padding=0.1, axis.labels = ORQlabs)
 title(main="\nQuartets (350 characters)", cex.main=0.8)
 
 HorizontalGrid(24)
@@ -145,63 +188,30 @@ par(mai=c(0, 0.15, 0, 0.15))
 zoom=3.5
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = ORQlines, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.01, axis.labels = 0:19,
+            padding=0.01, axis.labels = ORQlabs,
             xlim = c(0, sqrt(3/4)/zoom),
             ylim = c(0.5-(1/zoom), 0.5))
+HorizontalGrid(24)
 xx <- lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ350(analysis), col=COL[analysis],  pch=PCH['dot'],
                lty=LTY[analysis], lwd=LWD[analysis])
   TernaryText(ORQ350(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=2.2)
 })
 
-##################### 100
-par(mar=rep(0, 4), mfrow=c(1, 2), mai=rep(0, 4))
-TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
-            col=BG_COL, point='right',
-            grid.lines = 12, grid.lty='solid', grid.col=GRID_COL,
-            axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = seq(0, 72, length.out=13))
-title(main="\nQuartets (100 characters)", cex.main=0.8)
-
-HorizontalGrid(19)
-
-lapply(orAnalyses, function (analysis) {
-  TernaryLines(ORQ100(analysis), col=COL[analysis], pch=PCH['dot'],
-               lty=LTY[analysis], lwd=LWD[analysis])
-  TernaryText(ORQ100(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
-})
-
-LTR['implied2'] <- '2'
-par(mai=c(0, 0.15, 0, 0.15))
-zoom=2.25
-HorizontalGrid(19)
-TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
-            col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
-            axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.01, axis.labels = 0:19,
-            xlim = c(0, sqrt(3/4)/zoom),
-            ylim = c(0.5-(1/zoom), 0.5))
-xx <- lapply(orAnalyses, function (analysis) {
-  TernaryLines(ORQ100(analysis), col=COL[analysis],  pch=PCH['dot'],
-               lty=LTY[analysis], lwd=LWD[analysis])
-  TernaryText(ORQ100(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=2.2)
-})
-
 ##################### 1000
 par(mar=rep(0, 4), mfrow=c(1, 2), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 12, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = ORQlines, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = seq(0, 72, length.out=13))
+            padding=0.1, axis.labels = ORQlabs)
 title(main="\nQuartets (1000 characters)", cex.main=0.8)
 
-HorizontalGrid(19)
+HorizontalGrid(24)
 
-lapply(orAnalyses, function (analysis) {
+xx <- lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ1000(analysis), col=COL[analysis], pch=PCH['dot'],
                lty=LTY[analysis], lwd=LWD[analysis])
   TernaryText(ORQ1000(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
@@ -210,15 +220,15 @@ lapply(orAnalyses, function (analysis) {
 
 par(mai=c(0, 0.15, 0, 0.15))
 zoom=6.5
-HorizontalGrid(19)
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = ORQlines, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.01, axis.labels = 0:19,
+            padding=0.01, axis.labels = ORQlabs,
             xlim = c(0, sqrt(3/4)/zoom),
             ylim = c(0.5-(1/zoom), 0.5))
-lapply(orAnalyses, function (analysis) {
+HorizontalGrid(24)
+xx <- lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ1000(analysis), col=COL[analysis],  pch=PCH['dot'],
                lty=LTY[analysis], lwd=LWD[analysis])
   TernaryText(ORQ1000(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=2.2)
