@@ -8,6 +8,33 @@ COL_5  <- cbPalette15[4]
 COL10  <- cbPalette15[5]
 COL_C  <- cbPalette15[12]
 
+
+COL <- c(
+  markov =     cbPalette8[4],
+  equal  =     cbPalette8[2],
+  implied1   = cbPalette15[11],
+  implied2   = cbPalette15[10],
+  implied3   = cbPalette15[9],
+  implied5   = cbPalette15[8],
+  implied10  = cbPalette15[7],
+  implied20  = cbPalette15[6],
+  implied200 = cbPalette15[5],
+  impliedC =    cbPalette15[15]
+)
+LTR <- c(
+  markov =     'M',
+  equal  =     '=',
+  implied1   = '',
+  implied2   = '',
+  implied3   = '',
+  implied5   = 5,
+  implied10  = '',
+  implied20  = '',
+  implied200 = '',
+  impliedC =  'I'
+)
+
+
 InitialPlot <- function() {
   TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
                grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
@@ -76,3 +103,123 @@ TernaryText(CLBestQ('equal'), '=', col=COL_EQ, cex=2)
 
 AddLegend('topright')
 #dev.off()
+
+
+################################################################################
+orAnalyses <- c('implied200', 'implied20', 'implied10', 'implied5', 'implied3',
+                'implied2','markov', 'equal')
+
+ORQ100 <- function (x) ORAverageQuarts(100, x)
+ORQ350 <- function (x) ORAverageQuarts(350, x)
+ORQ1000 <- function (x) ORAverageQuarts(1000, x)
+
+ORS100 <- function (x) ORAverageSplits(100, x)
+ORS350 <- function (x) ORAverageSplits(350, x)
+ORS1000 <- function (x) ORAverageSplits(1000, x)
+
+
+################################################################################
+# Quartets: 
+# TODO fix axis.labels (0:19 probably wrong)
+################################################################################
+
+dev.new()
+LTR['implied2'] <- ''
+par(mar=rep(0, 4), mfrow=c(1,2), mai=rep(0, 4))
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
+title(main="\nQuartets (350 characters)", cex.main=0.8)
+
+HorizontalGrid(19)
+
+xx <- lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ350(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORQ350(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
+})
+
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=3.5
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = 0:19,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+xx <- lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ350(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORQ350(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=2.2)
+})
+
+##################### 100
+par(mar=rep(0, 4), mfrow=c(1, 2), mai=rep(0, 4))
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
+title(main="\nQuartets (100 characters)", cex.main=0.8)
+
+HorizontalGrid(19)
+
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ100(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORQ100(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
+})
+
+LTR['implied2'] <- '2'
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=2.25
+HorizontalGrid(19)
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = 0:19,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+xx <- lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ100(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORQ100(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=2.2)
+})
+
+##################### 1000
+par(mar=rep(0, 4), mfrow=c(1, 2), mai=rep(0, 4))
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = 0:19)
+title(main="\nQuartets (1000 characters)", cex.main=0.8)
+
+HorizontalGrid(19)
+
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ1000(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORQ1000(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
+})
+
+
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=6.5
+HorizontalGrid(19)
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = 0:19,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ1000(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORQ1000(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=2.2)
+})
