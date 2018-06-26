@@ -19,7 +19,7 @@ COL <- c(
   implied10  = cbPalette15[7],
   implied20  = cbPalette15[6],
   implied200 = cbPalette15[5],
-  impliedC =    cbPalette15[15]
+  impliedC =    cbPalette15[12]
 )
 LTR <- c(
   markov =     'M',
@@ -50,9 +50,6 @@ InitialPlot <- function() {
 CLBest <- function (analysis) rowMeans(PointsFromItem(clPartitions[[analysis]][ , 1, ]))
 CLBestQ <- function (analysis) rowMeans(clQuartets[[analysis]][c('r2', 'd', 's') , 1, ])
 
-#setEPS()
-#postscript("c:/Box/Presentations/images/PrecisionAccuracy/CL_best.eps")
-#win.metafile("c:/Box/Presentations/images/PrecisionAccuracy/CL_best.wmf")
 par(mfrow=c(1, 1), mai=rep(0, 4))
 InitialPlot()
 AddToTernary(text, CLBest('equal'   ),  col=COL_EQ, '=', cex=1.5)
@@ -65,12 +62,12 @@ AddToTernary(text, CLBest('implied10'), col=COL10,   10, cex=1.5)
 AddToTernary(text, CLBest('impliedC'),  col=COL_C , 'I', cex=1.5)
 AddToTernary(text, CLBest('markov'  ),  col=COL_MK, 'M', cex=1.5)
 
-JoinTheDots(CLAverageSplits('implied1'), col=COL_1,  pch=PCH_XX, cex=1.1)
 JoinTheDots(CLAverageSplits('equal'   ), col=COL_EQ, pch=PCH_XX, cex=1.1)
+JoinTheDots(CLAverageSplits('implied1'), col=COL_1,  pch=PCH_XX, cex=1.1)
 JoinTheDots(CLAverageSplits('implied2'), col=COL_2,  pch=PCH_XX, cex=1.1)
-JoinTheDots(CLAverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
 JoinTheDots(CLAverageSplits('implied3'), col=COL_3,  pch=PCH_XX, cex=1.1)
 JoinTheDots(CLAverageSplits('implied5'), col=COL_5,  pch=PCH_XX, cex=1.1)
+JoinTheDots(CLAverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
 JoinTheDots(CLAverageSplits('impliedC'), col=COL_C,  pch=PCH_XX, cex=1.1)
 JoinTheDots(CLAverageSplits('markov'  ), col=COL_MK, pch=PCH_XX, cex=1.1)
 
@@ -99,6 +96,7 @@ TernaryText(CLBestQ('implied1'), '1', col=COL_1, cex=2)
 TernaryText(CLBestQ('implied10'), '10', col=COL10, cex=2)
 TernaryText(CLBestQ('implied5'), '5', col=COL_5, cex=2)
 TernaryText(CLBestQ('markov'), 'M', col=COL_MK, cex=2)
+TernaryText(CLBestQ('impliedC'), 'I', col=COL_C, cex=2)
 TernaryText(CLBestQ('equal'), '=', col=COL_EQ, cex=2)
 
 AddLegend('topright')
@@ -237,6 +235,8 @@ xx <- lapply(orAnalyses, function (analysis) {
 # Partitions:
 ################################################################################
 
+orAnalyses <- c('implied200', 'implied20', 'implied10', 'implied5', 'implied3',
+                'implied2','markov', 'equal', 'impliedC')
 dev.new()
 par(mar=rep(0, 4), mfrow=c(1, 1), mai=rep(0, 4))
 
@@ -247,7 +247,7 @@ TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             grid.lines = ORSlines, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = ORSlabs)
-title(main="\nQuartets (100 characters)", cex.main=0.8)
+title(main="\nPartitions", cex.main=0.8)
 HorizontalGrid(24)
 
 ##################### 100
