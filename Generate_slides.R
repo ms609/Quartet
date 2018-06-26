@@ -126,7 +126,6 @@ ORSlabs <- seq(0, 72, length.out=13)
 
 ################################################################################
 # Quartets: 
-# TODO fix axis.labels (0:19 probably wrong)
 ################################################################################
 
 dev.new()
@@ -232,4 +231,42 @@ xx <- lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ1000(analysis), col=COL[analysis],  pch=PCH['dot'],
                lty=LTY[analysis], lwd=LWD[analysis])
   TernaryText(ORQ1000(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=2.2)
+})
+
+################################################################################
+# Partitions:
+################################################################################
+
+dev.new()
+par(mar=rep(0, 4), mfrow=c(1, 1), mai=rep(0, 4))
+
+##################### 100
+LTR['implied2'] <- '2'
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = ORSlines, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.1, axis.labels = ORSlabs)
+title(main="\nQuartets (100 characters)", cex.main=0.8)
+HorizontalGrid(24)
+
+##################### 100
+xx <- lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORS100(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORS100(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
+})
+
+#################### 350
+xx <- lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORS350(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORS350(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
+})
+
+##################### 1000
+xx <- lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORS1000(analysis), col=COL[analysis], pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryText(ORS1000(analysis)[, 1], LTR[analysis], col=COL[analysis], cex=1.7)
 })
