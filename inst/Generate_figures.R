@@ -95,37 +95,38 @@ LTY <- c(
 LWD <- LTY
 
 COL <- c(
-  markov = paste0(cbPalette8[4],   '99'),
-  equal  = paste0(cbPalette8[2],   '99'),
-  implied1   = paste0(cbPalette15[11],   '99'),
-  implied2   = paste0(cbPalette15[10],   '99'),
-  implied3   = paste0(cbPalette15[9],   '99'),
-  implied5   = paste0(cbPalette15[8],   '99'),
-  implied10  = paste0(cbPalette15[7],   '99'),
-  implied20  = paste0(cbPalette15[6],   '99'),
-  implied200 = paste0(cbPalette15[5],   '99'),
-  impliedC = paste0(cbPalette15[15],   '99')
+  markov     = paste0(cbPalette8[4],   '99'),
+  equal      = paste0(cbPalette8[2],   '99'),
+  implied1   = paste0(cbPalette15[11], '99'),
+  implied2   = paste0(cbPalette15[10], '99'),
+  implied3   = paste0(cbPalette15[9],  '99'),
+  implied5   = paste0(cbPalette15[8],  '99'),
+  implied10  = paste0(cbPalette15[7],  '99'),
+  implied20  = paste0(cbPalette15[6],  '99'),
+  implied200 = paste0(cbPalette15[5],  '99'),
+  impliedC   = paste0(cbPalette15[15], '99')
 )
 
-PCH_MK <- 1   # circle
-PCH_EQ <- 61  #'='
-PCH_XX <- 183 #'.'
+PCH_MK <- PCH['markov']
+PCH_EQ <- PCH['equal']
+PCH_XX <- PCH['dot']
 PCH_IW <- 2   #triup
-PCH_IC <- 17  #triupfilled
+PCH_IC <- PCH['impliedC']
 
-COL_MK <- paste0(cbPalette8[4],   '99')
-COL_EQ <- paste0(cbPalette8[2],   '99')
-COL_1  <- paste0(cbPalette15[6],  '99')
-COL_2  <- paste0(cbPalette15[7],  '99')
-COL_3  <- paste0(cbPalette15[8],  '99')
-COL_5  <- paste0(cbPalette15[4],  '99')
-COL10  <- paste0(cbPalette15[5],  '99')
-COL_C  <- paste0(cbPalette15[12], '99')
+COL_MK <- COL['markov']
+COL_EQ <- COL['equal']
+COL_1  <- COL['implied1']
+COL_2  <- COL['implied2']
+COL_3  <- COL['implied3']
+COL_5  <- COL['implied5']
+COL10  <- COL['implied10']
+COL_C  <- COL['impliedC']
 
 GRID_COL <- rgb(0.92, 0.92, 0.92)
 BG_COL   <- rgb(0.985, 0.985, 0.992)
 
 COL_WIDTH <- 5.6
+PAGE_WIDTH <- 11
 
 Quartet2Ternary <- function (item) clQuartets[[item]][c('r2', 'd', 's'), , TREE]
   
@@ -139,7 +140,7 @@ Split2Ternary <- function (item) {
 TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
   xLim <- c(0, sqrt(3/4)/zoom)
   yLim <- c(0.5-(1/zoom), 0.5)
-  lab <- if (zoom == 1) c('      Same', "\n\nDifferent", '\n\nUnresolved') else rep('', 3)
+  lab <- if (zoom == 1) c('\n\nUnresolved', "\n\nDifferent", '      Same') else rep('', 3)
   
   TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
               point='right',
@@ -179,6 +180,14 @@ AddLegend <- function(pos='bottomright')
          legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(10, 5, 3, 2, 1, '2..10')))
   )
 
+AddLegend2 <- function(analyses, pos='bottomright')
+  legend(pos, cex=0.8, bty='n',
+         lty=1,
+         pch=PCH[analyses], pt.cex=1.1,
+         col=COL[analyses],
+         legend=c('Markov', 'Equal weights', paste0('Implied, k=', rev(c(2, 3, 5, 10, 20, 200))))
+  )
+
 PointsFromItem <- function(itemData) {
   rbind(itemData['ref', ] - itemData['cf', ],
         itemData['cf_not_ref', ],
@@ -210,16 +219,16 @@ ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]
 # Figures should be drawn to publication quality and to fit into a single column
 # width (7 cm) wherever possible. Please ensure that axes, tick marks, symbols 
 # and labels are large enough to allow reduction to a final size of c. 8 point.
-#cairo_pdf(filename="Figure_1.pdf", width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
+dev.new()
 #png(filename="Figure_1.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill Sans MT')
 #pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
-dev.new()
+cairo_pdf(filename="inst/Figure_1.pdf", width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
 par(mfrow=c(2, 1), mai=rep(0, 4))
 
 TernaryQuarts(AverageQuarts)
 AddArrows('Increasing Divergence')
-rightPoint <- TernaryCoords(0, 0, 1)
-otherYs <- vapply(2*(1:8), function (p) TernaryCoords(p, 19-p, 0), double(2))[2, ]
+rightPoint <- TernaryCoords(1, 0, 0)
+otherYs <- vapply(2*(1:18), function (p) TernaryCoords(p, 19 - p, 0), double(2))[2, ]
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
                                    lty='dashed', col='#00000022'))
 
@@ -231,12 +240,13 @@ legend('bottomright', bty='n', cex=0.8,
 
 par(mai=c(0, 0.15, 0, 0.15))
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
-otherYs <- vapply(14:19, function (p) TernaryCoords(p, 19-p, 0), double(2))[2, ]
+otherYs <- vapply(2 * (14:18), function (p) TernaryCoords(p, 19 - p, 0), double(2))[2, ]
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
                                    lty='dashed', col='#00000022'))
 
 AddLegend('topright')
-#dev.off()
+# Caption: Quartet distances for Congreve & Lamsdell
+dev.off()
 
 
 
@@ -245,10 +255,10 @@ AddLegend('topright')
 ################################################################################
 
 
-#png(filename="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)
-#cairo_pdf(filename="Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
-#pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
 dev.new()
+#png(filename="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)
+#pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
+cairo_pdf(filename="inst/Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
 par(mfrow=c(1, 1), mai=rep(0, 4))
 
 
@@ -257,7 +267,7 @@ TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = 0:19)
-title(main="\nPartitions", cex.main=0.8)
+#title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(grid.col='#888888', grid.lines=19)
 partition_distances <- SplitsPoints(sq_trees)
@@ -273,17 +283,17 @@ JoinTheDots(CLAverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
 AddArrows("Increasing RF distance")
 AddLegend()
-#dev.off()
+dev.off()
 
 
 ################################################################################
 
 ################################################################################
 
-#png(file="Figure_3.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
-#cairo_pdf(file="Figure_3.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
-#pdf(file="inst/Figure_3.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
 dev.new()
+#png(file="Figure_4.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
+#pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 4",  pointsize=8)
+cairo_pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
 par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
@@ -325,7 +335,7 @@ equal_point <- CLAverageSplits('equal'    )[, 1]
 equal_differents <- equal_point[2]
 TernaryLines(list(c(0, equal_differents, 20-equal_differents),
                   c(20-equal_differents, equal_differents, 0)), 
-             col=COL_EQ, lty='twodash', lwd=1.5)
+             col=COL_EQ, lty='longdash', lwd=1.5)
 equal_coords <- TernaryCoords(equal_point)
 lines(c(0, sqrt(3/4) * (0.5 + equal_coords[2])), rep(equal_coords[2], 2), 
       col=COL_EQ, lty='dotted', lwd=1.75)
@@ -339,11 +349,12 @@ arrow_tips <- matrix(c(TernaryCoords(3, 19-6, 3), TernaryCoords(6.5, 19-13, 6.5)
 arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 2], arrow_tips[2, 2], length=0.08, col='#666666')
 arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 3], arrow_tips[2, 3], length=0.08, col='#666666')
 text(mean(arrow_tips[1, 1:2]) + 0.01, mean(arrow_tips[2, 1:2]), "Increasing quality\n(Congreve & Lamsdell)", cex=0.8, srt=58, pos=1, col='#666666')
-text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increasing quality\n(Quartet divergence)", cex=0.8, srt=90, pos=3, col='#666666')
+text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increasing quality\n(Divergence)", cex=0.8, srt=90, pos=3, col='#666666')
 AddLegend()
 legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
-       lty=c('dotted', 'dotdash', 'dashed', 'twodash'), legend=c('Equally informative', 'Equal precision', 'Equal accuracy', 'Equal incorrect nodes'))
-#dev.off()
+       lty=c('dotted', 'dotdash', 'dashed', 'longdash'), 
+       legend=c('Equally informative', 'Equal precision', 'Equal accuracy', 'Equal incorrect nodes'))
+dev.off()
 
 
 
@@ -494,16 +505,31 @@ lapply(orAnalyses, function (analysis) {
                 pch=PCH[analysis], cex=1.1)
 })
 
-##################### 100
-par(mar=rep(0, 4), mfrow=c(2,1), mai=rep(0, 4))
+##################################################################################
+#                                                                                #
+#                                    FIGURE 3                                    #
+#                                                                                #
+##################################################################################
+
+#dev.new()
+#png(file="Figure_3.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
+#pdf(file="inst/Figure_3.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
+cairo_pdf(filename="inst/Figure_3.pdf", width=PAGE_WIDTH, height=7.2)#), pointsize=8)
+
+
+par(mar=rep(0, 4), mfrow=c(2, 3), mai=rep(0, 4))
+totalQuarts <- orQuartets[['350']][['equal']][1, 1, 1] # = 37 * 73 * 9 * 50
+GRID_LINES <- 15
+AXIS_LABELS <- c(0, paste0(round(1:GRID_LINES * totalQuarts / GRID_LINES / 1000), 'k'))
+
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = 0:19)
-title(main="\nQuartets (100 characters)", cex.main=0.8)
+            padding=0.1, axis.labels = AXIS_LABELS)
+title(main="\n100 characters", cex.main=0.8)
 
-HorizontalGrid(19)
+HorizontalGrid(GRID_LINES)
 
 lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ100(analysis), col=COL[analysis], pch=PCH['dot'],
@@ -512,34 +538,30 @@ lapply(orAnalyses, function (analysis) {
                 pch=PCH[analysis], cex=1.1)
 })
 
-
-par(mai=c(0, 0.15, 0, 0.15))
-zoom=2.25
-HorizontalGrid(19)
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.01, axis.labels = 0:19,
-            xlim = c(0, sqrt(3/4)/zoom),
-            ylim = c(0.5-(1/zoom), 0.5))
+            padding=0.1, axis.labels = AXIS_LABELS)
+title(main="\n350 characters", cex.main=0.8)
+
+HorizontalGrid(GRID_LINES)
+
 lapply(orAnalyses, function (analysis) {
-  TernaryLines(ORQ100(analysis), col=COL[analysis],  pch=PCH['dot'],
+  TernaryLines(ORQ350(analysis), col=COL[analysis], pch=PCH['dot'],
                lty=LTY[analysis], lwd=LWD[analysis])
-  TernaryPoints(ORQ100(analysis)[, 1], col=COL[analysis],
+  TernaryPoints(ORQ350(analysis)[, 1], col=COL[analysis], 
                 pch=PCH[analysis], cex=1.1)
 })
 
-##################### 1000
-par(mar=rep(0, 4), mfrow=c(2,1), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.1, axis.labels = 0:19)
-title(main="\nQuartets (1000 characters)", cex.main=0.8)
+            padding=0.1, axis.labels = AXIS_LABELS)
+title(main="\n1000 characters", cex.main=0.8)
 
-HorizontalGrid(19)
+HorizontalGrid(GRID_LINES)
 
 lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ1000(analysis), col=COL[analysis], pch=PCH['dot'],
@@ -547,21 +569,57 @@ lapply(orAnalyses, function (analysis) {
   TernaryPoints(ORQ1000(analysis)[, 1], col=COL[analysis], 
                 pch=PCH[analysis], cex=1.1)
 })
+AddLegend2(orAnalyses[c(7, 8, 1:6)])
 
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=2.25
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = AXIS_LABELS,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+HorizontalGrid(GRID_LINES)
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ100(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryPoints(ORQ100(analysis)[, 1], col=COL[analysis],
+                pch=PCH[analysis], cex=1.1)
+})
+
+par(mai=c(0, 0.15, 0, 0.15))
+zoom=2.25
+TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+            col=BG_COL, point='right',
+            grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
+            axis.col=rgb(0.6, 0.6, 0.6),
+            padding=0.01, axis.labels = AXIS_LABELS,
+            xlim = c(0, sqrt(3/4)/zoom),
+            ylim = c(0.5-(1/zoom), 0.5))
+HorizontalGrid(GRID_LINES)
+lapply(orAnalyses, function (analysis) {
+  TernaryLines(ORQ350(analysis), col=COL[analysis],  pch=PCH['dot'],
+               lty=LTY[analysis], lwd=LWD[analysis])
+  TernaryPoints(ORQ350(analysis)[, 1], col=COL[analysis],
+                pch=PCH[analysis], cex=1.1)
+})
 
 par(mai=c(0, 0.15, 0, 0.15))
 zoom=6.5
-HorizontalGrid(19)
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
-            grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
             axis.col=rgb(0.6, 0.6, 0.6),
-            padding=0.01, axis.labels = 0:19,
+            padding=0.01, axis.labels = AXIS_LABELS,
             xlim = c(0, sqrt(3/4)/zoom),
             ylim = c(0.5-(1/zoom), 0.5))
+HorizontalGrid(GRID_LINES)
 lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ1000(analysis), col=COL[analysis],  pch=PCH['dot'],
                lty=LTY[analysis], lwd=LWD[analysis])
   TernaryPoints(ORQ1000(analysis)[, 1], col=COL[analysis],
                 pch=PCH[analysis], cex=1.1)
 })
+
+dev.off()
