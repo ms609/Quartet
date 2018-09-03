@@ -1,9 +1,3 @@
-begin MRBAYES;
-  exclude 56-59 ;
-  lset coding=variable rates=gamma;
-  prset ratepr = variable;
-  mcmcp ngen=10000000 printfreq=4000000 printall=no samplefreq=10000 nruns=4 nchains=4 burninfrac=0.4;
-  mcmc append=no;
-  sump;
-  sumt;
-end;
+version https://git-lfs.github.com/spec/v1
+oid sha256:36f7b469c8d1d1d6b7fe6fe24e1df8200c997eaf4e2e5c016226cffd3458b670
+size 247
