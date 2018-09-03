@@ -2,6 +2,10 @@ require('ape')
 require('SlowQuartet')
 library('Ternary')
 data('sq_trees')
+data('clQuartets')
+data('orQuartets')
+data('clPartitions')
+data('orPartitions')
 n_tip <- 11
 ref_tree <- sq_trees[[1]]
 tip_colours <- Ternary::cbPalette15[-c(4, 7)] # Rm Tritanopia duplicates of 13 and 3
@@ -97,14 +101,14 @@ LWD <- LTY
 COL <- c(
   markov     = paste0(cbPalette8[4],   '99'),
   equal      = paste0(cbPalette8[2],   '99'),
-  implied1   = paste0(cbPalette15[11], '99'),
-  implied2   = paste0(cbPalette15[10], '99'),
-  implied3   = paste0(cbPalette15[9],  '99'),
-  implied5   = paste0(cbPalette15[8],  '99'),
-  implied10  = paste0(cbPalette15[7],  '99'),
-  implied20  = paste0(cbPalette15[6],  '99'),
-  implied200 = paste0(cbPalette15[5],  '99'),
-  impliedC   = paste0(cbPalette15[15], '99')
+  implied1   = paste0(cbPalette15[4], '99'),
+  implied2   = paste0(cbPalette15[5], '99'),
+  implied3   = paste0(cbPalette15[6],  '99'),
+  implied5   = paste0(cbPalette15[7],  '99'),
+  implied10  = paste0(cbPalette15[8],  '99'),
+  implied20  = paste0(cbPalette15[9],  '99'),
+  implied200 = paste0(cbPalette15[10],  '99'),
+  impliedC   = paste0(cbPalette15[12], '99')
 )
 
 PCH_MK <- PCH['markov']
@@ -146,6 +150,7 @@ TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
               point='right',
               col=BG_COL,
               grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
+              grid.minor.lines = 0,
               axis.labels = 
                 if(zoom==1) round(seq(0, choose(22, 4), length.out=20), 0)
                 else FALSE,
@@ -264,6 +269,7 @@ par(mfrow=c(1, 1), mai=rep(0, 4))
 
 TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
             grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
+            grid.minor.lines = 0,
             col=BG_COL, point='right',
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = 0:19)
@@ -298,6 +304,7 @@ par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
+            grid.minor.lines = 0,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = 0:19)
 title(main="\nPartitions", cex.main=0.8)
@@ -525,6 +532,7 @@ AXIS_LABELS <- c(0, paste0(round(1:GRID_LINES * totalQuarts / GRID_LINES / 1000)
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
+            grid.minor.lines = 0,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = AXIS_LABELS)
 title(main="\n100 characters", cex.main=0.8)
@@ -541,6 +549,7 @@ lapply(orAnalyses, function (analysis) {
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
+            grid.minor.lines = 0,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = AXIS_LABELS)
 title(main="\n350 characters", cex.main=0.8)
@@ -557,6 +566,7 @@ lapply(orAnalyses, function (analysis) {
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
+            grid.minor.lines = 0,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = AXIS_LABELS)
 title(main="\n1000 characters", cex.main=0.8)
@@ -576,6 +586,7 @@ zoom=2.25
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
+            grid.minor.lines = 0,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.01, axis.labels = AXIS_LABELS,
             xlim = c(0, sqrt(3/4)/zoom),
@@ -593,6 +604,7 @@ zoom=2.25
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
+            grid.minor.lines = 0,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.01, axis.labels = AXIS_LABELS,
             xlim = c(0, sqrt(3/4)/zoom),
@@ -610,6 +622,7 @@ zoom=6.5
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
+            grid.minor.lines = 0,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.01, axis.labels = AXIS_LABELS,
             xlim = c(0, sqrt(3/4)/zoom),
