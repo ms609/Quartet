@@ -65,9 +65,6 @@ collapse_perfect <- c('ref_tree', 'collapse_one', 'collapse_some')
 collapse_move1   <- c('move_one_mid', 'm1mid_col1', 'm1mid_colsome')
 collapse_move2   <- c('move_two_mid', 'm2mid_col1', 'm2mid_colsome')
 
-
-par(mfrow=c(1, 3), mar=rep(0.3, 4))
-
 PCH <- c(
   markov = 1,
   equal  = 61, #'='
@@ -191,6 +188,8 @@ AddLegend2 <- function(analyses, pos='bottomright')
          legend=c('Markov', 'Equal weights', paste0('Implied, k=', rev(c(2, 3, 5, 10, 20, 200))))
   )
 
+Panel <- function (panel) legend('topleft', paste0('(', panel, ')'), bty='n', text.font=2)
+
 PointsFromItem <- function(itemData) {
   rbind(itemData['ref', ] - itemData['cf', ],
         itemData['cf_not_ref', ],
@@ -225,10 +224,11 @@ ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]
 dev.new()
 #png(filename="Figure_1.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill Sans MT')
 #pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
-cairo_pdf(filename="inst/Figure_1.pdf", width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
-par(mfrow=c(2, 1), mai=rep(0, 4))
+cairo_pdf(filename="inst/Figure_1.pdf", width=PAGE_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
+par(mfrow=c(2, 2), mai=rep(0, 4))
 
 TernaryQuarts(AverageQuarts)
+title(main="\nQuartets", cex.main=0.8)
 AddArrows('Increasing quartet dissimilarity')
 rightPoint <- TernaryCoords(1, 0, 0)
 otherYs <- vapply(2*(1:18), function (p) TernaryCoords(p, 19 - p, 0), double(2))[2, ]
@@ -240,6 +240,7 @@ legend('bottomright', bty='n', cex=0.8,
        lwd=c(1, 1, 2), col=c('grey', '#00000044', cbPalette8[8]),
        legend=c('Equal divergence', 'Equal accuracy', 'Similarity of random tree'))
 
+Panel('a')
 
 par(mai=c(0, 0.15, 0, 0.15))
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
@@ -249,8 +250,6 @@ lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
 
 AddLegend('topright')
 # Caption: Quartet distances for Congreve & Lamsdell
-dev.off()
-
 
 
 ################################################################################
@@ -258,12 +257,11 @@ dev.off()
 ################################################################################
 
 
-dev.new()
+#dev.new()
 #png(filename="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)
 #pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
-cairo_pdf(filename="inst/Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
-par(mfrow=c(1, 1), mai=rep(0, 4))
-
+#cairo_pdf(filename="inst/Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
+#par(mfrow=c(1, 1), mai=rep(0, 4))
 
 TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
             grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
@@ -271,7 +269,7 @@ TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = 0:19)
-#title(main="\nPartitions", cex.main=0.8)
+title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(grid.col='#888888', grid.lines=19)
 partition_distances <- SplitsPoints(sq_trees)
@@ -286,26 +284,27 @@ JoinTheDots(CLAverageSplits('impliedC'), col=COL_C, pch=PCH_IC, cex=1.1)
 JoinTheDots(CLAverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
 AddArrows("Increasing symmetric difference")
-AddLegend()
-dev.off()
+#AddLegend()
+Panel('b')
+
+#dev.off()
 
 
 ################################################################################
 
 ################################################################################
 
-dev.new()
+#dev.new()
 #png(file="Figure_4.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
 #pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 4",  pointsize=8)
-cairo_pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
-par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
+#cairo_pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
+#par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
             col=BG_COL, point='right',
             grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
             grid.minor.lines = 0,
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = 0:19)
-title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(19)
 partition_distances <- SplitsPoints(sq_trees)
@@ -355,10 +354,12 @@ arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 2], arrow_tips[2, 2], l
 arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 3], arrow_tips[2, 3], length=0.08, col='#666666')
 text(mean(arrow_tips[1, 1:2]) + 0.01, mean(arrow_tips[2, 1:2]), "Increasing quality\n(Congreve & Lamsdell)", cex=0.8, srt=58, pos=1, col='#666666')
 text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increasing quality\n(Divergence)", cex=0.8, srt=90, pos=3, col='#666666')
-AddLegend()
-legend('bottom', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
+#AddLegend()
+legend('bottomright', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
        lty=c('dotted', 'dotdash', 'dashed', 'longdash'), 
        legend=c('Equally informative', 'Equal precision', 'Equal accuracy', 'Equal incorrect nodes'))
+Panel('c')
+
 dev.off()
 
 
@@ -518,8 +519,8 @@ lapply(orAnalyses, function (analysis) {
 
 #dev.new()
 #png(file="Figure_3.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
-#pdf(file="inst/Figure_3.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
-cairo_pdf(filename="inst/Figure_3.pdf", width=PAGE_WIDTH, height=7.2)#), pointsize=8)
+#pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 3",  pointsize=8)
+cairo_pdf(filename="inst/Figure_2.pdf", width=PAGE_WIDTH, height=7.2)#), pointsize=8)
 
 
 par(mar=rep(0, 4), mfrow=c(2, 3), mai=rep(0, 4))
