@@ -96,20 +96,20 @@ LWD <- LTY
 COL <- c(
   markov     = paste0(cbPalette8[4],   '99'),
   equal      = paste0(cbPalette8[2],   '99'),
-  implied1   = paste0(cbPalette15[4], '99'),
-  implied2   = paste0(cbPalette15[5], '99'),
-  implied3   = paste0(cbPalette15[6],  '99'),
+  implied1   = paste0(cbPalette15[7],  '33'),
+  implied2   = paste0(cbPalette15[7],  '33'),
+  implied3   = paste0(cbPalette15[7],  '33'),
   implied5   = paste0(cbPalette15[7],  '99'),
-  implied10  = paste0(cbPalette15[8],  '99'),
-  implied20  = paste0(cbPalette15[9],  '99'),
-  implied200 = paste0(cbPalette15[10],  '99'),
+  implied10  = paste0(cbPalette15[7],  '33'),
+  implied20  = paste0(cbPalette15[7],  '33'),
+  implied200 = paste0(cbPalette15[7],  '33'),
   impliedC   = paste0(cbPalette15[12], '99')
 )
 
 PCH_MK <- PCH['markov']
 PCH_EQ <- PCH['equal']
 PCH_XX <- PCH['dot']
-PCH_IW <- 2   #triup
+PCH_IW <- 3 #[plus] ##2   #triup
 PCH_IC <- PCH['impliedC']
 
 COL_MK <- COL['markov']
@@ -137,12 +137,17 @@ Split2Ternary <- function (item) {
 }
 
 TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
-  xLim <- c(0, sqrt(3/4)/zoom)
+  xLim <- c(0, sqrt(3/4) / zoom)
   yLim <- c(0.5-(1/zoom), 0.5)
-  lab <- if (zoom == 1) c('\n\nUnresolved', "\n\nDifferent", '      Same') else rep('', 3)
+  tip <- if (FALSE && zoom == 1) c('\n\nUnresolved', "\n\nDifferent", '      Same') else rep('', 3)
+  lab <- if (zoom == 1) c(expression("Unresolved quartets" %->% ''), 
+                          expression("" %<-% "Different quartets"),
+                          expression("Identical quartets " %->% "")) else rep('', 3)
   
-  TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
-              point='right',
+  TernaryPlot(atip=tip[1], btip=tip[2], ctip=tip[3], 
+              alab=lab[1], blab=lab[2], clab=lab[3], 
+              lab.cex=0.8, lab.font=2, lab.offset=0.13,
+              point='right', isometric = TRUE,
               col=BG_COL,
               grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
               grid.minor.lines = 0,
@@ -228,8 +233,10 @@ cairo_pdf(filename="inst/Figure_1.pdf", width=PAGE_WIDTH, height=COL_WIDTH * 2, 
 par(mfrow=c(2, 2), mai=rep(0, 4))
 
 TernaryQuarts(AverageQuarts)
-title(main="\nQuartets", cex.main=0.8)
+#title(main="\nQuartets", cex.main=0.8)
 AddArrows('Increasing quartet dissimilarity')
+rect(xleft=-0.01, ybottom=0.19, xright=0.278, ytop=0.52, border='#00000088', lty='dashed')
+text(x=0.30, y=0.54, labels='Panel (b)', cex=0.8, pos=2)
 rightPoint <- TernaryCoords(1, 0, 0)
 otherYs <- vapply(2*(1:18), function (p) TernaryCoords(p, 19 - p, 0), double(2))[2, ]
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
@@ -244,10 +251,13 @@ Panel('a')
 
 par(mai=c(0, 0.15, 0, 0.15))
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
+text(-0.02, 0.34, expression('Identical quartets' %->% ''), cex=0.8, srt=90)
+text(0.18, 0.42, expression('Unresolved quartets' %->% ''), cex=0.8, srt=330)
 otherYs <- vapply(2 * (14:18), function (p) TernaryCoords(p, 19 - p, 0), double(2))[2, ]
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
                                    lty='dashed', col='#00000022'))
 
+Panel('b')
 AddLegend('topright')
 # Caption: Quartet distances for Congreve & Lamsdell
 
@@ -263,13 +273,17 @@ AddLegend('topright')
 #cairo_pdf(filename="inst/Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
 #par(mfrow=c(1, 1), mai=rep(0, 4))
 
-TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
+TernaryPlot(NULL, NULL, NULL, #'Unresolved', 'Different', 'Same', 
+            alab=expression("Unresolved partitions" %->% ''),
+            blab=expression("" %<-% "Different partitions"),
+            clab=expression("Identical partitions" %->% ""),
+            lab.cex=0.8, lab.offset=0.12,
             grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
             grid.minor.lines = 0,
             col=BG_COL, point='right',
             axis.col=rgb(0.6, 0.6, 0.6),
             padding=0.1, axis.labels = 0:19)
-title(main="\nPartitions", cex.main=0.8)
+#title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(grid.col='#888888', grid.lines=19)
 partition_distances <- SplitsPoints(sq_trees)
@@ -285,7 +299,7 @@ JoinTheDots(CLAverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
 
 AddArrows("Increasing symmetric difference")
 #AddLegend()
-Panel('b')
+Panel('c')
 
 #dev.off()
 
@@ -299,7 +313,11 @@ Panel('b')
 #pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 4",  pointsize=8)
 #cairo_pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
 #par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
-TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
+TernaryPlot(NULL, NULL, NULL, #'Unresolved', 'Different', 'Same', 
+            alab=expression("Unresolved partitions" %->% ''),
+            blab=expression("" %<-% "Different partitions"),
+            clab=expression("Identical partitions" %->% ""),
+            lab.cex=0.8, lab.offset=0.12,
             col=BG_COL, point='right',
             grid.lines = 19, grid.lty='solid', grid.col=GRID_COL,
             grid.minor.lines = 0,
@@ -318,8 +336,6 @@ TernaryLines(CLAverageSplits('impliedC' ), col=COL_C,  pch=PCH_XX)
 TernaryLines(CLAverageSplits('markov'   ), col=COL_MK, pch=PCH_XX)
 TernaryLines(CLAverageSplits('equal'    ), col=COL_EQ, pch=PCH_XX)
 
-PCH_EQ = 0
-
 TernaryPoints(CLAverageSplits('implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
 TernaryPoints(CLAverageSplits('implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
 TernaryPoints(CLAverageSplits('implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
@@ -327,7 +343,7 @@ TernaryPoints(CLAverageSplits('implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1
 TernaryPoints(CLAverageSplits('implied1' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
 TernaryPoints(CLAverageSplits('markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
 TernaryPoints(CLAverageSplits('impliedC' )[, 1], col=COL_C,  pch=PCH_IC, cex=1.1)
-TernaryPoints(CLAverageSplits('equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
+TernaryPoints(CLAverageSplits('equal'    )[, 1], col=COL_EQ, pch=0, cex=1.1)
 
 
 rightPoint <- TernaryCoords(0, 0, 1)
@@ -358,7 +374,7 @@ text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increas
 legend('bottomright', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
        lty=c('dotted', 'dotdash', 'dashed', 'longdash'), 
        legend=c('Equally informative', 'Equal precision', 'Equal accuracy', 'Equal incorrect nodes'))
-Panel('c')
+Panel('d')
 
 dev.off()
 
