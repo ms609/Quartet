@@ -9,7 +9,7 @@ Description: Calculates the number of four-taxon subtrees consistent with a pair
 URL: https://github.com/ms609/SlowQuartet
 BugReports: https://github.com/ms609/SlowQuartet/issues
 Authors@R: c(person("Martin R.", 'Smith',
-                  email="martins@gmail.com", 
+                  email='martin.smith@durham.ac.uk',
                   role=c("aut", "cre", "cph"), 
                   comment=c(ORCID = "0000-0001-5660-1727")),
                person(given = "Klaus", family="Vigo",
