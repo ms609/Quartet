@@ -24,17 +24,17 @@ palette4 <- Ternary::cbPalette8[1:4]
 PCH_MK <- 1   # circle
 PCH_EQ <- 61  #'='
 PCH_XX <- 183 #'.'
-PCH_IW <- 2   #triup
+PCH_IW <- 3
 PCH_IC <- 17  #triupfilled
 
-COL_MK <- paste0(cbPalette8[4],   '99')
-COL_EQ <- paste0(cbPalette8[2],   '99')
-COL_1  <- paste0(cbPalette15[6],  '99')
-COL_2  <- paste0(cbPalette15[7],  '99')
-COL_3  <- paste0(cbPalette15[8],  '99')
-COL_5  <- paste0(cbPalette15[4],  '99')
-COL10  <- paste0(cbPalette15[5],  '99')
-COL_C  <- paste0(cbPalette15[12], '99')
+COL_MK <- paste0(cbPalette8[4], '99')
+COL_EQ <- paste0(cbPalette8[8], '99')
+COL_1  <- paste0(cbPalette8[6], '42')
+COL_2  <- paste0(cbPalette8[6], '42')
+COL_3  <- paste0(cbPalette8[6], '42')
+COL_5  <- paste0(cbPalette8[6], '99')
+COL10  <- paste0(cbPalette8[6], '42')
+COL_C  <- paste0(cbPalette8[2], '99')
 
 GRID_COL <- rgb(0.92, 0.92, 0.92)
 BG_COL   <- rgb(0.985, 0.985, 0.992)
@@ -103,14 +103,16 @@ Split2Ternary <- function (item) {
 }
 
 TernaryBasis <- function (qMax = 19, zoom = 1, padding=0.1) {
-  xLim <- c(0, sqrt(3/4)/zoom)
-  yLim <- c(0.5-(1/zoom), 0.5)
-  lab <- if (zoom == 1) c('\n\nUnresolved', "\n\nDifferent", '      Same') else rep('', 3)
+  xLim <- c(0, 1 / zoom) - 0.05
+  yLim <- c(0.5 - (1 / zoom), 0.5)
+  lab <- if (zoom == 1) c('Unresolved', "Different", 'Same') else rep('', 3)
   
-  TernaryPlot(lab[1], lab[2], lab[3], lab.cex=0.8, lab.font=2,
+  TernaryPlot(NULL, NULL, NULL,
+              lab[1], lab[2], lab[3], lab.cex=0.7, lab.font=2,
               point='right',
               col=BG_COL,
               grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
+              grid.minor.lines=0,
               axis.labels = 
                 if(zoom==1) round(seq(0, qMax, length.out=20), 0)
                 else FALSE,
@@ -238,7 +240,7 @@ metrics [@Penny1985] are best illustrated by examining a set of example trees.
 If trees differ only in the location of a single taxon, then the distance between
 two trees should correspond to the distance that this taxon has been moved.
 
-```{R Moving a single taxon, fig.asp=1.8/5, out.width='100%', fig.width=6, echo=FALSE, cache=TRUE, dev='svg'}
+```{R Moving a single taxon, fig.asp=1.8/5, out.width='100%', fig.width=6, echo=FALSE, message=FALSE, cache=TRUE, dev='svg'}
 par(mfrow=c(1, 4), mar=rep(0.4, 4))
 colplot(ref_tree,     'Reference tree', 1)
 rfplot(sq_trees$move_one_near, 'Short move', 1)
@@ -260,7 +262,7 @@ does not differ whether one or two tips are moved.
 For larger moves, however, the RF distance is _less_ when two tips are moved than
 when a single tip is moved.  The path and quartet metrics perform as expected.
 
-```{R Moving a cherry, echo=FALSE, cache=TRUE, fig.asp=1.6*3/3, fig.width=6, out.width='66%', fig.align='center', dev='svg'}
+```{R Moving a cherry, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6*3/3, fig.width=6, out.width='66%', fig.align='center', dev='svg'}
 par(mfrow=c(3, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(ref_tree, 'Reference tree')
@@ -285,10 +287,9 @@ expected by chance.
 The worst-case scenario for the Robinson-Foulds metric involves the relocation
 of a single taxon in a pectinate tree. As there are no partitions 
 shared between the two trees, this situation generates the maximum
-RF distance, and this trivially deformed tree is considered to be as distant
-as a random tree.
+RF distance despite a relatively trivial difference.
 
-```{R Pectinate to break RF, echo=FALSE, cache=TRUE, fig.asp=1.5/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Pectinate to break RF, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.5/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
 par(mfrow=c(1, 3), mar=rep(0.4, 4))
 
 pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10, 11))))))))));')
@@ -299,17 +300,55 @@ rfplot(pectinate_move1,  'Move one taxon', 1, ref=pectinate_unrooted)
 rfplot(sq_trees$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
 ```
 
+This trivially deformed tree receives a higher RF distance than some random trees.
+This is not the case with the quartet distance.
+
+```{R Random-trees, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=4.6, fig.width=6}
+pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10, 11))))))))));')
+pectinate_unrooted <- ape::unroot(pectinate_tree)
+pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
+
+random_trees <- lapply(1:10000, function (x) rtree(11, br=NULL, tip.label=1:11))
+random_quartets <- MatchingQuartets(random_trees, cf=pectinate_tree)['d', ] / choose(11,4)
+random_distances <- vapply(random_trees, phangorn::treedist,
+                           tree2=pectinate_tree, double(2))
+random_spr <- vapply(random_trees, phangorn::sprdist, tree2=pectinate_tree, double(4))
+
+par(mfrow=c(2, 2), mar=rep(1.9, 4), cex=0.8, oma=c(0, 0, 2, 0))
+manyBreaks <- seq(0, 1, length.out=40)
+
+PlotHist <- function (distances, breaks, pectDist, title) {
+  hist(distances, xlab=NULL, main=NULL, breaks=breaks)
+  legend('topleft', bty='n', c('', '', title))
+  abline(v=pectDist, col=Ternary::cbPalette8[3], lwd=2)
+}
+
+PlotHist(random_distances[1, ] / 16, manyBreaks, 1, 'Robinson-Foulds distance')
+mtext('Distance between pectinate tree and randomly generated trees', outer=TRUE)
+legend('topleft', bty='n', col=Ternary::cbPalette8[3], lwd=2, '"Move one taxon" tree', cex=0.8)
+
+PlotHist(random_distances[2, ], breaks=manyBreaks*max(random_distances[2, ]),
+         17.7, "Path distance")
+
+PlotHist(random_quartets, manyBreaks, 120/330, 'Quartet divergence')
+
+PlotHist(random_spr[1, ], max(random_spr[1, ]) * manyBreaks, 1, 'SPR distance')
+```
+
+
 An advantage of the Quartet distance is that the normalized metric of a random
-tree is $2/3$ [@Day1986; @Steel1993].  As such, trees that are more different than expected by chance
-can be readily recognized, as their quartet distance will be greater than 
+tree is $2/3$ [@Day1986; @Steel1993].  As such, trees that are more different
+than expected by chance can be readily recognized, as their quartet distance
+will be greater than 
 `r choose(n_tip, 4) * 2 / 3`/`r choose(n_tip, 4)`:
 
-```{R Increasing distances, echo=FALSE, cache=TRUE, fig.asp=1.4/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Increasing distances, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.4/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
 par(mfrow=c(1, 3), mar=rep(0.4, 4))
 colplot(ref_tree, 'Reference tree')
 rfplot(sq_trees$random_tree,   'Random tree'     )
 rfplot(sq_trees$opposite_tree, 'Maximum distance')
 ```
+
 
 ### Unresolved trees
 
@@ -363,7 +402,7 @@ In bifurcating trees, these five measures evaluate to the same quantity
 [@Estabrook1985].  
 
 
-```{R Polytomies - same topology, echo=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Polytomies - same topology, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 colplot(ref_tree, 'Reference tree')
@@ -377,7 +416,7 @@ of resolution.  We can also change the topology before we collpase nodes --
 here we introduce the same loss of resolution in trees in which one tip
 (tip 1) was moved:
 
-```{R Polytomies 1, echo=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Polytomies 1, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 polyplot(sq_trees$move_one_mid, 'One moved, no polytomy', 1)
@@ -389,7 +428,7 @@ polyplot(sq_trees$m1mid_colsome, 'One moved, much polytomy', 1)
 And here again, collapsing nodes in the trees
 in which two taxa (10 & 11) were moved:
 
-```{R Polytomies 2, echo=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Polytomies 2, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 polyplot(sq_trees$move_two_mid,  'Two moved, no polytomy'  , 10:11)
@@ -398,11 +437,11 @@ polyplot(sq_trees$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
 ```
 
-## Plotting this data
+## Plotting these data
 
-We can visualize this data using a ternary diagram.
+We can visualize these data using a ternary diagram.
 
-```{R Plot some trees, echo=FALSE, cache=TRUE, fig.asp=1/2, fig.width=8, out.width='100%', fig.align='center', dev='svg'}
+```{R Plot some trees, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/2, fig.width=8, out.width='100%', fig.align='center', dev='svg'}
 
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
 collapse_perfect <- c('ref_tree', 'collapse_one', 'collapse_some')
@@ -495,7 +534,7 @@ with high support are likely to be correct.  The same pattern holds here for
 Bayesian trees, though in equal weights it seems that the maximum resolution 
 attainable is already on the descending part of the curve.  
 
-```{R Congreve Lamsdell tree, echo=FALSE, cache=TRUE, fig.asp=1/3, fig.width=9, out.width='100%', fig.align='center'}
+```{R Congreve Lamsdell tree, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/3, fig.width=9, out.width='100%', fig.align='center'}
 par(mfrow=c(1, 3), mar=rep(0.3, 4))
 
 TREE <- 2
@@ -538,7 +577,7 @@ AddLegend()
 ### Quartet metric
 We can also examine the situation if we average across all 100 trees:
 
-```{R CL trees - quartets, echo=FALSE, cache=TRUE, fig.asp=1/2, fig.width=9, out.width='100%', fig.align='center', dev='svg'}
+```{R CL trees - quartets, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/2, fig.width=9, out.width='100%', fig.align='center', dev='svg'}
 TREES <- 1:100
 # # There is essentially no difference if we exclude datasets with a low CI.
 # # The lines just slide up a little.
@@ -555,7 +594,7 @@ AddLegend('topright')
 
 How good is each tree?  The divergence for each tree under each method is as follows (high means a larger divergence):
 
-```{R Quartet divergence for each point, echo=FALSE, fig.width=8}
+```{R Quartet divergence for each point, echo=FALSE, message=FALSE, fig.width=8}
 divergences <- vapply(clQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans), similarity = FALSE), double(21))
 rownames(divergences) <- c('Optimal', paste0('Subopt. ', 1:20))
 ks <- c(1:3, 5, 10)
@@ -563,18 +602,18 @@ colnames(divergences) <- c('Mk', 'EqlW', paste0('IW', c(ks, 'cons')))
 round(divergences, 4)
 ```
 
-Which reduction is the best?
+Each row corresponds to a certain reduction of resolution.  The best row is:
 
 ```{R Quartet divergence - optimals, echo=FALSE}
 which_suboptimal <- apply(divergences, 2, which.min) - 1
 which_suboptimal
 ```
 
-In the implied weights settings, these reductions are equivalent to the cost of 
-the _of an additional step in trees that have _n_th additional step in a single
-character, where _n_ is:
+In the implied weights settings, these rows are equvalent to a Bremner support 
+value of one further step in a character that already exhibits _n_ additional
+steps, where _n_ is:
 
-```{R Quartet divergence - how suboptimal, echo=FALSE}
+```{R Quartet divergence - how suboptimal, echo=FALSE, message=FALSE}
 SUBOPTIMAL_VALUES <- round(0.73^(19:0), 5)
 
 how_suboptimal <- which_suboptimal[paste0('IW', ks)]
@@ -590,7 +629,7 @@ apply(abs(diffs), 2, which.min)
 The only analyses to produce significantly different ($p = 0.01$) results from implied weights
 (at $k = 3$) or Bayesian are:
 
-```{R Quartet divergence - significance, echo=FALSE}
+```{R Quartet divergence - significance, echo=FALSE, message=FALSE}
 treeBests <- vapply(clQuartets, function (item) apply(apply(item[, , TREES], 2, QuartetDivergence), 1, max), double(length(TREES)))
 tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'implied3'])$p.value)
 names(tests[tests < 0.01])
@@ -600,7 +639,7 @@ names(tests[tests < 0.01])
 
 We can run the same analysis counting partitions in place of quartets.
 
-```{R CL trees - partitions, echo=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center', dev='svg'}
+```{R CL trees - partitions, echo=FALSE, message=FALSE, message=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center', dev='svg'}
 AverageSplits <- function (item) {
   itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
   rbind(itemData['ref', ] - itemData['cf', ],
@@ -674,6 +713,19 @@ names(tests[tests < 0.01])
 
 Of the concavity constants chosen for implied weights, $k=1$ is strikingly worse
 than other values, reflecting the extreme philosophy it represents. 
+At this low value of _k_, only the first additional step encountered in a character
+makes a meaningful contribution to tree score.
+
+```{R k-1-poor-choice, echo=FALSE, results='asis', warning=FALSE}
+e <- 0:5
+k <- 1
+tab <- matrix(c(e, (e / (e + k))), nrow=2, byrow=TRUE)
+rownames(tab) <- c('extra steps', 'fit')
+knitr::kable(tab)
+```
+
+
+
 On one view, nodes that are recovered by a range of concavity constants are likely
 to be correct [@Goloboff2008].  Excluding low concavity constants from this range
 [cf. @Smith2015] seems to be justified.
@@ -681,6 +733,7 @@ to be correct [@Goloboff2008].  Excluding low concavity constants from this rang
 It is interesting to note that, for this particular dataset, Bayesian methods
 are outperformed (if not significantly) by parsimony methods
 under the partition metric.
+
 <!--
 ### Issues with conclusions of Congreve and Lamsdell
 
