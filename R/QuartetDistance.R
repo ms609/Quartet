@@ -403,8 +403,8 @@ MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
         u = integer(nTrees)
       ))
     } else {
-      cat("Faster results can be obtained by installing rtqDist;",
-          "see ?MatchingQuartets for installation instructions\n")
+      message("Faster results can be obtained by installing rtqDist; ",
+              "see ?MatchingQuartets for installation instructions\n")
     }
   }
   tree1Labels <- trees[[1]]$tip.label
