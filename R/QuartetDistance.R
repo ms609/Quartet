@@ -339,7 +339,7 @@ UnshiftTree <- function(add, treeList) {
 #' 
 #' rtqDist can be installed by copying the following code into your console:
 #' \code{install.packages(
-#' 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
+#' 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.1.tar.gz',
 #'  repos=NULL, type='source')}
 #'  or by [downloading the package](http://users-cs.au.dk/cstorm/software/tqdist/)
 #'  and extracting the zipped directory into your library directory (which you 
