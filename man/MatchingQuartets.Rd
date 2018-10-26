@@ -41,7 +41,7 @@ Otherwise the distances will be generated (slowly) within R.
 
 rtqDist can be installed by copying the following code into your console:
 \code{install.packages(
-'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
+'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.1.tar.gz',
  repos=NULL, type='source')}
 or by \href{http://users-cs.au.dk/cstorm/software/tqdist/}{downloading the package}
 and extracting the zipped directory into your library directory (which you
