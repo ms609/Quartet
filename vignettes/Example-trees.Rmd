@@ -755,25 +755,23 @@ Where:
 
 - $e$ is the number of additional steps: 1, for the first extra step;
  
-- $k$ is the concavity constant, 1.
+- $k$ is the concavity constant.
  
 The penalty can be normalized such that the first extra step in a character incurrs a unit cost:
 
-$\textrm{Normalized penalty} = (1 + k)\frac{e}{e + k}$
+$\textrm{Normalized penalty} = (1 + k)\frac{e}{e + k}$.
 
-As $k\rightarrow\infty$, 
+As $k\rightarrow\infty$, the penalty 
+$\frac{e}{e + k}\rightarrow\frac{e}{k}$,
 
-$\frac{e}{e + k}\rightarrow\frac{e}{k}$
+and the normalized penalty
+$(1 + k)\frac{e}{e + k}\rightarrow e\frac{1+\infty}{e+\infty} \rightarrow e$.
 
-and 
-
-$(1 + k)\frac{e}{e + k}\rightarrow e\frac{1+\infty}{e+\infty} \rightarrow e$,
-
-which is to say that each subsequent step contributes the same amount to a tree's penalty.  As $k\rightarrow \infty$, implied weights converges to equal weights.
+This is to say, each subsequent step contributes the same amount to a tree's penalty; as $k\rightarrow \infty$, implied weights converges to equal weights.
 
 At lower values of _k_, the penalty for extra steps decreases such that each subsequent additional step is penalized less than the previous one.
 
-As $k\rightarrow0$, the penalty for the first step converges to one, and the penalty for subsequent steps converges to zero.  At this extreme, the optimal tree is the one that maximises the number of characters that are convex (i.e. can be plotted onto the tree with no additional steps); the actual number of steps incurred is irrelevant.  This is equivalent to clique analysis [@Wilkinson1994], which is no longer advocated as a method of phylogenetic reconstruction.
+As $k\rightarrow0$, the penalty for the first step converges to one, and the penalty for subsequent steps converges to zero.  At this extreme, the optimal tree is the one that maximises the number of characters that are convex (i.e. can be plotted onto the tree with no additional steps); the actual number of steps incurred is irrelevant.  This is equivalent to clique analysis [@Wilkinson1994], a method that is no longer advocated for use in phylogenetic reconstruction.
 
 The value $k=1$ marks a significant point in the transition from parsimony analysis to clique analysis, because the highest cost that can be associated with a single character is less than twice the cost of a single extra step.
 
@@ -787,17 +785,8 @@ $\textrm{Penalty} = \frac{\infty}{\infty + 1} \rightarrow 1$
 
 $\textrm{Normalized penalty} = (1 + 1)\frac{\infty}{\infty + 1} \rightarrow 2$
 
-With $k=1$, therefore, a reconstruction in which one character contains infinitely many steps will be preferred to one in which two characters each contain a single extra step.  Because the first extra step contributes the majority of the penalty associated with a 
+As such, given a pair of characters, a reconstruction that assigns infinitely many changes of one character (but no additional steps to the other) will be preferred to one in which both characters undertake a single additional step.  The emphasis here is thus on maximising the number of convex characters (_cf._ clique analysis), rather than minimizing the total number of steps on the tree (_cf._ parsimony analysis).
 
-In essence, $k=1$ represents the philosophy that any extra step beyond the first is irrelevant; it places more emphasis on minimising the number of 'unreliable' characters (those containing any number of extra steps) than it does on minimis
-
-The concept behind implied weights is that each additional step observed in a character makes subsequent steps more likely -- which is why each subsequent step makes a smaller contribution to the total penalty associated with a tree topology [@Goloboff1993].
-At $k=1$, however, the emphasis shifts from minimising the total number of steps on the tree (with a correction for which characters they occur in) to minimising the total number of characters that contain any extra steps (regardless of how many).
-
-
-
-At this low value of _k_, only the first additional step encountered in a character
-makes a meaningful contribution to tree score.
 
 ```{R k-1-poor-choice, echo=FALSE, results='asis', warning=FALSE}
 e <- 0:5
@@ -807,15 +796,9 @@ rownames(tab) <- c('extra steps', 'fit')
 knitr::kable(tab)
 ```
 
-
-
 On one view, nodes that are recovered by a range of concavity constants are likely
 to be correct [@Goloboff2008].  Excluding low concavity constants from this range
-[cf. @Smith2015] seems to be justified.
-
-It is interesting to note that, for this particular dataset, Bayesian methods
-are outperformed (if not significantly) by parsimony methods
-under the partition metric.
+[_cf._ @Smith2015;@Zhang2016] seems to be justified.
 
 <!--
 ### Issues with conclusions of Congreve and Lamsdell
