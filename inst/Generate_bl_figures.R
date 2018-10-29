@@ -435,6 +435,12 @@ Fig2Zoom <- function (zoom, ORFunc) {
   })
 }
 
+InsetBox <- function (ybottom, xright, text) {
+  rect(xleft=-0.01, ybottom=ybottom, xright=xright, ytop=0.52,
+       border='#00000088', lty='dashed')
+  text(x=xright + 0.01, y=0.49, labels=text, cex=0.8, pos=2)
+}
+
 #dev.new()
 #png(file="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
 cairo_pdf(filename="inst/Figure_2.pdf", width=PAGE_WIDTH, height=7.2, family='Gill sans')#), pointsize=8)
@@ -444,13 +450,22 @@ cairo_pdf(filename="inst/Figure_2.pdf", width=PAGE_WIDTH, height=7.2, family='Gi
 
 par(mar=rep(0, 4), mfrow=c(2, 3), mai=rep(0, 4))
 Fig2Ternary("\n100 characters", ORQ100)
+InsetBox(0.026, 0.41, '(below)')
 Fig2Ternary("\n350 characters", ORQ350)
+InsetBox(0.026, 0.41, '(below)')
 Fig2Ternary("\n1000 characters", ORQ1000)
+InsetBox(0.33, 0.151, '')
 AddLegend2(orAnalyses[c(7, 8, 1:6)])
 
 par(mai=c(0, 0.15, 0, 0.15))
 
 Fig2Zoom(2.25, ORQ100)
+TernaryText(ORAverageQuarts(100, 3)[, 1], col=COL_5, pos=1, label='k = 2', cex=0.8)
+TernaryText(ORAverageQuarts(100, 4)[, 1], col=COL_5, pos=1, label='k = 3', cex=0.8)
+TernaryText(ORAverageQuarts(100, 5)[, 1], col=COL_5, pos=1, label='k = 5, 200', cex=0.8)
+TernaryText(ORAverageQuarts(100, 6)[, 1], col=COL_5, pos=3, label='k = 10, 20', cex=0.8)
+#TernaryText(ORAverageQuarts(100, 7)[, 1], col=COL_2, pos=1, label='k = 20', cex=0.8)
+#TernaryText(ORAverageQuarts(100, 8)[, 1], col=COL_2, pos=1, label='k = 200', cex=0.8)
 Fig2Zoom(2.25, ORQ350)
 Fig2Zoom(6.5, ORQ1000)
 
