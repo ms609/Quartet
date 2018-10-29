@@ -592,48 +592,60 @@ AddLegend('topright')
 
 ```
 
-How good is each tree?  The divergence for each tree under each method is as follows (high means a larger divergence):
+As the worst-supported nodes are progressively collapsed, the accuracy of implied weights trees begins to increase, decreasing the total divergence of the trees (thus meaning that the provide a better representation of the generative tree).
 
+One question we can ask is how much we should reduce the resolution.  After a certain point, the increase in accuracy gained by collapsing the least supported nodes no longer offsets the information lost by sacrificing resolution.
+
+Bayesian and equal weights trees already produce incompletely resolved trees, and a further reduction of resolution does not improve their quality.
+
+Under implied weights, averaged over these datasets, the optimum trade-off between accuracy and resolution comes when collapsing nodes with a Bremer support value below:
+
+<!--
+How good is each tree?  The divergence for each tree under each method is as follows (high means a larger divergence):
+-->
 ```{R Quartet divergence for each point, echo=FALSE, message=FALSE, fig.width=8}
 divergences <- vapply(clQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans), similarity = FALSE), double(21))
 rownames(divergences) <- c('Optimal', paste0('Subopt. ', 1:20))
 ks <- c(1:3, 5, 10)
 colnames(divergences) <- c('Mk', 'EqlW', paste0('IW', c(ks, 'cons')))
-round(divergences, 4)
-```
+# round(divergences, 4)
 
-Each row corresponds to a certain reduction of resolution.  The best row is:
 
-```{R Quartet divergence - optimals, echo=FALSE}
+# Each row corresponds to a certain reduction of resolution.  The best row is:
+
+#```{R Quartet divergence - optimals, echo=FALSE}
 which_suboptimal <- apply(divergences, 2, which.min) - 1
-which_suboptimal
-```
+# which_suboptimal
+#```
 
-In the implied weights settings, these rows are equvalent to a Bremner support 
-value of one further step in a character that already exhibits _n_ additional
-steps, where _n_ is:
+# In the implied weights settings, these rows are equvalent to a Bremner support 
+# value of one further step in a character that already exhibits _n_ additional
+# steps, where _n_ is:
 
-```{R Quartet divergence - how suboptimal, echo=FALSE, message=FALSE}
+# ```{R Quartet divergence - how suboptimal, echo=FALSE, message=FALSE}
 SUBOPTIMAL_VALUES <- round(0.73^(19:0), 5)
 
 how_suboptimal <- which_suboptimal[paste0('IW', ks)]
 how_suboptimal <- ifelse(how_suboptimal == 0, 0, SUBOPTIMAL_VALUES[how_suboptimal])
+round(how_suboptimal, 4)
 
-cost_of_this_step <- vapply(ks, function (k) vapply(1:21, function (e) (e/(e+k)) - ((e-1)/(e-1+k)), double(1)), double(21))
-diffs <- t(t(cost_of_this_step) - how_suboptimal)
-colnames(diffs) <- paste0('IW', ks)
-
-apply(abs(diffs), 2, which.min)
+# cost_of_this_step <- vapply(ks, function (k) vapply(1:21, function (e) (e/(e+k)) - # ((e-1)/(e-1+k)), double(1)), double(21))
+# diffs <- t(t(cost_of_this_step) - how_suboptimal)
+# colnames(diffs) <- paste0('IW', ks)
+# 
+# apply(abs(diffs), 2, which.min)
 ```
 
 The only analyses to produce significantly different ($p = 0.01$) results from implied weights
 (at $k = 3$) or Bayesian are:
 
-```{R Quartet divergence - significance, echo=FALSE, message=FALSE}
+```{R Quartet divergence - significance}
 treeBests <- vapply(clQuartets, function (item) apply(apply(item[, , TREES], 2, QuartetDivergence), 1, max), double(length(TREES)))
 tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'implied3'])$p.value)
 names(tests[tests < 0.01])
 ```
+
+Both these approaches are significantly worse.
 
 ### Partition metric
 
@@ -668,9 +680,30 @@ text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270
 AddLegend()
 ```
 
+```{R Partition divergence for each point, echo=FALSE, message=FALSE, fig.width=8}
+divergences <- vapply(clPartitions, function (item) apply(item['RF_dist', , TREES], 1, mean), double(21))
+ks <- c(1:3, 5, 10)
+colnames(divergences) <- c('Mk', 'EqlW', paste0('IW', c(ks, 'cons')))
+which_suboptimal <- apply(divergences, 2, which.min) - 1
+SUBOPTIMAL_VALUES <- round(0.73^(19:0), 5)
+
+how_suboptimal <- which_suboptimal[paste0('IW', ks)]
+how_suboptimal <- ifelse(how_suboptimal == 0, 0, SUBOPTIMAL_VALUES[how_suboptimal])
+round(how_suboptimal, 4)
+```
+
+The partition metric advocates a greater loss of resolution than the quartet metric.
+Otherwise, it too finds no statistically significant difference between the effectiveness of the methods, except again that implied and equal weights are significantly worse:
+
+```{R Partition significance}
+treeBests <- vapply(clPartitions, function (item) apply(item['RF_dist', , ], 2, min), double(length(TREES)))
+tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
+names(tests[tests < 0.01])
+```
+<!--
 How good is each tree?  The RF distance for each tree under each method is as follows (high means a larger divergence):
 
-```{R Partition divergence for each point, echo=FALSE, fig.width=8}
+```{R commented-out-Partition divergence for each point, echo=FALSE, fig.width=8}
 rf_dists <- vapply(clPartitions, function (item) apply(item['RF_dist', , TREES], 1, mean), double(21))
 rownames(rf_dists) <- c('Optimal', paste0('Subopt. ', 1:20))
 colnames(rf_dists) <- c('Mk', 'EqlW', paste0('IW', c(1:3, 5, 10, 'cons')))
@@ -705,14 +738,64 @@ apply(abs(diffs), 2, which.min)
 
 Do different values of k produce significantly different results ($p = 0.01$)?
 
-```{R Partition significance, echo=FALSE}
+```{R commented-out-Partition significance, echo=FALSE}
 treeBests <- vapply(clPartitions, function (item) apply(item['RF_dist', , ], 2, min), double(length(TREES)))
 tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
 names(tests[tests < 0.01])
 ```
+-->
 
+## Understanding the underperformance of $k = 1$
 Of the concavity constants chosen for implied weights, $k=1$ is strikingly worse
-than other values, reflecting the extreme philosophy it represents. 
+than other values.  It is worth recalling the mathematical underpinning for implied weights [@Goloboff1993]:
+
+$\textrm{Penalty} = \frac{e}{e + k}$
+
+Where:
+
+- $e$ is the number of additional steps: 1, for the first extra step;
+ 
+- $k$ is the concavity constant, 1.
+ 
+The penalty can be normalized such that the first extra step in a character incurrs a unit cost:
+
+$\textrm{Normalized penalty} = (1 + k)\frac{e}{e + k}$
+
+As $k\rightarrow\infty$, 
+
+$\frac{e}{e + k}\rightarrow\frac{e}{k}$
+
+and 
+
+$(1 + k)\frac{e}{e + k}\rightarrow e\frac{1+\infty}{e+\infty} \rightarrow e$,
+
+which is to say that each subsequent step contributes the same amount to a tree's penalty.  As $k\rightarrow \infty$, implied weights converges to equal weights.
+
+At lower values of _k_, the penalty for extra steps decreases such that each subsequent additional step is penalized less than the previous one.
+
+As $k\rightarrow0$, the penalty for the first step converges to one, and the penalty for subsequent steps converges to zero.  At this extreme, the optimal tree is the one that maximises the number of characters that are convex (i.e. can be plotted onto the tree with no additional steps); the actual number of steps incurred is irrelevant.  This is equivalent to clique analysis [@Wilkinson1994], which is no longer advocated as a method of phylogenetic reconstruction.
+
+The value $k=1$ marks a significant point in the transition from parsimony analysis to clique analysis, because the highest cost that can be associated with a single character is less than twice the cost of a single extra step.
+
+The cost associated with the first extra step is $1/2$:
+
+$\textrm{Penalty}_{e=1} = \frac{1}{1 + 1} = \frac{1}{2}$
+
+As the number of extra steps increases($e\rightarrow \infty$), the penalty increases towards its maximum:
+
+$\textrm{Penalty} = \frac{\infty}{\infty + 1} \rightarrow 1$
+
+$\textrm{Normalized penalty} = (1 + 1)\frac{\infty}{\infty + 1} \rightarrow 2$
+
+With $k=1$, therefore, a reconstruction in which one character contains infinitely many steps will be preferred to one in which two characters each contain a single extra step.  Because the first extra step contributes the majority of the penalty associated with a 
+
+In essence, $k=1$ represents the philosophy that any extra step beyond the first is irrelevant; it places more emphasis on minimising the number of 'unreliable' characters (those containing any number of extra steps) than it does on minimis
+
+The concept behind implied weights is that each additional step observed in a character makes subsequent steps more likely -- which is why each subsequent step makes a smaller contribution to the total penalty associated with a tree topology [@Goloboff1993].
+At $k=1$, however, the emphasis shifts from minimising the total number of steps on the tree (with a correction for which characters they occur in) to minimising the total number of characters that contain any extra steps (regardless of how many).
+
+
+
 At this low value of _k_, only the first additional step encountered in a character
 makes a meaningful contribution to tree score.
 
