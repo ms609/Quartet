@@ -303,7 +303,7 @@ rfplot(sq_trees$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
 This trivially deformed tree receives a higher RF distance than some random trees.
 This is not the case with the quartet distance.
 
-```{R Random-trees, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=4.6, fig.width=6}
+```{R Random-trees, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=4.6, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
 pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10, 11))))))))));')
 pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
@@ -746,8 +746,8 @@ names(tests[tests < 0.01])
 -->
 
 ## Understanding the underperformance of $k = 1$
-Of the concavity constants chosen for implied weights, $k=1$ is strikingly worse
-than other values.  It is worth recalling the mathematical underpinning for implied weights [@Goloboff1993]:
+Of the concavity constants chosen for implied weights, $k=1$ is strikingly 
+(and significantly) worse than other values.  It is worth recalling the mathematical underpinning for implied weights [@Goloboff1993]:
 
 $\textrm{Penalty} = \frac{e}{e + k}$
 
@@ -763,27 +763,18 @@ $\textrm{Normalized penalty} = (1 + k)\frac{e}{e + k}$.
 
 As $k\rightarrow\infty$, the penalty 
 $\frac{e}{e + k}\rightarrow\frac{e}{k}$,
-
 and the normalized penalty
 $(1 + k)\frac{e}{e + k}\rightarrow e\frac{1+\infty}{e+\infty} \rightarrow e$.
-
 This is to say, each subsequent step contributes the same amount to a tree's penalty; as $k\rightarrow \infty$, implied weights converges to equal weights.
 
 At lower values of _k_, the penalty for extra steps decreases such that each subsequent additional step is penalized less than the previous one.
-
-As $k\rightarrow0$, the penalty for the first step converges to one, and the penalty for subsequent steps converges to zero.  At this extreme, the optimal tree is the one that maximises the number of characters that are convex (i.e. can be plotted onto the tree with no additional steps); the actual number of steps incurred is irrelevant.  This is equivalent to clique analysis [@Wilkinson1994], a method that is no longer advocated for use in phylogenetic reconstruction.
+As $k\rightarrow0$, the penalty for the first step converges to one, and the penalty for subsequent steps converges to zero.  At this extreme, the optimal tree is the one that maximises the number of characters that are convex (i.e. can be plotted onto the tree with no additional steps), whereas the actual number of steps incurred is irrelevant.  This is equivalent to clique analysis [@Wilkinson1994], a method that is no longer advocated for use in phylogenetic reconstruction.
 
 The value $k=1$ marks a significant point in the transition from parsimony analysis to clique analysis, because the highest cost that can be associated with a single character is less than twice the cost of a single extra step.
 
-The cost associated with the first extra step is $1/2$:
-
-$\textrm{Penalty}_{e=1} = \frac{1}{1 + 1} = \frac{1}{2}$
-
-As the number of extra steps increases($e\rightarrow \infty$), the penalty increases towards its maximum:
-
-$\textrm{Penalty} = \frac{\infty}{\infty + 1} \rightarrow 1$
-
-$\textrm{Normalized penalty} = (1 + 1)\frac{\infty}{\infty + 1} \rightarrow 2$
+The cost associated with the first extra step is
+$\frac{1}{1 + 1} = \frac{1}{2}$.  
+As the number of extra steps increases($e\rightarrow \infty$), the penalty increases towards its maximum value of $\frac{\infty}{\infty + 1} \rightarrow 1$ (which is just under twice the cost of the first step).
 
 As such, given a pair of characters, a reconstruction that assigns infinitely many changes of one character (but no additional steps to the other) will be preferred to one in which both characters undertake a single additional step.  The emphasis here is thus on maximising the number of convex characters (_cf._ clique analysis), rather than minimizing the total number of steps on the tree (_cf._ parsimony analysis).
 
