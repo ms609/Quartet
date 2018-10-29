@@ -768,28 +768,46 @@ $(1 + k)\frac{e}{e + k}\rightarrow e\frac{1+\infty}{e+\infty} \rightarrow e$.
 This is to say, each subsequent step contributes the same amount to a tree's penalty; as $k\rightarrow \infty$, implied weights converges to equal weights.
 
 At lower values of _k_, the penalty for extra steps decreases such that each subsequent additional step is penalized less than the previous one.
-As $k\rightarrow0$, the penalty for the first step converges to one, and the penalty for subsequent steps converges to zero.  At this extreme, the optimal tree is the one that maximises the number of characters that are convex (i.e. can be plotted onto the tree with no additional steps), whereas the actual number of steps incurred is irrelevant.  This is equivalent to clique analysis [@Wilkinson1994], a method that is no longer advocated for use in phylogenetic reconstruction.
+As $k \rightarrow 0$, the penalty for the first step converges to one, and the penalty for subsequent steps converges to zero.  At this extreme, the optimal tree is the one that maximises the number of characters that are convex. )A convex character is one that can be plotted onto the tree with no additional steps; its derived states each exhibit a unique origin.)  All characters that are not convex are uninformative, as the number of steps beyond the first is irrelevant to their total contribution to tree score.  This situation corresponds to clique analysis [@Wilkinson1994], a method that is no longer advocated for use in phylogenetic reconstruction.
 
 The value $k=1$ marks a significant point in the transition from parsimony analysis to clique analysis, because the highest cost that can be associated with a single character is less than twice the cost of a single extra step.
 
 The cost associated with the first extra step is
 $\frac{1}{1 + 1} = \frac{1}{2}$.  
-As the number of extra steps increases($e\rightarrow \infty$), the penalty increases towards its maximum value of $\frac{\infty}{\infty + 1} \rightarrow 1$ (which is just under twice the cost of the first step).
+As the number of extra steps increases($e\rightarrow \infty$), the penalty increases towards its maximum value of $\frac{\infty}{\infty + 1} \rightarrow 1$, i.e. just under twice the cost of the first step.
 
-As such, given a pair of characters, a reconstruction that assigns infinitely many changes of one character (but no additional steps to the other) will be preferred to one in which both characters undertake a single additional step.  The emphasis here is thus on maximising the number of convex characters (_cf._ clique analysis), rather than minimizing the total number of steps on the tree (_cf._ parsimony analysis).
+As such, given a pair of characters, a reconstruction that assigns infinitely many changes of one character, but no additional steps to the other, will be preferred to a reconstruction in which both characters undertake a single additional step.  
 
+(ref:k1poorchoice) Two characters with one extra step receive a normalized penalty of two.  As _k_ decreases, a single character must exhibit increasingly more steps before it receives the same penalty.  Once $k < 1$, no amount of steps in a single character will elicit a penalty equal to two single steps in two separate characters.
 
-```{R k-1-poor-choice, echo=FALSE, results='asis', warning=FALSE}
-e <- 0:5
-k <- 1
-tab <- matrix(c(e, (e / (e + k))), nrow=2, byrow=TRUE)
-rownames(tab) <- c('extra steps', 'fit')
-knitr::kable(tab)
+```{R k-1-poor-choice, echo=FALSE, warning=FALSE, fig.cap="(ref:k1poorchoice)"}
+Fit <- function (e, k) (e / (e + k))
+NormalizedFit <- function (e, k) (1 + k) * Fit(e, k)
+
+e <- 0:8
+plot(-1, -1,
+     xlab='Extra steps', xlim=c(0, max(e)),
+     ylab='Normalized penalty', ylim=c(0, 6)
+     )
+kValues <- c(0, 1, 2, 3, 5, 10, 100)
+kCols <- TreeSearch::brewer[[length(kValues)]]
+abline(h=2, lty=3)
+for (i in length(kValues):1) {
+  k <- kValues[i]
+  lines(NormalizedFit(e, k)~e, col=kCols[i])
+  x = 2 / (1 - (1 / k))
+  if (k > 1) lines(c(x, x), c(-1, 2), col=kCols[i], lty=3)
+}
+text(pos=2, paste('k =', kValues), x=8, y=NormalizedFit(8, kValues) + 0.25, col=kCols)
+text(pos=2, paste('k =', max(kValues)), x=8, y=5.9, col=kCols[length(kCols)])
 ```
 
-On one view, nodes that are recovered by a range of concavity constants are likely
-to be correct [@Goloboff2008].  Excluding low concavity constants from this range
-[_cf._ @Smith2015;@Zhang2016] seems to be justified.
+Because non-convex characters are not entirely uninformative, this situation is not strictly equivalent to clique analysis.  For example, trees that reconstruct fewer steps in a non-convex character will still be preferred to those that reconstruct more steps in the same character; and a tree that imposes two extra steps on three characters receives the same penalty ($3 \times \frac{2}{2 + 1} = 2$) as one that imposes one extra step on four ($4 \times \frac{1}{1 + 1} = 2$).
+
+Nevertheless, a value of $k=1$ places significantly more emphasis on maximising the number of convex characters than on minimizing the total number of steps in any given (non-convex) character, behaviour that is more characteristic of clique analysis than a parsimony approach.
+
+As there does not yet exist an objective method for selecting a single value of _k_ for parsimony analysis, it has been proposed that nodes are recovered by a range of concavity constants are likely to be correct [@Goloboff2008].
+Studies that take a consensus of all trees found to be optimal under a range of concavity values [e.g.@Mirande2009] should consider discounting topologies that are only recovered under low values of _k_ [_cf_. @Smith2015;@Zhang2016].
 
 <!--
 ### Issues with conclusions of Congreve and Lamsdell
