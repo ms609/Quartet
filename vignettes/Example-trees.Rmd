@@ -237,7 +237,6 @@ metrics [@Penny1985] are best illustrated by examining a set of example trees.
 
 ### Moving a single taxon
 
-If trees differ only in the location of a single taxon, then the distance between
 If trees differ only in the location of a single taxon (see taxon 1 in the trees below),
 then the distance between two trees should correspond to the distance that this taxon has been moved.
 
