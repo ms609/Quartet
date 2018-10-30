@@ -69,13 +69,13 @@ PCH <- c(
   markov = 1,
   equal  = 61, #'='
   dot = 183, #'.'
-  implied1   = 2,   #triup
-  implied2   = 2,   #triup
-  implied3   = 2,   #triup
-  implied5   = 2,   #triup
-  implied10  = 2,   #triup
-  implied20  = 2,   #triup
-  implied200 = 2,   #triup
+  implied1   = 183, #2,   #triup
+  implied2   = 3, #2,   #triup
+  implied3   = 3, #2,   #triup
+  implied5   = 183, #2,   #triup
+  implied10  = 3, #2,   #triup
+  implied20  = 183, #2,   #triup
+  implied200 = 183, #2,   #triup
   impliedC = 17  #triupfilled
 )
 
