@@ -380,7 +380,7 @@ text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increas
 #AddLegend()
 legend('bottomright', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
        lty=c('dotted', 'dotdash', 'dashed', 'longdash'), 
-       legend=c('Equally informative', 'Equal precision', 'Equal accuracy', 'Equal incorrect nodes'))
+       legend=c('Equally informative', 'Equal resolution', 'Equal accuracy', 'Equal incorrect nodes'))
 Panel('d')
 
 dev.off()
