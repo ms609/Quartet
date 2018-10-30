@@ -378,7 +378,7 @@ arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 3], arrow_tips[2, 3], l
 text(mean(arrow_tips[1, 1:2]) + 0.01, mean(arrow_tips[2, 1:2]), "Increasing quality\n(Congreve & Lamsdell)", cex=0.8, srt=58, pos=1, col='#666666')
 text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]), "Increasing quality\n(Divergence)", cex=0.8, srt=90, pos=3, col='#666666')
 #AddLegend()
-legend('bottomright', bty='n', cex=0.8, lwd=1.2, col=COL_EQ, 
+legend('bottomright', bty='n', cex=0.8, lwd=1.2, col=COL_LINES, 
        lty=c('dotted', 'dotdash', 'dashed', 'longdash'), 
        legend=c('Equally informative', 'Equal resolution', 'Equal accuracy', 'Equal incorrect nodes'))
 Panel('d')
