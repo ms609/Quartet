@@ -1,20 +1,32 @@
 ---
-title: "Using quartets to compare trees"
-author: "Martin R. Smith"
+title: "Supplementary text for: Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets"
+author: "Martin R. Smith (martin.smith@durham.ac.uk)"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_document
+output: 
+  bookdown::pdf_document2:
+    includes:
+      in_header: ../inst/preamble.tex
+  rmarkdown::html_document
 bibliography: ../inst/REFERENCES.bib
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/dependent/biology-letters.csl
+link-citations: yes
+github-repo: ms609/SlowQuartet
 vignette: >
   %\VignetteIndexEntry{Tree comparison using quartets}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+## Preamble
+This document forms supplementary information to [@ThisStudy].  
+It has been generated from an R markdown file, which has been included as a separate supplementary file.
+The markdown file contains the R commands necessary to generate the figures and data presented herein.
+
 ```{r setup, include=FALSE}
 require('ape')
 require('Ternary')
 require('SlowQuartet')
+options('rqtDist.message' = FALSE)
 data('sq_trees')
 n_tip <- 11
 ref_tree <- sq_trees[[1]]
@@ -61,7 +73,8 @@ rfplot <- function (tr, title=NULL, highlight=NULL, ref=ref_tree, ...) {
   text(text_x, -1.5, "RF:", cex=0.8, pos=2)
   text(text_x, -2.5, "Path:", cex=0.8, pos=2)
   text(text_x, -3.5, "SPR:", cex=0.8, pos=2)
-  text(text_x, -0.5, paste0(MatchingQuartets(list(tr, ref))['d', 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(text_x, -0.5, paste0(MatchingQuartets(list(tr, ref))['d', 2],
+                            '/', choose(11,4)), cex=0.8, pos=4)
   text(text_x, -1.5, paste0(topo_dist, '/', rf_max), cex=0.8, pos=4)
   text(text_x, -2.5, paste0(signif(tree_dist[2], 3)), cex=0.8, pos=4)
   text(text_x, -3.5, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
@@ -119,7 +132,7 @@ TernaryBasis <- function (qMax = 19, zoom = 1, padding=0.1) {
               axis.col=rgb(0.6, 0.6, 0.6),
               padding=padding, xlim=xLim, ylim=yLim)
   
-  HorizontalGrid(19)
+  HorizontalGrid(qMax)
 }
 
 TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
@@ -164,12 +177,12 @@ AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ]
 
 ```
 
-## Tree distance metrics
+# Tree distance metrics
 
 A number of metrics area available to quantify the similarity between two undirected
 topologies (i.e. unrooted trees with no edge lengths).
 
-### Partition metric
+## Partition metric
 The Robinson-Foulds (RF, 'partition' or 'symmetric difference') metric [@Robinson1981; @Steel1993]
 adds the number of bipartitions that are present in tree A (but not tree B)
 to the number of bipartitions present in tree B (but not tree A).  
@@ -178,11 +191,11 @@ It is most useful when the trees to be compared are very similar; it has
 a low range of integer values, limiting its ability to distinguish between
 trees [@Steel1993].
 
-### SPR metric
+## SPR metric
 The subtree pruning and regrafting (SPR) distance [@Penny1985] counts the 
 number of SPR rearrangements necessary to transform Tree A into Tree B.
 
-### Path difference metric
+## Path difference metric
 The length of a path from one tip to another in a tree is the number of edges
 within the tree that must be crossed to navigate from one tip to the other.
 
@@ -192,7 +205,7 @@ each pair of tips.
 The path difference metric [@Steel1993] is the square root of the sum of squares
 of each of these differences.
 
-### Quartet metric
+## Quartet metric
 The quartet metric [@Estabrook1985] counts what proportion of four-taxon statements 
 are true in both trees.
 
@@ -200,7 +213,7 @@ For any four tips A, B, C and D, a bipartition on a bifurcating tree will separa
 tip A and either B, C or D from the other two tips.  That is to say, removing
 all other tips from the tree will leave one of these three trees:
 
-```{R Three four-taxon trees, echo=FALSE, cache=TRUE, fig.width=6, fig.asp=1/3, out.width='66%', fig.align='center',dev='svg'}
+```{R Three-four-taxon-trees, echo=FALSE, cache=TRUE, fig.width=6, fig.asp=1/3, out.width='66%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(0.5, 1, 0.5, 1), cex=1)
 plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=Ternary::cbPalette8[c(1, 4, 7, 5)], font=2)
 plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=Ternary::cbPalette8[c(1, 7, 4, 5)], font=2)
@@ -210,7 +223,7 @@ plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=Ternary::cbPalette8[c(1
 Thus two of the random trees below share the quartet `(A, B), (C, D)`, whereas 
 the third does not; these four tips are divided into `(A, D), (B, C)`.
 
-```{R Plot a quartet, echo=FALSE, cache=TRUE, fig.asp=1.3/3, fig.width=6, out.width='80%', fig.align='center',dev='svg'}
+```{R Plot-a-quartet, echo=FALSE, cache=TRUE, fig.asp=1.3/3, fig.width=6, out.width='80%', fig.align='center'}
 par(mfrow=c(1, 3))
 set.seed(7)
 trees7 <- lapply(logical(3), function (X) {
@@ -230,17 +243,17 @@ quartets in common. Because quartets are not independent of one another,
 no pair of trees with six or more tips can have all $n\choose4$ quartets in
 common [@Steel1993].
 
-## Desired behaviour of tree distance metrics
+# Desired behaviour of tree distance metrics
 
-The advantages of the Quartet distance [@Estabrook1985] over other tree distance
+The advantages of the quartet dissimilarity [@Estabrook1985] over other tree distance
 metrics [@Penny1985] are best illustrated by examining a set of example trees.
 
-### Moving a single taxon
+## Moving a single taxon
 
 If trees differ only in the location of a single taxon (see taxon 1 in the trees below),
 then the distance between two trees should correspond to the distance that this taxon has been moved.
 
-```{R Moving a single taxon, fig.asp=1.8/5, out.width='100%', fig.width=6, echo=FALSE, message=FALSE, cache=TRUE, dev='svg'}
+```{R Moving-a-single-taxon, fig.asp=1.8/5, out.width='100%', fig.width=6, echo=FALSE, message=FALSE, cache=TRUE}
 par(mfrow=c(1, 4), mar=rep(0.4, 4))
 colplot(ref_tree,     'Reference tree', 1)
 rfplot(sq_trees$move_one_near, 'Short move', 1)
@@ -254,7 +267,7 @@ The Robinson-Foulds, path difference and quartet metrics,
 in contrast, recognize trees in which this tip has been 
 moved further as more distant from the starting tree.
 
-### Moving two taxa
+## Moving two taxa
 
 Intuitively, moving a pair of tips on a tree should lead to higher tree distances
 than moving a single tip.  In the case of a short move, the RF distance
@@ -264,7 +277,7 @@ when a single tip is moved.  The path and quartet metrics perform as expected.
 
 The trees below differ from a reference tree in the position of a single tip (tip 1), or a pair of tips (tips 10 and 11), which have been moved a short, medium or long distance from their original positions.
 
-```{R Moving a cherry, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6*3/3, fig.width=6, out.width='66%', fig.align='center', dev='svg'}
+```{R Moving-a-cherry, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6*3/3, fig.width=6, out.width='66%', fig.align='center'}
 par(mfrow=c(3, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 colplot(ref_tree, 'Reference tree')
@@ -281,7 +294,7 @@ rfplot(sq_trees$move_two_far,   'Long move 2', 10:11)
 
 ```
 
-### Maximum distance
+## Maximum distance
 A distance metric should distinguish slightly-perturbed trees from
 random trees and those that are more different from the starting tree than 
 expected by chance.
@@ -291,7 +304,7 @@ relocated from the most basal to the most derived point of a pectinate tree,
 representing a maxximal value despite retaining relationship information about 
 all other taxa.
 
-```{R Pectinate to break RF, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.5/3, fig.width=6, fig.align='center', dev='svg'}
+```{R Pectinate-to-break-RF, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.5/3, fig.width=6, fig.align='center'}
 par(mfrow=c(1, 3), mar=rep(0.4, 4))
 
 pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10, 11))))))))));')
@@ -303,15 +316,14 @@ rfplot(sq_trees$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
 ```
 
 A notable proportion of random trees receive a lower RF distance from the original tree, even though they do not show any structural similarity.
-This is not the case with the quartet distance.
-<MARK> ****TODO replace 1:10 with 1:10000**** </MARK>
+This is not the case with the quartet dissimilarity metric.
 
-```{R Random-trees, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=4.6, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Random-trees, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=4.6, fig.width=6, out.width='90%', fig.align='center'}
 pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10, 11))))))))));')
 pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 
-random_trees <- lapply(1:10, function (x) rtree(11, br=NULL, tip.label=1:11))
+random_trees <- lapply(1:10000, function (x) rtree(11, br=NULL, tip.label=1:11))
 random_quartets <- MatchingQuartets(random_trees, cf=pectinate_tree)['d', ] / choose(11,4)
 random_distances <- vapply(random_trees, phangorn::treedist,
                            tree2=pectinate_tree, double(2))
@@ -333,20 +345,20 @@ legend('topleft', bty='n', col=Ternary::cbPalette8[3], lwd=2, '"Move one taxon" 
 PlotHist(random_distances[2, ], breaks=manyBreaks*max(random_distances[2, ]),
          17.7, "Path distance")
 
-PlotHist(random_quartets, manyBreaks, 120/330, 'Quartet divergence')
+PlotHist(random_quartets, manyBreaks, 120/330, 'Quartet dissimilarity')
 
 PlotHist(random_spr[1, ], max(random_spr[1, ]) * manyBreaks, 1, 'SPR distance')
 ```
 
 
-An advantage of the Quartet distance is that the normalized metric of a random
+An advantage of the Quartet dissimilarity is that the normalized metric of a random
 tree is $\frac{2}{3}$ [@Day1986; @Steel1993].  As such, trees that are more different
-than expected by chance can be readily recognized, as their quartet distance
+than expected by chance can be readily recognized, as their quartet dissimilarity 
 will be greater than $\frac{`r choose(n_tip, 4) * 2 / 3`}{`r choose(n_tip, 4)`}$.  
 The 'maximum distance' tree depicted below was identified using the R package
-TreeSearch` [@TreeSearch], using the quartet distance from the reference tree as an optimality criterion.
+TreeSearch` [@TreeSearch], using the quartet dissimilarity from the reference tree as an optimality criterion.
 
-```{R Increasing distances, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.4/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Increasing-distances, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.4/3, fig.width=6, out.width='90%', fig.align='center'}
 par(mfrow=c(1, 3), mar=rep(0.4, 4))
 colplot(ref_tree, 'Reference tree')
 rfplot(sq_trees$random_tree,   'Random tree'     )
@@ -354,7 +366,7 @@ rfplot(sq_trees$opposite_tree, 'Maximum distance')
 ```
 
 
-### Unresolved trees
+## Unresolved trees
 
 Whereas the path distance and SPR metrics are only defined on bifurcating trees,
 the quartet approach can be applied to trees that contain polytomies -- i.e. 
@@ -405,7 +417,7 @@ normalized symmetric difference partition metric.)
 In bifurcating trees, these five measures evaluate to the same quantity
 [@Estabrook1985].  
 
-The quartet divergence is the only available metric of tree distance that fullfils 
+Quartet dissimilarity is the only available metric of tree distance that fullfils 
 all of the following desiderata:
 
  - Allocates trees higher distances if a clade moves greater distances
@@ -417,11 +429,11 @@ all of the following desiderata:
  
 
 
-### Calculating resolution and accuracy
+## Calculating resolution and accuracy
 
 One way to modify a tree topology is to reduce its resolution by collapsing nodes, without changing any of the relationships presented within the tree.  The trees below have been derived from a reference tree by collapsing one and many nodes:
 
-```{R Polytomies - same topology, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Polytomies-same-topology, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 colplot(ref_tree, 'Reference tree')
@@ -434,7 +446,7 @@ These trees do not contain any quartets or partitions that are not present in th
 
 We can alternatively choose to change the topology, and then collapse some nodes.  The following trees represent the same loss of resolution as the previous trees, but applied to a tree in which one tip (tip 1) has been moved relative to the reference tree:
 
-```{R Polytomies 1, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Polytomies 1, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 polyplot(sq_trees$move_one_mid, 'One moved, no polytomy', 1)
@@ -447,7 +459,7 @@ This causes results in trees that contradict a number of partitions or quartets 
 
 We could introduce a larger change to the tree topology by moving a 'cherry', i.e. two adjacent taxa (10 & 11):
 
-```{R Polytomies 2, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center', dev='svg'}
+```{R Polytomies-2, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.6/3, fig.width=6, out.width='90%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(0.4, 0.4, 0.4, 0.4))
 
 polyplot(sq_trees$move_two_mid,  'Two moved, no polytomy'  , 10:11)
@@ -456,10 +468,10 @@ polyplot(sq_trees$m2mid_colsome, 'Two moved, much polytomy', 10:11)
 
 ```
 
-### Visualizing these data
+## Visualizing these data
 The number of quartets or partitions that are unresolved, different, or identical to the reference tree can be visualized using ternary diagrams:
 
-```{R Plot some trees, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/2, fig.width=8, out.width='100%', fig.align='center', dev='svg'}
+```{R Plot-some-trees, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/2, fig.width=8, out.width='100%', fig.align='center'}
 
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
 collapse_perfect <- c('ref_tree', 'collapse_one', 'collapse_some')
@@ -517,7 +529,7 @@ legend('bottomright', cex=0.8, bty='n',
 
 The _y_ axis of these plots corresponds to the overall quartet divergence / normalized symmetric distance metrics.   Collapsing nodes decreases the resolution (movement in the _x_ direction), but can increase accuracy, leading to no net decrease in tree divergence.
 
-## Using ternary diagrams to inform tree reconstruction techniques
+# Using ternary diagrams to inform tree reconstruction techniques
 This means of visualization provides a helpful way to understand how effective
 different methods of phylogenetic reconstruction are on particular trees.
 
@@ -554,7 +566,7 @@ with high support are likely to be correct.  The same pattern holds here for
 Bayesian trees, though in equal weights it seems that the maximum resolution 
 attainable is already on the descending part of the curve.  
 
-```{R Congreve Lamsdell tree, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/3, fig.width=9, out.width='100%', fig.align='center'}
+```{R Congreve-Lamsdell-tree, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/3, fig.width=9, out.width='100%', fig.align='center'}
 par(mfrow=c(1, 3), mar=rep(0.3, 4))
 
 TREE <- 2
@@ -594,10 +606,10 @@ AddLegend()
 
 ```
 
-### Quartet metric
+## Quartet metric
 We can also examine the situation if we average across all 100 trees:
 
-```{R CL trees - quartets, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/2, fig.width=9, out.width='100%', fig.align='center', dev='svg'}
+```{R CL-trees-quartets, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/2, fig.width=9, out.width='100%', fig.align='center'}
 TREES <- 1:100
 # # There is essentially no difference if we exclude datasets with a low CI.
 # # The lines just slide up a little.
@@ -623,7 +635,7 @@ Under implied weights, averaged over these datasets, the optimum trade-off betwe
 <!--
 How good is each tree?  The divergence for each tree under each method is as follows (high means a larger divergence):
 -->
-```{R Quartet divergence for each point, echo=FALSE, message=FALSE, fig.width=8}
+```{R Quartet-divergence-for-each-point, echo=FALSE, message=FALSE, fig.width=8}
 divergences <- vapply(clQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans), similarity = FALSE), double(21))
 rownames(divergences) <- c('Optimal', paste0('Subopt. ', 1:20))
 ks <- c(1:3, 5, 10)
@@ -659,19 +671,24 @@ round(how_suboptimal, 4)
 The only analyses to produce significantly different ($p = 0.01$) results from implied weights
 (at $k = 3$) or Bayesian are:
 
-```{R Quartet divergence - significance}
-treeBests <- vapply(clQuartets, function (item) apply(apply(item[, , TREES], 2, QuartetDivergence), 1, max), double(length(TREES)))
-tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'implied3'])$p.value)
+```{R Quartet-divergence-significance}
+treeBests <- vapply(clQuartets, 
+                    function (item) apply(
+                      apply(item[, , TREES], 2, QuartetDivergence), 1, max),
+                    double(length(TREES)))
+tests <- apply(treeBests, 2, 
+               function (column) t.test(column, treeBests[, 'implied3'])$p.value)
+
 names(tests[tests < 0.01])
 ```
 
 Both these approaches are significantly worse.
 
-### Partition metric
+## Partition metric
 
 We can run the same analysis counting partitions in place of quartets.
 
-```{R CL trees - partitions, echo=FALSE, message=FALSE, message=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center', dev='svg'}
+```{R CL-trees-partitions, echo=FALSE, message=FALSE, message=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center'}
 AverageSplits <- function (item) {
   itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
   rbind(itemData['ref', ] - itemData['cf', ],
@@ -702,7 +719,7 @@ AddLegend()
 
 Under the partition metric, the most informative trees were found after collapsing nodes with a Bremner support value of:
 
-```{R Partition divergence for each point, echo=FALSE, message=FALSE, fig.width=8}
+```{R Partition-divergence-for-each-point, echo=FALSE, message=FALSE, fig.width=8}
 divergences <- vapply(clPartitions, function (item) apply(item['RF_dist', , TREES], 1, mean), double(21))
 ks <- c(1:3, 5, 10)
 colnames(divergences) <- c('Mk', 'EqlW', paste0('IW', c(ks, 'cons')))
@@ -717,9 +734,13 @@ round(how_suboptimal, 4)
 The partition metric advocates a greater loss of resolution than the quartet metric.
 Otherwise, it too finds no statistically significant difference between the effectiveness of the methods, except again that equal weights, and implied weights with _k_ = 1, are significantly worse:
 
-```{R Partition significance}
-treeBests <- vapply(clPartitions, function (item) apply(item['RF_dist', , ], 2, min), double(length(TREES)))
-tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
+```{R Partition-significance}
+treeBests <- vapply(clPartitions,
+                    function (item) apply(item['RF_dist', , ], 2, min),
+                    double(length(TREES)))
+tests <- apply(treeBests, 2, 
+               function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
+
 names(tests[tests < 0.01])
 ```
 <!--
@@ -767,7 +788,7 @@ names(tests[tests < 0.01])
 ```
 -->
 
-## Why $k = 1$ is unsuitable
+# Why $k = 1$ is unsuitable
 Of the concavity constants chosen for implied weights, $k=1$ is strikingly 
 (and significantly) worse than other values.  It is worth recalling the mathematical underpinning for implied weights [@Goloboff1993]:
 
@@ -798,9 +819,9 @@ As the number of extra steps increases($e\rightarrow \infty$), the penalty incre
 
 As such, given a pair of characters, a reconstruction that assigns infinitely many changes of one character, but no additional steps to the other, will be preferred to a reconstruction in which both characters undertake a single additional step.  
 
-(ref:k1poorchoice) Two characters with one extra step receive a normalized penalty of two.  As _k_ decreases, a single character must exhibit increasingly more steps before it receives the same penalty.  Once $k < 1$, no amount of steps in a single character will elicit a penalty equal to two single steps in two separate characters.
+---
 
-```{R k-1-poor-choice, echo=FALSE, warning=FALSE, fig.cap="(ref:k1poorchoice)"}
+```{R k-1-poor-choice, echo=FALSE, warning=FALSE, fig.width=7}
 Fit <- function (e, k) (e / (e + k))
 NormalizedFit <- function (e, k) (1 + k) * Fit(e, k)
 
@@ -822,17 +843,22 @@ text(pos=2, paste('k =', kValues), x=8, y=NormalizedFit(8, kValues) + 0.25, col=
 text(pos=2, paste('k =', max(kValues)), x=8, y=5.9, col=kCols[length(kCols)])
 ```
 
+
+> Two characters with one extra step receive a normalized penalty of two.  As _k_ decreases, a single character must exhibit increasingly more steps before it receives the same penalty.  Once $k < 1$, no amount of steps in a single character will elicit a penalty equal to two single steps in two separate characters.
+
+---
+
 Because non-convex characters are not entirely uninformative, this situation is not strictly equivalent to clique analysis.  For example, trees that reconstruct fewer steps in a non-convex character will still be preferred to those that reconstruct more steps in the same character; and a tree that imposes two extra steps on three characters receives the same penalty ($3 \times \frac{2}{2 + 1} = 2$) as one that imposes one extra step on four ($4 \times \frac{1}{1 + 1} = 2$).
 
 Nevertheless, a value of $k=1$ places significantly more emphasis on maximising the number of convex characters than on minimizing the total number of steps in any given (non-convex) character, behaviour that is more characteristic of clique analysis than a parsimony approach.
 
 As there does not yet exist an objective method for selecting a single value of _k_ for parsimony analysis, it has been proposed that nodes are recovered by a range of concavity constants are likely to be correct [@Goloboff2008].
-Studies that take a consensus of all trees found to be optimal under a range of concavity values [e.g.@Mirande2009] should consider discounting topologies that are only recovered under low values of _k_ [_cf_. @Smith2015;@Zhang2016].
+Studies that take a consensus of all trees found to be optimal under a range of concavity values (e.g. @Mirande2009) should consider discounting topologies that are only recovered under low values of _k_ (_cf_. [@Smith2015;@Zhang2016]).
 
 <!--
-### Issues with conclusions of Congreve and Lamsdell
+## Issues with conclusions of Congreve and Lamsdell
 
-```{R Congreve & Lamsdell response, echo=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center', dev='svg'}
+```{R Congreve & Lamsdell response, echo=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center'}
 
 TernaryBasis()
 title(main="\nPartitions", cex.main=0.8)
@@ -882,7 +908,7 @@ legend('bottom', bty='n', cex=0.8, lwd=2, col=COL_EQ,
        lty=c('dotted', 'dotdash', 'dashed'), legend=c('Equal quality', 'Equal precision', 'Equal incorrect nodes'))
 ```
 --!--
-### More discussion [To re-write]
+## More discussion [To re-write]
 
 It is sometimes of interest to establish which of a selection of trees is most 
 instructive about the reference tree.  How this might be done is not
@@ -930,4 +956,4 @@ divergence are connected by horizontal lines:  That is to say, any tree on a giv
 contour is equally informative about the reference tree.
 -->
 
-## References
+# References
