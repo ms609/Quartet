@@ -49,6 +49,7 @@ COL_C  <- paste0(cbPalette8[2], '99')
 
 GRID_COL <- rgb(0.92, 0.92, 0.92)
 BG_COL   <- rgb(0.985, 0.985, 0.992)
+GREY <- rgb(0.6, 0.6, 0.6)
 
 Quartet2Ternary <- function (item, TREE) clQuartets[[item]][c('r2', 'd', 's'), , TREE]
   
@@ -103,16 +104,16 @@ Plottem <- function (i) {
   TREE <- if (i < 34) i else (i - 1)
   
   TernaryQuarts(TREE=TREE)
-  mtext(text=paste0("\nDataset ", i, ": CI=", round(clCI[i], 2)), 
+  mtext(text=paste0("\nDataset ", i, ": CI = ", round(clCI[i], 2)), 
         side=3, outer=TRUE, cex=1.2)
-  arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1, col=GRID_COL)
-  text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8, col=GRID_COL)
+  arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1, col=GREY)
+  text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8, col=GREY)
   
-  arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1, col=GRID_COL)
+  arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1, col=GREY)
   text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence',
-         cex=0.8, srt=270, col=GRID_COL)
+         cex=0.8, srt=270, col=GREY)
   
-  rect(xleft=-0.01, ybottom=0.145, xright=0.31, ytop=0.52, border='#00000088', lty='dashed')
+  rect(xleft=-0.03, ybottom=0.145, xright=0.31, ytop=0.52, border='#00000088', lty='dashed')
   
   TernaryQuarts(TREE=TREE, zoom=3, padding=0.01)
   
@@ -138,21 +139,21 @@ Plottem <- function (i) {
   JoinTheDots(Split2Ternary('equal'  , TREE=TREE), col=COL_EQ, pch=PCH_EQ, cex=1.1)
   JoinTheDots(Split2Ternary('markov' , TREE=TREE), col=COL_MK, pch=PCH_MK, cex=1.1)
   
-  arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1, col=GRID_COL)
-  text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8, col=GRID_COL)
+  arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1, col=GREY)
+  text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8, col=GREY)
   
-  arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1, col=GRID_COL)
+  arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1, col=GREY)
   text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance',
-         cex=0.8, srt=270, col=GRID_COL)
+         cex=0.8, srt=270, col=GREY)
   
   frame()
   AddLegend()
 }
 ```
 
-```{R 1-10, echo=FALSE, fig.width=7.2, fig.height=8.8, fig.cap=' '}
+```{R 1-10, echo=FALSE, fig.width=7.2, fig.height=7.2}
 par(mfrow=c(2, 2), mar=c(0.3, 0.3, 0.3, 0.3), oma=c(0, 0, 2, 0))
-x <- lapply(1:4, Plottem)
+x <- lapply(1:100, Plottem)
 ```
 
 ## Reference
