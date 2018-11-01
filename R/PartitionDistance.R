@@ -10,8 +10,8 @@
 #'         latter two values, i.e. the Robinson-Foulds distance.
 #'         
 #' @references {
-#'  \insertRef{Estabrook1985}{SlowQuartet}
-#'  \insertRef{Robinson1981}{SlowQuartet}
+#'  \insertRef{Estabrook1985}{Quartet}
+#'  \insertRef{Robinson1981}{Quartet}
 #' }       
 #' @author Martin R. Smith
 #' @export
@@ -58,8 +58,8 @@ CompareSplits <- function (x, cf) {
 #'@seealso [MatchingQuartets]
 #'         
 #'  @references {
-#'    \insertRef{Robinson1981}{SlowQuartet}
-#'    \insertRef{Penny1985}{SlowQuartet}
+#'    \insertRef{Robinson1981}{Quartet}
+#'    \insertRef{Penny1985}{Quartet}
 #'  }
 #' @author Martin R. Smith
 #' @export

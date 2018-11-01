@@ -31,8 +31,8 @@
 #' @format A list with 100 entries, each comprising a phyDat object of 55 characters for 22 taxa
 #'
 #' @references 
-#' \insertRef{Congreve2016}{SlowQuartet}
-#' \insertRef{Congreve2016dd}{SlowQuartet}
+#' \insertRef{Congreve2016}{Quartet}
+#' \insertRef{Congreve2016dd}{Quartet}
 #'
 #' @source \url{http://datadryad.org/resource/doi:10.5061/dryad.7dq0j}
 "congreveLamsdellMatrices"
@@ -45,14 +45,14 @@
 #' @format A single phylogenetic tree saved as an object of class \code{phylo}
 #'
 #' @references 
-#' \insertRef{Congreve2016}{SlowQuartet}
-#' \insertRef{Congreve2016dd}{SlowQuartet}
+#' \insertRef{Congreve2016}{Quartet}
+#' \insertRef{Congreve2016dd}{Quartet}
 #' 
 #' @examples 
 #'   data(referenceTree)
 #'   plot(referenceTree)
 #' 
-#' @source \insertRef{Congreve2016}{SlowQuartet}
+#' @source \insertRef{Congreve2016}{Quartet}
 "referenceTree"
 
 #' @templateVar quartet quartet
@@ -74,13 +74,13 @@
 #' @format A single phylogenetic tree saved as an object of class \code{phylo}
 #'
 #' @references 
-#' \insertRef{OReilly2016}{SlowQuartet}
+#' \insertRef{OReilly2016}{Quartet}
 #' 
 #' @examples 
 #'   data(or_refTree)
 #'   plot(or_refTree)
 #' 
-#' @source \insertRef{OReilly2016}{SlowQuartet}
+#' @source \insertRef{OReilly2016}{Quartet}
 "or_refTree"
 
 #' Partition and Quartet similarity counts for the O'Reilly _et al._ datasets

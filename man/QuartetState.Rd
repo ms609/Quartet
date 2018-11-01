@@ -54,7 +54,7 @@ Report the status of a given quartet.
 
 }
 \references{
-\insertRef{Estabrook1985}{SlowQuartet}
+\insertRef{Estabrook1985}{Quartet}
 }
 \seealso{
 \code{\link{CompareQuartets}}, used to compare sets of bipartitions

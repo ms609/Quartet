@@ -16,7 +16,7 @@
 #' }
 #' 
 #' @references 
-#' \insertRef{ThisStudy}{SlowQuartet}
+#' \insertRef{ThisStudy}{Quartet}
 #' 
 #' @author Martin R. Smith
 #' 

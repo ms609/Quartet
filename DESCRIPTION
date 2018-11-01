@@ -25,7 +25,6 @@ Authors@R: c(person("Martin R.", 'Smith',
                       role=c('cph')),
                person('Jens', 'Johansen', role=c('cph')),
                person('Morten K.', 'Holt', role=c('cph'))
-               )
             )
 Copyright: Incorporates code from tqDist (Sand et al. 2014) and phangorn (Klaus Vigo).
 License: GPL (>= 2)
@@ -49,5 +48,5 @@ LinkingTo: Rcpp
 LazyData: true
 ByteCompile: true
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)

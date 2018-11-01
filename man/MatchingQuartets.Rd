@@ -18,12 +18,12 @@ Requires that the \code{rtqdist} package is installed.}
 \value{
 Returns a two dimensional array. Columns correspond to the input trees; the first column will always         report a perfect match as it compares the first tree to itself.         Rows list the status of each quartet:
 \describe{
-  \item{Q}{The total number of quartets for _n_ tips.}
-  \item{s}{The number of quartets that are resolved identically in both trees.}
-  \item{d}{The number of quartets that are resolved differently in each tree.}
-  \item{r1}{The number of quartets that are resolved in tree 1, but not in tree 2.}
-  \item{r2}{The number of quartets that are resolved in tree 2, but not in tree 1.}
-  \item{u}{The number of quartets that are unresolved in both trees.}
+\item{Q}{The total number of quartets for \emph{n} tips.}
+\item{s}{The number of quartets that are resolved identically in both trees.}
+\item{d}{The number of quartets that are resolved differently in each tree.}
+\item{r1}{The number of quartets that are resolved in tree 1, but not in tree 2.}
+\item{r2}{The number of quartets that are resolved in tree 2, but not in tree 1.}
+\item{u}{The number of quartets that are unresolved in both trees.}
 }
 }
 \description{
@@ -41,11 +41,12 @@ Otherwise the distances will be generated (slowly) within R.
 
 rtqDist can be installed by copying the following code into your console:
 \code{install.packages(
-'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.1.tar.gz',
+'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
  repos=NULL, type='source')}
 or by \href{http://users-cs.au.dk/cstorm/software/tqdist/}{downloading the package}
 and extracting the zipped directory into your library directory (which you
 can locate by typing \code{.libPaths()} into your console).
+(Note that tqDist version 1.0.1 does not contain the R package)
 
 At present the trees must bear the same number of tips, and each tree$tip.label must use
 the integers 1:n_tip.  Support for different-sized trees will be added if there is demand;
@@ -66,8 +67,8 @@ A random pair of fully-resolved trees is expected to share
 
 }
 \references{
-\insertRef{Estabrook1985}{SlowQuartet}
-\insertRef{Sand2014}{SlowQuartet}
+\insertRef{Estabrook1985}{Quartet}
+\insertRef{Sand2014}{Quartet}
 }
 \seealso{
 \link{MatchingSplits}

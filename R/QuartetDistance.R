@@ -29,7 +29,7 @@ DropSingleSplits <- function (split) {
 #' @examples Tree2Splits(ape::rtree(6, tip.label=1:6, br=NULL))
 #'
 #' @importFrom ape reorder.phylo
-#' @useDynLib SlowQuartet, .registration = TRUE
+#' @useDynLib Quartet, .registration = TRUE
 #' @export
 Tree2Splits <- function (tr) {
   tr <- reorder.phylo(tr, 'postorder')
@@ -74,10 +74,10 @@ Tree2Splits <- function (tr) {
 #' @author Martin R. Smith
 #' @importFrom graphics par plot text
 #' @importFrom TreeSearch RenumberTips
-#' 
 #' @export
 PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
-  cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
+                 "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
   if (class(tree) == 'phylo') tree <- list(tree)
   
@@ -174,7 +174,7 @@ Choices <- memoise(function (n_tips) {
 #' }
 #' 
 #' @references 
-#'   \insertRef{Estabrook1985}{SlowQuartet}
+#'   \insertRef{Estabrook1985}{Quartet}
 #' 
 #' @export
 QuartetState <- function (tips, bips) {
@@ -252,7 +252,7 @@ QuartetStates <- function (splits) {
 #' }
 #' 
 #'@references {
-#' \insertRef{Estabrook1985}{SlowQuartet}
+#' \insertRef{Estabrook1985}{Quartet}
 #'}
 #' 
 #' @export
@@ -339,11 +339,12 @@ UnshiftTree <- function(add, treeList) {
 #' 
 #' rtqDist can be installed by copying the following code into your console:
 #' \code{install.packages(
-#' 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.1.tar.gz',
+#' 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
 #'  repos=NULL, type='source')}
 #'  or by [downloading the package](http://users-cs.au.dk/cstorm/software/tqdist/)
 #'  and extracting the zipped directory into your library directory (which you 
 #'  can locate by typing `.libPaths()` into your console).
+#'  (Note that tqDist version 1.0.1 does not contain the R package)
 #'   
 #'   At present the trees must bear the same number of tips, and each tree$tip.label must use
 #'   the integers 1:n_tip.  Support for different-sized trees will be added if there is demand; 
@@ -373,8 +374,8 @@ UnshiftTree <- function(add, treeList) {
 #' @seealso [MatchingSplits]
 #' 
 #' @references
-#' \insertRef{Estabrook1985}{SlowQuartet}
-#' \insertRef{Sand2014}{SlowQuartet}
+#' \insertRef{Estabrook1985}{Quartet}
+#' \insertRef{Sand2014}{Quartet}
 #'
 #' @importFrom Rdpack reprompt 
 #' @importFrom TreeSearch RenumberTips
@@ -402,9 +403,6 @@ MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
         r2 = integer(nTrees),
         u = integer(nTrees)
       ))
-    } else {
-      message("Faster results can be obtained by installing rtqDist; ",
-              "see ?MatchingQuartets for installation instructions\n")
     }
   }
   tree1Labels <- trees[[1]]$tip.label
@@ -430,7 +428,7 @@ MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
 #' @seealso [MatchingSplits], [CompareSplits]
 #'
 #' @references 
-#' \insertRef{Estabrook1985}{SlowQuartet}
+#' \insertRef{Estabrook1985}{Quartet}
 #' 
 #' @template MRS
 #' 
@@ -481,7 +479,7 @@ SemiStrictJointAssertions <- function (mq, similarity=TRUE) {
 }
 
 #' @rdname QuartetMetrics
-#' @references \insertRef{ThisStudy}{SlowQuartet}
+#' @references \insertRef{ThisStudy}{Quartet}
 #' @export
 QuartetDivergence <- function (mq, similarity=TRUE) {
   if (is.null(dim(mq))) mq <- as.matrix(mq)

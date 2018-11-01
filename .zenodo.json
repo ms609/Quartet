@@ -1,8 +1,8 @@
 {
     "description": "An R Package for Comparing Phylogenetic Trees", 
     "license": "unlimited", 
-    "title": "SlowQuartet", 
-    "version": "v0.2.0", 
+    "title": "Quartet", 
+    "version": "v0.3.0", 
     "upload_type": "software", 
     "creators": [
         {

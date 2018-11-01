@@ -1,13 +1,13 @@
-[![Build Status](https://travis-ci.org/ms609/SlowQuartet.svg?branch=master)](https://travis-ci.org/ms609/SlowQuartet)
-[![codecov](https://codecov.io/gh/ms609/SlowQuartet/branch/master/graph/badge.svg)](https://codecov.io/gh/ms609/SlowQuartet)
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/SlowQuartet)](https://cran.r-project.org/package=SlowQuartet)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/SlowQuartet)](https://cran.r-project.org/package=SlowQuartet)<!--
-[![Research software impact](http://depsy.org/api/package/cran/SlowQuartet/badge.svg)](http://depsy.org/package/r/SlowQuartet)-->
+[![Build Status](https://travis-ci.org/ms609/Quartet.svg?branch=master)](https://travis-ci.org/ms609/Quartet)
+[![codecov](https://codecov.io/gh/ms609/Quartet/branch/master/graph/badge.svg)](https://codecov.io/gh/ms609/Quartet)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/Quartet)](https://cran.r-project.org/package=Quartet)
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/Quartet)](https://cran.r-project.org/package=Quartet)<!--
+[![Research software impact](http://depsy.org/api/package/cran/Quartet/badge.svg)](http://depsy.org/package/r/Quartet)-->
 [![Project Status: Active.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
-# SlowQuartet
+# Quartet
 
-SlowQuartet is an R package that calculates the Quartet distance between two trees:
+Quartet is an R package that calculates the Quartet distance between two trees:
 a measure of their similarity based on the number of shared four-taxon subtrees.
 
 It's named Slow Quartet as it calculates the metric rather inefficiently; it may not be of use for large trees. 
@@ -16,7 +16,7 @@ which calculates quartet distances much more rapidly.
 
 What other implementations don't seem to do is to distinguish between quartets
 that are contradicted by one tree, and quartets that are simply absent due to
-a lack of resolution (i.e. the presence of polytomies).  `SlowQuartet` makes
+a lack of resolution (i.e. the presence of polytomies).  `Quartet` makes
 this distinction in both the quartet metric (function `MatchingQuartets`) and the
 partition metric (i.e. Robinson-Foulds distance; function `MatchingSplits`).
 
@@ -30,10 +30,10 @@ Meanwhile, you can install the latest version of the package into R thus:
 install.packages('devtools')
 
 # Install the inapplicable package from github
-devtools::install_github('ms609/SlowQuartet', args='--no-multiarch')
+devtools::install_github('ms609/Quartet', args='--no-multiarch')
 
 # Load the package into R
-library('SlowQuartet')
+library('Quartet')
 ```
 
 You will need Rtools installed (https://cran.r-project.org/bin/windows/Rtools/) to allow R to build the package.
