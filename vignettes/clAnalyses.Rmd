@@ -2,9 +2,14 @@
 title: "Ternary plots for Congreve & Lamsdell matrices"
 author: "Martin R. Smith"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_document
+output: 
+  bookdown::pdf_document2:
+    includes:
+      in_header: preamble.tex
 bibliography: ../inst/REFERENCES.bib
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/dependent/biology-letters.csl
+link-citations: yes
+github-repo: ms609/SlowQuartet
 vignette: >
   %\VignetteIndexEntry{Congreve & Lamsdell - individual trees}
   %\VignetteEngine{knitr::rmarkdown}
