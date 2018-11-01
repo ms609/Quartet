@@ -355,9 +355,9 @@ PlotHist(random_spr[1, ], max(random_spr[1, ]) * manyBreaks, 1, 'SPR distance')
 An advantage of the Quartet dissimilarity is that the normalized metric of a random
 tree is $\frac{2}{3}$ [@Day1986; @Steel1993].  As such, trees that are more different
 than expected by chance can be readily recognized, as their quartet dissimilarity 
-will be greater than $\frac{`r choose(n_tip, 4) * 2 / 3`}{`r choose(n_tip, 4)`}$.  
+will be greater than $\frac{`r choose(n_tip, 4) * 2 / 3`}{`r choose(n_tip, 4)`}$.
 The 'maximum distance' tree depicted below was identified using the R package
-TreeSearch` [@TreeSearch], using the quartet dissimilarity from the reference tree as an optimality criterion.
+`TreeSearch` [@TreeSearch], using the quartet dissimilarity from the reference tree as an optimality criterion.
 
 ```{R Increasing-distances, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.4/3, fig.width=6, out.width='90%', fig.align='center'}
 par(mfrow=c(1, 3), mar=rep(0.4, 4))
@@ -400,10 +400,9 @@ proportion do not conflict -- the semi-strict joint assertions (_SSJA_) measure.
 Bandelt and Dress propose a fifth metric [@Bandelt1986], which is analogous to the 
 Kullback-Leiber divergence [@Kullback1951]: it measures the amount of information
 that must be supplied to change one tree into the other.
-
 Here, a resolved quartet represents a single unit of information.
 (Because quartets are not independent of one another,
-the term "information" is not equivalent to the Shannon entropy.)
+the term 'information' is not equivalent to the Shannon entropy.)
 
 To navigate from one tree to another, one requires a list of quartets that must
 be 'unpicked',
@@ -528,7 +527,7 @@ legend('bottomright', cex=0.8, bty='n',
 )
 ```
 
-The _y_ axis of these plots corresponds to the overall quartet divergence / normalized symmetric distance metrics.   Collapsing nodes decreases the resolution (movement in the _x_ direction), but can increase accuracy, leading to no net decrease in tree divergence.
+In these plots, the vertical direction corresponds to the overall quartet divergence / normalized symmetric distance.  Collapsing nodes decreases the resolution (movement in the horizontal direction), but can increase accuracy; the balance between resolution lost and accuracy gained determined whether the collapsing of nodes increases or decreases net divergence.
 
 # Using ternary diagrams to inform tree reconstruction techniques
 This means of visualization provides a helpful way to understand how effective
@@ -536,7 +535,7 @@ different methods of phylogenetic reconstruction are on particular trees.
 
 Here I have taken a representative dataset simulated from a 22-tip reference tree [@Congreve2016],
 and analysed the dataset in TNT v1.5 [@Goloboff2016] under equal weights parsimony 
-and implied weights (with concavity constants of 1, 3 and 5), and in MrBayes v3.2.2
+and implied weights (with concavity constants of 1, 2, 3, 5 and 10), and in MrBayes v3.2.2
 [@Huelsenbeck2001] using the Markov K model [@Lewis2001].
 
 For each parsimony analysis, I recorded a strict consensus of (i) all optimal trees;
@@ -668,10 +667,10 @@ knitr::kable(t(round(how_suboptimal, 4)))
 # apply(abs(diffs), 2, which.min)
 ```
 
-The only analyses to produce significantly different ($p = 0.01$) results from implied weights
-(at $k = 3$) or Bayesian are:
+The only analyses to produce significantly different ($p = 0.01$) results from implied weights (at $k = 3$) or Bayesian are equal weights and implied weights with $k = 1$.
+Both these approaches are significantly worse.
 
-```{R Quartet-divergence-significance}
+```{R Quartet-divergence-significance, include=FALSE}
 treeBests <- vapply(clQuartets, 
                     function (item) apply(
                       apply(item[, , TREES], 2, QuartetDivergence), 1, max),
@@ -682,7 +681,6 @@ tests <- apply(treeBests, 2,
 names(tests[tests < 0.01])
 ```
 
-Both these approaches are significantly worse.
 
 ## Partition metric
 
@@ -731,7 +729,7 @@ knitr::kable(t(round(how_suboptimal, 4)))
 ```
 
 The partition metric advocates a greater loss of resolution than the quartet metric.
-Otherwise, it too finds no statistically significant difference between the effectiveness of the methods, except again that equal weights, and implied weights with _k_ = 1, are significantly worse:
+Otherwise, it too finds no statistically significant difference between the effectiveness of the methods, except again that equal weights, and implied weights with _k_ = 1, are significantly worse.
 
 ```{R Partition-significance}
 treeBests <- vapply(clPartitions,
@@ -843,7 +841,7 @@ text(pos=2, paste('k =', max(kValues)), x=8, y=5.9, col=kCols[length(kCols)])
 
 
 > Two characters with one extra step receive a total normalized penalty of two (dotted line).
-At progressively smaller values of _k_, a single character must exhibit increasingly more steps before it is afforded the same penalty.
+At progressively smaller values of _k_, a single character must exhibit increasingly more steps before it receives the same penalty.
 Once $k \leq 1$, no amount of steps in a single character will elicit a penalty equal to that which would be encountered if a second character undertook a single extra step.
 
 ---
