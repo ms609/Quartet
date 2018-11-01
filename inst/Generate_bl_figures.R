@@ -122,6 +122,7 @@ COL10  <- paste0(cbPalette8[6], '42')
 COL_C  <- COL['impliedC']
 
 GRID_COL <- rgb(0.92, 0.92, 0.92)
+GRID_LINES <- 10
 BG_COL   <- rgb(0.985, 0.985, 0.992)
 
 COL_WIDTH  <- 3.36 # inches; measured from BL
@@ -141,19 +142,18 @@ Split2Ternary <- function (item) {
 }
 
 TernaryQuarts <- function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
-  xLim <- c(0, 1 / zoom) - 0.003
+  xLim <- c(0, 1 / zoom) - 0.01
   yLim <- c(0.5-(1/zoom), 0.5)
-  tip <- if (FALSE && zoom == 1) c('\n\nUnresolved', "\n\nDifferent", '      Same') else rep('', 3)
   lab <- if (zoom == 1) c("Unresolved quartets", 
                           "Different quartets",
                           "Identical quartets") else rep('', 3)
   
-  TernaryPlot(atip=tip[1], btip=tip[2], ctip=tip[3],
+  TernaryPlot(atip=NULL, btip=NULL, ctip=NULL,
               alab=lab[1], blab=lab[2], clab=lab[3], 
-              lab.cex=FONT_SIZE, lab.font=2, lab.offset=0.13,
+              lab.cex=FONT_SIZE, lab.offset=0.13,
               point='right', isometric = TRUE,
               col=BG_COL,
-              grid.lty='solid', grid.col=GRID_COL, grid.lines=19,
+              grid.lty='solid', grid.col=GRID_COL, grid.lines=GRID_LINES,
               grid.minor.lines = 0,
               axis.labels = 
                 if(zoom==1) round(seq(0, choose(22, 4), length.out=20), 0)
@@ -163,8 +163,9 @@ TernaryQuarts <- function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
               ticks.length = if (zoom == 1) 0.025 else 0.009,
               #axis.labels.col = if (zoom == 1) GRID_COL else rgb(0.6, 0.6, 0.6),
               padding=padding, xlim=xLim, ylim=yLim)
-  HorizontalGrid(19)
-  AddToTernary(lines, list(c(0, 2/3, 1/3), c(1, 0, 0)), lty='dotted', col=cbPalette8[8], lwd=2)
+  HorizontalGrid(GRID_LINES)
+  AddToTernary(lines, list(c(0, 2/3, 1/3), c(1, 0, 0)), lty='dotted', 
+               col=cbPalette8[8], lwd=2)
   
   JoinTheDots(Func('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
   JoinTheDots(Func('implied5'), col=COL_5,  pch=PCH_IW, cex=1.1)
@@ -191,16 +192,8 @@ AddLegend <- function(pos='bottomright')
          legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(10, 5, 3, 2, 1, '2..10')))
   )
 
-AddLegend2 <- function(analyses, pos='bottomright')
-  legend(pos, cex=FONT_SIZE, bty='n',
-         lty=1,
-         pch=PCH[analyses], pt.cex=1.1,
-         col=COL[analyses],
-         legend=c('Markov', 'Equal weights', paste0('Implied, k=', rev(c(2, 3, 5, 10, 20, 200))))
-  )
-
 Panel <- function (panel) legend('topleft', paste0('(', panel, ')'), bty='n', 
-                                 cex=FONT_SIZE, text.font=3, inset=c(-0.056, -0.02))
+                                 cex=FONT_SIZE, text.font=3, inset=c(-0.056, 0))
 
 PointsFromItem <- function(itemData) {
   rbind(itemData['ref', ] - itemData['cf', ],
@@ -224,21 +217,19 @@ ORAverageSplits <- function (nchar, item) {
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans, na.rm=TRUE)
 ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]][[item]][c('r2', 'd', 's'), , ], 2, rowMeans, na.rm=TRUE)
 
+# Use Inkscape to generate EPS from SVG.  R creates bitmap EPS due to semitrans.
+Write <- svg
+Write <- cairo_pdf
 
 
 
 
 ################################################################################
 
-# Figures should be drawn to publication quality and to fit into a single column
-# width (7 cm) wherever possible. Please ensure that axes, tick marks, symbols 
-# and labels are large enough to allow reduction to a final size of c. 8 point.
-dev.new()
-#png(filename="Figure_1.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH * 2, family='Gill Sans MT')
-#pdf(file="inst/Figure_1.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 1",  pointsize=8)
-cairo_pdf(filename="inst/Figure_1.pdf", width=FIG_WIDTH, height=COL_WIDTH * 2,
-          family=FONT_FAMILY, pointsize=FONT_PT)
-#svg(filename="inst/Figure_1.svg",  width=FIG_WIDTH, height=COL_WIDTH * 2, family='Gill sans')
+#dev.new()
+
+Write(filename="inst/Figure_1.pdf", width=FIG_WIDTH, height=FIG_WIDTH,
+      family=FONT_FAMILY, pointsize=FONT_PT)
 par(mfrow=c(2, 2), mai=rep(0, 4), family='serif', ps=FONT_PT)
 
 TernaryQuarts(AverageQuarts)
@@ -247,7 +238,9 @@ AddArrows('Increasing quartet dissimilarity')
 rect(xleft=-0.01, ybottom=0.19, xright=0.278, ytop=0.52, border='#00000088', lty='dashed')
 text(x=0.30, y=0.54, labels='Panel (b)', cex=FONT_SIZE, pos=2)
 rightPoint <- TernaryCoords(1, 0, 0)
-otherYs <- vapply(2*(1:18), function (p) TernaryCoords(p, 19 - p, 0), double(2))[2, ]
+otherYs <- vapply(2 * seq_len(GRID_LINES - 1L),
+                  function (p) TernaryCoords(p, GRID_LINES - p, 0),
+                  double(2))[2, ]
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
                                    lty='dashed', col='#00000022'))
 
@@ -260,27 +253,18 @@ Panel('a')
 
 par(mai=c(0, 0.15, 0, 0.15))
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
-text(-0.007, 0.35, 'Identical quartets', cex=FONT_SIZE, srt=90)
-text(0.18, 0.432, 'Unresolved quartets', cex=FONT_SIZE, srt=330)
-otherYs <- vapply(2 * (14:18), function (p) TernaryCoords(p, 19 - p, 0), double(2))[2, ]
+text(-0.015, 0.345, 'Identical quartets', cex=FONT_SIZE, srt=90)
+text(0.126, 0.45, 'Unresolved quartets', cex=FONT_SIZE, srt=330)
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
                                    lty='dashed', col='#00000022'))
 
 Panel('b')
 AddLegend('topright')
-# Caption: Quartet distances for Congreve & Lamsdell
 
 
 ################################################################################
 
 ################################################################################
-
-
-#dev.new()
-#png(filename="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)
-#pdf(file="inst/Figure_2.pdf", width=COL_WIDTH, paper='a4', title="Smith Figure 2", pointsize=8)
-#cairo_pdf(filename="inst/Figure_2.pdf", width=COL_WIDTH, height=COL_WIDTH, family='Gill sans')
-#par(mfrow=c(1, 1), mai=rep(0, 4))
 
 TernaryPlot(NULL, NULL, NULL, #'Unresolved', 'Different', 'Same', 
             alab="Unresolved partitions",
@@ -310,18 +294,9 @@ AddArrows("Increasing symmetric difference")
 #AddLegend()
 Panel('c')
 
-#dev.off()
-
-
 ################################################################################
 
 ################################################################################
-
-#dev.new()
-#png(file="Figure_4.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
-#pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, paper='default', title="Smith Figure 4",  pointsize=8)
-#cairo_pdf(file="inst/Figure_4.pdf", width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
-#par(mar=rep(0, 4), mfrow=c(1,1), mai=rep(0, 4))
 TernaryPlot(NULL, NULL, NULL, #'Unresolved', 'Different', 'Same', 
             alab="Unresolved partitions",
             blab="Different partitions",
@@ -405,7 +380,6 @@ dev.off()
 ##################################################################################
 
 totalQuarts <- orQuartets[['350']][['equal']][1, 1, 1] # = 37 * 73 * 9 * 50
-GRID_LINES <- 15
 AXIS_LABELS <- c(0, paste0(round(1:GRID_LINES * totalQuarts / GRID_LINES / 1000), 'k'))
 
 Fig2Ternary <- function(title.text, ORFunc) {
@@ -417,7 +391,7 @@ Fig2Ternary <- function(title.text, ORFunc) {
             col=BG_COL, point='right',
             grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
             grid.minor.lines = 0,
-            axis.col=rgb(0.6, 0.6, 0.6), axis.labels.col = 'black',
+            axis.col=rgb(0.6, 0.6, 0.6), #axis.labels.col = 'black',
             padding=0.1, axis.labels = AXIS_LABELS)
   HorizontalGrid(GRID_LINES)
   title(main=title.text, cex.main=FONT_SIZE)
@@ -434,7 +408,8 @@ Fig2Zoom <- function (zoom, ORFunc) {
               grid.minor.lines = 0,
               axis.col=rgb(0.6, 0.6, 0.6),
               padding=0.01, axis.labels = AXIS_LABELS,
-              xlim = c(0, sqrt(3/4)/zoom),
+              ticks.length = 0.025 / zoom,
+              xlim = c(0, 1 / zoom),
               ylim = c(0.5-(1/zoom), 0.5))
   HorizontalGrid(GRID_LINES)
   lapply(orAnalyses, function (analysis) {
@@ -448,24 +423,30 @@ Fig2Zoom <- function (zoom, ORFunc) {
 InsetBox <- function (ybottom, xright, text) {
   rect(xleft=-0.01, ybottom=ybottom, xright=xright, ytop=0.52,
        border='#00000088', lty='dashed')
-  text(x=xright + 0.01, y=0.49, labels=text, cex=FONT_SIZE, pos=2)
+  text(x=xright + 0.01, y=0.49, labels=text, cex=FONT_SIZE, col='#00000088', pos=2)
 }
 
-#dev.new()
-#png(file="Figure_2.png", units='in', res=72, width=COL_WIDTH, height=COL_WIDTH)#), pointsize=8)
-cairo_pdf(filename="inst/Figure_2.pdf", width=FIG_WIDTH, height=7.2, family='Gill sans')#), pointsize=8)
-#svg(filename="inst/Figure_2.svg", width=FIG_WIDTH, height=7.2, family='Gill sans')#), pointsize=8)
-# Use Inkscape to generate EPS from SVG.  R creates bitmap EPS due to semitrans.
+Write(filename="inst/Figure_2.pdf", width=FIG_WIDTH, height=FIG_WIDTH*2/3,
+      family=FONT_FAMILY, pointsize=FONT_PT)
 
-
-par(mar=rep(0, 4), mfrow=c(2, 3), mai=rep(0, 4))
+par(mar=rep(0, 4), mfrow=c(2, 3), mai=rep(0, 4), ps=FONT_PT)
 Fig2Ternary("\n100 characters", ORQ100)
 InsetBox(0.026, 0.41, '(below)')
+Panel('a')
 Fig2Ternary("\n350 characters", ORQ350)
 InsetBox(0.026, 0.41, '(below)')
+Panel('b')
 Fig2Ternary("\n1000 characters", ORQ1000)
 InsetBox(0.33, 0.151, '')
-AddLegend2(orAnalyses[c(7, 8, 1:6)])
+Panel('c')
+
+analyses <- orAnalyses[c(7, 8, 1:6)]
+legend('bottomright', bty='n', lty=1, pch=PCH[analyses], col=COL[analyses],
+       pt.cex=1.1, inset=c(0, -0.238),
+       legend=c('Markov', 'Equal weights', paste0('Implied, k=', 
+                                                  rev(c(2, 3, 5, 10, 20, 200))))
+  )
+
 
 par(mai=c(0, 0.15, 0, 0.15))
 
