@@ -6,6 +6,12 @@ data('clQuartets')
 data('orQuartets')
 data('clPartitions')
 data('orPartitions')
+
+# Use Inkscape to generate EPS from SVG.  R creates bitmap EPS due to semitrans.
+Write <- function(filename, ...) cairo_pdf(filename=paste0("inst/", filename, ".pdf"), ...)
+Write <- function(filename, ...) svg(filename=paste0("inst/", filename, ".svg"), ...)
+
+
 n_tip <- 11
 ref_tree <- sq_trees[[1]]
 tip_colours <- Ternary::cbPalette15[-c(4, 7)] # Rm Tritanopia duplicates of 13 and 3
@@ -217,18 +223,11 @@ ORAverageSplits <- function (nchar, item) {
 AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans, na.rm=TRUE)
 ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]][[item]][c('r2', 'd', 's'), , ], 2, rowMeans, na.rm=TRUE)
 
-# Use Inkscape to generate EPS from SVG.  R creates bitmap EPS due to semitrans.
-Write <- svg
-Write <- cairo_pdf
-
-
-
-
 ################################################################################
 
 #dev.new()
 
-Write(filename="inst/Figure_1.pdf", width=FIG_WIDTH, height=FIG_WIDTH,
+Write(filename="Figure_1", width=FIG_WIDTH, height=FIG_WIDTH,
       family=FONT_FAMILY, pointsize=FONT_PT)
 par(mfrow=c(2, 2), mai=rep(0, 4), family='serif', ps=FONT_PT)
 
@@ -426,7 +425,7 @@ InsetBox <- function (ybottom, xright, text) {
   text(x=xright + 0.01, y=0.49, labels=text, cex=FONT_SIZE, col='#00000088', pos=2)
 }
 
-Write(filename="inst/Figure_2.pdf", width=FIG_WIDTH, height=FIG_WIDTH*2/3,
+Write(filename="Figure_2", width=FIG_WIDTH, height=FIG_WIDTH*2/3,
       family=FONT_FAMILY, pointsize=FONT_PT)
 
 par(mar=rep(0, 4), mfrow=c(2, 3), mai=rep(0, 4), ps=FONT_PT)
@@ -442,7 +441,7 @@ Panel('c')
 
 analyses <- orAnalyses[c(7, 8, 1:6)]
 legend('bottomright', bty='n', lty=1, pch=PCH[analyses], col=COL[analyses],
-       pt.cex=1.1, inset=c(0, -0.238),
+       pt.cex=1.1,
        legend=c('Markov', 'Equal weights', paste0('Implied, k=', 
                                                   rev(c(2, 3, 5, 10, 20, 200))))
   )
