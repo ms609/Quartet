@@ -382,7 +382,7 @@ quartets may be resolved in the same way ($s$) or differently ($d$).  Otherwise,
 the quartet may be resolved in tree 1 only ($r_1$), resolved in tree 2 only ($r_2$),
 or unresolved in both trees ($u$).
 
-Various assemblies of these measures provide four quartet measures for 
+Various combinations of these measures provide four quartet measures for 
 trees that contain polytomies:
 
 * $(Q - d) / Q$ gives the number of quartets that do not conflict (_DNC_). 
@@ -413,7 +413,6 @@ correct configuration) and the $r_2$ quartets that are resolved only on the seco
 tree.  The normalized quartet distance (_QD_) is given by 
 $(2d + r_1 + r_2) / 2Q$.  (An equivalent calculation underpins the
 normalized symmetric difference partition metric.)
-
 In bifurcating trees, these five measures evaluate to the same quantity
 [@Estabrook1985].  
 
@@ -731,7 +730,7 @@ knitr::kable(t(round(how_suboptimal, 4)))
 The partition metric advocates a greater loss of resolution than the quartet metric.
 Otherwise, it too finds no statistically significant difference between the effectiveness of the methods, except again that equal weights, and implied weights with _k_ = 1, are significantly worse.
 
-```{R Partition-significance}
+```{R Partition-significance, include=FALSE}
 treeBests <- vapply(clPartitions,
                     function (item) apply(item['RF_dist', , ], 2, min),
                     double(length(TREES)))
