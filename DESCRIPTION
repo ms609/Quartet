@@ -17,14 +17,14 @@ Authors@R: c(person("Martin R.", 'Smith',
                   role=c("aut", "cre", "cph"), 
                   comment=c(ORCID = "0000-0001-5660-1727")),
                person(given = "Klaus", family="Vigo", role = c("cph")),
-               person('Andreas', 'Sand', role=c('cph')),
-               person('Gerth', 'Stølting Brodal', role=c('cph')),
-               person('Rolf', 'Fagerberg', role=c('cph')),
-               person('Thomas', 'Mailund', role=c('cph')),
+               person('Andreas', 'Sand', role=c('ant')),
+               person('Gerth', 'Stølting Brodal', role=c('ant')),
+               person('Rolf', 'Fagerberg', role=c('ant')),
+               person('Thomas', 'Mailund', role=c('ant')),
                person('Christian N. S.', 'Pedersen', email='cstorm@birc.au.dk',
-                      role=c('cph')),
-               person('Jens', 'Johansen', role=c('cph')),
-               person('Morten K.', 'Holt', role=c('cph'))
+                      role=c('ant')),
+               person('Jens', 'Johansen', role=c('ant')),
+               person('Morten K.', 'Holt', role=c('ant'))
             )
 Copyright: Incorporates code from tqDist (Sand et al. 2014) and phangorn (Klaus Vigo).
 License: GPL (>= 2)
@@ -35,12 +35,12 @@ Imports:
     ape,
     memoise,
     phangorn,
+    Rcpp,
     Rdpack,
     TreeSearch
 Suggests:
     knitr,
     rmarkdown,
-    rtqdist,
     Ternary (>= 1.0),
     testthat
 RdMacros: Rdpack
