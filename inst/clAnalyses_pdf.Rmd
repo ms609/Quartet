@@ -10,7 +10,7 @@ output:
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/dependent/biology-letters.csl
 link-citations: yes
-github-repo: ms609/SlowQuartet
+github-repo: ms609/Quartet
 vignette: >
   %\VignetteIndexEntry{Congreve & Lamsdell - individual trees}
   %\VignetteEngine{knitr::rmarkdown}

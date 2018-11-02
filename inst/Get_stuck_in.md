@@ -11,7 +11,7 @@ You'll want to install:
 Then you'll want your own copy of the files.
 
 - Create an account with [GitHub](https://github.com/join)
-- _Fork_ the [SlowQuartet](https://github.com/ms609/SlowQuartet) repository by clicking
+- _Fork_ the [Quartet](https://github.com/ms609/Quartet) repository by clicking
   the "Fork" button at the top-right of its page
 - Run Github Desktop and log in.  Head to _File→Clone repository_ (Shift-Ctrl-O).
   The fork you just made should appear in the GitHub.com tab.
@@ -20,7 +20,7 @@ Then you'll want your own copy of the files.
 ## Exploring
 
 Now open RStudio and create a _File→New project_ from an existing directory,
-using the SlowQuartet folder that you just created.  In RStudio, navigate to 
+using the Quartet folder that you just created.  In RStudio, navigate to 
 `data-raw/Congreve2016.Rmd`.  You can run one code chunk at a time by clicking 
 their green "play" arrows, or one line at a time by keying _Ctrl-Enter_ whilst
 the cursor is on that line.  See whether you can understand what is happening.

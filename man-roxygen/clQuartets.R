@@ -35,4 +35,4 @@
 #' }
 #' 
 #' @seealso \link{congreveLamsdellMatrices}, \link{referenceTree}.
-#' @source \insertRef{Congreve2016}{SlowQuartet}
+#' @source \insertRef{Congreve2016}{Quartet}

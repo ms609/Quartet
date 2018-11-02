@@ -1,5 +1,5 @@
 require('ape')
-require('SlowQuartet')
+require('Quartet')
 library('Ternary')
 data('sq_trees')
 data('clQuartets')
