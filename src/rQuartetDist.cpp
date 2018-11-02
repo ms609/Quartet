@@ -107,4 +107,4 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
   }
   
   return IM_res;
-}
+  

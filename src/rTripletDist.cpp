@@ -77,4 +77,3 @@ IntegerMatrix tqdist_AllPairsTripletDistance(SEXP file) {
   
   return IM_res;
 }
-

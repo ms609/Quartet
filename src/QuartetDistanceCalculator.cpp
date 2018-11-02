@@ -60,7 +60,7 @@ void QuartetDistanceCalculator::pairs_quartet_distance_verbose(std::ostream &out
     // INTTYPE_N4 resolvedQuartetsDisagreeDiag = get_resolvedQuartetsDisagreeDiag();
     INTTYPE_N4 resolvedQuartetsAgreeUpper = get_resolvedQuartetsAgreeUpper();
     // INTTYPE_N4 resolvedQuartetsDisagreeUpper = get_resolvedQuartetsDisagreeUpper();
-    
+
     INTTYPE_N4 n = get_n();
     INTTYPE_N4 totalNoQuartets = get_totalNoQuartets();
     double dist_norm = double(dist) / double(totalNoQuartets);
@@ -141,7 +141,6 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filen
 
   return res;
 }
-
 
 INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2) {
 
