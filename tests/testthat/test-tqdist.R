@@ -35,7 +35,9 @@ test_that("tqDist returns correct triplet distances", {
 
   allPairs <- AllPairsTripletDistance("../trees/two_trees.new");
   
-  expect_equal(allPairs[1, 0],  26L)
-  expect_equal(allPairs[0, 0],  0L)
-  expect_equal(allPairs[2, 1],  26L)
+  # Tests taken from those provided with tqDist
+  # 1 added to convert from C to R (first element = 1)
+  expect_equal(allPairs[1 + 1L, 0 + 1L],  26L)
+  expect_equal(allPairs[0 + 1L, 0 + 1L],  0L)
+  expect_equal(allPairs[2 + 1L, 1 + 1L],  26L)
 })
