@@ -13,16 +13,17 @@ using namespace Rcpp;
 //' @describeIn tqdist_QuartetDistance Triplet distance between two trees
 //' @export
 // [[Rcpp::export]]
-NumericVector tqdist_TripletDistance(SEXP filename1_sexp, SEXP filename2_sexp) {
+NumericVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
   const char *filename1;
   const char *filename2;
 
-  filename1 = CHAR(STRING_ELT(filename1_sexp,0));
-  filename2 = CHAR(STRING_ELT(filename2_sexp,0));
+  filename1 = CHAR(STRING_ELT(file1, 0));
+  filename2 = CHAR(STRING_ELT(file2, 0));
 
   TripletDistanceCalculator tripletCalc;
 
   INTTYPE_REST res = tripletCalc.calculateTripletDistance(filename1, filename2);
+  
   NumericVector NV_res(1);
   NV_res = res;
   return NV_res;
@@ -31,25 +32,33 @@ NumericVector tqdist_TripletDistance(SEXP filename1_sexp, SEXP filename2_sexp) {
 //' @describeIn tqdist_QuartetDistance Triplet distance between pairs
 //' @export
 // [[Rcpp::export]]
-NumericVector tqdist_PairsTripletDistance(SEXP filename1_sexp, SEXP filename2_sexp) {
+NumericVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
   const char * filename1;
-  filename1 = CHAR(STRING_ELT(filename1_sexp,0));
   const char * filename2;
-  filename2 = CHAR(STRING_ELT(filename2_sexp,0));
-
+  
+  filename1 = CHAR(STRING_ELT(file1, 0));
+  filename2 = CHAR(STRING_ELT(file2, 0));
+  
+  Rcpp::stop("YES");
   TripletDistanceCalculator tripletCalc;
   std::vector<INTTYPE_REST> res = tripletCalc.pairs_triplet_distance(filename1, filename2);
-  NumericVector NV_res(1);
-  NV_res = res;
+  
+  Rcpp::stop("NO");
+  
+  NumericVector NV_res(res.size());
+  for (size_t i = 0; i < res.size(); ++i) {
+    NV_res[i] = res[i];
+  }
   return NV_res;
 }
 
 //' @describeIn tqdist_QuartetDistance Triplet distance between all pairs
 //' @export
 // [[Rcpp::export]]
-IntegerMatrix tqdist_AllPairsTripletDistance(SEXP filename_sexp) {
+IntegerMatrix tqdist_AllPairsTripletDistance(SEXP file) {
   const char * filename;
-  filename = CHAR(STRING_ELT(filename_sexp,0));
+  
+  filename = CHAR(STRING_ELT(file, 0));
 
   TripletDistanceCalculator tripletCalc;
   std::vector<std::vector<INTTYPE_REST> > res = tripletCalc.calculateAllPairsTripletDistance(filename);

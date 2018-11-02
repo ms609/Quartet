@@ -16,6 +16,7 @@ QuartetDistance <- function(file1, file2) {
   .Call('_Quartet_tqdist_QuartetDistance', as.character(file1), as.character(file2));
 }
 
+#' @export
 #' @describeIn QuartetDistance Distance between pairs
 PairsQuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
@@ -23,12 +24,14 @@ PairsQuartetDistance <- function(file1, file2) {
   .Call('_Quartet_tqdist_PairsQuartetDistance', as.character(file1), as.character(file2));
 }
 
+#' @export
 #' @describeIn QuartetDistance Distance between all pairs
 AllPairsQuartetDistance <- function(file) {
   ValidateQuartetFile(file)
   .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
 }
 
+#' @export
 #' @describeIn QuartetDistance Triplet distance between trees
 TripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
@@ -36,6 +39,7 @@ TripletDistance <- function(file1, file2) {
   .Call('_Quartet_tqdist_TripletDistance', as.character(file1), as.character(file2));
 }
 
+#' @export
 #' @describeIn QuartetDistance Triplet distance between pairs
 PairsTripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
@@ -43,6 +47,7 @@ PairsTripletDistance <- function(file1, file2) {
   .Call('_Quartet_tqdist_PairsTripletDistance', as.character(file1), as.character(file2));
 }
 
+#' @export
 #' @describeIn QuartetDistance Triplet distance between all pairs
 AllPairsTripletDistance <- function(file) {
   ValidateQuartetFile(file)

@@ -10,12 +10,16 @@ test_that("tqDist returns correct quartet distances", {
   expect_equal(QuartetDistance("../trees/test_tree3.new", "../trees/test_tree4.new"), 5485860L)
   expect_equal(QuartetDistance("../trees/test_tree4.new", "../trees/test_tree3.new"), 5485860L)
  
+  #expect_equal(PairsQuartetDistance("../trees/quartet1.new", "../trees/two_quartets.new"), c(0, 1))
+ 
   allPairs <- AllPairsQuartetDistance("../trees/five_trees.new")
   
-  expect_equal(allPairs[1, 0], 1L)
-  expect_equal(allPairs[0, 0], 0L)
-  expect_equal(allPairs[2, 1], 1L)
-  expect_equal(allPairs[3, 2], 1L)
+  # Tests taken from those provided with tqDist
+  # 1 added to convert from C to R (first element = 1)
+  expect_equal(allPairs[1 + 1L, 0 + 1L], 1L)
+  expect_equal(allPairs[0 + 1L, 0 + 1L], 0L)
+  expect_equal(allPairs[2 + 1L, 1 + 1L], 1L)
+  expect_equal(allPairs[3 + 1L, 2 + 1L], 1L)
 })
 
 test_that("tqDist returns correct triplet distances", {

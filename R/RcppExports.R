@@ -26,31 +26,31 @@ tqdist_QuartetDistance <- function(file1, file2) {
 
 #' @describeIn tqdist_QuartetDistance Distance between pairs
 #' @export
-tqdist_PairsQuartetDistance <- function(filename1_sexp, filename2_sexp) {
-    .Call(`_Quartet_tqdist_PairsQuartetDistance`, filename1_sexp, filename2_sexp)
+tqdist_PairsQuartetDistance <- function(file1, file2) {
+    .Call(`_Quartet_tqdist_PairsQuartetDistance`, file1, file2)
 }
 
 #' @describeIn tqdist_QuartetDistance Distance between all pairs
 #' @export
-tqdist_AllPairsQuartetDistance <- function(filename_sexp) {
-    .Call(`_Quartet_tqdist_AllPairsQuartetDistance`, filename_sexp)
+tqdist_AllPairsQuartetDistance <- function(file) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetDistance`, file)
 }
 
 #' @describeIn tqdist_QuartetDistance Triplet distance between two trees
 #' @export
-tqdist_TripletDistance <- function(filename1_sexp, filename2_sexp) {
-    .Call(`_Quartet_tqdist_TripletDistance`, filename1_sexp, filename2_sexp)
+tqdist_TripletDistance <- function(file1, file2) {
+    .Call(`_Quartet_tqdist_TripletDistance`, file1, file2)
 }
 
 #' @describeIn tqdist_QuartetDistance Triplet distance between pairs
 #' @export
-tqdist_PairsTripletDistance <- function(filename1_sexp, filename2_sexp) {
-    .Call(`_Quartet_tqdist_PairsTripletDistance`, filename1_sexp, filename2_sexp)
+tqdist_PairsTripletDistance <- function(file1, file2) {
+    .Call(`_Quartet_tqdist_PairsTripletDistance`, file1, file2)
 }
 
 #' @describeIn tqdist_QuartetDistance Triplet distance between all pairs
 #' @export
-tqdist_AllPairsTripletDistance <- function(filename_sexp) {
-    .Call(`_Quartet_tqdist_AllPairsTripletDistance`, filename_sexp)
+tqdist_AllPairsTripletDistance <- function(file) {
+    .Call(`_Quartet_tqdist_AllPairsTripletDistance`, file)
 }
 
