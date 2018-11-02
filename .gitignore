@@ -25,3 +25,5 @@ vignettes/*.pdf
 vignettes/*_files
 # The following line is to facilitate housekeeping and should be deleted:
 *.run*.nex
+*.doc
+*.eps
