@@ -1,11 +1,12 @@
 ---
-title: "Ternary plots for Congreve & Lamsdell matrices"
-author: "Martin R. Smith"
+title: "Precision and accuracy in Congreve & Lamsdell matrices"
+author: "Martin R. Smith <martin.smith@durham.ac.uk>"
 date: "`r Sys.Date()`"
 output: 
   bookdown::pdf_document2:
+    toc: yes
     includes:
-      in_header: preamble.tex
+      in_header: ../inst/preamble.tex
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/dependent/biology-letters.csl
 link-citations: yes
