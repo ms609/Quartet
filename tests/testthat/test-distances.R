@@ -18,13 +18,11 @@ test_that("Quartets are counted correctly", {
   
   quartet_matches <- MatchingQuartets(sq_trees)
   qb_matches <- quartet_matches['s', bifurcators]
-  
-  if ('rtqdist' %in% installed.packages()[, 'Package']) {
-    tq_distances <- TQDist(treeList <- sq_trees[bifurcators])
-    tq_matches <- choose(n_tip, 4) - tq_distances[1, ]
-    expect_equal(tq_matches, as.integer(qb_matches))
-  }
-  
+
+  tq_distances <- TQDist(treeList <- sq_trees[bifurcators])
+  tq_matches <- choose(n_tip, 4) - tq_distances[1, ]
+  expect_equal(tq_matches, as.integer(qb_matches))
+
   expected_identical <- c(330, 322, 278, 254, 306, 252, 238, 322, 207, 270, 213, 244, 125, 86, 104)
   expected_ambiguous <- c(rep(0, 7), 8, 123, 8, 65, 8, 205, 0, 0)
   
@@ -100,11 +98,9 @@ test_that("Random trees are 1/3 similar", {
     expect_equal(0, sum(sq_matches[c('r1', 'r2', 'u'), ]))
     expect_true(t.test(sq_matches['s', ], mu=n_quartets * 1 / 3)$p.value > 0.01)
     
-    if ('rtqdist' %in% installed.packages()[, 'Package']) {
-      tq_distances <- TQDist(random_trees)
-      tq_unique <- tq_distances[upper.tri(tq_distances)]
-      expect_true(t.test(tq_unique,       mu=n_quartets * 2 / 3)$p.value > 0.01)
-      expect_equal(tq_distances[1, ], n_quartets - sq_matches['s', ])
-    }
+    tq_distances <- TQDist(random_trees)
+    tq_unique <- tq_distances[upper.tri(tq_distances)]
+    expect_true(t.test(tq_unique,       mu=n_quartets * 2 / 3)$p.value > 0.01)
+    expect_equal(tq_distances[1, ], n_quartets - sq_matches['s', ])
   } 
 })
