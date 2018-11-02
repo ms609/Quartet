@@ -289,7 +289,7 @@ TQDist <- function (treeList) {
   fileName <- paste0('~temp', substring(runif(1), 3), '.trees')
   write.tree(treeList, file=fileName)
   on.exit(file.remove(fileName))
-  rtqdist::allPairsQuartetDistance(fileName)
+  AllPairsQuartetDistance(fileName)
 }
 
 #' Unshift Tree
@@ -333,19 +333,10 @@ UnshiftTree <- function(add, treeList) {
 #' Given a list of trees, returns the number of quartet statements present in the first tree
 #' in the list also present in each other tree.
 #' 
-#' If all trees are bifurcating and the package `rtqdist` (Sand 2014) is installed, then the
-#' function will use the faster `rtqdist`` package to generate quartet distances.
-#' Otherwise the distances will be generated (slowly) within R.
-#' 
-#' rtqDist can be installed by copying the following code into your console:
-#' \code{install.packages(
-#' 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
-#'  repos=NULL, type='source')}
-#'  or by [downloading the package](http://users-cs.au.dk/cstorm/software/tqdist/)
-#'  and extracting the zipped directory into your library directory (which you 
-#'  can locate by typing `.libPaths()` into your console).
-#'  (Note that tqDist version 1.0.1 does not contain the R package)
-#'   
+#' If all trees are bifurcating, then the function will use the faster
+#' `tqdist` algorithm to generate quartet distances.
+#' Otherwise the distances will be generated (slowly) by explicit enumeration.
+#' #'   
 #'   At present the trees must bear the same number of tips, and each tree$tip.label must use
 #'   the integers 1:n_tip.  Support for different-sized trees will be added if there is demand; 
 #'   contact the author if you would appreciate this functionality.
@@ -355,9 +346,7 @@ UnshiftTree <- function(add, treeList) {
 #' 
 #' @template treesParam
 #' @template treesCfParam
-#' @param use.tqDist Logical specifying whether to attempt to use the tqDist algorithm.
-#'               Requires that the `rtqdist` package is installed.
-#'
+#' 
 #' @templateVar intro Returns a two dimensional array. Columns correspond to the input trees; the first column will always         report a perfect match as it compares the first tree to itself.         Rows list the status of each quartet:
 #' @template returnEstabrook
 #'         
@@ -389,22 +378,21 @@ MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
   if (length(unique(treeStats[2, ])) > 1) {
     stop("All trees must have the same number of tips")
   }
-  if (use.tqDist && length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
-    if ('rtqdist' %in% installed.packages()[, 'Package']) {
-      tqDistances <- TQDist(trees)
-      nTrees <- length(trees)
-      nQuartets <- choose(length(trees[[1]]$tip.label), 4)
-      tqDiffs <- tqDistances[1, ]
-      t(data.frame(
-        Q = rep(nQuartets, nTrees),
-        s = nQuartets - tqDiffs,
-        d = tqDiffs,
-        r1 = integer(nTrees),
-        r2 = integer(nTrees),
-        u = integer(nTrees)
-      ))
-    }
+  if (length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
+    tqDistances <- TQDist(trees)
+    nTrees <- length(trees)
+    nQuartets <- choose(length(trees[[1]]$tip.label), 4)
+    tqDiffs <- tqDistances[1, ]
+    t(data.frame(
+      Q = rep(nQuartets, nTrees),
+      s = nQuartets - tqDiffs,
+      d = tqDiffs,
+      r1 = integer(nTrees),
+      r2 = integer(nTrees),
+      u = integer(nTrees)
+    ))
   }
+  
   tree1Labels <- trees[[1]]$tip.label
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   quartets <- QuartetStates(lapply(trees, Tree2Splits))
