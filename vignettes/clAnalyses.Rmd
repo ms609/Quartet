@@ -98,7 +98,7 @@ Plottem <- function (i) {
   TREE <- if (i < 34) i else (i - 1)
   
   TernaryQuarts(TREE=TREE)
-  title(main=paste0("\r\nQuartets"), cex.main=0.8)
+  title(main=paste0("\nQuartets"), cex.main=0.8)
   arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
   text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
   
@@ -106,13 +106,13 @@ Plottem <- function (i) {
   text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
   
   TernaryQuarts(TREE=TREE, zoom=3, padding=0.01)
-  title(main=paste0("\r\nDataset ", i, ": CI=",round(clCI[i], 2)), cex.main=1.2)
+  title(main=paste0("\nDataset ", i, ": CI=",round(clCI[i], 2)), cex.main=1.2)
   
   TernaryPlot('Unresolved', 'Different', 'Same', point='right', lab.cex=0.8,
               grid.lines = 19, grid.lty='solid', col=BG_COL, grid.col=GRID_COL, 
               axis.col=rgb(0.6, 0.6, 0.6), 
               padding=0.1, axis.labels = 0:19)
-  title(main="\r\nPartitions", cex.main=0.8)
+  title(main="\nPartitions", cex.main=0.8)
   
   HorizontalGrid(19)
   partition_distances <- SplitsPoints(sq_trees)
