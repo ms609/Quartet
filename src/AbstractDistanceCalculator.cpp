@@ -21,7 +21,8 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
   int largestN = largest->data->n;
   TemplatedLinkedList<RootedTree*> *beforeLargest = NULL;
   TemplatedLinkedList<RootedTree*> *prev = v->children;
-  for(TemplatedLinkedList<RootedTree*> *current = v->children->next; current != NULL; current = current->next) {
+  for(TemplatedLinkedList<RootedTree*> *current = v->children->next;
+      current != NULL; current = current->next) {
     if (current->data->n > largestN) {
       largest = current;
       beforeLargest = prev;
@@ -37,7 +38,8 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
   
   // Color i'th subtree (i > 1) with color i
   int c = 2;
-  for(TemplatedLinkedList<RootedTree*> *current = v->children->next; current != NULL; current = current->next) {
+  for(TemplatedLinkedList<RootedTree*> *current = v->children->next;
+      current != NULL; current = current->next) {
     current->data->colorSubtree(c);
     c++;
   }
@@ -50,7 +52,8 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
   // Extract
   RootedTree** extractedVersions = new RootedTree*[v->numChildren - 1];
   c = 0;
-  for(TemplatedLinkedList<RootedTree*> *current = v->children->next; current != NULL; current = current->next) {
+  for(TemplatedLinkedList<RootedTree*> *current = v->children->next;
+      current != NULL; current = current->next) {
     if (current->data->isLeaf() || current->data->n <= 2) {
       extractedVersions[c] = NULL;
     } else {
@@ -59,12 +62,13 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
       extractedVersions[c] = extractedT2->contract();
       delete extractedT2->factory;
     }
-    c++; // Weee :)
+    c++;
   }
 #endif
 
   // Color to 0
-  for(TemplatedLinkedList<RootedTree*> *current = v->children->next; current != NULL; current = current->next) {
+  for(TemplatedLinkedList<RootedTree*> *current = v->children->next;
+      current != NULL; current = current->next) {
     current->data->colorSubtree(0);
   }
 
@@ -102,7 +106,8 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
   
   // Color 1 and recurse
   c = 0;
-  for(TemplatedLinkedList<RootedTree*> *current = v->children->next; current != NULL; current = current->next) {
+  for(TemplatedLinkedList<RootedTree*> *current = v->children->next;
+      current != NULL; current = current->next) {
     if (!current->data->isLeaf() && current->data->n > 2) {
 #ifdef doExtractAndContract
       hdt = HDT::constructHDT(extractedVersions[c], t1->maxDegree, dummyHDTFactory, true);
