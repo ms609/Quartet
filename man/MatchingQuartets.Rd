@@ -4,7 +4,7 @@
 \alias{MatchingQuartets}
 \title{Matching Quartets}
 \usage{
-MatchingQuartets(trees, cf = NULL, use.tqDist = TRUE)
+MatchingQuartets(trees, cf = NULL)
 }
 \arguments{
 \item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}}, with identically-labelled tips.}
