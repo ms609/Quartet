@@ -12,8 +12,6 @@ test_that("Quartets are counted correctly", {
   easyTreesy <- list(
     ape::read.tree(text='((1, 2), ((3, 4), (6, 5)));'),
     ape::read.tree(text='((1, 5), (3, (4, (2, 6))));'))
-  expect_identical(MatchingQuartets(easyTreesy, use.tqDist = TRUE),
-                   MatchingQuartets(easyTreesy, use.tqDist = FALSE))
   expect_identical(c(15, 2), MatchingQuartets(easyTreesy)['s',])
   
   quartet_matches <- MatchingQuartets(sq_trees)
@@ -94,7 +92,7 @@ test_that("Random trees are 1/3 similar", {
     random_trees <- lapply(rep(n_tip, 50), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
     n_quartets <- choose(n_tip, 4)
     
-    sq_matches <- MatchingQuartets(random_trees, use.tqDist=FALSE)
+    sq_matches <- MatchingQuartets(random_trees)
     expect_equal(0, sum(sq_matches[c('r1', 'r2', 'u'), ]))
     expect_true(t.test(sq_matches['s', ], mu=n_quartets * 1 / 3)$p.value > 0.01)
     
