@@ -35,13 +35,17 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(const 
   NewickParser parser;
   
   std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
-  if (unrootedTrees1.size() == 0 || parser.isError()) {
-    Rcpp::stop("Error parsing filename1");
+  if (unrootedTrees1.size() == 0) {
+    Rcpp::stop("No trees found in filename1; does file end with blank line?");
+  } else if (parser.isError()) {
+    Rcpp::stop("Error parsing filename1 in pairs_quartet_distance -> parser.parseMultiFile");
   }
 
   std::vector<UnrootedTree *> unrootedTrees2  = parser.parseMultiFile(filename2); 
-  if (unrootedTrees2.size() == 0 || parser.isError()) {
-    Rcpp::stop("Error parsing filename2");
+  if (unrootedTrees2.size() == 0) {
+    Rcpp::stop("No trees found in filename2; does file end with blank line?");
+  } else if (parser.isError()) {
+    Rcpp::stop("Error parsing filename2 in pairs_quartet_distance -> parser.parseMultiFile");
   }
 
   return pairs_quartet_distance(unrootedTrees1, unrootedTrees2);
@@ -112,13 +116,12 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filen
 
   ut1 = parser.parseFile(filename1);
   if (ut1 == NULL || parser.isError()) {
-    Rcpp::stop("Failed to parse filename1");
+    Rcpp::stop("calculateQuartetDistance failed to parse filename1");
   }
 
   ut2 = parser.parseFile(filename2);
   if(ut2 == NULL || parser.isError()) {
-    Rcpp::stop("Failed to parse filename2");
-    return -1;
+    Rcpp::stop("calculateQuartetDistance failed to parse filename2");
   }
 
   INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
@@ -144,6 +147,7 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1,
   this->t1->pairAltWorld(this->t2);
   if (this->t1->isError()) {
     Rcpp::stop("The two trees do not have the same set of leaves.");
+    return -1;
   }
   
   // Section 3 of Soda13: Counting unresolved triplets and quartets in a single tree
