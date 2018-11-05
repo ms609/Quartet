@@ -171,9 +171,9 @@ INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(RootedTree *t1,
 
   count(t1);
   // HDT is deleted in count if extracting and contracting!
-#ifndef doExtractAndContract
+// Assert ndef: #ifndef doExtractAndContract
   delete hdt->factory;
-#endif
+// #endif
 	
   return totalNoTriplets - resolvedTriplets - unresolvedTriplets;
 }

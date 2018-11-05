@@ -161,9 +161,10 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1,
   
   count(this->t1);
 
-#ifndef doExtractAndContract
+// assert ndef: #ifndef doExtractAndContract
+// factory deleted in count if def.
   delete hdt->factory;
-#endif
+// #endif
 
   n = this->t1->n;
   totalNoQuartets = Util::binom4(n);
