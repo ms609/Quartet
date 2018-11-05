@@ -1,5 +1,7 @@
 #include "TripletDistanceCalculator.h"
 
+#include <Rcpp.h>
+using namespace Rcpp;
 #include "hdt.h"
 #include "hdt_factory.h"
 #include "newick_parser.h"
@@ -52,12 +54,12 @@ std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(cons
   
   std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
   if (unrootedTrees1.size() == 0 || parser.isError()) {
-    Rcpp::stop("Error: Parsing of filename1 failed.");
+    stop("Error: Parsing of filename1 failed.");
   }
 
   std::vector<UnrootedTree *> unrootedTrees2  = parser.parseMultiFile(filename2); 
   if (unrootedTrees2.size() == 0 || parser.isError()) {
-    Rcpp::stop("Error: Parsing of filename2 failed.");
+    stop("Error: Parsing of filename2 failed.");
   }
 
   return pairs_triplet_distance(unrootedTrees1, unrootedTrees2);
@@ -86,7 +88,7 @@ std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::calculateAllP
   
   std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
-    Rcpp::stop("Error: Parsing of filename failed.");
+    stop("Error: Parsing of filename failed.");
   }
 
   std::vector<std::vector<INTTYPE_REST> > results = calculateAllPairsTripletDistance(unrootedTrees);
@@ -130,12 +132,12 @@ INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(const char *fil
 
   ut1 = parser.parseFile(filename1);
   if (ut1 == NULL || parser.isError()) {
-    Rcpp::stop("Failed to parse filename1");
+    stop("Failed to parse filename1");
   }
 
   ut2 = parser.parseFile(filename2);
   if(ut2 == NULL || parser.isError()) {
-    Rcpp::stop("Failed to parse filename2");
+    stop("Failed to parse filename2");
   }
 
   rt1 = ut1->convertToRootedTree(NULL);
@@ -155,7 +157,7 @@ INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(RootedTree *t1,
   this->t1 = t1;
   t1->pairAltWorld(t2);
   if (t1->isError()) {
-    Rcpp::stop("The two trees do not have the same set of leaves");
+    stop("The two trees do not have the same set of leaves");
   }
   
   // Section 3 of Soda13: Counting unresolved triplets and quartets in a single tree

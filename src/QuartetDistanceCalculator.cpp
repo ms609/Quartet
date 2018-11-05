@@ -1,6 +1,7 @@
 #include "QuartetDistanceCalculator.h"
 #include "int_stuff.h"
 
+#include <Rcpp.h>
 #include "hdt.h"
 #include "hdt_factory.h"
 #include "newick_parser.h"

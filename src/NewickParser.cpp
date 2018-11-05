@@ -1,5 +1,6 @@
 #include "newick_parser.h"
 
+#include <Rcpp.h>
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
