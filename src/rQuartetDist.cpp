@@ -4,7 +4,7 @@ using namespace Rcpp;
 
 #undef INTTYPE_N4
 #ifdef WIN32
-  #define INTTYPE_N4 long long
+  #define INTTYPE_N4 int64_t
 #else
 #define INTTYPE_N4  __int128_t
 #endif
