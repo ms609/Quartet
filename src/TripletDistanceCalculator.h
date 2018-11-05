@@ -9,9 +9,6 @@
 #include <vector>
 
 class 
-#ifdef _WIN32
-	__declspec(dllexport)
-#endif
 TripletDistanceCalculator : private AbstractDistanceCalculator {
  public:
   TripletDistanceCalculator();

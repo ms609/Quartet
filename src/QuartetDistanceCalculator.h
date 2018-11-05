@@ -6,9 +6,6 @@
 #include "unrooted_tree.h"
 
 class 
-#ifdef _WIN32
-	__declspec(dllexport)
-#endif
 QuartetDistanceCalculator : private AbstractDistanceCalculator {
  public:
   QuartetDistanceCalculator();
