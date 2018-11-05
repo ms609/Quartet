@@ -24,6 +24,12 @@ tqdist_QuartetDistance <- function(file1, file2) {
     .Call(`_Quartet_tqdist_QuartetDistance`, file1, file2)
 }
 
+#' @describeIn tqdist_QuartetDistance Status of each quartet
+#' @export
+tqdist_QuartetStatus <- function(file1, file2) {
+    .Call(`_Quartet_tqdist_QuartetStatus`, file1, file2)
+}
+
 #' @describeIn tqdist_QuartetDistance Distance between pairs
 #' @export
 tqdist_PairsQuartetDistance <- function(file1, file2) {
