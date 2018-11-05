@@ -324,7 +324,8 @@ pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10,
 pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 
-random_trees <- lapply(1:10000, function (x) rtree(11, br=NULL, tip.label=1:11))
+n_random <- if(Sys.getenv('TRAVIS')) 10 else 10000
+random_trees <- lapply(seq_len(n_random), function (x) rtree(11, br=NULL, tip.label=1:11))
 random_quartets <- MatchingQuartets(random_trees, cf=pectinate_tree)['d', ] / choose(11,4)
 random_distances <- vapply(random_trees, phangorn::treedist,
                            tree2=pectinate_tree, double(2))

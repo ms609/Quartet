@@ -26,6 +26,7 @@ r_binary_packages:
  - roxygen2
  - testthat
  
+# Some packages not available as binaries:
 r_packages:
  - bookdown
  - Ternary
