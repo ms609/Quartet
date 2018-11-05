@@ -370,7 +370,7 @@ UnshiftTree <- function(add, treeList) {
 #' @importFrom TreeSearch RenumberTips
 #' @importFrom utils installed.packages
 #' @export
-MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
+MatchingQuartets <- function (trees, cf=NULL) {
   if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
   
   treeStats <- vapply(trees, function (tr)

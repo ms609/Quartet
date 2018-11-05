@@ -186,8 +186,7 @@ RootedTree* HDT::extractAndGoBackImpl(RootedTree *addToMe, RootedTreeFactory *fa
 	}
 	else
 	{
-		cout << "Didn't expect this type combination..." << endl;
-		exit(-1);
+	  Rcpp::stop("Didn't expect this type combination...");
 	}
 }
 

@@ -67,9 +67,7 @@ UnrootedTree* NewickParser::parseFile(const char* filename) {
     UnrootedTree *t = parse();
     return t;
   } else { // Couldn't open file!
-    cerr << "Couldn't open file \"" << filename << "\"!" << std::endl;
-    parseError = true;
-    std::exit(-1);
+    Rcpp::stop("Nexus Parser couldn't open file");
   }
 }
 
@@ -102,10 +100,7 @@ std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
     infile.close();
     return trees;
   } else {
-    // Couldn't open file!
-    cerr << "Couldn't open file \"" << filename << "\"!" << std::endl;
-    parseError = true;
-    std::exit(-1);
+    Rcpp::stop("Nexus Parser couldn't open multifile");
   }
 }
 

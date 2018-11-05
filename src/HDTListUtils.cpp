@@ -47,7 +47,7 @@ void HDT::addToNumList(CountingLinkedList *parent, AddToType list, unsigned int 
 		case i_j: {INITIALIZE_PAREN_AND_SET_LIST(n_i_j, n_i_j_is_reset); break;}
 		case j_arrow_i: {INITIALIZE_PAREN_AND_SET_LIST(n_j_arrow_i, n_j_arrow_i_is_reset); break;}
 		case i_arrow_j: {INITIALIZE_PAREN_AND_SET_LIST(n_i_arrow_j, n_i_arrow_j_is_reset); break;}
-		default: exit(-1);
+	  default: Rcpp::stop("HDT: Error adding to numlist");
 	}
 
 	if (!isReset)
