@@ -49,7 +49,45 @@ IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file
   
   INTTYPE_N4 res = quartetCalc.calculateQuartetDistance(filename1, filename2);
   IntegerVector IV_res(1);
-  IV_res = (int64_t) res;
+  IV_res[0] = (int64_t) res;
+  return IV_res;
+}
+
+
+//' @describeIn tqdist_QuartetDistance Status of each quartet
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_QuartetStatus(CharacterVector file1, CharacterVector file2) {
+  int n1 = file1.size(), n2 = file2.size();
+  if (n1 != 1 || n2 != 1) {
+    Rcpp::stop("file1 and file2 must be character vectors of length 1");
+  }
+  
+  const char *filename1;
+  const char *filename2;
+  
+  filename1 = CHAR(STRING_ELT(file1, 0));
+  filename2 = CHAR(STRING_ELT(file2, 0));
+  
+  QuartetDistanceCalculator quartetCalc;
+  INTTYPE_N4 dist = quartetCalc.calculateQuartetDistance(filename1, filename2);
+  
+  INTTYPE_N4 resolvedQuartetsAgree = quartetCalc.get_resolvedQuartetsAgree();
+  INTTYPE_N4 resolvedQuartetsAgreeDiag = quartetCalc.get_resolvedQuartetsAgreeDiag();
+  INTTYPE_N4 resolvedQuartetsAgreeUpper = quartetCalc.get_resolvedQuartetsAgreeUpper();
+  
+  INTTYPE_N4 nLeaves = quartetCalc.get_n();
+  INTTYPE_N4 totalNoQuartets = quartetCalc.get_totalNoQuartets();
+  INTTYPE_N4 resAgree = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
+  INTTYPE_N4 unresolvedQuartetsAgree = quartetCalc.get_unresolvedQuartets();
+  
+  IntegerVector IV_res(5);
+  IV_res[0] = (int) dist;
+  IV_res[1] = (int) resAgree;
+  IV_res[2] = (int) unresolvedQuartetsAgree;
+  IV_res[3] = (int) totalNoQuartets;
+  IV_res[4] = (int) nLeaves;
+  
   return IV_res;
 }
 
@@ -73,7 +111,7 @@ IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector
   std::vector<INTTYPE_N4> res = quartetCalc.pairs_quartet_distance(filename1, filename2);
   
   IntegerVector IV_res(res.size());
-  for (size_t i = 0; i < res.size(); ++i) {
+  for (size_t i = 0; i < res.size(); i++) {
     IV_res[i] = (int64_t) res[i];
   }
   return IV_res;
@@ -97,8 +135,8 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
   IntegerMatrix IM_res(res.size(), res.size());
 //  int *ians = INTEGER(res_sexp);
   
-  for (size_t r = 0; r < res.size(); ++r) {
-    for (size_t c = 0; c < r; ++c) {
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c < r; c++) {
       int current_res = int(res[r][c]);
       IM_res[r + res.size() * c] = current_res;
       IM_res[c + res.size() * r] = current_res;
