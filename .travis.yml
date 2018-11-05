@@ -13,11 +13,15 @@ git:
   depth: 5
 
 r_binary_packages:
+ - ape
+ - bookdown
  - covr
  - devtools
  - knitr
  - memoise
+ - phangorn
  - R.cache
+ - Rcpp
  - Rdpack
  - rmarkdown
  - roxygen2

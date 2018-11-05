@@ -39,6 +39,7 @@ Imports:
     Rdpack,
     TreeSearch
 Suggests:
+    bookdown,
     knitr,
     rmarkdown,
     Ternary (>= 1.0),
