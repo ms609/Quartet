@@ -85,19 +85,19 @@ std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
     while(true) {
       getline(infile, line);
       if(infile.eof())
-	break;
+        break;
       if(emptyLine(line))
-	continue;
+        continue;
       line = trim_comment(line);
       ss << line;
       if(line[line.size()-1] == ';') {
-	str = ss.str();
-
-	trees.push_back(parse());
-	ss.str(std::string());
+        str = ss.str();
+        
+        trees.push_back(parse());
+        ss.str(std::string());
       }    
     }
-
+    
     infile.close();
     return trees;
   } else {
