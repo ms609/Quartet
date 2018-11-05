@@ -1,3 +1,4 @@
+#include <Rcpp.h>
 #include "hdt.h"
 #include "rooted_tree.h"
 #include "hdt_factory.h"
@@ -123,14 +124,14 @@ void HDT::handleCTransform()
 	// Take a third of some of the E sums
 	if (n_paren_circ_square_triangle % 3 != 0)
 	{
-		cout << "n_paren_circ_square_triangle mod 3 test... FAIL!!!" << endl;
+	  Rcpp::stop("n_paren_circ_square_triangle mod 3 test... FAIL!!!");
 	}
 	n_paren_circ_square_triangle /= 3;
 
-	// Halve some other ones :)
+	// Halve some other ones
 	if (n_paren_0_circ_square % 2 != 0)
 	{
-		cout << "n_paren_0_circ_square mod 2 test... FAIL!!!" << endl;
+	  Rcpp::stop("n_paren_0_circ_square mod 2 test... FAIL!!!");
 	}
 	n_paren_0_circ_square /= 2;
 #endif

@@ -54,10 +54,10 @@ typedef struct UnrootedTree
 		void toDot()
 		{
 			dontRecurceOnMe = NULL;
-			cout << "graph g {" << endl;
-			cout << "node[shape=circle,label=\"\"];" << endl;
+//			cout << "graph g {" << endl;
+//			cout << "node[shape=circle,label=\"\"];" << endl;
 			toDotImpl();
-			cout << "}" << endl;
+//			cout << "}" << endl;
 		}
 
 		bool isLeaf()
@@ -99,8 +99,8 @@ typedef struct UnrootedTree
 
 		void toDotImpl()
 		{
-			cout << "n" << this << "[label=\"" << name << "\"];" << endl;
 			/*
+			cout << "n" << this << "[label=\"" << name << "\"];" << endl;
 			if (isLeaf())
 			{
 				cout << "n" << this << "[label=\"" << name << "\"];" << endl;
@@ -118,7 +118,7 @@ typedef struct UnrootedTree
 				{
 					t->dontRecurceOnMe = this;
 					t->toDotImpl();
-					cout << "n" << this << " -- n" << t << ";" << endl;
+//					cout << "n" << this << " -- n" << t << ";" << endl;
 				}
 			}
 		}

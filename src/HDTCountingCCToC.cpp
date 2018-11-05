@@ -1,3 +1,4 @@
+#include <Rcpp.h>
 #include "hdt.h"
 #include "rooted_tree.h"
 #include "hdt_factory.h"
@@ -336,14 +337,14 @@ void HDT::handleCCToC()
 				addThis = getIteratorValueForNumList(c1Count->n_i_j, j) /* ij */ * (c2->n_circ - c2Count->n_i - c2->countingVars->getIteratorValue(j)->n_i /* j */);
 				if (addThis < 0)
 				{
-					cout << "WTF #15?!?" << endl;
+				  Rcpp::warning("Warning #15");
 				}
 				ourCount->n_i_circ_arrow_square += addThis;
 
 				addThis = (c1->n_circ - c1Count->n_i - c1->countingVars->getIteratorValue(j)->n_i /* j */) * getIteratorValueForNumList(c2Count->n_i_j, j) /* ij */;
 				if (addThis < 0)
 				{
-					cout << "WTF #17?!?" << endl;
+					Rcpp::warning("Warning #17");
 				}
 				ourCount->n_bracket_i_circ_square += addThis;
 				// E end
@@ -592,28 +593,28 @@ void HDT::handleCCToC()
 	// epsilon & epsilon (part 2) (continued from inside the loop)
 	quartSumE += (INTTYPE_N4) c1Zero * c2->n_circ_square_arrow_triangle;
 
-	// Div E sum-counters :)
+	// Div E sum-counters
 	if (n_bracket_circ_square_triangle % 3 != 0)
 	{
-		cout << "n_bracket_circ_square_triangle mod 3 check failed :(" << endl;
+		Rcpp::warning("n_bracket_circ_square_triangle mod 3 check failed");
 	}
 	n_bracket_circ_square_triangle /= 3;
 
 	if (n_bracket_0_circ_square % 2 != 0)
 	{
-		cout << "n_bracket_0_circ_square mod 2 check failed :(" << endl;
+	  Rcpp::warning("n_bracket_0_circ_square mod 2 check failed");
 	}
 	n_bracket_0_circ_square /= 2;
 
 	if (n_circ_square_arrow_0 % 2 != 0)
 	{
-		cout << "n_circ_square_arrow_0 mod 2 check failed :(" << endl;
+	  Rcpp::warning("n_circ_square_arrow_0 mod 2 check failed");
 	}
 	n_circ_square_arrow_0 /= 2;
 
 	if (n_0_arrow_circ_square % 2 != 0)
 	{
-		cout << "n_0_arrow_circ_square mod 2 check failed :(" << endl;
+	  Rcpp::warning("n_0_arrow_circ_square mod 2 check failed");
 	}
 	n_0_arrow_circ_square /= 2;
 #endif

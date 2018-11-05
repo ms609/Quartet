@@ -1,3 +1,4 @@
+#include <Rcpp.h>
 #include "rooted_tree.h"
 #include "hdt.h"
 
@@ -38,10 +39,10 @@ RootedTree* RootedTree::getParent()
 
 void RootedTree::toDot()
 {
-	cout << "digraph g {" << endl;
-	cout << "node[shape=circle];" << endl;
+	// cout << "digraph g {" << endl;
+	// cout << "node[shape=circle];" << endl;
 	toDotImpl();
-	cout << "}" << endl;
+	// cout << "}" << endl;
 }
 
 vector<RootedTree*>* RootedTree::getList()
@@ -73,7 +74,7 @@ void RootedTree::pairAltWorld(RootedTree *t)
 		if (j == altWorldEnd)
 		{
 			// This leaf wasn't found in the input tree!
-			cerr << "Leaves doesn't agree! Aborting! (" << leaf->name << " didn't exist in second tree)" << endl;
+		  Rcpp::stop("Leaves doesn't agree: a tip in tree 1 didn't exist in second tree! Aborting.");
 			error = true;
 			delete l;
 			return;
@@ -90,10 +91,10 @@ void RootedTree::pairAltWorld(RootedTree *t)
 	// Is there results left in altWorldLeaves? If so it had more leaves than we do...
 	if (altWorldLeaves.size() > 0)
 	{
-		cerr << "Leaves doesn't agree! Aborting! (" << altWorldLeaves.begin()->first << " didn't exist in first tree)";
-		if (altWorldLeaves.size() > 1)
-			cerr << " (and " << (altWorldLeaves.size() - 1) << " other leaves missing from first tree!)";
-		cerr << endl;
+		Rcpp::stop("Leaves doesn't agree: a tip in tree 2 didn't exist in first tree! Aborting.");
+		//if (altWorldLeaves.size() > 1)
+		//	cerr << " (and " << (altWorldLeaves.size() - 1) << " other leaves missing from first tree!)";
+		
 		error = true;
 		delete l;
 		return;
@@ -143,17 +144,18 @@ bool RootedTree::isError()
 
 void RootedTree::toDotImpl()
 {
+  /*
 	cout << "n" << this << "[label=\"";
 	if (isLeaf() && numZeroes > 0) cout << "0's: " << numZeroes;
 	else cout << name;
 	
 	cout << "\"];" << endl;
-
+*/
 	for(TemplatedLinkedList<RootedTree*> *i = children; i != NULL; i = i->next)
 	{
 		RootedTree *t = i->data;
 		t->toDotImpl();
-		cout << "n" << this << " -> n" << t << ";" << endl;
+//		cout << "n" << this << " -> n" << t << ";" << endl;
 	}
 }
 

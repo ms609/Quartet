@@ -192,10 +192,10 @@ RootedTree* HDT::extractAndGoBackImpl(RootedTree *addToMe, RootedTreeFactory *fa
 
 void HDT::toDot()
 {
-	cout << "digraph g {" << endl;
-	cout << "node[shape=circle];" << endl;
+	// cout << "digraph g {" << endl;
+	//  << "node[shape=circle];" << endl;
 	toDotImpl();
-	cout << "}" << endl;
+	//  << "}" << endl;
 }
 
 void HDT::updateCounters()
@@ -401,6 +401,7 @@ bool HDT::isDownwardsClosed()
 
 void HDT::toDotImpl()
 {
+  /*
 	cout << "n" << this << "[label=\"";
 	if (convertedFrom != NotConverted)
 	{
@@ -423,15 +424,15 @@ void HDT::toDotImpl()
 	if (link != NULL) cout << "; " << link->name;
 	if (type == G && convertedFrom == C && left == NULL && right == NULL) cout << "; 0's: " << numZeroes;
 	cout << "\"];" << endl;
-
+  */
 	if (left != NULL)
 	{
 		left->toDotImpl();
-		cout << "n" << this << " -> n" << left << ";" << endl;
+		// cout << "n" << this << " -> n" << left << ";" << endl;
 	}
 	if (right != NULL)
 	{
 		right->toDotImpl();
-		cout << "n" << this << " -> n" << right << ";" << endl;
+		// cout << "n" << this << " -> n" << right << ";" << endl;
 	}
 }

@@ -1,3 +1,4 @@
+#include <Rcpp.h>
 #include "hdt.h"
 #include "rooted_tree.h"
 #include "hdt_factory.h"
@@ -236,7 +237,7 @@ void HDT::handleG()
 				part2 = getIteratorValueForNumList(g2Count->n_i_j, j) * (g1->n_circ - g1Count->n_i - g1->countingVars->getIteratorValue(j)->n_i);
 				if (part1 < 0 || part2 < 0)
 				{
-					cout << "WTF #16?!?" << endl;
+				  Rcpp::warning("Warning #16");
 				}
 				else
 				{
@@ -475,25 +476,25 @@ void HDT::handleG()
 	// Div E sum-counters :)
 	if (n_circ_square_triangle % 3 != 0)
 	{
-		cout << "n_circ_square_triangle mod 3 error!" << endl;
+	  Rcpp::stop("n_circ_square_triangle mod 3 error");
 	}
 	n_circ_square_triangle /= 3;
 
 	if (n_0_circ_square % 2 != 0)
 	{
-		cout << "n_0_circ_square mod 2 error!" << endl;
+	  Rcpp::stop("n_0_circ_square mod 2 error");
 	}
 	n_0_circ_square /= 2;
 
 	if (n_bracket_circ_square_triangle % 3 != 0)
 	{
-		cout << "n_bracket_circ_square_triangle mod 3 check failed :(" << endl;
+	  Rcpp::stop("n_bracket_circ_square_triangle mod 3 check failed");
 	}
 	n_bracket_circ_square_triangle /= 3;
 
 	if (n_bracket_0_circ_square % 2 != 0)
 	{
-		cout << "n_bracket_0_circ_square mod 2 check failed :(" << endl;
+	  Rcpp::stop("n_bracket_0_circ_square mod 2 check failed");
 	}
 	n_bracket_0_circ_square /= 2;
 #endif

@@ -116,7 +116,7 @@ bool NewickParser::isError() {
 
 int NewickParser::getPos() {
   if (it == strEnd) {
-    cerr << "Parse error! String ended! Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! String ended!");
     parseError = true;
     return -1;
   }
@@ -133,16 +133,16 @@ UnrootedTree* NewickParser::parse() {
   UnrootedTree *t = parseSubTree();
   parseLength();
   if (it == strEnd) {
-    cerr << "Parse error! String is finished before ';'... Returning anyways!" << endl;
+    Rcpp::stop("Parse error! String is finished before ';'");
     parseError = true;
   } else {
     if (*it != ';') {
-      cerr << "Parse error! Finished before string finished! (Read '" << *it << "' on pos " << getPos() << ", expecting ';'). Returning anyways" << endl;
+      Rcpp::stop("Parse error! Finished before string finished!");
       parseError = true;
     }
     it++;
     if (it != strEnd) {
-      cerr << "Parse error! Finished before string finished! (Read '" << *it << "' on pos " << getPos() << ", expected being done). Returning anyways" << endl;
+      Rcpp::stop("Parse error! Finished before string finished!");
       parseError = true;
     }
   }
@@ -151,7 +151,7 @@ UnrootedTree* NewickParser::parse() {
 
 UnrootedTree* NewickParser::parseSubTree() {
   if (it == strEnd) {
-    cerr << "Parse error! String ended! Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! String ended!");
     parseError = true;
     return new UnrootedTree();
   }
@@ -163,14 +163,14 @@ UnrootedTree* NewickParser::parseSubTree() {
 
 UnrootedTree* NewickParser::parseInternal() {
   if (it == strEnd) {
-    cerr << "Parse error! String ended! Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! String ended!");
     parseError = true;
     return new UnrootedTree();
   }
   
   // Remove '(' char, create internal node, and recurse
   if (*it != '(') {
-    cerr << "Parse error! Expected '(' here (got '" << *it << "' on pos " << getPos() << "). Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! Expected '('");
     parseError = true;
   }
   it++;
@@ -178,19 +178,19 @@ UnrootedTree* NewickParser::parseInternal() {
   ParseBranchSet(internalNode);
   
   if (it == strEnd) {
-    cerr << "Parse error! String ended! Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! String ended!");
     parseError = true;
     return internalNode;
   }
   
   // Remove ')' char, get name
   if (*it != ')') {
-    cerr << "Parse error! Expected ')' here (got '" << *it << "' on pos " << getPos() << "). Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! Expected ')'");
     parseError = true;
   }
   it++;
   if (it == strEnd) {
-    cerr << "Parse error! String is finished... Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! String is finished...");
     parseError = true;
   }
   internalNode->name = parseName();
@@ -200,7 +200,7 @@ UnrootedTree* NewickParser::parseInternal() {
 
 void NewickParser::ParseBranchSet(UnrootedTree *parent) {
   if (it == strEnd) {
-    cerr << "Parse error! String ended! Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! String ended!");
     parseError = true;
     return;
   }
@@ -224,7 +224,7 @@ void NewickParser::ParseBranchSet(UnrootedTree *parent) {
 
 string NewickParser::parseName() {
   if (it == strEnd) {
-    cerr << "Parse error! String ended! Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! String ended!");
     parseError = true;
     return "";
   }
@@ -239,7 +239,7 @@ string NewickParser::parseName() {
     else break;
     
     if (it == strEnd) {
-      cerr << "Parse error! String ended! Continuing anyways..." << endl;
+      Rcpp::stop("Parse error! String ended!");
       parseError = true;
       break;
     }
@@ -250,7 +250,7 @@ string NewickParser::parseName() {
 void NewickParser::parseLength() {
   // Do we start a number?
   if (it == strEnd) {
-    cerr << "Parse error! String ended! Continuing anyways..." << endl;
+    Rcpp::stop("Parse error! String ended!");
     parseError = true;
     return;
   }
@@ -268,7 +268,7 @@ void NewickParser::parseLength() {
     else 
       break;
     if (it == strEnd) {
-      cerr << "Parse error! String ended! Continuing anyways..." << endl;
+      Rcpp::stop("Parse error! String ended!");
       parseError = true;
       break;
     }

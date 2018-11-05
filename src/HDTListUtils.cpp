@@ -35,7 +35,7 @@ bool HDT::hasIteratorForNumListEnded(CountingLinkedListNumOnly *list)
 void HDT::addToNumList(CountingLinkedList *parent, AddToType list, unsigned int num, INTTYPE_REST value)
 {
 	if (value < 0)
-		cout << "WTF?!? Adding '" << value << "' for #" << num << endl;
+	  Rcpp::stop("Unexpected error: Adding negative `value` to numList");
 				
 	if (value <= 0) return;
 
