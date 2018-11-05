@@ -17,10 +17,14 @@ QuartetDistance <- function(file1, file2) {
 }
 
 #' @export
-#' @describeIn QuartetDistance Distance between pairs
+#' @describeIn QuartetDistance Distance between the tree on each line of `file1`
+#' and the tree on the corresponding line of `file2`
 PairsQuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
+  if (length(readLines(file1)) != length(readLines(file2))) {
+    stop("file1 and file2 must contain the same number of trees")
+  }
   .Call('_Quartet_tqdist_PairsQuartetDistance', as.character(file1), as.character(file2));
 }
 

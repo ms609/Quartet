@@ -73,9 +73,9 @@ IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector
   std::vector<INTTYPE_N4> res = quartetCalc.pairs_quartet_distance(filename1, filename2);
   
   IntegerVector IV_res(res.size());
-//  for (size_t i = 0; i < res.size(); ++i) {
-//    IV_res[i] = (int64_t) res[i];
-//  }
+  for (size_t i = 0; i < res.size(); ++i) {
+    IV_res[i] = (int64_t) res[i];
+  }
   return IV_res;
 }
 

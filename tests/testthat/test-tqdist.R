@@ -2,6 +2,7 @@ context("tqDist")
 
 test_that("tqDist returns correct quartet distances", {
   expect_equal(QuartetDistance("../trees/quartet1.new", "../trees/quartet2.new"), 1L)
+  expect_error(QuartetDistance("../trees/quartet1.new", "../trees/file_does_not_exist.new"))
   expect_equal(QuartetDistance("../trees/quartet2.new", "../trees/quartet1.new"), 1L)
 
   expect_equal(QuartetDistance("../trees/test_tree1.new", "../trees/test_tree2.new"), 26L)
@@ -10,7 +11,8 @@ test_that("tqDist returns correct quartet distances", {
   expect_equal(QuartetDistance("../trees/test_tree3.new", "../trees/test_tree4.new"), 5485860L)
   expect_equal(QuartetDistance("../trees/test_tree4.new", "../trees/test_tree3.new"), 5485860L)
  
-  #expect_equal(PairsQuartetDistance("../trees/quartet1.new", "../trees/two_quartets.new"), c(0, 1))
+  expect_error(PairsQuartetDistance("../trees/quartet1.new", "../trees/two_quartets.new"))
+  expect_equal(PairsQuartetDistance("../trees/one_quartet_twice.new", "../trees/two_quartets.new"), c(0, 1))
  
   allPairs <- AllPairsQuartetDistance("../trees/five_trees.new")
   
