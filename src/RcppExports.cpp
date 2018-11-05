@@ -18,7 +18,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // tqdist_QuartetDistance
-NumericVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file2);
+IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_QuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -30,7 +30,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // tqdist_PairsQuartetDistance
-NumericVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector file2);
+IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_PairsQuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -53,7 +53,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // tqdist_TripletDistance
-NumericVector tqdist_TripletDistance(SEXP file1, SEXP file2);
+IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2);
 RcppExport SEXP _Quartet_tqdist_TripletDistance(SEXP file1SEXP, SEXP file2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -65,7 +65,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // tqdist_PairsTripletDistance
-NumericVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2);
+IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2);
 RcppExport SEXP _Quartet_tqdist_PairsTripletDistance(SEXP file1SEXP, SEXP file2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

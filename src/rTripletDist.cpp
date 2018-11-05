@@ -13,7 +13,7 @@ using namespace Rcpp;
 //' @describeIn tqdist_QuartetDistance Triplet distance between two trees
 //' @export
 // [[Rcpp::export]]
-NumericVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
+IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
   const char *filename1;
   const char *filename2;
 
@@ -24,15 +24,15 @@ NumericVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
 
   INTTYPE_REST res = tripletCalc.calculateTripletDistance(filename1, filename2);
   
-  NumericVector NV_res(1);
-  NV_res = res;
-  return NV_res;
+  IntegerVector IV_res(1);
+  IV_res = res;
+  return IV_res;
 }
 
 //' @describeIn tqdist_QuartetDistance Triplet distance between pairs
 //' @export
 // [[Rcpp::export]]
-NumericVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
+IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
   const char * filename1;
   const char * filename2;
   
@@ -45,11 +45,11 @@ NumericVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
   
   Rcpp::stop("NO");
   
-  NumericVector NV_res(res.size());
+  IntegerVector IV_res(res.size());
   for (size_t i = 0; i < res.size(); ++i) {
-    NV_res[i] = res[i];
+    IV_res[i] = res[i];
   }
-  return NV_res;
+  return IV_res;
 }
 
 //' @describeIn tqdist_QuartetDistance Triplet distance between all pairs
