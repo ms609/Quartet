@@ -10,11 +10,10 @@ env:
 sudo: required # Required to use binary packages, which are faster than source installs
 
 git:
-  depth: 5
+  depth: 1
 
 r_binary_packages:
  - ape
- - bookdown
  - covr
  - devtools
  - knitr
@@ -25,8 +24,11 @@ r_binary_packages:
  - Rdpack
  - rmarkdown
  - roxygen2
- - Ternary
  - testthat
+ 
+r_packages:
+ - bookdown
+ - Ternary
  - TreeSearch
  
 before_script:
