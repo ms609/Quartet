@@ -29,6 +29,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tqdist_QuartetStatus
+IntegerVector tqdist_QuartetStatus(CharacterVector file1, CharacterVector file2);
+RcppExport SEXP _Quartet_tqdist_QuartetStatus(SEXP file1SEXP, SEXP file2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file2(file2SEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_QuartetStatus(file1, file2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_PairsQuartetDistance
 IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_PairsQuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {

@@ -16,7 +16,16 @@ QuartetDistance <- function(file1, file2) {
   .Call('_Quartet_tqdist_QuartetDistance', as.character(file1), as.character(file2));
 }
 
+#' @describeIn QuartetDistance Status of individual quartets
 #' @export
+QuartetStatus <- function(file1, file2) {
+  ValidateQuartetFile(file1)
+  ValidateQuartetFile(file2)
+  .Call('_Quartet_tqdist_QuartetStatus', as.character(file1), as.character(file2));
+}
+
+#' @export
+#' @exportFrom ape read.tree
 #' @describeIn QuartetDistance Quartet distance between the tree on each line of `file1`
 #'   and the tree on the corresponding line of `file2`
 PairsQuartetDistance <- function(file1, file2) {
