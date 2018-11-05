@@ -1,4 +1,3 @@
-#include <cstdlib> // for exit
 #include "rooted_tree.h"
 #include "hdt.h"
 
