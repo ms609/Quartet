@@ -25,7 +25,7 @@ IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
   INTTYPE_REST res = tripletCalc.calculateTripletDistance(filename1, filename2);
   
   IntegerVector IV_res(1);
-  IV_res = res;
+  IV_res = (int64_t) res;
   return IV_res;
 }
 
@@ -47,7 +47,7 @@ IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
   
   IntegerVector IV_res(res.size());
   for (size_t i = 0; i < res.size(); ++i) {
-    IV_res[i] = res[i];
+    IV_res[i] = (int64_t) res[i];
   }
   return IV_res;
 }
@@ -72,7 +72,7 @@ IntegerMatrix tqdist_AllPairsTripletDistance(SEXP file) {
       IM_res[r + res.size() * c] = current_res;
       IM_res[c + res.size() * r] = current_res;
     }
-    IM_res[r + res.size()*r] = res[r][r];
+    IM_res[r + res.size()*r] = (int) res[r][r];
   }
   
   return IM_res;

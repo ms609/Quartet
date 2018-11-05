@@ -49,7 +49,7 @@ IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file
   
   INTTYPE_N4 res = quartetCalc.calculateQuartetDistance(filename1, filename2);
   IntegerVector IV_res(1);
-  IV_res = res;
+  IV_res = (int64_t) res;
   return IV_res;
 }
 
@@ -74,7 +74,7 @@ IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector
   
   IntegerVector IV_res(res.size());
 //  for (size_t i = 0; i < res.size(); ++i) {
-//    IV_res[i] = res[i];
+//    IV_res[i] = (int64_t) res[i];
 //  }
   return IV_res;
 }
