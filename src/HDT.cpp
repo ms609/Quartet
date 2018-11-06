@@ -258,12 +258,12 @@ HDT* HDT::constructHDT(RootedTree *t, int numD, HDTFactory *copyStuffFromFactory
 	return hdt;
 }
 
-#define ADD_CHILD(PARENT, NEW_CHILD) {					                \
-	NEW_CHILD->childParent = PARENT;						\
-	TemplatedLinkedList<HDT*> *newItem = factory->getTemplatedLinkedList();		\
-	newItem->data = NEW_CHILD;							\
-	newItem->next = PARENT->children;						\
-	PARENT->children = newItem;							\
+#define ADD_CHILD(PARENT, NEW_CHILD) {                          \
+  NEW_CHILD->childParent = PARENT;                              \
+  TemplatedLinkedList<HDT*> *newItem = factory->getTemplatedLinkedList();  \
+  newItem->data = NEW_CHILD;                                    \
+  newItem->next = PARENT->children;                             \
+  PARENT->children = newItem;                                   \
 }
 
 HDT* HDT::preFirstRound(RootedTree *t, int numD, bool doLink, HDTFactory *factory)
