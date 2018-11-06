@@ -3,6 +3,10 @@
 #include "hdt.h"
 #include "hdt_factory.h"
 
+// For a node v, we say that the tree is colored according to v if leaves not 
+// in the subtree of v are colored with the color 0, all leaves in the ith
+// subtree are colored i.  [Brodal et al. 2013]
+
 void AbstractDistanceCalculator::count(RootedTree *v) {
   if (v->isLeaf() || v->n <= 2) {
     // This will make sure the entire subtree has color 0!
@@ -43,7 +47,7 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
     current->data->colorSubtree(c);
     c++;
   }
-
+  
   // Update counters in the HDT
   hdt->updateCounters();
   updateCounters();
@@ -118,7 +122,7 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
       
       count(current->data);
     }
-    c++; // Weee :)
+    c++;
     // HDT is deleted on recursive calls!
   }
   
