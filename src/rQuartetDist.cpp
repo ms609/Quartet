@@ -82,10 +82,10 @@ IntegerVector tqdist_QuartetStatus(CharacterVector file1, CharacterVector file2)
   INTTYPE_N4 unresolvedQuartetsAgree = quartetCalc.get_unresolvedQuartets();
   
   IntegerVector IV_res(4);
-  IV_res[0] = (int) dist;
-  IV_res[1] = (int) resAgree;
-  IV_res[2] = (int) unresolvedQuartetsAgree;
-  IV_res[3] = (int) totalNoQuartets;
+  IV_res[0] = dist;
+  IV_res[1] = resAgree;
+  IV_res[2] = unresolvedQuartetsAgree;
+  IV_res[3] = totalNoQuartets;
   
   return IV_res;
 }
