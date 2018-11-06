@@ -50,32 +50,6 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(const 
 
   return pairs_quartet_distance(unrootedTrees1, unrootedTrees2);
 }
-/*
-void QuartetDistanceCalculator::pairs_quartet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2) {
-  for(size_t i = 0; i < unrootedTrees1.size(); i++) {
-    INTTYPE_N4 dist = calculateQuartetDistance(unrootedTrees1[i], unrootedTrees2[i]);
-    
-    INTTYPE_N4 resolvedQuartetsAgree = get_resolvedQuartetsAgree();
-    INTTYPE_N4 resolvedQuartetsAgreeDiag = get_resolvedQuartetsAgreeDiag();
-    // INTTYPE_N4 resolvedQuartetsDisagree = get_resolvedQuartetsDisagree();
-    // INTTYPE_N4 resolvedQuartetsDisagreeDiag = get_resolvedQuartetsDisagreeDiag();
-    INTTYPE_N4 resolvedQuartetsAgreeUpper = get_resolvedQuartetsAgreeUpper();
-    // INTTYPE_N4 resolvedQuartetsDisagreeUpper = get_resolvedQuartetsDisagreeUpper();
-
-    INTTYPE_N4 n = get_n();
-    INTTYPE_N4 totalNoQuartets = get_totalNoQuartets();
-    double dist_norm = double(dist) / double(totalNoQuartets);
-    INTTYPE_N4 resAgree = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
-    double resAgree_norm = double(resAgree) / double(totalNoQuartets);
-    INTTYPE_N4 unresolvedQuartetsAgree = get_unresolvedQuartets();
-    double unresolvedQuartetsAgree_norm = double(unresolvedQuartetsAgree) / double(totalNoQuartets);
-    
-    Rcpp::warning(printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t",
-                         n, totalNoQuartets, dist, dist_norm, 
-                         resAgree, resAgree_norm, 
-                         unresolvedQuartetsAgree, unresolvedQuartetsAgree_norm));
-  }
-}*/
 
 std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPairsQuartetDistance(const char *filename) {
   NewickParser parser;
