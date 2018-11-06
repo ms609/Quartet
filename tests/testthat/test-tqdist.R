@@ -7,7 +7,7 @@ test_that("tqDist returns correct quartet distances", {
   expect_equal(QuartetDistance("../trees/quartet2.new", "../trees/quartet1.new"), 1L)
 
   expect_equal(QuartetStatus("../trees/unresolved1.new", "../trees/unresolved2.new"),
-               c(0, 0, 0, 1, 5))
+               c(0, 3, 2, 5))
   
   expect_equal(QuartetDistance("../trees/test_tree1.new", "../trees/test_tree2.new"), 26L)
   expect_equal(QuartetDistance("../trees/test_tree2.new", "../trees/test_tree1.new"), 26L)
