@@ -22,7 +22,7 @@ void HDT::handleLeaf()
 	countingVars->n_i_arrow_circ = 0;
 
 	// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 	countingVars->n_0_i = 0;
 	countingVars->n_ii = 0;
 	countingVars->n_0_paren_ii = 0;
@@ -92,7 +92,7 @@ void HDT::handleLeaf()
 	countingVars->n_paren_0_i_circ = 0;
 	countingVars->n_bracket_i_circ_square = 0;
 	countingVars->n_bracket_0_i_circ = 0;
-#endif
+/*#endif*/
 
 	countingVars->type = CountingLinkedList::End;
 
@@ -102,7 +102,7 @@ void HDT::handleLeaf()
 	n_circ_square = 0;
 
 	// Sums (quartets)
-#ifdef quartetsToo
+/* ifdef quartetsToo*/
 	n_0_circ = 0;
 	n_circ_circ = 0;
 	n_square_paren_circ_circ = 0;
@@ -141,5 +141,5 @@ void HDT::handleLeaf()
 	n_paren_0_circ_square = 0;
 	n_bracket_circ_square_triangle = 0;
 	n_bracket_0_circ_square = 0;
-#endif
+/*#endif */
 }

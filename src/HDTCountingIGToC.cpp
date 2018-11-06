@@ -18,7 +18,7 @@ void HDT::handleIGToC()
 	n_circ_square = right->n_circ_square;
 
 	// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 	// Fetch the childrens "result counting data"
 	quartResolvedAgree = right->quartResolvedAgree;
 	quartResolvedAgreeDiag = right->quartResolvedAgreeDiag;
@@ -71,7 +71,7 @@ void HDT::handleIGToC()
 
 	// Fetch sum for calculating E from children
 	quartSumE = right->quartSumE;
-#endif
+/*#endif*/
 
 	CountingLinkedList *current = right->countingVars;
 	CountingLinkedList *ourCount = countingVars;
@@ -103,7 +103,7 @@ void HDT::handleIGToC()
 		ourCount->n_i_arrow_circ = 0; // Not actually defined in G! IN G!!! (i.e. it *should* in fact be 0)
 
 		// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 		// 2nd group in figure 12 (quartets only)
 		ourCount->n_0_i = current->n_0_i;
 		ourCount->n_ii = current->n_ii;
@@ -199,7 +199,7 @@ void HDT::handleIGToC()
 		ourCount->n_paren_0_i_circ = current->n_paren_0_i_circ;
 		ourCount->n_bracket_i_circ_square = current->n_bracket_i_circ_square;
 		ourCount->n_bracket_0_i_circ = current->n_bracket_0_i_circ;
-#endif
+/*#endif*/
 
 		// Go to next on children unless we're done
 		if (ourCount->type != CountingLinkedList::End)

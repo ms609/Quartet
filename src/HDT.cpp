@@ -12,13 +12,13 @@ void HDT::initialize(CountingLinkedList *countingVars, NodeType type, int numD, 
 	goBackVariable = NULL;
 	tripResolved = 0;
 	tripUnresolved = 0;
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 	quartResolvedAgree = 0;
 	quartResolvedAgreeDiag = 0;
 	quartResolvedAgreeUpper = 0;
 	// New sum for calculating E
 	quartSumE = 0;
-#endif
+/*#endif*/
 	up2date = altMarked = false;
 
 	this->type = type;

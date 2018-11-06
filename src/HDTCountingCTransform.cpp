@@ -10,7 +10,7 @@ void HDT::handleCTransform()
 	n_circ_square = 0;
 
 	// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 	// Sums initialized to 0, summed in loop below
 	n_paren_circ_circ = 0;
 	n_paren_circ_square = 0;
@@ -43,7 +43,7 @@ void HDT::handleCTransform()
 	n_0_circ_square = 0;
 	n_paren_circ_square_triangle = 0;
 	n_paren_0_circ_square = 0;
-#endif
+/*#endif*/
 
 	CountingLinkedList *current = countingVars;
 	if (current->num == 0)
@@ -60,7 +60,7 @@ void HDT::handleCTransform()
 		current->n_paren_ii = Util::binom2(current->n_i);
 
 		// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 		// 2nd group in figure 12 (quartets only)
 		current->n_0_i = 0;
 		current->n_ii = 0;
@@ -102,7 +102,7 @@ void HDT::handleCTransform()
 		// New sums for E
 		n_paren_circ_square_triangle += current->n_paren_i_circ_square;
 		n_paren_0_circ_square += current->n_paren_0_i_circ;
-#endif
+/*#endif*/
 
 		// Go to next on children unless we're done
 		if (current->type != CountingLinkedList::End)
@@ -113,7 +113,7 @@ void HDT::handleCTransform()
 		else current = NULL;
 	}
 
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 	// These are all based on stuff that is reset to 0
 	n_circ_circ = 0;
 	n_square_paren_circ_circ = 0;
@@ -134,5 +134,5 @@ void HDT::handleCTransform()
 	  Rcpp::stop("n_paren_0_circ_square mod 2 test... FAIL!!!");
 	}
 	n_paren_0_circ_square /= 2;
-#endif
+/*#endif*/
 }

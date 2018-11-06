@@ -81,7 +81,7 @@ class HDT
 		INTTYPE_REST n_circ_square;
 
 		// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 		INTTYPE_REST n_0_circ;
 		INTTYPE_REST n_paren_0_circ;
 		INTTYPE_REST n_circ_circ;
@@ -118,7 +118,7 @@ class HDT
 		INTTYPE_REST n_paren_0_circ_square;
 		INTTYPE_REST n_bracket_circ_square_triangle;
 		INTTYPE_REST n_bracket_0_circ_square;
-#endif
+/*#endif*/
 
 		// Summing resolved/resolved and unresolved/unresolved
 		INTTYPE_REST tripResolved;
@@ -138,14 +138,14 @@ class HDT
 		void handleCTransform();
 		void handleG();
 		
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 		bool gotoIteratorValueForList(CountingLinkedList *list, unsigned int num);
 		enum AddToType {i_j, paren_i_j, j_arrow_i, i_arrow_j, i_paren_i_j, paren_i_paren_i_j, bracket_i_paren_i_j};
 		INTTYPE_REST getIteratorValueForNumList(CountingLinkedListNumOnly *list, unsigned int num);
 		bool gotoIteratorValueForNumList(CountingLinkedListNumOnly *list, unsigned int num);
 		bool hasIteratorForNumListEnded(CountingLinkedListNumOnly *list);
 		void addToNumList(CountingLinkedList *parent, AddToType list, unsigned int num, INTTYPE_REST value);
-#endif
+/*#endif*/
 };
 
 #endif

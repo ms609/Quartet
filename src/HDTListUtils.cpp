@@ -5,7 +5,7 @@
 #include "counting_linked_list.h"
 #include "counting_linked_list_num_only.h"
 
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 
 bool HDT::gotoIteratorValueForList(CountingLinkedList *list, unsigned int num)
 {
@@ -63,4 +63,4 @@ void HDT::addToNumList(CountingLinkedList *parent, AddToType list, unsigned int 
 	theList->value = value;
 }
 
-#endif
+/*#endif*/

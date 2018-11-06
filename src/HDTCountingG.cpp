@@ -30,7 +30,7 @@ void HDT::handleG()
 	CountingLinkedList *g2Count = NULL;
 	CountingLinkedList *ourCount = countingVars;
 
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 	INTTYPE_REST g1Zero = 0;
 	INTTYPE_REST g2Zero = 0;
 
@@ -73,7 +73,7 @@ void HDT::handleG()
 
 	// Fetch sum for calculating E from children
 	quartSumE = g1->quartSumE + g2->quartSumE;
-#endif
+/*#endif*/
 
 	while (g1Next != NULL || g2Next != NULL)
 	{
@@ -138,7 +138,7 @@ void HDT::handleG()
 		//ourCount->n_i_arrow_circ = 0; // undefined actually!
 
 		// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 		// 2nd group in figure 12 (quartets only)
 		ourCount->n_0_i = g1Count->n_0_i + g2Count->n_0_i + 
 			g1Zero * g2Count->n_i +
@@ -300,13 +300,13 @@ void HDT::handleG()
 		ourCount->n_bracket_0_i_circ = g1Count->n_bracket_0_i_circ + g2Count->n_bracket_0_i_circ +
 			g1Count->n_0_i * (g2->n_circ - g2Count->n_i) + g1Count->n_i * (g2->n_0_circ - g2Count->n_0_i) + g1Count->n_i_circ * g2Zero + 
 			g2Count->n_0_i * (g1->n_circ - g1Count->n_i) + g2Count->n_i * (g1->n_0_circ - g1Count->n_0_i) + g2Count->n_i_circ * g1Zero;
-#endif
+/*#endif*/
 
 		// Sums and stuff
 		n_circ_square += ourCount->n_i_circ;
 
 		// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 		n_circ_circ += ourCount->n_ii;
 		n_square_paren_circ_circ += ourCount->n_i_paren_circ_circ;
 		n_paren_circ_circ += ourCount->n_paren_ii;
@@ -324,7 +324,7 @@ void HDT::handleG()
 	
 		n_bracket_circ_square_triangle += ourCount->n_bracket_i_circ_square;
 		n_bracket_0_circ_square += ourCount->n_bracket_0_i_circ;
-#endif
+/*#endif*/
 
 		// Update resolved/resolved and unresolved/unresolved
 		// (Figure 10)
@@ -335,7 +335,7 @@ void HDT::handleG()
 		tripUnresolved += g2Count->n_i * (g1->n_circ_square - g1Count->n_i_circ);
 
 		// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 		//quartResolvedAgree & quartResolvedDisagree
 
 		// alpha & alpha
@@ -436,7 +436,7 @@ void HDT::handleG()
 		// epsilon & epsilon (part 2)
 		quartSumE += (INTTYPE_N4) (g1->n_paren_0_circ_square - g1Count->n_paren_0_i_circ) * g2Count->n_i;
 		quartSumE += (INTTYPE_N4) (g2->n_paren_0_circ_square - g2Count->n_paren_0_i_circ) * g1Count->n_i;
-#endif
+/*#endif*/
 
 		// Go to next on children unless we're done
 		if (g1Next == NULL && g2Next == NULL)
@@ -450,16 +450,16 @@ void HDT::handleG()
 		}
 	}
 
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 	//gamma & beta (part 1) (continued from inside the loop) (figure 13)
 	quartResolvedAgree += (INTTYPE_N4) g1Zero * g2->n_square_paren_circ_circ;
 	quartResolvedAgree += (INTTYPE_N4) g2Zero * g1->n_square_paren_circ_circ;
-#endif
+/*#endif*/
 
 	n_circ_square /= 2;
 
 	// Quartets
-#ifdef quartetsToo
+/*#ifdef quartetsToo*/
 	n_paren_circ_square /= 2;
 	n_bracket_circ_square /= 2;
 
@@ -497,5 +497,5 @@ void HDT::handleG()
 	  Rcpp::stop("n_bracket_0_circ_square mod 2 check failed");
 	}
 	n_bracket_0_circ_square /= 2;
-#endif
+/*#endif*/
 }
