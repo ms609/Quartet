@@ -4,6 +4,13 @@
 #include "hdt_factory.h"
 #include "counting_linked_list.h"
 
+// HDT: Heirarchical Decomposition Tree [Brodal et al. 2013]
+// 
+// L: a leaf in T,
+// I: an internal node in T,
+// C: a connected subset of the nodes of T,
+// G: a set of subtrees with roots being siblings in 
+
 void HDT::initialize(CountingLinkedList *countingVars, NodeType type, int numD, RootedTree *link, bool doLink)
 {
 	parent = childParent = left = right = NULL;
