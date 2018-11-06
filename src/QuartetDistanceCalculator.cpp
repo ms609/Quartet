@@ -150,8 +150,16 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1,
     return -1;
   }
   
-  // Section 3 of Soda13: Counting unresolved triplets and quartets in a single tree
+  // tqDist comment asserts that countChildren corresponds to 
+  // Section 3 of Brodal et al. 2013:
+  // Counting unresolved triplets and quartets in a single tree
+  
+  // Populate this->t1->n with the number of leaves
   countChildren(this->t1);
+  
+  
+  // HDT: Heirarchical Decomposition Tree
+  // See Section 4 in Brodal et al. 2013
   hdt = HDT::constructHDT(this->t2, this->t1->maxDegree, dummyHDTFactory);
   
   resolvedQuartetsAgree = resolvedQuartetsAgreeDiag = 0;
@@ -168,6 +176,7 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1,
 
   n = this->t1->n;
   totalNoQuartets = Util::binom4(n);
+  
   INTTYPE_N4 a = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
   INTTYPE_N4 e = unresolvedQuartets;
 
