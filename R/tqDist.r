@@ -1,3 +1,53 @@
+#' tqDist wrapper
+#' 
+#' Convenience function that takes a list of trees, writes them to a text file,
+#' and calls tqDist on the generated file (which is deleted on completion).
+#' 
+#' @param treeList List of phylogenetic trees, of class \code{list} or
+#'                 \code{phylo}. All trees must be bifurcating.
+#' @return `TQDist` returns the quartet distance between each pair of trees
+#' @references {
+#'   @template refTqDist
+#' }
+#' @importFrom ape write.tree
+#' @importFrom stats runif
+#' @author Martin R. Smith
+#' @export
+TQDist <- function (treeList) {
+  fileName <- TQFile(treeList)
+  on.exit(file.remove(fileName))
+  AllPairsQuartetDistance(fileName)
+}
+
+#' @describeIn TQDist
+#' @author Martin R. Smith
+#' @return `TQDist` returns the number of resolved quartets in agreement between 
+#'   each pair of trees (A in Brodal _et al_. 2013) and the number of quartets 
+#'   that are unresolved in both trees (E in Brodal _et al_. 2013).
+#' @export 
+TQAE <- function (treeList) {
+  fileName <- TQFile(treeList)
+  on.exit(file.remove(fileName))
+  AllPairsQuartetStatus(fileName)
+}
+
+#' tqDist file generator
+#' 
+#' Creates a temporary file corresponding to a list of trees,
+#' to be processed with tqDist.  Files should be destroyed using
+#' `on.exit(file.remove(fileName))` by the calling function.
+#' @return Name of the created file
+#' @keywords internal
+#' @export
+TQFile <- function (treeList) {
+  if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
+  if (class(treeList) != 'multiPhylo') stop("treeList must be a list of phylogenetic trees")
+  fileName <- paste0('~temp', substring(runif(1), 3), '.trees')
+  write.tree(treeList, file=fileName)
+  # Return:
+  fileName
+}
+
 #' Triplet and quartet distances with tqDist
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.
@@ -50,6 +100,13 @@ PairsQuartetDistance <- function(file1, file2) {
 AllPairsQuartetDistance <- function(file) {
   ValidateQuartetFile(file)
   .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
+}
+
+#' @export
+#' @describeIn QuartetDistance Quartet status for each pair of trees in `file`
+AllPairsQuartetStatus <- function(file) {
+  ValidateQuartetFile(file)
+  .Call('_Quartet_tqdist_AllPairsQuartetStatus', as.character(file));
 }
 
 #' @export

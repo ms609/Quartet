@@ -272,26 +272,6 @@ CompareQuartets <- function (x, cf) {
   )
 }
 
-#' tqDist wrapper
-#' 
-#' @param treeList List of phylogenetic trees, of class \code{list} or
-#'                 \code{phylo}. All trees must be bifurcating.
-#' @return Quartet distances between each pair of trees
-#' @references {
-#'   @template refTqDist
-#' }
-#' @importFrom ape write.tree
-#' @importFrom stats runif
-#' @export
-TQDist <- function (treeList) {
-  if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
-  if (class(treeList) != 'multiPhylo') stop("treeList must be a list of phylogenetic trees")
-  fileName <- paste0('~temp', substring(runif(1), 3), '.trees')
-  write.tree(treeList, file=fileName)
-  on.exit(file.remove(fileName))
-  AllPairsQuartetDistance(fileName)
-}
-
 #' Unshift Tree
 #' 
 #' Add a tree to the start of a list of trees
