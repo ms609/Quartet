@@ -67,10 +67,10 @@ QuartetDistance <- function(file1, file2) {
   .Call('_Quartet_tqdist_QuartetDistance', as.character(file1), as.character(file2));
 }
 
-#' @describeIn QuartetDistance Returns a vector of length four, listing (1)
-#' the Quartet Distance; (2) the number of resolved quartets that agree ('A');
-#' (3) the number of quartets that are unresolved in both trees ('E'); (4) the
-#' total number of quartets. See Brodal et al. (2013).
+#' @describeIn QuartetDistance Returns a vector of length two, listing \[1\]
+#' the number of resolved quartets that agree ('A');
+#' \[2\] the number of quartets that are unresolved in both trees ('E').
+#' See Brodal et al. (2013).
 #'  
 #' @export
 QuartetStatus <- function(file1, file2) {

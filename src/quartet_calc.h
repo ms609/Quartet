@@ -6,6 +6,12 @@
 
 using namespace std;
 
+typedef struct AE {
+  INTTYPE_N4 a;
+  INTTYPE_N4 e;
+  INTTYPE_N4 noQuartets;
+} AE;
+
 class QuartetCalc {
  public:
   virtual ~QuartetCalc() {};

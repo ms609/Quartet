@@ -83,7 +83,42 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPai
   return results;
 }
 
-INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filename1, const char *filename2) {
+std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPairsQuartetStatus(const char *filename) {
+  NewickParser parser;
+  
+  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename); 
+  if (unrootedTrees.size() == 0 || parser.isError()) {
+    Rcpp::stop("Error: Failed to parse filename");
+  }
+  
+  const std::vector<std::vector<INTTYPE_N4> > results = calculateAllPairsQuartetStatus(unrootedTrees);
+  
+  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
+    UnrootedTree * tmp = unrootedTrees[i];
+    delete tmp;
+  }
+  
+  return results;
+}
+
+std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPairsQuartetStatus(std::vector<UnrootedTree *> trees) {
+  std::vector<std::vector<INTTYPE_N4> > results(trees.size() * 2);
+  
+  for(size_t r = 0; r < trees.size(); ++r) {
+    for(size_t c = 0; c < r; ++c) {
+      struct AE counts = calculateQuartetStatus(trees[r], trees[c]);
+      results[r].push_back(counts.a);
+      results[r].push_back(counts.e);
+    }
+    results[r].push_back(0);
+    results[r].push_back(0);
+  }
+
+  return results;
+}
+
+
+AE QuartetDistanceCalculator::calculateQuartetStatus(const char *filename1, const char *filename2) {
   UnrootedTree *ut1 = NULL;
   UnrootedTree *ut2 = NULL;
   NewickParser parser;
@@ -98,7 +133,7 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filen
     Rcpp::stop("calculateQuartetDistance failed to parse filename2");
   }
 
-  INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
+  AE res = calculateQuartetStatus(ut1, ut2);
 
   delete ut1;
   delete ut2;
@@ -106,8 +141,9 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filen
   return res;
 }
 
-INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2) {
+AE QuartetDistanceCalculator::calculateQuartetStatus(UnrootedTree *t1, UnrootedTree *t2) {
 
+  struct AE res;
   UnrootedTree *tmp;
   if(t1->maxDegree > t2->maxDegree) { // Smallest degree tree as t1
     tmp = t1;
@@ -121,7 +157,10 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1,
   this->t1->pairAltWorld(this->t2);
   if (this->t1->isError()) {
     Rcpp::stop("The two trees do not have the same set of leaves.");
-    return -1;
+    res.a = -1;
+    res.e = -1;
+    res.noQuartets = -1;
+    return res;
   }
   
   // tqDist comment asserts that countChildren corresponds to 
@@ -149,17 +188,44 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1,
 #endif*/
 
   n = this->t1->n;
-  totalNoQuartets = Util::binom4(n);
   
-  INTTYPE_N4 a = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
-  INTTYPE_N4 e = unresolvedQuartets;
-
-  INTTYPE_N4 result = totalNoQuartets - (a + e);
+  res.a = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
+  res.e = unresolvedQuartets;
+  res.noQuartets = Util::binom4(n);
   
+  // HDT is deleted in count!
   delete this->t1->factory;
   delete this->t2->factory;
   
-  // HDT is deleted in count!
+  return res;
+}
+
+INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filename1, const char *filename2) {
+  UnrootedTree *ut1 = NULL;
+  UnrootedTree *ut2 = NULL;
+  NewickParser parser;
+  
+  ut1 = parser.parseFile(filename1);
+  if (ut1 == NULL || parser.isError()) {
+    Rcpp::stop("calculateQuartetDistance failed to parse filename1");
+  }
+  
+  ut2 = parser.parseFile(filename2);
+  if(ut2 == NULL || parser.isError()) {
+    Rcpp::stop("calculateQuartetDistance failed to parse filename2");
+  }
+  
+  INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
+  
+  delete ut1;
+  delete ut2;
+  
+  return res;
+}
+
+INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2) {
+  struct AE ae = calculateQuartetStatus(t1, t2);
+  INTTYPE_N4 result = ae.noQuartets - (ae.a + ae.e);
   return result;
 }
 

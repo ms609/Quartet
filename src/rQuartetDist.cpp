@@ -4,7 +4,7 @@ using namespace Rcpp;
 
 #undef INTTYPE_N4
 #ifdef WIN32
-  #define INTTYPE_N4 int64_t
+  #define INTTYPE_N4 __int64
 #else
 #define INTTYPE_N4  __int128_t
 #endif
@@ -70,22 +70,11 @@ IntegerVector tqdist_QuartetStatus(CharacterVector file1, CharacterVector file2)
   filename2 = CHAR(STRING_ELT(file2, 0));
   
   QuartetDistanceCalculator quartetCalc;
-  INTTYPE_N4 dist = quartetCalc.calculateQuartetDistance(filename1, filename2);
+  AE counts = quartetCalc.calculateQuartetStatus(filename1, filename2);
   
-  INTTYPE_N4 resolvedQuartetsAgree = quartetCalc.get_resolvedQuartetsAgree();
-  INTTYPE_N4 resolvedQuartetsAgreeDiag = quartetCalc.get_resolvedQuartetsAgreeDiag();
-  INTTYPE_N4 resolvedQuartetsAgreeUpper = quartetCalc.get_resolvedQuartetsAgreeUpper();
-  
-  // INTTYPE_N4 nLeaves = quartetCalc.get_n();
-  INTTYPE_N4 totalNoQuartets = quartetCalc.get_totalNoQuartets();
-  INTTYPE_N4 resAgree = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
-  INTTYPE_N4 unresolvedQuartetsAgree = quartetCalc.get_unresolvedQuartets();
-  
-  IntegerVector IV_res(4);
-  IV_res[0] = dist;
-  IV_res[1] = resAgree;
-  IV_res[2] = unresolvedQuartetsAgree;
-  IV_res[3] = totalNoQuartets;
+  IntegerVector IV_res(2);
+  IV_res[0] = (int) counts.a;
+  IV_res[1] = (int) counts.e;
   
   return IV_res;
 }
@@ -134,6 +123,35 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
   IntegerMatrix IM_res(res.size(), res.size());
 //  int *ians = INTEGER(res_sexp);
   
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c < r; c++) {
+      int current_res = int(res[r][c]);
+      IM_res[r + res.size() * c] = current_res;
+      IM_res[c + res.size() * r] = current_res;
+    }
+    IM_res[r + res.size()*r] = res[r][r];
+  }
+  
+  return IM_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Status between all pairs of trees
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetStatus(CharacterVector file) {
+  int n = file.size();
+  if (n != 1) {
+    Rcpp::stop("file must be a character vector of length 1");
+  }
+  
+  const char *filename;
+  filename = CHAR(STRING_ELT(file, 0));
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<INTTYPE_N4> > res = quartetCalc.calculateAllPairsQuartetStatus(filename);
+
+  IntegerMatrix IM_res(res.size(), res.size(), 2);
+
   for (size_t r = 0; r < res.size(); r++) {
     for (size_t c = 0; c < r; c++) {
       int current_res = int(res[r][c]);

@@ -64,6 +64,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tqdist_AllPairsQuartetStatus
+IntegerMatrix tqdist_AllPairsQuartetStatus(CharacterVector file);
+RcppExport SEXP _Quartet_tqdist_AllPairsQuartetStatus(SEXP fileSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file(fileSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetStatus(file));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_TripletDistance
 IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2);
 RcppExport SEXP _Quartet_tqdist_TripletDistance(SEXP file1SEXP, SEXP file2SEXP) {
