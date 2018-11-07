@@ -301,7 +301,7 @@ TQDist <- function (treeList) {
 #' for example trees read from a nexus file, causes data to be lost..
 #' 
 #' @param add Tree to add to the list, of class \code{phylo}
-#' @param treeList A list of trees, of class \code{list}, \code{mulitPhylo},
+#' @param treeList A list of trees, of class \code{list}, \code{multiPhylo},
 #' or, if a single tree, \code{phylo}.
 #' 
 #' @return A list of class \code{list} or \code{multiPhylo} (following the 
@@ -314,11 +314,9 @@ TQDist <- function (treeList) {
 #' @export
 UnshiftTree <- function(add, treeList) {
   if (class(treeList) == 'multiPhylo') {
-    treeList <- c(list(add), lapply(treeList, function (X) X))
-    class(treeList) <- 'multiPhylo'
-    treeList
+    structure(c(list(add), lapply(treeList, function (X) X)), class= 'multiPhylo')
   } else if (class(treeList) == 'phylo') {
-    treeList <- list(add, treeList)
+    treeList <- structure(list(add, treeList), class='multiPhylo')
   } else { # including: if (class(trees) == 'list') {
     c(list(add), treeList)
   }
