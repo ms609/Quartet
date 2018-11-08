@@ -6,7 +6,7 @@ test_that("tqDist returns correct quartet distances", {
   expect_error(QuartetDistance("../trees/quartet1.new", "../trees/file_does_not_exist.new"))
   expect_equal(QuartetDistance("../trees/quartet2.new", "../trees/quartet1.new"), 1L)
 
-  expect_equal(QuartetStatus("../trees/unresolved1.new", "../trees/unresolved2.new"),
+  expect_equal(QuartetAgreement("../trees/unresolved1.new", "../trees/unresolved2.new"),
                c(3, 0))
   
   expect_equal(QuartetDistance("../trees/test_tree1.new", "../trees/test_tree2.new"), 26L)
@@ -17,7 +17,10 @@ test_that("tqDist returns correct quartet distances", {
  
   expect_error(PairsQuartetDistance("../trees/quartet1.new", "../trees/two_quartets.new"))
   expect_equal(PairsQuartetDistance("../trees/one_quartet_twice.new", "../trees/two_quartets.new"), c(0, 1))
- 
+  
+  expect_equal(OneToManyQuartetAgreement("../trees/quartet1.new", "../trees/two_quartets.new"),
+               matrix(c(1, 0, 0, 0), nrow=2))
+  
   allPairs <- AllPairsQuartetDistance("../trees/five_trees.new")
   
   # Tests taken from those provided with tqDist
@@ -27,12 +30,12 @@ test_that("tqDist returns correct quartet distances", {
   expect_equal(allPairs[2 + 1L, 1 + 1L], 1L)
   expect_equal(allPairs[3 + 1L, 2 + 1L], 1L)
   
-  allPairsStatus <- AllPairsQuartetStatus("../trees/unresolved_list.new")
+  allPairsAgreement <- AllPairsQuartetAgreement("../trees/unresolved_list.new")
   
-  expect_equal(c(12, 15, 9, 0), diag(allPairsStatus[, , 1]))
-  expect_equal(c(12, 15, 9, 0), 15-diag(allPairsStatus[, , 2]))
-  expect_equal(c(9L, 3L), as.integer(allPairsStatus[1, 3, ]))
-  expect_equal(c(0L, 6L), as.integer(allPairsStatus[3, 4, ]))
+  expect_equal(c(12, 15, 9, 0), diag(allPairsAgreement[, , 1]))
+  expect_equal(c(12, 15, 9, 0), 15-diag(allPairsAgreement[, , 2]))
+  expect_equal(c(9L, 3L), as.integer(allPairsAgreement[1, 3, ]))
+  expect_equal(c(0L, 6L), as.integer(allPairsAgreement[3, 4, ]))
 })
 
 test_that("tqDist returns correct triplet distances", {

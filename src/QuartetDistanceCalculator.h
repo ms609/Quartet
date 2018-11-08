@@ -12,8 +12,8 @@ QuartetDistanceCalculator : private AbstractDistanceCalculator {
   ~QuartetDistanceCalculator();
 
   
-  struct AE calculateQuartetStatus(const char *t1, const char *t2);
-  struct AE calculateQuartetStatus(UnrootedTree *t1, UnrootedTree *t2);
+  struct AE calculateQuartetAgreement(const char *t1, const char *t2);
+  struct AE calculateQuartetAgreement(UnrootedTree *t1, UnrootedTree *t2);
   
   INTTYPE_N4 calculateQuartetDistance(const char *t1, const char *t2);
   INTTYPE_N4 calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2);
@@ -21,9 +21,15 @@ QuartetDistanceCalculator : private AbstractDistanceCalculator {
   std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetDistance(const char *filename);
   std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees);
   
-  std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetStatus(const char *filename);
-  std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetStatus(std::vector<UnrootedTree *> trees);
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetAgreement(const char *filename);
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetAgreement(std::vector<UnrootedTree *> trees);
 
+  std::vector<INTTYPE_N4> oneToManyQuartetAgreement(UnrootedTree *unrootedSingle,
+    std::vector<UnrootedTree *> &unrootedMultiple);
+  
+  std::vector<INTTYPE_N4> oneToManyQuartetAgreement(const char *fileSingle,
+                                                 const char *fileMultiple);
+  
   std::vector<INTTYPE_N4> pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
   void pairs_quartet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
   std::vector<INTTYPE_N4> pairs_quartet_distance(const char *filename1, const char *filename2);  

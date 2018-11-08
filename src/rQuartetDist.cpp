@@ -54,10 +54,10 @@ IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file
 }
 
 
-//' @describeIn tqdist_QuartetDistance Status of each quartet
+//' @describeIn tqdist_QuartetDistance Agreement of each quartet
 //' @export
 // [[Rcpp::export]]
-IntegerVector tqdist_QuartetStatus(CharacterVector file1, CharacterVector file2) {
+IntegerVector tqdist_QuartetAgreement(CharacterVector file1, CharacterVector file2) {
   int n1 = file1.size(), n2 = file2.size();
   if (n1 != 1 || n2 != 1) {
     Rcpp::stop("file1 and file2 must be character vectors of length 1");
@@ -70,7 +70,7 @@ IntegerVector tqdist_QuartetStatus(CharacterVector file1, CharacterVector file2)
   filename2 = CHAR(STRING_ELT(file2, 0));
   
   QuartetDistanceCalculator quartetCalc;
-  AE counts = quartetCalc.calculateQuartetStatus(filename1, filename2);
+  AE counts = quartetCalc.calculateQuartetAgreement(filename1, filename2);
   
   IntegerVector IV_res(2);
   IV_res[0] = (int) counts.a;
@@ -105,6 +105,32 @@ IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector
   return IV_res;
 }
 
+//' @describeIn tqdist_QuartetDistance Distance between pairs
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterVector fileMany) {
+  int n1 = file1.size(), n2 = fileMany.size();
+  if (n1 != 1 || n2 != 1) {
+    Rcpp::stop("file1 and file2 must be character vectors of length 1");
+  }
+  
+  const char *fileSingle;
+  const char *fileMultiple;
+  
+  fileSingle = CHAR(STRING_ELT(file1, 0));
+  fileMultiple = CHAR(STRING_ELT(fileMany, 0));
+  
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<INTTYPE_N4> res = quartetCalc.oneToManyQuartetAgreement(fileSingle, fileMultiple);
+  
+  IntegerVector IV_res(res.size() * 2);
+  for (size_t i = 0; i < res.size(); i++) {
+    IV_res[i] = (INTTYPE_N4) res[i];
+  }
+  return IV_res;
+}
+
 //' @describeIn tqdist_QuartetDistance Distance between all pairs
 //' @export
 // [[Rcpp::export]]
@@ -135,10 +161,10 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
   return IM_res;
 }
 
-//' @describeIn tqdist_QuartetDistance Status between all pairs of trees
+//' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 //' @export
 // [[Rcpp::export]]
-IntegerMatrix tqdist_AllPairsQuartetStatus(CharacterVector file) {
+IntegerMatrix tqdist_AllPairsQuartetAgreement(CharacterVector file) {
   int n = file.size();
   if (n != 1) {
     Rcpp::stop("file must be a character vector of length 1");
@@ -148,7 +174,7 @@ IntegerMatrix tqdist_AllPairsQuartetStatus(CharacterVector file) {
   filename = CHAR(STRING_ELT(file, 0));
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = quartetCalc.calculateAllPairsQuartetStatus(filename);
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = quartetCalc.calculateAllPairsQuartetAgreement(filename);
 
   IntegerMatrix IM_res(res.size(), res.size() * 2);
 

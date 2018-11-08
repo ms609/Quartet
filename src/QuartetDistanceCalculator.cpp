@@ -19,7 +19,43 @@ QuartetDistanceCalculator::~QuartetDistanceCalculator() {
   delete dummyHDTFactory;
 }
 
-std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2) {
+std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
+  oneToManyQuartetAgreement(UnrootedTree *unrootedSingle,
+                         std::vector<UnrootedTree *> &unrootedMultiple) {
+  std::vector<INTTYPE_N4> res;
+  
+  for(size_t i = 0; i < unrootedMultiple.size(); i++) {
+    AE status = calculateQuartetAgreement(unrootedSingle, unrootedMultiple[i]);
+    res.push_back(status.a);
+    res.push_back(status.e);
+  }
+
+  return res;
+}
+
+std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
+  oneToManyQuartetAgreement(const char *fileSingle, const char *fileMultiple) {
+  NewickParser parser;
+  
+  UnrootedTree *unrootedSingle = parser.parseFile(fileSingle); 
+  
+  if (unrootedSingle == NULL || parser.isError()) {
+    Rcpp::stop("Error parsing fileSingle in oneToManyQuartets -> parser.parseFile");
+  }
+
+  std::vector<UnrootedTree *> unrootedMultiple = parser.parseMultiFile(fileMultiple); 
+  if (unrootedMultiple.size() == 0) {
+    Rcpp::stop("No trees found in fileMultiple; does file end with blank line?");
+  } else if (parser.isError()) {
+    Rcpp::stop("Error parsing fileMultiple in oneToManyQuartetAgreement -> parser.parseFile");
+  }
+
+  return oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+}
+
+std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
+  pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1,
+                         std::vector<UnrootedTree *> &unrootedTrees2) {
   std::vector<INTTYPE_N4> res;
 
   for(size_t i = 0; i < unrootedTrees1.size(); i++) {
@@ -31,7 +67,8 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(std::v
   return res;
 }
 
-std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(const char *filename1, const char *filename2) {
+std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
+  pairs_quartet_distance(const char *filename1, const char *filename2) {
   NewickParser parser;
   
   std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
@@ -51,7 +88,8 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(const 
   return pairs_quartet_distance(unrootedTrees1, unrootedTrees2);
 }
 
-std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPairsQuartetDistance(const char *filename) {
+std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
+  calculateAllPairsQuartetDistance(const char *filename) {
   NewickParser parser;
 
   std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename); 
@@ -69,7 +107,8 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPai
   return results;
 }
 
-std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees) {
+std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
+  calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees) {
   std::vector<std::vector<INTTYPE_N4> > results(trees.size());
 
   for(size_t r = 0; r < trees.size(); ++r) {
@@ -84,7 +123,7 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPai
 }
 
 std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
-    calculateAllPairsQuartetStatus(const char *filename) {
+    calculateAllPairsQuartetAgreement(const char *filename) {
   
   NewickParser parser;
   
@@ -94,7 +133,7 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   }
   
   const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
-    calculateAllPairsQuartetStatus(unrootedTrees);
+    calculateAllPairsQuartetAgreement(unrootedTrees);
   
   for(size_t i = 0; i < unrootedTrees.size(); ++i) {
     UnrootedTree * tmp = unrootedTrees[i];
@@ -105,7 +144,7 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
 }
 
 std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
-  calculateAllPairsQuartetStatus(std::vector<UnrootedTree *> trees) {
+  calculateAllPairsQuartetAgreement(std::vector<UnrootedTree *> trees) {
   
   std::vector<std::vector<std::vector<INTTYPE_N4> > > results(trees.size());
   AE counts;
@@ -113,7 +152,7 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   for(size_t r = 0; r < trees.size(); ++r) {
     for(size_t c = 0; c <= r; ++c) {
       // comparing a tree with itself gives us (A+B+C) / (D+E)
-      counts = calculateQuartetStatus(trees[r], trees[c]);
+      counts = calculateQuartetAgreement(trees[r], trees[c]);
       std::vector<INTTYPE_N4> ae(2);
       ae[0] = counts.a;
       ae[1] = counts.e;
@@ -125,7 +164,7 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
 }
 
 
-AE QuartetDistanceCalculator::calculateQuartetStatus(const char *filename1, const char *filename2) {
+AE QuartetDistanceCalculator::calculateQuartetAgreement(const char *filename1, const char *filename2) {
   UnrootedTree *ut1 = NULL;
   UnrootedTree *ut2 = NULL;
   NewickParser parser;
@@ -140,7 +179,7 @@ AE QuartetDistanceCalculator::calculateQuartetStatus(const char *filename1, cons
     Rcpp::stop("calculateQuartetDistance failed to parse filename2");
   }
 
-  AE res = calculateQuartetStatus(ut1, ut2);
+  AE res = calculateQuartetAgreement(ut1, ut2);
 
   delete ut1;
   delete ut2;
@@ -148,7 +187,7 @@ AE QuartetDistanceCalculator::calculateQuartetStatus(const char *filename1, cons
   return res;
 }
 
-AE QuartetDistanceCalculator::calculateQuartetStatus(UnrootedTree *t1, UnrootedTree *t2) {
+AE QuartetDistanceCalculator::calculateQuartetAgreement(UnrootedTree *t1, UnrootedTree *t2) {
 
   struct AE res;
   UnrootedTree *tmp;
@@ -231,7 +270,7 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filen
 }
 
 INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2) {
-  struct AE ae = calculateQuartetStatus(t1, t2);
+  struct AE ae = calculateQuartetAgreement(t1, t2);
   INTTYPE_N4 result = ae.noQuartets - (ae.a + ae.e);
   return result;
 }

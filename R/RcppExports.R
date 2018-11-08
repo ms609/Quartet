@@ -24,10 +24,10 @@ tqdist_QuartetDistance <- function(file1, file2) {
     .Call(`_Quartet_tqdist_QuartetDistance`, file1, file2)
 }
 
-#' @describeIn tqdist_QuartetDistance Status of each quartet
+#' @describeIn tqdist_QuartetDistance Agreement of each quartet
 #' @export
-tqdist_QuartetStatus <- function(file1, file2) {
-    .Call(`_Quartet_tqdist_QuartetStatus`, file1, file2)
+tqdist_QuartetAgreement <- function(file1, file2) {
+    .Call(`_Quartet_tqdist_QuartetAgreement`, file1, file2)
 }
 
 #' @describeIn tqdist_QuartetDistance Distance between pairs
@@ -36,16 +36,22 @@ tqdist_PairsQuartetDistance <- function(file1, file2) {
     .Call(`_Quartet_tqdist_PairsQuartetDistance`, file1, file2)
 }
 
+#' @describeIn tqdist_QuartetDistance Distance between pairs
+#' @export
+tqdist_OneToManyQuartetAgreement <- function(file1, fileMany) {
+    .Call(`_Quartet_tqdist_OneToManyQuartetAgreement`, file1, fileMany)
+}
+
 #' @describeIn tqdist_QuartetDistance Distance between all pairs
 #' @export
 tqdist_AllPairsQuartetDistance <- function(file) {
     .Call(`_Quartet_tqdist_AllPairsQuartetDistance`, file)
 }
 
-#' @describeIn tqdist_QuartetDistance Status between all pairs of trees
+#' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 #' @export
-tqdist_AllPairsQuartetStatus <- function(file) {
-    .Call(`_Quartet_tqdist_AllPairsQuartetStatus`, file)
+tqdist_AllPairsQuartetAgreement <- function(file) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetAgreement`, file)
 }
 
 #' @describeIn tqdist_QuartetDistance Triplet distance between two trees
