@@ -54,12 +54,18 @@ TQFile <- function (treeList) {
 #' 
 #' @param file,file1,file2 Paths to files containing a tree or trees in Newick format.
 #' 
-#' @return The distance between the requested trees.
+#' @return `Distance` functions return the distance between the requested trees.
+#' `Status` functions return the number of triplets or quartets that are:
+#'  `A`, resolved in the same fashion in both trees;
+#'  `E`, unresolved in both trees.
+#'  Comparing a tree against itself yields the totals (A+B+C) and (D+E) 
+#'  referred to by Brodal _et al_. (2013) and Holt _et al_. (2014).
 #' 
 #' @author Martin R. Smith, after Andreas Sand
 #' 
 #' @references \insertRef{Sand2014}{Quartet}
 #'   \insertRef{Brodal2013}{Quartet}
+#'   \insertRef{Holt2014}{Quartet}
 #' @export
 QuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
@@ -106,7 +112,9 @@ AllPairsQuartetDistance <- function(file) {
 #' @describeIn QuartetDistance Quartet status for each pair of trees in `file`
 AllPairsQuartetStatus <- function(file) {
   ValidateQuartetFile(file)
-  .Call('_Quartet_tqdist_AllPairsQuartetStatus', as.character(file));
+  result <- .Call('_Quartet_tqdist_AllPairsQuartetStatus', as.character(file));
+  nTrees <- nrow(result)
+  array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
 }
 
 #' @export
