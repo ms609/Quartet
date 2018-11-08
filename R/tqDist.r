@@ -44,21 +44,21 @@ TQAE <- function (treeList) {
   AllPairsQuartetAgreement(fileName)
 }
 
-#' @describeIn TQDist Agreement of each quartet
+#' @describeIn TQDist Agreement of each quartet, comparing each pair of trees in a list
 #' @author Martin R. Smith
-#' @return `QuartetAgreement` returns a three-dimensional array listing,
+#' @return `ManyToManyQuartetAgreement` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @export 
-QuartetAgreement <- function(treeList) {
+ManyToManyQuartetAgreement <- function (treeList) {
   AE <- TQAE(treeList)
   nTree <- dim(AE)[1]
-  A   <- ae[, , 1]
-  E   <- ae[, , 2]
+  A   <- AE[, , 1]
+  E   <- AE[, , 2]
   ABD <- matrix(diag(A), nTree, nTree)
   CE  <- matrix(diag(E), nTree, nTree)
   DE  <- t(DE)
-  C   <- CE - AE[, , 2]
-  D   <- DE - AE[, , 2]
+  C   <- CE - E
+  D   <- DE - E
   B   <- ABD - A - D
   
   # Return:
@@ -66,6 +66,35 @@ QuartetAgreement <- function(treeList) {
         dimnames = list(NULL, NULL, c('s', 'd', 'r1', 'r2', 'u')))
 }
 
+#' @describeIn TQDist Agreement of each quartet in trees in a list with the
+#' quartets in a comparison tree
+#' @author Martin R. Smith
+#' @param comparison A single tree against which to compare the trees in treeList
+#' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
+#'   for tree in `treeList`, the number of quartets in each category.  
+#'   The `comparison` tree is treated as `tree1`.
+#' @export 
+SingleTreeQuartetAgreement <- function (treeList, comparison) {
+  singleFile <- TQFile(comparison)
+  multiFile  <- TQFile(treeList)
+  on.exit(file.remove(singleFile, multiFile))
+  AE <- OneToManyQuartetAgreement(singleFile, multiFile)
+  CE <- vapply(treeList, ResolvedQuartets, integer(2))[2, ]
+  nTree <- length(CE)
+  
+  A   <- AE[, 1]
+  E   <- AE[, 2]
+  rq <- ResolvedQuartets(comparison)
+  ABC <- rq[1]
+  DE <-  rq[2]
+  D   <- DE - E
+  C   <- CE - E
+  
+  B   <- ABC - A - C
+  
+  # Return:
+  array(c(A, B, C, D, E), dim=c(nTree, nTree, 5),
+}
 
 #' Matching Quartets
 #' 
@@ -109,7 +138,9 @@ QuartetAgreement <- function(treeList) {
 #' @importFrom Rdpack reprompt 
 #' @importFrom TreeSearch RenumberTips
 #' @export
-MatchingQuartets <- function (trees, cf=NULL) {
+MatchingQuartets <- function (trees, cf=trees[[1]]) {
+  SingleTreeQuartetAgreement(trees, comparison=cf)
+  
   if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
   
   treeStats <- vapply(trees, function (tr)
@@ -141,7 +172,8 @@ MatchingQuartets <- function (trees, cf=NULL) {
   
   # Return:
   if (is.null(cf)) ret else ret[, -1]
-}+
+}
+
 #' tqDist file generator
 #' 
 #' Creates a temporary file corresponding to a list of trees,
@@ -152,7 +184,8 @@ MatchingQuartets <- function (trees, cf=NULL) {
 #' @export
 TQFile <- function (treeList) {
   if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
-  if (class(treeList) != 'multiPhylo') stop("treeList must be a list of phylogenetic trees")
+  if (!class(treeList) %in% c('phylo', 'multiPhylo'))
+    stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
   fileName <- paste0('~temp', substring(runif(1), 3), '.trees')
   write.tree(treeList, file=fileName)
   # Return:
