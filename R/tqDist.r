@@ -228,7 +228,7 @@ OneToManyQuartetAgreement <- function(file1, file2) {
   }
   matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreement', 
                as.character(file1), as.character(file2)),
-         nrow=2, dimnames=list(c('A', 'E'), NULL))
+         ncol=2, dimnames=list(NULL, c('A', 'E')))
 }
 
 #' @export

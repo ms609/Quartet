@@ -19,22 +19,22 @@ QuartetDistanceCalculator::~QuartetDistanceCalculator() {
   delete dummyHDTFactory;
 }
 
-std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
-  oneToManyQuartetAgreement(UnrootedTree *unrootedSingle,
-                         std::vector<UnrootedTree *> &unrootedMultiple) {
-  std::vector<INTTYPE_N4> res;
+std::vector<INTTYPE_N4> QuartetDistanceCalculator::oneToManyQuartetAgreement\
+  (UnrootedTree *unrootedSingle, std::vector<UnrootedTree *> &unrootedMultiple) {
+  std::vector<INTTYPE_N4> res(unrootedMultiple.size()); // Somehow doubles the number itself??
   
   for(size_t i = 0; i < unrootedMultiple.size(); i++) {
     AE status = calculateQuartetAgreement(unrootedSingle, unrootedMultiple[i]);
-    res.push_back(status.a);
-    res.push_back(status.e);
+    res[i] = status.a;
+    res[i + unrootedMultiple.size()] = status.e;
   }
 
   return res;
 }
 
-std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
-  oneToManyQuartetAgreement(const char *fileSingle, const char *fileMultiple) {
+std::vector<INTTYPE_N4> QuartetDistanceCalculator::oneToManyQuartetAgreement\
+  (const char *fileSingle, const char *fileMultiple) {
+  
   NewickParser parser;
   
   UnrootedTree *unrootedSingle = parser.parseFile(fileSingle); 

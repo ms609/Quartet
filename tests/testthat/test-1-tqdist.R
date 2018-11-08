@@ -19,7 +19,7 @@ test_that("tqDist returns correct quartet distances", {
   expect_equal(PairsQuartetDistance("../trees/one_quartet_twice.new", "../trees/two_quartets.new"), c(0, 1))
   
   expect_equal(OneToManyQuartetAgreement("../trees/quartet1.new", "../trees/two_quartets.new"),
-               matrix(c(1, 0, 0, 0), nrow=2))
+               matrix(c(1, 0, 0, 0), nrow=2, dimnames=list(NULL, c('A', 'E'))))
   
   allPairs <- AllPairsQuartetDistance("../trees/five_trees.new")
   
