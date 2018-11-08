@@ -21,8 +21,8 @@ QuartetDistanceCalculator : private AbstractDistanceCalculator {
   std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetDistance(const char *filename);
   std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees);
   
-  std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetStatus(const char *filename);
-  std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetStatus(std::vector<UnrootedTree *> trees);
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetStatus(const char *filename);
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetStatus(std::vector<UnrootedTree *> trees);
 
   std::vector<INTTYPE_N4> pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
   void pairs_quartet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);

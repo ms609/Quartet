@@ -42,6 +42,12 @@ tqdist_AllPairsQuartetDistance <- function(file) {
     .Call(`_Quartet_tqdist_AllPairsQuartetDistance`, file)
 }
 
+#' @describeIn tqdist_QuartetDistance Status between all pairs of trees
+#' @export
+tqdist_AllPairsQuartetStatus <- function(file) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetStatus`, file)
+}
+
 #' @describeIn tqdist_QuartetDistance Triplet distance between two trees
 #' @export
 tqdist_TripletDistance <- function(file1, file2) {

@@ -83,8 +83,8 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPai
   return results;
 }
 
-std::vector<std::vector<INTTYPE_N4> > 
-  QuartetDistanceCalculator::calculateAllPairsQuartetStatus(const char *filename) {
+std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
+    calculateAllPairsQuartetStatus(const char *filename) {
   
   NewickParser parser;
   
@@ -93,7 +93,7 @@ std::vector<std::vector<INTTYPE_N4> >
     Rcpp::stop("Error: Failed to parse filename");
   }
   
-  const std::vector<std::vector<INTTYPE_N4> > results = 
+  const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
     calculateAllPairsQuartetStatus(unrootedTrees);
   
   for(size_t i = 0; i < unrootedTrees.size(); ++i) {
@@ -104,20 +104,21 @@ std::vector<std::vector<INTTYPE_N4> >
   return results;
 }
 
-std::vector<std::vector<INTTYPE_N4> > 
-  QuartetDistanceCalculator::calculateAllPairsQuartetStatus(std::vector<UnrootedTree *> trees) {
+std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
+  calculateAllPairsQuartetStatus(std::vector<UnrootedTree *> trees) {
   
-  std::vector<std::vector<INTTYPE_N4> > results(trees.size());
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > results(trees.size());
   AE counts;
   
   for(size_t r = 0; r < trees.size(); ++r) {
-    for(size_t c = 0; c < r; ++c) {
+    for(size_t c = 0; c <= r; ++c) {
+      // comparing a tree with itself gives us (A+B+C) / (D+E)
       counts = calculateQuartetStatus(trees[r], trees[c]);
-      results[r].push_back(counts.a);
-      results[r].push_back(counts.e);
+      std::vector<INTTYPE_N4> ae(2);
+      ae[0] = counts.a;
+      ae[1] = counts.e;
+      results[r].push_back(ae);
     }
-    results[r].push_back(0);
-    results[r].push_back(0);
   }
 
   return results;

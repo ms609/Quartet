@@ -29,6 +29,10 @@ test_that("tqDist returns correct quartet distances", {
   
   allPairsStatus <- AllPairsQuartetStatus("../trees/unresolved_list.new")
   
+  expect_equal(c(12, 15, 9, 0), diag(allPairsStatus[, , 1]))
+  expect_equal(c(12, 15, 9, 0), 15-diag(allPairsStatus[, , 2]))
+  expect_equal(c(9L, 3L), as.integer(allPairsStatus[1, 3, ]))
+  expect_equal(c(0L, 6L), as.integer(allPairsStatus[3, 4, ]))
 })
 
 test_that("tqDist returns correct triplet distances", {

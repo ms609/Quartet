@@ -148,17 +148,19 @@ IntegerMatrix tqdist_AllPairsQuartetStatus(CharacterVector file) {
   filename = CHAR(STRING_ELT(file, 0));
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<std::vector<INTTYPE_N4> > res = quartetCalc.calculateAllPairsQuartetStatus(filename);
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = quartetCalc.calculateAllPairsQuartetStatus(filename);
 
-  IntegerMatrix IM_res(res.size(), res.size(), 2);
+  IntegerMatrix IM_res(res.size(), res.size() * 2);
 
   for (size_t r = 0; r < res.size(); r++) {
-    for (size_t c = 0; c < r; c++) {
-      int current_res = int(res[r][c]);
-      IM_res[r + res.size() * c] = current_res;
-      IM_res[c + res.size() * r] = current_res;
+    for (size_t c = 0; c <= r; c++) {
+      int current_a = int(res[r][c][0]);
+      int current_e = int(res[r][c][1]);
+      IM_res[r + res.size() * c] = current_a;
+      IM_res[c + res.size() * r] = current_a;
+      IM_res[r + res.size() * c + (res.size() * res.size())] = current_e;
+      IM_res[c + res.size() * r + (res.size() * res.size())] = current_e;
     }
-    IM_res[r + res.size()*r] = res[r][r];
   }
   
   return IM_res;
