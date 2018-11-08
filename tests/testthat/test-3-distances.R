@@ -1,5 +1,4 @@
-context("Slow quartet distance")
-library("ape")
+context("Quartet distances")
 
 data('sq_trees')
 ref_tree <- sq_trees$ref_tree
@@ -12,7 +11,7 @@ test_that("Quartets are counted correctly", {
   easyTreesy <- list(
     ape::read.tree(text='((1, 2), ((3, 4), (6, 5)));'),
     ape::read.tree(text='((1, 5), (3, (4, (2, 6))));'))
-  expect_identical(c(15, 2), MatchingQuartets(easyTreesy)['s',])
+  expect_identical(c(15, 2), MatchingQuartets(easyTreesy)['s', ])
   
   quartet_matches <- MatchingQuartets(sq_trees)
   qb_matches <- quartet_matches['s', bifurcators]
