@@ -22,7 +22,7 @@ Congreve & Lamsdell [-@Congreve2016] using a ternary plotting approach
 [@ThisStudy], with quartets and partitions used as distance metrics.
 
 ```{r initialize, echo=FALSE, fig.width=9, fig.height=90}
-Sys.setlocale("LC_ALL", "English_United Kingdom.1252")
+Sys.setlocale("LC_ALL", "English_United Kingdom.1252") # allows PCH=183
 library(Quartet)
 library(Ternary)
 data(clPartitions)
@@ -52,13 +52,13 @@ BG_COL   <- rgb(0.985, 0.985, 0.992)
 MARGINS <- c(2.8, 0.3, 0.3, 0.3)
 ROWS <- c(10, 3)
 
-Quartet2Ternary <- function (item, TREE) clQuartets[[item]][c('r2', 'd', 's'), , TREE]
+Quartet2Ternary <- function (item, TREE) clQuartets[[item]][, c('r2', 'd', 's'), TREE]
   
 Split2Ternary <- function (item, TREE) {
   itemData <- clPartitions[[item]][, , TREE]
-  rbind(itemData['ref', ] - itemData['cf', ],
-        itemData['cf_not_ref', ],
-        itemData['cf_and_ref', ])
+  rbind(itemData[, 'ref'] - itemData[, 'cf'],
+        itemData[, 'cf_not_ref'],
+        itemData[, 'cf_and_ref'])
 }
 
 TernaryQuarts<-function(Func=Quartet2Ternary, TREE=TREE, zoom=1, padding=0.1) {
@@ -96,10 +96,8 @@ AddLegend <- function(pos='bottomright')
   )
 
 Plottem <- function (i) { 
-  if (i == 34) return();
-  TREE <- if (i < 34) i else (i - 1)
   
-  TernaryQuarts(TREE=TREE)
+  TernaryQuarts(TREE=i)
   title(main=paste0("\nQuartets"), cex.main=0.8)
   arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
   text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)

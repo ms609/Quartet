@@ -83,6 +83,10 @@ test_that("Incomparable trees fail gracefully", {
   expect_error(MatchingQuartets(list(ref_tree, ape::rtree(6))))
 })
 
+test_that("Cleanup was successful", {
+  expect_identical(character(0), list.files(pattern='~temp.*'))
+})
+
 context("Partition distances")
 test_that ("Partitions are counted correctly", {
   p_dist <- MatchingSplits(sq_trees)
