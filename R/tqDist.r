@@ -71,7 +71,6 @@ ManyToManyQuartetAgreement <- function (treeList) {
 #' @author Martin R. Smith
 #' @param comparison A single tree against which to compare the trees in treeList
 #' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
-#'   for tree in `treeList`, the number of quartets in each category.  
 #'   for tree in `treeList`, the total number of quartets and the 
 #'   number of quartets in each category.  
 #'   The `comparison` tree is treated as `tree2`.
@@ -143,38 +142,6 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @export
 MatchingQuartets <- function (trees, cf=trees[[1]]) {
   SingleTreeQuartetAgreement(trees, comparison=cf)
-  
-  if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
-  
-  treeStats <- vapply(trees, function (tr)
-    c(tr$Nnode, length(tr$tip.label)), double(2))
-  if (length(unique(treeStats[2, ])) > 1) {
-    stop("All trees must have the same number of tips")
-  }
-  
-  QuartetAgreement(trees) ## We only need pairs!
-  if (length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
-    tqDistances <- TQDist(trees)
-    nTrees <- length(trees)
-    nQuartets <- choose(length(trees[[1]]$tip.label), 4)
-    tqDiffs <- tqDistances[1, ]
-    t(data.frame(
-      Q = rep(nQuartets, nTrees),
-      s = nQuartets - tqDiffs,
-      d = tqDiffs,
-      r1 = integer(nTrees),
-      r2 = integer(nTrees),
-      u = integer(nTrees)
-    ))
-  }
-  
-  tree1Labels <- trees[[1]]$tip.label
-  trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
-  quartets <- QuartetStates(lapply(trees, Tree2Splits))
-  ret <- vapply(quartets, CompareQuartets, cf=quartets[[1]], double(6))
-  
-  # Return:
-  if (is.null(cf)) ret else ret[, -1]
 }
 
 #' tqDist file generator
