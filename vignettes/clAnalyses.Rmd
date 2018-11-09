@@ -31,7 +31,7 @@ data(clCI)
 
 PCH_MK <- 1   # circle
 PCH_EQ <- 61  #'='
-PCH_XX <- 183 #'.'
+PCH_XX <- 18 # 183 #'.' is invalid in some locales
 PCH_IW <- 2   #triup
 PCH_IC <- 17  #triupfilled
 TREE <- 2

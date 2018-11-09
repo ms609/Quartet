@@ -28,7 +28,7 @@ code used to generate figures and conduct analyses, and is provided in the Elect
 require('ape')
 require('Ternary')
 require('Quartet')
-options('rqtDist.message' = FALSE)
+Sys.setlocale("LC_ALL", "English_United Kingdom.1252") # allows PCH=183
 data('sq_trees')
 n_tip <- 11
 ref_tree <- sq_trees[[1]]
@@ -324,7 +324,7 @@ pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10,
 pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 
-n_random <- if(Sys.getenv('TRAVIS')) 10 else 10000
+n_random <- if(Sys.getenv('TRAVIS') == "") 10000 else 10
 random_trees <- lapply(seq_len(n_random), function (x) rtree(11, br=NULL, tip.label=1:11))
 random_quartets <- MatchingQuartets(random_trees, cf=pectinate_tree)['d', ] / choose(11,4)
 random_distances <- vapply(random_trees, phangorn::treedist,
