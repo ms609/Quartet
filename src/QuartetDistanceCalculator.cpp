@@ -19,20 +19,20 @@ QuartetDistanceCalculator::~QuartetDistanceCalculator() {
   delete dummyHDTFactory;
 }
 
-std::vector<INTTYPE_N4> QuartetDistanceCalculator::oneToManyQuartetAgreement\
+Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (UnrootedTree *unrootedSingle, std::vector<UnrootedTree *> &unrootedMultiple) {
-  std::vector<INTTYPE_N4> res(unrootedMultiple.size() * 2);
+  Rcpp::IntegerVector res(unrootedMultiple.size() * 2);
   
   for(size_t i = 0; i < unrootedMultiple.size(); i++) {
     AE status = calculateQuartetAgreement(unrootedSingle, unrootedMultiple[i]);
-    res[i] = (INTTYPE_N4) status.a;
-    res[i + unrootedMultiple.size()] = (INTTYPE_N4) status.e;
+    res[i] = status.a;
+    res[i + unrootedMultiple.size()] = status.e;
   }
-
+  
   return res;
 }
 
-std::vector<INTTYPE_N4> QuartetDistanceCalculator::oneToManyQuartetAgreement\
+Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (const char *fileSingle, const char *fileMultiple) {
   
   NewickParser parser;

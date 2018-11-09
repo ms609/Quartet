@@ -122,13 +122,7 @@ IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterV
   
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<INTTYPE_N4> res = quartetCalc.oneToManyQuartetAgreement(fileSingle, fileMultiple);
-  
-  IntegerVector IV_res(res.size());
-  for (size_t i = 0; i < res.size(); i++) {
-    IV_res[i] = (INTTYPE_N4) res[i];
-  }
-  return IV_res;
+  return quartetCalc.oneToManyQuartetAgreement(fileSingle, fileMultiple);
 }
 
 //' @describeIn tqdist_QuartetDistance Distance between all pairs
