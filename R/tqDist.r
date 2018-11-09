@@ -72,28 +72,31 @@ ManyToManyQuartetAgreement <- function (treeList) {
 #' @param comparison A single tree against which to compare the trees in treeList
 #' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
 #'   for tree in `treeList`, the number of quartets in each category.  
-#'   The `comparison` tree is treated as `tree1`.
+#'   for tree in `treeList`, the total number of quartets and the 
+#'   number of quartets in each category.  
+#'   The `comparison` tree is treated as `tree2`.
 #' @export 
 SingleTreeQuartetAgreement <- function (treeList, comparison) {
   singleFile <- TQFile(comparison)
   multiFile  <- TQFile(treeList)
   on.exit(file.remove(singleFile, multiFile))
   AE <- OneToManyQuartetAgreement(singleFile, multiFile)
-  CE <- vapply(treeList, ResolvedQuartets, integer(2))[2, ]
-  nTree <- length(CE)
+  DE <- vapply(treeList, ResolvedQuartets, integer(2))[2, ]
+  nTree <- length(DE)
   
   A   <- AE[, 1]
   E   <- AE[, 2]
   rq <- ResolvedQuartets(comparison)
-  ABC <- rq[1]
-  DE <-  rq[2]
-  D   <- DE - E
+  ABD <- rq[1]
+  CE <-  rq[2]
   C   <- CE - E
+  D   <- DE - E
   
-  B   <- ABC - A - C
+  B   <- ABD - A - D
   
   # Return:
-  array(c(A, B, C, D, E), dim=c(nTree, 5))
+  array(c(rep(sum(ABD, CE), nTree), A, B, C, D, E), dim=c(nTree, 6),
+        dimnames=list(NULL, c('Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
 #' Matching Quartets
