@@ -1,51 +1,5 @@
 WHICH_OTHER_NODE <- 2:4
 
-#' Drop Single Splits
-#' 
-#' Removes splits that pertain only to a single taxon from a splits object
-#' 
-#' @param split A matrix in which each column corresponds to a bipartition split
-#' 
-#' @return The same matrix, with any columns that separate only a single pendant tip
-#'         removed.
-#'         
-#' @author Martin R. Smith
-#' 
-#' @export 
-DropSingleSplits <- function (split) {
-  split[, colSums(split) > 1 & colSums(!split) > 1, drop=FALSE]
-}
-
-#' Tree2Splits
-#' 
-#' Converts a phylogenetic tree to an array of bipartition splits.
-#' 
-#' @param tr A tree of class \code{\link[ape:read.tree]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).
-#' @return Returns a two-dimensional array, with columns corresponding to bipartitions and rows corresponding
-#' to tips 1:N.
-#'
-#' @author Martin R. Smith
-#' 
-#' @examples Tree2Splits(ape::rtree(6, tip.label=1:6, br=NULL))
-#'
-#' @importFrom ape reorder.phylo
-#' @useDynLib Quartet, .registration = TRUE
-#' @export
-Tree2Splits <- function (tr) {
-  tr <- reorder.phylo(tr, 'postorder')
-  tip_label <- tr$tip.label
-  n_tip <- as.integer(length(tip_label))
-  root <- length(tip_label) + 1
-  bipartitions <- phangorn_bipCPP(tr$edge, n_tip)
-  ret <- vapply(bipartitions[-seq_len(root)], 
-         function (x) seq_len(n_tip) %in% x, 
-         logical(n_tip))[seq_len(n_tip), , drop=FALSE]
-  rownames(ret) <- tip_label
-  
-  # Return:
-  DropSingleSplits(ret)
-}
-
 #' Column Sums
 #' 
 #' An accelerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}.
