@@ -165,7 +165,8 @@ QuartetStates <- function (splits) {
   
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
-    vapply(Choices(n_tips), QuartetState, double(1), bips=bips[sort(rownames(bips)), , drop=FALSE])
+    vapply(Choices(n_tips), QuartetState, double(1), 
+           bips=bips[sort(rownames(bips)), , drop=FALSE])
   })
 }
 
@@ -280,11 +281,11 @@ UnshiftTree <- function(add, treeList) {
 QuartetMetrics <- function (trees, similarity=TRUE) {
   mq <- MatchingQuartets(trees)
   result <- data.frame(
-    DoNotConflict = mq['d', ] / mq['Q', ],
-    ExplicitlyAgree = 1 - (mq['s', ] / mq['Q', ]),
-    StrictJointAssertions =  mq['d', ] / colSums(mq[c('d', 's'), ]),
-    SemiStrictJointAssertions = mq['d', ] / colSums(mq[c('d', 's', 'u'), ]),
-    QuartetDivergence =  colSums(mq[c('d', 'd', 'r1', 'r2'), ]) / (2 * mq['Q', ])
+    DoNotConflict = mq[, 'd'] / mq[, 'Q'],
+    ExplicitlyAgree = 1 - (mq[, 's'] / mq[, 'Q']),
+    StrictJointAssertions = mq[, 'd'] / rowSums(mq[, c('d', 's')]),
+    SemiStrictJointAssertions = mq[, 'd'] / rowSums(mq[, c('d', 's', 'u')]),
+    QuartetDivergence = rowSums(mq[, c('d', 'd', 'r1', 'r2')]) / (2 * mq[, 'Q'])
   )
   if (similarity) 1 - result else result
 }
@@ -293,7 +294,7 @@ QuartetMetrics <- function (trees, similarity=TRUE) {
 #' @export
 DoNotConflict <- function (mq, similarity=TRUE) {
   if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq['d', ] / mq['Q', ]
+  result <- mq[, 'd'] / mq[, 'Q']
   if (similarity) 1 - result else result
 }
 
@@ -301,7 +302,7 @@ DoNotConflict <- function (mq, similarity=TRUE) {
 #' @export
 ExplicitlyAgree <- function (mq, similarity=TRUE) {
   if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq['s', ] / mq['Q', ]
+  result <- mq[, 's'] / mq[, 'Q']
   if (similarity) result else 1 - result
 }
 
@@ -309,7 +310,7 @@ ExplicitlyAgree <- function (mq, similarity=TRUE) {
 #' @export
 StrictJointAssertions <- function (mq, similarity=TRUE) {
   if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq['d', ] / colSums(mq[c('d', 's'), ])
+  result <- mq[, 'd'] / rowSums(mq[, c('d', 's')])
   if (similarity) 1 - result else result
 }
 
@@ -317,7 +318,7 @@ StrictJointAssertions <- function (mq, similarity=TRUE) {
 #' @export
 SemiStrictJointAssertions <- function (mq, similarity=TRUE) {
   if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq['d', ] / colSums(mq[c('d', 's', 'u'), ])
+  result <- mq[, 'd'] / rowSums(mq[, c('d', 's', 'u')])
   if (similarity) 1 - result else result
 }
 
@@ -326,6 +327,6 @@ SemiStrictJointAssertions <- function (mq, similarity=TRUE) {
 #' @export
 QuartetDivergence <- function (mq, similarity=TRUE) {
   if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- colSums(mq[c('d', 'd', 'r1', 'r2'), ]) / ( 2 * mq['Q', ])
+  result <- rowSums(mq[, c('d', 'd', 'r1', 'r2')]) / ( 2 * mq[, 'Q'])
   if (similarity) 1 - result else result
 }
