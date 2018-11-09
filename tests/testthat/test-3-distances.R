@@ -11,20 +11,16 @@ test_that("Quartets are counted correctly", {
   easyTreesy <- list(
     ape::read.tree(text='((1, 2), ((3, 4), (6, 5)));'),
     ape::read.tree(text='((1, 5), (3, (4, (2, 6))));'))
-  expect_identical(c(15, 2), MatchingQuartets(easyTreesy)['s', ])
+  expect_identical(c(15L, 2L), MatchingQuartets(easyTreesy)[, 's'])
   
   quartet_matches <- MatchingQuartets(sq_trees)
-  qb_matches <- quartet_matches['s', bifurcators]
 
-  tq_distances <- TQDist(treeList <- sq_trees[bifurcators])
-  tq_matches <- choose(n_tip, 4) - tq_distances[1, ]
-  expect_equal(tq_matches, as.integer(qb_matches))
-
-  expected_identical <- c(330, 322, 278, 254, 306, 252, 238, 322, 207, 270, 213, 244, 125, 86, 104)
-  expected_ambiguous <- c(rep(0, 7), 8, 123, 8, 65, 8, 205, 0, 0)
+  expected_identical <- c(330L, 322L, 278L, 254L, 306L, 252L, 238L, 
+                          322L, 207L, 270L, 213L, 244L, 125L, 86L, 104L)
+  expected_ambiguous <- c(rep(0L, 7), 8L, 123L, 8L, 65L, 8L, 205L, 0L, 0L)
   
-  expect_equal(expected_identical, as.integer(quartet_matches['s', ]))
-  expect_equal(expected_ambiguous, as.integer(quartet_matches['r2', ]))
+  expect_identical(expected_identical, quartet_matches[, 's'])
+  expect_identical(expected_ambiguous, quartet_matches[, 'r2'])
   
 })
 
