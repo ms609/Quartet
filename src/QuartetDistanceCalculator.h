@@ -12,8 +12,8 @@ QuartetDistanceCalculator : private AbstractDistanceCalculator {
   ~QuartetDistanceCalculator();
 
   
-  struct AE calculateQuartetAgreement(const char *t1, const char *t2);
-  struct AE calculateQuartetAgreement(UnrootedTree *t1, UnrootedTree *t2);
+  AE calculateQuartetAgreement(const char *t1, const char *t2);
+  AE calculateQuartetAgreement(UnrootedTree *t1, UnrootedTree *t2);
   
   INTTYPE_N4 calculateQuartetDistance(const char *t1, const char *t2);
   INTTYPE_N4 calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2);

@@ -189,7 +189,7 @@ AE QuartetDistanceCalculator::calculateQuartetAgreement(const char *filename1, c
 
 AE QuartetDistanceCalculator::calculateQuartetAgreement(UnrootedTree *t1, UnrootedTree *t2) {
 
-  struct AE res;
+  AE res;
   UnrootedTree *tmp;
   if(t1->maxDegree > t2->maxDegree) { // Smallest degree tree as t1
     tmp = t1;
