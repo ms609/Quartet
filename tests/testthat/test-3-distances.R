@@ -5,7 +5,7 @@ ref_tree <- sq_trees$ref_tree
 n_tip <- 11
 
 treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
-bifurcators <- treeNodes == n_tip - 1L
+
 
 test_that("Quartets are counted correctly", {
   easyTreesy <- list(
@@ -32,6 +32,7 @@ test_that("Quartet metrics are sane", {
   expect_true(all(dists['ref_tree', ] == 0))
   
   # Metrics should be identical with bifurcating trees.
+  bifurcators <- treeNodes == n_tip - 1L
   expect_true(all(apply(sims[bifurcators, ], 1, var) < 1e-08))
   
   mq <- MatchingQuartets(sq_trees)
