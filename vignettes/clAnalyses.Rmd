@@ -22,6 +22,7 @@ Congreve & Lamsdell [-@Congreve2016] using a ternary plotting approach
 [@ThisStudy], with quartets and partitions used as distance metrics.
 
 ```{r initialize, echo=FALSE, fig.width=9, fig.height=90}
+Sys.setlocale("LC_ALL", "English_United Kingdom.1252")
 library(Quartet)
 library(Ternary)
 data(clPartitions)
