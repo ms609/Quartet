@@ -21,12 +21,12 @@ QuartetDistanceCalculator::~QuartetDistanceCalculator() {
 
 std::vector<INTTYPE_N4> QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (UnrootedTree *unrootedSingle, std::vector<UnrootedTree *> &unrootedMultiple) {
-  std::vector<INTTYPE_N4> res(unrootedMultiple.size()); // Somehow doubles the number itself??
+  std::vector<INTTYPE_N4> res(unrootedMultiple.size() * 2);
   
   for(size_t i = 0; i < unrootedMultiple.size(); i++) {
     AE status = calculateQuartetAgreement(unrootedSingle, unrootedMultiple[i]);
-    res[i] = status.a;
-    res[i + unrootedMultiple.size()] = status.e;
+    res[i] = (INTTYPE_N4) status.a;
+    res[i + unrootedMultiple.size()] = (INTTYPE_N4) status.e;
   }
 
   return res;
@@ -270,7 +270,7 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filen
 }
 
 INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2) {
-  struct AE ae = calculateQuartetAgreement(t1, t2);
+  AE ae = calculateQuartetAgreement(t1, t2);
   INTTYPE_N4 result = ae.noQuartets - (ae.a + ae.e);
   return result;
 }
