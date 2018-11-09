@@ -55,10 +55,10 @@ test_that("Quartet metrics handle polytomous pairs", {
                  4, 4, 0, 0, 4, 0, 4, 4, 0, 4, 4, 4, rep(0, 5)), polyStates[[2]])
   
   mq <- MatchingQuartets(polytomous)
-  expect_equal(c(Q=35, s=31, d=0, r1=0, r2=0, u=4), mq[, 1])
-  expect_equal(c(Q=35, s=10, d=10, r1=2, r2=11, u=2), mq[, 2])
-  expect_equal(c(Q=35, s=31, d=0, r1=4, r2=0, u=0), mq[, 3])
-  expect_equal(c(Q=35, s=25, d=6, r1=4, r2=0, u=0), mq[, 4])
+  expect_identical(mq[1, ], c(Q=35L, s=31L, d=0L, r1=0L, r2=0L, u=4L))
+  expect_identical(mq[2, ], c(Q=35L, s=10L, d=10L, r1=2L, r2=11L, u=2L))
+  expect_identical(mq[3, ], c(Q=35L, s=31L, d=0L, r1=4L, r2=0L, u=0L))
+  expect_identical(mq[4, ], c(Q=35L, s=25L, d=6L, r1=4L, r2=0L, u=0L))
 })
 
 test_that ("Partitions are counted correctly", {
