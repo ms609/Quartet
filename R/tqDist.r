@@ -93,7 +93,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
   B   <- ABC - A - C
   
   # Return:
-  array(c(A, B, C, D, E), dim=c(nTree, nTree, 5),
+  array(c(A, B, C, D, E), dim=c(nTree, 5))
 }
 
 #' Matching Quartets
