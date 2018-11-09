@@ -25,7 +25,7 @@ test_that("Quartets are counted correctly", {
 })
 
 test_that("Quartet metrics are sane", {
-  sims <- QuartetMetrics(sq_trees) 
+  sims <- QuartetMetrics(sq_trees)
   dists <- QuartetMetrics(sq_trees, similarity=FALSE)
   expect_true(all(sims <= 1))
   expect_true(all(sims + dists == 1))
@@ -36,7 +36,9 @@ test_that("Quartet metrics are sane", {
   expect_true(all(apply(sims[bifurcators, ], 1, var) < 1e-08))
   
   mq <- MatchingQuartets(sq_trees)
-  fncs <- vapply(list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions, SemiStrictJointAssertions, QuartetDivergence), function (X) X(mq), double(length(sq_trees)))
+  fncs <- vapply(list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions,
+                      SemiStrictJointAssertions, QuartetDivergence),
+                 function (X) X(mq), double(length(sq_trees)))
   expect_true(all(fncs - sims < 1e-08))
 })
 
