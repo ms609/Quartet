@@ -91,11 +91,10 @@ CompareSplits <- function (x, cf) {
 #' @template treesCfParam
 #' 
 #' @return Returns a two dimensional array. 
-#'         Columns correspond to the input trees; the first column will always
-#'         report a perfect match as it compares the first tree to itself.
-#'         Rows report the number of partitions that : 1, are present in 
-#'         \code{trees[[1]]} and the corresponding input tree;
-#'         2: are unresolved in (at least) one of \code{trees[[1]]} and the corresponding 
+#'         Rows correspond to the input trees.
+#'         Columns report the number of partitions that :
+#'         1: are present in the comparison tree and the corresponding input tree;
+#'         2: are unresolved in (at least) one of the comparison tree and the corresponding 
 #'         input tree. Partitions that DIFFER between the two relevant trees can be 
 #'         calculated by deducting the partitions in either of the other two
 #'         categories from the total number of partitions, given by
@@ -109,7 +108,7 @@ CompareSplits <- function (x, cf) {
 #'  }
 #' @author Martin R. Smith
 #' @export
-MatchingSplits <- function (trees, cf=NULL) {
+MatchingSplits <- function (trees, cf=trees[[1]]) {
   if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
   
   treeStats <- vapply(trees, function (tr)
@@ -126,5 +125,5 @@ MatchingSplits <- function (trees, cf=NULL) {
                      'RF_dist')
   
   # Return:
-  if (is.null(cf)) ret else ret[, -1]
+  if (is.null(cf)) t(ret) else t(ret[, -1])
 }
