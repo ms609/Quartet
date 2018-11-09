@@ -94,7 +94,7 @@ test_that ("Partitions are counted correctly", {
   expect_equal(rf_dist, as.integer(p_dist[, 'RF_dist']))
   expect_equal(p_dist['move_one_mid' , 'cf_not_ref'],
                p_dist['m1mid_col1'   , 'cf_not_ref'],
-               p_dist['cf_not_ref', 'm1mid_colsome'])
+               p_dist['m1mid_colsome', 'cf_not_ref'])
   expect_equal(1L, p_dist['m1mid_col1'   , 'ref_not_cf'] - p_dist['m1mid_col1'   , 'cf_not_ref'])
   expect_equal(3L, p_dist['m1mid_colsome', 'ref_not_cf'] - p_dist['m1mid_colsome', 'cf_not_ref'])
   
