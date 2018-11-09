@@ -18,6 +18,7 @@ test_that("Quartets are counted correctly", {
   expected_identical <- c(330L, 322L, 278L, 254L, 306L, 252L, 238L, 
                           322L, 207L, 270L, 213L, 244L, 125L, 86L, 104L)
   expected_ambiguous <- c(rep(0L, 7), 8L, 123L, 8L, 65L, 8L, 205L, 0L, 0L)
+  names(expected_identical) <- names(expected_ambiguous) <- names(sq_trees)
   
   expect_identical(expected_identical, quartet_matches[, 's'])
   expect_identical(expected_ambiguous, quartet_matches[, 'r2'])
@@ -81,27 +82,33 @@ test_that("Incomparable trees fail gracefully", {
   # Must have same number of tips
   expect_error(MatchingQuartets(list(ref_tree, ape::rtree(6))))
 })
+
+context("Partition distances")
 test_that ("Partitions are counted correctly", {
   p_dist <- MatchingSplits(sq_trees)
   unrooted_trees <- lapply(sq_trees, ape::unroot)
   rf_dist <- as.integer(lapply(unrooted_trees, ape::dist.topo, ape::unroot(ref_tree)))
   
-  expect_true(all(p_dist['cf_and_ref', ] + p_dist['cf_not_ref', ] <= p_dist['cf', ]))
-  expect_true(all(p_dist['cf_and_ref', ] + p_dist['ref_not_cf', ] <= p_dist['ref', ]))
-  expect_equal(rf_dist, as.integer(p_dist['RF_dist', ]))
-  expect_equal(p_dist['cf_not_ref', 'move_one_mid'], p_dist['cf_not_ref', 'm1mid_col1'], p_dist['cf_not_ref', 'm1mid_colsome'])
-  expect_equal(1, p_dist['ref_not_cf', 'm1mid_col1'] - p_dist['cf_not_ref', 'm1mid_col1'])
-  expect_equal(3, p_dist['ref_not_cf', 'm1mid_colsome'] - p_dist['cf_not_ref', 'm1mid_colsome'])
+  expect_true(all(p_dist[, 'cf_and_ref'] + p_dist[, 'cf_not_ref'] <= p_dist[, 'cf']))
+  expect_true(all(p_dist[, 'cf_and_ref'] + p_dist[, 'ref_not_cf'] <= p_dist[, 'ref']))
+  expect_equal(rf_dist, as.integer(p_dist[, 'RF_dist']))
+  expect_equal(p_dist['move_one_mid' , 'cf_not_ref'],
+               p_dist['m1mid_col1'   , 'cf_not_ref'],
+               p_dist['cf_not_ref', 'm1mid_colsome'])
+  expect_equal(1L, p_dist['m1mid_col1'   , 'ref_not_cf'] - p_dist['m1mid_col1'   , 'cf_not_ref'])
+  expect_equal(3L, p_dist['m1mid_colsome', 'ref_not_cf'] - p_dist['m1mid_colsome', 'cf_not_ref'])
   
-  expect_equal(p_dist['cf_not_ref', 'move_two_mid'], p_dist['cf_not_ref', 'm2mid_col1'])
-  expect_equal(1, p_dist['ref_not_cf', 'm2mid_col1']    - p_dist['cf_not_ref', 'm2mid_col1'])
-  expect_equal(5, p_dist['ref_not_cf', 'm2mid_colsome'] - p_dist['cf_not_ref', 'm2mid_colsome'])
+  expect_equal(p_dist['move_two_mid', 'cf_not_ref'],
+               p_dist['m2mid_col1',   'cf_not_ref'])
+  expect_equal(1L, p_dist['m2mid_col1', 'ref_not_cf']
+                 - p_dist['m2mid_col1', 'cf_not_ref'])
+  expect_equal(5L, p_dist['m2mid_colsome', 'ref_not_cf'] 
+                 - p_dist['m2mid_colsome', 'cf_not_ref'])
   
 })
 
 test_that("Incomparable trees fail gracefully", {
   # Must have same number of tips
   expect_error(MatchingSplits(list(ref_tree, ape::rtree(6)))) 
-  expect_error(MatchingQuartets(list(ref_tree, ape::rtree(6))))
 })
 
