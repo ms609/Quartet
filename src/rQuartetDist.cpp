@@ -124,7 +124,7 @@ IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterV
   
   std::vector<INTTYPE_N4> res = quartetCalc.oneToManyQuartetAgreement(fileSingle, fileMultiple);
   
-  IntegerVector IV_res(res.size() * 2);
+  IntegerVector IV_res(res.size());
   for (size_t i = 0; i < res.size(); i++) {
     IV_res[i] = (INTTYPE_N4) res[i];
   }
