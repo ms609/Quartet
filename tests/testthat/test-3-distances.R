@@ -61,6 +61,26 @@ test_that("Quartet metrics handle polytomous pairs", {
   expect_identical(mq[4, ], c(Q=35L, s=25L, d=6L, r1=4L, r2=0L, u=0L))
 })
 
+test_that("Random trees are 1/3 similar", {
+  for (n_tip in c(7, 13, 26)) {
+    random_trees <- lapply(rep(n_tip, 50), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
+    n_quartets <- choose(n_tip, 4)
+    
+    sq_matches <- MatchingQuartets(random_trees)
+    expect_equal(0, sum(sq_matches[, c('r1', 'r2', 'u')]))
+    expect_true(t.test(sq_matches[, 's'], mu=n_quartets * 1 / 3)$p.value > 0.01)
+    
+    tq_distances <- TQDist(random_trees)
+    tq_unique <- tq_distances[upper.tri(tq_distances)]
+    expect_true(t.test(tq_unique, mu=n_quartets * 2 / 3)$p.value > 0.01)
+    expect_equal(tq_distances[1, ], n_quartets - sq_matches[, 's'])
+  }
+})
+
+test_that("Incomparable trees fail gracefully", {
+  # Must have same number of tips
+  expect_error(MatchingQuartets(list(ref_tree, ape::rtree(6))))
+})
 test_that ("Partitions are counted correctly", {
   p_dist <- MatchingSplits(sq_trees)
   unrooted_trees <- lapply(sq_trees, ape::unroot)
@@ -85,18 +105,3 @@ test_that("Incomparable trees fail gracefully", {
   expect_error(MatchingQuartets(list(ref_tree, ape::rtree(6))))
 })
 
-test_that("Random trees are 1/3 similar", {
-  for (n_tip in c(7, 13, 26)) {
-    random_trees <- lapply(rep(n_tip, 50), ape::rtree, tip.label=seq_len(n_tip), br=NULL)
-    n_quartets <- choose(n_tip, 4)
-    
-    sq_matches <- MatchingQuartets(random_trees)
-    expect_equal(0, sum(sq_matches[c('r1', 'r2', 'u'), ]))
-    expect_true(t.test(sq_matches['s', ], mu=n_quartets * 1 / 3)$p.value > 0.01)
-    
-    tq_distances <- TQDist(random_trees)
-    tq_unique <- tq_distances[upper.tri(tq_distances)]
-    expect_true(t.test(tq_unique,       mu=n_quartets * 2 / 3)$p.value > 0.01)
-    expect_equal(tq_distances[1, ], n_quartets - sq_matches['s', ])
-  } 
-})
