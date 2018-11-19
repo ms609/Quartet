@@ -44,7 +44,8 @@ Suggests:
     knitr,
     rmarkdown,
     Ternary (>= 1.0),
-    testthat
+    testthat,
+    usethis
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
