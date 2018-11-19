@@ -40,6 +40,7 @@ Imports:
     TreeSearch
 Suggests:
     bookdown,
+    devtools,
     knitr,
     rmarkdown,
     Ternary (>= 1.0),
@@ -49,5 +50,5 @@ LinkingTo: Rcpp
 LazyData: true
 ByteCompile: true
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
