@@ -21,26 +21,3 @@
 #'
 #' @keywords datasets
 "sq_trees"
-#' O'Reilly et al. reference tree
-#'
-#' The tree topology used to generate the matrices in O'Reilly _et al._ 2016
-#'
-#' @format A single phylogenetic tree saved as an object of class \code{phylo}
-#'
-#' @references 
-#' \insertRef{OReilly2016}{Quartet}
-#' 
-#' @examples 
-#'   data(or_refTree)
-#'   plot(or_refTree)
-#' 
-#' @source \insertRef{OReilly2016}{Quartet}
-"or_refTree"
-
-#' Partition and Quartet similarity counts for the O'Reilly _et al._ datasets
-#'
-"orQuartets"
-
-#' Partition similarity counts for the O'Reilly _et al._ datasets
-#' 
-"orPartitions"
