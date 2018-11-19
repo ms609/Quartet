@@ -25,9 +25,10 @@ Congreve & Lamsdell [-@Congreve2016] using a ternary plotting approach
 Sys.setlocale("LC_ALL", "English_United Kingdom.1252") # allows PCH=183
 library(Quartet)
 library(Ternary)
-data(clPartitions)
-data(clQuartets)
-data(clCI)
+if (!require(CongreveLamsdell2016)) devtools::install_github('ms609/CongreveLamsdell2016')
+clPartitions <- CongreveLamsdell2016::clPartitions
+clQuartets   <- CongreveLamsdell2016::clQuartets
+clCI         <- CongreveLamsdell2016::clCI
 
 PCH_MK <- 1   # circle
 PCH_EQ <- 61  #'='
