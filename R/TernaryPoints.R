@@ -34,7 +34,8 @@ QuartetPoints <- function (trees) {
 #' @export
 SplitsPoints <- function (trees) {
   status <- MatchingSplits(trees)
-  status <- rbind(status, status[1] - colSums(status))
+  # TODO Delete following line (?)
+  # status <- rbind(status, status[1] - colSums(status))
   
   # This probably assumes that ref is bifurcating.  #TODO Add resilience
   # Return: 
