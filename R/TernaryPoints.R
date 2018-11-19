@@ -25,7 +25,7 @@ QuartetPoints <- function (trees) {
   status <- MatchingQuartets(trees)
   
   # Return: 
-  data.frame(Unresolved   = colSums(status[, c('r1', 'r2', 'u')]), 
+  data.frame(Unresolved   = rowSums(status[, c('r1', 'r2', 'u')]), 
              Contradicted = status[, 'd'],
              Consistent   = status[, 's'])
 }
