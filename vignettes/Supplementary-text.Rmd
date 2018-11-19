@@ -109,13 +109,13 @@ polyplot <- function (tr, title, highlight, ...) {
 data(clPartitions)
 data(clQuartets)
 
-Quartet2Ternary <- function (item) clQuartets[[item]][c('r2', 'd', 's'), , TREE]
+Quartet2Ternary <- function (item) clQuartets[[item]][, c('r2', 'd', 's'), TREE]
   
 Split2Ternary <- function (item) {
   itemData <- clPartitions[[item]][, , TREE]
-  rbind(itemData['ref', ] - itemData['cf', ],
-        itemData['cf_not_ref', ],
-        itemData['cf_and_ref', ])
+  rbind(itemData[, 'ref'] - itemData[, 'cf'],
+        itemData[, 'cf_not_ref'],
+        itemData[, 'cf_and_ref'])
 }
 
 TernaryBasis <- function (qMax = 19, zoom = 1, padding=0.1) {
