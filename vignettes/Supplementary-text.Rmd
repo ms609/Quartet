@@ -617,7 +617,7 @@ TREES <- 1:100
 # TREES <- TREES[clCI > 0.26]
 
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , TREES], 2, rowMeans)
+AverageQuarts <- function (item) apply(clQuartets[[item]][, c('r2', 'd', 's'), TREES], 2, rowMeans)
 TernaryQuarts(AverageQuarts)
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
 AddLegend('topright')
