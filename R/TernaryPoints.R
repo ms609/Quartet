@@ -25,9 +25,9 @@ QuartetPoints <- function (trees) {
   status <- MatchingQuartets(trees)
   
   # Return: 
-  data.frame(Unresolved   = colSums(status[c('r1', 'r2', 'u'), ]), 
-             Contradicted = status['d', ],
-             Consistent   = status['s', ])
+  data.frame(Unresolved   = colSums(status[, c('r1', 'r2', 'u')]), 
+             Contradicted = status[, 'd'],
+             Consistent   = status[, 's'])
 }
 
 #' @describeIn QuartetPoints Uses partition distance instead of quartet metric.
@@ -38,7 +38,7 @@ SplitsPoints <- function (trees) {
   
   # This probably assumes that ref is bifurcating.  #TODO Add resilience
   # Return: 
-  data.frame(Unresolved   = status['ref_not_cf', ] - status['cf_not_ref', ],
-             Contradicted = status['cf_not_ref', ],
-             Consistent   = status['ref', ] - status['ref_not_cf', ])
+  data.frame(Unresolved   = status[, 'ref_not_cf'] - status[, 'cf_not_ref'],
+             Contradicted = status[, 'cf_not_ref'],
+             Consistent   = status[, 'ref'] - status[, 'ref_not_cf'])
 }
