@@ -32,6 +32,9 @@ r_packages:
  - Ternary
  - TreeSearch
  
+r_github_packages:
+ - ms609/CongreveLamsdell2016
+ 
 before_script:
  - R -e "devtools::document()"
   
