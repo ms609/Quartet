@@ -690,8 +690,8 @@ We can run the same analysis counting partitions in place of quartets.
 ```{R CL-trees-partitions, echo=FALSE, message=FALSE, message=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='75%', fig.align='center'}
 AverageSplits <- function (item) {
   itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
-  rbind(itemData['ref', ] - itemData['cf', ],
   rbind(itemData[, 'ref'] - itemData[, 'cf'],
+        itemData[, 'cf_not_ref'],
         itemData[, 'cf_and_ref'])
 }
 
