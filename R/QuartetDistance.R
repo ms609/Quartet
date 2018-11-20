@@ -165,7 +165,7 @@ QuartetStates <- function (splits) {
 #'  how many are unresolved.
 #' 
 #' @param x A list of quartet states, perhaps generated in
-#'  \code{\link{CompareQuartets}}.
+#'  \code{\link{QuartetStates}}.
 #' @param cf a second such list.
 #'
 #' Compares each quartet in a list, calculating how many statements are identical
@@ -317,4 +317,42 @@ QuartetDivergence <- function (quartetStatus, similarity=TRUE) {
   if (is.null(dim(quartetStatus))) quartetStatus <- as.matrix(quartetStatus)
   result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) / ( 2 * quartetStatus[, 'Q'])
   if (similarity) 1 - result else result
+}
+
+
+#' @describeIn QuartetStatus Reports split statistics obtained after removing all
+#'   tips that do not occur in both trees being compared.
+SharedQuartetStatus <- function (trees, cf=trees[[1]]) {
+  t(vapply(trees, PairSharedQuartetStatus, tree2=cf, BLANK_SPLIT))
+}
+
+#' Status of quartets that exist in two trees
+#' 
+#' Removes all tips that do not occur in both `tree1` and `tree2`, then calculates 
+#' the status of the remaining quartets.
+#' 
+#' @param tree1,tree2 Trees of class phylo to compare.
+#' 
+#' @templateVar intro Returns a named array of six integers corresponding to the
+#'  quantities of Estabrook _et al_. (1985):
+#' @template returnEstabrook
+#' 
+#' @keywords internal
+#' @importFrom ape drop.tip
+#' @author Martin R. Smith
+#' @export
+PairSharedQuartetStatus <- function (tree1, tree2) {
+  tips1 <- tree1$tip.label
+  tips2 <- tree2$tip.label
+  
+  pruned1 <- drop.tip(tree1, setdiff(tips1, tips2))
+  pruned2 <- drop.tip(tree2, setdiff(tips2, tips1))
+  pruned2 <- RenumberTips(pruned2, tipOrder = intersect(tips1, tips2))
+  
+  SingleTreeQuartetAgreement(pruned1, pruned2)
+  QuartetStatus(pruned1, pruned2)
+  names(ret) <- names(BLANK_SPLIT)
+  
+  # Return:
+  ret
 }

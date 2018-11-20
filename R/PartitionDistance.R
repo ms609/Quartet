@@ -1,3 +1,7 @@
+BLANK_SPLIT <- double(6)
+names(BLANK_SPLIT) <- c('cf', 'ref', 'cf_and_ref', 'cf_not_ref', 'ref_not_cf',
+  'RF_dist')
+
 #' Drop Single Splits
 #' 
 #' Removes splits that pertain only to a single taxon from a splits object
@@ -147,9 +151,7 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   splits <- lapply(trees, Tree2Splits)
   ret <- vapply(splits, CompareSplits, cf=splits[[1]], double(6))
-  rownames(ret) <- c('cf', 'ref',
-                     'cf_and_ref', 'cf_not_ref', 'ref_not_cf',
-                     'RF_dist')
+  rownames(ret) <- names(BLANK_SPLIT)
   
   # Return:
   if (is.null(cf)) t(ret) else t(ret[, -1])
@@ -159,3 +161,44 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
 #' @export
 #' @keywords internal
 BipartitionStatus <- SplitStatus
+
+
+#' @describeIn SplitStatus Reports split statistics obtained after removing all
+#'   tips that do not occur in both trees being compared.
+SharedSplitStatus <- function (trees, cf=trees[[1]]) {
+  t(vapply(trees, PairSharedSplitStatus, cf=cf, BLANK_SPLIT))
+}
+#' @rdname SplitStatus
+#' @export
+#' @keywords internal
+SharedBipartitionStatus <- SharedSplitStatus
+
+#' Pair shared split status
+#' 
+#' Removes all tips that do not occur in both `ref` and `cf`, then calculates 
+#' the status of the remaining splits
+#' 
+#' @param ref,cf Trees of class phylo to compare.
+#' 
+#' @return Named integer of length 6, as per [CompareSplits]
+#' #' 
+#' @keywords internal
+#' @importFrom ape drop.tip
+#' @author Martin R. Smith
+#' @export
+PairSharedSplitStatus <- function (ref, cf) {
+  refTips <- ref$tip.label
+  cfTips <- cf$tip.label
+  
+  prunedRef <- drop.tip(ref, setdiff(refTips, cfTips))
+  prunedCf <- drop.tip(cf, setdiff(cfTips, refTips))
+  prunedCf <- RenumberTips(prunedCf, tipOrder = intersect(refTips, cfTips))
+  
+  refSplits <- Tree2Splits(prunedRef)
+  cfSplits <- Tree2Splits(prunedCf)
+  ret <- CompareSplits(refSplits, cfSplits)
+  names(ret) <- names(BLANK_SPLIT)
+  
+  # Return:
+  ret
+}
