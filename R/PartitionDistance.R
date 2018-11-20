@@ -109,34 +109,34 @@ CompareBipartitions <- CompareSplits
 #'         2: are unresolved in (at least) one of the comparison tree and the corresponding 
 #'         input tree.
 #'         
-#'@seealso [QuartetStatus]
+#' @seealso [QuartetStatus]
 #'         
 #' @examples{
-#'  data('sq_trees')
-#'  # Calculate the status of each quartet
-#'  splitStatuses <- SplitStatus(sq_trees)
-#'  
-#'  # Extract just the Robinson Foulds distances
-#'  splitStatuses[, 'RF_dist']
-#'  
-#'  # Normalize the Robinson Foulds distance by dividing by the number of 
-#'  # splits (bipartitions) resolved in the reference tree:
-#'  splitStatuses[, 'RF_dist'] / splitStatuses[, 'ref']
-#'  
-#'  # Normalize the Robinson Foulds distance by dividing by the total number of 
-#'  # splits (bipartitions) that it is possible to resolve for `n` tips:
-#'  nTip <- length(sq_trees[[1]]$tip.label)
-#'  nPartitions <- (nTip - 3L) # Does not include the nTip partitions that 
-#'                             # comprise but a single tip
-#'  splitStatuses[, 'RF_dist'] / nPartitions
-#'
+#'   data('sq_trees')
+#'   # Calculate the status of each quartet
+#'   splitStatuses <- SplitStatus(sq_trees)
+#'   
+#'   # Extract just the Robinson Foulds distances
+#'   splitStatuses[, 'RF_dist']
+#'   
+#'   # Normalize the Robinson Foulds distance by dividing by the number of 
+#'   # splits (bipartitions) resolved in the reference tree:
+#'   splitStatuses[, 'RF_dist'] / splitStatuses[, 'ref']
+#'   
+#'   # Normalize the Robinson Foulds distance by dividing by the total number of 
+#'   # splits (bipartitions) that it is possible to resolve for `n` tips:
+#'   nTip <- length(sq_trees[[1]]$tip.label)
+#'   nPartitions <- (nTip - 3L) # Does not include the nTip partitions that 
+#'                              # comprise but a single tip
+#'   splitStatuses[, 'RF_dist'] / nPartitions
+#'   
 #' }
 #' 
-#'  @references {
-#'    \insertRef{Robinson1981}{Quartet}
-#'    
-#'    \insertRef{Penny1985}{Quartet}
-#'  }
+#' @references {
+#'   \insertRef{Robinson1981}{Quartet}
+#'   
+#'   \insertRef{Penny1985}{Quartet}
+#' }
 #' @author Martin R. Smith
 #' @export
 SplitStatus <- function (trees, cf=trees[[1]]) {
