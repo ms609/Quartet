@@ -27,9 +27,8 @@ library(Quartet)
 library(Ternary)
 # TODO replace with CRAN link, and remove devtools as a dependancy
 if (!require(CongreveLamsdell2016)) devtools::install_github('ms609/CongreveLamsdell2016')
-clPartitions <- CongreveLamsdell2016::clPartitions
-clQuartets   <- CongreveLamsdell2016::clQuartets
-clCI         <- CongreveLamsdell2016::clCI
+library(CongreveLamsdell2016)
+data('clPartitions', 'clQuartets', 'clCI')
 ```
 
 ```{r initialize-variables, echo=FALSE}
