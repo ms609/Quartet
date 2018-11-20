@@ -98,14 +98,13 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
         dimnames=list(names(treeList), c('Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
-#' Matching Quartets
+#' Quartet Status
 #' 
-#' Counts matching quartets
+#' Determines the number of quartets that are consistent within pairs of cladograms
 #' 
-#' Determines the number of quartets consistent with multiple cladograms
-#' 
-#' Given a list of trees, returns the number of quartet statements present in
-#'  the first tree in the list also present in each other tree.
+#' Given a list of trees, returns the number of quartet statements present in the
+#' reference tree (the first tree in the list, if `cf` is not specified)
+#' that are also present in each other tree.
 #' 
 #' At present the trees must bear the same number of tips.  
 #' Support for different-sized trees will be added if there is demand; 
@@ -117,7 +116,10 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @template treesParam
 #' @template treesCfParam
 #' 
-#' @templateVar intro Returns a two dimensional array. Columns correspond to the input trees; the first column will always         report a perfect match as it compares the first tree to itself.         Rows list the status of each quartet:
+#' @templateVar intro Returns a two dimensional array. Rows correspond to the
+#'  input trees; the first row will report a perfect match if the first tree
+#'  is specified as the comparison tree (or if `cf` is not specified).
+#'  Columns list the status of each quartet:
 #' @template returnEstabrook
 #'         
 #' @author Martin R. Smith
