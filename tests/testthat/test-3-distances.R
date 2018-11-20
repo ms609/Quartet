@@ -114,3 +114,17 @@ test_that("Incomparable trees fail gracefully", {
   expect_error(SplitStatus(list(ref_tree, ape::rtree(6)))) 
 })
 
+test_that("Multiple comparisons with polytomous trees", {
+  glires41 <- ape::read.tree("../trees/real_41.new")
+  gliresTests <- ape::read.tree("../trees/real_tests.new")
+  
+  refTips <- glires41$tip.label
+  sharedSplits <- SharedSplitStatus(gliresTests, glires41)
+  expect_equal(c(length(gliresTests), 6L), dim(sharedSplits))
+  expect_equal(sharedSplits['polytomy', ], c(0L, 28L, 0L, 0L, 28L, 28L) + BLANK_SPLIT)
+  
+  sharedQuartets <- SharedQuartetStatus(gliresTests, gliresTests$MPmorphAll)
+  expect_equal(c(length(gliresTests), 6L), dim(sharedQuartets))
+  expect_equal(sharedQuartets['polytomy', c(2:4, 6)], c(0L, 0L, 0L, sharedQuartets['MPmorphAll', 'u']) + BLANK_QUARTET[c(2:4, 6)])
+  expect_equal(sharedQuartets['MPmorphAll', 3:5], rep(0L, 3) + BLANK_QUARTET[3:5])
+})
