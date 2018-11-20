@@ -674,8 +674,8 @@ Both these approaches are significantly worse.
 ```{R Quartet-divergence-significance, include=FALSE}
 treeBests <- vapply(clQuartets, 
                     function (item) apply(
-                      apply(item[, , TREES], 2, QuartetDivergence), 1, max),
-                    double(length(TREES)))
+                      apply(item[, , TREES], 1, function (x) QuartetDivergence(t(x))),
+                      1, max), double(length(TREES)))
 tests <- apply(treeBests, 2, 
                function (column) t.test(column, treeBests[, 'implied3'])$p.value)
 
@@ -691,8 +691,8 @@ We can run the same analysis counting partitions in place of quartets.
 AverageSplits <- function (item) {
   itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
   rbind(itemData['ref', ] - itemData['cf', ],
-        itemData['cf_not_ref', ],
-        itemData['cf_and_ref', ])
+  rbind(itemData[, 'ref'] - itemData[, 'cf'],
+        itemData[, 'cf_and_ref'])
 }
 
 TernaryBasis()
@@ -734,7 +734,7 @@ Otherwise, it too finds no statistically significant difference between the effe
 
 ```{R Partition-significance, include=FALSE}
 treeBests <- vapply(clPartitions,
-                    function (item) apply(item['RF_dist', , ], 2, min),
+                    function (item) apply(item[, 'RF_dist', ], 2, min),
                     double(length(TREES)))
 tests <- apply(treeBests, 2, 
                function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
