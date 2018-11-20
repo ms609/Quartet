@@ -26,3 +26,4 @@ Tree2Splits(ape::rtree(6, tip.label=1:6, br=NULL))
 \author{
 Martin R. Smith
 }
+\keyword{internal}

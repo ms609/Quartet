@@ -44,4 +44,6 @@ SplitsPoints <- function (trees) {
              Consistent   = status[, 'ref'] - status[, 'ref_not_cf'])
 }
 #' @rdname QuartetPoints
+#' @export
+#' @keywords internal
 BipartitionPoints <- SplitsPoints

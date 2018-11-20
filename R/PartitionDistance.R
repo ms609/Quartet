@@ -44,6 +44,8 @@ Tree2Splits <- function (tr) {
   DropSingleSplits(ret)
 }
 #' @rdname Tree2Splits
+#' @export
+#' @keywords internal
 Tree2Bipartitions <- Tree2Splits
 
 #' Compare Splits
@@ -82,6 +84,8 @@ CompareSplits <- function (x, cf) {
     x_splits + cf_splits - (2 * common))
 }
 #' @rdname CompareSplits
+#' @export
+#' @keywords internal
 CompareBipartitions <- CompareSplits
 
 #' Matching partitions
