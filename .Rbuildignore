@@ -13,6 +13,5 @@ cran-comments.md
 man-roxygen
 data-raw
 inst/Quartet*
-inst/submission*
-inst/*Figure*
+inst/manuscript*
 /^src\-/
