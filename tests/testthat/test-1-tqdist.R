@@ -1,6 +1,7 @@
 context("tqDist")
 
 test_that("tqDist returns correct quartet distances", {
+  expect_true(file.exists("../trees/quartet1.new"))
   expect_equal(QuartetDistance("../trees/quartet1.new", "../trees/quartet1.new"), 0L)
   expect_equal(QuartetDistance("../trees/quartet1.new", "../trees/quartet2.new"), 1L)
   expect_error(QuartetDistance("../trees/quartet1.new", "../trees/file_does_not_exist.new"))
