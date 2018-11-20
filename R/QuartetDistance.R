@@ -1,18 +1,5 @@
 WHICH_OTHER_NODE <- 2:4
 
-#' Column Sums
-#' 
-#' An accelerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}.
-#' Using this function makes \code{MatchingQuartets} 8% faster.
-#' But it is \emph{very} naughty to call \code{.Internal}, so I use the 
-#' internal R colSums function instead.
-#' @param x Matrix whose columns are to be summed.
-#' @param n_cols Number of columns in said matrix.
-#' @author Martin R. Smith
-#' @keywords internal
-# ColSums <- function (x, n_cols = ncol(x)) .Internal(colSums(x, 4, n_cols, FALSE))
-
-
 #' Plot Quartet
 #' 
 #' Plots a given quartet
