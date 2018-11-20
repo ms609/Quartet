@@ -165,6 +165,7 @@ BipartitionStatus <- SplitStatus
 
 #' @describeIn SplitStatus Reports split statistics obtained after removing all
 #'   tips that do not occur in both trees being compared.
+#' @export
 SharedSplitStatus <- function (trees, cf=trees[[1]]) {
   t(vapply(trees, PairSharedSplitStatus, cf=cf, BLANK_SPLIT))
 }

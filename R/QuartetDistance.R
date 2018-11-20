@@ -1,4 +1,5 @@
 WHICH_OTHER_NODE <- 2:4
+BLANK_QUARTET <- c(Q = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)
 
 #' Plot Quartet
 #' 
@@ -322,8 +323,9 @@ QuartetDivergence <- function (quartetStatus, similarity=TRUE) {
 
 #' @describeIn QuartetStatus Reports split statistics obtained after removing all
 #'   tips that do not occur in both trees being compared.
+#' @export
 SharedQuartetStatus <- function (trees, cf=trees[[1]]) {
-  t(vapply(trees, PairSharedQuartetStatus, tree2=cf, BLANK_SPLIT))
+  t(vapply(trees, PairSharedQuartetStatus, tree2=cf, BLANK_QUARTET))
 }
 
 #' Status of quartets that exist in two trees
@@ -349,10 +351,6 @@ PairSharedQuartetStatus <- function (tree1, tree2) {
   pruned2 <- drop.tip(tree2, setdiff(tips2, tips1))
   pruned2 <- RenumberTips(pruned2, tipOrder = intersect(tips1, tips2))
   
-  SingleTreeQuartetAgreement(pruned1, pruned2)
-  QuartetStatus(pruned1, pruned2)
-  names(ret) <- names(BLANK_SPLIT)
-  
   # Return:
-  ret
+  SingleTreeQuartetAgreement(pruned1, pruned2)
 }
