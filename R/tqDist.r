@@ -76,6 +76,7 @@ ManyToManyQuartetAgreement <- function (treeList) {
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
 SingleTreeQuartetAgreement <- function (treeList, comparison) {
+  if (class(treeList) == 'phylo') treeList <- structure(list(treeList), class='multiPhylo')
   singleFile <- TQFile(comparison)
   multiFile  <- TQFile(treeList)
   on.exit(file.remove(singleFile, multiFile))
