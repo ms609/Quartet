@@ -12,6 +12,11 @@ sudo: required # Required to use binary packages, which are faster than source i
 git:
   depth: 1
 
+addons:
+  apt:
+    packages:
+      - ghostscript
+
 r_binary_packages:
  - ape
  - covr
