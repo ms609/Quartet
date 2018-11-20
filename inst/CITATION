@@ -1,9 +1,7 @@
 year <- "2017"
 
-citHeader(paste0("If using this package, please cite Smith (", 
-          year, "). If using the tqDist to compare ",
-          "bifurcating trees, please also cite ",
-          "Sand et al. (2014)."))
+citHeader(paste0("Package citation: Smith (", year, 
+          "). Quartet distance algorithm citation: Sand et al. (2014)."))
 
 citEntry(entry = "article",
         journal = "BioRxiv",
