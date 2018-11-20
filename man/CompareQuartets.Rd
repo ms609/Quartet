@@ -8,7 +8,7 @@ CompareQuartets(x, cf)
 }
 \arguments{
 \item{x}{A list of quartet states, perhaps generated in
-\code{\link{CompareQuartets}}.}
+\code{\link{QuartetStates}}.}
 
 \item{cf}{a second such list.
 
