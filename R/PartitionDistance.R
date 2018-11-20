@@ -43,6 +43,8 @@ Tree2Splits <- function (tr) {
   # Return:
   DropSingleSplits(ret)
 }
+#' @rdname Tree2Splits
+Tree2Bipartitions <- Tree2Splits
 
 #' Compare Splits
 #' 
@@ -79,6 +81,8 @@ CompareSplits <- function (x, cf) {
     common, x_splits - common, cf_splits - common,
     x_splits + cf_splits - (2 * common))
 }
+#' @rdname CompareSplits
+CompareBipartitions <- CompareSplits
 
 #' Matching partitions
 #' 

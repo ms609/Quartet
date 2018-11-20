@@ -43,3 +43,5 @@ SplitsPoints <- function (trees) {
              Contradicted = status[, 'cf_not_ref'],
              Consistent   = status[, 'ref'] - status[, 'ref_not_cf'])
 }
+#' @rdname SplitsPoints
+BipartitionPoints <- SplitsPoints

@@ -3,6 +3,7 @@
 export(AllPairsQuartetAgreement)
 export(AllPairsQuartetDistance)
 export(AllPairsTripletDistance)
+export(BipartitionStatus)
 export(Choices)
 export(CompareQuartets)
 export(CompareSplits)
