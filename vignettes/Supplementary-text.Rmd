@@ -105,9 +105,7 @@ polyplot <- function (tr, title, highlight, ...) {
   text(x_mid, -3.5, cex=0.8, pos=4, paste0(partitions['ref_not_cf'] - partitions['cf_not_ref'], '/', rf_max / 2)) 
 }
 
-
-data(clPartitions)
-data(clQuartets)
+data('clPartitions', 'clQuartets')
 
 Quartet2Ternary <- function (item) clQuartets[[item]][, c('r2', 'd', 's'), TREE]
   
