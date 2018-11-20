@@ -54,7 +54,7 @@ how many are unresolved.
 }
 }
 \seealso{
-\code{\link{MatchingQuartets}}, generates this output from a list of
+\code{\link{QuartetStatus}}, generates this output from a list of
 trees.
 }
 \author{

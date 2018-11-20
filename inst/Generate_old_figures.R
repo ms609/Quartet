@@ -33,7 +33,7 @@ rfplot <- function (tr, title=NULL, highlight=NULL, ref=ref_tree, ...) {
   text(text_x, -1.5, "RF:", cex=0.8, pos=2)
   text(text_x, -2.5, "Path:", cex=0.8, pos=2)
   text(text_x, -3.5, "SPR:", cex=0.8, pos=2)
-  text(text_x, -0.5, paste0(MatchingQuartets(list(tr, ref))['d', 2], '/', choose(11,4)), cex=0.8, pos=4)
+  text(text_x, -0.5, paste0(QuartetStatus(list(tr, ref))['d', 2], '/', choose(11,4)), cex=0.8, pos=4)
   text(text_x, -1.5, paste0(topo_dist, '/', rf_max), cex=0.8, pos=4)
   text(text_x, -2.5, paste0(signif(tree_dist[2], 3)), cex=0.8, pos=4)
   text(text_x, -3.5, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
@@ -42,7 +42,7 @@ rfplot <- function (tr, title=NULL, highlight=NULL, ref=ref_tree, ...) {
 polyplot <- function (tr, title, highlight, ...) {
   tree_pair <- lapply(list(ref_tree, tr), ape::unroot)
   class(tree_pair) <- 'multiPhylo'
-  partitions <- MatchingSplits(tree_pair)[, 2]
+  partitions <- SplitStatus(tree_pair)[, 2]
   
   colplot(tr, title, highlight, ...)
   x_mid <- par('usr')[2] * 0.62
@@ -53,9 +53,9 @@ polyplot <- function (tr, title, highlight, ...) {
   text(x_mid, -3.5, cex=0.8, pos=2, "Partitions unresolved")
   
   text(x_mid, -0.5, cex=0.8, pos=4, 
-       paste0(MatchingQuartets(tree_pair)['d', 2], '/', choose(11,4)))
+       paste0(QuartetStatus(tree_pair)['d', 2], '/', choose(11,4)))
   text(x_mid, -1.5, cex=0.8, pos=4, 
-       paste0(sum(MatchingQuartets(tree_pair)[c('r1','r2','u'), 2]), '/', choose(11,4)))
+       paste0(sum(QuartetStatus(tree_pair)[c('r1','r2','u'), 2]), '/', choose(11,4)))
   # The below assumes that ref is bifurcated, so if a partition's in cf not ref it must contradict.
   text(x_mid, -2.5, cex=0.8, pos=4, paste0(partitions['cf_not_ref'], '/', rf_max / 2))
   text(x_mid, -3.5, cex=0.8, pos=4, paste0(partitions['ref_not_cf'] - partitions['cf_not_ref'], '/', rf_max / 2)) 

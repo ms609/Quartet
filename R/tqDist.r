@@ -122,15 +122,15 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #'         
 #' @author Martin R. Smith
 #' @examples{
-#'  n_tip <- 6
 #'  data(sq_trees)
-#'  qt <- MatchingQuartets(sq_trees)
+#'  # Calculate the status of each quartet
+#'  QuartetStatus(sq_trees)
 #'
 #'  # Calculate Estabrook et al's similarity measures:
-#'  do_not_conflict = qt[]
+#'  QuartetMetrics(sq_trees)
 #' }
 #' 
-#' @seealso [MatchingSplits]
+#' @seealso [SplitStatus]
 #' 
 #' @references {
 #'   \insertRef{Estabrook1985}{Quartet}
@@ -140,7 +140,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @importFrom Rdpack reprompt 
 #' @importFrom TreeSearch RenumberTips
 #' @export
-MatchingQuartets <- function (trees, cf=trees[[1]]) {
+QuartetStatus <- function (trees, cf=trees[[1]]) {
   SingleTreeQuartetAgreement(trees, comparison=cf)
 }
 

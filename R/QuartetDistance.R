@@ -177,7 +177,7 @@ QuartetStates <- function (splits) {
 #' 
 #' @author Martin R. Smith
 #'
-#' @seealso \code{\link{MatchingQuartets}}, generates this output from a list of
+#' @seealso \code{\link{QuartetStatus}}, generates this output from a list of
 #'  trees.
 #'
 #' @examples{
@@ -251,13 +251,13 @@ UnshiftTree <- function(add, treeList) {
 #' (1985, table 2).
 #'
 #' @template treesParam
-#' @param mq Two-dimensional integer array, with rows corresponding to 
+#' @param quartetStatus Two-dimensional integer array, with rows corresponding to 
 #'   counts of matching quartets for each tree, and columns named 
-#'   according to the output of [MatchingQuartets].
+#'   according to the output of [QuartetStatus].
 #' @param similarity Logical specifying whether to calculate the similarity
 #'                   or dissimilarity.
 #'
-#' @seealso [MatchingSplits], [CompareSplits]
+#' @seealso [SplitStatus], [CompareSplits]
 #'
 #' @references 
 #' \insertRef{Estabrook1985}{Quartet}
@@ -267,54 +267,54 @@ UnshiftTree <- function(add, treeList) {
 #' @name QuartetMetrics
 #' @export
 QuartetMetrics <- function (trees, similarity=TRUE) {
-  mq <- MatchingQuartets(trees)
+  quartetStatus <- QuartetStatus(trees)
   result <- data.frame(
-    DoNotConflict = mq[, 'd'] / mq[, 'Q'],
-    ExplicitlyAgree = 1 - (mq[, 's'] / mq[, 'Q']),
-    StrictJointAssertions = mq[, 'd'] / rowSums(mq[, c('d', 's')]),
-    SemiStrictJointAssertions = mq[, 'd'] / rowSums(mq[, c('d', 's', 'u')]),
-    QuartetDivergence = rowSums(mq[, c('d', 'd', 'r1', 'r2')]) / (2 * mq[, 'Q'])
+    DoNotConflict = quartetStatus[, 'd'] / quartetStatus[, 'Q'],
+    ExplicitlyAgree = 1 - (quartetStatus[, 's'] / quartetStatus[, 'Q']),
+    StrictJointAssertions = quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's')]),
+    SemiStrictJointAssertions = quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u')]),
+    QuartetDivergence = rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) / (2 * quartetStatus[, 'Q'])
   )
   if (similarity) 1 - result else result
 }
 
 #' @rdname QuartetMetrics
 #' @export
-DoNotConflict <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq[, 'd'] / mq[, 'Q']
+DoNotConflict <- function (quartetStatus, similarity=TRUE) {
+  if (is.null(dim(quartetStatus))) quartetStatus <- as.matrix(quartetStatus)
+  result <- quartetStatus[, 'd'] / quartetStatus[, 'Q']
   if (similarity) 1 - result else result
 }
 
 #' @rdname QuartetMetrics
 #' @export
-ExplicitlyAgree <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq[, 's'] / mq[, 'Q']
+ExplicitlyAgree <- function (quartetStatus, similarity=TRUE) {
+  if (is.null(dim(quartetStatus))) quartetStatus <- as.matrix(quartetStatus)
+  result <- quartetStatus[, 's'] / quartetStatus[, 'Q']
   if (similarity) result else 1 - result
 }
 
 #' @rdname QuartetMetrics
 #' @export
-StrictJointAssertions <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq[, 'd'] / rowSums(mq[, c('d', 's')])
+StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
+  if (is.null(dim(quartetStatus))) quartetStatus <- as.matrix(quartetStatus)
+  result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's')])
   if (similarity) 1 - result else result
 }
 
 #' @rdname QuartetMetrics
 #' @export
-SemiStrictJointAssertions <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq[, 'd'] / rowSums(mq[, c('d', 's', 'u')])
+SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
+  if (is.null(dim(quartetStatus))) quartetStatus <- as.matrix(quartetStatus)
+  result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u')])
   if (similarity) 1 - result else result
 }
 
 #' @rdname QuartetMetrics
-#' @references \insertRef{ThisStudy}{Quartet}
+#' @references \insertRef{Smith2019}{Quartet}
 #' @export
-QuartetDivergence <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- rowSums(mq[, c('d', 'd', 'r1', 'r2')]) / ( 2 * mq[, 'Q'])
+QuartetDivergence <- function (quartetStatus, similarity=TRUE) {
+  if (is.null(dim(quartetStatus))) quartetStatus <- as.matrix(quartetStatus)
+  result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) / ( 2 * quartetStatus[, 'Q'])
   if (similarity) 1 - result else result
 }

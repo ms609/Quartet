@@ -100,7 +100,7 @@ CompareSplits <- function (x, cf) {
 #'         categories from the total number of partitions, given by
 #'         \code{(n_tip * 2) - 3}.
 #'         
-#'@seealso [MatchingQuartets]
+#'@seealso [QuartetStatus]
 #'         
 #'  @references {
 #'    \insertRef{Robinson1981}{Quartet}
@@ -108,7 +108,7 @@ CompareSplits <- function (x, cf) {
 #'  }
 #' @author Martin R. Smith
 #' @export
-MatchingSplits <- function (trees, cf=trees[[1]]) {
+SplitStatus <- function (trees, cf=trees[[1]]) {
   if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
   
   treeStats <- vapply(trees, function (tr)

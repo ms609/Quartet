@@ -16,13 +16,13 @@
 #' }
 #' 
 #' @references 
-#' \insertRef{ThisStudy}{Quartet}
+#' \insertRef{Smith2019}{Quartet}
 #' 
 #' @author Martin R. Smith
 #' 
 #' @export
 QuartetPoints <- function (trees) {
-  status <- MatchingQuartets(trees)
+  status <- QuartetStatus(trees)
   
   # Return: 
   data.frame(Unresolved   = rowSums(status[, c('r1', 'r2', 'u')]), 
@@ -33,7 +33,7 @@ QuartetPoints <- function (trees) {
 #' @describeIn QuartetPoints Uses partition distance instead of quartet metric.
 #' @export
 SplitsPoints <- function (trees) {
-  status <- MatchingSplits(trees)
+  status <- SplitStatus(trees)
   # TODO Delete following line (?)
   # status <- rbind(status, status[1] - colSums(status))
   

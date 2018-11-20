@@ -82,10 +82,10 @@ occur on a truly random tree.
 The below code calculates the mean proportion of matching quartets for random 
 trees with 4 to 20 tips, and the corresponding standard deviation.
 
-```r
+```{r mean-proportion}
 round(vapply(4:20, function (n_tip) {
  trees <- lapply(logical(56), function (X) ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
- results <- MatchingQuartets(trees)[1, ] / choose(n_tip, 4)
+ results <- QuartetStatus(trees)[1, ] / choose(n_tip, 4)
  c(mean(results[-1]), sd(results[-1]))
 }, double(2)), 3)
 ```
