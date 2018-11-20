@@ -95,15 +95,34 @@ CompareSplits <- function (x, cf) {
 #'         Columns report the number of partitions that :
 #'         1: are present in the comparison tree and the corresponding input tree;
 #'         2: are unresolved in (at least) one of the comparison tree and the corresponding 
-#'         input tree. Partitions that DIFFER between the two relevant trees can be 
-#'         calculated by deducting the partitions in either of the other two
-#'         categories from the total number of partitions, given by
-#'         \code{(n_tip * 2) - 3}.
+#'         input tree.
 #'         
 #'@seealso [QuartetStatus]
 #'         
+#' @examples{
+#'  data('sq_trees')
+#'  # Calculate the status of each quartet
+#'  splitStatuses <- SplitStatus(sq_trees)
+#'  
+#'  # Extract just the Robinson Foulds distances
+#'  splitStatuses[, 'RF_dist']
+#'  
+#'  # Normalize the Robinson Foulds distance by dividing by the number of 
+#'  # splits (bipartitions) resolved in the reference tree:
+#'  splitStatuses[, 'RF_dist'] / splitStatuses[, 'ref']
+#'  
+#'  # Normalize the Robinson Foulds distance by dividing by the total number of 
+#'  # splits (bipartitions) that it is possible to resolve for `n` tips:
+#'  nTip <- length(sq_trees[[1]]$tip.label)
+#'  nPartitions <- (nTip - 3L) # Does not include the nTip partitions that 
+#'                             # comprise but a single tip
+#'  splitStatuses[, 'RF_dist'] / nPartitions
+#'
+#' }
+#' 
 #'  @references {
 #'    \insertRef{Robinson1981}{Quartet}
+#'    
 #'    \insertRef{Penny1985}{Quartet}
 #'  }
 #' @author Martin R. Smith
@@ -127,3 +146,8 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   # Return:
   if (is.null(cf)) t(ret) else t(ret[, -1])
 }
+
+#' @rdname SplitStatus
+#' @export
+#' @keywords internal
+BipartitionStatus <- SplitStatus

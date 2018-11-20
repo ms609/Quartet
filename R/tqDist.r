@@ -124,7 +124,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #'         
 #' @author Martin R. Smith
 #' @examples{
-#'  data(sq_trees)
+#'  data('sq_trees')
 #'  # Calculate the status of each quartet
 #'  QuartetStatus(sq_trees)
 #'
@@ -136,6 +136,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' 
 #' @references {
 #'   \insertRef{Estabrook1985}{Quartet}
+#'   
 #'   \insertRef{Sand2014}{Quartet}
 #' }
 #'
