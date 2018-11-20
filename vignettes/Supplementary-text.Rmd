@@ -327,7 +327,7 @@ pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11
 
 n_random <- if(Sys.getenv('TRAVIS') == "") 10000 else 10
 random_trees <- lapply(seq_len(n_random), function (x) rtree(11, br=NULL, tip.label=1:11))
-random_quartets <- MatchingQuartets(random_trees, cf=pectinate_tree)['d', ] / choose(11,4)
+random_quartets <- MatchingQuartets(random_trees, cf=pectinate_tree)[, 'd'] / choose(11, 4)
 random_distances <- vapply(random_trees, phangorn::treedist,
                            tree2=pectinate_tree, double(2))
 random_spr <- vapply(random_trees, phangorn::sprdist, tree2=pectinate_tree, double(4))
@@ -348,7 +348,7 @@ legend('topleft', bty='n', col=Ternary::cbPalette8[3], lwd=2, '"Move one taxon" 
 PlotHist(random_distances[2, ], breaks=manyBreaks*max(random_distances[2, ]),
          17.7, "Path distance")
 
-PlotHist(random_quartets, manyBreaks, 120/330, 'Quartet dissimilarity')
+PlotHist(random_quartets, manyBreaks, 120 / 330, 'Quartet dissimilarity')
 
 PlotHist(random_spr[1, ], max(random_spr[1, ]) * manyBreaks, 1, 'SPR distance')
 ```
@@ -718,7 +718,7 @@ AddLegend()
 Under the partition metric, the most informative trees were found after collapsing nodes with a Bremner support value of:
 
 ```{R Partition-divergence-for-each-point, echo=FALSE, message=FALSE, fig.width=8, results='asis', fig.align='center'}
-divergences <- vapply(clPartitions, function (item) apply(item['RF_dist', , TREES], 1, mean), double(21))
+divergences <- vapply(clPartitions, function (item) apply(item[, 'RF_dist', TREES], 1, mean), double(21))
 ks <- c(1:3, 5, 10)
 colnames(divergences) <- c('Mk', 'EqlW', paste0('IW', c(ks, 'cons')))
 which_suboptimal <- apply(divergences, 2, which.min) - 1
