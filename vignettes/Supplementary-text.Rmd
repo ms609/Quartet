@@ -20,7 +20,7 @@ vignette: >
 ---
 
 This document has been generated from an R markdown file, which contains the source 
-code used to generate figures and conduct analyses, and is provided in the Electronic Supplementary Material that accompanies the main article.
+code used to generate figures and conduct analyses, and is provided in the Electronic Supplementary Material that accompanies the main article [@Smith2019].
 
 ---
 
