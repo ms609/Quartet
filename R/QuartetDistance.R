@@ -39,7 +39,7 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
   for (tr in tree) {
     tr <- RenumberTips(tr, labelOrder)
     plot(tr, tip.color=cbPalette[tip_colours], ...)
-    text(1.1, 1.1, 
+    text(1.1, 1.1, cex=0.9,
          if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
   }
   return <- NULL
