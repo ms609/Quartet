@@ -47,6 +47,7 @@ Suggests:
     Ternary (>= 1.0),
     testthat,
     usethis
+Remotes: ms609/CongreveLamsdell2016
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
