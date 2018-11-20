@@ -2,9 +2,12 @@
 % Please edit documentation in R/PartitionDistance.R
 \name{Tree2Splits}
 \alias{Tree2Splits}
+\alias{Tree2Bipartitions}
 \title{Tree2Splits}
 \usage{
 Tree2Splits(tr)
+
+Tree2Bipartitions(tr)
 }
 \arguments{
 \item{tr}{A tree of class \code{\link[ape:read.tree]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).}
