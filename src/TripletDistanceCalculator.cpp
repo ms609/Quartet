@@ -1,5 +1,7 @@
 #include "TripletDistanceCalculator.h"
 
+#include <Rcpp.h>
+using namespace Rcpp;
 #include "hdt.h"
 #include "hdt_factory.h"
 #include "newick_parser.h"
@@ -17,51 +19,17 @@ TripletDistanceCalculator::~TripletDistanceCalculator() {
   delete dummyHDTFactory;
 }
 
-void TripletDistanceCalculator::pairs_triplet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2) {
-  RootedTree *rt1;
-  RootedTree *rt2;
-  
-  for(size_t i = 0; i < unrootedTrees1.size(); i++) {
-    
-    rt1 = unrootedTrees1[i]->convertToRootedTree(NULL);
-    rt2 = unrootedTrees2[i]->convertToRootedTree(rt1->factory);
-    
-    INTTYPE_REST dist = calculateTripletDistance(rt1, rt2);
-
-    INTTYPE_REST n = get_n();
-    INTTYPE_REST totalNoTriplets = get_totalNoTriplets();
-    INTTYPE_REST resolved = get_resolvedTriplets();
-    INTTYPE_REST unresolved = get_unresolvedTriplets();
-    double dist_norm = double(dist) / double(totalNoTriplets);
-    double resolved_norm = double(resolved) / double(totalNoTriplets);
-    double unresolved_norm = double(unresolved) / double(totalNoTriplets);
-    
-    out << n               << "\t"
-	<< totalNoTriplets << "\t"
-	<< dist            << "\t"
-	<< dist_norm       << "\t"
-	<< resolved        << "\t"
-	<< resolved_norm   << "\t"
-	<< unresolved      << "\t"
-	<< unresolved_norm << std::endl;
-  }
-}
-
 std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(const char *filename1, const char *filename2) {
   NewickParser parser;
   
   std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
   if (unrootedTrees1.size() == 0 || parser.isError()) {
-    std::cerr << "Error: Parsing of \"" << filename1 << "\" failed." << endl;
-    std::cerr << "Aborting!" << endl;
-    std::exit(-1);
+    stop("Error: Parsing of filename1 failed.");
   }
 
   std::vector<UnrootedTree *> unrootedTrees2  = parser.parseMultiFile(filename2); 
   if (unrootedTrees2.size() == 0 || parser.isError()) {
-    std::cerr << "Error: Parsing of \"" << filename2 << "\" failed." << endl;
-    std::cerr << "Aborting!" << endl;
-    std::exit(-1);
+    stop("Error: Parsing of filename2 failed.");
   }
 
   return pairs_triplet_distance(unrootedTrees1, unrootedTrees2);
@@ -90,9 +58,7 @@ std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::calculateAllP
   
   std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
-    std::cerr << "Error: Parsing of \"" << filename << "\" failed." << endl;
-    std::cerr << "Aborting!" << endl;
-    std::exit(-1);
+    stop("Error: Parsing of filename failed.");
   }
 
   std::vector<std::vector<INTTYPE_REST> > results = calculateAllPairsTripletDistance(unrootedTrees);
@@ -136,16 +102,12 @@ INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(const char *fil
 
   ut1 = parser.parseFile(filename1);
   if (ut1 == NULL || parser.isError()) {
-    std::cerr << "Error: Parsing of \"" << filename1 << "\" failed." << endl;
-    std::cerr << "Aborting!" << endl;
-    return -1;
+    stop("Failed to parse filename1");
   }
 
   ut2 = parser.parseFile(filename2);
   if(ut2 == NULL || parser.isError()) {
-    cerr << "Parsing of file \"" << filename2 << "\" failed." << endl;
-    cerr << "Aborting!" << endl;
-    return -1;
+    stop("Failed to parse filename2");
   }
 
   rt1 = ut1->convertToRootedTree(NULL);
@@ -165,9 +127,7 @@ INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(RootedTree *t1,
   this->t1 = t1;
   t1->pairAltWorld(t2);
   if (t1->isError()) {
-    std::cerr << "The two trees do not have the same set of leaves." << std::endl;
-    std::cerr << "Aborting." << std::endl;
-    return -1;
+    stop("The two trees do not have the same set of leaves");
   }
   
   // Section 3 of Soda13: Counting unresolved triplets and quartets in a single tree
@@ -181,9 +141,9 @@ INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(RootedTree *t1,
 
   count(t1);
   // HDT is deleted in count if extracting and contracting!
-#ifndef doExtractAndContract
+/*#ifndef doExtractAndContract
   delete hdt->factory;
-#endif
+#endif*/
 	
   return totalNoTriplets - resolvedTriplets - unresolvedTriplets;
 }

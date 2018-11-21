@@ -9,9 +9,6 @@
 #include <vector>
 
 class 
-#ifdef _WIN32
-	__declspec(dllexport)
-#endif
 TripletDistanceCalculator : private AbstractDistanceCalculator {
  public:
   TripletDistanceCalculator();
@@ -26,12 +23,6 @@ TripletDistanceCalculator : private AbstractDistanceCalculator {
   void pairs_triplet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
   std::vector<INTTYPE_REST> pairs_triplet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
   std::vector<INTTYPE_REST> pairs_triplet_distance(const char *filename1, const char *filename2);  
-
-  // accessors
-  INTTYPE_REST get_n() { return n; }
-  INTTYPE_REST get_resolvedTriplets() { return resolvedTriplets; }
-  INTTYPE_REST get_unresolvedTriplets() { return unresolvedTriplets; }
-  INTTYPE_REST get_totalNoTriplets() { return totalNoTriplets; }
 
  private:
   void updateCounters();

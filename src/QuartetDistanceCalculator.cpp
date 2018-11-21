@@ -1,6 +1,7 @@
 #include "QuartetDistanceCalculator.h"
 #include "int_stuff.h"
 
+#include <Rcpp.h>
 #include "hdt.h"
 #include "hdt_factory.h"
 #include "newick_parser.h"
@@ -18,7 +19,43 @@ QuartetDistanceCalculator::~QuartetDistanceCalculator() {
   delete dummyHDTFactory;
 }
 
-std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2) {
+Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
+  (UnrootedTree *unrootedSingle, std::vector<UnrootedTree *> &unrootedMultiple) {
+  Rcpp::IntegerVector res(unrootedMultiple.size() * 2);
+  
+  for(size_t i = 0; i < unrootedMultiple.size(); i++) {
+    AE status = calculateQuartetAgreement(unrootedSingle, unrootedMultiple[i]);
+    res[i] = status.a;
+    res[i + unrootedMultiple.size()] = status.e;
+  }
+  
+  return res;
+}
+
+Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
+  (const char *fileSingle, const char *fileMultiple) {
+  
+  NewickParser parser;
+  
+  UnrootedTree *unrootedSingle = parser.parseFile(fileSingle); 
+  
+  if (unrootedSingle == NULL || parser.isError()) {
+    Rcpp::stop("Error parsing fileSingle in oneToManyQuartets -> parser.parseFile");
+  }
+
+  std::vector<UnrootedTree *> unrootedMultiple = parser.parseMultiFile(fileMultiple); 
+  if (unrootedMultiple.size() == 0) {
+    Rcpp::stop("No trees found in fileMultiple; does file end with blank line?");
+  } else if (parser.isError()) {
+    Rcpp::stop("Error parsing fileMultiple in oneToManyQuartetAgreement -> parser.parseFile");
+  }
+
+  return oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+}
+
+std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
+  pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1,
+                         std::vector<UnrootedTree *> &unrootedTrees2) {
   std::vector<INTTYPE_N4> res;
 
   for(size_t i = 0; i < unrootedTrees1.size(); i++) {
@@ -30,65 +67,34 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(std::v
   return res;
 }
 
-std::vector<INTTYPE_N4> QuartetDistanceCalculator::pairs_quartet_distance(const char *filename1, const char *filename2) {
+std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
+  pairs_quartet_distance(const char *filename1, const char *filename2) {
   NewickParser parser;
   
   std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
-  if (unrootedTrees1.size() == 0 || parser.isError()) {
-    std::cerr << "Error: Parsing of \"" << filename1 << "\" failed." << endl;
-    std::cerr << "Aborting!" << endl;
-    std::exit(-1);
+  if (unrootedTrees1.size() == 0) {
+    Rcpp::stop("No trees found in filename1; does file end with blank line?");
+  } else if (parser.isError()) {
+    Rcpp::stop("Error parsing filename1 in pairs_quartet_distance -> parser.parseMultiFile");
   }
 
   std::vector<UnrootedTree *> unrootedTrees2  = parser.parseMultiFile(filename2); 
-  if (unrootedTrees2.size() == 0 || parser.isError()) {
-    std::cerr << "Error: Parsing of \"" << filename2 << "\" failed." << endl;
-    std::cerr << "Aborting!" << endl;
-    std::exit(-1);
+  if (unrootedTrees2.size() == 0) {
+    Rcpp::stop("No trees found in filename2; does file end with blank line?");
+  } else if (parser.isError()) {
+    Rcpp::stop("Error parsing filename2 in pairs_quartet_distance -> parser.parseMultiFile");
   }
 
   return pairs_quartet_distance(unrootedTrees1, unrootedTrees2);
 }
 
-void QuartetDistanceCalculator::pairs_quartet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2) {
-  for(size_t i = 0; i < unrootedTrees1.size(); i++) {
-    INTTYPE_N4 dist = calculateQuartetDistance(unrootedTrees1[i], unrootedTrees2[i]);
-    
-    INTTYPE_N4 resolvedQuartetsAgree = get_resolvedQuartetsAgree();
-    INTTYPE_N4 resolvedQuartetsAgreeDiag = get_resolvedQuartetsAgreeDiag();
-    INTTYPE_N4 resolvedQuartetsDisagree = get_resolvedQuartetsDisagree();
-    INTTYPE_N4 resolvedQuartetsDisagreeDiag = get_resolvedQuartetsDisagreeDiag();
-    INTTYPE_N4 resolvedQuartetsAgreeUpper = get_resolvedQuartetsAgreeUpper();
-    INTTYPE_N4 resolvedQuartetsDisagreeUpper = get_resolvedQuartetsDisagreeUpper();
-    
-    INTTYPE_N4 n = get_n();
-    INTTYPE_N4 totalNoQuartets = get_totalNoQuartets();
-    double dist_norm = double(dist) / double(totalNoQuartets);
-    INTTYPE_N4 resAgree = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
-    double resAgree_norm = double(resAgree) / double(totalNoQuartets);
-    INTTYPE_N4 unresolvedQuartetsAgree = get_unresolvedQuartets();
-    double unresolvedQuartetsAgree_norm = double(unresolvedQuartetsAgree) / double(totalNoQuartets);
-    
-    std::cout << n                            << "\t"
-	      << totalNoQuartets              << "\t"
-	      << dist                         << "\t"
-	      << dist_norm                    << "\t"
-	      << resAgree                     << "\t"
-	      << resAgree_norm                << "\t"
-	      << unresolvedQuartetsAgree      << "\t"
-	      << unresolvedQuartetsAgree_norm << std::endl;
-    
-  }
-}
-
-std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPairsQuartetDistance(const char *filename) {
+std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
+  calculateAllPairsQuartetDistance(const char *filename) {
   NewickParser parser;
 
   std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
-    std::cerr << "Error: Parsing of \"" << filename << "\" failed." << endl;
-    std::cerr << "Aborting!" << endl;
-    std::exit(-1);
+    Rcpp::stop("Error: Failed to parse filename");
   }
 
   const std::vector<std::vector<INTTYPE_N4> > results = calculateAllPairsQuartetDistance(unrootedTrees);
@@ -101,7 +107,8 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPai
   return results;
 }
 
-std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees) {
+std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
+  calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees) {
   std::vector<std::vector<INTTYPE_N4> > results(trees.size());
 
   for(size_t r = 0; r < trees.size(); ++r) {
@@ -115,26 +122,64 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::calculateAllPai
   return results;
 }
 
-INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filename1, const char *filename2) {
+std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
+    calculateAllPairsQuartetAgreement(const char *filename) {
+  
+  NewickParser parser;
+  
+  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename);
+  if (unrootedTrees.size() == 0 || parser.isError()) {
+    Rcpp::stop("Error: Failed to parse filename");
+  }
+  
+  const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
+    calculateAllPairsQuartetAgreement(unrootedTrees);
+  
+  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
+    UnrootedTree * tmp = unrootedTrees[i];
+    delete tmp;
+  }
+  
+  return results;
+}
+
+std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
+  calculateAllPairsQuartetAgreement(std::vector<UnrootedTree *> trees) {
+  
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > results(trees.size());
+  AE counts;
+  
+  for(size_t r = 0; r < trees.size(); ++r) {
+    for(size_t c = 0; c <= r; ++c) {
+      // comparing a tree with itself gives us (A+B+C) / (D+E)
+      counts = calculateQuartetAgreement(trees[r], trees[c]);
+      std::vector<INTTYPE_N4> ae(2);
+      ae[0] = counts.a;
+      ae[1] = counts.e;
+      results[r].push_back(ae);
+    }
+  }
+
+  return results;
+}
+
+
+AE QuartetDistanceCalculator::calculateQuartetAgreement(const char *filename1, const char *filename2) {
   UnrootedTree *ut1 = NULL;
   UnrootedTree *ut2 = NULL;
   NewickParser parser;
 
   ut1 = parser.parseFile(filename1);
   if (ut1 == NULL || parser.isError()) {
-    std::cerr << "Error: Parsing of \"" << filename1 << "\" failed." << endl;
-    std::cerr << "Aborting!" << endl;
-    return -1;
+    Rcpp::stop("calculateQuartetDistance failed to parse filename1");
   }
 
   ut2 = parser.parseFile(filename2);
   if(ut2 == NULL || parser.isError()) {
-    cerr << "Parsing of file \"" << filename2 << "\" failed." << endl;
-    cerr << "Aborting!" << endl;
-    return -1;
+    Rcpp::stop("calculateQuartetDistance failed to parse filename2");
   }
 
-  INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
+  AE res = calculateQuartetAgreement(ut1, ut2);
 
   delete ut1;
   delete ut2;
@@ -142,8 +187,9 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filen
   return res;
 }
 
-INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2) {
+AE QuartetDistanceCalculator::calculateQuartetAgreement(UnrootedTree *t1, UnrootedTree *t2) {
 
+  AE res;
   UnrootedTree *tmp;
   if(t1->maxDegree > t2->maxDegree) { // Smallest degree tree as t1
     tmp = t1;
@@ -156,15 +202,23 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1,
   
   this->t1->pairAltWorld(this->t2);
   if (this->t1->isError()) {
-    std::cerr << "The two trees do not have the same set of leaves." << std::endl;
-    std::cerr << "Aborting." << std::endl;
-    delete this->t1->factory;
-    delete this->t2->factory;
-    return -1;
+    Rcpp::stop("The two trees do not have the same set of leaves.");
+    res.a = -1;
+    res.e = -1;
+    res.noQuartets = -1;
+    return res;
   }
   
-  // Section 3 of Soda13: Counting unresolved triplets and quartets in a single tree
+  // tqDist comment asserts that countChildren corresponds to 
+  // Section 3 of Brodal et al. 2013:
+  // Counting unresolved triplets and quartets in a single tree
+  
+  // Populate this->t1->n with the number of leaves
   countChildren(this->t1);
+  
+  
+  // HDT: Heirarchical Decomposition Tree
+  // See Section 4 in Brodal et al. 2013
   hdt = HDT::constructHDT(this->t2, this->t1->maxDegree, dummyHDTFactory);
   
   resolvedQuartetsAgree = resolvedQuartetsAgreeDiag = 0;
@@ -174,21 +228,50 @@ INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1,
   
   count(this->t1);
 
-#ifndef doExtractAndContract
+/*#ifndef doExtractAndContract
+// factory deleted in count if def.
   delete hdt->factory;
-#endif
+#endif*/
 
   n = this->t1->n;
-  totalNoQuartets = Util::binom4(n);
-  INTTYPE_N4 a = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
-  INTTYPE_N4 e = unresolvedQuartets;
-
-  INTTYPE_N4 result = totalNoQuartets - (a + e);
   
+  res.a = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
+  res.e = unresolvedQuartets;
+  res.noQuartets = Util::binom4(n);
+  
+  // HDT is deleted in count!
   delete this->t1->factory;
   delete this->t2->factory;
   
-  // HDT is deleted in count!
+  return res;
+}
+
+INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(const char *filename1, const char *filename2) {
+  UnrootedTree *ut1 = NULL;
+  UnrootedTree *ut2 = NULL;
+  NewickParser parser;
+  
+  ut1 = parser.parseFile(filename1);
+  if (ut1 == NULL || parser.isError()) {
+    Rcpp::stop("calculateQuartetDistance failed to parse filename1");
+  }
+  
+  ut2 = parser.parseFile(filename2);
+  if(ut2 == NULL || parser.isError()) {
+    Rcpp::stop("calculateQuartetDistance failed to parse filename2");
+  }
+  
+  INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
+  
+  delete ut1;
+  delete ut2;
+  
+  return res;
+}
+
+INTTYPE_N4 QuartetDistanceCalculator::calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2) {
+  AE ae = calculateQuartetAgreement(t1, t2);
+  INTTYPE_N4 result = ae.noQuartets - (ae.a + ae.e);
   return result;
 }
 

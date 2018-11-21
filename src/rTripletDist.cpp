@@ -1,3 +1,6 @@
+#include <Rcpp.h>
+using namespace Rcpp;
+
 #include "TripletDistanceCalculator.h"
 #include "int_stuff.h"
 
@@ -7,91 +10,67 @@
 #include <cstdlib>
 #include <vector>
 
-extern "C" {
+//' @describeIn tqdist_QuartetDistance Triplet distance between two trees
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
+  const char *filename1;
+  const char *filename2;
 
-  #ifdef _WIN32
-	__declspec(dllexport)
-  #endif
-  SEXP cTripletDistance(SEXP filename1_sexp, SEXP filename2_sexp) {
-    const char *filename1;
-    const char *filename2;
+  filename1 = CHAR(STRING_ELT(file1, 0));
+  filename2 = CHAR(STRING_ELT(file2, 0));
 
-    if(!isString(filename1_sexp) || length(filename1_sexp) < 1
-       || !isString(filename2_sexp) || length(filename2_sexp) < 1) {
-      error("The two parameters to tripletDistance(filename1, filename2) should be strings.");
-    }
+  TripletDistanceCalculator tripletCalc;
 
-    filename1 = CHAR(STRING_ELT(filename1_sexp,0));
-    filename2 = CHAR(STRING_ELT(filename2_sexp,0));
+  INTTYPE_REST res = tripletCalc.calculateTripletDistance(filename1, filename2);
+  
+  IntegerVector IV_res(1);
+  IV_res = res;
+  return IV_res;
+}
 
-    TripletDistanceCalculator tripletCalc;
-
-    INTTYPE_REST res = tripletCalc.calculateTripletDistance(filename1, filename2);
-    SEXP res_sexp;
-    PROTECT(res_sexp = NEW_INTEGER(1));
-    INTEGER_POINTER(res_sexp)[0] = res;
-
-    UNPROTECT(1);
-    return res_sexp;
+//' @describeIn tqdist_QuartetDistance Triplet distance between pairs
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
+  const char * filename1;
+  const char * filename2;
+  
+  filename1 = CHAR(STRING_ELT(file1, 0));
+  filename2 = CHAR(STRING_ELT(file2, 0));
+  
+  TripletDistanceCalculator tripletCalc;
+  std::vector<INTTYPE_REST> res = tripletCalc.pairs_triplet_distance(filename1, filename2);
+  
+  IntegerVector IV_res(res.size());
+  for (size_t i = 0; i < res.size(); ++i) {
+    IV_res[i] = res[i];
   }
+  return IV_res;
+}
 
-  #ifdef _WIN32
-	__declspec(dllexport)
-  #endif
-  SEXP cPairsTripletDistance(SEXP filename1_sexp, SEXP filename2_sexp) {
-    const char * filename1;
-    if(!isString(filename1_sexp) || length(filename1_sexp) < 1) {
-      error("The parameter to pairsTripletDistance(filename) should be strings.");
+//' @describeIn tqdist_QuartetDistance Triplet distance between all pairs
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsTripletDistance(SEXP file) {
+  const char * filename;
+  
+  filename = CHAR(STRING_ELT(file, 0));
+
+  TripletDistanceCalculator tripletCalc;
+  std::vector<std::vector<INTTYPE_REST> > res = tripletCalc.calculateAllPairsTripletDistance(filename);
+
+  IntegerMatrix IM_res(res.size(), res.size());
+  //  int *ians = INTEGER(res_sexp);
+  
+  for (size_t r = 0; r < res.size(); ++r) {
+    for (size_t c = 0; c < r; ++c) {
+      int current_res = int(res[r][c]);
+      IM_res[r + res.size() * c] = current_res;
+      IM_res[c + res.size() * r] = current_res;
     }
-    filename1 = CHAR(STRING_ELT(filename1_sexp,0));
-    const char * filename2;
-    if(!isString(filename2_sexp) || length(filename2_sexp) < 1) {
-      error("The parameter to pairsTripletDistance(filename) should be strings.");
-    }
-    filename2 = CHAR(STRING_ELT(filename2_sexp,0));
-
-    TripletDistanceCalculator tripletCalc;
-    std::vector<INTTYPE_REST> res = tripletCalc.pairs_triplet_distance(filename1, filename2);
-    
-    SEXP res_sexp;
-    PROTECT(res_sexp = allocVector(INTSXP, res.size()));
-    int *ians = INTEGER(res_sexp);
-
-    for(size_t i = 0; i < res.size(); ++i) {
-      ians[i] = res[i];
-    }
-   
-    UNPROTECT(1);
-
-    return res_sexp;
+    IM_res[r + res.size()*r] = res[r][r];
   }
-
-  #ifdef _WIN32
-	__declspec(dllexport)
-  #endif
-  SEXP cAllPairsTripletDistance(SEXP filename_sexp) {
-    const char * filename;
-    if(!isString(filename_sexp) || length(filename_sexp) < 1) {
-      error("The parameter to allPairsTripletDistance(filename) should be a string.");
-    }
-    filename = CHAR(STRING_ELT(filename_sexp,0));
-
-    TripletDistanceCalculator tripletCalc;
-    std::vector<std::vector<INTTYPE_REST> > res = tripletCalc.calculateAllPairsTripletDistance(filename);
-
-    SEXP res_sexp;
-    PROTECT(res_sexp = allocMatrix(INTSXP, res.size(), res.size()));
-    int *ians = INTEGER(res_sexp);
-    for(size_t r = 0; r < res.size(); ++r) {
-      for(size_t c = 0; c < r; ++c) {
-	ians[r + res.size()*c] = res[r][c];
-	ians[c + res.size()*r] = res[r][c];
-      }
-      ians[r + res.size()*r] = res[r][r];
-    }
-
-    UNPROTECT(1);
-    return res_sexp;
-  }
-
+  
+  return IM_res;
 }

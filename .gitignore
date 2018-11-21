@@ -4,17 +4,20 @@
 .RData*
 .Ruserdata
 ~$*
+*.doc
+*.eps
 *.nex
 *.pdf
 *.QStats
 *.Rd
 *.trees
 *.zip
-inst/doc
-inst/Referee*
-inst/*.docx
-inst/*.png
-orTrees/*.*0/
+inst/manuscript/doc
+inst/manuscript/Referee*
+inst/manuscript/*.docx
+inst/manuscript/*.png
+inst/manuscript/SUGGESTED_REFEREES
+inst/manuscript/SUMMARY
 src-*
 src/*.o
 src/*.so
@@ -23,7 +26,3 @@ vignettes/*_cache
 vignettes/*.html
 vignettes/*.pdf
 vignettes/*_files
-# The following line is to facilitate housekeeping and should be deleted:
-*.run*.nex
-*.doc
-*.eps

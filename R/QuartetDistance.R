@@ -1,67 +1,11 @@
 WHICH_OTHER_NODE <- 2:4
-
-#' Drop Single Splits
-#' 
-#' Removes splits that pertain only to a single taxon from a splits object
-#' 
-#' @param split A matrix in which each column corresponds to a bipartition split
-#' 
-#' @return The same matrix, with any columns that separate only a single pendant tip
-#'         removed.
-#'         
-#' @author Martin R. Smith
-#' 
-#' @export 
-DropSingleSplits <- function (split) {
-  split[, colSums(split) > 1 & colSums(!split) > 1, drop=FALSE]
-}
-
-#' Tree2Splits
-#' 
-#' Converts a phylogenetic tree to an array of bipartition splits.
-#' 
-#' @param tr A tree of class \code{\link[ape:read.tree]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).
-#' @return Returns a two-dimensional array, with columns corresponding to bipartitions and rows corresponding
-#' to tips 1:N.
-#'
-#' @author Martin R. Smith
-#' 
-#' @examples Tree2Splits(ape::rtree(6, tip.label=1:6, br=NULL))
-#'
-#' @importFrom ape reorder.phylo
-#' @useDynLib Quartet, .registration = TRUE
-#' @export
-Tree2Splits <- function (tr) {
-  tr <- reorder.phylo(tr, 'postorder')
-  tip_label <- tr$tip.label
-  n_tip <- as.integer(length(tip_label))
-  root <- length(tip_label) + 1
-  bipartitions <- phangorn_bipCPP(tr$edge, n_tip)
-  ret <- vapply(bipartitions[-seq_len(root)], 
-         function (x) seq_len(n_tip) %in% x, 
-         logical(n_tip))[seq_len(n_tip), , drop=FALSE]
-  rownames(ret) <- tip_label
-  
-  # Return:
-  DropSingleSplits(ret)
-}
-
-#' Column Sums
-#' 
-#' An accelerated version of the R function \code{colSums(x, na.rm = FALSE, dims = 1L)}.
-#' Using this function makes \code{MatchingQuartets} 8% faster.
-#' But it is \emph{very} naughty to call \code{.Internal}, so I use the 
-#' internal R colSums function instead.
-#' @param x Matrix whose columns are to be summed.
-#' @param n_cols Number of columns in said matrix.
-#' @author Martin R. Smith
-#' @keywords internal
-# ColSums <- function (x, n_cols = ncol(x)) .Internal(colSums(x, 4, n_cols, FALSE))
-
+BLANK_QUARTET <- c(Q = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)
 
 #' Plot Quartet
 #' 
-#' Plots a given quartet
+#' Plots a tree, highlighting members of a specified quartet
+#' 
+#' 
 #' @param tree A tree of class \code{phylo}, or a list of such trees.
 #' @param quartet A vector of four integers, corresponding to numbered tips on
 #'                the tree; or a character vector specifying the labels of four
@@ -69,17 +13,31 @@ Tree2Splits <- function (tr) {
 #' @param overwritePar Logical specifying whether to use existing 
 #'                     \code{\link[graphics]{par} mfrow} and \code{mar} parameters (\code{FALSE}),
 #'                     or to plot trees side-by-side in a new graphical device.
+#' @param caption Logical specifying whether to annotate each plot to specify
+#'   whether the quartet selected is in the same or a different state to the 
+#'   reference tree.
 #' @param \dots Additional parameters to send to \code{\link[graphics]{plot}} 
 #'                
 #' @author Martin R. Smith
-#' @importFrom graphics par plot text
+#' 
+#' @return Returns `invisible()`, having plotted a tree in which the first two members
+#' of `quartet`` are highlighted in orange, and the second two highlighted in 
+#' blue.
+#' 
+#' @examples 
+#'   data('sq_trees')
+#'   
+#'   par(mfrow=c(3, 5), mar=rep(0.5, 4))
+#'   PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
+#' 
+#' @importFrom graphics par plot legend
 #' @importFrom TreeSearch RenumberTips
 #' @export
-PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
+PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { # nocov start
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
                  "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
-  if (class(tree) == 'phylo') tree <- list(tree)
+  if (class(tree) == 'phylo') tree <- structure(list(tree), class='multiPhylo')
   
   n_tip <- length(tree[[1]]$tip.label)
   
@@ -97,39 +55,39 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
   for (tr in tree) {
     tr <- RenumberTips(tr, labelOrder)
     plot(tr, tip.color=cbPalette[tip_colours], ...)
-    text(1.1, 1.1, 
+    if (caption) legend('bottomleft', bty='n', cex=0.9,
          if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
   }
-  return <- NULL
+  invisible()
 } #nocov end
 
-#' Choices
+#' All quartets
 #'
-#'  List all choices of four taxa from a tree.
+#' List all choices of four taxa from a tree.
 #'  
-#'  A more computationally efficient alternative to \code{\link{combn}}.
-#'  Uses \code{\link{memoise}} to make repeated calls faster.
+#' A more computationally efficient alternative to \code{\link{combn}}.
+#' Uses \code{\link{memoise}} to make repeated calls faster.
 #'
 #' @param n_tips Integer, specifying the number of tips in a tree.
 #' 
 #' @return Returns a list of length \code{choose(n_tips, 4)}, with each entry 
-#' corresponding to a unique selection of four different integers <= n_tips
+#' corresponding to a unique selection of four different integers less than
+#' or equal to `n_tips`
 #' 
 #' @author Martin R. Smith
 #'
 #' @seealso \code{\link{combn}}
 #' 
-#' @examples{
+#' @examples
 #'  n_tips <- 6
-#'  choice_list <- Choices(n_tips)
+#'  choice_list <- AllQuartets(n_tips)
 #'  choice_list
 #'  combn(n_tips, 4) # Provides the same information, but for large 
 #'                   # values of n_tips is significantly slower.
-#' }
 #' 
 #' @importFrom memoise memoise
 #' @export
-Choices <- memoise(function (n_tips) {
+AllQuartets <- memoise(function (n_tips) {
   unlist(lapply(seq_len(n_tips - 3), function (i) {
     unlist(lapply((i + 1):(n_tips - 2), function (j) {
       unlist(lapply((j + 1):(n_tips - 1), function (k) {
@@ -141,11 +99,10 @@ Choices <- memoise(function (n_tips) {
   }), recursive=FALSE)
 })
 
-#' Quartet State
+#' Quartet State(s)
 #' 
-#' State of quartets
-#'
-#' Report the status of a given quartet.
+#' Report the status of the specified quartet(s).
+#' 
 #' @param tips A four-element array listing a quartet of tips, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
 #' @param bips bipartitions to evaluate.
@@ -157,12 +114,13 @@ Choices <- memoise(function (n_tips) {
 #'  If a set of bipartitions is generated from a tree that contains polytomies, it is possible
 #'  that all three three four-taxon trees are consistent with the set of bipartitions.
 #'
-#' @return Returns 0 if the relationships of the four taxa are not constrained by the provided 
+#' @return Returns `0` if the relationships of the four taxa are not constrained by the provided 
 #' bipartitions, or the index of the closest relative to `tips[1]`, otherwise.
 #'
 #' @author Martin R. Smith
 #' 
-#' @seealso \code{\link{CompareQuartets}}, used to compare sets of bipartitions
+#' @seealso \code{\link{CompareQuartets}}, used to compare quartet states between
+#'   trees.
 #' @examples{
 #'   n_tip <- 6
 #'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
@@ -170,7 +128,7 @@ Choices <- memoise(function (n_tips) {
 #'   splits <- lapply(trees, Tree2Splits)
 #'   QuartetState(c(1, 3, 4, 6), splits[[2]])  
 #'   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
-#'   vapply(Choices(n_tip), QuartetState, bips=splits[[1]], double(1))
+#'   vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))
 #' }
 #' 
 #' @references 
@@ -190,13 +148,12 @@ QuartetState <- function (tips, bips) {
   }
 }
 
-#' @describeIn QuartetState A wrapper that need only be provided with a list of splits
+#' @describeIn QuartetState A convenience wrapper that need only be provided with a tree or a list of splits
 #' @param splits a list of bipartition splits, perhaps generated using 
 #'        \code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
-#'        If a tree or list of trees (of class phylo) is sent instead, it will be silently converted
-#'        to its constituent splits.
+#'        If a tree or list of trees (of class `phylo``) is sent instead, 
+#'        it will be silently converted to its constituent splits.
 #'        
-#' @author Martin R. Smith
 #' @export
 QuartetStates <- function (splits) {
   if (class(splits) == 'phylo') {
@@ -211,34 +168,30 @@ QuartetStates <- function (splits) {
   
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
-    vapply(Choices(n_tips), QuartetState, double(1), bips=bips[sort(rownames(bips)), , drop=FALSE])
+    vapply(AllQuartets(n_tips), QuartetState, double(1), 
+           bips=bips[sort(rownames(bips)), , drop=FALSE])
   })
 }
 
-#' Compare Quartets
+#' Compare Quartet States
 #' 
-#' Compare quartet states between trees
-#'
-#'  Compares two lists of quartet states, detailing how many are identical and 
-#'  how many are unresolved.
+#' Compares two lists of quartet states, detailing how many are identical and 
+#' how many are unresolved.  Uses explicit enumeration.  For most purposes,
+#' the function [QuartetStatus] will be preferable.
 #' 
 #' @param x A list of quartet states, perhaps generated in
-#'  \code{\link{CompareQuartets}}.
+#'  \code{\link{QuartetStates}}.
 #' @param cf a second such list.
 #'
-#' Compares each quartet in a list, calculating how many statements are identical
-#'  in both lists.
-#'  
 #' @templateVar intro Returns an array of six numeric elements, each corresponding to the quantities of Estabrook _et al_. (1985):
 #' @template returnEstabrook
 #' 
-#' 
 #' @author Martin R. Smith
 #'
-#' @seealso \code{\link{MatchingQuartets}}, generates this output from a list of
+#' @seealso \code{\link{QuartetStatus}}, generates this output from a list of
 #'  trees.
 #'
-#' @examples{
+#' @examples
 #'   n_tip <- 6
 #'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
 #'                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
@@ -249,7 +202,6 @@ QuartetStates <- function (splits) {
 #'   result <- c(compare_result, dissimilar_quartets)
 #'   names(result) <- c('Shared', 'Unresolved', 'Dissimilar')
 #'   result
-#' }
 #' 
 #'@references {
 #' \insertRef{Estabrook1985}{Quartet}
@@ -272,26 +224,6 @@ CompareQuartets <- function (x, cf) {
   )
 }
 
-#' tqDist wrapper
-#' 
-#' @param treeList List of phylogenetic trees, of class \code{list} or
-#'                 \code{phylo}. All trees must be bifurcating.
-#' @return Quartet distances between each pair of trees
-#' @references {
-#'   @template refTqDist
-#' }
-#' @importFrom ape write.tree
-#' @importFrom stats runif
-#' @export
-TQDist <- function (treeList) {
-  if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
-  if (class(treeList) != 'multiPhylo') stop("treeList must be a list of phylogenetic trees")
-  fileName <- paste0('~temp', substring(runif(1), 3), '.trees')
-  write.tree(treeList, file=fileName)
-  on.exit(file.remove(fileName))
-  rtqdist::allPairsQuartetDistance(fileName)
-}
-
 #' Unshift Tree
 #' 
 #' Add a tree to the start of a list of trees
@@ -301,7 +233,7 @@ TQDist <- function (treeList) {
 #' for example trees read from a nexus file, causes data to be lost..
 #' 
 #' @param add Tree to add to the list, of class \code{phylo}
-#' @param treeList A list of trees, of class \code{list}, \code{mulitPhylo},
+#' @param treeList A list of trees, of class \code{list}, \code{multiPhylo},
 #' or, if a single tree, \code{phylo}.
 #' 
 #' @return A list of class \code{list} or \code{multiPhylo} (following the 
@@ -314,118 +246,45 @@ TQDist <- function (treeList) {
 #' @export
 UnshiftTree <- function(add, treeList) {
   if (class(treeList) == 'multiPhylo') {
-    treeList <- c(list(add), lapply(treeList, function (X) X))
-    class(treeList) <- 'multiPhylo'
-    treeList
+    structure(c(list(add), lapply(treeList, function (X) X)), class= 'multiPhylo')
   } else if (class(treeList) == 'phylo') {
-    treeList <- list(add, treeList)
+    treeList <- structure(list(add, treeList), class='multiPhylo')
   } else { # including: if (class(trees) == 'list') {
     c(list(add), treeList)
   }
 }
 
-#' Matching Quartets
-#' 
-#' Counts matching quartets
-#' 
-#' Determines the number of four-taxon trees consistent with multiple cladograms
-#' 
-#' Given a list of trees, returns the number of quartet statements present in the first tree
-#' in the list also present in each other tree.
-#' 
-#' If all trees are bifurcating and the package `rtqdist` (Sand 2014) is installed, then the
-#' function will use the faster `rtqdist`` package to generate quartet distances.
-#' Otherwise the distances will be generated (slowly) within R.
-#' 
-#' rtqDist can be installed by copying the following code into your console:
-#' \code{install.packages(
-#' 'http://users-cs.au.dk/cstorm/software/tqdist/files/tqDist-1.0.0.tar.gz',
-#'  repos=NULL, type='source')}
-#'  or by [downloading the package](http://users-cs.au.dk/cstorm/software/tqdist/)
-#'  and extracting the zipped directory into your library directory (which you 
-#'  can locate by typing `.libPaths()` into your console).
-#'  (Note that tqDist version 1.0.1 does not contain the R package)
-#'   
-#'   At present the trees must bear the same number of tips, and each tree$tip.label must use
-#'   the integers 1:n_tip.  Support for different-sized trees will be added if there is demand; 
-#'   contact the author if you would appreciate this functionality.
-#'       
-#'    A random pair of fully-resolved trees is expected to share 
-#'    \code{choose(n_tip, 4) / 3} four-taxon trees.
-#' 
-#' @template treesParam
-#' @template treesCfParam
-#' @param use.tqDist Logical specifying whether to attempt to use the tqDist algorithm.
-#'               Requires that the `rtqdist` package is installed.
-#'
-#' @templateVar intro Returns a two dimensional array. Columns correspond to the input trees; the first column will always         report a perfect match as it compares the first tree to itself.         Rows list the status of each quartet:
-#' @template returnEstabrook
-#'         
-#' @author Martin R. Smith
-#' @examples{
-#'  n_tip <- 6
-#'  data(sq_trees)
-#'  qt <- MatchingQuartets(sq_trees)
-#'
-#'  # Calculate Estabrook et al's similarity measures:
-#'  do_not_conflict = qt[]
-#' }
-#' 
-#' @seealso [MatchingSplits]
-#' 
-#' @references
-#' \insertRef{Estabrook1985}{Quartet}
-#' \insertRef{Sand2014}{Quartet}
-#'
-#' @importFrom Rdpack reprompt 
-#' @importFrom TreeSearch RenumberTips
-#' @importFrom utils installed.packages
-#' @export
-MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
-  if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
-  
-  treeStats <- vapply(trees, function (tr)
-    c(tr$Nnode, length(tr$tip.label)), double(2))
-  if (length(unique(treeStats[2, ])) > 1) {
-    stop("All trees must have the same number of tips")
-  }
-  if (use.tqDist && length(unique(treeStats[1, ])) == 1 && treeStats[2, 1] - treeStats[1, 1] == 1) {
-    if ('rtqdist' %in% installed.packages()[, 'Package']) {
-      tqDistances <- TQDist(trees)
-      nTrees <- length(trees)
-      nQuartets <- choose(length(trees[[1]]$tip.label), 4)
-      tqDiffs <- tqDistances[1, ]
-      t(data.frame(
-        Q = rep(nQuartets, nTrees),
-        s = nQuartets - tqDiffs,
-        d = tqDiffs,
-        r1 = integer(nTrees),
-        r2 = integer(nTrees),
-        u = integer(nTrees)
-      ))
-    }
-  }
-  tree1Labels <- trees[[1]]$tip.label
-  trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
-  quartets <- QuartetStates(lapply(trees, Tree2Splits))
-  ret <- vapply(quartets, CompareQuartets, cf=quartets[[1]], double(6))
-  
-  # Return:
-  if (is.null(cf)) ret else ret[, -1]
-}
 
 #' Quartet Similarity Metrics
 #' 
 #' Functions to calculate the quartet metrics proposed by Estabrook _et al_.
 #' (1985, table 2).
 #'
-#' @template treesParam
-#' @param mq Counts of matching quartets generated by the function
-#' [MatchingQuartets].
+#' @param quartetStatus Two-dimensional integer array, with rows corresponding to 
+#'   counts of matching quartets for each tree, and columns named 
+#'   according to the output of [QuartetStatus].  
 #' @param similarity Logical specifying whether to calculate the similarity
 #'                   or dissimilarity.
 #'
-#' @seealso [MatchingSplits], [CompareSplits]
+#' @return
+#'   `QuartetMetrics` returns a named two-dimensional array in which each row 
+#'   corresponds to an input tree, and each column corresponds to one of the
+#'   listed measures.
+#'   
+#'   `DoNotConflict` and others return a named vector describing the requested
+#'   similarity (or difference) between the trees.
+#'
+#' @seealso 
+#'   * [QuartetStatus]: Caluclate status of each quartet: the raw material 
+#'     from which the Estabrook _et al._ metrics are calculated.
+#'   * [SplitStatus], [CompareSplits]: equivalent metrics for bipartion splits.
+#'
+#' @examples 
+#'   data('sq_trees')
+#'   
+#'   sq_status <- QuartetStatus(sq_trees)
+#'   QuartetMetrics(sq_status)
+#'   QuartetDivergence(sq_status, similarity=FALSE)
 #'
 #' @references 
 #' \insertRef{Estabrook1985}{Quartet}
@@ -434,55 +293,113 @@ MatchingQuartets <- function (trees, cf=NULL, use.tqDist=TRUE) {
 #' 
 #' @name QuartetMetrics
 #' @export
-QuartetMetrics <- function (trees, similarity=TRUE) {
-  mq <- MatchingQuartets(trees)
+QuartetMetrics <- function (quartetStatus, similarity=TRUE) {
   result <- data.frame(
-    DoNotConflict = mq['d', ] / mq['Q', ],
-    ExplicitlyAgree = 1 - (mq['s', ] / mq['Q', ]),
-    StrictJointAssertions =  mq['d', ] / colSums(mq[c('d', 's'), ]),
-    SemiStrictJointAssertions = mq['d', ] / colSums(mq[c('d', 's', 'u'), ]),
-    QuartetDivergence =  colSums(mq[c('d', 'd', 'r1', 'r2'), ]) / (2 * mq['Q', ])
+    DoNotConflict = quartetStatus[, 'd'] / quartetStatus[, 'Q'],
+    ExplicitlyAgree = 1 - (quartetStatus[, 's'] / quartetStatus[, 'Q']),
+    StrictJointAssertions = quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's')]),
+    SemiStrictJointAssertions = quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u')]),
+    QuartetDivergence = rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) / (2 * quartetStatus[, 'Q'])
   )
   if (similarity) 1 - result else result
 }
 
+
+#' Status vector to matrix
+#' 
+#' Converts a vector to a matrix that can be analysed by the [DoNotConflict]
+#' function family.
+#' 
+#' @param statusVector A vector of six integers, in the sequence expected by
+#'  `BLANK_QUARTET`.  If provided a matrix, the matrix will be returned 
+#'  unaltered.
+#' @return A matrix, with columns named `Q`, `s`, `d`, `r1`, `r2`, `u`, and
+#' a single named row.  The row name means that column names are dropped in
+#' the output of `DoNotConflict` etc.
+#' 
+#' @author Martin R. Smith
+#' @keywords internal
+StatusToMatrix <- function (statusVector) {
+  if (is.null(dim(statusVector))) {
+      matrix(statusVector, 1, 6, dimnames = list('tree', names(BLANK_QUARTET)))
+  } else {
+    statusVector
+  }
+}
+
 #' @rdname QuartetMetrics
 #' @export
-DoNotConflict <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq['d', ] / mq['Q', ]
+DoNotConflict <- function (quartetStatus, similarity=TRUE) {
+  quartetStatus <- StatusToMatrix(quartetStatus)
+  result <- quartetStatus[, 'd'] / quartetStatus[, 'Q']
   if (similarity) 1 - result else result
 }
 
 #' @rdname QuartetMetrics
 #' @export
-ExplicitlyAgree <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq['s', ] / mq['Q', ]
+ExplicitlyAgree <- function (quartetStatus, similarity=TRUE) {
+  quartetStatus <- StatusToMatrix(quartetStatus)
+  result <- quartetStatus[, 's'] / quartetStatus[, 'Q']
   if (similarity) result else 1 - result
 }
 
 #' @rdname QuartetMetrics
 #' @export
-StrictJointAssertions <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq['d', ] / colSums(mq[c('d', 's'), ])
+StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
+  quartetStatus <- StatusToMatrix(quartetStatus)
+  result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's'), drop=FALSE])
   if (similarity) 1 - result else result
 }
 
 #' @rdname QuartetMetrics
 #' @export
-SemiStrictJointAssertions <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- mq['d', ] / colSums(mq[c('d', 's', 'u'), ])
+SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
+  quartetStatus <- StatusToMatrix(quartetStatus)
+  result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u'), drop=FALSE])
   if (similarity) 1 - result else result
 }
 
 #' @rdname QuartetMetrics
-#' @references \insertRef{ThisStudy}{Quartet}
+#' @references \insertRef{Smith2019}{Quartet}
 #' @export
-QuartetDivergence <- function (mq, similarity=TRUE) {
-  if (is.null(dim(mq))) mq <- as.matrix(mq)
-  result <- colSums(mq[c('d', 'd', 'r1', 'r2'), ]) / ( 2 * mq['Q', ])
+QuartetDivergence <- function (quartetStatus, similarity=TRUE) {
+  quartetStatus <- StatusToMatrix(quartetStatus)
+  result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2'), drop=FALSE]) /
+    ( 2 * quartetStatus[, 'Q'])
   if (similarity) 1 - result else result
+}
+
+
+#' @describeIn QuartetStatus Reports split statistics obtained after removing all
+#'   tips that do not occur in both trees being compared.
+#' @export
+SharedQuartetStatus <- function (trees, cf=trees[[1]]) {
+  t(vapply(trees, PairSharedQuartetStatus, tree2=cf, BLANK_QUARTET))
+}
+
+#' Status of quartets that exist in two trees
+#' 
+#' Removes all tips that do not occur in both `tree1` and `tree2`, then calculates 
+#' the status of the remaining quartets.
+#' 
+#' @param tree1,tree2 Trees of class phylo to compare.
+#' 
+#' @templateVar intro Returns a named array of six integers corresponding to the
+#'  quantities of Estabrook _et al_. (1985):
+#' @template returnEstabrook
+#' 
+#' @keywords internal
+#' @importFrom ape drop.tip
+#' @author Martin R. Smith
+#' @export
+PairSharedQuartetStatus <- function (tree1, tree2) {
+  tips1 <- tree1$tip.label
+  tips2 <- tree2$tip.label
+  
+  pruned1 <- drop.tip(tree1, setdiff(tips1, tips2))
+  pruned2 <- drop.tip(tree2, setdiff(tips2, tips1))
+  pruned2 <- RenumberTips(pruned2, tipOrder = intersect(tips1, tips2))
+  
+  # Return:
+  SingleTreeQuartetAgreement(pruned1, pruned2)
 }

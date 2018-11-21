@@ -1,4 +1,4 @@
 library(testthat)
-library(SlowQuartet)
+library(Quartet)
 
-test_check("SlowQuartet")
+test_check("Quartet")

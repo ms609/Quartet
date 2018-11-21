@@ -88,9 +88,9 @@ TemplatedLinkedList<RootedTree*>* RootedTreeFactory::getTemplatedLinkedList()
 	return returnMe;
 }
 
-long long RootedTreeFactory::getSizeInRam()
+int64_t RootedTreeFactory::getSizeInRam()
 {
-	long long resultRT = 0;
+  int64_t resultRT = 0;
 	{
 		RootedTree *current = createdRT;
 		while (current != NULL)
@@ -100,7 +100,7 @@ long long RootedTreeFactory::getSizeInRam()
 		}
 	}
 
-	long long resultTLL = 0;
+	int64_t resultTLL = 0;
 	{
 		TemplatedLinkedList<RootedTree*> *current = createdTLL;
 		while (current != NULL)

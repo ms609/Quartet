@@ -7,27 +7,39 @@ warnings_are_errors: true
 r_check_args: --as-cran
 env:
  - _R_CHECK_FORCE_SUGGESTS_=false
+sudo: required # Required to use binary packages, which are faster than source installs
 
 git:
-  depth: 5
+  depth: 1
+
+addons:
+  apt:
+    packages:
+      - ghostscript
 
 r_binary_packages:
- - testthat
- 
-r_packages:
+ - ape
  - covr
  - devtools
  - knitr
  - memoise
- - Rdpack
+ - phangorn
  - R.cache
+ - Rcpp
+ - Rdpack
  - rmarkdown
  - roxygen2
+ - testthat
+ 
+# Some packages not available as binaries:
+r_packages:
+ - bookdown
+ - Ternary
  - TreeSearch
  
 r_github_packages:
- - ms609/Ternary
-   
+ - ms609/CongreveLamsdell2016
+ 
 before_script:
  - R -e "devtools::document()"
   

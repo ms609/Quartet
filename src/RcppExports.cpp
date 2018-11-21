@@ -17,3 +17,108 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tqdist_QuartetDistance
+IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file2);
+RcppExport SEXP _Quartet_tqdist_QuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file2(file2SEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_QuartetDistance(file1, file2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_QuartetAgreement
+IntegerVector tqdist_QuartetAgreement(CharacterVector file1, CharacterVector file2);
+RcppExport SEXP _Quartet_tqdist_QuartetAgreement(SEXP file1SEXP, SEXP file2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file2(file2SEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_QuartetAgreement(file1, file2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_PairsQuartetDistance
+IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector file2);
+RcppExport SEXP _Quartet_tqdist_PairsQuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file2(file2SEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_PairsQuartetDistance(file1, file2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_OneToManyQuartetAgreement
+IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterVector fileMany);
+RcppExport SEXP _Quartet_tqdist_OneToManyQuartetAgreement(SEXP file1SEXP, SEXP fileManySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type fileMany(fileManySEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_OneToManyQuartetAgreement(file1, fileMany));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_AllPairsQuartetDistance
+IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file);
+RcppExport SEXP _Quartet_tqdist_AllPairsQuartetDistance(SEXP fileSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file(fileSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetDistance(file));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_AllPairsQuartetAgreement
+IntegerMatrix tqdist_AllPairsQuartetAgreement(CharacterVector file);
+RcppExport SEXP _Quartet_tqdist_AllPairsQuartetAgreement(SEXP fileSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file(fileSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetAgreement(file));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_TripletDistance
+IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2);
+RcppExport SEXP _Quartet_tqdist_TripletDistance(SEXP file1SEXP, SEXP file2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type file2(file2SEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_TripletDistance(file1, file2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_PairsTripletDistance
+IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2);
+RcppExport SEXP _Quartet_tqdist_PairsTripletDistance(SEXP file1SEXP, SEXP file2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type file2(file2SEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_PairsTripletDistance(file1, file2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_AllPairsTripletDistance
+IntegerMatrix tqdist_AllPairsTripletDistance(SEXP file);
+RcppExport SEXP _Quartet_tqdist_AllPairsTripletDistance(SEXP fileSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type file(fileSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsTripletDistance(file));
+    return rcpp_result_gen;
+END_RCPP
+}

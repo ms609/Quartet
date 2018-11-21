@@ -2,6 +2,8 @@
 .covrignore
 cran-comments.md
 ^.*\.dll$
+^.*\.docx?$
+^.*\.eps$
 ^.*\.json$
 ^.*\.o$
 ^.*\.xml$
@@ -10,4 +12,8 @@ cran-comments.md
 ^.*\.Rproj$
 man-roxygen
 data-raw
+inst/Quartet*
+inst/manuscript*
+inst/Supp*
+R/ReleaseQuestions.R
 /^src\-/

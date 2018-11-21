@@ -1,7 +1,7 @@
 Package: Quartet
-Version: 0.2.0.9005
-Date: 2018-10-31
-Title: Compare Phylogenetic Trees using Quartet Measures
+Version: 1.0.0
+Date: 2018-11-21
+Title: Compare Phylogenetic Trees using Quartet and Bipartition Measures
 Description: Calculates the number of four-taxon subtrees consistent with a pair
   of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),
   Reconstructing the shape of a tree from observed dissimilarity data,
@@ -16,7 +16,8 @@ Authors@R: c(person("Martin R.", 'Smith',
                   email='martin.smith@durham.ac.uk',
                   role=c("aut", "cre", "cph"), 
                   comment=c(ORCID = "0000-0001-5660-1727")),
-               person(given = "Klaus", family="Vigo", role = c("cph")),
+               person(given = "Klaus", family="Schliep", role = c("cph"),
+                  comment = c(ORCID = "0000-0003-2941-0161")),
                person('Andreas', 'Sand', role=c('ant')),
                person('Gerth', 'Stølting Brodal', role=c('ant')),
                person('Rolf', 'Fagerberg', role=c('ant')),
@@ -26,7 +27,7 @@ Authors@R: c(person("Martin R.", 'Smith',
                person('Jens', 'Johansen', role=c('ant')),
                person('Morten K.', 'Holt', role=c('ant'))
             )
-Copyright: Incorporates code from tqDist (Sand et al. 2014) and phangorn (Klaus Vigo).
+Copyright: Incorporates code modified from tqDist <doi:10.1093/bioinformatics/btu157> and phangorn <doi:10.1093/bioinformatics/btq706>.
 License: GPL (>= 2)
 Encoding: UTF-8
 Language: en-GB
@@ -39,14 +40,19 @@ Imports:
     Rdpack,
     TreeSearch
 Suggests:
+    bookdown,
+    CongreveLamsdell2016,
+    devtools,
     knitr,
     rmarkdown,
     Ternary (>= 1.0),
-    testthat
+    testthat,
+    usethis
+Remotes: ms609/CongreveLamsdell2016
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
 ByteCompile: true
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)

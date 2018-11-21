@@ -1,11 +1,6 @@
+#include <Rcpp.h>
+using namespace Rcpp;
 #include "int_stuff.h"
-
-#undef INTTYPE_N4
-#ifdef WIN32
-  #define INTTYPE_N4 long long
-#else
-#define INTTYPE_N4  __int128_t
-#endif
 
 #include "QuartetDistanceCalculator.h"
 
@@ -15,93 +10,171 @@
 #include <cstdlib>
 #include <vector>
 
-extern "C" {
-
-  #ifdef _WIN32
-	__declspec(dllexport)
-  #endif
-  SEXP cQuartetDistance(SEXP filename1_sexp, SEXP filename2_sexp) {
-    const char *filename1;
-    const char *filename2;
-
-    if(!isString(filename1_sexp) || length(filename1_sexp) < 1
-       || !isString(filename2_sexp) || length(filename2_sexp) < 1) {
-      error("The two parameters to quartetDistance(filename1, filename2) should be strings.");
-    }
-
-    filename1 = CHAR(STRING_ELT(filename1_sexp,0));
-    filename2 = CHAR(STRING_ELT(filename2_sexp,0));
-
-    QuartetDistanceCalculator quartetCalc;
-
-    INTTYPE_N4 res = quartetCalc.calculateQuartetDistance(filename1, filename2);
-    SEXP res_sexp;
-    PROTECT(res_sexp = NEW_INTEGER(1));
-    INTEGER_POINTER(res_sexp)[0] = res;
-
-    UNPROTECT(1);
-    return res_sexp;
+//' Triplet and quartet distances with tqDist
+//' 
+//' Functions to calculate triplet and quartet distances between pairs of trees.
+//' Input is not checked for sanity.
+//' 
+//' @param file,file1,file2 Paths to files containing a tree or trees in Newick format.
+//' 
+//' @return The distance between the requested trees.
+//' 
+//' @author Martin R. Smith, after Andreas Sand
+//' 
+//' @references \insertRef{Sand2014}{Quartet}
+//' 
+//' @keywords internal
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file2) {
+  int n1 = file1.size(), n2 = file2.size();
+  if (n1 != 1 || n2 != 1) {
+    Rcpp::stop("file1 and file2 must be character vectors of length 1");
   }
+  
+  const char *filename1;
+  const char *filename2;
+  
+  filename1 = CHAR(STRING_ELT(file1, 0));
+  filename2 = CHAR(STRING_ELT(file2, 0));
+  
+  QuartetDistanceCalculator quartetCalc;
+  
+  INTTYPE_N4 res = quartetCalc.calculateQuartetDistance(filename1, filename2);
+  IntegerVector IV_res(1);
+  IV_res[0] = res;
+  return IV_res;
+}
 
-  #ifdef _WIN32
-	__declspec(dllexport)
-  #endif
-  SEXP cPairsQuartetDistance(SEXP filename1_sexp, SEXP filename2_sexp) {
-    const char * filename1;
-    if(!isString(filename1_sexp) || length(filename1_sexp) < 1) {
-      error("The parameters to pairsQuartetDistance(filename) should be strings.");
-    }
-    filename1 = CHAR(STRING_ELT(filename1_sexp,0));
-    const char * filename2;
-    if(!isString(filename2_sexp) || length(filename2_sexp) < 1) {
-      error("The parameters to allPairsQuartetDistance(filename) should be strings.");
-    }
-    filename2 = CHAR(STRING_ELT(filename2_sexp,0));
 
-    QuartetDistanceCalculator quartetCalc;
-    std::vector<INTTYPE_N4> res = quartetCalc.pairs_quartet_distance(filename1, filename2);
-    
-    SEXP res_sexp;
-    PROTECT(res_sexp = allocVector(INTSXP, res.size()));
-    int *ians = INTEGER(res_sexp);
-
-    for(size_t i = 0; i < res.size(); ++i) {
-      ians[i] = res[i];
-    }
-   
-    UNPROTECT(1);
-
-    return res_sexp;
+//' @describeIn tqdist_QuartetDistance Agreement of each quartet
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_QuartetAgreement(CharacterVector file1, CharacterVector file2) {
+  int n1 = file1.size(), n2 = file2.size();
+  if (n1 != 1 || n2 != 1) {
+    Rcpp::stop("file1 and file2 must be character vectors of length 1");
   }
+  
+  const char *filename1;
+  const char *filename2;
+  
+  filename1 = CHAR(STRING_ELT(file1, 0));
+  filename2 = CHAR(STRING_ELT(file2, 0));
+  
+  QuartetDistanceCalculator quartetCalc;
+  AE counts = quartetCalc.calculateQuartetAgreement(filename1, filename2);
+  
+  IntegerVector IV_res(2);
+  IV_res[0] = counts.a;
+  IV_res[1] = counts.e;
+  
+  return IV_res;
+}
 
-  #ifdef _WIN32
-	__declspec(dllexport)
-  #endif
-  SEXP cAllPairsQuartetDistance(SEXP filename_sexp) {
-    const char * filename;
-    if(!isString(filename_sexp) || length(filename_sexp) < 1) {
-      error("The parameter to allPairsQuartetDistance(filename) should be a string.");
-    }
-    filename = CHAR(STRING_ELT(filename_sexp,0));
-
-    QuartetDistanceCalculator quartetCalc;
-    std::vector<std::vector<INTTYPE_N4> > res = quartetCalc.calculateAllPairsQuartetDistance(filename);
-    
-    SEXP res_sexp;
-    PROTECT(res_sexp = allocMatrix(INTSXP, res.size(), res.size()));
-    int *ians = INTEGER(res_sexp);
-
-    for(size_t r = 0; r < res.size(); ++r) {
-      for(size_t c = 0; c < r; ++c) {
-    	int current_res = int(res[r][c]);
-    	ians[r + res.size()*c] = current_res;
-    	ians[c + res.size()*r] = current_res;
-      }
-      ians[r + res.size()*r] = res[r][r];
-    }
-
-    UNPROTECT(1);
-
-    return res_sexp;
+//' @describeIn tqdist_QuartetDistance Distance between pairs
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector file2) {
+  int n1 = file1.size(), n2 = file2.size();
+  if (n1 != 1 || n2 != 1) {
+    Rcpp::stop("file1 and file2 must be character vectors of length 1");
   }
+  
+  const char *filename1;
+  const char *filename2;
+  
+  filename1 = CHAR(STRING_ELT(file1, 0));
+  filename2 = CHAR(STRING_ELT(file2, 0));
+  
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<INTTYPE_N4> res = quartetCalc.pairs_quartet_distance(filename1, filename2);
+  
+  IntegerVector IV_res(res.size());
+  for (size_t i = 0; i < res.size(); i++) {
+    IV_res[i] = res[i];
+  }
+  return IV_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Distance between pairs
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterVector fileMany) {
+  int n1 = file1.size(), n2 = fileMany.size();
+  if (n1 != 1 || n2 != 1) {
+    Rcpp::stop("file1 and file2 must be character vectors of length 1");
+  }
+  
+  const char *fileSingle;
+  const char *fileMultiple;
+  
+  fileSingle = CHAR(STRING_ELT(file1, 0));
+  fileMultiple = CHAR(STRING_ELT(fileMany, 0));
+  
+  QuartetDistanceCalculator quartetCalc;
+  
+  return quartetCalc.oneToManyQuartetAgreement(fileSingle, fileMultiple);
+}
+
+//' @describeIn tqdist_QuartetDistance Distance between all pairs
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
+  int n = file.size();
+  if (n != 1) {
+    Rcpp::stop("file must be a character vector of length 1");
+  }
+  
+  const char *filename;
+  filename = CHAR(STRING_ELT(file, 0));
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<INTTYPE_N4> > res = quartetCalc.calculateAllPairsQuartetDistance(filename);
+  
+  IntegerMatrix IM_res(res.size(), res.size());
+//  int *ians = INTEGER(res_sexp);
+  
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c < r; c++) {
+      int current_res = int(res[r][c]);
+      IM_res[r + res.size() * c] = current_res;
+      IM_res[c + res.size() * r] = current_res;
+    }
+    IM_res[r + res.size()*r] = res[r][r];
+  }
+  
+  return IM_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetAgreement(CharacterVector file) {
+  int n = file.size();
+  if (n != 1) {
+    Rcpp::stop("file must be a character vector of length 1");
+  }
+  
+  const char *filename;
+  filename = CHAR(STRING_ELT(file, 0));
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = quartetCalc.calculateAllPairsQuartetAgreement(filename);
+
+  IntegerMatrix IM_res(res.size(), res.size() * 2);
+
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c <= r; c++) {
+      int current_a = int(res[r][c][0]);
+      int current_e = int(res[r][c][1]);
+      IM_res[r + res.size() * c] = current_a;
+      IM_res[c + res.size() * r] = current_a;
+      IM_res[r + res.size() * c + (res.size() * res.size())] = current_e;
+      IM_res[c + res.size() * r + (res.size() * res.size())] = current_e;
+    }
+  }
+  
+  return IM_res;
 }

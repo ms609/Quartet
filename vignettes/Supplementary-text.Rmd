@@ -20,7 +20,7 @@ vignette: >
 ---
 
 This document has been generated from an R markdown file, which contains the source 
-code used to generate figures and conduct analyses, and is provided in the Electronic Supplementary Material that accompanies the main article.
+code used to generate figures and conduct analyses, and is provided in the Electronic Supplementary Material that accompanies the main article [@Smith2019].
 
 ---
 
@@ -28,7 +28,8 @@ code used to generate figures and conduct analyses, and is provided in the Elect
 require('ape')
 require('Ternary')
 require('Quartet')
-options('rqtDist.message' = FALSE)
+require('CongreveLamsdell2016')
+Sys.setlocale("LC_ALL", "English_United Kingdom.1252") # allows PCH=183
 data('sq_trees')
 n_tip <- 11
 ref_tree <- sq_trees[[1]]
@@ -75,7 +76,7 @@ rfplot <- function (tr, title=NULL, highlight=NULL, ref=ref_tree, ...) {
   text(text_x, -1.5, "RF:", cex=0.8, pos=2)
   text(text_x, -2.5, "Path:", cex=0.8, pos=2)
   text(text_x, -3.5, "SPR:", cex=0.8, pos=2)
-  text(text_x, -0.5, paste0(MatchingQuartets(list(tr, ref))['d', 2],
+  text(text_x, -0.5, paste0(QuartetStatus(list(tr, ref))[2, 'd'],
                             '/', choose(11,4)), cex=0.8, pos=4)
   text(text_x, -1.5, paste0(topo_dist, '/', rf_max), cex=0.8, pos=4)
   text(text_x, -2.5, paste0(signif(tree_dist[2], 3)), cex=0.8, pos=4)
@@ -85,7 +86,7 @@ rfplot <- function (tr, title=NULL, highlight=NULL, ref=ref_tree, ...) {
 polyplot <- function (tr, title, highlight, ...) {
   tree_pair <- lapply(list(ref_tree, tr), ape::unroot)
   class(tree_pair) <- 'multiPhylo'
-  partitions <- MatchingSplits(tree_pair)[, 2]
+  partitions <- SplitStatus(tree_pair)[2, ]
   
   colplot(tr, title, highlight, ...)
   x_mid <- par('usr')[2] * 0.62
@@ -96,25 +97,23 @@ polyplot <- function (tr, title, highlight, ...) {
   text(x_mid, -3.5, cex=0.8, pos=2, "Partitions unresolved")
   
   text(x_mid, -0.5, cex=0.8, pos=4, 
-       paste0(MatchingQuartets(tree_pair)['d', 2], '/', choose(11,4)))
+       paste0(QuartetStatus(tree_pair)[2, 'd'], '/', choose(11, 4)))
   text(x_mid, -1.5, cex=0.8, pos=4, 
-       paste0(sum(MatchingQuartets(tree_pair)[c('r1','r2','u'), 2]), '/', choose(11,4)))
+       paste0(sum(QuartetStatus(tree_pair)[2, c('r1','r2','u')]), '/', choose(11, 4)))
   # The below assumes that ref is bifurcated, so if a partition's in cf not ref it must contradict.
   text(x_mid, -2.5, cex=0.8, pos=4, paste0(partitions['cf_not_ref'], '/', rf_max / 2))
   text(x_mid, -3.5, cex=0.8, pos=4, paste0(partitions['ref_not_cf'] - partitions['cf_not_ref'], '/', rf_max / 2)) 
 }
 
+data('clPartitions', 'clQuartets')
 
-data(clPartitions)
-data(clQuartets)
-
-Quartet2Ternary <- function (item) clQuartets[[item]][c('r2', 'd', 's'), , TREE]
+Quartet2Ternary <- function (item) clQuartets[[item]][, c('r2', 'd', 's'), TREE]
   
 Split2Ternary <- function (item) {
   itemData <- clPartitions[[item]][, , TREE]
-  rbind(itemData['ref', ] - itemData['cf', ],
-        itemData['cf_not_ref', ],
-        itemData['cf_and_ref', ])
+  rbind(itemData[, 'ref'] - itemData[, 'cf'],
+        itemData[, 'cf_not_ref'],
+        itemData[, 'cf_and_ref'])
 }
 
 TernaryBasis <- function (qMax = 19, zoom = 1, padding=0.1) {
@@ -302,7 +301,7 @@ expected by chance.
 
 The Robinson-Foulds metric can reach its maximum value when a single taxon is
 relocated from the most basal to the most derived point of a pectinate tree, 
-representing a maxximal value despite retaining relationship information about 
+representing a maximal value despite retaining relationship information about 
 all other taxa.
 
 ```{R Pectinate-to-break-RF, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.5/3, fig.width=6, fig.align='center'}
@@ -324,8 +323,9 @@ pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10,
 pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 
-random_trees <- lapply(1:10000, function (x) rtree(11, br=NULL, tip.label=1:11))
-random_quartets <- MatchingQuartets(random_trees, cf=pectinate_tree)['d', ] / choose(11,4)
+n_random <- if(Sys.getenv('TRAVIS') == "") 10000 else 10
+random_trees <- lapply(seq_len(n_random), function (x) rtree(11, br=NULL, tip.label=1:11))
+random_quartets <- QuartetStatus(random_trees, cf=pectinate_tree)[, 'd'] / choose(11, 4)
 random_distances <- vapply(random_trees, phangorn::treedist,
                            tree2=pectinate_tree, double(2))
 random_spr <- vapply(random_trees, phangorn::sprdist, tree2=pectinate_tree, double(4))
@@ -346,7 +346,7 @@ legend('topleft', bty='n', col=Ternary::cbPalette8[3], lwd=2, '"Move one taxon" 
 PlotHist(random_distances[2, ], breaks=manyBreaks*max(random_distances[2, ]),
          17.7, "Path distance")
 
-PlotHist(random_quartets, manyBreaks, 120/330, 'Quartet dissimilarity')
+PlotHist(random_quartets, manyBreaks, 120 / 330, 'Quartet dissimilarity')
 
 PlotHist(random_spr[1, ], max(random_spr[1, ]) * manyBreaks, 1, 'SPR distance')
 ```
@@ -416,7 +416,7 @@ normalized symmetric difference partition metric.)
 In bifurcating trees, these five measures evaluate to the same quantity
 [@Estabrook1985].  
 
-Quartet dissimilarity is the only available metric of tree distance that fullfils 
+Quartet dissimilarity is the only available metric of tree distance that fulfils 
 all of the following desiderata:
 
  - Allocates trees higher distances if a clade moves greater distances
@@ -503,7 +503,7 @@ text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
 TernaryBasis(19)
 title(main="\nPartition distances", cex.main=0.8)
 
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 TernaryPoints(partition_distances[collapse_perfect, ], col=cbPalette8[2], pch=pchs, cex=1.5)
 TernaryLines (partition_distances[collapse_perfect, ], col=cbPalette8[2])
 TernaryPoints(partition_distances[collapse_move1, ],   col=cbPalette8[3], pch=pchs, cex=1.5)
@@ -581,7 +581,7 @@ TernaryQuarts(zoom=6, padding=0.01)
 TernaryBasis(19)
 title(main="\nPartitions", cex.main=0.8)
 
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 JoinTheDots(Split2Ternary('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
 JoinTheDots(Split2Ternary('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
@@ -615,7 +615,7 @@ TREES <- 1:100
 # TREES <- TREES[clCI > 0.26]
 
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , TREES], 2, rowMeans)
+AverageQuarts <- function (item) apply(clQuartets[[item]][, c('r2', 'd', 's'), TREES], 2, rowMeans)
 TernaryQuarts(AverageQuarts)
 TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
 AddLegend('topright')
@@ -672,8 +672,8 @@ Both these approaches are significantly worse.
 ```{R Quartet-divergence-significance, include=FALSE}
 treeBests <- vapply(clQuartets, 
                     function (item) apply(
-                      apply(item[, , TREES], 2, QuartetDivergence), 1, max),
-                    double(length(TREES)))
+                      apply(item[, , TREES], 1, function (x) QuartetDivergence(t(x))),
+                      1, max), double(length(TREES)))
 tests <- apply(treeBests, 2, 
                function (column) t.test(column, treeBests[, 'implied3'])$p.value)
 
@@ -688,14 +688,14 @@ We can run the same analysis counting partitions in place of quartets.
 ```{R CL-trees-partitions, echo=FALSE, message=FALSE, message=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='75%', fig.align='center'}
 AverageSplits <- function (item) {
   itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
-  rbind(itemData['ref', ] - itemData['cf', ],
-        itemData['cf_not_ref', ],
-        itemData['cf_and_ref', ])
+  rbind(itemData[, 'ref'] - itemData[, 'cf'],
+        itemData[, 'cf_not_ref'],
+        itemData[, 'cf_and_ref'])
 }
 
 TernaryBasis()
 
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 JoinTheDots(AverageSplits('impliedC'), col=COL_C, pch=PCH_IC, cex=1.1)
 JoinTheDots(AverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
@@ -713,10 +713,10 @@ text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270
 AddLegend()
 ```
 
-Under the partition metric, the most informative trees were found after collapsing nodes with a Bremner support value of:
+Under the partition metric, the most informative trees were found after collapsing nodes with a Bremer support value of:
 
 ```{R Partition-divergence-for-each-point, echo=FALSE, message=FALSE, fig.width=8, results='asis', fig.align='center'}
-divergences <- vapply(clPartitions, function (item) apply(item['RF_dist', , TREES], 1, mean), double(21))
+divergences <- vapply(clPartitions, function (item) apply(item[, 'RF_dist', TREES], 1, mean), double(21))
 ks <- c(1:3, 5, 10)
 colnames(divergences) <- c('Mk', 'EqlW', paste0('IW', c(ks, 'cons')))
 which_suboptimal <- apply(divergences, 2, which.min) - 1
@@ -732,7 +732,7 @@ Otherwise, it too finds no statistically significant difference between the effe
 
 ```{R Partition-significance, include=FALSE}
 treeBests <- vapply(clPartitions,
-                    function (item) apply(item['RF_dist', , ], 2, min),
+                    function (item) apply(item[, 'RF_dist', ], 2, min),
                     double(length(TREES)))
 tests <- apply(treeBests, 2, 
                function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
@@ -742,19 +742,19 @@ names(tests[tests < 0.01])
 <!--
 How good is each tree?  The RF distance for each tree under each method is as follows (high means a larger divergence):
 
-```{R commented-out-Partition divergence for each point, echo=FALSE, fig.width=8}
+`{R commented-out-Partition divergence for each point, echo=FALSE, fig.width=8}
 rf_dists <- vapply(clPartitions, function (item) apply(item['RF_dist', , TREES], 1, mean), double(21))
 rownames(rf_dists) <- c('Optimal', paste0('Subopt. ', 1:20))
 colnames(rf_dists) <- c('Mk', 'EqlW', paste0('IW', c(1:3, 5, 10, 'cons')))
 round(rf_dists, 4)
-```
+`
 
 Which reduction is the best?
 
-```{R Partition divergence - best, echo=FALSE}
+`{R Partition divergence - best, echo=FALSE}
 which_suboptimal <- apply(rf_dists, 2, which.min) - 1
 which_suboptimal
-```
+`
 
 How much does this correspond to?  In the case of Mk, it's clades with a 
 `r seq(100, 50, length.out=21)[21L - which_suboptimal[1]]`% posterior probability.
@@ -762,7 +762,7 @@ With implied weights, it's equivalent to the cost of
 the _of an additional step in trees that have _n_th additional step in a single
 character, where _n_ is:
 
-```{R Partition divergence - how suboptimal, echo=FALSE}
+`{R Partition divergence - how suboptimal, echo=FALSE}
 SUBOPTIMAL_VALUES <- round(0.73^(19:0), 5)
 
 how_suboptimal <- which_suboptimal[paste0('IW', ks)]
@@ -773,15 +773,15 @@ diffs <- t(t(cost_of_this_step) - how_suboptimal)
 colnames(diffs) <- paste0('IW', ks)
 
 apply(abs(diffs), 2, which.min)
-```
+`
 
 Do different values of k produce significantly different results ($p = 0.01$)?
 
-```{R commented-out-Partition significance, echo=FALSE}
+`{R commented-out-Partition significance, echo=FALSE}
 treeBests <- vapply(clPartitions, function (item) apply(item['RF_dist', , ], 2, min), double(length(TREES)))
 tests <- apply(treeBests, 2, function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
 names(tests[tests < 0.01])
-```
+`
 -->
 
 # Why small concavity constants are unsuitable
@@ -853,58 +853,6 @@ As there does not yet exist an objective method for selecting a single value of 
 Studies that take a consensus of all trees found to be optimal under a range of concavity values (e.g. @Mirande2009) should consider discounting topologies that are only recovered under low values of _k_ (_cf_. [@Smith2015;@Zhang2016]).
 
 <!--
-## Issues with conclusions of Congreve and Lamsdell
-
-```{R Congreve & Lamsdell response, echo=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='60%', fig.align='center'}
-
-TernaryBasis()
-title(main="\nPartitions", cex.main=0.8)
-
-partition_distances <- SplitsPoints(sq_trees)
-
-TernaryLines(AverageSplits('impliedC' ), col=COL_C,  pch=PCH_XX)
-TernaryLines(AverageSplits('implied10'), col=COL10, pch=PCH_XX)
-TernaryLines(AverageSplits('implied5' ), col=COL_5,  pch=PCH_XX)
-TernaryLines(AverageSplits('implied3' ), col=COL_3,  pch=PCH_XX)
-TernaryLines(AverageSplits('implied2' ), col=COL_2,  pch=PCH_XX)
-TernaryLines(AverageSplits('implied1' ), col=COL_1,  pch=PCH_XX)
-TernaryLines(AverageSplits('equal'    ), col=COL_EQ, pch=PCH_XX)
-TernaryLines(AverageSplits('markov'   ), col=COL_MK, pch=PCH_XX)
-
-TernaryPoints(AverageSplits('impliedC' )[, 1], col=COL_C,  pch=PCH_IC, cex=1.1)
-TernaryPoints(AverageSplits('implied10')[, 1], col=COL10,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('implied5' )[, 1], col=COL_5,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('implied3' )[, 1], col=COL_3,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('implied2' )[, 1], col=COL_2,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('implied1' )[, 1], col=COL_1,  pch=PCH_IW, cex=1.1)
-TernaryPoints(AverageSplits('equal'    )[, 1], col=COL_EQ, pch=PCH_EQ, cex=1.1)
-TernaryPoints(AverageSplits('markov'   )[, 1], col=COL_MK, pch=PCH_MK, cex=1.1)
-
-equal_point <- AverageSplits('equal'    )[, 1]
-equal_differents <- equal_point[2]
-TernaryLines(list(c(0, equal_differents, 20-equal_differents),
-                  c(20-equal_differents, equal_differents, 0)), 
-             col=COL_EQ, lty='dashed', lwd=2)
-equal_coords <- TernaryCoords(equal_point)
-lines(c(0, sqrt(3/4) * (0.5 + equal_coords[2])), rep(equal_coords[2], 2), 
-      col=COL_EQ, lty='dotted', lwd=2)
-lines(rep(equal_coords[1], 2), c(-1, +1) * 0.5 * (1 - equal_coords[1] / sqrt(3/4)),
-      col=COL_EQ, lty='dotdash', lwd=2)
-
-arrow_tips <- matrix(c(TernaryCoords(3, 20-6, 3), TernaryCoords(7, 20-14, 7), TernaryCoords(20-(7+3), 7, 3)), 2, 3)
-arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 2], arrow_tips[2, 2])
-text(mean(arrow_tips[1, 1:2]), mean(arrow_tips[2, 1:2]), "Increasing quality\n(Congreve & Lamsdell)", cex=0.8, srt=60, pos=1)
-arrows(arrow_tips[1, 1], arrow_tips[2, 1], arrow_tips[1, 3], arrow_tips[2, 3])
-text(mean(arrow_tips[1, c(1, 3)]) - 0.05, mean(arrow_tips[2, c(1, 3)]), "Increasing quality\n(Quartet divergence)", cex=0.8, srt=90, pos=3)
-arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
-text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
-arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
-text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
-AddLegend()
-legend('bottom', bty='n', cex=0.8, lwd=2, col=COL_EQ, 
-       lty=c('dotted', 'dotdash', 'dashed'), legend=c('Equal quality', 'Equal precision', 'Equal incorrect nodes'))
-```
---!--
 ## More discussion [To re-write]
 
 It is sometimes of interest to establish which of a selection of trees is most 
