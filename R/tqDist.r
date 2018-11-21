@@ -292,6 +292,11 @@ TripletDistance <- function(file1, file2) {
 PairsTripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
+  trees1 <- read.tree(file1)
+  trees2 <- read.tree(file2)
+  if (length(trees1) != length(trees2) || class(trees1) != class(trees2)) {
+    stop("file1 and file2 must contain the same number of trees")
+  }
   .Call('_Quartet_tqdist_PairsTripletDistance', as.character(file1), as.character(file2));
 }
 

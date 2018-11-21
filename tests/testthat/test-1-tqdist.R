@@ -82,8 +82,9 @@ test_that("tqDist returns correct triplet distances", {
 
   allPairs <- AllPairsTripletDistance("../trees/two_trees.new");
   
+  expect_error(AllPairsTripletDistance(c("../trees/quartet1.new", "../trees/two_quartets.new")))
   expect_error(PairsTripletDistance("../trees/quartet1.new", "../trees/two_quartets.new"))
-  expect_equal(PairsTripletDistance("../trees/one_quartet_twice.new", "../trees/two_quartets.new"), c(0, 1))
+  expect_equal(c(0, 4), PairsTripletDistance("../trees/one_quartet_twice.new", "../trees/two_quartets.new"))
   
   
   # Tests taken from those provided with tqDist
