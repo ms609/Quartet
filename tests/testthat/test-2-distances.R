@@ -35,6 +35,13 @@ test_that("Quartet metrics are sane", {
   expect_equal(sims[, 'SemiStrictJointAssertions'], as.double(SemiStrictJointAssertions(sq_status)))
   expect_equal(sims[, 'QuartetDivergence'], as.double(QuartetDivergence(sq_status)))
   
+  testData <- BLANK_QUARTET + c(8, 1, 2, 1, 1, 3)
+  expect_equal(1/8, DoNotConflict(testData, FALSE))
+  expect_equal(1/8, ExplicitlyAgree(testData, FALSE))
+  expect_equal(2/3, StrictJointAssertions(testData, FALSE))
+  expect_equal(2/6, SemiStrictJointAssertions(testData, FALSE))
+  expect_equal(4/16, QuartetDivergence(testData, FALSE))
+  
   # Metrics should be identical with bifurcating trees.
   treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
   n_tip <- 11L
