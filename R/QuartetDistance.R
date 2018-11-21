@@ -321,7 +321,7 @@ QuartetMetrics <- function (quartetStatus, similarity=TRUE) {
 #' @keywords internal
 StatusToMatrix <- function (statusVector) {
   if (is.null(dim(statusVector))) {
-      matrix(statusVector, 1, 6, dimnames = list('X', names(BLANK_QUARTET)))
+      matrix(statusVector, 1, 6, dimnames = list('tree', names(BLANK_QUARTET)))
   } else {
     statusVector
   }
@@ -347,7 +347,7 @@ ExplicitlyAgree <- function (quartetStatus, similarity=TRUE) {
 #' @export
 StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
   quartetStatus <- StatusToMatrix(quartetStatus)
-  result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's')])
+  result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's'), drop=FALSE])
   if (similarity) 1 - result else result
 }
 
@@ -355,7 +355,7 @@ StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
 #' @export
 SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
   quartetStatus <- StatusToMatrix(quartetStatus)
-  result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u')])
+  result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u'), drop=FALSE])
   if (similarity) 1 - result else result
 }
 
@@ -364,7 +364,8 @@ SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
 #' @export
 QuartetDivergence <- function (quartetStatus, similarity=TRUE) {
   quartetStatus <- StatusToMatrix(quartetStatus)
-  result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) / ( 2 * quartetStatus[, 'Q'])
+  result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2'), drop=FALSE]) /
+    ( 2 * quartetStatus[, 'Q'])
   if (similarity) 1 - result else result
 }
 
