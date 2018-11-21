@@ -29,6 +29,12 @@ test_that("Quartet metrics are sane", {
   expect_true(all(sims + dists == 1))
   expect_true(all(dists['ref_tree', ] == 0))
   
+  expect_equal(sims[, 'DoNotConflict'], as.double(DoNotConflict(sq_status)))
+  expect_equal(sims[, 'ExplicitlyAgree'], as.double(ExplicitlyAgree(sq_status)))
+  expect_equal(sims[, 'StrictJointAssertions'], as.double(StrictJointAssertions(sq_status)))
+  expect_equal(sims[, 'SemiStrictJointAssertions'], as.double(SemiStrictJointAssertions(sq_status)))
+  expect_equal(sims[, 'QuartetDivergence'], as.double(QuartetDivergence(sq_status)))
+  
   # Metrics should be identical with bifurcating trees.
   treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
   n_tip <- 11L
