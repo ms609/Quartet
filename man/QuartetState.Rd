@@ -27,7 +27,7 @@ If a tree or list of trees (of class `phylo``) is sent instead,
 it will be silently converted to its constituent splits.}
 }
 \value{
-Returns 0 if the relationships of the four taxa are not constrained by the provided
+Returns \code{0} if the relationships of the four taxa are not constrained by the provided
 bipartitions, or the index of the closest relative to \code{tips[1]}, otherwise.
 }
 \description{

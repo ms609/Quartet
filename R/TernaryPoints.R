@@ -1,6 +1,7 @@
-#' Quartet Points
+#' Plot Tree Differences on Ternary Plots
 #' 
-#' Generate points to add to a ternary plot.
+#' Generate points to depict tree difference (in terms of resolution
+#' and similarity) on a ternary plot.
 #' 
 #' @template treesParam
 #' @return A data frame listing the ternary coordinates of trees, based on the
@@ -13,7 +14,8 @@
 #'   
 #'   TernaryPlot('Consistent', 'Contradicted', 'Unresolved')
 #'   TernaryLines(list(c(1/3, 2/3, 0), c(0, 0, 1)), col='red', lty='dotted')
-#'   TernaryPoints(QuartetPoints(sq_trees), pch=cbPalette8[2])
+#'   TernaryPoints(QuartetPoints(sq_trees), col=Ternary::cbPalette8[2])
+#'   TernaryPoints(SplitsPoints(sq_trees), col=Ternary::cbPalette8[3])
 #' }
 #' 
 #' @references 
@@ -46,5 +48,4 @@ SplitsPoints <- function (trees) {
 }
 #' @rdname QuartetPoints
 #' @export
-#' @keywords internal
 BipartitionPoints <- SplitsPoints

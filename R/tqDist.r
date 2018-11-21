@@ -118,8 +118,8 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' 
 #' From this information it is possible to calculate how many of all possible
 #' quartets occur in one tree or the other, but there is not yet a function
-#' calculating this; contact the maintainer if you would appreciate this 
-#' functionality.
+#' calculating this; [let us know](https://github.com/ms609/Quartet/issues/new)
+#' if you would appreciate this functionality.
 #'       
 #' 
 #' @template treesParam

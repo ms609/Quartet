@@ -30,7 +30,7 @@ BLANK_QUARTET <- c(Q = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)
 #'   par(mfrow=c(3, 5), mar=rep(0.5, 4))
 #'   PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
 #' 
-#' @importFrom graphics par plot text
+#' @importFrom graphics par plot legend
 #' @importFrom TreeSearch RenumberTips
 #' @export
 PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { # nocov start
@@ -113,7 +113,7 @@ AllQuartets <- memoise(function (n_tips) {
 #'  If a set of bipartitions is generated from a tree that contains polytomies, it is possible
 #'  that all three three four-taxon trees are consistent with the set of bipartitions.
 #'
-#' @return Returns 0 if the relationships of the four taxa are not constrained by the provided 
+#' @return Returns `0` if the relationships of the four taxa are not constrained by the provided 
 #' bipartitions, or the index of the closest relative to `tips[1]`, otherwise.
 #'
 #' @author Martin R. Smith
