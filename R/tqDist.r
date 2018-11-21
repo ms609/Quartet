@@ -19,13 +19,17 @@
 #' @param treeList List of phylogenetic trees, of class \code{list} or
 #'                 \code{phylo}. All trees must be bifurcating.
 #' @return `TQDist` returns the quartet distance between each pair of trees
+#' 
 #' @references
 #'   \insertRef{Brodal2013}{Quartet}
+#'   
 #'   \insertRef{Estabrook1985}{Quartet}
+#'   
 #'   \insertRef{Holt2014}{Quartet}
+#'   
 #'   \insertRef{Sand2014}{Quartet}
+#' 
 #' @importFrom ape write.tree
-#' @importFrom stats runif
 #' @author Martin R. Smith
 #' @export
 TQDist <- function (treeList) {
@@ -35,8 +39,7 @@ TQDist <- function (treeList) {
 }
 
 #' @describeIn TQDist Number of agreeing quartets that are resolved / unresolved
-#' @author Martin R. Smith
-#' @return `TQDist` returns the number of resolved quartets in agreement between 
+#' @return `TQAE` returns the number of resolved quartets in agreement between 
 #'   each pair of trees (A in Brodal _et al_. 2013) and the number of quartets 
 #'   that are unresolved in both trees (E in Brodal _et al_. 2013).
 #' @export 
@@ -47,7 +50,6 @@ TQAE <- function (treeList) {
 }
 
 #' @describeIn TQDist Agreement of each quartet, comparing each pair of trees in a list
-#' @author Martin R. Smith
 #' @return `ManyToManyQuartetAgreement` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @export 
@@ -70,7 +72,6 @@ ManyToManyQuartetAgreement <- function (treeList) {
 
 #' @describeIn TQDist Agreement of each quartet in trees in a list with the
 #' quartets in a comparison tree
-#' @author Martin R. Smith
 #' @param comparison A single tree against which to compare the trees in treeList
 #' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
 #'   for tree in `treeList`, the total number of quartets and the 
@@ -163,6 +164,7 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #' to be processed with tqDist.  Files should be destroyed using
 #' `on.exit(file.remove(fileName))` by the calling function.
 #' @return Name of the created file
+#' @importFrom stats runif
 #' @keywords internal
 #' @export
 TQFile <- function (treeList) {

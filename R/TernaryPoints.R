@@ -8,8 +8,9 @@
 #'         of the list.
 #' 
 #' @examples {
-#'   data('sq_trees')
 #'   library('Ternary')
+#'   data('sq_trees')
+#'   
 #'   TernaryPlot('Consistent', 'Contradicted', 'Unresolved')
 #'   TernaryLines(list(c(1/3, 2/3, 0), c(0, 0, 1)), col='red', lty='dotted')
 #'   TernaryPoints(QuartetPoints(sq_trees), pch=cbPalette8[2])

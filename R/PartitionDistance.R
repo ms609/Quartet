@@ -121,6 +121,7 @@ CompareBipartitions <- CompareSplits
 #'         
 #' @examples{
 #'   data('sq_trees')
+#'   
 #'   # Calculate the status of each quartet
 #'   splitStatuses <- SplitStatus(sq_trees)
 #'   

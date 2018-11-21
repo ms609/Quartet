@@ -3,7 +3,9 @@ BLANK_QUARTET <- c(Q = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)
 
 #' Plot Quartet
 #' 
-#' Plots a given quartet
+#' Plots a tree, highlighting members of a specified quartet
+#' 
+#' 
 #' @param tree A tree of class \code{phylo}, or a list of such trees.
 #' @param quartet A vector of four integers, corresponding to numbered tips on
 #'                the tree; or a character vector specifying the labels of four
@@ -11,17 +13,31 @@ BLANK_QUARTET <- c(Q = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)
 #' @param overwritePar Logical specifying whether to use existing 
 #'                     \code{\link[graphics]{par} mfrow} and \code{mar} parameters (\code{FALSE}),
 #'                     or to plot trees side-by-side in a new graphical device.
+#' @param caption Logical specifying whether to annotate each plot to specify
+#'   whether the quartet selected is in the same or a different state to the 
+#'   reference tree.
 #' @param \dots Additional parameters to send to \code{\link[graphics]{plot}} 
 #'                
 #' @author Martin R. Smith
+#' 
+#' @return Returns `invisible()`, having plotted a tree in which the first two members
+#' of `quartet`` are highlighted in orange, and the second two highlighted in 
+#' blue.
+#' 
+#' @examples 
+#'   data('sq_trees')
+#'   
+#'   par(mfrow=c(3, 5), mar=rep(0.5, 4))
+#'   PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
+#' 
 #' @importFrom graphics par plot text
 #' @importFrom TreeSearch RenumberTips
 #' @export
-PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
+PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { # nocov start
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
                  "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
-  if (class(tree) == 'phylo') tree <- list(tree)
+  if (class(tree) == 'phylo') tree <- structure(list(tree), class='multiPhylo')
   
   n_tip <- length(tree[[1]]$tip.label)
   
@@ -39,10 +55,10 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
   for (tr in tree) {
     tr <- RenumberTips(tr, labelOrder)
     plot(tr, tip.color=cbPalette[tip_colours], ...)
-    text(1.1, 1.1, cex=0.9,
+    if (caption) legend('bottomleft', bty='n', cex=0.9,
          if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
   }
-  return <- NULL
+  invisible()
 } #nocov end
 
 #' All quartets
@@ -82,11 +98,10 @@ AllQuartets <- memoise(function (n_tips) {
   }), recursive=FALSE)
 })
 
-#' Quartet State
+#' Quartet State(s)
 #' 
-#' State of quartets
-#'
-#' Report the status of a given quartet.
+#' Report the status of the specified quartet(s).
+#' 
 #' @param tips A four-element array listing a quartet of tips, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
 #' @param bips bipartitions to evaluate.
@@ -103,7 +118,8 @@ AllQuartets <- memoise(function (n_tips) {
 #'
 #' @author Martin R. Smith
 #' 
-#' @seealso \code{\link{CompareQuartets}}, used to compare sets of bipartitions
+#' @seealso \code{\link{CompareQuartets}}, used to compare quartet states between
+#'   trees.
 #' @examples{
 #'   n_tip <- 6
 #'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
@@ -131,13 +147,12 @@ QuartetState <- function (tips, bips) {
   }
 }
 
-#' @describeIn QuartetState A wrapper that need only be provided with a list of splits
+#' @describeIn QuartetState A convenience wrapper that need only be provided with a tree or a list of splits
 #' @param splits a list of bipartition splits, perhaps generated using 
 #'        \code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
-#'        If a tree or list of trees (of class phylo) is sent instead, it will be silently converted
-#'        to its constituent splits.
+#'        If a tree or list of trees (of class `phylo``) is sent instead, 
+#'        it will be silently converted to its constituent splits.
 #'        
-#' @author Martin R. Smith
 #' @export
 QuartetStates <- function (splits) {
   if (class(splits) == 'phylo') {
@@ -250,7 +265,7 @@ UnshiftTree <- function(add, treeList) {
 #' @param similarity Logical specifying whether to calculate the similarity
 #'                   or dissimilarity.
 #'
-#' @value
+#' @return
 #'   `QuartetMetrics` returns a named two-dimensional array in which each row 
 #'   corresponds to an input tree, and each column corresponds to one of the
 #'   listed measures.
@@ -264,6 +279,8 @@ UnshiftTree <- function(add, treeList) {
 #'   * [SplitStatus], [CompareSplits]: equivalent metrics for bipartion splits.
 #'
 #' @examples 
+#'   data('sq_trees')
+#'   
 #'   sq_status <- QuartetStatus(sq_trees)
 #'   QuartetMetrics(sq_status)
 #'   QuartetDivergence(sq_status, similarity=FALSE)
