@@ -503,7 +503,7 @@ text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
 TernaryBasis(19)
 title(main="\nPartition distances", cex.main=0.8)
 
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 TernaryPoints(partition_distances[collapse_perfect, ], col=cbPalette8[2], pch=pchs, cex=1.5)
 TernaryLines (partition_distances[collapse_perfect, ], col=cbPalette8[2])
 TernaryPoints(partition_distances[collapse_move1, ],   col=cbPalette8[3], pch=pchs, cex=1.5)
@@ -581,7 +581,7 @@ TernaryQuarts(zoom=6, padding=0.01)
 TernaryBasis(19)
 title(main="\nPartitions", cex.main=0.8)
 
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 JoinTheDots(Split2Ternary('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
 JoinTheDots(Split2Ternary('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
@@ -695,7 +695,7 @@ AverageSplits <- function (item) {
 
 TernaryBasis()
 
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 JoinTheDots(AverageSplits('impliedC'), col=COL_C, pch=PCH_IC, cex=1.1)
 JoinTheDots(AverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)

@@ -44,7 +44,7 @@ InitialPlot <- function() {
   title(main="\nPartitions", cex.main=0.8)
   
   HorizontalGrid(grid.col='#888888', grid.lines=19)
-  partition_distances <- SplitsPoints(sq_trees)
+  partition_distances <- SplitPoints(sq_trees)
   invisible()
 }
 CLBest <- function (analysis) rowMeans(PointsFromItem(clPartitions[[analysis]][ , 1, ]))

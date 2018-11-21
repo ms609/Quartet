@@ -15,7 +15,7 @@
 #'   TernaryPlot('Consistent', 'Contradicted', 'Unresolved')
 #'   TernaryLines(list(c(1/3, 2/3, 0), c(0, 0, 1)), col='red', lty='dotted')
 #'   TernaryPoints(QuartetPoints(sq_trees), col=Ternary::cbPalette8[2])
-#'   TernaryPoints(SplitsPoints(sq_trees), col=Ternary::cbPalette8[3])
+#'   TernaryPoints(SplitPoints(sq_trees), col=Ternary::cbPalette8[3])
 #' }
 #' 
 #' @references 
@@ -35,7 +35,7 @@ QuartetPoints <- function (trees) {
 
 #' @describeIn QuartetPoints Uses partition distance instead of quartet metric.
 #' @export
-SplitsPoints <- function (trees) {
+SplitPoints <- function (trees) {
   status <- SplitStatus(trees)
   # TODO Delete following line (?)
   # status <- rbind(status, status[1] - colSums(status))
@@ -48,4 +48,4 @@ SplitsPoints <- function (trees) {
 }
 #' @rdname QuartetPoints
 #' @export
-BipartitionPoints <- SplitsPoints
+BipartitionPoints <- SplitPoints

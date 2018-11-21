@@ -125,7 +125,7 @@ Plottem <- function (i) {
               padding=0.1)
   
   HorizontalGrid(19)
-  partition_distances <- SplitsPoints(sq_trees)
+  partition_distances <- SplitPoints(sq_trees)
   
   JoinTheDots(Split2Ternary('impliedC', TREE=TREE), col=COL_C, pch=PCH_IC, cex=1.1)
   JoinTheDots(Split2Ternary('implied10',TREE=TREE), col=COL10, pch=PCH_IW, cex=1.1)

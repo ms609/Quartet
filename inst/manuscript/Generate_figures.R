@@ -274,7 +274,7 @@ TernaryPlot( 'Unresolved', 'Different', 'Same', lab.cex=0.8,
 #title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(grid.col='#888888', grid.lines=19)
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 JoinTheDots(CLAverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
 JoinTheDots(CLAverageSplits('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
@@ -308,7 +308,7 @@ TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
 title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(19)
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 TernaryLines(CLAverageSplits('implied10'), col=COL10,  pch=PCH_XX)
 TernaryLines(CLAverageSplits('implied5' ), col=COL_5,  pch=PCH_XX)
@@ -397,7 +397,7 @@ TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
 title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(37)
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 lapply(orAnalyses, function (analysis) {
             TernaryLines(ORS350(analysis), col=COL[analysis],  pch=PCH['dot'])
@@ -414,7 +414,7 @@ TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
 title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(37)
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 lapply(orAnalyses, function (analysis) {
             TernaryLines(ORS100(analysis), col=COL[analysis],  pch=PCH['dot'])
@@ -445,7 +445,7 @@ TernaryPlot('Unresolved', 'Different', 'Same', lab.cex=0.8,
 title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(19)
-partition_distances <- SplitsPoints(sq_trees)
+partition_distances <- SplitPoints(sq_trees)
 
 lapply(orAnalyses, function (analysis) {
   TernaryLines(ORQ350(analysis), col=COL[analysis], pch=PCH['dot'],
