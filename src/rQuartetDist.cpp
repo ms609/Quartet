@@ -2,13 +2,6 @@
 using namespace Rcpp;
 #include "int_stuff.h"
 
-#undef INTTYPE_N4
-#ifdef WIN32
-  #define INTTYPE_N4 __int64
-#else
-#define INTTYPE_N4  __int128_t
-#endif
-
 #include "QuartetDistanceCalculator.h"
 
 #include <R.h>
