@@ -1,7 +1,12 @@
 ## Test environments
 * local Windows 10 install, R 3.5.1
-* R-hub, with `check_rhub()`
 * win-builder, with `check_win_devel()`
+* R-hub, with `check_rhub()`
+
+  * Installation failed on rhub/ubuntu-gcc-release, on account of a failure to 
+    install the required package `phangorn`.  This seems to be an issue outside
+    of my control.
+
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
