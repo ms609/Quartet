@@ -27,7 +27,7 @@ Authors@R: c(person("Martin R.", 'Smith',
                person('Jens', 'Johansen', role=c('ant')),
                person('Morten K.', 'Holt', role=c('ant'))
             )
-Copyright: Incorporates code modified from tqDist (Sand et al. 2014) and phangorn (Schliep 2011).
+Copyright: Incorporates code modified from tqDist <doi:10.1093/bioinformatics/btu157> and phangorn <doi:10.1093/bioinformatics/btq706>.
 License: GPL (>= 2)
 Encoding: UTF-8
 Language: en-GB
