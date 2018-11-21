@@ -22,8 +22,9 @@ test_that("Quartets are counted correctly", {
 })
 
 test_that("Quartet metrics are sane", {
-  sims <- QuartetMetrics(sq_trees)
-  dists <- QuartetMetrics(sq_trees, similarity=FALSE)
+  sq_status <- QuartetStatus(sq_trees)
+  sims  <- QuartetMetrics(sq_status)
+  dists <- QuartetMetrics(sq_status, similarity=FALSE)
   expect_true(all(sims <= 1))
   expect_true(all(sims + dists == 1))
   expect_true(all(dists['ref_tree', ] == 0))

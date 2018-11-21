@@ -55,19 +55,18 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
 #' @param n_tips Integer, specifying the number of tips in a tree.
 #' 
 #' @return Returns a list of length \code{choose(n_tips, 4)}, with each entry 
-#' corresponding to a unique selection of four different integers <= n_tips
+#' corresponding to a unique selection of four different integers ≤ n_tips
 #' 
 #' @author Martin R. Smith
 #'
 #' @seealso \code{\link{combn}}
 #' 
-#' @examples{
+#' @examples
 #'  n_tips <- 6
 #'  choice_list <- AllQuartets(n_tips)
 #'  choice_list
 #'  combn(n_tips, 4) # Provides the same information, but for large 
 #'                   # values of n_tips is significantly slower.
-#' }
 #' 
 #' @importFrom memoise memoise
 #' @export
@@ -158,30 +157,25 @@ QuartetStates <- function (splits) {
   })
 }
 
-#' Compare Quartets
+#' Compare Quartet States
 #' 
-#' Compare quartet states between trees
-#'
-#'  Compares two lists of quartet states, detailing how many are identical and 
-#'  how many are unresolved.
+#' Compares two lists of quartet states, detailing how many are identical and 
+#' how many are unresolved.  Uses explicit enumeration.  For most purposes,
+#' the function [QuartetStatus] will be preferable.
 #' 
 #' @param x A list of quartet states, perhaps generated in
 #'  \code{\link{QuartetStates}}.
 #' @param cf a second such list.
 #'
-#' Compares each quartet in a list, calculating how many statements are identical
-#'  in both lists.
-#'  
 #' @templateVar intro Returns an array of six numeric elements, each corresponding to the quantities of Estabrook _et al_. (1985):
 #' @template returnEstabrook
-#' 
 #' 
 #' @author Martin R. Smith
 #'
 #' @seealso \code{\link{QuartetStatus}}, generates this output from a list of
 #'  trees.
 #'
-#' @examples{
+#' @examples
 #'   n_tip <- 6
 #'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
 #'                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
@@ -192,7 +186,6 @@ QuartetStates <- function (splits) {
 #'   result <- c(compare_result, dissimilar_quartets)
 #'   names(result) <- c('Shared', 'Unresolved', 'Dissimilar')
 #'   result
-#' }
 #' 
 #'@references {
 #' \insertRef{Estabrook1985}{Quartet}
@@ -251,14 +244,29 @@ UnshiftTree <- function(add, treeList) {
 #' Functions to calculate the quartet metrics proposed by Estabrook _et al_.
 #' (1985, table 2).
 #'
-#' @template treesParam
 #' @param quartetStatus Two-dimensional integer array, with rows corresponding to 
 #'   counts of matching quartets for each tree, and columns named 
-#'   according to the output of [QuartetStatus].
+#'   according to the output of [QuartetStatus].  
 #' @param similarity Logical specifying whether to calculate the similarity
 #'                   or dissimilarity.
 #'
-#' @seealso [SplitStatus], [CompareSplits]
+#' @value
+#'   `QuartetMetrics` returns a named two-dimensional array in which each row 
+#'   corresponds to an input tree, and each column corresponds to one of the
+#'   listed measures.
+#'   
+#'   `DoNotConflict` and others return a named vector describing the requested
+#'   similarity (or difference) between the trees.
+#'
+#' @seealso 
+#'   * [QuartetStatus]: Caluclate status of each quartet: the raw material 
+#'     from which the Estabrook _et al._ metrics are calculated.
+#'   * [SplitStatus], [CompareSplits]: equivalent metrics for bipartion splits.
+#'
+#' @examples 
+#'   sq_status <- QuartetStatus(sq_trees)
+#'   QuartetMetrics(sq_status)
+#'   QuartetDivergence(sq_status, similarity=FALSE)
 #'
 #' @references 
 #' \insertRef{Estabrook1985}{Quartet}
@@ -267,8 +275,7 @@ UnshiftTree <- function(add, treeList) {
 #' 
 #' @name QuartetMetrics
 #' @export
-QuartetMetrics <- function (trees, similarity=TRUE) {
-  quartetStatus <- QuartetStatus(trees)
+QuartetMetrics <- function (quartetStatus, similarity=TRUE) {
   result <- data.frame(
     DoNotConflict = quartetStatus[, 'd'] / quartetStatus[, 'Q'],
     ExplicitlyAgree = 1 - (quartetStatus[, 's'] / quartetStatus[, 'Q']),

@@ -9,9 +9,12 @@
  - Add missing details to documentation
  
 ## Modifications
+ - Function `QuartetMetrics` now takes the output of `QuartetStatus(trees)`,
+     rather than a list of trees.
  - Function names changed, to become more precise:
-   - Matching(Splits|Quartets) → (Split|Quartet)Status
-   - Choices → AllQuartets
+   - `MatchingSplits` → `SplitStatus`
+   - `MatchingQuartets` → `QuartetStatus`
+   - `Choices` → `AllQuartets`
 
 # SlowQuartet v0.2.0
  - Add `MatchingSplits` function to calculate number of splits contradicted / unresolved.

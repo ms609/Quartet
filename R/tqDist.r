@@ -1,17 +1,19 @@
 #' tqDist wrapper
 #' 
-#' Convenience function that takes a list of trees, writes them to a text file,
-#' and calls tqDist on the generated file (which is deleted on completion).
+#' Convenience function that takes a list of trees, writes them to the text file
+#' expected by the C implementation of tqDist.  tqDist is then called, and the
+#' temporary file is deleted when analysis is complete.
 #' 
 #' Quartets can be resolved in one of five ways, which 
 #'  Brodal _et al_. (2013) and Holt _et al_. (2014) distinguish using the letters
 #'  A--E, and Estabrook (1985) refers to as:
 #'  
-#'  A: $s$ = resolved the ***s***ame in both tres
-#'  B: $d$ = resolved ***d***ifferently in both trees
-#'  C: $r_1$ = ***r***esolved only in tree ***1***
-#'  D: $r_2$ = ***r***esolved only in tree ***2***
-#'  E: $u$ = ***u***nresolved in both trees
+#'  - A: _s_ = resolved the **s**ame in both trees
+#'  
+#'  - B: _d_ = resolved **d**ifferently in both trees
+#'  - C: _r1_ = **r**esolved only in tree **1**
+#'  - D: _r2_ = **r**esolved only in tree **2** (the comparison tree)
+#'  - E: _u_ = **u**nresolved in both trees
 #'  
 #' 
 #' @param treeList List of phylogenetic trees, of class \code{list} or
@@ -101,18 +103,23 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 
 #' Quartet Status
 #' 
-#' Determines the number of quartets that are consistent within pairs of cladograms
+#' Determines the number of quartets that are consistent within pairs of
+#' cladograms.
 #' 
 #' Given a list of trees, returns the number of quartet statements present in the
 #' reference tree (the first tree in the list, if `cf` is not specified)
-#' that are also present in each other tree.
+#' that are also present in each other tree.  A random pair of fully-resolved 
+#' trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
 #' 
-#' At present the trees must bear the same number of tips.  
-#' Support for different-sized trees will be added if there is demand; 
-#'   contact the maintainer if you would appreciate this functionality.
+#' 
+#' If trees do not bear the same number of tips, `SharedQuartetStatus` will 
+#' consider only the quartets that include taxa occurring in both trees.
+#' 
+#' From this information it is possible to calculate how many of all possible
+#' quartets occur in one tree or the other, but there is not yet a function
+#' calculating this; contact the maintainer if you would appreciate this 
+#' functionality.
 #'       
-#' A random pair of fully-resolved trees is expected to share 
-#'    \code{choose(n_tip, 4) / 3} quartets.
 #' 
 #' @template treesParam
 #' @template treesCfParam
@@ -124,16 +131,18 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @template returnEstabrook
 #'         
 #' @author Martin R. Smith
-#' @examples{
+#' 
+#' @examples
 #'  data('sq_trees')
 #'  # Calculate the status of each quartet
-#'  QuartetStatus(sq_trees)
+#'  sq_status <- QuartetStatus(sq_trees)
 #'
 #'  # Calculate Estabrook et al's similarity measures:
-#'  QuartetMetrics(sq_trees)
-#' }
+#'  QuartetMetrics(sq_status)
 #' 
-#' @seealso [SplitStatus]
+#' 
+#' @seealso [SplitStatus]: Uses bipartition splits (groups/clades defined by
+#'  nodes or edges of the tree) instead of quartets as the unit of comparison.
 #' 
 #' @references {
 #'   \insertRef{Estabrook1985}{Quartet}
@@ -173,17 +182,28 @@ TQFile <- function (treeList) {
 #' @param file,file1,file2 Paths to files containing a tree or trees in Newick format.
 #' 
 #' @return `Distance` functions return the distance between the requested trees.
-#' `Agreement` functions return the number of triplets or quartets that are:
-#'  `A`, resolved in the same fashion in both trees;
-#'  `E`, unresolved in both trees.
-#'  Comparing a tree against itself yields the totals (A+B+C) and (D+E) 
+#'  
+#'  `Agreement` functions return the number of triplets or quartets that are:
+#'  * `A`, resolved in the same fashion in both trees;
+#'  * `E`, unresolved in both trees.
+#'  
+#'  Comparing a tree against itself yields the totals (`A+B+C`) and (`D+E`) 
 #'  referred to by Brodal _et al_. (2013) and Holt _et al_. (2014).
 #' 
-#' @author Martin R. Smith, after Andreas Sand
+#' @author 
+#'   * Algorithms: Brodal _et al._ (2013); Holt _et al._ (2014)
 #' 
-#' @references \insertRef{Sand2014}{Quartet}
+#'   * C implementation: Sand _et al._ (2014) (modified for portability by MRS).
+#'   
+#'   * R interface: Martin R. Smith
+#' 
+#' @references {
+#'   \insertRef{Sand2014}{Quartet}
+#'   
 #'   \insertRef{Brodal2013}{Quartet}
+#'   
 #'   \insertRef{Holt2014}{Quartet}
+#' }
 #' @export
 QuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
@@ -192,8 +212,8 @@ QuartetDistance <- function(file1, file2) {
 }
 
 #' @describeIn QuartetDistance Returns a vector of length two, listing \[1\]
-#' the number of resolved quartets that agree ('A');
-#' \[2\] the number of quartets that are unresolved in both trees ('E').
+#' the number of resolved quartets that agree (`A`);
+#' \[2\] the number of quartets that are unresolved in both trees (`E`).
 #' See Brodal et al. (2013).
 #'  
 #' @export

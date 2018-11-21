@@ -2,7 +2,7 @@
 % Please edit documentation in R/QuartetDistance.R
 \name{CompareQuartets}
 \alias{CompareQuartets}
-\title{Compare Quartets}
+\title{Compare Quartet States}
 \usage{
 CompareQuartets(x, cf)
 }
@@ -10,10 +10,7 @@ CompareQuartets(x, cf)
 \item{x}{A list of quartet states, perhaps generated in
 \code{\link{QuartetStates}}.}
 
-\item{cf}{a second such list.
-
-Compares each quartet in a list, calculating how many statements are identical
-in both lists.}
+\item{cf}{a second such list.}
 }
 \value{
 Returns an array of six numeric elements, each corresponding to the quantities of Estabrook \emph{et al}. (1985):
@@ -27,14 +24,11 @@ Returns an array of six numeric elements, each corresponding to the quantities o
 }
 }
 \description{
-Compare quartet states between trees
-}
-\details{
 Compares two lists of quartet states, detailing how many are identical and
-how many are unresolved.
+how many are unresolved.  Uses explicit enumeration.  For most purposes,
+the function \link{QuartetStatus} will be preferable.
 }
 \examples{
-{
   n_tip <- 6
   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
@@ -45,7 +39,6 @@ how many are unresolved.
   result <- c(compare_result, dissimilar_quartets)
   names(result) <- c('Shared', 'Unresolved', 'Dissimilar')
   result
-}
 
 }
 \references{

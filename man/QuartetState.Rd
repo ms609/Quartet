@@ -49,7 +49,7 @@ Report the status of a given quartet.
   splits <- lapply(trees, Tree2Splits)
   QuartetState(c(1, 3, 4, 6), splits[[2]])  
   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
-  vapply(Choices(n_tip), QuartetState, bips=splits[[1]], double(1))
+  vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))
 }
 
 }
