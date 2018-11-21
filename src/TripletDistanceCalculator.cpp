@@ -19,36 +19,6 @@ TripletDistanceCalculator::~TripletDistanceCalculator() {
   delete dummyHDTFactory;
 }
 
-void TripletDistanceCalculator::pairs_triplet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2) {
-  RootedTree *rt1;
-  RootedTree *rt2;
-  
-  for(size_t i = 0; i < unrootedTrees1.size(); i++) {
-    
-    rt1 = unrootedTrees1[i]->convertToRootedTree(NULL);
-    rt2 = unrootedTrees2[i]->convertToRootedTree(rt1->factory);
-    
-    INTTYPE_REST dist = calculateTripletDistance(rt1, rt2);
-
-    INTTYPE_REST n = get_n();
-    INTTYPE_REST totalNoTriplets = get_totalNoTriplets();
-    INTTYPE_REST resolved = get_resolvedTriplets();
-    INTTYPE_REST unresolved = get_unresolvedTriplets();
-    double dist_norm = double(dist) / double(totalNoTriplets);
-    double resolved_norm = double(resolved) / double(totalNoTriplets);
-    double unresolved_norm = double(unresolved) / double(totalNoTriplets);
-    
-    out << n               << "\t"
-	<< totalNoTriplets << "\t"
-	<< dist            << "\t"
-	<< dist_norm       << "\t"
-	<< resolved        << "\t"
-	<< resolved_norm   << "\t"
-	<< unresolved      << "\t"
-	<< unresolved_norm << std::endl;
-  }
-}
-
 std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(const char *filename1, const char *filename2) {
   NewickParser parser;
   
