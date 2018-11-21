@@ -304,18 +304,41 @@ QuartetMetrics <- function (quartetStatus, similarity=TRUE) {
   if (similarity) 1 - result else result
 }
 
+
+#' Status vector to matrix
+#' 
+#' Converts a vector to a matrix that can be analysed by the [DoNotConflict]
+#' function family.
+#' 
+#' @param statusVector A vector of six integers, in the sequence expected by
+#'  `BLANK_QUARTET`.  If provided a matrix, the matrix will be returned 
+#'  unaltered.
+#' @return A matrix, with columns named `Q`, `s`, `d`, `r1`, `r2`, `u`, and
+#' a single named row.  The row name means that column names are dropped in
+#' 
+#' @author Martin R. Smith
+#' @keywords internal
+StatusToMatrix <- function (statusVector) {
+  if (is.null(dim(statusVector))) {
+      matrix(statusVector, 1, 6, dimnames = list('X', names(BLANK_QUARTET)))
+  } else {
+    statusVector
+  }
+}
+
 #' @rdname QuartetMetrics
 #' @export
 DoNotConflict <- function (quartetStatus, similarity=TRUE) {
-  if (is.null(dim(quartetStatus))) quartetStatus <- t(as.matrix(quartetStatus))
+  quartetStatus <- StatesToMatrix(quartetStatus)
   result <- quartetStatus[, 'd'] / quartetStatus[, 'Q']
+  if (dim(result))
   if (similarity) 1 - result else result
 }
 
 #' @rdname QuartetMetrics
 #' @export
 ExplicitlyAgree <- function (quartetStatus, similarity=TRUE) {
-  if (is.null(dim(quartetStatus))) quartetStatus <- t(as.matrix(quartetStatus))
+  quartetStatus <- StatesToMatrix(quartetStatus)
   result <- quartetStatus[, 's'] / quartetStatus[, 'Q']
   if (similarity) result else 1 - result
 }
@@ -323,7 +346,7 @@ ExplicitlyAgree <- function (quartetStatus, similarity=TRUE) {
 #' @rdname QuartetMetrics
 #' @export
 StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
-  if (is.null(dim(quartetStatus))) quartetStatus <- t(as.matrix(quartetStatus))
+  quartetStatus <- StatesToMatrix(quartetStatus)
   result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's')])
   if (similarity) 1 - result else result
 }
@@ -331,7 +354,7 @@ StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
 #' @rdname QuartetMetrics
 #' @export
 SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
-  if (is.null(dim(quartetStatus))) quartetStatus <- t(as.matrix(quartetStatus))
+  quartetStatus <- StatesToMatrix(quartetStatus)
   result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u')])
   if (similarity) 1 - result else result
 }
@@ -340,7 +363,7 @@ SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
 #' @references \insertRef{Smith2019}{Quartet}
 #' @export
 QuartetDivergence <- function (quartetStatus, similarity=TRUE) {
-  if (is.null(dim(quartetStatus))) quartetStatus <- t(as.matrix(quartetStatus))
+  quartetStatus <- StatesToMatrix(quartetStatus)
   result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) / ( 2 * quartetStatus[, 'Q'])
   if (similarity) 1 - result else result
 }
