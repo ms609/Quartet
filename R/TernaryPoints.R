@@ -4,9 +4,15 @@
 #' and similarity) on a ternary plot.
 #' 
 #' @template treesParam
+#' @template treesCfParam
 #' @return A data frame listing the ternary coordinates of trees, based on the
-#'         amount of information that they have in common with the first member 
-#'         of the list.
+#'         amount of information that they have in common with the comparison
+#'         tree (which defaults to the first member of the list, if unspecified).
+#'         
+#'         If the comparison tree `cf` contains polytomies, then it is possible
+#'         that trees within `trees` will be more resolved than `cf`.  A split
+#'         that is resolved in `trees[[i]]` but not in `cf` will contribute 
+#'         `+1` to the `Contradicted` count, and `-1` to the `Unresolved` count.
 #' 
 #' @examples {
 #'   library('Ternary')
@@ -24,7 +30,7 @@
 #' @author Martin R. Smith
 #' 
 #' @export
-QuartetPoints <- function (trees) {
+QuartetPoints <- function (trees, cf = trees[[1]]) {
   status <- QuartetStatus(trees)
   
   # Return: 
@@ -35,16 +41,13 @@ QuartetPoints <- function (trees) {
 
 #' @describeIn QuartetPoints Uses partition distance instead of quartet metric.
 #' @export
-SplitPoints <- function (trees) {
-  status <- SplitStatus(trees)
-  # TODO Delete following line (?)
-  # status <- rbind(status, status[1] - colSums(status))
-  
-  # This probably assumes that ref is bifurcating.  #TODO Add resilience
-  # Return: 
+SplitPoints <- function (trees, cf = trees[[1]]) {
+  status <- SplitStatus(trees, cf)
+
+    # Return: 
   data.frame(Unresolved   = status[, 'ref_not_cf'] - status[, 'cf_not_ref'],
              Contradicted = status[, 'cf_not_ref'],
-             Consistent   = status[, 'ref'] - status[, 'ref_not_cf'])
+             Consistent   = status[, 'cf_and_ref'])
 }
 #' @rdname QuartetPoints
 #' @export
