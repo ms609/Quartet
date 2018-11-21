@@ -1,4 +1,4 @@
-# Quartet v0.2.0.9005 (Development)
+# Quartet v1.0.0
 ## New features
  - Add functions to generate ternary plots from tree similarity measures
  
@@ -7,6 +7,10 @@
  - Remove single "splits" from splits objects
  - Simplify installation via github_install
  - Add missing details to documentation
+ 
+## Modifications
+ - Function names changed from Matching(Splits|Quartets) to the more precise
+   (Split|Quartet)Status.
 
 # SlowQuartet v0.2.0
  - Add `MatchingSplits` function to calculate number of splits contradicted / unresolved.
