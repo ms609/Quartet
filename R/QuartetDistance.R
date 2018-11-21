@@ -330,7 +330,7 @@ StatusToMatrix <- function (statusVector) {
 #' @rdname QuartetMetrics
 #' @export
 DoNotConflict <- function (quartetStatus, similarity=TRUE) {
-  quartetStatus <- StatesToMatrix(quartetStatus)
+  quartetStatus <- StatusToMatrix(quartetStatus)
   result <- quartetStatus[, 'd'] / quartetStatus[, 'Q']
   if (dim(result))
   if (similarity) 1 - result else result
@@ -339,7 +339,7 @@ DoNotConflict <- function (quartetStatus, similarity=TRUE) {
 #' @rdname QuartetMetrics
 #' @export
 ExplicitlyAgree <- function (quartetStatus, similarity=TRUE) {
-  quartetStatus <- StatesToMatrix(quartetStatus)
+  quartetStatus <- StatusToMatrix(quartetStatus)
   result <- quartetStatus[, 's'] / quartetStatus[, 'Q']
   if (similarity) result else 1 - result
 }
@@ -347,7 +347,7 @@ ExplicitlyAgree <- function (quartetStatus, similarity=TRUE) {
 #' @rdname QuartetMetrics
 #' @export
 StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
-  quartetStatus <- StatesToMatrix(quartetStatus)
+  quartetStatus <- StatusToMatrix(quartetStatus)
   result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's')])
   if (similarity) 1 - result else result
 }
@@ -355,7 +355,7 @@ StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
 #' @rdname QuartetMetrics
 #' @export
 SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
-  quartetStatus <- StatesToMatrix(quartetStatus)
+  quartetStatus <- StatusToMatrix(quartetStatus)
   result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u')])
   if (similarity) 1 - result else result
 }
@@ -364,7 +364,7 @@ SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
 #' @references \insertRef{Smith2019}{Quartet}
 #' @export
 QuartetDivergence <- function (quartetStatus, similarity=TRUE) {
-  quartetStatus <- StatesToMatrix(quartetStatus)
+  quartetStatus <- StatusToMatrix(quartetStatus)
   result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) / ( 2 * quartetStatus[, 'Q'])
   if (similarity) 1 - result else result
 }
