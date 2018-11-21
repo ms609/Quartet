@@ -25,7 +25,7 @@ IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
   INTTYPE_REST res = tripletCalc.calculateTripletDistance(filename1, filename2);
   
   IntegerVector IV_res(1);
-  IV_res = (int64_t) res;
+  IV_res = res;
   return IV_res;
 }
 
@@ -39,15 +39,12 @@ IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
   filename1 = CHAR(STRING_ELT(file1, 0));
   filename2 = CHAR(STRING_ELT(file2, 0));
   
-  Rcpp::stop("YES");
   TripletDistanceCalculator tripletCalc;
   std::vector<INTTYPE_REST> res = tripletCalc.pairs_triplet_distance(filename1, filename2);
   
-  Rcpp::stop("NO");
-  
   IntegerVector IV_res(res.size());
   for (size_t i = 0; i < res.size(); ++i) {
-    IV_res[i] = (int64_t) res[i];
+    IV_res[i] = res[i];
   }
   return IV_res;
 }
@@ -72,7 +69,7 @@ IntegerMatrix tqdist_AllPairsTripletDistance(SEXP file) {
       IM_res[r + res.size() * c] = current_res;
       IM_res[c + res.size() * r] = current_res;
     }
-    IM_res[r + res.size()*r] = (int) res[r][r];
+    IM_res[r + res.size()*r] = res[r][r];
   }
   
   return IM_res;

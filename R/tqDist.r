@@ -60,7 +60,7 @@ ManyToManyQuartetAgreement <- function (treeList) {
   E   <- AE[, , 2]
   ABD <- matrix(diag(A), nTree, nTree)
   CE  <- matrix(diag(E), nTree, nTree)
-  DE  <- t(DE)
+  DE  <- t(CE)
   C   <- CE - E
   D   <- DE - E
   B   <- ABD - A - D
