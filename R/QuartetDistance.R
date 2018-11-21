@@ -332,7 +332,6 @@ StatusToMatrix <- function (statusVector) {
 DoNotConflict <- function (quartetStatus, similarity=TRUE) {
   quartetStatus <- StatusToMatrix(quartetStatus)
   result <- quartetStatus[, 'd'] / quartetStatus[, 'Q']
-  if (dim(result))
   if (similarity) 1 - result else result
 }
 
