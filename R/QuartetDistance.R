@@ -71,7 +71,8 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { 
 #' @param n_tips Integer, specifying the number of tips in a tree.
 #' 
 #' @return Returns a list of length \code{choose(n_tips, 4)}, with each entry 
-#' corresponding to a unique selection of four different integers ≤ n_tips
+#' corresponding to a unique selection of four different integers less than
+#' or equal to `n_tips`
 #' 
 #' @author Martin R. Smith
 #'
