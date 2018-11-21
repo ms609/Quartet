@@ -45,12 +45,12 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
   return <- NULL
 } #nocov end
 
-#' Choices
+#' All quartets
 #'
-#'  List all choices of four taxa from a tree.
+#' List all choices of four taxa from a tree.
 #'  
-#'  A more computationally efficient alternative to \code{\link{combn}}.
-#'  Uses \code{\link{memoise}} to make repeated calls faster.
+#' A more computationally efficient alternative to \code{\link{combn}}.
+#' Uses \code{\link{memoise}} to make repeated calls faster.
 #'
 #' @param n_tips Integer, specifying the number of tips in a tree.
 #' 
@@ -63,7 +63,7 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
 #' 
 #' @examples{
 #'  n_tips <- 6
-#'  choice_list <- Choices(n_tips)
+#'  choice_list <- AllQuartets(n_tips)
 #'  choice_list
 #'  combn(n_tips, 4) # Provides the same information, but for large 
 #'                   # values of n_tips is significantly slower.
@@ -71,7 +71,7 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, ...) { # nocov start
 #' 
 #' @importFrom memoise memoise
 #' @export
-Choices <- memoise(function (n_tips) {
+AllQuartets <- memoise(function (n_tips) {
   unlist(lapply(seq_len(n_tips - 3), function (i) {
     unlist(lapply((i + 1):(n_tips - 2), function (j) {
       unlist(lapply((j + 1):(n_tips - 1), function (k) {
@@ -112,7 +112,7 @@ Choices <- memoise(function (n_tips) {
 #'   splits <- lapply(trees, Tree2Splits)
 #'   QuartetState(c(1, 3, 4, 6), splits[[2]])  
 #'   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
-#'   vapply(Choices(n_tip), QuartetState, bips=splits[[1]], double(1))
+#'   vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))
 #' }
 #' 
 #' @references 
@@ -153,7 +153,7 @@ QuartetStates <- function (splits) {
   
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {
-    vapply(Choices(n_tips), QuartetState, double(1), 
+    vapply(AllQuartets(n_tips), QuartetState, double(1), 
            bips=bips[sort(rownames(bips)), , drop=FALSE])
   })
 }

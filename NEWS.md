@@ -9,8 +9,9 @@
  - Add missing details to documentation
  
 ## Modifications
- - Function names changed from Matching(Splits|Quartets) to the more precise
-   (Split|Quartet)Status.
+ - Function names changed, to become more precise:
+   - Matching(Splits|Quartets) → (Split|Quartet)Status
+   - Choices → AllQuartets
 
 # SlowQuartet v0.2.0
  - Add `MatchingSplits` function to calculate number of splits contradicted / unresolved.
