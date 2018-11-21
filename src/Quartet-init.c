@@ -1,7 +1,6 @@
 #include <R.h>
 #include <Rinternals.h>
-// for NULL:
-#include <stdlib.h>
+#include <stdlib.h> /* for NULL */
 #include <R_ext/Rdynload.h>
 
 extern SEXP _Quartet_phangorn_bipCPP(SEXP, SEXP);
