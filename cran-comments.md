@@ -1,11 +1,13 @@
 ## Test environments
 * local Windows 10 install, R 3.5.1
 * win-builder, with `check_win_devel()`
+* Ubuntu 14.04.5 LTS, R 3.4 and devel, via Travis CI (https://travis-ci.org/ms609/Quartet)
 * R-hub, with `check_rhub()`
 
-  * Installation failed on rhub/ubuntu-gcc-release, on account of a failure to 
-    install the required package `phangorn`.  This seems to be an issue outside
-    of my control.
+  * Installation failed with PREPERROR on rhub/ubuntu-gcc-release and
+    rhub/fedora-clang-devel, on account of failures to install the required 
+    packages (`phangorn`; `git2r`).  This seems to be an issue outside
+    of my control; the Debian rhub installation reports success.
 
 
 ## R CMD check results
