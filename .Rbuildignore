@@ -15,4 +15,5 @@ data-raw
 inst/Quartet*
 inst/manuscript*
 inst/Supp*
+R/ReleaseQuestions.R
 /^src\-/
