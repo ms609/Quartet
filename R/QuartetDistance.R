@@ -315,6 +315,7 @@ QuartetMetrics <- function (quartetStatus, similarity=TRUE) {
 #'  unaltered.
 #' @return A matrix, with columns named `Q`, `s`, `d`, `r1`, `r2`, `u`, and
 #' a single named row.  The row name means that column names are dropped in
+#' the output of `DoNotConflict` etc.
 #' 
 #' @author Martin R. Smith
 #' @keywords internal
