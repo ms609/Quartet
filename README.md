@@ -29,7 +29,7 @@ Meanwhile, you can install the latest version of the package into R thus:
 # Install the devtools package from CRAN
 install.packages('devtools')
 
-# Install the inapplicable package from github
+# Install the package from github
 devtools::install_github('ms609/Quartet', args='--no-multiarch')
 
 # Load the package into R
