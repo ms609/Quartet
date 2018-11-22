@@ -104,15 +104,15 @@ UniqueSplits <- function (splits, preserveParity = FALSE) {
 #' Compare Splits
 #' 
 #' @template splitsParam
-#' @param cf A matrix of bipartitions against which to compare `splits`.
+#' @param splits2 A matrix of bipartitions against which to compare `splits`.
 #'   If row names are present, then all rows present in `splits` must be present
-#'   in `cf`.  If they are absent, then both matrices must have the same
+#'   in `splits2`.  If they are absent, then both matrices must have the same
 #'   number of rows, and tips will be assumed to be in the same sequence.
 #' 
 #' @return A named vector of six integers, listing the number of unique splits that
-#'   (1) are present in `splits`; (2) are present in `cf`; (3) are present
-#'   in both trees; (4) are present in `splits` but not `cf`; (5) are
-#'   present in `cf` but not `splits`; and (6) the sum of the latter two
+#'   (1) are present in `splits1`; (2) are present in `splits2`; (3) are present
+#'   in both trees; (4) are present in `splits` but not `splits2`; (5) are
+#'   present in `splits2` but not `splits`; and (6) the sum of the latter two
 #'   values, i.e. the Robinson-Foulds distance.
 #'         
 #' @references {
@@ -121,31 +121,31 @@ UniqueSplits <- function (splits, preserveParity = FALSE) {
 #' }       
 #' @author Martin R. Smith
 #' @export
-CompareSplits <- function (splits, cf) {
+CompareSplits <- function (splits, splits2) {
   tipNames <- rownames(splits)
   if (!is.null(tipNames)) if (!all(tipNames %in% rownames(cf))) 
     stop ("All taxa named in splits must exist in cf")
-  cf <- cf[tipNames, ]
+  splits2 <- splits2[tipNames, ]
   
-  if (dim(splits)[1] != dim(cf)[1]) stop("Both splits and cf must relate to the same tips")
+  if (dim(splits)[1] != dim(splits2)[1]) stop("Both splits and cf must relate to the same tips")
   
   splits <- DropSingleSplits(splits)
-  cf <- DropSingleSplits(cf)
+  splits2 <- DropSingleSplits(splits2)
   
   # preserveParity = FALSE will ensure that parity(splits) == parity(cf)
   splits <- UniqueSplits(splits, preserveParity=FALSE)
-  cf <- UniqueSplits(cf, preserveParity=FALSE)
+  splits2 <- UniqueSplits(splits2, preserveParity=FALSE)
   
-  duplicates <- duplicated(rbind(t(splits), t(cf)))
+  duplicates <- duplicated(rbind(t(splits), t(splits2)))
   
   nSplits <- dim(splits)[2]
-  nCfSplits <- dim(cf)[2]
-  nCommon <- sum(duplicates)
+  nSplits2 <- dim(splits2)[2]
+  nBoth <- sum(duplicates)
   
-  c(ref = nSplits, cf = nCfSplits, 
-    ref_and_cf = nCommon, ref_not_cf = nSplits - nCommon, 
-    cf_not_ref = nCfSplits - nCommon,
-    RF_dist = nSplits + nCfSplits - (2 * nCommon))
+  c(splits = nSplits, splits2 = nSplits2, 
+    both = nBoth, one_not_two = nSplits - nBoth, 
+    two_not_one = nSplits2 - nBoth,
+    RF_dist = nSplits + nSplits2 - (2 * nBoth))
 }
 #' @rdname CompareSplits
 #' @export
@@ -211,7 +211,7 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   tree1Labels <- trees[[1]]$tip.label
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   splits <- lapply(trees, Tree2Splits)
-  ret <- vapply(splits, CompareSplits, cf=splits[[1]], double(6))
+  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(6))
   rownames(ret) <- names(BLANK_SPLIT)
   
   # Return:
@@ -259,7 +259,6 @@ PairSharedSplitStatus <- function (ref, cf) {
   refSplits <- Tree2Splits(prunedRef)
   cfSplits <- Tree2Splits(prunedCf)
   ret <- CompareSplits(refSplits, cfSplits)
-  names(ret) <- names(BLANK_SPLIT)
   
   # Return:
   ret
