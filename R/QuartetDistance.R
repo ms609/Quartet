@@ -259,6 +259,42 @@ UnshiftTree <- function(add, treeList) {
 #' 
 #' Functions to calculate the quartet metrics proposed by Estabrook _et al_.
 #' (1985, table 2).
+#' 
+#' Estabrook _et al._ (1985) define four similarity metrics in terms of the 
+#' total number of quartets (_Q_), the number of quartets resolved in the same
+#' manner in two trees (_s_), the number resolved differently in both trees 
+#' (_d_), the number resolved in tree 1 or 2 but unresolved in the other tree
+#' (_r1_, _r2_), and the number that are unresolved in both trees (_u_).
+#' 
+#' The similarity metrics are then given as below.  The dissimilarity metrics 
+#' are their complement (i.e. 1 - _similarity_), and can be calculated 
+#' algebraically using the identity _Q_ = _s_ + _d_ + _r1_ + _r2_ + _u_.
+#' 
+#' * Do Not Conflict (DC): (_s_ + _r1_ + _r2_ + _u_) / _Q_
+#' 
+#' * Explicitly Agree (EA): _s_ / _Q_
+#' 
+#' * Strict Joint Assertions (SJA): _s_ / (_s_ + _d_)
+#' 
+#' * SemiStrict Joint Assertions (SSJA): (_s_ + _d_) / (_s_ + _d_ + _u_)
+#' 
+#' Day (1986) defines two further measures:
+#' 
+#' * Symmetric Difference (SD): (2_d_ + _r_) / (2_d_ + 2_s_ + _r_)
+#' 
+#' * Marczewski-Steinhaus (MS): (2_d_ + _r_) / (2_d_ + _s_ + _r_)
+#' 
+#' Steel & Penny (1993) propose one more, which they denote d<sub>Q</sub>,
+#' which this package caluclates using the function `SteelPenny`:
+#' 
+#' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _Q_
+#' 
+#' The Quartet Divergence (Steel & Penny 1993), which is analagous to the normalized symmetric
+#' distance (cf. Robinson-Foulds distance), is given (in its dissimiliarity
+#' configuration, rather than the similiarity configurations above) by:
+#' 
+#' (_d_ + _d_ + _r1_ + _r2_) / 2 _Q_
+#' 
 #'
 #' @param quartetStatus Two-dimensional integer array, with rows corresponding to 
 #'   counts of matching quartets for each tree, and columns named 
@@ -277,6 +313,7 @@ UnshiftTree <- function(add, treeList) {
 #' @seealso 
 #'   * [QuartetStatus]: Caluclate status of each quartet: the raw material 
 #'     from which the Estabrook _et al._ metrics are calculated.
+#'     
 #'   * [SplitStatus], [CompareSplits]: equivalent metrics for bipartion splits.
 #'
 #' @examples 
@@ -287,7 +324,13 @@ UnshiftTree <- function(add, treeList) {
 #'   QuartetDivergence(sq_status, similarity=FALSE)
 #'
 #' @references 
+#' \insertRef{Day1986}{Quartet}
+#' 
 #' \insertRef{Estabrook1985}{Quartet}
+#'
+#' \insertRef{Marczewski1958}{Quartet}
+#'
+#' \insertRef{Steel1993}{Quartet}
 #' 
 #' @template MRS
 #' 
@@ -299,6 +342,11 @@ QuartetMetrics <- function (quartetStatus, similarity=TRUE) {
     ExplicitlyAgree = 1 - (quartetStatus[, 's'] / quartetStatus[, 'Q']),
     StrictJointAssertions = quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's')]),
     SemiStrictJointAssertions = quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u')]),
+    SymmetricDifference =  rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) /
+      rowSums(quartetStatus[, c('d', 'd', 's', 's', 'r1', 'r2')]),
+    MarczewskiSteinhaus = rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) /
+      rowSums(quartetStatus[, c('d', 'd', 's', 'r1', 'r2')]),
+    SteelPenny = rowSums(quartetStatus[, c('d', 'r1', 'r2')]) / quartetStatus[, 'Q'],
     QuartetDivergence = rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2')]) / (2 * quartetStatus[, 'Q'])
   )
   if (similarity) 1 - result else result
@@ -356,6 +404,34 @@ StrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
 SemiStrictJointAssertions <- function (quartetStatus, similarity=TRUE) {
   quartetStatus <- StatusToMatrix(quartetStatus)
   result <- quartetStatus[, 'd'] / rowSums(quartetStatus[, c('d', 's', 'u'), drop=FALSE])
+  if (similarity) 1 - result else result
+}
+
+#' @rdname QuartetMetrics
+#' @export
+SymmetricDifference <- function (quartetStatus, similarity=TRUE) {
+  quartetStatus <- StatusToMatrix(quartetStatus)
+  result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2'), drop=FALSE]) /
+            rowSums(quartetStatus[, c('d', 'd', 's', 's', 'r1', 'r2'), drop=FALSE])
+  if (similarity) 1 - result else result
+}
+
+#' @rdname QuartetMetrics
+#' @export
+MarczewskiSteinhaus <- function (quartetStatus, similarity=TRUE) {
+  quartetStatus <- StatusToMatrix(quartetStatus)
+  result <- rowSums(quartetStatus[, c('d', 'd', 'r1', 'r2'), drop=FALSE]) /
+            rowSums(quartetStatus[, c('d', 'd', 's', 'r1', 'r2'), drop=FALSE])
+  if (similarity) 1 - result else result
+}
+
+#' @rdname QuartetMetrics
+#' @export
+SteelPenny <- function (quartetStatus, similarity=TRUE) {
+  quartetStatus <- StatusToMatrix(quartetStatus)
+  # Defined in Steel & Penny, p. 133; "dq would be written as "D + R".
+  # dq = D + R in Day's (1986) terminology, where D = d/Q and R = (r1 + r2)/Q
+  result <- rowSums(quartetStatus[, c('d', 'r1', 'r2'), drop=FALSE]) / quartetStatus[, 'Q']
   if (similarity) 1 - result else result
 }
 
