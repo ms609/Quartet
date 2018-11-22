@@ -123,17 +123,17 @@ UniqueSplits <- function (splits, preserveParity = FALSE) {
 #' @export
 CompareSplits <- function (splits, splits2) {
   tipNames <- rownames(splits)
-  if (!is.null(tipNames)) if (!all(tipNames %in% rownames(cf))) 
-    stop ("All taxa named in splits must exist in cf")
+  if (!is.null(tipNames)) if (!all(tipNames %in% rownames(splits2))) 
+    stop ("All taxa named in splits must exist in splits2")
   splits2 <- splits2[tipNames, ]
   
-  if (dim(splits)[1] != dim(splits2)[1]) stop("Both splits and cf must relate to the same tips")
+  if (dim(splits)[1] != dim(splits2)[1]) 
+    stop("Both splits and splits2 must relate to the same tips")
   
   splits <- DropSingleSplits(splits)
   splits2 <- DropSingleSplits(splits2)
   
-  # preserveParity = FALSE will ensure that parity(splits) == parity(cf)
-  splits <- UniqueSplits(splits, preserveParity=FALSE)
+  # preserveParity = FALSE will ensure that parity(splits) == parity(splits2)
   splits2 <- UniqueSplits(splits2, preserveParity=FALSE)
   
   duplicates <- duplicated(rbind(t(splits), t(splits2)))
@@ -142,7 +142,7 @@ CompareSplits <- function (splits, splits2) {
   nSplits2 <- dim(splits2)[2]
   nBoth <- sum(duplicates)
   
-  c(splits = nSplits, splits2 = nSplits2, 
+  c(one = nSplits, two = nSplits2, 
     both = nBoth, one_not_two = nSplits - nBoth, 
     two_not_one = nSplits2 - nBoth,
     RF_dist = nSplits + nSplits2 - (2 * nBoth))

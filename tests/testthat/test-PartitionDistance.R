@@ -26,7 +26,7 @@ test_that("UniqueSplits works", {
   
   expect_error(CompareSplits(matrix(FALSE, 2, 2), matrix(TRUE, 3, 3)))
   expect_error(CompareSplits(splits9, splits9Fewer))
-  expect_equal(BLANK_SPLIT + c(3,3,3,0,0,0), CompareSplits(splits9Fewer, splits9))
+  expect_equal(c(one=3,two=3,both=3,one_not_two=0,two_not_one=0,RF_dist=0), CompareSplits(splits9Fewer, splits9))
   
 })
 
