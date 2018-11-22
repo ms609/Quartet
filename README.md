@@ -10,15 +10,12 @@
 Quartet is an R package that calculates the Quartet distance between two trees:
 a measure of their similarity based on the number of shared four-taxon subtrees.
 
-It's named Slow Quartet as it calculates the metric rather inefficiently; it may not be of use for large trees. 
-For bifurcating trees, this package provides a gateway to the R package `tqDist`,
-which calculates quartet distances much more rapidly.
-
-What other implementations don't seem to do is to distinguish between quartets
-that are contradicted by one tree, and quartets that are simply absent due to
-a lack of resolution (i.e. the presence of polytomies).  `Quartet` makes
-this distinction in both the quartet metric (function `MatchingQuartets`) and the
-partition metric (i.e. Robinson-Foulds distance; function `MatchingSplits`).
+The package uses the `tqDist` algorithm.  Unlike many other implementations,
+it distinguishes between quartets that are contradicted by one tree,
+and quartets that are simply absent due to a lack of resolution (i.e. the presence
+of polytomies).  `Quartet` makes this distinction in both the quartet metric
+(function `QuartetStatus`) and the partition metric (i.e. Robinson-Foulds distance;
+function `SplitStatus`).
 
 
 ## Using the package

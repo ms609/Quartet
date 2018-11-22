@@ -33,25 +33,32 @@ test_that("Quartet metrics are sane", {
   expect_equal(sims[, 'ExplicitlyAgree'], as.double(ExplicitlyAgree(sq_status)))
   expect_equal(sims[, 'StrictJointAssertions'], as.double(StrictJointAssertions(sq_status)))
   expect_equal(sims[, 'SemiStrictJointAssertions'], as.double(SemiStrictJointAssertions(sq_status)))
+  expect_equal(sims[, 'SymmetricDifference'], as.double(SymmetricDifference(sq_status)))
+  expect_equal(sims[, 'MarczewskiSteinhaus'], as.double(MarczewskiSteinhaus(sq_status)))
+  expect_equal(sims[, 'SteelPenny'], as.double(SteelPenny(sq_status)))
   expect_equal(sims[, 'QuartetDivergence'], as.double(QuartetDivergence(sq_status)))
   
-  testData <- BLANK_QUARTET + c(8, 1, 2, 1, 1, 3)
+  testData <- c(Q=8, s=1, d=2, r1=1, r2=1, u=3)
   expect_equal(2/8, DoNotConflict(testData, FALSE))
   expect_equal(7/8, ExplicitlyAgree(testData, FALSE))
   expect_equal(c(tree=2/3), StrictJointAssertions(testData, FALSE))
   expect_equal(c(tree=2/6), SemiStrictJointAssertions(testData, FALSE))
+  expect_equal(c(tree=6/8), SymmetricDifference(testData, FALSE))
+  expect_equal(c(tree=6/7), MarczewskiSteinhaus(testData, FALSE))
+  expect_equal(c(tree=4/8), SteelPenny(testData, FALSE))
   expect_equal(c(tree=6/16), QuartetDivergence(testData, FALSE))
   
   # Metrics should be identical with bifurcating trees.
   treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
   n_tip <- 11L
   bifurcators <- treeNodes == n_tip - 1L
-  expect_true(all(apply(sims[bifurcators, ], 1, var) < 1e-08))
+  expect_true(all(apply(sims[bifurcators, colnames(sims) != 'MarczewskiSteinhaus'],
+                        1, var) < 1e-08))
   
-  qStat <- QuartetStatus(sq_trees)
   fncs <- vapply(list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions,
-                      SemiStrictJointAssertions, QuartetDivergence),
-                 function (X) X(qStat), double(length(sq_trees)))
+                      SemiStrictJointAssertions, SymmetricDifference,
+                      MarczewskiSteinhaus, SteelPenny, QuartetDivergence),
+                 function (X) X(sq_status), double(length(sq_trees)))
   expect_true(all(fncs - sims < 1e-08))
 })
 
