@@ -13,8 +13,8 @@ Tree2Bipartitions(tr)
 \item{tr}{A tree of class \code{\link[ape:read.tree]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).}
 }
 \value{
-Returns a two-dimensional array, with columns corresponding to bipartitions and rows corresponding
-to tips 1:N.
+Returns a two-dimensional array, with columns corresponding to unique
+bipartitions and rows corresponding to tips 1:N.
 }
 \description{
 Converts a phylogenetic tree to an array of bipartition splits.
