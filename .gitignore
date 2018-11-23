@@ -3,7 +3,7 @@
 .Rprofile
 .RData*
 .Ruserdata
-~$*
+~*
 *.doc
 *.eps
 *.nex

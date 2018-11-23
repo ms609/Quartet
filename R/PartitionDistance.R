@@ -115,7 +115,7 @@ UniqueSplits <- function (splits, preserveParity = FALSE) {
 #'   present in `splits2` but not `splits`; and (6) the sum of the latter two
 #'   values, i.e. the Robinson-Foulds distance.
 #'         
-#' @references {
+#' @references {Quartet
 #'  \insertRef{Estabrook1985}{Quartet}
 #'  \insertRef{Robinson1981}{Quartet}
 #' }       
@@ -169,7 +169,9 @@ CompareBipartitions <- CompareSplits
 #'         2: are unresolved in (at least) one of the comparison tree and the corresponding 
 #'         input tree.
 #'         
-#' @seealso [QuartetStatus]
+#' @seealso
+#'   * [QuartetStatus]: Uses quartets rather than bipartition splits as the unit
+#'     of similarity.
 #'         
 #' @examples{
 #'   data('sq_trees')
