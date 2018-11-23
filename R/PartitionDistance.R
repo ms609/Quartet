@@ -16,8 +16,8 @@ names(BLANK_SPLIT) <- c('cf', 'ref', 'cf_and_ref', 'cf_not_ref', 'ref_not_cf',
 #' 
 #' @param split A matrix in which each column corresponds to a bipartition split
 #' 
-#' @return The input matrix, with any columns that separate only a single pendant tip
-#'         removed.
+#' @return The input matrix, with any columns that separate only a single pendant
+#'  tip removed.
 #'         
 #' @author Martin R. Smith
 #' 
@@ -31,8 +31,9 @@ DropSingleSplits <- function (split) {
 #' Converts a phylogenetic tree to an array of bipartition splits.
 #' 
 #' @param tr A tree of class \code{\link[ape:read.tree]{phylo}}, with tips bearing integer labels (i.e. tr$tip.label == 1:N).
-#' @return Returns a two-dimensional array, with columns corresponding to unique
-#'  bipartitions and rows corresponding to tips 1:N.
+#' @return Returns a two-dimensional array.  Columns correspond to unique
+#'  bipartitions, named with the number of a node that denotes the partition.
+#'  Rows correspond to tips 1:N.
 #'
 #' @author Martin R. Smith
 #' 
@@ -51,6 +52,7 @@ Tree2Splits <- function (tr) {
                 function (x) seq_len(n_tip) %in% x, 
                 logical(n_tip))[seq_len(n_tip), , drop=FALSE]
   rownames(ret) <- tip_label
+  colnames(ret) <- seq_len(ncol(ret)) + root
   
   ret <- UniqueSplits(ret)
   # Return:

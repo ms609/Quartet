@@ -18,7 +18,7 @@ test_that("Splits are compared", {
 test_that("UniqueSplits works", {
   set.seed(1)
   splits6 <- Tree2Splits(ape::rtree(6, br=NULL))
-  expect_equal(rep(FALSE, 3), as.logical(UniqueSplits(splits6)['t4', ]))
+  expect_equal(c('8'=FALSE, '10'=FALSE, '11'=FALSE), UniqueSplits(splits6)['t4', ])
   expect_equal(!splits6, UniqueSplits(cbind(!splits6, splits6), TRUE))
   
   splits9 <- Tree2Splits(ape::rtree(9, br=NULL))
