@@ -164,14 +164,13 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #' to be processed with tqDist.  Files should be destroyed using
 #' `on.exit(file.remove(fileName))` by the calling function.
 #' @return Name of the created file
-#' @importFrom stats runif
 #' @keywords internal
 #' @export
 TQFile <- function (treeList) {
   if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
   if (!class(treeList) %in% c('phylo', 'multiPhylo'))
     stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
-  fileName <- paste0('~temp', substring(runif(1), 3), '.trees')
+  fileName <- tempfile()
   write.tree(treeList, file=fileName)
   # Return:
   fileName
