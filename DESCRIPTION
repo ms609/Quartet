@@ -16,8 +16,6 @@ Authors@R: c(person("Martin R.", 'Smith',
                   email='martin.smith@durham.ac.uk',
                   role=c("aut", "cre", "cph"), 
                   comment=c(ORCID = "0000-0001-5660-1727")),
-               person(given = "Klaus", family="Schliep", role = c("cph"),
-                  comment = c(ORCID = "0000-0003-2941-0161")),
                person('Andreas', 'Sand', role=c('ant')),
                person('Gerth', 'Stølting Brodal', role=c('ant')),
                person('Rolf', 'Fagerberg', role=c('ant')),
@@ -27,7 +25,7 @@ Authors@R: c(person("Martin R.", 'Smith',
                person('Jens', 'Johansen', role=c('ant')),
                person('Morten K.', 'Holt', role=c('ant'))
             )
-Copyright: Incorporates code modified from tqDist <doi:10.1093/bioinformatics/btu157> and phangorn <doi:10.1093/bioinformatics/btq706>.
+Copyright: Incorporates code modified from tqDist <doi:10.1093/bioinformatics/btu157>.
 License: GPL (>= 2)
 Encoding: UTF-8
 Language: en-GB
