@@ -17,4 +17,4 @@ sq_trees <- structure(list (
   opposite_tree = ape::read.tree(text="(((1, 11), 3), (((4, 9), 6), ((10, (8, 2)), (5, 7))));"),
   random_tree   = ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL)
 ), class = 'multiPhylo')
-usethis::use_data(sq_trees, overwrite=TRUE)
+usethis::use_data(sq_trees, overwrite=TRUE, compress='xz')
