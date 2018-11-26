@@ -1,8 +1,8 @@
 #' tqDist wrapper
 #' 
 #' Convenience function that takes a list of trees, writes them to the text file
-#' expected by the C implementation of tqDist.  tqDist is then called, and the
-#' temporary file is deleted when analysis is complete.
+#' expected by the C implementation of tqDist (Sand _et al._ 2014).
+#' tqDist is then called, and the temporary file is deleted when analysis is complete.
 #' 
 #' Quartets can be resolved in one of five ways, which 
 #'  Brodal _et al_. (2013) and Holt _et al_. (2014) distinguish using the letters
@@ -172,6 +172,7 @@ TQFile <- function (treeList) {
     stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
   fileName <- tempfile()
   write.tree(treeList, file=fileName)
+  
   # Return:
   fileName
 }
