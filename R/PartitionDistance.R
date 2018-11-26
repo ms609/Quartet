@@ -103,6 +103,7 @@ CompareBipartitions <- CompareSplits
 #'   \insertRef{Penny1985}{Quartet}
 #' }
 #' @author Martin R. Smith
+#' @importFrom TreeSearch RenumberTips Tree2Splits
 #' @export
 SplitStatus <- function (trees, cf=trees[[1]]) {
   if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
