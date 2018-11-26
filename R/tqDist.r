@@ -31,6 +31,7 @@
 #' 
 #' @importFrom ape write.tree
 #' @author Martin R. Smith
+#' @useDynLib Quartet, .registration = TRUE
 #' @export
 TQDist <- function (treeList) {
   fileName <- TQFile(treeList)
@@ -152,7 +153,6 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' }
 #'
 #' @importFrom Rdpack reprompt 
-#' @importFrom TreeSearch RenumberTips
 #' @export
 QuartetStatus <- function (trees, cf=trees[[1]]) {
   SingleTreeQuartetAgreement(trees, comparison=cf)

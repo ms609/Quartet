@@ -38,7 +38,7 @@ Imports:
     phangorn,
     Rcpp,
     Rdpack,
-    TreeSearch
+    TreeSearch (> 0.2.0)
 Suggests:
     bookdown,
     CongreveLamsdell2016,

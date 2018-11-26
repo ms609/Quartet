@@ -5,18 +5,6 @@
 
 using namespace Rcpp;
 
-// phangorn_bipCPP
-List phangorn_bipCPP(IntegerMatrix orig, int nTips);
-RcppExport SEXP _Quartet_phangorn_bipCPP(SEXP origSEXP, SEXP nTipsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix >::type orig(origSEXP);
-    Rcpp::traits::input_parameter< int >::type nTips(nTipsSEXP);
-    rcpp_result_gen = Rcpp::wrap(phangorn_bipCPP(orig, nTips));
-    return rcpp_result_gen;
-END_RCPP
-}
 // tqdist_QuartetDistance
 IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_QuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {

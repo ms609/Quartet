@@ -17,7 +17,6 @@ extern SEXP _Quartet_tqdist_PairsTripletDistance(SEXP, SEXP);
 extern SEXP _Quartet_tqdist_AllPairsTripletDistance(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_Quartet_phangorn_bipCPP", (DL_FUNC) &_Quartet_phangorn_bipCPP, 2},
     {"_Quartet_tqdist_QuartetDistance", (DL_FUNC) &_Quartet_tqdist_QuartetDistance, 2},
     {"_Quartet_tqdist_QuartetAgreement", (DL_FUNC) &_Quartet_tqdist_QuartetAgreement, 2},
     {"_Quartet_tqdist_PairsQuartetDistance", (DL_FUNC) &_Quartet_tqdist_PairsQuartetDistance, 2},
