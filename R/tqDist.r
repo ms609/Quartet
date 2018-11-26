@@ -200,11 +200,11 @@ TQFile <- function (treeList) {
 #'   * R interface: Martin R. Smith
 #' 
 #' @references {
-#'   \insertRef{Sand2014}{Quartet}
-#'   
 #'   \insertRef{Brodal2013}{Quartet}
 #'   
 #'   \insertRef{Holt2014}{Quartet}
+#'   
+#'   \insertRef{Sand2014}{Quartet}
 #' }
 #' @export
 QuartetDistance <- function(file1, file2) {

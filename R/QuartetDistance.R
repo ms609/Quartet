@@ -295,6 +295,10 @@ UnshiftTree <- function(add, treeList) {
 #' 
 #' (_d_ + _d_ + _r1_ + _r2_) / 2 _Q_
 #' 
+#' The status of each quartet is calculated using the algorithms of
+#' Brodal _et al_. (2013) and Holt _et al_. (2014), implemented in the
+#' tqdist C library (Sand _et al_. 2014).
+#' 
 #'
 #' @param quartetStatus Two-dimensional integer array, with rows corresponding to 
 #'   counts of matching quartets for each tree, and columns named 
@@ -324,11 +328,17 @@ UnshiftTree <- function(add, treeList) {
 #'   QuartetDivergence(sq_status, similarity=FALSE)
 #'
 #' @references 
+#' \insertRef{Brodal2013}{Quartet}
+#' 
 #' \insertRef{Day1986}{Quartet}
 #' 
 #' \insertRef{Estabrook1985}{Quartet}
+#' 
+#' \insertRef{Holt2014}{Quartet}
 #'
 #' \insertRef{Marczewski1958}{Quartet}
+#'
+#' \insertRef{Sand2014}{Quartet}
 #'
 #' \insertRef{Steel1993}{Quartet}
 #' 
