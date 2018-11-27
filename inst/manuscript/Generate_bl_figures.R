@@ -1,23 +1,17 @@
 require('ape')
 require('Quartet')
 library('Ternary')
-data('sq_trees')
-data('clQuartets')
+library('CongreveLamsdell2016')
+data('clBremPartitions', 'clBremQuartets', 'clMkvPartitions', 'clMkvQuartets',
+     'clBootPartitions', 'clBootQuartets', 'clJackPartitions', 'clJackQuartets',
+     'clCI')
+library('OReillyEtAl2016')
 data('orQuartets')
-data('clPartitions')
 data('orPartitions')
 
 # Use Inkscape to generate EPS from SVG.  R creates bitmap EPS due to semitrans.
 Write <- function(filename, ...) cairo_pdf(filename=paste0("inst/", filename, ".pdf"), ...)
 Write <- function(filename, ...) svg(filename=paste0("inst/", filename, ".svg"), ...)
-
-
-n_tip <- 11
-ref_tree <- sq_trees[[1]]
-tip_colours <- Ternary::cbPalette15[-c(4, 7)] # Rm Tritanopia duplicates of 13 and 3
-palette4 <- Ternary::cbPalette8[1:4]
-
-rf_max <- (n_tip - 3) * 2
 
 colplot <- function (tr, title=NULL, bold=NULL, ...) {
   tr$edge.length <- rep(1, dim(tr$edge)[1])
@@ -147,7 +141,7 @@ Split2Ternary <- function (item) {
         itemData['cf_and_ref', ])
 }
 
-TernaryQuarts <- function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
+TernaryQuarts <- function(zoom=1, padding=0.1) {
   xLim <- c(0, 1 / zoom) - 0.01
   yLim <- c(0.5-(1/zoom), 0.5)
   lab <- if (zoom == 1) c("Unresolved quartets", 
@@ -172,15 +166,11 @@ TernaryQuarts <- function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
   HorizontalGrid(GRID_LINES)
   AddToTernary(lines, list(c(0, 2/3, 1/3), c(1, 0, 0)), lty='dotted', 
                col=cbPalette8[8], lwd=2)
-  
-  JoinTheDots(Func('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied5'), col=COL_5,  pch=PCH_IW, cex=1.1)
-  JoinTheDots(Func('implied3'), col=COL_3,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied2'), col=COL_2,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied1'), col=COL_1,  pch=PCH_IW, cex=1.1)
-  JoinTheDots(Func('impliedC'), col=COL_C,  pch=PCH_IC, cex=1.1)
-  JoinTheDots(Func('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
-  JoinTheDots(Func('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
+  clPlotAverageQuartets(clBremQuartets, COL=clColours)
+  clPlotAverageQuartets(clBootQuartets, pch=3)
+  clPlotAverageQuartets(clJackQuartets, pch=4)
+  JoinTheDots(clMkvQuartets[[TREE]][, c('r2', 'd', 's')], col=clColours['mk'], 
+              cex=1.1, pch=PCH_MK)
 }
 
 AddArrows <- function (quality) {
@@ -231,7 +221,7 @@ Write(filename="Figure_1", width=FIG_WIDTH, height=FIG_WIDTH,
       family=FONT_FAMILY, pointsize=FONT_PT)
 par(mfrow=c(2, 2), mai=rep(0, 4), family='serif', ps=FONT_PT)
 
-TernaryQuarts(AverageQuarts)
+TernaryQuarts()
 
 AddArrows('Increasing quartet dissimilarity')
 rect(xleft=-0.01, ybottom=0.19, xright=0.278, ytop=0.52, border='#00000088', lty='dashed')
@@ -251,7 +241,7 @@ legend('bottomright', bty='n', cex=FONT_SIZE,
 Panel('a')
 
 par(mai=c(0, 0.15, 0, 0.15))
-TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
+TernaryQuarts(zoom=3.5, padding=0.01)
 text(-0.015, 0.345, 'Identical quartets', cex=FONT_SIZE, srt=90)
 text(0.126, 0.45, 'Unresolved quartets', cex=FONT_SIZE, srt=330)
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
@@ -278,7 +268,6 @@ TernaryPlot(NULL, NULL, NULL, #'Unresolved', 'Different', 'Same',
 #title(main="\nPartitions", cex.main=0.8)
 
 HorizontalGrid(grid.col='#888888', grid.lines=19)
-partition_distances <- SplitPoints(sq_trees)
 
 JoinTheDots(CLAverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
 JoinTheDots(CLAverageSplits('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
@@ -311,7 +300,6 @@ TernaryPlot(NULL, NULL, NULL, #'Unresolved', 'Different', 'Same',
             padding=0.1, axis.labels = 0:19)
 
 HorizontalGrid(19)
-partition_distances <- SplitPoints(sq_trees)
 
 TernaryLines(CLAverageSplits('implied10'), col=COL10,  pch=PCH_XX)
 TernaryLines(CLAverageSplits('implied5' ), col=COL_5,  pch=PCH_XX)
