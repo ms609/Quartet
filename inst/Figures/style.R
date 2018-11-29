@@ -1,3 +1,12 @@
+require('ape')
+require('Quartet')
+library('Ternary')
+library('CongreveLamsdell2016')
+data('clBremPartitions', 'clBremQuartets', 'clMkvPartitions', 'clMkvQuartets',
+     'clBootFreqPartitions', 'clBootFreqQuartets', 'clBootGcPartitions', 'clBootGcQuartets',
+     'clJackFreqPartitions', 'clJackFreqQuartets', 'clJackGcPartitions', 'clJackGcQuartets',
+     'clCI')
+
 PCH <- c(
   brem = 2,
   bootG = 0,
@@ -78,3 +87,10 @@ FONT_FAMILY <- "serif" # BL
 
 Panel <- function (panel) legend('topleft', paste0('(', panel, ')'), bty='n', 
                                  cex=FONT_SIZE, text.font=3, inset=c(-0.056, 0))
+
+# Use Inkscape to generate EPS from SVG.  R creates bitmap EPS due to semitrans.
+Write <- if (OUTPUT == 'pdf') {
+  function(filename, ...) cairo_pdf(filename=paste0("inst/figures/", filename, ".pdf"), ...)
+} else {
+  function(filename, ...) svg(filename=paste0("inst/figures/", filename, ".svg"), ...)
+} 
