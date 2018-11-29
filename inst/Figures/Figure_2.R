@@ -24,7 +24,7 @@ TernarySplits <- function(plotChars = TRUE) {
 AddLegend <- function(pos='bottomright')
   legend(pos, cex=FONT_SIZE, bty='n',
          lty=1,
-         pch=PCH[c('mk', 'eq', 'none', 'k5', 'none', 'k1', 'kC')], pt.cex=1.1,
+         pch=PCH[c('mk', 'eq', 'kX', 'k5', 'k3', 'k1', 'kC')], pt.cex=1.1,
          col=COL[c('mk', 'eq', 'kX', 'k5', 'k3', 'k1', 'kC')],
          legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(10, 5, '2, 3', 1, '2..10')))
   )
@@ -32,7 +32,7 @@ AddLegend <- function(pos='bottomright')
 
 #dev.new()
 
-Write(filename="Figure_1", width=FIG_WIDTH, height=FIG_WIDTH,
+Write(filename="Figure_2", width=FIG_WIDTH, height=FIG_WIDTH,
       family=FONT_FAMILY, pointsize=FONT_PT)
 par(mfrow=c(2, 2), mai=rep(0, 4), family='serif', ps=FONT_PT)
 

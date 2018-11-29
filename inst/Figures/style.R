@@ -8,30 +8,31 @@ data('clBremPartitions', 'clBremQuartets', 'clMkvPartitions', 'clMkvQuartets',
      'clCI')
 
 PCH <- c(
-  brem = 2,
+  brem  = 2,
   bootG = 0,
   bootF = 5,
   jackG = 3,
   jackF = 4,
-  none = NA,
+  none  = NA,
   
-  mk = 1,
+  mk     = 1,
   markov = 1,
   equal  = 61, #'='
-  eq = 61,
-  dot = 183, #'.'
-  k1 = 183,
-  implied1   = 183, #2,   #triup
-  k2 = 3, 
-  implied2   = 3, #2,   #triup
-  k3 = 3, 
-  implied3   = 3, #2,   #triup
-  k5 = 183,
-  implied5   = 183, #2,   #triup
-  kX = 3,
-  implied10  = 3, #2,   #triup
-  implied20  = 183, #2,   #triup
-  implied200 = 183, #2,   #triup
+  eq     = 61,
+  dot    = 183, #'.'
+  
+  k1         = 4,
+  implied1   = 4,
+  k2         = 183, 
+  implied2   = 183,
+  k3         = 183, 
+  implied3   = 183,
+  k5         = 3,
+  implied5   = 3,
+  kX         = 183,
+  implied10  = 183,
+  implied20  = 183,
+  implied200 = 183,
   kC = 17,
   impliedC = 17  #triupfilled
 )
