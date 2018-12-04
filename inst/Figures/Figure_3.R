@@ -1,11 +1,17 @@
-OUTPUT <- PDF
+OUTPUT <- 'pdf'
 source('inst/Figures/style.R')
-library('OReillyEtAl2016')
-data('orQuartets')
-data('orPartitions')
+load_all('../OReillyEtAl2016') # TODO REMOVE THIS LINE
+orQuartets <- OReillyEtAl2016::orQuartets
+orParittions <- OReillyEtAl2016::orPartitions
 
-AverageQuarts <- function (item) apply(clQuartets[[item]][c('r2', 'd', 's'), , ], 2, rowMeans, na.rm=TRUE)
-ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]][[item]][c('r2', 'd', 's'), , ], 2, rowMeans, na.rm=TRUE)
+ORAverageSplits <- function (nchar, item) {
+  AverageSplits(orPartitions[[as.character(nchar)]][[item]][, , ])
+}
+
+ORAverageQuarts <- function (nchar, item) {
+  apply(orQuartets[[as.character(nchar)]][[item]][, c('r2', 'd', 's'), ],
+        2, rowMeans, na.rm=TRUE)
+}
 ##################################################################################
 #                                                                                #
 #                                   FIGURE 3                                     #
@@ -15,7 +21,15 @@ ORAverageQuarts <- function (nchar, item) apply(orQuartets[[as.character(nchar)]
 totalQuarts <- orQuartets[['350']][['equal']][1, 1, 1] # = 37 * 73 * 9 * 50
 AXIS_LABELS <- c(0, paste0(round(1:GRID_LINES * totalQuarts / GRID_LINES / 1000), 'k'))
 
-Fig2Ternary <- function(title.text, ORFunc) {
+ORQ100 <- function (x) ORAverageQuarts(100, x)
+ORQ350 <- function (x) ORAverageQuarts(350, x)
+ORQ1000 <- function (x) ORAverageQuarts(1000, x)
+
+ORS100 <- function (x) ORAverageSplits(100, x)
+ORS350 <- function (x) ORAverageSplits(350, x)
+ORS1000 <- function (x) ORAverageSplits(1000, x)
+
+FigTernary <- function(titleText, ORFunc) {
   TernaryPlot(NULL, NULL, NULL, #'Unresolved', 'Different', 'Same', 
             alab="Unresolved quartets",
             blab="Different quartets",
@@ -27,20 +41,23 @@ Fig2Ternary <- function(title.text, ORFunc) {
             axis.col=rgb(0.6, 0.6, 0.6), #axis.labels.col = 'black',
             padding=0.1, axis.labels = AXIS_LABELS)
   HorizontalGrid(GRID_LINES)
-  title(main=title.text, cex.main=FONT_SIZE)
+  title(main=titleText, cex.main=FONT_SIZE)
   lapply(orAnalyses, function (analysis) {
     TernaryLines(ORFunc(analysis), col=COL[analysis], pch=PCH['dot'],
                  lty=LTY[analysis], lwd=LWD[analysis])
-    TernaryPoints(ORFunc(analysis)[, 1], col=COL[analysis], 
+    TernaryPoints(ORFunc(analysis)[1, ], col=COL[analysis], 
                   pch=PCH[analysis], cex=1.1)
   })
+  
+  # Return:
+  invisible()
 }
-Fig2Zoom <- function (zoom, ORFunc) {
+FigZoom <- function (zoom, ORFunc) {
   TernaryPlot(col=BG_COL, point='right',
               grid.lines = GRID_LINES, grid.lty='solid', grid.col=GRID_COL,
               grid.minor.lines = 0,
               axis.col=rgb(0.6, 0.6, 0.6),
-              padding=0.01, axis.labels = AXIS_LABELS,
+              padding=0.1/zoom, axis.labels = AXIS_LABELS,
               ticks.length = 0.025 / zoom,
               xlim = c(0, 1 / zoom),
               ylim = c(0.5-(1/zoom), 0.5))
@@ -48,29 +65,32 @@ Fig2Zoom <- function (zoom, ORFunc) {
   lapply(orAnalyses, function (analysis) {
     TernaryLines(ORFunc(analysis), col=COL[analysis],  pch=PCH['dot'],
                  lty=LTY[analysis], lwd=LWD[analysis])
-    TernaryPoints(ORFunc(analysis)[, 1], col=COL[analysis],
+    TernaryPoints(ORFunc(analysis)[1, ], col=COL[analysis],
                   pch=PCH[analysis], cex=1.1)
   })
+  
+  # Return:
+  invisible()
 }
 
-InsetBox <- function (ybottom, xright, text) {
-  rect(xleft=-0.01, ybottom=ybottom, xright=xright, ytop=0.52,
+InsetBox <- function (zoom, text) {
+  rect(xleft=-0.01, ybottom=0.5-(1/zoom), xright=1 / zoom, ytop=0.52,
        border='#00000088', lty='dashed')
-  text(x=xright + 0.01, y=0.49, labels=text, cex=FONT_SIZE, col='#00000088', pos=2)
+  text(x=(1 / zoom) + 0.01, y=0.49, labels=text, cex=FONT_SIZE, col='#00000088', pos=2)
 }
 
-Write(filename="Figure_2", width=FIG_WIDTH, height=FIG_WIDTH*2/3,
+Write(filename="Figure_3", width=FIG_WIDTH, height=FIG_WIDTH*2/3,
       family=FONT_FAMILY, pointsize=FONT_PT)
 
 par(mar=rep(0, 4), mfrow=c(2, 3), mai=rep(0, 4), ps=FONT_PT)
-Fig2Ternary("\n100 characters", ORQ100)
-InsetBox(0.026, 0.41, '(below)')
+FigTernary("\n100 characters", ORQ100)
+InsetBox(2.25, '(below)')
 Panel('a')
-Fig2Ternary("\n350 characters", ORQ350)
-InsetBox(0.026, 0.41, '(below)')
+FigTernary("\n350 characters", ORQ350)
+InsetBox(6.5, '(below)')
 Panel('b')
-Fig2Ternary("\n1000 characters", ORQ1000)
-InsetBox(0.33, 0.151, '')
+FigTernary("\n1000 characters", ORQ1000)
+InsetBox(6.5, '')
 Panel('c')
 
 analyses <- orAnalyses[c(7, 8, 1:6)]
@@ -83,15 +103,15 @@ legend('bottomright', bty='n', lty=1, pch=PCH[analyses], col=COL[analyses],
 
 par(mai=c(0, 0.15, 0, 0.15))
 
-Fig2Zoom(2.25, ORQ100)
-TernaryText(ORAverageQuarts(100, 3)[, 1], col=COL_5, pos=1, label='k = 2', cex=FONT_SIZE)
-TernaryText(ORAverageQuarts(100, 4)[, 1], col=COL_5, pos=1, label='k = 3', cex=FONT_SIZE)
-TernaryText(ORAverageQuarts(100, 5)[, 1], col=COL_5, pos=1, label='k = 5, 200', cex=FONT_SIZE)
-TernaryText(ORAverageQuarts(100, 6)[, 1], col=COL_5, pos=3, label='k = 10, 20', cex=FONT_SIZE)
-#TernaryText(ORAverageQuarts(100, 7)[, 1], col=COL_2, pos=1, label='k = 20', cex=0.8)
+FigZoom(2.25, ORQ100)
+TernaryText(ORAverageQuarts(100, 3)[1, ], col=COL_5, pos=1, label='k = 2', cex=FONT_SIZE)
+TernaryText(ORAverageQuarts(100, 4)[1, ], col=COL_5, pos=1, label='k = 3', cex=FONT_SIZE)
+TernaryText(ORAverageQuarts(100, 5)[1, ], col=COL_5, pos=1, label='k = 5, 200', cex=FONT_SIZE)
+TernaryText(ORAverageQuarts(100, 6)[1, ], col=COL_5, pos=3, label='k = 10, 20', cex=FONT_SIZE)
+#TernaryText(ORAverageQuarts(100, 7)[1, ], col=COL_2, pos=1, label='k = 20', cex=0.8)
 #TernaryText(ORAverageQuarts(100, 8)[, 1], col=COL_2, pos=1, label='k = 200', cex=0.8)
-Fig2Zoom(2.25, ORQ350)
-Fig2Zoom(6.5, ORQ1000)
+FigZoom(6.5, ORQ350)
+FigZoom(6.5, ORQ1000)
 
 dev.off()
 
