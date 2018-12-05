@@ -60,7 +60,7 @@ BipartitionPoints <- SplitPoints
 #' 
 #' @param nsd Vector specifying normalized symmetric differences to plot
 #' 
-#' @value Returns a matrix of dim `(length(nsd), 6)``, with columns named `r2a`, `da`, `sa`,
+#' @return Returns a matrix of dim `(length(nsd), 6)``, with columns named `r2a`, `da`, `sa`,
 #' `r2b`, `db` ans `sb`.  Lines from `a` to `b` in each row connect points
 #' of equal symmetric difference.
 #' 
@@ -78,7 +78,7 @@ SymmetricDifferenceLineEnds <- function (nsd) {
   cbind(r2a, da, sa, r2b, db, sb)
 }
 
-#' @documentIn SymmetricDifferenceLineEnds Plot the lines onto the active ternary plot
+#' @describeIn SymmetricDifferenceLineEnds Plot the lines onto the active ternary plot
 #' @param \dots Further parameters to pass to [Ternary:TernaryLines]
 #' @importFrom Ternary TernaryLines
 #' @export
