@@ -74,6 +74,13 @@ COL <- c(
   impliedC   = paste0(cbPalette8[2], '99')
 )
 
+SUBOPTIMAL <- list(
+  freq = seq(0, 100, length.out=51L),
+  gc = seq(-100, 100, length.out=41L),
+  brem = c('0', '0.0025', '0.0035', '0.0048', '0.0065', '0.0089', '0.012', '0.017',
+           '0.023', '0.031', '0.043', '0.059', '0.081', '0.11', '0.15', '0.21',
+           '0.28', '0.39', '0.53', '0.73', '1')
+)
 
 GRID_COL <- rgb(0.92, 0.92, 0.92)
 GRID_LINES <- 10
@@ -88,6 +95,13 @@ FONT_FAMILY <- "serif" # BL
 
 Panel <- function (panel) legend('topleft', paste0('(', panel, ')'), bty='n', 
                                  cex=FONT_SIZE, text.font=3, inset=c(-0.056, 0))
+
+AddArrows <- function (quality) {
+  arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.08)
+  text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=FONT_SIZE)
+  arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.08)
+  text  (sqrt(3/4) * 1.01, 0.30, pos=3, quality, cex=FONT_SIZE, srt=270)
+}
 
 # Use Inkscape to generate EPS from SVG.  R creates bitmap EPS due to semitrans.
 Write <- if (OUTPUT == 'pdf') {

@@ -1,24 +1,18 @@
 OUTPUT = 'pdf'
 source('inst/Figures/style.R')
 
-AddArrows <- function (quality) {
-  arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.08)
-  text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=FONT_SIZE)
-  arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.08)
-  text  (sqrt(3/4) * 1.01, 0.30, pos=3, quality, cex=FONT_SIZE, srt=270)
-}
 ################################################################################
 
 TernaryQuarts <- function(zoom=1, padding=0.1) {
   clInitializeTernaryQuarts(zoom=zoom, padding=padding)
   clPlotAverageQuartets(clBootGcQuartets, pch=PCH, col=COL)
-  clPlotTheseAverageQuartets(clMkvQuartets, col=clColours['mk'], pch=PCH_MK)
+  clPlotTheseAverageQuartets(clMkvQuartets, col=clColours['mk'], pch=PCH['mk'])
 }
 
 TernarySplits <- function(plotChars = TRUE) {
   clInitializeTernarySplits()
   clPlotAverageSplits(clBootGcPartitions, col=COL, pch=if(plotChars) PCH else NA)
-  clPlotTheseAverageSplits(clMkvPartitions, col=clColours['mk'], pch=PCH_MK)
+  clPlotTheseAverageSplits(clMkvPartitions, col=clColours['mk'], pch=PCH['mk'])
 }
 
 AddLegend <- function(pos='bottomright')
@@ -81,7 +75,8 @@ otherYs <- vapply(2*(1:8), function (p) TernaryCoords(p, 19-p, 0), double(2))[2,
 lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
                                    lty='dashed', col='#00000022'))
 
-equal_point <- CLAverageSplits('equal')[, 1]
+
+equal_point <- SplitsToPoints(t(as.matrix(rowMeans(clBootGcPartitions[['eq']][1, , ]))))
 equal_differents <- equal_point[2]
 COL_LINES = cbPalette8[7]
 TernaryLines(list(c(0, equal_differents, 20-equal_differents),

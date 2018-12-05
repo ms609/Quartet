@@ -39,6 +39,7 @@ Write(filename="Figure_1", width=FIG_WIDTH, height=FIG_WIDTH,
 par(mfrow=c(2, 2), mai=rep(0.1, 4), family='serif', ps=FONT_PT)
 
 bLim <- c(0, 0.18, 0.372, 0.405)
+
 clInitializeTernaryQuarts()
 QuartetNodeSupportData()
 AddArrows('Increasing quartet dissimilarity')
@@ -61,7 +62,7 @@ legend('bottomright', bty='n', cex=FONT_SIZE,
 Panel('a')
 ##########
 
-clInitializeTernaryQuarts(zoom=bZoom, padding=0.001, xLim=bLim[1:2], yLim=bLim[3:4])
+clInitializeTernaryQuarts(padding=0.001, xLim=bLim[1:2], yLim=bLim[3:4])
 QuartetNodeSupportData()
 text(x=bLim[1], y=bLim[3], "(Vertically exaggerated)", cex=FONT_SIZE, pos=4)
 Panel('b')
