@@ -280,9 +280,9 @@ UnshiftTree <- function(add, treeList) {
 #' 
 #' Day (1986) defines two further measures:
 #' 
-#' * Symmetric Difference (SD): (2_d_ + _r_) / (2_d_ + 2_s_ + _r_)
+#' * Symmetric Difference (SD): (2 _d_ + _r1_ + _r2_) / (2 _d_ + 2 _s_ + _r1_ + _r2_)
 #' 
-#' * Marczewski-Steinhaus (MS): (2_d_ + _r_) / (2_d_ + _s_ + _r_)
+#' * Marczewski-Steinhaus (MS): (2 _d_ + _r1_ + _r2_) / (2 _d_ + _s_ + _r1_ + _r2_)
 #' 
 #' Steel & Penny (1993) propose one more, which they denote d<sub>Q</sub>,
 #' which this package caluclates using the function `SteelPenny`:
