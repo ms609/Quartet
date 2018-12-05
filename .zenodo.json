@@ -1,8 +1,8 @@
 {
-    "description": "An R Package for Comparing Phylogenetic Trees", 
+    "description": "An R package that calculates distances between phylogenetic topologies, integrating the tqDist algorithm for quartet distances", 
     "license": "unlimited", 
-    "title": "Quartet", 
-    "version": "v0.3.0", 
+    "title": "Quartet: Comparison of Phylogenetic Trees Using Quartet and Bipartition Measures", 
+    "version": "v1.0.0", 
     "upload_type": "software", 
     "creators": [
         {
