@@ -351,7 +351,6 @@ PlotHist(random_quartets, manyBreaks, 120 / 330, 'Quartet dissimilarity')
 PlotHist(random_spr[1, ], max(random_spr[1, ]) * manyBreaks, 1, 'SPR distance')
 ```
 
-
 An advantage of the Quartet dissimilarity is that the normalized metric of a random
 tree is $\frac{2}{3}$ [@Day1986; @Steel1993].  As such, trees that are more different
 than expected by chance can be readily recognized, as their quartet dissimilarity 
@@ -366,6 +365,89 @@ rfplot(sq_trees$random_tree,   'Random tree'     )
 rfplot(sq_trees$opposite_tree, 'Maximum distance')
 ```
 
+A further shortcoming of the partition metric is that not all partitions are equivalent.
+Consider a balanced and an unbalanced eight-taxon tree:
+
+```{r two-trees, echo=FALSE}
+par(mfrow=c(1, 2), mar=rep(0.2, 4))
+plot(balancedTree <- read.tree(text="(((a, b), (c, d)), ((e, f), (g, h)));"),
+     edge.color = cbPalette8[2]); edgelabels(1:5, c(1, 2, 5, 9, 12))
+plot(caterpillarTree <- read.tree(text="(a, (b, (c, (d, (e, (f, (g, h)))))));"),
+     edge.color = cbPalette8[3]); edgelabels(1:5, c(4, 6, 8, 10, 12))
+```
+
+Each tree divides the eight taxa into five bipartition splits.  
+The information content (Shannon entropy) of a split can be calculated based on 
+what proportion of eight-tip trees contain the split in question. 
+This is a function of the evenness of the split:
+
+```{r ic-of-splits, display='asis'}
+splitSmall <- 2:4
+splitLarge <- 8L - splitSmall
+
+rootedTrees <- c(
+  '1' = 1L,
+  '2' = 1L * 1L,
+  '3' = 3L * 1L,
+  '4' = 5L * 3L * 1L,
+  '5' = 7L * 5L * 3L * 1L,
+  '6' = 9L * 7L * 5L * 3L * 1L
+)
+
+matchingTrees <- rootedTrees[splitSmall] * rootedTrees[splitLarge]
+names(matchingTrees) <- paste0(splitSmall, ':', splitLarge)
+matchingP <- matchingTrees / (11*9*7*5*3*1*1)
+ic <- -log(matchingP) / log(2)
+knitr::kable(cbind(
+      'Matching trees' = matchingTrees,
+      'p(Match in random tree)' = signif(matchingP, 3),
+      'Information content / bits' = ic))
+```
+
+In the first tree, split 1 is even, dividing four taxa from four others; splits 2--5 are maximally uneven.  The total information content of these five splits is `r signif(sum(ic[c(4, 2, 2, 2, 2) - 1]), 4)`, whereas that of the five splits in 
+the second tree, which resepctively split 2, 3, 4, 3 and 2 taxa from the rest, is
+`r signif(sum(ic[c(2, 3, 4, 3, 2) - 1]), 4)`. Put another way, a random tree will
+on average share more partitions with the balanced tree (whose partitions are 
+predominantly uneven and thus likely to be matched) than the asymmetric tree 
+(which contains more even partitions that are less likely to occur in a random tree).
+
+Of the `r 11*9*7*5*3` 8-tip trees, many more bear at least one partition in 
+common with a balanced tree than with an asymmetric tree:
+
+```{r all-8-tip-trees, echo=FALSE, cache=TRUE, results='asis'}
+calculate <- FALSE
+if (calculate) {
+  all8 <- phytools::allFurcTrees(8, letters[1:8], FALSE)
+  allBif8 <- all8[vapply(all8, function(x) x$Nnode, 1L) == 6]
+  inBalanced <- SplitStatus(allBif8, balancedTree)[, 'cf_and_ref']
+  inCaterpillar <- SplitStatus(allBif8, caterpillarTree)[, 'cf_and_ref']
+  qInBalanced <- QuartetStatus(allBif8, balancedTree)[, 's']
+  qInCaterpillar <- QuartetStatus(allBif8, balancedTree)[, 's']
+  
+  balancedSplitCount <- table(inBalanced)
+  caterpillarSplitCount <- table(inCaterpillar)
+  balancedQuartetCount <- table(qInBalanced)
+  caterpillarQuartetCount <- table(qInCaterpillar)
+} else {
+  balancedSplitCount <- c(7088, 2708, 512, 76, 10, 1)
+  caterpillarSplitCount <- c(8162, 1808, 350, 64, 10, 1)
+  names(balancedSplitCount) <- names(caterpillarSplitCount) <- 0:5
+}
+
+par(mfrow=c(1, 2))
+hist(balancedSplitCount)
+hist(caterpillarSplitCount, add=TRUE)
+
+#knitr::kable(cbind('Partitions shared with balanced tree' = balancedSplitCount,
+#                   'Partitions shared with asymmetric tree' = caterpillarSplitCount),
+#             caption = 'Trees with N partitions in common')
+#
+#knitr::kable(cbind('Quartets shared with balanced tree' = balancedQuartetCount,
+#                   'Quartets shared with asymmetric tree' = caterpillarQuartetCount),
+#             caption = 'Trees with N quartets in common')
+
+
+```
 
 ## Unresolved trees
 
@@ -568,6 +650,7 @@ that the maximum resolution attainable is already on the descending part of the 
 par(mfrow=c(1, 3), mar=rep(0.3, 4))
 
 TREE <- 2
+
 TernaryQuarts()
 title(main="\nQuartets", cex.main=0.8)
 arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
@@ -739,6 +822,9 @@ tests <- apply(treeBests, 2,
 
 names(tests[tests < 0.01])
 ```
+
+
+
 <!--
 How good is each tree?  The RF distance for each tree under each method is as follows (high means a larger divergence):
 
