@@ -64,6 +64,11 @@ Panel('a')
 
 clInitializeTernaryQuarts(padding=0.001, xLim=bLim[1:2], yLim=bLim[3:4])
 QuartetNodeSupportData()
+
+TernaryText(apply(clBootGcQuartets[['k3']][, c('r2', 'd', 's'), ], 2, rowMeans),
+            labels=SUBOPTIMAL[['gc']], col=clColours['k3'], pos=3)
+TernaryText(apply(clBremQuartets[['k3']][, c('r2', 'd', 's'), ], 2, rowMeans),
+            labels=SUBOPTIMAL[['brem']], col=clColours['k3'], pos=1)
 text(x=bLim[1], y=bLim[3], "(Vertically exaggerated)", cex=FONT_SIZE, pos=4)
 Panel('b')
 ##########
@@ -83,6 +88,16 @@ Panel('c')
 
 clInitializeTernarySplits(xlim=dLim[1:2], ylim=dLim[3:4], padding=0.001)
 SplitNodeSupportData()
+
+TernaryText(SplitsToPoints(apply(clBootGcPartitions[['k3']][, , ], 2, rowMeans)),
+            labels=paste0(SUBOPTIMAL[['gc']]), col=clColours['k3'], pos=3, offset=0.5)
+
+TernaryText(SplitsToPoints(apply(clBremPartitions[['k3']][, , ], 2, rowMeans)),
+            labels=SUBOPTIMAL[['brem']], col=clColours['k3'], pos=4)
+
+TernaryText(SplitsToPoints(apply(clBootGcPartitions[['eq']][, , ], 2, rowMeans)),
+            labels=SUBOPTIMAL[['gc']], col=clColours['eq'], pos=2)
+
 text(x=dLim[1], y=dLim[3], "(Vertically exaggerated)", cex=FONT_SIZE, pos=4)
 Panel('d')
 ##########

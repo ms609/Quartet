@@ -2,7 +2,8 @@ OUTPUT <- 'pdf'
 source('inst/Figures/style.R')
 load_all('../OReillyEtAl2016') # TODO REMOVE THIS LINE
 orQuartets <- OReillyEtAl2016::orQuartets
-orParittions <- OReillyEtAl2016::orPartitions
+orPartitions <- OReillyEtAl2016::orPartitions
+orAnalyses <- names(orPartitions[[1]])
 
 ORAverageSplits <- function (nchar, item) {
   AverageSplits(orPartitions[[as.character(nchar)]][[item]][, , ])
@@ -12,6 +13,7 @@ ORAverageQuarts <- function (nchar, item) {
   apply(orQuartets[[as.character(nchar)]][[item]][, c('r2', 'd', 's'), ],
         2, rowMeans, na.rm=TRUE)
 }
+
 ##################################################################################
 #                                                                                #
 #                                   FIGURE 3                                     #
@@ -104,10 +106,10 @@ legend('bottomright', bty='n', lty=1, pch=PCH[analyses], col=COL[analyses],
 par(mai=c(0, 0.15, 0, 0.15))
 
 FigZoom(2.25, ORQ100)
-TernaryText(ORAverageQuarts(100, 3)[1, ], col=COL_5, pos=1, label='k = 2', cex=FONT_SIZE)
-TernaryText(ORAverageQuarts(100, 4)[1, ], col=COL_5, pos=1, label='k = 3', cex=FONT_SIZE)
-TernaryText(ORAverageQuarts(100, 5)[1, ], col=COL_5, pos=1, label='k = 5, 200', cex=FONT_SIZE)
-TernaryText(ORAverageQuarts(100, 6)[1, ], col=COL_5, pos=3, label='k = 10, 20', cex=FONT_SIZE)
+TernaryText(ORAverageQuarts(100, 3)[1, ], col=COL['k5'], pos=1, label='k = 2', cex=FONT_SIZE)
+TernaryText(ORAverageQuarts(100, 4)[1, ], col=COL['k5'], pos=1, label='k = 3', cex=FONT_SIZE)
+TernaryText(ORAverageQuarts(100, 5)[1, ], col=COL['k5'], pos=1, label='k = 5, 200', cex=FONT_SIZE)
+TernaryText(ORAverageQuarts(100, 6)[1, ], col=COL['k5'], pos=3, label='k = 10, 20', cex=FONT_SIZE)
 #TernaryText(ORAverageQuarts(100, 7)[1, ], col=COL_2, pos=1, label='k = 20', cex=0.8)
 #TernaryText(ORAverageQuarts(100, 8)[, 1], col=COL_2, pos=1, label='k = 200', cex=0.8)
 FigZoom(6.5, ORQ350)

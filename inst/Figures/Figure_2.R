@@ -77,14 +77,20 @@ lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
 
 
 equal_point <- SplitsToPoints(t(as.matrix(rowMeans(clBootGcPartitions[['eq']][1, , ]))))
-equal_differents <- equal_point[2]
-COL_LINES = cbPalette8[7]
+equal_differents <- equal_point['d', ]
+COL_LINES <- cbPalette8[7]
 TernaryLines(list(c(0, equal_differents, 20-equal_differents),
                   c(20-equal_differents, equal_differents, 0)), 
              col=COL_LINES, lty='longdash', lwd=1.5)
+SymmetricDifferenceLines(seq(0.1, 0.9, by=0.1),
+                         col='#888888', lty='dotted', lwd=1)
+
 equal_coords <- TernaryCoords(equal_point)
 lines(c(0, sqrt(3/4) * (0.5 + equal_coords[2])), rep(equal_coords[2], 2), 
-      col=COL_LINES, lty='dotted', lwd=1.75)
+      col=COL_LINES, lty='solid', lwd=1.75)
+SymmetricDifferenceLines(sum(equal_point[c('d', 'd', 'r2'), ]) /
+                           sum(equal_point[c('s', 's', 'd', 'd', 'r2'), ]),
+                         col=COL_LINES, lty='dotted', lwd=1.75)
 lines(rep(equal_coords[1], 2), c(-1, +1) * 0.5 * (1 - equal_coords[1] / sqrt(3/4)),
       col=COL_LINES, lty='dotdash', lwd=1.5)
 
@@ -102,8 +108,8 @@ text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]),
      cex=FONT_SIZE, srt=90, pos=3, col='#666666')
 #AddLegend()
 legend('bottomright', bty='n', cex=FONT_SIZE, lwd=1.2, col=COL_LINES, 
-       lty=c('dotted', 'dotdash', 'dashed', 'longdash'), 
-       legend=c('Equally informative', 'Equal resolution', 'Equal accuracy', 'Equal incorrect nodes'))
+       lty=c('solid', 'dotted', 'dotdash', 'dashed', 'longdash'), 
+       legend=c('Equal sym. diff. / possible', 'Equal sym. diff. / resolution', 'Equal resolution', 'Equal accuracy', 'Equal incorrect nodes'))
 Panel('d')
 ##########
 
