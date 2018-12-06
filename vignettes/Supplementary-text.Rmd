@@ -50,7 +50,60 @@ COL_3  <- paste0(cbPalette8[6], '42')
 COL_5  <- paste0(cbPalette8[6], '99')
 COL10  <- paste0(cbPalette8[6], '42')
 COL_C  <- paste0(cbPalette8[2], '99')
+PCH <- c(
+  brem  = 2,
+  bootG = 0,
+  bootF = 5,
+  jackG = 3,
+  jackF = 4,
+  none  = NA,
+  
+  mk     = 1,
+  markov = 1,
+  equal  = 61, #'='
+  eq     = 61,
+  dot    = 183, #'.'
+  
+  k1         = 4,
+  implied1   = 4,
+  k2         = 183, 
+  implied2   = 183,
+  k3         = 183, 
+  implied3   = 183,
+  k5         = 3,
+  implied5   = 3,
+  kX         = 183,
+  implied10  = 183,
+  implied20  = 183,
+  implied200 = 183,
+  kC = 17,
+  impliedC = 17  #triupfilled
+)
 
+COL <- c(
+  black      = paste0(cbPalette8[1], '99'),
+  markov     = paste0(cbPalette8[4], '99'),
+  mk         = paste0(cbPalette8[4], '99'),
+  
+  equal      = paste0(cbPalette8[8], '99'),
+  eq        = paste0(cbPalette8[8], '99'),
+  implied1   = paste0(cbPalette8[6], '42'),
+  k1         = paste0(cbPalette8[6], '42'),
+  implied2   = paste0(cbPalette8[6], '42'),
+  k2         = paste0(cbPalette8[6], '42'),
+  implied3   = paste0(cbPalette8[6], '42'),
+  k3         = paste0(cbPalette8[6], '42'),
+  implied5   = paste0(cbPalette8[6], '42'),
+  k5         = paste0(cbPalette8[6], '42'),
+  implied10  = paste0(cbPalette8[6], '99'),
+  kX         = paste0(cbPalette8[6], '99'),
+  implied20  = paste0(cbPalette8[6], '42'),
+  implied200 = paste0(cbPalette8[6], '42'),
+  kC         = paste0(cbPalette8[2], '99'),
+  impliedC   = paste0(cbPalette8[2], '99')
+)
+
+ANALYSES_EN <- c('Equal weights', paste0('IW, k=', c(1, 2, 3, 5, 10)), 'IW consensus')
 GRID_COL <- rgb(0.92, 0.92, 0.92)
 BG_COL   <- rgb(0.985, 0.985, 0.992)
 
@@ -134,22 +187,6 @@ TernaryBasis <- function (qMax = 19, zoom = 1, padding=0.1) {
   
   HorizontalGrid(19) # must equal grid.lines
 }
-
-TernaryQuarts<-function(Func=Quartet2Ternary, zoom=1, padding=0.1) {
-  
-  TernaryBasis(choose(22, 4), zoom, padding)
-  AddToTernary(lines, list(c(0, 2/3, 1/3), c(1, 0, 0)), lty='dotted', col=cbPalette8[8], lwd=2)
-  
-  JoinTheDots(Func('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied5'),  col=COL_5,  pch=PCH_IW, cex=1.1)
-  JoinTheDots(Func('implied3'),  col=COL_3,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied2'),  col=COL_2,  pch=PCH_XX, cex=1.1)
-  JoinTheDots(Func('implied1'),  col=COL_1,  pch=PCH_IW, cex=1.1)
-  JoinTheDots(Func('impliedC'),  col=COL_C,  pch=PCH_IC, cex=1.1)
-  JoinTheDots(Func('equal'   ),  col=COL_EQ, pch=PCH_EQ, cex=1.1)
-  JoinTheDots(Func('markov'  ),  col=COL_MK, pch=PCH_MK, cex=1.1)
-}
-
 
 AddArrows <- function (quality) {
   arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.08)
@@ -365,15 +402,24 @@ rfplot(sq_trees$random_tree,   'Random tree'     )
 rfplot(sq_trees$opposite_tree, 'Maximum distance')
 ```
 
-A further shortcoming of the partition metric is that not all partitions are equivalent.
+## Unit equivalence
+
+A further shortcoming of the partition metric is that not all partitions represent an equivalent amount of information.  A partition distance of 1 could mean that two trees differ in an uninformative partition, or a more informative partition.  All quartets,
+in contrast, are equally informative.
+
 Consider a balanced and an unbalanced eight-taxon tree:
 
 ```{r two-trees, echo=FALSE}
 par(mfrow=c(1, 2), mar=rep(0.2, 4))
 plot(balancedTree <- read.tree(text="(((a, b), (c, d)), ((e, f), (g, h)));"),
-     edge.color = cbPalette8[2]); edgelabels(1:5, c(1, 2, 5, 9, 12))
+     edge.color = cbPalette8[3])
+edgelabels(1:5, c(1, 2, 5, 9, 12))
+legend('topleft', 'Balanced tree', bty='n')
+
 plot(caterpillarTree <- read.tree(text="(a, (b, (c, (d, (e, (f, (g, h)))))));"),
-     edge.color = cbPalette8[3]); edgelabels(1:5, c(4, 6, 8, 10, 12))
+     edge.color = cbPalette8[2])
+edgelabels(1:5, c(4, 6, 8, 10, 12))
+legend('topleft', 'Asymmetric tree', bty='n')
 ```
 
 Each tree divides the eight taxa into five bipartition splits.  
@@ -381,40 +427,43 @@ The information content (Shannon entropy) of a split can be calculated based on
 what proportion of eight-tip trees contain the split in question. 
 This is a function of the evenness of the split:
 
-```{r ic-of-splits, display='asis'}
+```{r ic-of-splits, display='asis', echo=FALSE}
 splitSmall <- 2:4
 splitLarge <- 8L - splitSmall
 
 rootedTrees <- c(
-  '1' = 1L,
-  '2' = 1L * 1L,
-  '3' = 3L * 1L,
-  '4' = 5L * 3L * 1L,
-  '5' = 7L * 5L * 3L * 1L,
-  '6' = 9L * 7L * 5L * 3L * 1L
+  '1' = 1,
+  '2' = 1 * 1,
+  '3' = 3 * 1,
+  '4' = 5 * 3 * 1,
+  '5' = 7 * 5 * 3 * 1,
+  '6' = 9 * 7 * 5 * 3 * 1
 )
 
 matchingTrees <- rootedTrees[splitSmall] * rootedTrees[splitLarge]
-names(matchingTrees) <- paste0(splitSmall, ':', splitLarge)
-matchingP <- matchingTrees / (11*9*7*5*3*1*1)
+names(matchingTrees) <- paste0("Partition size: ", splitSmall, ':', splitLarge)
+
+matchingP <- matchingTrees / (11 * 9 * 7 * 5 * 3 * 1 * 1)
+
 ic <- -log(matchingP) / log(2)
+
 knitr::kable(cbind(
       'Matching trees' = matchingTrees,
       'p(Match in random tree)' = signif(matchingP, 3),
       'Information content / bits' = ic))
 ```
 
-In the first tree, split 1 is even, dividing four taxa from four others; splits 2--5 are maximally uneven.  The total information content of these five splits is `r signif(sum(ic[c(4, 2, 2, 2, 2) - 1]), 4)`, whereas that of the five splits in 
-the second tree, which resepctively split 2, 3, 4, 3 and 2 taxa from the rest, is
+In the first tree, split 1 is even, dividing four taxa from four others (`4:4`); splits 2--5 are maximally uneven (`2:6`).  The total information content of these five splits is `r signif(sum(ic[c(4, 2, 2, 2, 2) - 1]), 4)`, whereas that of the five splits in 
+the second tree, of sizes `2:6`, `3:5`, `4:4`, `3:5` and `2:6`, is
 `r signif(sum(ic[c(2, 3, 4, 3, 2) - 1]), 4)`. Put another way, a random tree will
 on average share more partitions with the balanced tree (whose partitions are 
 predominantly uneven and thus likely to be matched) than the asymmetric tree 
 (which contains more even partitions that are less likely to occur in a random tree).
 
-Of the `r 11*9*7*5*3` 8-tip trees, many more bear at least one partition in 
-common with a balanced tree than with an asymmetric tree:
+Of the 10&nbsp;395 eight-tip trees, many more bear at least one partition in 
+common with a balanced tree than with an asymmetric tree, whereas the distribution of quartets is identical:
 
-```{r all-8-tip-trees, echo=FALSE, cache=TRUE, results='asis'}
+```{r all-8-tip-trees, echo=FALSE, cache=TRUE}
 calculate <- FALSE
 if (calculate) {
   all8 <- phytools::allFurcTrees(8, letters[1:8], FALSE)
@@ -424,28 +473,40 @@ if (calculate) {
   qInBalanced <- QuartetStatus(allBif8, balancedTree)[, 's']
   qInCaterpillar <- QuartetStatus(allBif8, balancedTree)[, 's']
   
-  balancedSplitCount <- table(inBalanced)
-  caterpillarSplitCount <- table(inCaterpillar)
-  balancedQuartetCount <- table(qInBalanced)
-  caterpillarQuartetCount <- table(qInCaterpillar)
 } else {
-  balancedSplitCount <- c(7088, 2708, 512, 76, 10, 1)
-  caterpillarSplitCount <- c(8162, 1808, 350, 64, 10, 1)
-  names(balancedSplitCount) <- names(caterpillarSplitCount) <- 0:5
+  inBalanced <- rep(0:5, c(7088, 2708, 512, 76, 10, 1))
+  inCaterpillar <- rep(0:5, c(8162, 1808, 350, 64, 10, 1))
+  qInBalanced <- qInCaterpillar <- rep(c(10:42, 44:46, 49, 50, 53, 54, 57, 62, 70),
+    c(32, 256, 512, 384, 512, 320, 512, 448, 512, 512, 688, 160, 512, 448, 256, 464, 416, 448, 576, 256, 192, 320, 160, 288, 128, 192, 132, 80, 32, 32, 224, 64, 8, 64, 112, 16, 64, 16, 4, 18, 16, 8, 1))
 }
 
 par(mfrow=c(1, 2))
-hist(balancedSplitCount)
-hist(caterpillarSplitCount, add=TRUE)
+plot.new()
+plot.window(main='8-tip trees with N common splits', cex.main=1,
+            xlim=c(0, 6), ylim=c(0, 2708),
+            xlab='Splits in common', ylab='Number of trees')
+sch <- hist(inCaterpillar + 0.5, breaks = 0:12 / 2 - 0.0001, plot=FALSE)
+sbh <- hist(inBalanced, breaks = 0:12 / 2 - 0.0001, plot=FALSE)
+plot(sbh, col=paste0(cbPalette8[3], '44'), add=TRUE)
+plot(sch, col=paste0(cbPalette8[2], '44'), add=TRUE)
+text(0.0, 100, paste0('Asymmetric: ', sum(inCaterpillar == 0)), pos=4, srt=90, cex=0.7)
+text(0.5, 100, paste0('Balanced: ', sum(inBalanced == 0)), pos=4, srt=90, cex=0.7)
 
-#knitr::kable(cbind('Partitions shared with balanced tree' = balancedSplitCount,
-#                   'Partitions shared with asymmetric tree' = caterpillarSplitCount),
-#             caption = 'Trees with N partitions in common')
-#
-#knitr::kable(cbind('Quartets shared with balanced tree' = balancedQuartetCount,
-#                   'Quartets shared with asymmetric tree' = caterpillarQuartetCount),
-#             caption = 'Trees with N quartets in common')
+legend('topright', pch=22,
+       pt.cex = 2, col='black',
+       pt.bg = paste0(cbPalette8[2:3], '44'), bty='n',
+       c('Balanced', 'Asymmetric'))
+axis(1, at=0:5 + 0.5, labels=0:5)
+axis(2)
 
+qch <- hist(qInCaterpillar, breaks = 0:36 * 2 - 0.0001, plot=FALSE)
+qbh <- hist(qInBalanced,    breaks = 0:36 * 2 - 0.0001, plot=FALSE)
+
+plot(qch, col=paste0(cbPalette8[2], '44'), main='8-tip trees with N common quartets',
+     xlab='Quartets in common', ylab='Number of trees', axes=FALSE, cex.main=1)
+plot(qbh, col=paste0(cbPalette8[3], '44'), add=TRUE)
+axis(1, at=0:36 * 2, labels=(0:36) * 2)
+axis(2)
 
 ```
 
@@ -651,7 +712,10 @@ par(mfrow=c(1, 3), mar=rep(0.3, 4))
 
 TREE <- 2
 
-TernaryQuarts()
+clInitializeTernaryQuarts()
+clPlotQuartets(clBootGcQuartets, TREE, cex=1.1, pch=PCH)
+clPlotQuartets(clMkvQuartets, TREE, cex=1.1, pch=PCH['mk'])
+
 title(main="\nQuartets", cex.main=0.8)
 arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
 text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
@@ -659,19 +723,17 @@ text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
 
-TernaryQuarts(zoom=6, padding=0.01)
 
-TernaryBasis(19)
+clInitializeTernaryQuarts(zoom=6, padding=0.01)
+clPlotQuartets(clBootGcQuartets, TREE, cex=1.1, pch=PCH)
+clPlotQuartets(clMkvQuartets, TREE, cex=1.1, pch=PCH['mk'])
+
+clInitializeTernarySplits()
 title(main="\nPartitions", cex.main=0.8)
 
-partition_distances <- SplitPoints(sq_trees)
+clPlotSplits(clBootGcPartitions, TREE, cex=1.1, pch=PCH)
+clPlotSplits(clMkvPartitions, TREE, cex=1.1, pch=PCH['mk'])
 
-JoinTheDots(Split2Ternary('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
-JoinTheDots(Split2Ternary('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
-JoinTheDots(Split2Ternary('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
-JoinTheDots(Split2Ternary('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
-JoinTheDots(Split2Ternary('implied3'), col=COL_3, pch=PCH_IW, cex=1.1)
-JoinTheDots(Split2Ternary('implied1'), col=COL_1, pch=PCH_IW, cex=1.1)
 
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
 text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
@@ -679,8 +741,8 @@ text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270
 AddLegend <- function(pos='bottomright')
   legend(pos, cex=0.8, bty='n',
          lty=1,
-         pch=c(PCH_MK, PCH_EQ, PCH_XX, PCH_IW, PCH_XX, PCH_XX, PCH_IW, PCH_IC), pt.cex=1.1,
-         col=c(COL_MK, COL_EQ, COL10, COL_5, COL_3, COL_2, COL_1, COL_C),
+         pch=PCH[c('mk', 'eq', 'kX', 'k5', 'k3', 'k2', 'k1', 'kC')], pt.cex=1.1,
+         col=COL[c('mk', 'eq', 'kX', 'k5', 'k3', 'k2', 'k1', 'kC')],
          legend=c('Markov', 'Equal weights', paste0('Implied, k=', c(10, 5, 3, 2, 1, '2..10')))
   )
 AddLegend()
@@ -698,9 +760,12 @@ TREES <- 1:100
 # TREES <- TREES[clCI > 0.26]
 
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
-AverageQuarts <- function (item) apply(clQuartets[[item]][, c('r2', 'd', 's'), TREES], 2, rowMeans)
-TernaryQuarts(AverageQuarts)
-TernaryQuarts(Func=AverageQuarts, zoom=3.5, padding=0.01)
+clInitializeTernaryQuarts()
+clPlotAverageQuartets(clBootGcQuartets, cex=1.1, pch=PCH)
+
+clInitializeTernaryQuarts(zoom=3.5, padding=0.01)
+clPlotAverageQuartets(clBootGcQuartets, cex=1.1, pch=PCH)
+
 AddLegend('topright')
 
 ```
@@ -711,56 +776,38 @@ One question we can ask is how much we should reduce the resolution.  After a ce
 
 Bayesian and equal weights trees already produce incompletely resolved trees, and a further reduction of resolution does not improve their quality.
 
-Under implied weights, averaged over these datasets, the optimum trade-off between accuracy and resolution comes when collapsing nodes with a Bremer support value below:
+Under implied weights, averaged over these datasets, the optimum trade-off between accuracy and resolution comes when collapsing nodes with a Bootstrap GC support value below:
 
 <!--
 How good is each tree?  The divergence for each tree under each method is as follows (high means a larger divergence):
 -->
 ```{R Quartet-divergence-for-each-point, echo=FALSE, message=FALSE, fig.width=8, results='asis', fig.align='center'}
-divergences <- vapply(clQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans), similarity = FALSE), double(21))
-rownames(divergences) <- c('Optimal', paste0('Subopt. ', 1:20))
-ks <- c(1:3, 5, 10)
-colnames(divergences) <- c('Mk', 'EqlW', paste0('IW', c(ks, 'cons')))
-# round(divergences, 4)
-
+divergences <- vapply(clBootGcQuartets, function (item) QuartetDivergence(apply(item[, , TREES], 2, rowMeans), similarity = FALSE), double(dim(clBootGcQuartets[[1]])[1]))
+rownames(divergences) <- seq(-100, 100, length.out=dim(clBootGcQuartets[[1]])[1])
 
 # Each row corresponds to a certain reduction of resolution.  The best row is:
 
 #```{R Quartet divergence - optimals, echo=FALSE}
 which_suboptimal <- apply(divergences, 2, which.min) - 1
-# which_suboptimal
-#```
+best_gc <- rownames(divergences)[which_suboptimal]
+names(best_gc) <- ANALYSES_EN
 
-# In the implied weights settings, these rows are equvalent to a Bremner support 
-# value of one further step in a character that already exhibits _n_ additional
-# steps, where _n_ is:
+knitr::kable(t(best_gc))
 
-# ```{R Quartet divergence - how suboptimal, echo=FALSE, message=FALSE}
-SUBOPTIMAL_VALUES <- round(0.73^(19:0), 5)
-
-how_suboptimal <- which_suboptimal[paste0('IW', ks)]
-how_suboptimal <- ifelse(how_suboptimal == 0, 0, SUBOPTIMAL_VALUES[how_suboptimal])
-knitr::kable(t(round(how_suboptimal, 4)))
-
-# cost_of_this_step <- vapply(ks, function (k) vapply(1:21, function (e) (e/(e+k)) - # ((e-1)/(e-1+k)), double(1)), double(21))
-# diffs <- t(t(cost_of_this_step) - how_suboptimal)
-# colnames(diffs) <- paste0('IW', ks)
-# 
-# apply(abs(diffs), 2, which.min)
 ```
 
 The only analyses to produce significantly different ($p = 0.01$) results from implied weights (at $k = 3$) or Bayesian are equal weights and implied weights with $k = 1$.
 Both these approaches are significantly worse.
 
 ```{R Quartet-divergence-significance, include=FALSE}
-treeBests <- vapply(clQuartets, 
+treeBests <- vapply(clBootGcQuartets, 
                     function (item) apply(
                       apply(item[, , TREES], 1, function (x) QuartetDivergence(t(x))),
                       1, max), double(length(TREES)))
 tests <- apply(treeBests, 2, 
-               function (column) t.test(column, treeBests[, 'implied3'])$p.value)
+               function (column) t.test(column, treeBests[, 'k3'])$p.value)
 
-names(tests[tests < 0.01])
+ANALYSES_EN[tests < 0.01]
 ```
 
 
@@ -769,58 +816,43 @@ names(tests[tests < 0.01])
 We can run the same analysis counting partitions in place of quartets.
 
 ```{R CL-trees-partitions, echo=FALSE, message=FALSE, message=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='75%', fig.align='center'}
-AverageSplits <- function (item) {
-  itemData <- apply(clPartitions[[item]][, , TREES], 2, rowMeans)
-  rbind(itemData[, 'ref'] - itemData[, 'cf'],
-        itemData[, 'cf_not_ref'],
-        itemData[, 'cf_and_ref'])
-}
-
-TernaryBasis()
-
-partition_distances <- SplitPoints(sq_trees)
-
-JoinTheDots(AverageSplits('impliedC'), col=COL_C, pch=PCH_IC, cex=1.1)
-JoinTheDots(AverageSplits('implied10'), col=COL10, pch=PCH_XX, cex=1.1)
-JoinTheDots(AverageSplits('implied5'), col=COL_5, pch=PCH_IW, cex=1.1)
-JoinTheDots(AverageSplits('implied3'), col=COL_3, pch=PCH_XX, cex=1.1)
-JoinTheDots(AverageSplits('implied2'), col=COL_2, pch=PCH_XX, cex=1.1)
-JoinTheDots(AverageSplits('implied1'), col=COL_1, pch=PCH_IW, cex=1.1)
-JoinTheDots(AverageSplits('equal'   ), col=COL_EQ, pch=PCH_EQ, cex=1.1)
-JoinTheDots(AverageSplits('markov'  ), col=COL_MK, pch=PCH_MK, cex=1.1)
+clInitializeTernarySplits()
+clPlotAverageSplits(clBootGcPartitions, col=COL, pch=PCH, cex=1.1)
 
 arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
 text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
-text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
+text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing SD/MaxI', cex=0.8, srt=270)
 AddLegend()
 ```
 
-Under the partition metric, the most informative trees were found after collapsing nodes with a Bremer support value of:
+Under the partition metric, the most informative trees were found after collapsing nodes with a Bootstrap GC support value of:
 
 ```{R Partition-divergence-for-each-point, echo=FALSE, message=FALSE, fig.width=8, results='asis', fig.align='center'}
-divergences <- vapply(clPartitions, function (item) apply(item[, 'RF_dist', TREES], 1, mean), double(21))
-ks <- c(1:3, 5, 10)
-colnames(divergences) <- c('Mk', 'EqlW', paste0('IW', c(ks, 'cons')))
-which_suboptimal <- apply(divergences, 2, which.min) - 1
-SUBOPTIMAL_VALUES <- round(0.73^(19:0), 5)
+divergences <- vapply(clBootGcPartitions, function (item) apply(item[, 'RF_dist', TREES], 1, mean), double(dim(clBootGcPartitions[[1]])[1]))
+rownames(divergences) <- seq(-100, 100, length.out=dim(clBootGcQuartets[[1]])[1])
 
-how_suboptimal <- which_suboptimal[paste0('IW', ks)]
-how_suboptimal <- ifelse(how_suboptimal == 0, 0, SUBOPTIMAL_VALUES[how_suboptimal])
-knitr::kable(t(round(how_suboptimal, 4)))
+# Each row corresponds to a certain reduction of resolution.  The best row is:
+
+which_suboptimal <- apply(divergences, 2, which.min) - 1
+best_gc <- rownames(divergences)[which_suboptimal]
+names(best_gc) <- ANALYSES_EN
+
+knitr::kable(t(best_gc))
 ```
 
 The partition metric advocates a greater loss of resolution than the quartet metric.
 Otherwise, it too finds no statistically significant difference between the effectiveness of the methods, except again that equal weights, and implied weights with _k_ = 1, are significantly worse.
 
 ```{R Partition-significance, include=FALSE}
-treeBests <- vapply(clPartitions,
+# TODO normalize RF_dist
+treeBests <- vapply(clBootGcPartitions,
                     function (item) apply(item[, 'RF_dist', ], 2, min),
                     double(length(TREES)))
 tests <- apply(treeBests, 2, 
-               function (column) t.test(column, treeBests[, 'impliedC'])$p.value)
+               function (column) t.test(column, treeBests[, 'k3'])$p.value)
 
-names(tests[tests < 0.01])
+ANALYSES_EN[tests < 0.01]
 ```
 
 
@@ -933,7 +965,8 @@ Once $k \leq 1$, no amount of steps in a single character will elicit a penalty 
 
 Because non-convex characters are not entirely uninformative, this situation is not strictly equivalent to clique analysis.  For example, trees that reconstruct fewer steps in a single non-convex character will still be preferred to those that reconstruct more steps in the same character; and a tree that imposes two extra steps on three characters receives the same penalty ($3 \times \frac{2}{2 + 1} = 2$) as one that imposes one extra step on four ($4 \times \frac{1}{1 + 1} = 2$).
 
-Nevertheless, a value of $k=1$ places significantly more emphasis on maximising the number of convex characters than on minimizing the total number of steps in any given (non-convex) character, behaviour that is more characteristic of clique analysis than parsimony analysis
+Nevertheless, a value of $k=1$ places significantly more emphasis on maximising the number of convex characters than on minimizing the total number of steps in any given (non-convex) character, behaviour that is more characteristic of clique analysis than parsimony analysis.  This supports the long-standing recommendation [@Goloboff1995] that 
+low values of $k$ should be avoided.
 
 As there does not yet exist an objective method for selecting a single value of _k_ for parsimony analysis, it has been proposed that nodes are recovered by a range of concavity constants are likely to be correct [@Goloboff2008].
 Studies that take a consensus of all trees found to be optimal under a range of concavity values (e.g. @Mirande2009) should consider discounting topologies that are only recovered under low values of _k_ (_cf_. [@Smith2015;@Zhang2016]).
