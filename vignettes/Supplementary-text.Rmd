@@ -516,9 +516,10 @@ axis(2)
 ## Unresolved trees
 
 Whereas the path distance and SPR metrics are only defined on bifurcating trees,
-the quartet approach can be applied to trees that contain polytomies -- i.e. 
+symmetric difference approaches can be applied to trees that contain polytomies -- i.e. 
 not every node is resolved as bifurcating.
 
+## Conclusion
 
 Quartet dissimilarity is the only available metric of tree distance that fulfils 
 all of the following desiderata:
@@ -530,9 +531,7 @@ all of the following desiderata:
  - Identifies pairs of trees that are more random than expected by chance
  - Does not reach its maximum value after relatively trivial rearrangements
  
-
-
-## Calculating resolution and accuracy
+# Calculating resolution and accuracy
 
 One way to modify a tree topology is to reduce its resolution by collapsing nodes, without changing any of the relationships presented within the tree.  The trees below have been derived from a reference tree by collapsing one and many nodes:
 
@@ -602,7 +601,7 @@ arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
 text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
 
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
-text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing divergence', cex=0.8, srt=270)
+text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing normalized SD', cex=0.8, srt=270)
 
 TernaryBasis(19)
 title(main="\nPartition distances", cex.main=0.8)
@@ -616,7 +615,7 @@ TernaryPoints(partition_distances[collapse_move2, ],   col=cbPalette8[4], pch=pc
 TernaryLines (partition_distances[collapse_move2, ],   col=cbPalette8[4])
 
 arrows(sqrt(3/4) * 0.98, 0.40, sqrt(3/4) * 0.98, 0.20, length=0.1)
-text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing RF distance', cex=0.8, srt=270)
+text  (sqrt(3/4) * 1.01, 0.30, pos=3, 'Increasing normalized SD', cex=0.8, srt=270)
 
 legend('bottom', cex=0.8, bty='n',
        pch=20, pt.cex=1.5, col=cbPalette8[2:4],
@@ -630,7 +629,7 @@ legend('bottomright', cex=0.8, bty='n',
 )
 ```
 
-In these plots, the vertical direction corresponds to the overall quartet divergence / normalized symmetric distance.  Collapsing nodes decreases the resolution (movement in the horizontal direction), but can increase accuracy; the balance between resolution lost and accuracy gained determined whether the collapsing of nodes increases or decreases net divergence.
+In these plots, the vertical direction corresponds to the normalized symmetric distance.  Collapsing nodes decreases the resolution (movement in the horizontal direction), but can increase accuracy; the balance between resolution lost and accuracy gained determined whether the collapsing of nodes increases or decreases net divergence.
 
 # Using ternary diagrams to inform tree reconstruction techniques
 This means of visualization provides a helpful way to understand how effective
@@ -641,32 +640,32 @@ and analysed the dataset in TNT v1.5 [@Goloboff2016] under equal weights parsimo
 and implied weights (with concavity constants of 1, 2, 3, 5 and 10), and in MrBayes v3.2.2
 [@Huelsenbeck2001] using the Markov K model [@Lewis2001].
 
-For each parsimony analysis, I recorded a strict consensus of (i) all optimal trees;
-and (ii) all trees found whose score was within $x$ of the optimal tree, with
-$x$ taking the values 1..20 under equal weights and a logarithmically uniform 
-series of values, $0.73^{19..0}$ (= `r signif(0.73^(19:0), 2)`), under 
-implied weights.
+For each parsimony analysis, I recorded a strict consensus of all optimal trees, 
+then proceeded to collapse groups with a Bootstrap GC support under -95, -90, -85...
 
-For each Bayesian analysis, I resolved all nodes whose posterior probability was 
-at least $x$, at 20 uniformly spaced values of $x$ from 0.5 to 1.0.
+For each Bayesian analysis, I collapsed all groups whose posterior probability was 
+under $x$, at 20 uniformly spaced values of $x$ from 0.5 to 1.0.
 
 These trees represent a progressive loss of resolution (precision) from the
-optimal tree, allowing an exploration of the relationship between precision and
-accuracy.  In each plot,resolution decreases from left to right. 
+optimal tree, allowing an exploration of the relationship between resolution and
+accuracy.  In each plot, resolution decreases from left to right. 
 
 Congreve and Lamsdell [-@Congreve2016] argue that equal weighting is the optimal
 superior method because it resolves the fewest incorrect bipartitions -- that 
 is, its most-resolved tree is the closest to the top-right side of the ternary diagram.
 By this measure, all methods are improved by collapsing nodes until none remain.
 
-On the view advocated here, the optimal tree is the one that has the lowest dissimilarity to the generative tree, which corresponds to the greatest position in the vertical direction.
-By this measure, collapsing the least-supported nodes in implied-weighting trees
-leads to an increase in tree quality, as
-predicted by Goloboff [-@Goloboff1995]: nodes with low support are likely to 
-be incorrect. Collapsing better-supported nodes, however, reduces tree quality: 
+On the view advocated here, the optimal tree is the one that has the lowest 
+normalized distance from the generative tree, which corresponds to the greatest
+position in the vertical direction.  (The normalizing constant is the maximum
+possible number of partitions or quartets that could be resolved, not the number
+that are actually resolved in a pair of trees.)
+
+By this measure, collapsing the least-supported nodes leads to an increase in
+tree quality, as predicted by Goloboff [-@Goloboff1995]: nodes with low support 
+are likely to be incorrect.
+Collapsing better-supported nodes, however, reduces tree quality: 
 nodes with high support are likely to be correct.
-The same pattern holds here for Bayesian trees, though in equal weights it seems
-that the maximum resolution attainable is already on the descending part of the curve.  
 
 ```{R Congreve-Lamsdell-tree, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1/3, fig.width=9, out.width='100%', fig.align='center'}
 par(mfrow=c(1, 3), mar=rep(0.3, 4))
@@ -723,15 +722,18 @@ TREES <- 1:100
 par(mfrow=c(1, 2), mar=rep(0.3, 4))
 clInitializeTernaryQuarts()
 clPlotAverageQuartets(clBootGcQuartets, cex=1.1, pch=PCH)
+clPlotTheseAverageQuartets(clMkvQuartets, cex=1.1, pch=PCH['mk'], col=COL['mk'])
 
 clInitializeTernaryQuarts(zoom=3.5, padding=0.01)
 clPlotAverageQuartets(clBootGcQuartets, cex=1.1, pch=PCH)
+clPlotTheseAverageQuartets(clMkvQuartets, cex=1.1, pch=PCH['mk'], col=COL['mk'])
 
 AddLegend('topright')
 
 ```
 
-As the worst-supported nodes are progressively collapsed, the accuracy of implied weights trees begins to increase, decreasing the total divergence of the trees (thus meaning that the provide a better representation of the generative tree).
+As the worst-supported nodes are progressively collapsed, the accuracy of implied weights trees begins to increase, decreasing the total distance of trees from the generative
+tree (thus meaning that the provide a better representation of the generative tree).
 
 One question we can ask is how much we should reduce the resolution.  After a certain point, the increase in accuracy gained by collapsing the least supported nodes no longer offsets the information lost by sacrificing resolution.
 
@@ -779,6 +781,7 @@ We can run the same analysis counting partitions in place of quartets.
 ```{R CL-trees-partitions, echo=FALSE, message=FALSE, message=FALSE, cache=TRUE, fig.asp=1, fig.width=6, out.width='75%', fig.align='center'}
 clInitializeTernarySplits()
 clPlotAverageSplits(clBootGcPartitions, col=COL, pch=PCH, cex=1.1)
+clPlotTheseAverageSplits(clMkvPartitions, col=COL['mk'], pch=PCH['mk'], cex=1.1)
 
 arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.1)
 text  (sqrt(3/4) * 0.65, 0.5, pos=3, 'Decreasing resolution', cex=0.8)
