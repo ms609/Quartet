@@ -79,7 +79,8 @@ SymmetricDifferenceLineEnds <- function (nsd) {
 }
 
 #' @describeIn SymmetricDifferenceLineEnds Plot the lines onto the active ternary plot
-#' @param \dots Further parameters to pass to [Ternary:TernaryLines]
+#' @param \dots Further parameters to pass to 
+#' \code{\link[Ternary:AddToTernary]{TernaryLines}}
 #' @importFrom Ternary TernaryLines
 #' @export
 SymmetricDifferenceLines <- function (nsd, ...) {
