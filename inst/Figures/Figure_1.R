@@ -105,7 +105,7 @@ text(mean(arrow_tips[1, c(1, 3)]) - 0.02, mean(arrow_tips[2, c(1, 3)]),
 #AddLegend()
 legend('bottomright', bty='n', cex=FONT_SIZE, lwd=1.2, col=COL_LINES, 
        lty=c('solid', 'dotdash', 'dashed', 'longdash'), 
-       legend=c('Equally informative (SD/MaxI)', 'Equally resolved', 'Equal proportion of partitions correct', 'Equal number of incorrect partitions'))
+       legend=c('Equal SD/MaxI', 'Equal resolution', 'Equal proportion of partitions correct', 'Equal number of incorrect partitions'))
 Panel('b')
 ##########
 
@@ -122,7 +122,7 @@ clInitializeTernaryQuarts()
 QuartetNodeSupportData()
 AddArrows('Increasing quartet dissimilarity')
 rect(xleft=bLim[1], ybottom=bLim[3], xright=bLim[2], ytop=bLim[4], border='#00000088', lty='dashed')
-text(x=bLim[1] - 0.01, y=bLim[3] - 0.03, labels='Panel (b)', cex=FONT_SIZE, pos=4)
+text(x=bLim[1] - 0.01, y=bLim[3] - 0.03, labels="See right", cex=FONT_SIZE, pos=4)
 rightPoint <- TernaryCoords(1, 0, 0)
 otherYs <- vapply(2 * seq_len(GRID_LINES - 1L),
                   function (p) TernaryCoords(p, GRID_LINES - p, 0),
@@ -159,7 +159,7 @@ legend('topright', bty='n', cex=FONT_SIZE, lty=1, lwd=2,
 )
 dLim <- c(0, 0.5, 0.15, 0.25)
 rect(xleft=dLim[1], ybottom=dLim[3], xright=dLim[2], ytop=dLim[4], border='#00000088', lty='dashed')
-text(x=dLim[2] + 0.02, y=dLim[3] - 0.04, labels='Panel (d)', cex=FONT_SIZE, pos=2)
+text(x=dLim[2] + 0.02, y=dLim[3] - 0.04, labels="See right", cex=FONT_SIZE, pos=2)
 
 Panel('d')
 ##########
