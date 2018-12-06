@@ -519,48 +519,6 @@ Whereas the path distance and SPR metrics are only defined on bifurcating trees,
 the quartet approach can be applied to trees that contain polytomies -- i.e. 
 not every node is resolved as bifurcating.
 
-Estabrook _et al_. [-@Estabrook1985] propose four measures of quartet distance to 
-be applied where one or both trees contain polytomies, each of which evaluate
-to the quartet distance if both trees are bifurcating.
-
-For each of the $Q$ possible quartets, for a pair of trees that contain $n$ taxa, there are five possibilities [@Estabrook1985]. If the quartet is resolved in both trees, then the
-quartets may be resolved in the same way ($s$) or differently ($d$).  Otherwise, 
-the quartet may be resolved in tree 1 only ($r_1$), resolved in tree 2 only ($r_2$),
-or unresolved in both trees ($u$).
-
-Various combinations of these measures provide four quartet measures for 
-trees that contain polytomies:
-
-* $(Q - d) / Q$ gives the number of quartets that do not conflict (_DNC_). 
-
-* $s / Q$ counts the number of resolved quartets that explicitly agree (_EA_) in
-both trees.
-
-* $s / (s + d)$ counts, of the quartets that are resolved on both trees, what 
-proportion agree -- the strict joint assertions (_SJA_) measure.
-
-* $(s + u) / (s + d + u)$ counts, 
-of the quartets that are either resolved or unresolved on both trees, what
-proportion do not conflict -- the semi-strict joint assertions (_SSJA_) measure.
-
-Bandelt and Dress propose a fifth metric [@Bandelt1986], which is analogous to the 
-Kullback-Leiber divergence [@Kullback1951]: it measures the amount of information
-that must be supplied to change one tree into the other.
-Here, a resolved quartet represents a single unit of information.
-(Because quartets are not independent of one another,
-the term 'information' is not equivalent to the Shannon entropy.)
-
-To navigate from one tree to another, one requires a list of quartets that must
-be 'unpicked',
-comprising the $d$ different quartets and the $r_1$ that are present only in
-the starting tree, and a list of quartets that must be forged, comprising the
-$d$ different quartets (which, having been removed, must now be added in their
-correct configuration) and the $r_2$ quartets that are resolved only on the second
-tree.  The normalized quartet distance (_QD_) is given by 
-$(2d + r_1 + r_2) / 2Q$.  (An equivalent calculation underpins the
-normalized symmetric difference partition metric.)
-In bifurcating trees, these five measures evaluate to the same quantity
-[@Estabrook1985].  
 
 Quartet dissimilarity is the only available metric of tree distance that fulfils 
 all of the following desiderata:
