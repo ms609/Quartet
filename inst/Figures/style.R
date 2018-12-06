@@ -5,7 +5,8 @@ library('CongreveLamsdell2016')
 data('clBremPartitions', 'clBremQuartets', 'clMkvPartitions', 'clMkvQuartets',
      'clBootFreqPartitions', 'clBootFreqQuartets', 'clBootGcPartitions', 'clBootGcQuartets',
      'clJackFreqPartitions', 'clJackFreqQuartets', 'clJackGcPartitions', 'clJackGcQuartets',
-     'clCI')
+     'clCI', 'cbPalette8')
+
 
 PCH <- c(
   brem  = 2,
@@ -94,7 +95,7 @@ FONT_PT    <- 9 # 9pt measured from BL
 FONT_FAMILY <- "serif" # BL
 
 Panel <- function (panel) legend('topleft', paste0('(', panel, ')'), bty='n', 
-                                 cex=FONT_SIZE, text.font=3, inset=c(-0.056, 0))
+                                 cex=FONT_SIZE, text.font=3, inset=c(0, 0))
 
 AddArrows <- function (quality) {
   arrows(sqrt(3/4) * 0.5, 0.5, sqrt(3/4) * 0.8, 0.5, length=0.08)
