@@ -43,6 +43,7 @@ Suggests:
     CongreveLamsdell2016,
     devtools,
     knitr,
+    phytools,
     rmarkdown,
     testthat,
     usethis
