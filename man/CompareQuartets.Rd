@@ -32,13 +32,9 @@ the function \link{QuartetStatus} will be preferable.
   n_tip <- 6
   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-  splits <- lapply(trees, Tree2Splits)
+  splits <- lapply(trees, TreeSearch::Tree2Splits)
   quartets <- QuartetStates(splits)
-  compare_result <- CompareQuartets(quartets[[1]], quartets[[2]])
-  dissimilar_quartets <- choose(n_tip, 4) - sum(compare_result)  
-  result <- c(compare_result, dissimilar_quartets)
-  names(result) <- c('Shared', 'Unresolved', 'Dissimilar')
-  result
+  CompareQuartets(quartets[[1]], quartets[[2]])
 
 }
 \references{
