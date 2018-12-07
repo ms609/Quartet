@@ -285,12 +285,12 @@ UnshiftTree <- function(add, treeList) {
 #' * Marczewski-Steinhaus (MS): (2 _d_ + _r1_ + _r2_) / (2 _d_ + _s_ + _r1_ + _r2_)
 #' 
 #' Steel & Penny (1993) propose one more, which they denote d<sub>Q</sub>,
-#' which this package caluclates using the function `SteelPenny`:
+#' which this package calculates using the function `SteelPenny`:
 #' 
 #' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _Q_
 #' 
-#' The Quartet Divergence (Steel & Penny 1993), which is analagous to the normalized symmetric
-#' distance (cf. Robinson-Foulds distance), is given (in its dissimiliarity
+#' The Quartet Divergence (Steel & Penny 1993), which is analogous to the normalized symmetric
+#' distance (cf. Robinson-Foulds distance), is given (in its dissimilarity
 #' configuration, rather than the similiarity configurations above) by:
 #' 
 #' (_d_ + _d_ + _r1_ + _r2_) / 2 _Q_
@@ -315,10 +315,10 @@ UnshiftTree <- function(add, treeList) {
 #'   similarity (or difference) between the trees.
 #'
 #' @seealso 
-#'   * [QuartetStatus]: Caluclate status of each quartet: the raw material 
+#'   * [QuartetStatus]: Calculate status of each quartet: the raw material 
 #'     from which the Estabrook _et al._ metrics are calculated.
 #'     
-#'   * [SplitStatus], [CompareSplits]: equivalent metrics for bipartion splits.
+#'   * [SplitStatus], [CompareSplits]: equivalent metrics for bipartition splits.
 #'
 #' @examples 
 #'   data('sq_trees')
