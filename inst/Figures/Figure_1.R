@@ -1,4 +1,5 @@
 OUTPUT <- 'pdf'
+OUTPUT <- 'svg'
 source('inst/Figures/style.R')
 
 NodeSupportData <- function(Plot, brem, bootf, bootg, jackf, jackg, mkv) {
@@ -120,7 +121,7 @@ bLim <- c(0, 0.18, 0.372, 0.405)
 
 clInitializeTernaryQuarts()
 QuartetNodeSupportData()
-AddArrows('Increasing quartet dissimilarity')
+AddArrows('Less informative (SD/MaxI)')
 rect(xleft=bLim[1], ybottom=bLim[3], xright=bLim[2], ytop=bLim[4], border='#00000088', lty='dashed')
 text(x=bLim[1] - 0.01, y=bLim[3] - 0.03, labels="See right", cex=FONT_SIZE, pos=4)
 rightPoint <- TernaryCoords(1, 0, 0)

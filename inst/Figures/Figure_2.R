@@ -1,4 +1,5 @@
-OUTPUT = 'pdf'
+OUTPUT <- 'pdf'
+OUTPUT <- 'svg'
 source('inst/Figures/style.R')
 load_all('../OReillyEtAl2016') # TODO REMOVE THIS LINE
 orQuartets <- OReillyEtAl2016::orQuartets
@@ -45,7 +46,7 @@ par(mfrow=c(3, 3), mai=rep(0, 4), family='serif', ps=FONT_PT)
 
 TernaryQuarts()
 
-AddArrows('Increasing quartet dissimilarity')
+AddArrows('Less informative (SD/MaxI)')
 rect(xleft=-0.01, ybottom=0.19, xright=0.278, ytop=0.52, border='#00000088', lty='dashed')
 text(x=0.30, y=0.54, labels='(right)', cex=FONT_SIZE, pos=2)
 rightPoint <- TernaryCoords(1, 0, 0)
@@ -75,7 +76,7 @@ Panel("a'")
 ##########
 
 TernarySplits()
-AddArrows("Increasing symmetric difference")
+AddArrows("Less informative (SD/MaxI)")
 #AddLegend()
 Panel("b")
 ##########
