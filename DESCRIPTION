@@ -37,7 +37,7 @@ Imports:
     Rcpp,
     Rdpack,
     Ternary (>= 1.0),
-    TreeSearch (> 0.2.0)
+    TreeSearch (>= 0.2.1)
 Suggests:
     bookdown,
     CongreveLamsdell2016,
@@ -47,7 +47,9 @@ Suggests:
     rmarkdown,
     testthat,
     usethis
-Remotes: ms609/CongreveLamsdell2016
+Remotes: 
+  ms609/CongreveLamsdell2016
+  ms609/TreeSearch
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
