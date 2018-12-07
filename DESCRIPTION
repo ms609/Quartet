@@ -48,8 +48,8 @@ Suggests:
     testthat,
     usethis
 Remotes: 
+  ms609/TreeSearch,
   ms609/CongreveLamsdell2016
-  ms609/TreeSearch
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
