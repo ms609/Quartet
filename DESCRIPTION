@@ -36,6 +36,7 @@ Imports:
     phangorn,
     Rcpp,
     Rdpack,
+    Ternary (>= 1.0),
     TreeSearch (> 0.2.0)
 Suggests:
     bookdown,
@@ -43,7 +44,6 @@ Suggests:
     devtools,
     knitr,
     rmarkdown,
-    Ternary (>= 1.0),
     testthat,
     usethis
 Remotes: ms609/CongreveLamsdell2016
