@@ -6,10 +6,6 @@ orQuartets <- OReillyEtAl2016::orQuartets
 orPartitions <- OReillyEtAl2016::orPartitions
 orAnalyses <- names(orPartitions[[1]])
 
-ORAverageSplits <- function (nchar, item) {
-  AverageSplits(orPartitions[[as.character(nchar)]][[item]][, , ])
-}
-
 ORAverageQuarts <- function (nchar, item) {
   apply(orQuartets[[as.character(nchar)]][[item]][, c('r2', 'd', 's'), ],
         2, rowMeans, na.rm=TRUE)
@@ -96,10 +92,6 @@ AXIS_LABELS <- c(0, paste0(round(1:GRID_LINES * totalQuarts / GRID_LINES / 1000)
 ORQ100 <- function (x) ORAverageQuarts(100, x)
 ORQ350 <- function (x) ORAverageQuarts(350, x)
 ORQ1000 <- function (x) ORAverageQuarts(1000, x)
-
-ORS100 <- function (x) ORAverageSplits(100, x)
-ORS350 <- function (x) ORAverageSplits(350, x)
-ORS1000 <- function (x) ORAverageSplits(1000, x)
 
 FigTernary <- function(titleText, ORFunc) {
   TernaryPlot(NULL, NULL, NULL, #'Unresolved', 'Different', 'Same', 
