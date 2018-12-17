@@ -12,6 +12,8 @@ cran-comments.md
 ^.*\.Rproj$
 man-roxygen
 data-raw
+Manuscript
+Figures
 inst/Quartet*
 inst/manuscript*
 inst/Supp*

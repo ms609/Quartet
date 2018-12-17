@@ -1,6 +1,6 @@
 OUTPUT <- 'pdf'
 OUTPUT <- 'svg'
-source('inst/Figures/style.R')
+source('Figures/style.R')
 
 NodeSupportData <- function(Plot, brem, bootf, bootg, jackf, jackg, mkv) {
   Plot(pch=PCH['brem' ], brem [['eq']], col=clColours['eq'])

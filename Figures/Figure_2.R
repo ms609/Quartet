@@ -1,6 +1,6 @@
-OUTPUT <- 'pdf'
 OUTPUT <- 'svg'
-source('inst/Figures/style.R')
+OUTPUT <- 'pdf'
+source('Figures/style.R')
 load_all('../OReillyEtAl2016') # TODO REMOVE THIS LINE
 orQuartets <- OReillyEtAl2016::orQuartets
 orPartitions <- OReillyEtAl2016::orPartitions
