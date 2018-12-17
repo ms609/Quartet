@@ -14,6 +14,7 @@ man-roxygen
 data-raw
 Manuscript
 Figures
+SupplementaryFiles
 inst/Quartet*
 inst/manuscript*
 inst/Supp*
