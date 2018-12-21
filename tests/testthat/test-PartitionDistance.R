@@ -27,4 +27,15 @@ test_that("CompareSplits works", {
   expect_equal(c(one=3, two=3, both=3, one_not_two=0, two_not_one=0, RF_dist=0),
                CompareSplits(splits9Fewer, splits9))
   
+  splitsA <- Tree2Splits(ape::read.tree(text="((((a, b, c, c2), g), h), (d, (e, f)));"))
+  splitsB <- Tree2Splits(ape::read.tree(text="(((((a, b), (c, c2)), h), g), (d, e, f));"))
+  
+  expect_equal(c(N=9L, s=2L, d=1L, r1=1L, r2=2L, RF=5L), CompareSplits(splitsA, splitsB))
+  
+  splitsC <- Tree2Splits(ape::read.tree(text="(((a, d), e), (f, (b, c)));"))
+  splitsD <- Tree2Splits(ape::read.tree(text="((a, b, c), (d, (e, f)));"))
+  
+  expect_equal(c(N=5L, s=0L, d1=3L, d2=2L, r1=0L, r2=0L, RF=5L), CompareSplits(splitsC, splitsD))
+  
+  
 })

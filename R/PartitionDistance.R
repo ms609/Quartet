@@ -1,5 +1,3 @@
-BLANK_SPLIT <- c(N = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L, RF = 0L)
-
 #' Compare Splits
 #' 
 #' @template splitsParam
@@ -9,10 +7,15 @@ BLANK_SPLIT <- c(N = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L, RF = 0L)
 #'   number of rows, and tips will be assumed to be in the same sequence.
 #' 
 #' @return A named vector of six integers, listing the number of unique splits that
-#'   (1) are present in `splits1`; (2) are present in `splits2`; (3) are present
-#'   in both trees; (4) are present in `splits` but not `splits2`; (5) are
-#'   present in `splits2` but not `splits`; and (6) the sum of the latter two
-#'   values, i.e. the Robinson-Foulds distance.
+#'   (_N_) exist in total; i.e. the number of splits in `splits1` plus the number in `splits2`,
+#'   equivalent to 2 _s_ + _d1_ + _d2_ + _r1_ + _r2_;
+#'   (_s_) occur in both `splits1` and `splits2`; 
+#'   (_d1_) occur in `splits1` but are contradicted by `splits2`;
+#'   (_d2_) occur in `splits2` but are contradicted by `splits1`;
+#'   (_r1_) occur in `splits1` only, being neither present in nor contradicted by `splits2`;
+#'   (_r2_) occur in `splits2` only, being neither present in nor contradicted by `splits1`;
+#'   (_RF_) the number of splits that occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
+#'   the Robinson-Foulds distance.
 #'         
 #' @references {Quartet
 #'  \insertRef{Estabrook1985}{Quartet}
@@ -27,7 +30,8 @@ CompareSplits <- function (splits, splits2) {
     stop ("All taxa named in splits must exist in splits2")
   splits2 <- splits2[tipNames, ]
   
-  if (dim(splits)[1] != dim(splits2)[1]) 
+  nTip <- dim(splits)[1]
+  if (dim(splits2)[1] != nTip) 
     stop("Both splits and splits2 must relate to the same tips")
   
   splits <- DropSingleSplits(splits)
@@ -40,12 +44,31 @@ CompareSplits <- function (splits, splits2) {
   
   nSplits <- dim(splits)[2]
   nSplits2 <- dim(splits2)[2]
+  nTotal <- nSplits + nSplits2
   nBoth <- sum(duplicates)
   
-  c(one = nSplits, two = nSplits2, 
-    both = nBoth, one_not_two = nSplits - nBoth, 
-    two_not_one = nSplits2 - nBoth,
-    RF_dist = nSplits + nSplits2 - (2 * nBoth))
+  FullyResolved <- function (nSplit) nTip - nSplit == 3L
+  if (FullyResolved(nSplits) && FullyResolved(nSplits2)) {
+    r1 <- r2 <- 0L
+  } else {
+    InOneOnly <- function (uniques, otherSplits) {
+      splitSizes <- colSums(otherSplits)
+      sum(apply(uniques, 2, function (x) {
+        all(colSums(x & otherSplits) == splitSizes | colSums(x | otherSplits) == splitSizes |
+            colSums(!x & otherSplits) == splitSizes | colSums(!x | otherSplits) == splitSizes)
+      }))
+    }
+    
+    r1 <- InOneOnly(splits[, !duplicated(rbind(t(splits2), t(splits)))[-seq_len(nSplits2)]], splits2)
+    r2 <- InOneOnly(splits2[, !duplicates[-seq_len(nSplits)]], splits)
+    
+  }
+  
+  # Return:
+  c(N = nTotal, s = nBoth,
+    d1 = nSplits - nBoth - r1, d2 = nSplits2 - nBoth - r2,
+    r1 = r1, r2 = r2,
+    RF = nTotal - nBoth - nBoth)
 }
 #' @rdname CompareSplits
 #' @export
@@ -114,8 +137,8 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   tree1Labels <- trees[[1]]$tip.label
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   splits <- lapply(trees, Tree2Splits)
-  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(6))
-  rownames(ret) <- names(BLANK_SPLIT)
+  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(7))
+  rownames(ret) <- c('N', 's', 'd', 'r1', 'r2', 'u', 'RF')
   
   # Return:
   if (is.null(cf)) t(ret) else t(ret[, -1])
@@ -131,7 +154,7 @@ BipartitionStatus <- SplitStatus
 #'   tips that do not occur in both trees being compared.
 #' @export
 SharedSplitStatus <- function (trees, cf=trees[[1]]) {
-  t(vapply(trees, PairSharedSplitStatus, cf=cf, BLANK_SPLIT))
+  t(vapply(trees, PairSharedSplitStatus, cf=cf, c(N = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L, RF = 0L)))
 }
 #' @rdname SplitStatus
 #' @export

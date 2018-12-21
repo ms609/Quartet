@@ -125,7 +125,7 @@ SimilarityMetrics <- function (elementStatus, similarity=TRUE) {
 #' @keywords internal
 StatusToMatrix <- function (statusVector) {
   if (is.null(dim(statusVector))) {
-    matrix(statusVector, 1, 6, dimnames = list('tree', names(BLANK_QUARTET)))
+    matrix(statusVector, 1, 6, dimnames = list('tree', c('N', 's', 'd', 'r1', 'r2', 'u')))
   } else {
     statusVector
   }

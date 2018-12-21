@@ -144,7 +144,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #'  sq_status <- QuartetStatus(sq_trees)
 #'
 #'  # Calculate Estabrook et al's similarity measures:
-#'  QuartetMetrics(sq_status)
+#'  SimilarityMetrics(sq_status)
 #' 
 #' 
 #' @seealso [SplitStatus]: Uses bipartition splits (groups/clades defined by

@@ -1,5 +1,4 @@
 WHICH_OTHER_NODE <- 2:4
-BLANK_QUARTET <- c(N = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)
 
 #' Plot Quartet
 #' 
@@ -211,7 +210,7 @@ CompareQuartets <- function (x, cf) {
   n_both_resolved <- sum(both_resolved)
   n_same <- sum(x[both_resolved] == cf[both_resolved])
   c(
-    Q = length(x),
+    N = length(x),
     s = n_same,
     d = n_both_resolved - n_same,
     r1 = sum(x_resolved) - n_both_resolved,
@@ -254,7 +253,7 @@ UnshiftTree <- function(add, treeList) {
 #'   tips that do not occur in both trees being compared.
 #' @export
 SharedQuartetStatus <- function (trees, cf=trees[[1]]) {
-  t(vapply(trees, PairSharedQuartetStatus, tree2=cf, BLANK_QUARTET))
+  t(vapply(trees, PairSharedQuartetStatus, tree2=cf, c(N = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)))
 }
 
 #' Status of quartets that exist in two trees
