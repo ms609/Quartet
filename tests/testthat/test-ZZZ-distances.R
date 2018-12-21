@@ -26,7 +26,7 @@ test_that("Quartet metrics are sane", {
   sims  <- SimilarityMetrics(sq_status)
   dists <- SimilarityMetrics(sq_status, similarity=FALSE)
   expect_true(all(sims <= 1))
-  expect_true(all(sims + dists == 1))
+  expect_true(all(sims + dists == 1)[-4]) # SSJA doesn't sum to 1
   expect_true(all(dists['ref_tree', ] == 0))
   
   expect_equal(sims[, 'DoNotConflict'], as.double(DoNotConflict(sq_status)))
@@ -38,7 +38,7 @@ test_that("Quartet metrics are sane", {
   expect_equal(sims[, 'SteelPenny'], as.double(SteelPenny(sq_status)))
   expect_equal(sims[, 'QuartetDivergence'], as.double(QuartetDivergence(sq_status)))
   
-  testData <- c(Q=8, s=1, d=2, r1=1, r2=1, u=3)
+  testData <- c(N=16L, Q=8, s=1, d=2, r1=1, r2=1, u=3)
   expect_equal(2/8, DoNotConflict(testData, FALSE))
   expect_equal(7/8, ExplicitlyAgree(testData, FALSE))
   expect_equal(c(tree=2/3), StrictJointAssertions(testData, FALSE))

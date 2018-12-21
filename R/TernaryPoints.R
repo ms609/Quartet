@@ -45,9 +45,9 @@ SplitPoints <- function (trees, cf = trees[[1]]) {
   status <- SplitStatus(trees, cf)
 
     # Return: 
-  data.frame(Unresolved   = status[, 'ref_not_cf'] - status[, 'cf_not_ref'],
-             Contradicted = status[, 'cf_not_ref'],
-             Consistent   = status[, 'cf_and_ref'])
+  data.frame(Unresolved   = status[, 'r2'],
+             Contradicted = status[, 'd2'],
+             Consistent   = status[, 's'])
 }
 #' @rdname QuartetPoints
 #' @export

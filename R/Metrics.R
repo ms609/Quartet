@@ -22,7 +22,11 @@
 #' 
 #' * Strict Joint Assertions (SJA): _s_ / (_s_ + _d_)
 #' 
-#' * SemiStrict Joint Assertions (SSJA): (_s_ + _d_) / (_s_ + _d_ + _u_)
+#' * SemiStrict Joint Assertions (SSJA): _s_ / (_s_ + _d_ + _u_)
+#' 
+#' (The numerator of the Semistrict Joint Assertions similarity metric is given in
+#'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is understood, with
+#'  reference to the text to be a typographic error.)
 #' 
 #' Steel & Penny (1993) propose a further metric, which they denote d<sub>Q</sub>,
 #' which this package calculates using the function `SteelPenny`:
@@ -93,18 +97,19 @@
 #' 
 #' @name SimilarityMetrics
 #' @export
-SimilarityMetrics <- function (elementStatus, similarity=TRUE) {
+SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
+  elementStatus <- StatusToMatrix(elementStatus)
   result <- data.frame(
-    DoNotConflict = elementStatus[, 'd'] / elementStatus[, 'N'],
-    ExplicitlyAgree = 1 - (elementStatus[, 's'] / elementStatus[, 'N']),
-    StrictJointAssertions = elementStatus[, 'd'] / rowSums(elementStatus[, c('d', 's')]),
-    SemiStrictJointAssertions = elementStatus[, 'd'] / rowSums(elementStatus[, c('d', 's', 'u')]),
-    SymmetricDifference =  rowSums(elementStatus[, c('d', 'd', 'r1', 'r2')]) /
-      rowSums(elementStatus[, c('d', 'd', 's', 's', 'r1', 'r2')]),
-    MarczewskiSteinhaus = rowSums(elementStatus[, c('d', 'd', 'r1', 'r2')]) /
-      rowSums(elementStatus[, c('d', 'd', 's', 'r1', 'r2')]),
-    SteelPenny = rowSums(elementStatus[, c('d', 'r1', 'r2')]) / elementStatus[, 'N'],
-    QuartetDivergence = rowSums(elementStatus[, c('d', 'd', 'r1', 'r2')]) / (2 * elementStatus[, 'N'])
+    DoNotConflict = elementStatus[, '2d'] / elementStatus[, 'N'],
+    ExplicitlyAgree = 1 - (2L * elementStatus[, 's']) / elementStatus[, 'N'],
+    StrictJointAssertions = elementStatus[, '2d'] / rowSums(elementStatus[, c('2d', 's', 's')]),
+    SemiStrictJointAssertions = SemiStrictJointAssertions(elementStatus, similarity = FALSE),
+    SymmetricDifference =  rowSums(elementStatus[, c('2d', 'r1', 'r2')]) /
+      rowSums(elementStatus[, c('2d', 's', 's', 'r1', 'r2')]),
+    MarczewskiSteinhaus = rowSums(elementStatus[, c('2d', 'r1', 'r2')]) /
+      rowSums(elementStatus[, c('2d', 's', 'r1', 'r2')]),
+    SteelPenny = SteelPenny(elementStatus, similarity = FALSE),
+    QuartetDivergence = rowSums(elementStatus[, c('2d', 'r1', 'r2')]) / elementStatus[, 'N']
   )
   if (similarity) 1 - result else result
 }
@@ -130,7 +135,10 @@ StatusToMatrix <- function (statusVector) {
   if (is.null(dim(statusVector))) {
     statusVector <- matrix(statusVector, 1L, dimnames = list('tree', names(statusVector)))
   }
-  if ('d' %in% rownames(statusVector)) {
+  if ('2d' %in% colnames(statusVector)) {
+    # Repeat visitor; return unadulterated
+    statusVector
+  } else if ('d' %in% colnames(statusVector)) {
     statusVector <- cbind(statusVector, '2d' = 2L * statusVector[, 'd'])
   } else {
     statusVector <- cbind(statusVector,
@@ -166,8 +174,13 @@ StrictJointAssertions <- function (elementStatus, similarity=TRUE) {
 #' @export
 SemiStrictJointAssertions <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- elementStatus[, '2d'] / (elementStatus[, 'N'] - rowSums(elementStatus[, c('r1', 'r2'), drop=FALSE]))
-  if (similarity) 1 - result else result
+  if (all(c('s', 'd', 'u') %in% colnames(elementStatus))) {
+    numerator <- if (similarity) elementStatus[, 's'] else elementStatus[, 'd']
+    # Return:
+    numerator / rowSums(elementStatus[, c('s', 'd', 'u'), drop=FALSE])
+  } else {
+    NA
+  }
 }
 
 #' @rdname SimilarityMetrics
