@@ -4,7 +4,7 @@ data('sq_trees')
 quartets <- read.tree('../trees/all_quartets.new')
 
 test_that("Splits are compared", {
-  expect_equal(c(N=252L, Q=126, s=120, d=6, r1=0, r2=0, u=0), 
+  expect_equal(c(N=252L, Q=126L, s=120L, d=6L, r1=0L, r2=0L, u=0L), 
                SharedQuartetStatus(UnshiftTree(
                  ape::drop.tip(sq_trees$move_one_near, 10),
                  ape::drop.tip(sq_trees$ref_tree, 11)))[2, ])

@@ -100,7 +100,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
   Q   <- sum(ABD, CE)
   
   # Return:
-  array(c(rep(2 * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
+  array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
         dimnames=list(names(treeList), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 

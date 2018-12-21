@@ -210,7 +210,8 @@ CompareQuartets <- function (x, cf) {
   n_both_resolved <- sum(both_resolved)
   n_same <- sum(x[both_resolved] == cf[both_resolved])
   c(
-    N = length(x),
+    N = 2L * length(x),
+    Q = length(x),
     s = n_same,
     d = n_both_resolved - n_same,
     r1 = sum(x_resolved) - n_both_resolved,
