@@ -1,6 +1,4 @@
-BLANK_SPLIT <- double(6)
-names(BLANK_SPLIT) <- c('cf', 'ref', 'cf_and_ref', 'cf_not_ref', 'ref_not_cf',
-  'RF_dist')
+BLANK_SPLIT <- c(N = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L, RF = 0L)
 
 #' Compare Splits
 #' 

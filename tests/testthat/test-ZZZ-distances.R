@@ -75,10 +75,10 @@ test_that("Quartet metrics handle polytomous pairs", {
                  4, 4, 0, 0, 4, 0, 4, 4, 0, 4, 4, 4, rep(0, 5)), polyStates[[2]])
   
   qStat <- QuartetStatus(polytomous)
-  expect_identical(qStat[1, ], c(Q=35L, s=31L, d=0L, r1=0L, r2=0L, u=4L))
-  expect_identical(qStat[2, ], c(Q=35L, s=10L, d=10L, r1=2L, r2=11L, u=2L))
-  expect_identical(qStat[3, ], c(Q=35L, s=31L, d=0L, r1=4L, r2=0L, u=0L))
-  expect_identical(qStat[4, ], c(Q=35L, s=25L, d=6L, r1=4L, r2=0L, u=0L))
+  expect_identical(qStat[1, ], c(N=35L, s=31L, d=0L, r1=0L, r2=0L, u=4L))
+  expect_identical(qStat[2, ], c(N=35L, s=10L, d=10L, r1=2L, r2=11L, u=2L))
+  expect_identical(qStat[3, ], c(N=35L, s=31L, d=0L, r1=4L, r2=0L, u=0L))
+  expect_identical(qStat[4, ], c(N=35L, s=25L, d=6L, r1=4L, r2=0L, u=0L))
 })
 
 test_that("Random trees are 1/3 similar", {

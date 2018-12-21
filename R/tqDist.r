@@ -100,7 +100,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
   
   # Return:
   array(c(rep(sum(ABD, CE), nTree), A, B, C, D, E), dim=c(nTree, 6),
-        dimnames=list(names(treeList), c('Q', 's', 'd', 'r1', 'r2', 'u')))
+        dimnames=list(names(treeList), c('N', 's', 'd', 'r1', 'r2', 'u')))
 }
 
 #' Quartet Status
@@ -121,6 +121,10 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' quartets occur in one tree or the other, but there is not yet a function
 #' calculating this; [let us know](https://github.com/ms609/Quartet/issues/new)
 #' if you would appreciate this functionality.
+#' 
+#' The status of each quartet is calculated using the algorithms of
+#' Brodal _et al_. (2013) and Holt _et al_. (2014), implemented in the
+#' tqdist C library (Sand _et al_. 2014).
 #'       
 #' 
 #' @template treesParam
@@ -147,8 +151,12 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #'  nodes or edges of the tree) instead of quartets as the unit of comparison.
 #' 
 #' @references {
+#'   \insertRef{Brodal2013}{Quartet}
+#' 
 #'   \insertRef{Estabrook1985}{Quartet}
-#'   
+#'
+#'   \insertRef{Holt2014}{Quartet}
+#'
 #'   \insertRef{Sand2014}{Quartet}
 #' }
 #'
