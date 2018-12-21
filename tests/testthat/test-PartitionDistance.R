@@ -3,12 +3,12 @@ context("PartitionDistance.R")
 data('sq_trees')
 
 test_that("SplitStatus works", {
-  expect_equal(c(15, 6), dim(SplitStatus(sq_trees)))
+  expect_equal(c(15, 8), dim(SplitStatus(sq_trees)))
   expect_equal(SplitStatus(sq_trees, sq_trees$ref_tree), SplitStatus(sq_trees))
 })
 
 test_that("Splits are compared", {
-  expect_equal(c(N=12L, s=5L, d1=1L, d2=1L, r1=0L, r2=0L),
+  expect_equal(c(N=12L, P1=6L, P2=6L, s=5L, d1=1L, d2=1L, r1=0L, r2=0L),
                SharedSplitStatus(UnshiftTree(
                  ape::drop.tip(sq_trees$move_one_near, 10),
                  ape::drop.tip(sq_trees$ref_tree, 11)))[2, ])

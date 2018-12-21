@@ -135,7 +135,7 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   tree1Labels <- trees[[1]]$tip.label
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   splits <- lapply(trees, Tree2Splits)
-  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(6))
+  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(8))
   rownames(ret) <- c('N', 'P1', 'P2', 's', 'd1', 'd2', 'r1', 'r2')
   
   # Return:
@@ -152,7 +152,8 @@ BipartitionStatus <- SplitStatus
 #'   tips that do not occur in both trees being compared.
 #' @export
 SharedSplitStatus <- function (trees, cf=trees[[1]]) {
-  t(vapply(trees, PairSharedSplitStatus, cf=cf, c(N = 0L, s = 0L, d1 = 0L, d2 = 0L, r1 = 0L, r2 = 0L)))
+  t(vapply(trees, PairSharedSplitStatus, cf=cf, 
+           c(N = 0L, P1 = 0L, P2 = 0L, s = 0L, d1 = 0L, d2 = 0L, r1 = 0L, r2 = 0L)))
 }
 #' @rdname SplitStatus
 #' @export
