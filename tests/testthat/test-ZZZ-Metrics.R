@@ -142,4 +142,3 @@ test_that("Incomparable trees fail gracefully", {
   # Must have same number of tips
   expect_error(SplitStatus(list(ref_tree, ape::rtree(6)))) 
 })
-
