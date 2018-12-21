@@ -100,6 +100,8 @@ test_that("Random trees are 1/3 similar", {
 test_that("Incomparable trees fail gracefully", {
   # Must have same number of tips
   expect_error(QuartetStatus(list(ref_tree, ape::rtree(6))))
+  # Can't do SSJA for partitions
+  expect_equal(NA, SemiStrictJointAssertions(SplitStatus(sq_trees)))
 })
 
 test_that("Cleanup was successful", {
@@ -110,25 +112,29 @@ context("Distances: Partition distances")
 test_that ("Partitions are counted correctly", {
   p_dist <- SplitStatus(sq_trees)
   unrooted_trees <- lapply(sq_trees, ape::unroot)
-  rf_dist <- as.integer(lapply(unrooted_trees, ape::dist.topo, ape::unroot(ref_tree)))
+  rf_dist <- as.integer(lapply(unrooted_trees, ape::dist.topo, ape::unroot(sq_trees$ref_tree)))
   
-  expect_true(all(p_dist[, 'cf_and_ref'] + p_dist[, 'cf_not_ref'] <= p_dist[, 'cf']))
-  expect_true(all(p_dist[, 'cf_and_ref'] + p_dist[, 'ref_not_cf'] <= p_dist[, 'ref']))
-  expect_equal(rf_dist, as.integer(p_dist[, 'RF_dist']))
-  expect_equal(p_dist['move_one_mid' , 'cf_not_ref'],
-               p_dist['m1mid_col1'   , 'cf_not_ref'],
-               p_dist['m1mid_colsome', 'cf_not_ref'])
-  expect_equal(1L, p_dist['m1mid_col1'   , 'ref_not_cf'] -
-                 p_dist['m1mid_col1'   , 'cf_not_ref'])
-  expect_equal(3L, p_dist['m1mid_colsome', 'ref_not_cf'] -
-                   p_dist['m1mid_colsome', 'cf_not_ref'])
+  expect_true(all(p_dist[, 's'] + p_dist[, 'd1'] <= p_dist[, 'P2']))
+  expect_true(all(p_dist[, 's'] + p_dist[, 'd2'] <= p_dist[, 'P1']))
   
-  expect_equal(p_dist['move_two_mid', 'cf_not_ref'],
-               p_dist['m2mid_col1',   'cf_not_ref'])
-  expect_equal(1L, p_dist['m2mid_col1', 'ref_not_cf']
-                 - p_dist['m2mid_col1', 'cf_not_ref'])
-  expect_equal(5L, p_dist['m2mid_colsome', 'ref_not_cf'] 
-                 - p_dist['m2mid_colsome', 'cf_not_ref'])
+  expect_true(all(rowSums(p_dist[, c('s', 'd1', 'r1')]) == p_dist[, 'P1']))
+  expect_true(all(rowSums(p_dist[, c('s', 'd2', 'r2')]) == p_dist[, 'P2']))
+  
+  expect_equal(rf_dist, as.integer(RobinsonFoulds(p_dist)))
+  expect_equal(sum(p_dist['move_one_mid' , c('r1', 'd1')]),
+               sum(p_dist['m1mid_col1'   , c('r1', 'd1')]),
+               sum(p_dist['m1mid_colsome', c('r1', 'd1')]))
+  expect_equal(1L, sum(p_dist['m1mid_col1'   , c('d2', 'r2')], 
+                       -p_dist['m1mid_col1'   , c('d1', 'r1')]))
+  expect_equal(3L, sum(p_dist['m1mid_colsome', c('d2', 'r2')],
+                       - p_dist['m1mid_colsome', c('d1', 'r1')]))
+  
+  expect_equal(sum(p_dist['move_two_mid', c('d1', 'r1')]),
+               sum(p_dist['m2mid_col1',   c('d1', 'r1')]))
+  expect_equal(1L, sum(p_dist['m2mid_col1', c('d2', 'r2')],
+                      - p_dist['m2mid_col1', c('d1', 'r1')]))
+  expect_equal(5L, sum(p_dist['m2mid_colsome', c('d2', 'r2')], 
+                 - p_dist['m2mid_colsome', c('d1', 'r1')]))
   
 })
 
