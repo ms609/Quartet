@@ -253,7 +253,8 @@ UnshiftTree <- function(add, treeList) {
 #'   tips that do not occur in both trees being compared.
 #' @export
 SharedQuartetStatus <- function (trees, cf=trees[[1]]) {
-  t(vapply(trees, PairSharedQuartetStatus, tree2=cf, c(N = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)))
+  t(vapply(trees, PairSharedQuartetStatus, tree2=cf, 
+           c(N = 0L, Q = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L)))
 }
 
 #' Status of quartets that exist in two trees

@@ -59,7 +59,7 @@ test_that("tqDist runs from temporary files", {
   expect_equal(mmqa[, , 'r1'], t(mmqa[, , 'r2']))  
   expect_equal(tqae[, , 'E'], mmqa[, , 'u'])
   
-  expect_equal(c(N=1, s=0, d=1, r1=0, r2=0, u=0), 
+  expect_equal(c(N=2L, Q=1L, s=0, d=1, r1=0, r2=0, u=0), 
                SingleTreeQuartetAgreement(allQuartets[[1]], allQuartets[[2]])[1, ])
   
   expect_true(file.remove(TQFile(list(allQuartets[[1]]))))

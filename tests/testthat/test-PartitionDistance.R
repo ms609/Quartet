@@ -1,7 +1,6 @@
 context("PartitionDistance.R")
 
 data('sq_trees')
-quartets <- read.tree('../trees/all_quartets.new')
 
 test_that("SplitStatus works", {
   expect_equal(c(15, 6), dim(SplitStatus(sq_trees)))
@@ -9,7 +8,7 @@ test_that("SplitStatus works", {
 })
 
 test_that("Splits are compared", {
-  expect_equal(c(6, 6, 5, 1, 1, 2) + BLANK_SPLIT, 
+  expect_equal(c(N=12L, s=5L, d1=1L, d2=1L, r1=0L, r2=0L),
                SharedSplitStatus(UnshiftTree(
                  ape::drop.tip(sq_trees$move_one_near, 10),
                  ape::drop.tip(sq_trees$ref_tree, 11)))[2, ])
@@ -24,18 +23,20 @@ test_that("CompareSplits works", {
   
   expect_error(CompareSplits(matrix(FALSE, 2, 2), matrix(TRUE, 3, 3)))
   expect_error(CompareSplits(splits9, splits9Fewer))
-  expect_equal(c(one=3, two=3, both=3, one_not_two=0, two_not_one=0, RF_dist=0),
+  expect_equal(c(N = 6, P1=3L, P2=3L, s=3, d1=0, d2=0, r1=0, r2=0),
                CompareSplits(splits9Fewer, splits9))
   
   splitsA <- Tree2Splits(ape::read.tree(text="((((a, b, c, c2), g), h), (d, (e, f)));"))
   splitsB <- Tree2Splits(ape::read.tree(text="(((((a, b), (c, c2)), h), g), (d, e, f));"))
   
-  expect_equal(c(N=9L, s=2L, d=1L, r1=1L, r2=2L, RF=5L), CompareSplits(splitsA, splitsB))
+  expect_equal(c(N=9L, P1 = 4L, P2 = 5L, s=2L, d1=1L, d2=1L, r1=1L, r2=2L), CompareSplits(splitsA, splitsB))
+  expect_equal(c(tree = 5L), RobinsonFoulds(CompareSplits(splitsA, splitsB), similarity = FALSE))
   
-  splitsC <- Tree2Splits(ape::read.tree(text="(((a, d), e), (f, (b, c)));"))
+  splitsC <- Tree2Splits(ape::read.tree(text="(((a, d), e), (b, (f, c)));"))
   splitsD <- Tree2Splits(ape::read.tree(text="((a, b, c), (d, (e, f)));"))
   
-  expect_equal(c(N=5L, s=0L, d1=3L, d2=2L, r1=0L, r2=0L, RF=5L), CompareSplits(splitsC, splitsD))
-  
+  expect_equal(c(N=5L, P1=3L, P2 = 2L, s=0L, d1=3L, d2=2L, r1=0L, r2=0L), CompareSplits(splitsC, splitsD))
+  expect_equal(c(tree = 5L), RobinsonFoulds(CompareSplits(splitsC, splitsD), similarity = FALSE))
+
   
 })

@@ -32,8 +32,10 @@
 #' Another take on tree similarity is to consider the symmetric difference: that is,
 #' the number of partitions or quartets present in one tree that do not appear in the
 #' other, originally used to measure tree similarity by Robinson & Foulds (1981).
+#' (Note that, given the familiarity of the Robinson Foulds distance metric, this
+#' quantity is be default expressed as a difference rather than a similarity.)
 #' 
-#' * Raw Symmetric Difference: 2 _d_ + _r1_ + _r2_
+#' * Robinson Foulds: _d1_ + _d2_ + _r1_ + _r2_
 #' 
 #' To contextualize the symmetric difference, it may be normalized against:
 #'
@@ -51,9 +53,7 @@
 #' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / 2 _Q_
 #' 
 #'
-#' @param elementStatus Two-dimensional integer array, with rows corresponding to 
-#'   counts of matching quartets or partitions for each tree, and columns named 
-#'   according to the output of [QuartetStatus] or [SplitStatus].  
+#' @template elementStatusParam
 #' @param similarity Logical specifying whether to calculate the similarity
 #'                   or dissimilarity.
 #'
@@ -114,20 +114,27 @@ SimilarityMetrics <- function (elementStatus, similarity=TRUE) {
 #' Converts a vector to a matrix that can be analysed by the [DoNotConflict]
 #' function family.
 #' 
-#' @param statusVector A vector of six integers, in the sequence expected by
-#'  `BLANK_QUARTET`.  If provided a matrix, the matrix will be returned 
-#'  unaltered.
-#' @return A matrix, containing columns named `N`, `s`, `d`, `r1`, `r2`, `u`, 
-#' and a single named row.  The row name means that column names are dropped in
+#' @param statusVector Either (i) a named vector of integers, with 
+#' names `N`, `s`, `r1`, `r2`, either `d` or `d1` and `d2`, and optionally `u`; or
+#' (ii) a matrix whose named rows correspond to the same quantities.
+#' @return A matrix, containing the input columns plus `2d`, representing 
+#' either `2 * d` or `d1 + d2`, and row names.  
+#' 
+#' The row name means that column names are dropped in
 #' the output of `DoNotConflict` etc.
 #' 
 #' @author Martin R. Smith
+#' @export
 #' @keywords internal
 StatusToMatrix <- function (statusVector) {
   if (is.null(dim(statusVector))) {
-    matrix(statusVector, 1, 6, dimnames = list('tree', c('N', 's', 'd', 'r1', 'r2', 'u')))
+    statusVector <- matrix(statusVector, 1L, dimnames = list('tree', names(statusVector)))
+  }
+  if ('d' %in% rownames(statusVector)) {
+    statusVector <- cbind(statusVector, '2d' = 2L * statusVector[, 'd'])
   } else {
-    statusVector
+    statusVector <- cbind(statusVector,
+                          '2d' = statusVector[, 'd1'] + statusVector[, 'd2'])
   }
 }
 
@@ -135,7 +142,7 @@ StatusToMatrix <- function (statusVector) {
 #' @export
 DoNotConflict <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- elementStatus[, 'd'] / elementStatus[, 'N']
+  result <- elementStatus[, '2d'] / elementStatus[, 'N']
   if (similarity) 1 - result else result
 }
 
@@ -143,7 +150,7 @@ DoNotConflict <- function (elementStatus, similarity=TRUE) {
 #' @export
 ExplicitlyAgree <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- elementStatus[, 's'] / elementStatus[, 'N']
+  result <- 2L * elementStatus[, 's'] / elementStatus[, 'N']
   if (similarity) result else 1 - result
 }
 
@@ -151,7 +158,7 @@ ExplicitlyAgree <- function (elementStatus, similarity=TRUE) {
 #' @export
 StrictJointAssertions <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- elementStatus[, 'd'] / rowSums(elementStatus[, c('d', 's'), drop=FALSE])
+  result <- elementStatus[, '2d'] / rowSums(elementStatus[, c('2d', 's', 's'), drop=FALSE])
   if (similarity) 1 - result else result
 }
 
@@ -159,7 +166,7 @@ StrictJointAssertions <- function (elementStatus, similarity=TRUE) {
 #' @export
 SemiStrictJointAssertions <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- elementStatus[, 'd'] / rowSums(elementStatus[, c('d', 's', 'u'), drop=FALSE])
+  result <- elementStatus[, '2d'] / (elementStatus[, 'N'] - rowSums(elementStatus[, c('r1', 'r2'), drop=FALSE]))
   if (similarity) 1 - result else result
 }
 
@@ -167,17 +174,25 @@ SemiStrictJointAssertions <- function (elementStatus, similarity=TRUE) {
 #' @export
 SymmetricDifference <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- rowSums(elementStatus[, c('d', 'd', 'r1', 'r2'), drop=FALSE]) /
-    rowSums(elementStatus[, c('d', 'd', 's', 's', 'r1', 'r2'), drop=FALSE])
+  result <- rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop=FALSE]) /
+    rowSums(elementStatus[, c('2d', 's', 's', 'r1', 'r2'), drop=FALSE])
   if (similarity) 1 - result else result
+}
+
+#' @rdname SimilarityMetrics
+#' @export
+RobinsonFoulds <- function (elementStatus, similarity=FALSE) {
+  elementStatus <- StatusToMatrix(elementStatus)
+  rFDist <- rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop=FALSE])
+  if (similarity) elementStatus[, c('N')] - rFDist else rFDist
 }
 
 #' @rdname SimilarityMetrics
 #' @export
 MarczewskiSteinhaus <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- rowSums(elementStatus[, c('d', 'd', 'r1', 'r2'), drop=FALSE]) /
-    rowSums(elementStatus[, c('d', 'd', 's', 'r1', 'r2'), drop=FALSE])
+  result <- rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop=FALSE]) /
+    rowSums(elementStatus[, c('2d', 's', 'r1', 'r2'), drop=FALSE])
   if (similarity) 1 - result else result
 }
 
@@ -186,9 +201,8 @@ MarczewskiSteinhaus <- function (elementStatus, similarity=TRUE) {
 SteelPenny <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
   # Defined in Steel & Penny, p. 133; "dq would be written as "D + R".
-  # dq = D + R in Day's (1986) terminology, where D = d/N, R = (r1 + r2)/N, 
-  # and N is the total number of quartets
-  result <- rowSums(elementStatus[, c('d', 'r1', 'r2'), drop=FALSE]) / elementStatus[, 'N']
+  # dq = D + R in Day's (1986) terminology, where D = d/Q, R = (r1 + r2)/Q
+  result <- rowSums(elementStatus[, c('2d', 'r1', 'r1', 'r2', 'r2'), drop=FALSE]) / elementStatus[, 'N']
   if (similarity) 1 - result else result
 }
 
@@ -197,7 +211,6 @@ SteelPenny <- function (elementStatus, similarity=TRUE) {
 #' @export
 QuartetDivergence <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- rowSums(elementStatus[, c('d', 'd', 'r1', 'r2'), drop=FALSE]) /
-    ( 2 * elementStatus[, 'N'])
+  result <- rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop=FALSE]) / elementStatus[, 'N']
   if (similarity) 1 - result else result
 }

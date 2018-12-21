@@ -47,28 +47,26 @@ CompareSplits <- function (splits, splits2) {
   nTotal <- nSplits + nSplits2
   nBoth <- sum(duplicates)
   
-  FullyResolved <- function (nSplit) nTip - nSplit == 3L
-  if (FullyResolved(nSplits) && FullyResolved(nSplits2)) {
-    r1 <- r2 <- 0L
-  } else {
-    InOneOnly <- function (uniques, otherSplits) {
-      splitSizes <- colSums(otherSplits)
-      sum(apply(uniques, 2, function (x) {
-        all(colSums(x & otherSplits) == splitSizes | colSums(x | otherSplits) == splitSizes |
+  InOneOnly <- function (uniques, otherSplits) {
+    if (length(uniques) == 0) return (0L)
+    splitSizes <- colSums(otherSplits)
+    sum(apply(uniques, 2, function (x) {
+      all(colSums(x & otherSplits) == splitSizes | colSums(x | otherSplits) == splitSizes |
             colSums(!x & otherSplits) == splitSizes | colSums(!x | otherSplits) == splitSizes)
-      }))
-    }
-    
-    r1 <- InOneOnly(splits[, !duplicated(rbind(t(splits2), t(splits)))[-seq_len(nSplits2)]], splits2)
-    r2 <- InOneOnly(splits2[, !duplicates[-seq_len(nSplits)]], splits)
-    
+    }))
+  }
+  
+  r1 <- if (nTip - nSplits2 == 3L) 0L else { # Can't be resolved in 1 only if 2 is perfectly resolved.
+    InOneOnly(splits[, !duplicated(rbind(t(splits2), t(splits)))[-seq_len(nSplits2)], drop=FALSE], splits2)
+  }
+  r2 <- if(nTip - nSplits == 3L) 0L else {
+    InOneOnly(splits2[, !duplicates[-seq_len(nSplits)], drop=FALSE], splits)
   }
   
   # Return:
-  c(N = nTotal, s = nBoth,
+  c(N = nTotal, P1 = nSplits, P2 = nSplits2, s = nBoth,
     d1 = nSplits - nBoth - r1, d2 = nSplits2 - nBoth - r2,
-    r1 = r1, r2 = r2,
-    RF = nTotal - nBoth - nBoth)
+    r1 = r1, r2 = r2)
 }
 #' @rdname CompareSplits
 #' @export
@@ -102,12 +100,12 @@ CompareBipartitions <- CompareSplits
 #'   # Calculate the status of each quartet
 #'   splitStatuses <- SplitStatus(sq_trees)
 #'   
-#'   # Extract just the Robinson Foulds distances
-#'   splitStatuses[, 'RF_dist']
+#'   # Calculate the Robinson Foulds distances
+#'   RobinsonFoulds(splitStatuses)
 #'   
 #'   # Normalize the Robinson Foulds distance by dividing by the number of 
-#'   # splits (bipartitions) resolved in the reference tree:
-#'   splitStatuses[, 'RF_dist'] / splitStatuses[, 'ref']
+#'   # splits (bipartitions) resolved in tree 1:
+#'   RobinsonFoulds(splitStatuses) / splitStatuses[, 'P1']
 #'   
 #'   # Normalize the Robinson Foulds distance by dividing by the total number of 
 #'   # splits (bipartitions) that it is possible to resolve for `n` tips:
@@ -137,8 +135,8 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   tree1Labels <- trees[[1]]$tip.label
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   splits <- lapply(trees, Tree2Splits)
-  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(7))
-  rownames(ret) <- c('N', 's', 'd', 'r1', 'r2', 'u', 'RF')
+  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(6))
+  rownames(ret) <- c('N', 'P1', 'P2', 's', 'd1', 'd2', 'r1', 'r2')
   
   # Return:
   if (is.null(cf)) t(ret) else t(ret[, -1])
@@ -154,7 +152,7 @@ BipartitionStatus <- SplitStatus
 #'   tips that do not occur in both trees being compared.
 #' @export
 SharedSplitStatus <- function (trees, cf=trees[[1]]) {
-  t(vapply(trees, PairSharedSplitStatus, cf=cf, c(N = 0L, s = 0L, d = 0L, r1 = 0L, r2 = 0L, u = 0L, RF = 0L)))
+  t(vapply(trees, PairSharedSplitStatus, cf=cf, c(N = 0L, s = 0L, d1 = 0L, d2 = 0L, r1 = 0L, r2 = 0L)))
 }
 #' @rdname SplitStatus
 #' @export

@@ -12,7 +12,7 @@
  - Function `SimilarityMetrics` now takes the output of `QuartetStatus(trees)`,
      rather than a list of trees.
  - Function `SplitStatus` now returns output using the same column headers as `QuartetStatus` 
- - Column `Q` in `QuartetStatus` output renamed to `N`, for consistency with partitions.
+ - Column `N` added to `QuartetStatus` output.
  - Function names changed, to become more precise:
    - `QuartetMetrics` → `SimilarityMetrics`
    - `MatchingSplits` → `SplitStatus`

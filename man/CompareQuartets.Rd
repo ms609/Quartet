@@ -15,7 +15,9 @@ CompareQuartets(x, cf)
 \value{
 Returns an array of six numeric elements, each corresponding to the quantities of Estabrook \emph{et al}. (1985):
 \describe{
-\item{N}{The total number of quartets for \emph{n} tips.}
+\item{N}{The total number of quartet \emph{statements} for two trees of \emph{n} tips,
+i.e. 2 \emph{Q}.}
+\item{Q}{The total number of quartets for \emph{n} tips.}
 \item{s}{The number of quartets that are resolved identically in both trees.}
 \item{d}{The number of quartets that are resolved differently in each tree.}
 \item{r1}{The number of quartets that are resolved in tree 1, but not in tree 2.}
