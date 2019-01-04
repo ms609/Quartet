@@ -3,10 +3,10 @@ title: "Supplementary text for: Bayesian and parsimony approaches reconstruct in
 author: "Martin R. Smith (martin.smith@durham.ac.uk)"
 date: "`r Sys.Date()`"
 output: 
+  rmarkdown::html_document:
   bookdown::pdf_document2:
     includes:
       in_header: ../inst/preamble.tex
-  rmarkdown::html_document:
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/dependent/biology-letters.csl
 link-citations: yes
