@@ -139,7 +139,7 @@ StatusToMatrix <- function (statusVector) {
     # Repeat visitor; return unadulterated
     statusVector
   } else if ('d' %in% colnames(statusVector)) {
-    statusVector <- cbind(statusVector, '2d' = 2L * statusVector[, 'd'])
+    statusVector <- cbind(statusVector, '2d' = 2L * statusVector[, 'd'], 'N' = statusVector[, 'Q'])
   } else {
     statusVector <- cbind(statusVector,
                           '2d' = statusVector[, 'd1'] + statusVector[, 'd2'])
