@@ -20,7 +20,7 @@ addons:
 r_binary_packages:
  - ape
  - covr
- - devtools
+# - devtools
  - knitr
  - memoise
  - phangorn

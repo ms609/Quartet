@@ -40,7 +40,6 @@ Imports:
     TreeSearch (>= 0.2.1)
 Suggests:
     bookdown,
-    devtools,
     knitr,
     rmarkdown,
     testthat,
