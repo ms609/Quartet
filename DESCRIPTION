@@ -42,7 +42,6 @@ Suggests:
     bookdown,
     devtools,
     knitr,
-    phytools,
     rmarkdown,
     testthat,
     usethis
