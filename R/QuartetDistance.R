@@ -188,7 +188,7 @@ QuartetStates <- function (splits) {
 #' 
 #' @author Martin R. Smith
 #'
-#' @seealso \code{\link{QuartetStatus}}, generates this output from a list of
+#' @seealso \code{[QuartetStatus]}, generates this output from a list of
 #'  trees.
 #'
 #' @examples

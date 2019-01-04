@@ -1,3 +1,5 @@
+Meta
+doc
 .Rproj.user
 .Rhistory
 .Rprofile
@@ -10,12 +12,12 @@
 *.pdf
 *.trees
 *.zip
-inst/manuscript/doc
-inst/manuscript/Referee*
-inst/manuscript/*.docx
-inst/manuscript/*.png
-inst/manuscript/SUGGESTED_REFEREES
-inst/manuscript/SUMMARY
+manuscript/doc
+manuscript/Referee*
+manuscript/*.docx
+manuscript/*.png
+manuscript/SUGGESTED_REFEREES
+manuscript/SUMMARY
 src-*
 src/*.o
 src/*.so
