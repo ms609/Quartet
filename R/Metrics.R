@@ -52,7 +52,7 @@
 #' * Marczewski-Steinhaus (MS): (2 _d_ + _r1_ + _r2_) / (2 _d_ + _s_ + _r1_ + _r2_)
 #' 
 #' The maximum number of quartets or partitions that could have been resolved, given the
-#' number of tips [@Smith2019]:
+#' number of tips (Smith 2019):
 #' 
 #' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / 2 _Q_
 #' 
@@ -90,6 +90,8 @@
 #' \insertRef{Marczewski1958}{Quartet}
 #'
 #' \insertRef{Robinson1981}{Quartet}
+#'
+#' \insertRef{Smith2019}{Quartet}
 #'
 #' \insertRef{Steel1993}{Quartet}
 #' 

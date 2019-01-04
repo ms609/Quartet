@@ -22,7 +22,7 @@ If a set of bipartitions is generated from a tree that contains polytomies, it i
 that all three three four-taxon trees are consistent with the set of bipartitions.}
 
 \item{splits}{a list of bipartition splits, perhaps generated using
-\code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
+\code{[TreeSearch:Tree2Splits]}, with row names corresponding to taxon labels.
 If a tree or list of trees (of class `phylo``) is sent instead,
 it will be silently converted to its constituent splits.}
 }
@@ -43,7 +43,7 @@ Report the status of the specified quartet(s).
   n_tip <- 6
   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-  splits <- lapply(trees, Tree2Splits)
+  splits <- lapply(trees, TreeSearch::Tree2Splits)
   QuartetState(c(1, 3, 4, 6), splits[[2]])  
   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
   vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))

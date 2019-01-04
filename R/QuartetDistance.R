@@ -30,7 +30,7 @@ WHICH_OTHER_NODE <- 2:4
 #'   PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
 #' 
 #' @importFrom graphics par plot legend
-#' @importFrom TreeSearch RenumberTips
+#' @importFrom TreeSearch RenumberTips Tree2Splits
 #' @export
 PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { # nocov start
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
@@ -124,7 +124,7 @@ AllQuartets <- memoise(function (n_tips) {
 #'   n_tip <- 6
 #'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
 #'                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-#'   splits <- lapply(trees, Tree2Splits)
+#'   splits <- lapply(trees, TreeSearch::Tree2Splits)
 #'   QuartetState(c(1, 3, 4, 6), splits[[2]])  
 #'   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
 #'   vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))
@@ -149,10 +149,11 @@ QuartetState <- function (tips, bips) {
 
 #' @describeIn QuartetState A convenience wrapper that need only be provided with a tree or a list of splits
 #' @param splits a list of bipartition splits, perhaps generated using 
-#'        \code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
+#'        \code{[TreeSearch:Tree2Splits]}, with row names corresponding to taxon labels.
 #'        If a tree or list of trees (of class `phylo``) is sent instead, 
 #'        it will be silently converted to its constituent splits.
 #'        
+#' @importFrom TreeSearch Tree2Splits
 #' @export
 QuartetStates <- function (splits) {
   if (class(splits) == 'phylo') {

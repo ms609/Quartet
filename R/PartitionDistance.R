@@ -179,6 +179,7 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' #' 
 #' @keywords internal
 #' @importFrom ape drop.tip
+#' @importFrom TreeSearch Tree2Splits
 #' @author Martin R. Smith
 #' @export
 PairSharedSplitStatus <- function (ref, cf) {
