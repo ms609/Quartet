@@ -22,7 +22,7 @@ src-*
 src/*.o
 src/*.so
 src/*.dll
-vignettes/*_cache
+*_cache
 vignettes/*.html
 vignettes/*.pdf
 vignettes/*_files
