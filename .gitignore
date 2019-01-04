@@ -8,8 +8,6 @@
 *.eps
 *.nex
 *.pdf
-*.QStats
-*.Rd
 *.trees
 *.zip
 inst/manuscript/doc
