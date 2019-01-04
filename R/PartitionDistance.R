@@ -56,10 +56,18 @@ CompareSplits <- function (splits, splits2) {
     }))
   }
   
-  r1 <- if (nTip - nSplits2 == 3L) 0L else { # Can't be resolved in 1 only if 2 is perfectly resolved.
+  r1 <- if (nTip - nSplits2 == 3L) {
+    0L # Can't be resolved in 1 only if 2 is perfectly resolved.
+  } else if (nSplits2 == 0L) {
+    nSplits
+  } else {
     InOneOnly(splits[, !duplicated(rbind(t(splits2), t(splits)))[-seq_len(nSplits2)], drop=FALSE], splits2)
   }
-  r2 <- if(nTip - nSplits == 3L) 0L else {
+  r2 <- if(nTip - nSplits == 3L) {
+    0L
+  } else if (nSplits == 0L) {
+    nSplits2
+  } else {
     InOneOnly(splits2[, !duplicates[-seq_len(nSplits)], drop=FALSE], splits)
   }
   

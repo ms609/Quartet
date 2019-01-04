@@ -29,14 +29,23 @@ test_that("CompareSplits works", {
   splitsA <- Tree2Splits(ape::read.tree(text="((((a, b, c, c2), g), h), (d, (e, f)));"))
   splitsB <- Tree2Splits(ape::read.tree(text="(((((a, b), (c, c2)), h), g), (d, e, f));"))
   
-  expect_equal(c(N=9L, P1 = 4L, P2 = 5L, s=2L, d1=1L, d2=1L, r1=1L, r2=2L), CompareSplits(splitsA, splitsB))
-  expect_equal(c(tree = 5L), RobinsonFoulds(CompareSplits(splitsA, splitsB), similarity = FALSE))
+  expect_equal(c(N=9L, P1=4L, P2=5L, s=2L, d1=1L, d2=1L, r1=1L, r2=2L),
+               CompareSplits(splitsA, splitsB))
+  expect_equal(c(tree = 5L), RobinsonFoulds(CompareSplits(splitsA, splitsB),
+                                            similarity = FALSE))
   
   splitsC <- Tree2Splits(ape::read.tree(text="(((a, d), e), (b, (f, c)));"))
   splitsD <- Tree2Splits(ape::read.tree(text="((a, b, c), (d, (e, f)));"))
+  splitsU <- Tree2Splits(ape::read.tree(text="(a, b, c, d, e, f);"))
   
-  expect_equal(c(N=5L, P1=3L, P2 = 2L, s=0L, d1=3L, d2=2L, r1=0L, r2=0L), CompareSplits(splitsC, splitsD))
-  expect_equal(c(tree = 5L), RobinsonFoulds(CompareSplits(splitsC, splitsD), similarity = FALSE))
+  expect_equal(c(N=5L, P1=3L, P2=2L, s=0L, d1=3L, d2=2L, r1=0L, r2=0L),
+               CompareSplits(splitsC, splitsD))
+  expect_equal(c(tree = 5L), RobinsonFoulds(CompareSplits(splitsC, splitsD), 
+                                            similarity = FALSE))
 
+  expect_equal(c(N=3L, P1=3L, P2=0L, s=0L, d1=0L, d2=0L, r1=3L, r2=0L),
+               CompareSplits(splitsC, splitsU))
+  expect_equal(c(N=2L, P1=0L, P2=2L, s=0L, d1=0L, d2=0L, r1=0L, r2=2L),
+               CompareSplits(splitsU, splitsD))
   
 })
