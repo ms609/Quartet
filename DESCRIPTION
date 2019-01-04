@@ -40,16 +40,12 @@ Imports:
     TreeSearch (>= 0.2.1)
 Suggests:
     bookdown,
-    CongreveLamsdell2016,
     devtools,
     knitr,
     phytools,
     rmarkdown,
     testthat,
     usethis
-Remotes: 
-  ms609/TreeSearch,
-  ms609/CongreveLamsdell2016
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
