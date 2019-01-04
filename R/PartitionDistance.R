@@ -132,6 +132,7 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   if (length(unique(treeStats[2, ])) > 1) {
     stop("All trees must have the same number of tips")
   }
+  
   tree1Labels <- trees[[1]]$tip.label
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   splits <- lapply(trees, Tree2Splits)
