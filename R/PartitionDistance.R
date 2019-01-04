@@ -127,9 +127,8 @@ CompareBipartitions <- CompareSplits
 SplitStatus <- function (trees, cf=trees[[1]]) {
   if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
   
-  treeStats <- vapply(trees, function (tr)
-    c(tr$Nnode, length(tr$tip.label)), double(2))
-  if (length(unique(treeStats[2, ])) > 1) {
+  treeStats <- vapply(trees, function (tr) length(tr$tip.label), double(1))
+  if (length(unique(treeStats)) > 1) {
     stop("All trees must have the same number of tips")
   }
   
