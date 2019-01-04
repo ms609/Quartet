@@ -12,10 +12,6 @@
 #' are their complement (i.e. 1 - _similarity_), and can be calculated 
 #' algebraically using the identity _N_ = _s_ + _d_ + _r1_ + _r2_ + _u_.
 #' 
-#' Although defined using quartets, analagous values can be calculated using partitions
-#' -- though for a number of reasons, quartets offer a more meaningful
-#' measure of the amount of information shared by two trees.
-#' 
 #' * Do Not Conflict (DC): (_s_ + _r1_ + _r2_ + _u_) / _N_
 #' 
 #' * Explicitly Agree (EA): _s_ / _N_
@@ -28,35 +24,48 @@
 #'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is understood, with
 #'  reference to the text to be a typographic error.)
 #' 
-#' Steel & Penny (1993) propose a further metric, which they denote d<sub>Q</sub>,
+#' Steel & Penny (1993) propose a further metric, which they denote dQ,
 #' which this package calculates using the function `SteelPenny`:
 #' 
 #' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _N_
 #' 
-#' Another take on tree similarity is to consider the symmetric difference: that is,
-#' the number of partitions or quartets present in one tree that do not appear in the
-#' other, originally used to measure tree similarity by Robinson & Foulds (1981).
-#' (Note that, given the familiarity of the Robinson Foulds distance metric, this
-#' quantity is be default expressed as a difference rather than a similarity.)
 #' 
-#' * Robinson Foulds: _d1_ + _d2_ + _r1_ + _r2_
+#' Although defined using quartets, analagous values can be calculated using partitions
+#' -- though for reasons listed elsewhere (see Smith 2019, supplementary text),
+#'  quartets offer a more meaningful measure of the amount of information 
+#'  shared by two trees.
+#' 
+#' 
+#' Another take on tree similarity is to consider the symmetric difference: that is,
+#' the number of quartets or partitions present in one tree that do not appear in the
+#' other, originally used to measure tree similarity by Robinson & Foulds (1981).
+#' 
+#' * Robinson Foulds (RF): _d1_ + _d2_ + _r1_ + _r2_
+#'
+#' With quartets, _d1_ + _d2_ = 2 _d_.
+#' 
+#' (Note that, given the familiarity of the Robinson Foulds distance metric, this
+#' quantity is by default expressed as a difference rather than a similarity.)
 #' 
 #' To contextualize the symmetric difference, it may be normalized against:
-#'
-#' The total number of resolved quartets or partitions present in both trees (Day 1986):
+#'  
+#' * The total number of resolved quartets or partitions present in both trees (Day 1986):
+#'   * Day's Symmetric Difference (SD): (_d1_ + _d2_ + _r1_ + _r2_) / 
+#'                              (_d1_ + _d2_ + 2 _s_ + _r1_ + _r2_)
 #' 
-#' * Symmetric Difference (SD): (2 _d_ + _r1_ + _r2_) / (2 _d_ + 2 _s_ + _r1_ + _r2_)
+#' * The total distinctly resolved quartets or partitions (Day 1986):
+#'   - Marczewski-Steinhaus (MS): (_d1_ + _d2_ + _r1_ + _r2_) / 
+#'                              (_d1_ + _d2_ + _s_ + _r1_ + _r2_)
 #' 
-#' The total distinctly resolved quartets or partitions (Day 1986):
-#' 
-#' * Marczewski-Steinhaus (MS): (2 _d_ + _r1_ + _r2_) / (2 _d_ + _s_ + _r1_ + _r2_)
-#' 
-#' The maximum number of quartets or partitions that could have been resolved, given the
+#' * The maximum number of quartets or partitions that could have been resolved, given the
 #' number of tips (Smith 2019):
 #' 
-#' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / 2 _Q_
+#'   * Quartet Divergence: (_d1_ + _d2_ + _r1_ + _r2_) / 2 _Q_
+#'   
+#' The partition equivalent to the latter will depend on the question being
+#' asked, as Q should denote the maximum difference that _could_ have been 
+#' obtained.
 #' 
-#'
 #' @template elementStatusParam
 #' @param similarity Logical specifying whether to calculate the similarity
 #'                   or dissimilarity.

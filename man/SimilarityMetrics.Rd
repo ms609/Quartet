@@ -62,10 +62,6 @@ manner in two trees (\emph{s}), the number resolved differently in both trees
 The similarity metrics are then given as below.  The dissimilarity metrics
 are their complement (i.e. 1 - \emph{similarity}), and can be calculated
 algebraically using the identity \emph{N} = \emph{s} + \emph{d} + \emph{r1} + \emph{r2} + \emph{u}.
-
-Although defined using quartets, analagous values can be calculated using partitions
--- though for a number of reasons, quartets offer a more meaningful
-measure of the amount of information shared by two trees.
 \itemize{
 \item Do Not Conflict (DC): (\emph{s} + \emph{r1} + \emph{r2} + \emph{u}) / \emph{N}
 \item Explicitly Agree (EA): \emph{s} / \emph{N}
@@ -77,38 +73,49 @@ measure of the amount of information shared by two trees.
 Estabrook \emph{et al}. (1985)'s table 2 as \emph{s} + \emph{d}, but this is understood, with
 reference to the text to be a typographic error.)
 
-Steel & Penny (1993) propose a further metric, which they denote d<sub>Q</sub>,
+Steel & Penny (1993) propose a further metric, which they denote dQ,
 which this package calculates using the function \code{SteelPenny}:
 \itemize{
 \item Steel & Penny's Quartet Metric (dQ): (\emph{s} + \emph{u}) / \emph{N}
 }
 
+Although defined using quartets, analagous values can be calculated using partitions
+-- though for reasons listed elsewhere (see Smith 2019, supplementary text),
+quartets offer a more meaningful measure of the amount of information
+shared by two trees.
+
 Another take on tree similarity is to consider the symmetric difference: that is,
-the number of partitions or quartets present in one tree that do not appear in the
+the number of quartets or partitions present in one tree that do not appear in the
 other, originally used to measure tree similarity by Robinson & Foulds (1981).
-(Note that, given the familiarity of the Robinson Foulds distance metric, this
-quantity is be default expressed as a difference rather than a similarity.)
 \itemize{
-\item Robinson Foulds: \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2}
+\item Robinson Foulds (RF): \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2}
 }
+
+With quartets, \emph{d1} + \emph{d2} = 2 \emph{d}.
+
+(Note that, given the familiarity of the Robinson Foulds distance metric, this
+quantity is by default expressed as a difference rather than a similarity.)
 
 To contextualize the symmetric difference, it may be normalized against:
-
-The total number of resolved quartets or partitions present in both trees (Day 1986):
 \itemize{
-\item Symmetric Difference (SD): (2 \emph{d} + \emph{r1} + \emph{r2}) / (2 \emph{d} + 2 \emph{s} + \emph{r1} + \emph{r2})
-}
-
-The total distinctly resolved quartets or partitions (Day 1986):
+\item The total number of resolved quartets or partitions present in both trees (Day 1986):
 \itemize{
-\item Marczewski-Steinhaus (MS): (2 \emph{d} + \emph{r1} + \emph{r2}) / (2 \emph{d} + \emph{s} + \emph{r1} + \emph{r2})
+\item Day's Symmetric Difference (SD): (\emph{d1} + \emph{d2} + \emph{r1} + \emph{r2}) /
+(\emph{d1} + \emph{d2} + 2 \emph{s} + \emph{r1} + \emph{r2})
 }
-
-The maximum number of quartets or partitions that could have been resolved, given the
+\item The total distinctly resolved quartets or partitions (Day 1986):
+\itemize{
+\item Marczewski-Steinhaus (MS): (\emph{d1} + \emph{d2} + \emph{r1} + \emph{r2}) /
+(\emph{d1} + \emph{d2} + \emph{s} + \emph{r1} + \emph{r2})
+}
+\item The maximum number of quartets or partitions that could have been resolved, given the
 number of tips (Smith 2019):
-\itemize{
-\item Symmetric Divergence: (\emph{d} + \emph{d} + \emph{r1} + \emph{r2}) / 2 \emph{Q}
+\item Quartet Divergence: (\emph{d1} + \emph{d2} + \emph{r1} + \emph{r2}) / 2 \emph{Q}
 }
+
+The partition equivalent to the latter will depend on the question being
+asked, as Q should denote the maximum difference that \emph{could} have been
+obtained.
 }
 \examples{
   data('sq_trees')
