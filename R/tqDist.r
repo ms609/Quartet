@@ -97,39 +97,41 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
   D   <- DE - E
   
   B   <- ABD - A - D
+  Q   <- sum(ABD, CE)
   
   # Return:
-  array(c(rep(sum(ABD, CE), nTree), A, B, C, D, E), dim=c(nTree, 6),
-        dimnames=list(names(treeList), c('Q', 's', 'd', 'r1', 'r2', 'u')))
+  array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
+        dimnames=list(names(treeList), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
-#' Quartet Status
+#' Status of quartets
 #' 
 #' Determines the number of quartets that are consistent within pairs of
 #' cladograms.
 #' 
 #' Given a list of trees, returns the number of quartet statements present in the
-#' reference tree (the first tree in the list, if `cf` is not specified)
-#' that are also present in each other tree.  A random pair of fully-resolved 
+#' reference tree (the first entry in `trees`, if `cf` is not specified)
+#' that are also present in each other tree.  A random pair of fully resolved 
 #' trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
 #' 
 #' 
 #' If trees do not bear the same number of tips, `SharedQuartetStatus` will 
-#' consider only the quartets that include taxa occurring in both trees.
+#' consider only the quartets that include taxa common to both trees.
 #' 
 #' From this information it is possible to calculate how many of all possible
-#' quartets occur in one tree or the other, but there is not yet a function
+#' quartets occur in one tree or the other, though there is not yet a function
 #' calculating this; [let us know](https://github.com/ms609/Quartet/issues/new)
 #' if you would appreciate this functionality.
+#' 
+#' The status of each quartet is calculated using the algorithms of
+#' Brodal _et al_. (2013) and Holt _et al_. (2014), implemented in the
+#' tqdist C library (Sand _et al_. 2014).
 #'       
 #' 
 #' @template treesParam
 #' @template treesCfParam
 #' 
-#' @templateVar intro Returns a two dimensional array. Rows correspond to the
-#'  input trees; the first row will report a perfect match if the first tree
-#'  is specified as the comparison tree (or if `cf` is not specified).
-#'  Columns list the status of each quartet:
+#' @templateVar intro Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
 #' @template returnEstabrook
 #'         
 #' @author Martin R. Smith
@@ -140,15 +142,19 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #'  sq_status <- QuartetStatus(sq_trees)
 #'
 #'  # Calculate Estabrook et al's similarity measures:
-#'  QuartetMetrics(sq_status)
+#'  SimilarityMetrics(sq_status)
 #' 
 #' 
-#' @seealso [SplitStatus]: Uses bipartition splits (groups/clades defined by
+#' @seealso `\link{SplitStatus}`: Uses bipartition splits (groups/clades defined by
 #'  nodes or edges of the tree) instead of quartets as the unit of comparison.
 #' 
 #' @references {
+#'   \insertRef{Brodal2013}{Quartet}
+#' 
 #'   \insertRef{Estabrook1985}{Quartet}
-#'   
+#'
+#'   \insertRef{Holt2014}{Quartet}
+#'
 #'   \insertRef{Sand2014}{Quartet}
 #' }
 #'
@@ -206,6 +212,12 @@ TQFile <- function (treeList) {
 #'   
 #'   \insertRef{Sand2014}{Quartet}
 #' }
+#' @concept Tree distances
+#' @name Distances
+NULL
+
+#' @describeIn Distances Returns the quartet distance between the tree.
+#' in `file1` and the tree in `file2`.
 #' @export
 QuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
@@ -213,7 +225,7 @@ QuartetDistance <- function(file1, file2) {
   .Call('_Quartet_tqdist_QuartetDistance', as.character(file1), as.character(file2));
 }
 
-#' @describeIn QuartetDistance Returns a vector of length two, listing \[1\]
+#' @describeIn Distances Returns a vector of length two, listing \[1\]
 #' the number of resolved quartets that agree (`A`);
 #' \[2\] the number of quartets that are unresolved in both trees (`E`).
 #' See Brodal et al. (2013).
@@ -225,10 +237,10 @@ QuartetAgreement <- function(file1, file2) {
   .Call('_Quartet_tqdist_QuartetAgreement', as.character(file1), as.character(file2));
 }
 
-#' @export
 #' @importFrom ape read.tree
-#' @describeIn QuartetDistance Quartet distance between the tree on each line of `file1`
-#'   and the tree on the corresponding line of `file2`
+#' @describeIn Distances Quartet distance between the tree on each line of `file1`
+#'   and the tree on the corresponding line of `file2`.
+#' @export
 PairsQuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
@@ -242,8 +254,8 @@ PairsQuartetDistance <- function(file1, file2) {
 
 #' @export
 #' @importFrom ape read.tree
-#' @describeIn QuartetDistance Quartet distance between the tree in 
-#'  `file1` and the tree on each line of `file2`
+#' @describeIn Distances Quartet distance between the tree in 
+#'  `file1` and the tree on each line of `file2`.
 OneToManyQuartetAgreement <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
@@ -261,15 +273,15 @@ OneToManyQuartetAgreement <- function(file1, file2) {
 }
 
 #' @export
-#' @describeIn QuartetDistance Quartet distance between each tree listed in `file` and 
-#'   each other tree therein
+#' @describeIn Distances Quartet distance between each tree listed in `file` and 
+#'   each other tree therein.
 AllPairsQuartetDistance <- function(file) {
   ValidateQuartetFile(file)
   .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
 }
 
 #' @export
-#' @describeIn QuartetDistance Quartet status for each pair of trees in `file`
+#' @describeIn Distances Quartet status for each pair of trees in `file`.
 AllPairsQuartetAgreement <- function(file) {
   ValidateQuartetFile(file)
   result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreement', as.character(file));
@@ -278,8 +290,8 @@ AllPairsQuartetAgreement <- function(file) {
 }
 
 #' @export
-#' @describeIn QuartetDistance Triplet distance between the single tree given 
-#'   in each file
+#' @describeIn Distances Triplet distance between the single tree given 
+#'   in each file.
 TripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
@@ -287,8 +299,8 @@ TripletDistance <- function(file1, file2) {
 }
 
 #' @export
-#' @describeIn QuartetDistance Triplet distance between the tree on each line of `file1`
-#'   and the tree on the corresponding line of `file2`
+#' @describeIn Distances Triplet distance between the tree on each line of `file1`
+#'   and the tree on the corresponding line of `file2`.
 PairsTripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
@@ -301,8 +313,8 @@ PairsTripletDistance <- function(file1, file2) {
 }
 
 #' @export
-#' @describeIn QuartetDistance Triplet distance between each tree listed in `file` and 
-#'   each other tree therein
+#' @describeIn Distances Triplet distance between each tree listed in `file` and 
+#'   each other tree therein.
 AllPairsTripletDistance <- function(file) {
   ValidateQuartetFile(file)
   .Call('_Quartet_tqdist_AllPairsTripletDistance', as.character(file));

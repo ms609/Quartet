@@ -3,10 +3,10 @@ title: "Supplementary text for: Bayesian and parsimony approaches reconstruct in
 author: "Martin R. Smith (martin.smith@durham.ac.uk)"
 date: "`r Sys.Date()`"
 output: 
+  rmarkdown::html_document:
   bookdown::pdf_document2:
     includes:
       in_header: ../inst/preamble.tex
-  rmarkdown::html_document:
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/dependent/biology-letters.csl
 link-citations: yes
@@ -28,7 +28,10 @@ code used to generate figures and conduct analyses, and is provided in the Elect
 require('ape')
 require('Ternary')
 require('Quartet')
-require('CongreveLamsdell2016')
+if (!require('CongreveLamsdell2016')) {
+  devtools::install_github('ms609/CongreveLamsdell2016')
+  library('CongreveLamsdell2016')
+}
 Sys.setlocale("LC_ALL", "English_United Kingdom.1252") # allows PCH=183
 data('sq_trees')
 n_tip <- 11

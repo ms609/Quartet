@@ -43,7 +43,8 @@ par(mfrow=c(3, 3), mai=rep(0, 4), family='serif', ps=FONT_PT)
 TernaryQuarts()
 
 AddArrows('Less informative (SD/MaxI)')
-rect(xleft=-0.01, ybottom=0.19, xright=0.278, ytop=0.52, border='#00000088', lty='dashed')
+rect(xleft=-0.01, ybottom=0.19, xright=0.278, ytop=0.52, border='#00000088',
+     lty='dashed')
 text(x=0.30, y=0.54, labels='(right)', cex=FONT_SIZE, pos=2)
 rightPoint <- TernaryCoords(1, 0, 0)
 otherYs <- vapply(2 * seq_len(GRID_LINES - 1L),
@@ -55,7 +56,8 @@ lapply(otherYs, function (y) lines(c(0, rightPoint[1]), c(y, rightPoint[2]),
 legend('bottomright', bty='n', cex=FONT_SIZE,
        lty=c('dotted', 'dashed', 'dotted'),
        lwd=c(1, 1, 2), col=c('grey', '#00000044', cbPalette8[8]),
-       legend=c('Equal divergence', 'Equal accuracy', 'Similarity of random tree'))
+       legend=c('Equal divergence', 'Equal accuracy',
+                'Similarity of random tree'))
 
 Panel("a")
 ##########
@@ -147,13 +149,13 @@ InsetBox <- function (zoom, text) {
 #      family=FONT_FAMILY, pointsize=FONT_PT)
 #
 #par(mar=rep(0, 4), mfrow=c(2, 3), mai=rep(0, 4), ps=FONT_PT)
-FigTernary("\n100 characters", ORQ100)
+FigTernary("\nOR: 100 characters", ORQ100)
 InsetBox(2.25, '(below)')
 Panel('c')
-FigTernary("\n350 characters", ORQ350)
+FigTernary("\nOR: 350 characters", ORQ350)
 #InsetBox(6.5, '(below)')
 Panel('d')
-FigTernary("\n1000 characters", ORQ1000)
+FigTernary("\nOR: 1000 characters", ORQ1000)
 InsetBox(6.5, '')
 Panel('e')
 

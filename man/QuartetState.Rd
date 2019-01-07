@@ -13,17 +13,12 @@ QuartetStates(splits)
 \item{tips}{A four-element array listing a quartet of tips, either by their
 number (if class \code{numeric}) or their name (if class \code{character}).}
 
-\item{bips}{bipartitions to evaluate.
+\item{bips}{Bipartitions to evaluate.}
 
-One of the three possible four-taxon trees will be consistent with any set of bipartitions
-generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tree can be
-identified by naming the sister taxon to taxon 1.
-If a set of bipartitions is generated from a tree that contains polytomies, it is possible
-that all three three four-taxon trees are consistent with the set of bipartitions.}
-
-\item{splits}{a list of bipartition splits, perhaps generated using
-\code{\link{Tree2Splits}}, with row names corresponding to taxon labels.
-If a tree or list of trees (of class `phylo``) is sent instead,
+\item{splits}{A list of bipartition splits, perhaps generated using
+\code{\link[TreeSearch]{Tree2Splits}}, with row names corresponding
+to taxon labels.
+If a tree or list of trees (of class \code{phylo}) is sent instead,
 it will be silently converted to its constituent splits.}
 }
 \value{
@@ -33,9 +28,17 @@ bipartitions, or the index of the closest relative to \code{tips[1]}, otherwise.
 \description{
 Report the status of the specified quartet(s).
 }
+\details{
+One of the three possible four-taxon trees will be consistent with any set of bipartitions
+generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tree can be
+identified by naming the tip most closely related to taxon 1.
+If a set of bipartitions is generated from a tree that contains polytomies, it is possible
+that all three four-taxon trees are consistent with the set of bipartitions.
+}
 \section{Functions}{
 \itemize{
-\item \code{QuartetStates}: A convenience wrapper that need only be provided with a tree or a list of splits
+\item \code{QuartetStates}: A convenience wrapper that need only be provided
+with a tree or a list of splits
 }}
 
 \examples{
@@ -43,7 +46,7 @@ Report the status of the specified quartet(s).
   n_tip <- 6
   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-  splits <- lapply(trees, Tree2Splits)
+  splits <- lapply(trees, TreeSearch::Tree2Splits)
   QuartetState(c(1, 3, 4, 6), splits[[2]])  
   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
   vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))

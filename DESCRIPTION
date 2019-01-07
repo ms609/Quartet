@@ -1,6 +1,6 @@
 Package: Quartet
 Version: 1.0.0
-Date: 2018-12-05
+Date: 2019-01-07
 Title: Comparison of Phylogenetic Trees Using Quartet and Bipartition Measures
 Description: Calculates the number of four-taxon subtrees consistent with a pair
   of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),
@@ -40,16 +40,10 @@ Imports:
     TreeSearch (>= 0.2.1)
 Suggests:
     bookdown,
-    CongreveLamsdell2016,
-    devtools,
     knitr,
-    phytools,
     rmarkdown,
     testthat,
     usethis
-Remotes: 
-  ms609/TreeSearch,
-  ms609/CongreveLamsdell2016
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true

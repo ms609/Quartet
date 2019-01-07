@@ -1,8 +1,4 @@
-BLANK_SPLIT <- double(6)
-names(BLANK_SPLIT) <- c('cf', 'ref', 'cf_and_ref', 'cf_not_ref', 'ref_not_cf',
-  'RF_dist')
-
-#' Compare Splits
+#' Compare bipartition status
 #' 
 #' @template splitsParam
 #' @param splits2 A matrix of bipartitions against which to compare `splits`.
@@ -10,17 +6,35 @@ names(BLANK_SPLIT) <- c('cf', 'ref', 'cf_and_ref', 'cf_not_ref', 'ref_not_cf',
 #'   in `splits2`.  If they are absent, then both matrices must have the same
 #'   number of rows, and tips will be assumed to be in the same sequence.
 #' 
-#' @return A named vector of six integers, listing the number of unique splits that
-#'   (1) are present in `splits1`; (2) are present in `splits2`; (3) are present
-#'   in both trees; (4) are present in `splits` but not `splits2`; (5) are
-#'   present in `splits2` but not `splits`; and (6) the sum of the latter two
-#'   values, i.e. the Robinson-Foulds distance.
+#' @return A named vector of six integers, listing the number of unique splits that:
+#' 
+#'   **N**    exist in total; i.e. the number of splits in `splits1` plus the number in `splits2`,
+#'   equivalent to 2 _s_ + _d1_ + _d2_ + _r1_ + _r2_;
+#' 
+#'   **s**    occur in both `splits1` and `splits2`; 
+#'   
+#'   **d1**   occur in `splits1` but are contradicted by `splits2`;
+#'   
+#'   **d2**   occur in `splits2` but are contradicted by `splits1`;
+#'   
+#'   **r1**   occur in `splits1` only, being neither present in nor contradicted by `splits2`;
+#'   
+#'   **r2**   occur in `splits2` only, being neither present in nor contradicted by `splits1`;
+#'   
+#'   **RF**   the number of splits that occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
+#'   the Robinson-Foulds distance.
+#'
+#' @seealso - `[CompareQuartets]`
 #'         
-#' @references {Quartet
+#' @references {
+#' 
 #'  \insertRef{Estabrook1985}{Quartet}
+#' 
 #'  \insertRef{Robinson1981}{Quartet}
+#'  
 #' }       
 #' @author Martin R. Smith
+#' @name CompareSplits
 #' @importFrom TreeSearch DropSingleSplits UniqueSplits
 #' @export
 CompareSplits <- function (splits, splits2) {
@@ -29,7 +43,8 @@ CompareSplits <- function (splits, splits2) {
     stop ("All taxa named in splits must exist in splits2")
   splits2 <- splits2[tipNames, ]
   
-  if (dim(splits)[1] != dim(splits2)[1]) 
+  nTip <- dim(splits)[1]
+  if (dim(splits2)[1] != nTip) 
     stop("Both splits and splits2 must relate to the same tips")
   
   splits <- DropSingleSplits(splits)
@@ -42,16 +57,41 @@ CompareSplits <- function (splits, splits2) {
   
   nSplits <- dim(splits)[2]
   nSplits2 <- dim(splits2)[2]
+  nTotal <- nSplits + nSplits2
   nBoth <- sum(duplicates)
   
-  c(one = nSplits, two = nSplits2, 
-    both = nBoth, one_not_two = nSplits - nBoth, 
-    two_not_one = nSplits2 - nBoth,
-    RF_dist = nSplits + nSplits2 - (2 * nBoth))
+  InOneOnly <- function (uniques, otherSplits) {
+    if (length(uniques) == 0) return (0L)
+    splitSizes <- colSums(otherSplits)
+    sum(apply(uniques, 2, function (x) {
+      all(colSums(x & otherSplits) == splitSizes | colSums(x | otherSplits) == splitSizes |
+            colSums(!x & otherSplits) == splitSizes | colSums(!x | otherSplits) == splitSizes)
+    }))
+  }
+  
+  r1 <- if (nTip - nSplits2 == 3L) {
+    0L # Can't be resolved in 1 only if 2 is perfectly resolved.
+  } else if (nSplits2 == 0L) {
+    nSplits
+  } else {
+    InOneOnly(splits[, !duplicated(rbind(t(splits2), t(splits)))[-seq_len(nSplits2)], drop=FALSE], splits2)
+  }
+  r2 <- if(nTip - nSplits == 3L) {
+    0L
+  } else if (nSplits == 0L) {
+    nSplits2
+  } else {
+    InOneOnly(splits2[, !duplicates[-seq_len(nSplits)], drop=FALSE], splits)
+  }
+  
+  # Return:
+  c(N = nTotal, P1 = nSplits, P2 = nSplits2, s = nBoth,
+    d1 = nSplits - nBoth - r1, d2 = nSplits2 - nBoth - r2,
+    r1 = r1, r2 = r2)
 }
+
 #' @rdname CompareSplits
 #' @export
-#' @keywords internal
 CompareBipartitions <- CompareSplits
 
 #' Matching partitions
@@ -61,18 +101,33 @@ CompareBipartitions <- CompareSplits
 #' many of the partitions in tree B are absent in tree A.  The Robinson-Foulds
 #' (symmetric partition) distance is the sum of the latter two quantities.
 #' 
-#' @template treesParam
-#' @template treesCfParam
+#' @inheritParams QuartetStatus
 #' 
 #' @return Returns a two dimensional array. 
-#'         Rows correspond to the input trees.
-#'         Columns report the number of partitions that :
-#'         1: are present in the comparison tree and the corresponding input tree;
-#'         2: are unresolved in (at least) one of the comparison tree and the corresponding 
-#'         input tree.
-#'         
+#' Rows correspond to the input trees, and are named if names were present.
+#' Columns report:
+#'   
+#'   **N**: The total number of partitions present in the two trees, 
+#'   i.e. _P1_ + _P2_.
+#'      
+#'   **P1**: The number of partitions present in tree 1.
+#'   
+#'   **P2**: The number of partitions present in tree 2.
+#'   
+#'   **s**: The number of partitions present in both trees.
+#'   
+#'   **d1**: The number of partitions present in tree 1, but contradicted by tree 2.
+#'   
+#'   **d2**: The number of partitions present in tree 2, but contradicted by tree 1.
+#'   
+#'   **r1**: The number of partitions present in tree 1, and neither 
+#'   present nor contradicted in tree 2.
+#'   
+#'   **r2**: The number of partitions present in tree 2, and neither 
+#'   present nor contradicted in tree 1.
+#'   
 #' @seealso
-#'   * [QuartetStatus]: Uses quartets rather than bipartition splits as the unit
+#'   * `[QuartetStatus]`: Uses quartets rather than bipartition splits as the unit
 #'     of similarity.
 #'         
 #' @examples{
@@ -81,19 +136,19 @@ CompareBipartitions <- CompareSplits
 #'   # Calculate the status of each quartet
 #'   splitStatuses <- SplitStatus(sq_trees)
 #'   
-#'   # Extract just the Robinson Foulds distances
-#'   splitStatuses[, 'RF_dist']
+#'   # Calculate the Robinson Foulds distances
+#'   RobinsonFoulds(splitStatuses)
 #'   
 #'   # Normalize the Robinson Foulds distance by dividing by the number of 
-#'   # splits (bipartitions) resolved in the reference tree:
-#'   splitStatuses[, 'RF_dist'] / splitStatuses[, 'ref']
+#'   # splits (bipartitions) present in the two trees:
+#'   RobinsonFoulds(splitStatuses) / splitStatuses[, 'N']
 #'   
 #'   # Normalize the Robinson Foulds distance by dividing by the total number of 
 #'   # splits (bipartitions) that it is possible to resolve for `n` tips:
 #'   nTip <- length(sq_trees[[1]]$tip.label)
-#'   nPartitions <- (nTip - 3L) # Does not include the nTip partitions that 
-#'                              # comprise but a single tip
-#'   splitStatuses[, 'RF_dist'] / nPartitions
+#'   nPartitions <- 2 * (nTip - 3L) # Does not include the nTip partitions that 
+#'                                  # comprise but a single tip
+#'   RobinsonFoulds(splitStatuses) / nPartitions
 #'   
 #' }
 #' 
@@ -104,40 +159,42 @@ CompareBipartitions <- CompareSplits
 #' }
 #' @author Martin R. Smith
 #' @importFrom TreeSearch RenumberTips Tree2Splits
+#' @aliases  BipartitionStatus
 #' @export
 SplitStatus <- function (trees, cf=trees[[1]]) {
   if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
   
-  treeStats <- vapply(trees, function (tr)
-    c(tr$Nnode, length(tr$tip.label)), double(2))
-  if (length(unique(treeStats[2, ])) > 1) {
+  treeStats <- vapply(trees, function (tr) length(tr$tip.label), double(1))
+  if (length(unique(treeStats)) > 1) {
     stop("All trees must have the same number of tips")
   }
+  
   tree1Labels <- trees[[1]]$tip.label
   trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
   splits <- lapply(trees, Tree2Splits)
-  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(6))
-  rownames(ret) <- names(BLANK_SPLIT)
+  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(8))
+  rownames(ret) <- c('N', 'P1', 'P2', 's', 'd1', 'd2', 'r1', 'r2')
   
   # Return:
   if (is.null(cf)) t(ret) else t(ret[, -1])
 }
 
-#' @rdname SplitStatus
-#' @export
 #' @keywords internal
+#' @export
 BipartitionStatus <- SplitStatus
 
 
 #' @describeIn SplitStatus Reports split statistics obtained after removing all
 #'   tips that do not occur in both trees being compared.
+#' @aliases SharedBipartitionStatus
 #' @export
 SharedSplitStatus <- function (trees, cf=trees[[1]]) {
-  t(vapply(trees, PairSharedSplitStatus, cf=cf, BLANK_SPLIT))
+  t(vapply(trees, PairSharedSplitStatus, cf=cf, 
+           c(N = 0L, P1 = 0L, P2 = 0L, s = 0L, d1 = 0L, d2 = 0L, r1 = 0L, r2 = 0L)))
 }
-#' @rdname SplitStatus
-#' @export
+
 #' @keywords internal
+#' @export
 SharedBipartitionStatus <- SharedSplitStatus
 
 #' Pair shared split status
@@ -151,6 +208,7 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' #' 
 #' @keywords internal
 #' @importFrom ape drop.tip
+#' @importFrom TreeSearch Tree2Splits
 #' @author Martin R. Smith
 #' @export
 PairSharedSplitStatus <- function (ref, cf) {

@@ -20,7 +20,7 @@ addons:
 r_binary_packages:
  - ape
  - covr
- - devtools
+# - devtools
  - knitr
  - memoise
  - phangorn
@@ -40,9 +40,9 @@ r_packages:
 r_github_packages:
  - ms609/CongreveLamsdell2016
  
-before_script:
- - R -e "devtools::document()"
-  
+#before_script:
+# - R -e "devtools::document()"
+#  
 after_success:
  - Rscript -e "covr::codecov()"
  

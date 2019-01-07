@@ -23,10 +23,10 @@ test_that("Quartets are counted correctly", {
 
 test_that("Quartet metrics are sane", {
   sq_status <- QuartetStatus(sq_trees)
-  sims  <- QuartetMetrics(sq_status)
-  dists <- QuartetMetrics(sq_status, similarity=FALSE)
+  sims  <- SimilarityMetrics(sq_status)
+  dists <- SimilarityMetrics(sq_status, similarity=FALSE)
   expect_true(all(sims <= 1))
-  expect_true(all(sims + dists == 1))
+  expect_true(all(sims + dists == 1)[-4]) # SSJA doesn't sum to 1
   expect_true(all(dists['ref_tree', ] == 0))
   
   expect_equal(sims[, 'DoNotConflict'], as.double(DoNotConflict(sq_status)))
@@ -38,7 +38,7 @@ test_that("Quartet metrics are sane", {
   expect_equal(sims[, 'SteelPenny'], as.double(SteelPenny(sq_status)))
   expect_equal(sims[, 'QuartetDivergence'], as.double(QuartetDivergence(sq_status)))
   
-  testData <- c(Q=8, s=1, d=2, r1=1, r2=1, u=3)
+  testData <- c(N=16L, Q=8, s=1, d=2, r1=1, r2=1, u=3)
   expect_equal(2/8, DoNotConflict(testData, FALSE))
   expect_equal(7/8, ExplicitlyAgree(testData, FALSE))
   expect_equal(c(tree=2/3), StrictJointAssertions(testData, FALSE))
@@ -75,10 +75,10 @@ test_that("Quartet metrics handle polytomous pairs", {
                  4, 4, 0, 0, 4, 0, 4, 4, 0, 4, 4, 4, rep(0, 5)), polyStates[[2]])
   
   qStat <- QuartetStatus(polytomous)
-  expect_identical(qStat[1, ], c(Q=35L, s=31L, d=0L, r1=0L, r2=0L, u=4L))
-  expect_identical(qStat[2, ], c(Q=35L, s=10L, d=10L, r1=2L, r2=11L, u=2L))
-  expect_identical(qStat[3, ], c(Q=35L, s=31L, d=0L, r1=4L, r2=0L, u=0L))
-  expect_identical(qStat[4, ], c(Q=35L, s=25L, d=6L, r1=4L, r2=0L, u=0L))
+  expect_identical(qStat[1, ], c(N=70L, Q=35L, s=31L, d=0L, r1=0L, r2=0L, u=4L))
+  expect_identical(qStat[2, ], c(N=70L, Q=35L, s=10L, d=10L, r1=2L, r2=11L, u=2L))
+  expect_identical(qStat[3, ], c(N=70L, Q=35L, s=31L, d=0L, r1=4L, r2=0L, u=0L))
+  expect_identical(qStat[4, ], c(N=70L, Q=35L, s=25L, d=6L, r1=4L, r2=0L, u=0L))
 })
 
 test_that("Random trees are 1/3 similar", {
@@ -100,6 +100,8 @@ test_that("Random trees are 1/3 similar", {
 test_that("Incomparable trees fail gracefully", {
   # Must have same number of tips
   expect_error(QuartetStatus(list(ref_tree, ape::rtree(6))))
+  # Can't do SSJA for partitions
+  expect_equal(NA, SemiStrictJointAssertions(SplitStatus(sq_trees)))
 })
 
 test_that("Cleanup was successful", {
@@ -110,25 +112,29 @@ context("Distances: Partition distances")
 test_that ("Partitions are counted correctly", {
   p_dist <- SplitStatus(sq_trees)
   unrooted_trees <- lapply(sq_trees, ape::unroot)
-  rf_dist <- as.integer(lapply(unrooted_trees, ape::dist.topo, ape::unroot(ref_tree)))
+  rf_dist <- as.integer(lapply(unrooted_trees, ape::dist.topo, ape::unroot(sq_trees$ref_tree)))
   
-  expect_true(all(p_dist[, 'cf_and_ref'] + p_dist[, 'cf_not_ref'] <= p_dist[, 'cf']))
-  expect_true(all(p_dist[, 'cf_and_ref'] + p_dist[, 'ref_not_cf'] <= p_dist[, 'ref']))
-  expect_equal(rf_dist, as.integer(p_dist[, 'RF_dist']))
-  expect_equal(p_dist['move_one_mid' , 'cf_not_ref'],
-               p_dist['m1mid_col1'   , 'cf_not_ref'],
-               p_dist['m1mid_colsome', 'cf_not_ref'])
-  expect_equal(1L, p_dist['m1mid_col1'   , 'ref_not_cf'] -
-                 p_dist['m1mid_col1'   , 'cf_not_ref'])
-  expect_equal(3L, p_dist['m1mid_colsome', 'ref_not_cf'] -
-                   p_dist['m1mid_colsome', 'cf_not_ref'])
+  expect_true(all(p_dist[, 's'] + p_dist[, 'd1'] <= p_dist[, 'P2']))
+  expect_true(all(p_dist[, 's'] + p_dist[, 'd2'] <= p_dist[, 'P1']))
   
-  expect_equal(p_dist['move_two_mid', 'cf_not_ref'],
-               p_dist['m2mid_col1',   'cf_not_ref'])
-  expect_equal(1L, p_dist['m2mid_col1', 'ref_not_cf']
-                 - p_dist['m2mid_col1', 'cf_not_ref'])
-  expect_equal(5L, p_dist['m2mid_colsome', 'ref_not_cf'] 
-                 - p_dist['m2mid_colsome', 'cf_not_ref'])
+  expect_true(all(rowSums(p_dist[, c('s', 'd1', 'r1')]) == p_dist[, 'P1']))
+  expect_true(all(rowSums(p_dist[, c('s', 'd2', 'r2')]) == p_dist[, 'P2']))
+  
+  expect_equal(rf_dist, as.integer(RobinsonFoulds(p_dist)))
+  expect_equal(sum(p_dist['move_one_mid' , c('r1', 'd1')]),
+               sum(p_dist['m1mid_col1'   , c('r1', 'd1')]),
+               sum(p_dist['m1mid_colsome', c('r1', 'd1')]))
+  expect_equal(1L, sum(p_dist['m1mid_col1'   , c('d2', 'r2')], 
+                       -p_dist['m1mid_col1'   , c('d1', 'r1')]))
+  expect_equal(3L, sum(p_dist['m1mid_colsome', c('d2', 'r2')],
+                       - p_dist['m1mid_colsome', c('d1', 'r1')]))
+  
+  expect_equal(sum(p_dist['move_two_mid', c('d1', 'r1')]),
+               sum(p_dist['m2mid_col1',   c('d1', 'r1')]))
+  expect_equal(1L, sum(p_dist['m2mid_col1', c('d2', 'r2')],
+                      - p_dist['m2mid_col1', c('d1', 'r1')]))
+  expect_equal(5L, sum(p_dist['m2mid_colsome', c('d2', 'r2')], 
+                 - p_dist['m2mid_colsome', c('d1', 'r1')]))
   
 })
 
@@ -136,4 +142,3 @@ test_that("Incomparable trees fail gracefully", {
   # Must have same number of tips
   expect_error(SplitStatus(list(ref_tree, ape::rtree(6)))) 
 })
-

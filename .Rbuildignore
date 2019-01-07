@@ -1,3 +1,5 @@
+^Meta$
+^doc$
 ^\.Rproj\.user$
 .covrignore
 cran-comments.md

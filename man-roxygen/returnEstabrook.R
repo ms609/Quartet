@@ -1,5 +1,7 @@
 #' @return <%= intro %>
 #' \describe{
+#'   \item{N}{The total number of quartet _statements_ for two trees of _n_ tips,
+#'            i.e. 2 _Q_.}
 #'   \item{Q}{The total number of quartets for _n_ tips.}
 #'   \item{s}{The number of quartets that are resolved identically in both trees.}
 #'   \item{d}{The number of quartets that are resolved differently in each tree.}
