@@ -10,7 +10,8 @@ SharedQuartetStatus(trees, cf = trees[[1]])
 QuartetStatus(trees, cf = trees[[1]])
 }
 \arguments{
-\item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}}, with identically-labelled tips.}
+\item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}},
+with identically labelled tips.}
 
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
 each tree is compared to the first tree in \code{trees}.}
@@ -34,15 +35,15 @@ cladograms.
 }
 \details{
 Given a list of trees, returns the number of quartet statements present in the
-reference tree (the first tree in the list, if \code{cf} is not specified)
-that are also present in each other tree.  A random pair of fully-resolved
+reference tree (the first entry in \code{trees}, if \code{cf} is not specified)
+that are also present in each other tree.  A random pair of fully resolved
 trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
 
 If trees do not bear the same number of tips, \code{SharedQuartetStatus} will
-consider only the quartets that include taxa occurring in both trees.
+consider only the quartets that include taxa common to both trees.
 
 From this information it is possible to calculate how many of all possible
-quartets occur in one tree or the other, but there is not yet a function
+quartets occur in one tree or the other, though there is not yet a function
 calculating this; \href{https://github.com/ms609/Quartet/issues/new}{let us know}
 if you would appreciate this functionality.
 

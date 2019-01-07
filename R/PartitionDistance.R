@@ -1,4 +1,4 @@
-#' Compare Splits
+#' Compare bipartition status
 #' 
 #' @template splitsParam
 #' @param splits2 A matrix of bipartitions against which to compare `splits`.
@@ -6,22 +6,33 @@
 #'   in `splits2`.  If they are absent, then both matrices must have the same
 #'   number of rows, and tips will be assumed to be in the same sequence.
 #' 
-#' @return A named vector of six integers, listing the number of unique splits that
-#'   (_N_) exist in total; i.e. the number of splits in `splits1` plus the number in `splits2`,
+#' @return A named vector of six integers, listing the number of unique splits that:
+#' 
+#'   **N**    exist in total; i.e. the number of splits in `splits1` plus the number in `splits2`,
 #'   equivalent to 2 _s_ + _d1_ + _d2_ + _r1_ + _r2_;
-#'   (_s_) occur in both `splits1` and `splits2`; 
-#'   (_d1_) occur in `splits1` but are contradicted by `splits2`;
-#'   (_d2_) occur in `splits2` but are contradicted by `splits1`;
-#'   (_r1_) occur in `splits1` only, being neither present in nor contradicted by `splits2`;
-#'   (_r2_) occur in `splits2` only, being neither present in nor contradicted by `splits1`;
-#'   (_RF_) the number of splits that occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
+#' 
+#'   **s**    occur in both `splits1` and `splits2`; 
+#'   
+#'   **d1**   occur in `splits1` but are contradicted by `splits2`;
+#'   
+#'   **d2**   occur in `splits2` but are contradicted by `splits1`;
+#'   
+#'   **r1**   occur in `splits1` only, being neither present in nor contradicted by `splits2`;
+#'   
+#'   **r2**   occur in `splits2` only, being neither present in nor contradicted by `splits1`;
+#'   
+#'   **RF**   the number of splits that occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
 #'   the Robinson-Foulds distance.
 #'         
 #' @references {Quartet
+#' 
 #'  \insertRef{Estabrook1985}{Quartet}
+#' 
 #'  \insertRef{Robinson1981}{Quartet}
+#'  
 #' }       
 #' @author Martin R. Smith
+#' @name CompareSplits
 #' @importFrom TreeSearch DropSingleSplits UniqueSplits
 #' @export
 CompareSplits <- function (splits, splits2) {
@@ -76,9 +87,9 @@ CompareSplits <- function (splits, splits2) {
     d1 = nSplits - nBoth - r1, d2 = nSplits2 - nBoth - r2,
     r1 = r1, r2 = r2)
 }
+
 #' @rdname CompareSplits
 #' @export
-#' @keywords internal
 CompareBipartitions <- CompareSplits
 
 #' Matching partitions

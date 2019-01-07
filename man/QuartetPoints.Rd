@@ -13,7 +13,8 @@ SplitPoints(trees, cf = trees[[1]])
 BipartitionPoints(trees, cf = trees[[1]])
 }
 \arguments{
-\item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}}, with identically-labelled tips.}
+\item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}},
+with identically labelled tips.}
 
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
 each tree is compared to the first tree in \code{trees}.}

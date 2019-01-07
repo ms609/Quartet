@@ -3,7 +3,7 @@
 \name{CompareSplits}
 \alias{CompareSplits}
 \alias{CompareBipartitions}
-\title{Compare Splits}
+\title{Compare bipartition status}
 \usage{
 CompareSplits(splits, splits2)
 
@@ -21,27 +21,36 @@ in \code{splits2}.  If they are absent, then both matrices must have the same
 number of rows, and tips will be assumed to be in the same sequence.}
 }
 \value{
-A named vector of six integers, listing the number of unique splits that
-(\emph{N}) exist in total; i.e. the number of splits in \code{splits1} plus the number in \code{splits2},
+A named vector of six integers, listing the number of unique splits that:
+
+\strong{N}    exist in total; i.e. the number of splits in \code{splits1} plus the number in \code{splits2},
 equivalent to 2 \emph{s} + \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2};
-(\emph{s}) occur in both \code{splits1} and \code{splits2};
-(\emph{d1}) occur in \code{splits1} but are contradicted by \code{splits2};
-(\emph{d2}) occur in \code{splits2} but are contradicted by \code{splits1};
-(\emph{r1}) occur in \code{splits1} only, being neither present in nor contradicted by \code{splits2};
-(\emph{r2}) occur in \code{splits2} only, being neither present in nor contradicted by \code{splits1};
-(\emph{RF}) the number of splits that occur in one tree only; i.e. \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2},
+
+\strong{s}    occur in both \code{splits1} and \code{splits2};
+
+\strong{d1}   occur in \code{splits1} but are contradicted by \code{splits2};
+
+\strong{d2}   occur in \code{splits2} but are contradicted by \code{splits1};
+
+\strong{r1}   occur in \code{splits1} only, being neither present in nor contradicted by \code{splits2};
+
+\strong{r2}   occur in \code{splits2} only, being neither present in nor contradicted by \code{splits1};
+
+\strong{RF}   the number of splits that occur in one tree only; i.e. \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2},
 the Robinson-Foulds distance.
 }
 \description{
-Compare Splits
+Compare bipartition status
 }
 \references{
 {Quartet
+
 \insertRef{Estabrook1985}{Quartet}
+
 \insertRef{Robinson1981}{Quartet}
+
 }
 }
 \author{
 Martin R. Smith
 }
-\keyword{internal}

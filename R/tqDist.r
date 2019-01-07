@@ -110,16 +110,16 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' cladograms.
 #' 
 #' Given a list of trees, returns the number of quartet statements present in the
-#' reference tree (the first tree in the list, if `cf` is not specified)
-#' that are also present in each other tree.  A random pair of fully-resolved 
+#' reference tree (the first entry in `trees`, if `cf` is not specified)
+#' that are also present in each other tree.  A random pair of fully resolved 
 #' trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
 #' 
 #' 
 #' If trees do not bear the same number of tips, `SharedQuartetStatus` will 
-#' consider only the quartets that include taxa occurring in both trees.
+#' consider only the quartets that include taxa common to both trees.
 #' 
 #' From this information it is possible to calculate how many of all possible
-#' quartets occur in one tree or the other, but there is not yet a function
+#' quartets occur in one tree or the other, though there is not yet a function
 #' calculating this; [let us know](https://github.com/ms609/Quartet/issues/new)
 #' if you would appreciate this functionality.
 #' 
