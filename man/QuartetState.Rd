@@ -22,7 +22,8 @@ If a set of bipartitions is generated from a tree that contains polytomies, it i
 that all three three four-taxon trees are consistent with the set of bipartitions.}
 
 \item{splits}{a list of bipartition splits, perhaps generated using
-\code{[TreeSearch:Tree2Splits]}, with row names corresponding to taxon labels.
+\code{\link[TreeSearch]{Tree2Splits}}, with row names corresponding
+to taxon labels.
 If a tree or list of trees (of class `phylo``) is sent instead,
 it will be silently converted to its constituent splits.}
 }
@@ -35,7 +36,8 @@ Report the status of the specified quartet(s).
 }
 \section{Functions}{
 \itemize{
-\item \code{QuartetStates}: A convenience wrapper that need only be provided with a tree or a list of splits
+\item \code{QuartetStates}: A convenience wrapper that need only be provided
+with a tree or a list of splits
 }}
 
 \examples{

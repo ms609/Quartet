@@ -2,7 +2,7 @@
 % Please edit documentation in R/QuartetDistance.R
 \name{AllQuartets}
 \alias{AllQuartets}
-\title{All quartets}
+\title{List all quartets}
 \usage{
 AllQuartets(n_tips)
 }
@@ -15,21 +15,21 @@ corresponding to a unique selection of four different integers less than
 or equal to \code{n_tips}
 }
 \description{
-List all choices of four taxa from a tree.
+Lists all choices of four taxa from a tree.
 
-A more computationally efficient alternative to \code{\link{combn}}.
-Uses \code{\link{memoise}} to make repeated calls faster.
+A more computationally efficient alternative to \code{\link[utils]{combn}},
+\code{AllQuartets} uses \code{\link[memoise]{memoise}} to make repeated calls faster.
 }
 \examples{
  n_tips <- 6
- choice_list <- AllQuartets(n_tips)
- choice_list
+ AllQuartets(n_tips)
+ 
  combn(n_tips, 4) # Provides the same information, but for large 
                   # values of n_tips is significantly slower.
 
 }
 \seealso{
-\code{\link{combn}}
+\code{\link[utils]{combn}}
 }
 \author{
 Martin R. Smith
