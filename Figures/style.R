@@ -106,7 +106,7 @@ AddArrows <- function (quality) {
 
 # Use Inkscape to generate EPS from SVG.  R creates bitmap EPS due to semitrans.
 Write <- if (OUTPUT == 'pdf') {
-  function(filename, ...) cairo_pdf(filename=paste0("inst/figures/", filename, ".pdf"), ...)
+  function(filename, ...) cairo_pdf(filename=paste0("Figures/", filename, ".pdf"), ...)
 } else {
-  function(filename, ...) svg(filename=paste0("inst/figures/", filename, ".svg"), ...)
+  function(filename, ...) svg(filename=paste0("Figures/", filename, ".svg"), ...)
 } 
