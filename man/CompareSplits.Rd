@@ -53,7 +53,7 @@ Compare bipartition status
 }
 \seealso{
 \itemize{
-\item \code{\link{CompareQuartets}}
+\item \code{[CompareQuartets]}
 }
 }
 \author{

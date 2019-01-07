@@ -67,32 +67,34 @@ SplitPoints <- function (trees, cf = trees[[1]]) {
 #' @export
 BipartitionPoints <- SplitPoints
 
-#' Plot lines of equal Symmetric Difference on a ternary plot
+#' Plot contours of equal symmetric difference on a ternary plot
 #' 
 #' Assumes that tree 1 is perfectly resolved, but that the resolution
 #' of tree 2 can vary.
 #' 
 #' @param nsd Vector specifying normalized symmetric differences to plot
 #' 
-#' @return Returns a matrix of dim `(length(nsd), 6)``, with columns named `r2a`, `da`, `sa`,
-#' `r2b`, `db` ans `sb`.  Lines from `a` to `b` in each row connect points
-#' of equal symmetric difference.
+#' @return Returns a matrix of dim `(length(nsd), 6)`, with columns named
+#' `r2a`, `da`, `sa`, `r2b`, `db` and `sb`.
+#' Lines from `a` to `b` in each row connect points of equal symmetric difference.
 #' 
 #' @author Martin R. Smith
 #' @export
 SymmetricDifferenceLineEnds <- function (nsd) {
   if (any(nsd < 0 | nsd > 1)) stop("nsd must be between 0 and 1")
+  
   r2a <- 0
   r2b <- (2L * nsd) / (1L + nsd)
   sa <- (1 - nsd) * (1 - (r2a / 2))
   sb <- (1 - nsd) * (1 - (r2b / 2))
   da <- 1 - sa - r2a
   db <- 0
+  
   # Return:
   cbind(r2a, da, sa, r2b, db, sb)
 }
 
-#' @describeIn SymmetricDifferenceLineEnds Plot the lines onto the active ternary plot
+#' @describeIn SymmetricDifferenceLineEnds Plot the lines onto the active ternary plot.
 #' @param \dots Further parameters to pass to 
 #' \code{\link[Ternary:AddToTernary]{TernaryLines}}
 #' @importFrom Ternary TernaryLines

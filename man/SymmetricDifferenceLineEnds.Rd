@@ -3,7 +3,7 @@
 \name{SymmetricDifferenceLineEnds}
 \alias{SymmetricDifferenceLineEnds}
 \alias{SymmetricDifferenceLines}
-\title{Plot lines of equal Symmetric Difference on a ternary plot}
+\title{Plot contours of equal symmetric difference on a ternary plot}
 \usage{
 SymmetricDifferenceLineEnds(nsd)
 
@@ -16,8 +16,9 @@ SymmetricDifferenceLines(nsd, ...)
 \code{\link[Ternary:AddToTernary]{TernaryLines}}}
 }
 \value{
-Returns a matrix of dim \code{(length(nsd), 6)``, with columns named }r2a\code{, }da\code{, }sa\code{, }r2b\code{, }db\code{ans}sb\code{.  Lines from }a\code{to}b` in each row connect points
-of equal symmetric difference.
+Returns a matrix of dim \code{(length(nsd), 6)}, with columns named
+\code{r2a}, \code{da}, \code{sa}, \code{r2b}, \code{db} and \code{sb}.
+Lines from \code{a} to \code{b} in each row connect points of equal symmetric difference.
 }
 \description{
 Assumes that tree 1 is perfectly resolved, but that the resolution
@@ -25,7 +26,7 @@ of tree 2 can vary.
 }
 \section{Functions}{
 \itemize{
-\item \code{SymmetricDifferenceLines}: Plot the lines onto the active ternary plot
+\item \code{SymmetricDifferenceLines}: Plot the lines onto the active ternary plot.
 }}
 
 \author{
