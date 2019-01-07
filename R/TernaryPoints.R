@@ -42,10 +42,10 @@
 #' 
 #' @export
 QuartetPoints <- function (trees, cf = trees[[1]]) {
-  status <- QuartetStatus(trees)
+  status <- QuartetStatus(trees, cf)
   
   # Return: 
-  data.frame(Unresolved   = rowSums(status[, c('r1', 'r2', 'u')]), 
+  data.frame(Unresolved   = status[, 'r2'], 
              Contradicted = status[, 'd'],
              Consistent   = status[, 's'])
 }
