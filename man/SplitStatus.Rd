@@ -20,13 +20,27 @@ each tree is compared to the first tree in \code{trees}.}
 }
 \value{
 Returns a two dimensional array.
-Rows correspond to the input trees.
-Columns report the number of partitions that:
-\enumerate{
-\item are present in the comparison tree and the corresponding input tree;
-\item are unresolved in (at least) one of the comparison tree and the corresponding
-input tree.
-}
+Rows correspond to the input trees, and are named if names were present.
+Columns report:
+
+\strong{N}: The total number of partitions present in the two trees,
+i.e. \emph{P1} + \emph{P2}.
+
+\strong{P1}: The number of partitions present in tree 1.
+
+\strong{P2}: The number of partitions present in tree 2.
+
+\strong{s}: The number of partitions present in both trees.
+
+\strong{d1}: The number of partitions present in tree 1, but contradicted by tree 2.
+
+\strong{d2}: The number of partitions present in tree 2, but contradicted by tree 1.
+
+\strong{r1}: The number of partitions present in tree 1, and neither
+present nor contradicted in tree 2.
+
+\strong{r2}: The number of partitions present in tree 2, and neither
+present nor contradicted in tree 1.
 }
 \description{
 Calculates how many of the partitions present in tree A are also present in

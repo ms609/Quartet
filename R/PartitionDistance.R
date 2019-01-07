@@ -104,14 +104,28 @@ CompareBipartitions <- CompareSplits
 #' @inheritParams QuartetStatus
 #' 
 #' @return Returns a two dimensional array. 
-#' Rows correspond to the input trees.
-#' Columns report the number of partitions that:
-#'         
-#'   1. are present in the comparison tree and the corresponding input tree;
-#'         
-#'   2. are unresolved in (at least) one of the comparison tree and the corresponding 
-#'         input tree.
-#'         
+#' Rows correspond to the input trees, and are named if names were present.
+#' Columns report:
+#'   
+#'   **N**: The total number of partitions present in the two trees, 
+#'   i.e. _P1_ + _P2_.
+#'      
+#'   **P1**: The number of partitions present in tree 1.
+#'   
+#'   **P2**: The number of partitions present in tree 2.
+#'   
+#'   **s**: The number of partitions present in both trees.
+#'   
+#'   **d1**: The number of partitions present in tree 1, but contradicted by tree 2.
+#'   
+#'   **d2**: The number of partitions present in tree 2, but contradicted by tree 1.
+#'   
+#'   **r1**: The number of partitions present in tree 1, and neither 
+#'   present nor contradicted in tree 2.
+#'   
+#'   **r2**: The number of partitions present in tree 2, and neither 
+#'   present nor contradicted in tree 1.
+#'   
 #' @seealso
 #'   * `[QuartetStatus]`: Uses quartets rather than bipartition splits as the unit
 #'     of similarity.
