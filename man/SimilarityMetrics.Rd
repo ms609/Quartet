@@ -46,7 +46,7 @@ or dissimilarity.}
 corresponds to an input tree, and each column corresponds to one of the
 listed measures.
 
-\code{DoNotConflict} and others return a named vector describing the requested
+\code{DoNotConflict} and equivalents return a named vector describing the requested
 similarity (or difference) between the trees.
 }
 \description{
@@ -112,7 +112,9 @@ To contextualize the symmetric difference, it may be normalized against:
 }
 \item The maximum number of quartets or partitions that could have been resolved, given the
 number of tips (Smith 2019):
+\itemize{
 \item Quartet Divergence: (\emph{d1} + \emph{d2} + \emph{r1} + \emph{r2}) / 2 \emph{Q}
+}
 }
 
 The partition equivalent to the latter will depend on the question being
@@ -144,9 +146,9 @@ obtained.
 }
 \seealso{
 \itemize{
-\item \link{QuartetStatus}: Calculate status of each quartet: the raw material
+\item \code{[QuartetStatus]}: Calculate status of each quartet: the raw material
 from which the Estabrook \emph{et al.} metrics are calculated.
-\item \link{SplitStatus}, \link{CompareSplits}: equivalent metrics for bipartition splits.
+\item \code{[SplitStatus]``, }\link{CompareSplits}`: equivalent metrics for bipartition splits.
 }
 }
 \author{

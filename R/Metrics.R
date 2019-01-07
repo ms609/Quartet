@@ -77,14 +77,14 @@
 #'   corresponds to an input tree, and each column corresponds to one of the
 #'   listed measures.
 #'   
-#'   `DoNotConflict` and others return a named vector describing the requested
+#'   `DoNotConflict` and equivalents return a named vector describing the requested
 #'   similarity (or difference) between the trees.
 #'
 #' @seealso 
-#'   * [QuartetStatus]: Calculate status of each quartet: the raw material 
+#'   * `[QuartetStatus]`: Calculate status of each quartet: the raw material 
 #'     from which the Estabrook _et al._ metrics are calculated.
 #'     
-#'   * [SplitStatus], [CompareSplits]: equivalent metrics for bipartition splits.
+#'   * `[SplitStatus]``, `[CompareSplits]`: equivalent metrics for bipartition splits.
 #'
 #' @examples 
 #'   data('sq_trees')

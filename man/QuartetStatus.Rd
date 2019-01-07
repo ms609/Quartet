@@ -79,7 +79,7 @@ tips that do not occur in both trees being compared.
 }
 }
 \seealso{
-\link{SplitStatus}: Uses bipartition splits (groups/clades defined by
+\code{\link{SplitStatus}}: Uses bipartition splits (groups/clades defined by
 nodes or edges of the tree) instead of quartets as the unit of comparison.
 }
 \author{

@@ -9,11 +9,7 @@
 \usage{
 SplitStatus(trees, cf = trees[[1]])
 
-BipartitionStatus(trees, cf = trees[[1]])
-
 SharedSplitStatus(trees, cf = trees[[1]])
-
-SharedBipartitionStatus(trees, cf = trees[[1]])
 }
 \arguments{
 \item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}},
@@ -25,10 +21,12 @@ each tree is compared to the first tree in \code{trees}.}
 \value{
 Returns a two dimensional array.
 Rows correspond to the input trees.
-Columns report the number of partitions that :
-1: are present in the comparison tree and the corresponding input tree;
-2: are unresolved in (at least) one of the comparison tree and the corresponding
+Columns report the number of partitions that:
+\enumerate{
+\item are present in the comparison tree and the corresponding input tree;
+\item are unresolved in (at least) one of the comparison tree and the corresponding
 input tree.
+}
 }
 \description{
 Calculates how many of the partitions present in tree A are also present in
@@ -82,4 +80,3 @@ of similarity.
 \author{
 Martin R. Smith
 }
-\keyword{internal}

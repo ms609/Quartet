@@ -24,7 +24,7 @@
 #'   **RF**   the number of splits that occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
 #'   the Robinson-Foulds distance.
 #'
-#' @seealso - `\link{CompareQuartets}`
+#' @seealso - `[CompareQuartets]`
 #'         
 #' @references {
 #' 
@@ -104,14 +104,16 @@ CompareBipartitions <- CompareSplits
 #' @inheritParams QuartetStatus
 #' 
 #' @return Returns a two dimensional array. 
-#'         Rows correspond to the input trees.
-#'         Columns report the number of partitions that :
-#'         1: are present in the comparison tree and the corresponding input tree;
-#'         2: are unresolved in (at least) one of the comparison tree and the corresponding 
+#' Rows correspond to the input trees.
+#' Columns report the number of partitions that:
+#'         
+#'   1. are present in the comparison tree and the corresponding input tree;
+#'         
+#'   2. are unresolved in (at least) one of the comparison tree and the corresponding 
 #'         input tree.
 #'         
 #' @seealso
-#'   * [QuartetStatus]: Uses quartets rather than bipartition splits as the unit
+#'   * `[QuartetStatus]`: Uses quartets rather than bipartition splits as the unit
 #'     of similarity.
 #'         
 #' @examples{
@@ -143,6 +145,7 @@ CompareBipartitions <- CompareSplits
 #' }
 #' @author Martin R. Smith
 #' @importFrom TreeSearch RenumberTips Tree2Splits
+#' @aliases  BipartitionStatus
 #' @export
 SplitStatus <- function (trees, cf=trees[[1]]) {
   if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
@@ -162,22 +165,22 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   if (is.null(cf)) t(ret) else t(ret[, -1])
 }
 
-#' @rdname SplitStatus
-#' @export
 #' @keywords internal
+#' @export
 BipartitionStatus <- SplitStatus
 
 
 #' @describeIn SplitStatus Reports split statistics obtained after removing all
 #'   tips that do not occur in both trees being compared.
+#' @aliases SharedBipartitionStatus
 #' @export
 SharedSplitStatus <- function (trees, cf=trees[[1]]) {
   t(vapply(trees, PairSharedSplitStatus, cf=cf, 
            c(N = 0L, P1 = 0L, P2 = 0L, s = 0L, d1 = 0L, d2 = 0L, r1 = 0L, r2 = 0L)))
 }
-#' @rdname SplitStatus
-#' @export
+
 #' @keywords internal
+#' @export
 SharedBipartitionStatus <- SharedSplitStatus
 
 #' Pair shared split status

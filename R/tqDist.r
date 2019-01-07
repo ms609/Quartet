@@ -145,7 +145,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #'  SimilarityMetrics(sq_status)
 #' 
 #' 
-#' @seealso [SplitStatus]: Uses bipartition splits (groups/clades defined by
+#' @seealso `\link{SplitStatus}`: Uses bipartition splits (groups/clades defined by
 #'  nodes or edges of the tree) instead of quartets as the unit of comparison.
 #' 
 #' @references {
