@@ -30,7 +30,7 @@ test_that("Quartet comparisons are correct", {
   # Numbers lazily copied from output, rather than calculated;
   # independent verification could be valuable.
   cfCollapseOne <- QuartetPoints(sq_trees, cf=sq_trees$collapse_one)
-  expect_equal(c(rep(8, 8), 123, 8, 65, 8, 205, 8, 8), cfCollapseOne$Unresolved)
+  expect_equal(c(rep(0, 8), 115, 0, 57, 0, 197, 0, 0), cfCollapseOne$Unresolved)
   expect_equal(c(0, 8, 52, 76, 24, 78, 92, 0, 0, 52, 52, 78, 0, 237, 219), 
                cfCollapseOne$Contradicted)
 })
