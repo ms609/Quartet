@@ -11,6 +11,17 @@
 #'  that are \[1\] resolved; \[2\] unresolved in the specified tree.
 #'         
 #' @author Martin R. Smith
+#' 
+#' @examples {
+#'   data(sq_trees)
+#'   
+#'   ResolvedTriplets(sq_trees$collapse_some)
+#'   # Equivalent to:
+#'   ResolvedQuartets(sq_trees$collapse_some, countTriplets=TRUE)
+#'   
+#'   vapply(sq_trees, ResolvedQuartets, integer(2))
+#' }
+#' 
 #' @references \insertRef{Brodal2013}{Quartet}
 #' 
 #' @importFrom TreeSearch Renumber
@@ -28,7 +39,7 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
     child[parent == node]
   })
   
-  # Algebraic terms follow Brodal et al 2013
+  # Algebraic terms follow Brodal et al. (2013)
   
   n <- rep(1, nTip + nNode) # Will be overwritten
   unresolvedTripletsRootedHere <-
@@ -59,6 +70,7 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
 }
 
 
-#' @describeIn ResolvedQuartets Counts the number of resolved/unresolved triplets
+#' @describeIn ResolvedQuartets Convenience function to calculate the number of 
+#' resolved/unresolved triplets.
 #' @export
 ResolvedTriplets <- function (tree) ResolvedQuartets(tree=tree, countTriplets=TRUE)
