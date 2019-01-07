@@ -54,33 +54,35 @@ Functions to calculate tree similarity / difference metrics.
 }
 \details{
 Estabrook \emph{et al.} (1985, table 2) define four similarity metrics in terms of the
-total number of quartets (\emph{N}, their \emph{Q}), the number of quartets resolved in the same
+total number of quartets (\emph{Q}), the number of quartets resolved in the same
 manner in two trees (\emph{s}), the number resolved differently in both trees
 (\emph{d}), the number resolved in tree 1 or 2 but unresolved in the other tree
 (\emph{r1}, \emph{r2}), and the number that are unresolved in both trees (\emph{u}).
 
 The similarity metrics are then given as below.  The dissimilarity metrics
 are their complement (i.e. 1 - \emph{similarity}), and can be calculated
-algebraically using the identity \emph{N} = \emph{s} + \emph{d} + \emph{r1} + \emph{r2} + \emph{u}.
+algebraically using the identity \emph{Q} = \emph{s} + \emph{d} + \emph{r1} + \emph{r2} + \emph{u}.
 \itemize{
-\item Do Not Conflict (DC): (\emph{s} + \emph{r1} + \emph{r2} + \emph{u}) / \emph{N}
-\item Explicitly Agree (EA): \emph{s} / \emph{N}
+\item Do Not Conflict (DC): 1 - (\emph{d} / \emph{Q})
+\item Explicitly Agree (EA): \emph{s} / \emph{Q}
 \item Strict Joint Assertions (SJA): \emph{s} / (\emph{s} + \emph{d})
 \item SemiStrict Joint Assertions (SSJA): \emph{s} / (\emph{s} + \emph{d} + \emph{u})
 }
 
 (The numerator of the Semistrict Joint Assertions similarity metric is given in
-Estabrook \emph{et al}. (1985)'s table 2 as \emph{s} + \emph{d}, but this is understood, with
-reference to the text to be a typographic error.)
+Estabrook \emph{et al}. (1985)'s table 2 as \emph{s} + \emph{d}, but this is interpreted, with
+reference to their text, as a typographic error.)
 
 Steel & Penny (1993) propose a further metric, which they denote dQ,
 which this package calculates using the function \code{SteelPenny}:
 \itemize{
-\item Steel & Penny's Quartet Metric (dQ): (\emph{s} + \emph{u}) / \emph{N}
+\item Steel & Penny's Quartet Metric (dQ): (\emph{s} + \emph{u}) / \emph{Q}
 }
 
-Although defined using quartets, analagous values can be calculated using partitions
--- though for reasons listed elsewhere (see Smith 2019, supplementary text),
+Although defined using quartets, analagous values can be calculated using
+partitions by replacing \emph{s} and \emph{d} with 2_s_ and (\emph{d1} + \emph{d2}),
+and \emph{Q} with \emph{N}.
+Note that, for reasons listed elsewhere (see Smith 2019, supplementary text),
 quartets offer a more meaningful measure of the amount of information
 shared by two trees.
 

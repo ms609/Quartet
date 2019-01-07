@@ -3,37 +3,40 @@
 #' Functions to calculate tree similarity / difference metrics.
 #' 
 #' Estabrook _et al._ (1985, table 2) define four similarity metrics in terms of the 
-#' total number of quartets (_N_, their _Q_), the number of quartets resolved in the same
+#' total number of quartets (_Q_), the number of quartets resolved in the same
 #' manner in two trees (_s_), the number resolved differently in both trees 
 #' (_d_), the number resolved in tree 1 or 2 but unresolved in the other tree
 #' (_r1_, _r2_), and the number that are unresolved in both trees (_u_).
 #' 
 #' The similarity metrics are then given as below.  The dissimilarity metrics 
 #' are their complement (i.e. 1 - _similarity_), and can be calculated 
-#' algebraically using the identity _N_ = _s_ + _d_ + _r1_ + _r2_ + _u_.
+#' algebraically using the identity _Q_ = _s_ + _d_ + _r1_ + _r2_ + _u_.
 #' 
-#' * Do Not Conflict (DC): (_s_ + _r1_ + _r2_ + _u_) / _N_
+
+#' * Do Not Conflict (DC): 1 - (_d_ / _Q_)
 #' 
-#' * Explicitly Agree (EA): _s_ / _N_
+#' * Explicitly Agree (EA): _s_ / _Q_
 #' 
 #' * Strict Joint Assertions (SJA): _s_ / (_s_ + _d_)
 #' 
 #' * SemiStrict Joint Assertions (SSJA): _s_ / (_s_ + _d_ + _u_)
 #' 
 #' (The numerator of the Semistrict Joint Assertions similarity metric is given in
-#'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is understood, with
-#'  reference to the text to be a typographic error.)
+#'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is interpreted, with
+#'  reference to their text, as a typographic error.)
 #' 
 #' Steel & Penny (1993) propose a further metric, which they denote dQ,
 #' which this package calculates using the function `SteelPenny`:
 #' 
-#' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _N_
+#' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _Q_
 #' 
 #' 
-#' Although defined using quartets, analagous values can be calculated using partitions
-#' -- though for reasons listed elsewhere (see Smith 2019, supplementary text),
-#'  quartets offer a more meaningful measure of the amount of information 
-#'  shared by two trees.
+#' Although defined using quartets, analagous values can be calculated using
+#' partitions by replacing _s_ and _d_ with 2_s_ and (_d1_ + _d2_), 
+#' and _Q_ with _N_.
+#' Note that, for reasons listed elsewhere (see Smith 2019, supplementary text),
+#' quartets offer a more meaningful measure of the amount of information 
+#' shared by two trees.
 #' 
 #' 
 #' Another take on tree similarity is to consider the symmetric difference: that is,
@@ -54,12 +57,11 @@
 #'                              (_d1_ + _d2_ + 2 _s_ + _r1_ + _r2_)
 #' 
 #' * The total distinctly resolved quartets or partitions (Day 1986):
-#'   - Marczewski-Steinhaus (MS): (_d1_ + _d2_ + _r1_ + _r2_) / 
+#'   * Marczewski-Steinhaus (MS): (_d1_ + _d2_ + _r1_ + _r2_) / 
 #'                              (_d1_ + _d2_ + _s_ + _r1_ + _r2_)
 #' 
 #' * The maximum number of quartets or partitions that could have been resolved, given the
 #' number of tips (Smith 2019):
-#' 
 #'   * Quartet Divergence: (_d1_ + _d2_ + _r1_ + _r2_) / 2 _Q_
 #'   
 #' The partition equivalent to the latter will depend on the question being
@@ -150,7 +152,7 @@ StatusToMatrix <- function (statusVector) {
     # Repeat visitor; return unadulterated
     statusVector
   } else if ('d' %in% colnames(statusVector)) {
-    statusVector <- cbind(statusVector, '2d' = 2L * statusVector[, 'd'], 'N' = statusVector[, 'Q'])
+    statusVector <- cbind(statusVector, '2d' = 2L * statusVector[, 'd'])
   } else {
     statusVector <- cbind(statusVector,
                           '2d' = statusVector[, 'd1'] + statusVector[, 'd2'])

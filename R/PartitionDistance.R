@@ -23,8 +23,10 @@
 #'   
 #'   **RF**   the number of splits that occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
 #'   the Robinson-Foulds distance.
+#'
+#' @seealso - `\link{CompareQuartets}`
 #'         
-#' @references {Quartet
+#' @references {
 #' 
 #'  \insertRef{Estabrook1985}{Quartet}
 #' 

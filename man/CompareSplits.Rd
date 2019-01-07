@@ -43,12 +43,17 @@ the Robinson-Foulds distance.
 Compare bipartition status
 }
 \references{
-{Quartet
+{
 
 \insertRef{Estabrook1985}{Quartet}
 
 \insertRef{Robinson1981}{Quartet}
 
+}
+}
+\seealso{
+\itemize{
+\item \code{\link{CompareQuartets}}
 }
 }
 \author{
