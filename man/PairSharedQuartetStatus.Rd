@@ -10,7 +10,7 @@ PairSharedQuartetStatus(tree1, tree2)
 \item{tree1, tree2}{Trees of class phylo to compare.}
 }
 \value{
-Returns a named array of six integers corresponding to the
+Returns a named array of six integers corresponding to the quantities of Estabrook \emph{et al}. (1985):
 \describe{
 \item{N}{The total number of quartet \emph{statements} for two trees of \emph{n} tips,
 i.e. 2 \emph{Q}.}

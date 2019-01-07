@@ -11,7 +11,7 @@ CompareQuartets(x, cf)
 \code{\link{QuartetStates}}.}
 }
 \value{
-Returns an array of seven numeric elements, corresponding
+Returns an array of seven numeric elements, corresponding to the quantities of Estabrook \emph{et al}. (1985):
 \describe{
 \item{N}{The total number of quartet \emph{statements} for two trees of \emph{n} tips,
 i.e. 2 \emph{Q}.}

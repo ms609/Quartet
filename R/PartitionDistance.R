@@ -88,8 +88,7 @@ CompareBipartitions <- CompareSplits
 #' many of the partitions in tree B are absent in tree A.  The Robinson-Foulds
 #' (symmetric partition) distance is the sum of the latter two quantities.
 #' 
-#' @template treesParam
-#' @template treesCfParam
+#' @inheritParams QuartetStatus
 #' 
 #' @return Returns a two dimensional array. 
 #'         Rows correspond to the input trees.

@@ -25,9 +25,22 @@ following Brodal \emph{et al.} 2013.
 }
 \section{Functions}{
 \itemize{
-\item \code{ResolvedTriplets}: Counts the number of resolved/unresolved triplets
+\item \code{ResolvedTriplets}: Convenience function to calculate the number of
+resolved/unresolved triplets.
 }}
 
+\examples{
+{
+  data(sq_trees)
+  
+  ResolvedTriplets(sq_trees$collapse_some)
+  # Equivalent to:
+  ResolvedQuartets(sq_trees$collapse_some, countTriplets=TRUE)
+  
+  vapply(sq_trees, ResolvedQuartets, integer(2))
+}
+
+}
 \references{
 \insertRef{Brodal2013}{Quartet}
 }

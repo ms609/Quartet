@@ -3,7 +3,7 @@
 \name{SharedQuartetStatus}
 \alias{SharedQuartetStatus}
 \alias{QuartetStatus}
-\title{Quartet Status}
+\title{Status of quartets}
 \usage{
 SharedQuartetStatus(trees, cf = trees[[1]])
 
@@ -16,7 +16,7 @@ QuartetStatus(trees, cf = trees[[1]])
 each tree is compared to the first tree in \code{trees}.}
 }
 \value{
-Returns a two dimensional array. Rows correspond to the
+Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if \code{cf} is not specified).  Columns list the status of each quartet:
 \describe{
 \item{N}{The total number of quartet \emph{statements} for two trees of \emph{n} tips,
 i.e. 2 \emph{Q}.}

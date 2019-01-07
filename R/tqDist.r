@@ -104,7 +104,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
         dimnames=list(names(treeList), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
-#' Quartet Status
+#' Status of quartets
 #' 
 #' Determines the number of quartets that are consistent within pairs of
 #' cladograms.
@@ -131,10 +131,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @template treesParam
 #' @template treesCfParam
 #' 
-#' @templateVar intro Returns a two dimensional array. Rows correspond to the
-#'  input trees; the first row will report a perfect match if the first tree
-#'  is specified as the comparison tree (or if `cf` is not specified).
-#'  Columns list the status of each quartet:
+#' @templateVar intro Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
 #' @template returnEstabrook
 #'         
 #' @author Martin R. Smith
