@@ -26,12 +26,14 @@
 #'   library('Ternary')
 #'   data('sq_trees')
 #'   
-#'   cf <- sq_trees$collapse_one
-#'   
 #'   TernaryPlot(alab='Unresolved', blab='Contradicted', clab='Consistent', point='right')
 #'   TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col='red', lty='dotted')
-#'   TernaryPoints(QuartetPoints(sq_trees), col=Ternary::cbPalette8[2])
-#'   TernaryPoints(SplitPoints(sq_trees), col=Ternary::cbPalette8[3])
+#'   TernaryText(QuartetPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
+#'     col=Ternary::cbPalette8[2], cex=0.8)
+#'   TernaryText(SplitPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
+#'     col=Ternary::cbPalette8[3], cex=0.8)
+#'   legend('bottomright', c("Quartets", "Bipartitions"), bty='n', pch=1, cex=0.8,
+#'     col=Ternary::cbPalette8[2:3])
 #'   
 #' }
 #' 

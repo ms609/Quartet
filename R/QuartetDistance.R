@@ -103,16 +103,15 @@ AllQuartets <- memoise(function (n_tips) {
 #' 
 #' Report the status of the specified quartet(s).
 #' 
+#' One of the three possible four-taxon trees will be consistent with any set of bipartitions 
+#' generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tree can be 
+#' identified by naming the tip most closely related to taxon 1.
+#' If a set of bipartitions is generated from a tree that contains polytomies, it is possible
+#' that all three four-taxon trees are consistent with the set of bipartitions.
+#'
 #' @param tips A four-element array listing a quartet of tips, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
-#' @param bips bipartitions to evaluate.
-#'
-#'
-#'  One of the three possible four-taxon trees will be consistent with any set of bipartitions 
-#'  generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tree can be 
-#'  identified by naming the sister taxon to taxon 1.
-#'  If a set of bipartitions is generated from a tree that contains polytomies, it is possible
-#'  that all three three four-taxon trees are consistent with the set of bipartitions.
+#' @param bips Bipartitions to evaluate.
 #'
 #' @return Returns `0` if the relationships of the four taxa are not constrained by the provided 
 #' bipartitions, or the index of the closest relative to `tips[1]`, otherwise.
@@ -150,10 +149,10 @@ QuartetState <- function (tips, bips) {
 
 #' @describeIn QuartetState A convenience wrapper that need only be provided
 #'  with a tree or a list of splits
-#' @param splits a list of bipartition splits, perhaps generated using 
+#' @param splits A list of bipartition splits, perhaps generated using 
 #'        \code{\link[TreeSearch]{Tree2Splits}}, with row names corresponding 
 #'        to taxon labels.
-#'        If a tree or list of trees (of class `phylo``) is sent instead, 
+#'        If a tree or list of trees (of class `phylo`) is sent instead, 
 #'        it will be silently converted to its constituent splits.
 #'        
 #' @importFrom TreeSearch Tree2Splits

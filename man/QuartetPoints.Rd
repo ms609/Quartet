@@ -22,19 +22,31 @@ each tree is compared to the first tree in \code{trees}.}
 A data frame listing the ternary coordinates of trees, based on the
 amount of information that they have in common with the comparison
 tree (which defaults to the first member of the list, if unspecified).
-
-If the comparison tree \code{cf} contains polytomies, then it is possible
-that trees within \code{trees} will be more resolved than \code{cf}.  A split
-that is resolved in \code{trees[[i]]} but not in \code{cf} will contribute
-\code{+1} to the \code{Contradicted} count, and \code{-1} to the \code{Unresolved} count.
 }
 \description{
 Generate points to depict tree difference (in terms of resolution
-and similarity) on a ternary plot.
+and accuracy) on a ternary plot.
+}
+\details{
+The ternary plot will depict the number of quartets or bipartitions that are:
+\itemize{
+\item resolved in the reference tree (\code{cf}), but neither present nor contradicted
+in each comparison tree (\code{trees});
+\item resolved differently in the reference and the comparison tree;
+\item resolved in the same manner in the reference and comparison trees.
+}
+
+If the reference tree (\code{cf}) is taken to represent the best possible knowledge
+of the 'true' topology, then polytomies in the reference tree represent
+uncertainty.  If a tree in \code{trees} resolves relationships within this
+polytomy, it is not possible to establish (based only on the reference tree)
+whether this resolution is correct or erroneous.  As such, extra resolution
+in \code{trees} that is neither corroborated nor contradicted by \code{cf} is ignored.
 }
 \section{Functions}{
 \itemize{
-\item \code{SplitPoints}: Uses partition distance instead of quartet metric.
+\item \code{SplitPoints}: Uses partitions instead of quartets to calculate
+tree distances.
 }}
 
 \examples{
@@ -42,10 +54,15 @@ and similarity) on a ternary plot.
   library('Ternary')
   data('sq_trees')
   
-  TernaryPlot('Consistent', 'Contradicted', 'Unresolved')
-  TernaryLines(list(c(1/3, 2/3, 0), c(0, 0, 1)), col='red', lty='dotted')
-  TernaryPoints(QuartetPoints(sq_trees), col=Ternary::cbPalette8[2])
-  TernaryPoints(SplitPoints(sq_trees), col=Ternary::cbPalette8[3])
+  TernaryPlot(alab='Unresolved', blab='Contradicted', clab='Consistent', point='right')
+  TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col='red', lty='dotted')
+  TernaryText(QuartetPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
+    col=Ternary::cbPalette8[2], cex=0.8)
+  TernaryText(SplitPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
+    col=Ternary::cbPalette8[3], cex=0.8)
+  legend('bottomright', c("Quartets", "Bipartitions"), bty='n', pch=1, cex=0.8,
+    col=Ternary::cbPalette8[2:3])
+  
 }
 
 }
