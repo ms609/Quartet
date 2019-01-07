@@ -228,7 +228,8 @@ SteelPenny <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
   # Defined in Steel & Penny, p. 133; "dq would be written as "D + R".
   # dq = D + R in Day's (1986) terminology, where D = d/Q, R = (r1 + r2)/Q
-  result <- rowSums(elementStatus[, c('2d', 'r1', 'r1', 'r2', 'r2'), drop=FALSE]) / elementStatus[, 'N']
+  result <- rowSums(elementStatus[, c('2d', 'r1', 'r1', 'r2', 'r2'), drop=FALSE]) / 
+    elementStatus[, 'N']
   if (similarity) 1 - result else result
 }
 
@@ -237,6 +238,7 @@ SteelPenny <- function (elementStatus, similarity=TRUE) {
 #' @export
 QuartetDivergence <- function (elementStatus, similarity=TRUE) {
   elementStatus <- StatusToMatrix(elementStatus)
-  result <- rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop=FALSE]) / elementStatus[, 'N']
+  result <- rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop=FALSE]) / 
+    elementStatus[, 'N']
   if (similarity) 1 - result else result
 }
