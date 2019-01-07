@@ -13,6 +13,7 @@ doc
 *.pdf
 *.trees
 *.zip
+Figures/*.svg
 manuscript/doc
 manuscript/Referee*
 manuscript/*.docx
