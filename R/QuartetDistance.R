@@ -1,8 +1,8 @@
 WHICH_OTHER_NODE <- 2:4
 
-#' Plot Quartet
+#' Plot quartet on a tree topology
 #' 
-#' Plots a tree, highlighting members of a specified quartet
+#' Draws a tree, highlighting the members of a specified quartet in colour.
 #' 
 #' 
 #' @param tree A tree of class \code{phylo}, or a list of such trees.
@@ -10,8 +10,9 @@ WHICH_OTHER_NODE <- 2:4
 #'                the tree; or a character vector specifying the labels of four
 #'                tips.
 #' @param overwritePar Logical specifying whether to use existing 
-#'                     \code{\link[graphics]{par} mfrow} and \code{mar} parameters (\code{FALSE}),
-#'                     or to plot trees side-by-side in a new graphical device.
+#'                     `\link[graphics]{par}` `mfrow` and `mar` parameters
+#'                      (\code{FALSE}),
+#'                     or to plot trees side-by-side in a new graphical device (`TRUE`).
 #' @param caption Logical specifying whether to annotate each plot to specify
 #'   whether the quartet selected is in the same or a different state to the 
 #'   reference tree.
@@ -20,7 +21,7 @@ WHICH_OTHER_NODE <- 2:4
 #' @author Martin R. Smith
 #' 
 #' @return Returns `invisible()`, having plotted a tree in which the first two members
-#' of `quartet`` are highlighted in orange, and the second two highlighted in 
+#' of `quartet` are highlighted in orange, and the second two highlighted in 
 #' blue.
 #' 
 #' @examples 

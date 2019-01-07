@@ -2,7 +2,7 @@
 % Please edit documentation in R/QuartetDistance.R
 \name{PlotQuartet}
 \alias{PlotQuartet}
-\title{Plot Quartet}
+\title{Plot quartet on a tree topology}
 \usage{
 PlotQuartet(tree, quartet, overwritePar = TRUE, caption = TRUE, ...)
 }
@@ -14,8 +14,9 @@ the tree; or a character vector specifying the labels of four
 tips.}
 
 \item{overwritePar}{Logical specifying whether to use existing
-\code{\link[graphics]{par} mfrow} and \code{mar} parameters (\code{FALSE}),
-or to plot trees side-by-side in a new graphical device.}
+\code{\link[graphics]{par}} \code{mfrow} and \code{mar} parameters
+(\code{FALSE}),
+or to plot trees side-by-side in a new graphical device (\code{TRUE}).}
 
 \item{caption}{Logical specifying whether to annotate each plot to specify
 whether the quartet selected is in the same or a different state to the
@@ -25,11 +26,11 @@ reference tree.}
 }
 \value{
 Returns \code{invisible()}, having plotted a tree in which the first two members
-of `quartet`` are highlighted in orange, and the second two highlighted in
+of \code{quartet} are highlighted in orange, and the second two highlighted in
 blue.
 }
 \description{
-Plots a tree, highlighting members of a specified quartet
+Draws a tree, highlighting the members of a specified quartet in colour.
 }
 \examples{
   data('sq_trees')

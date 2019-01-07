@@ -13,7 +13,7 @@ QuartetStatus(trees, cf = trees[[1]])
 \item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}}, with identically-labelled tips.}
 
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
-trees are compared to the first tree in \code{trees}.}
+each tree is compared to the first tree in \code{trees}.}
 }
 \value{
 Returns a two dimensional array. Rows correspond to the

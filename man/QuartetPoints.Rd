@@ -4,7 +4,7 @@
 \alias{QuartetPoints}
 \alias{SplitPoints}
 \alias{BipartitionPoints}
-\title{Plot Tree Differences on Ternary Plots}
+\title{Plot tree differences on ternary plots}
 \usage{
 QuartetPoints(trees, cf = trees[[1]])
 
@@ -16,16 +16,17 @@ BipartitionPoints(trees, cf = trees[[1]])
 \item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}}, with identically-labelled tips.}
 
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
-trees are compared to the first tree in \code{trees}.}
+each tree is compared to the first tree in \code{trees}.}
 }
 \value{
 A data frame listing the ternary coordinates of trees, based on the
 amount of information that they have in common with the comparison
-tree (which defaults to the first member of the list, if unspecified).\preformatted{    If the comparison tree `cf` contains polytomies, then it is possible
-    that trees within `trees` will be more resolved than `cf`.  A split
-    that is resolved in `trees[[i]]` but not in `cf` will contribute 
-    `+1` to the `Contradicted` count, and `-1` to the `Unresolved` count.
-}
+tree (which defaults to the first member of the list, if unspecified).
+
+If the comparison tree \code{cf} contains polytomies, then it is possible
+that trees within \code{trees} will be more resolved than \code{cf}.  A split
+that is resolved in \code{trees[[i]]} but not in \code{cf} will contribute
+\code{+1} to the \code{Contradicted} count, and \code{-1} to the \code{Unresolved} count.
 }
 \description{
 Generate points to depict tree difference (in terms of resolution

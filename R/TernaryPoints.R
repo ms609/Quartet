@@ -1,27 +1,38 @@
-#' Plot Tree Differences on Ternary Plots
+#' Plot tree differences on ternary plots
 #' 
 #' Generate points to depict tree difference (in terms of resolution
-#' and similarity) on a ternary plot.
+#' and accuracy) on a ternary plot.
 #' 
+#' The ternary plot will depict the number of quartets or bipartitions that are:
+#' - resolved in the reference tree (`cf`), but neither present nor contradicted
+#'   in each comparison tree (`trees`);
+#' - resolved differently in the reference and the comparison tree;
+#' - resolved in the same manner in the reference and comparison trees. 
+#' 
+#' If the reference tree (`cf`) is taken to represent the best possible knowledge
+#' of the 'true' topology, then polytomies in the reference tree represent
+#' uncertainty.  If a tree in `trees` resolves relationships within this 
+#' polytomy, it is not possible to establish (based only on the reference tree)
+#' whether this resolution is correct or erroneous.  As such, extra resolution
+#' in `trees` that is neither corroborated nor contradicted by `cf` is ignored.
+#'
 #' @template treesParam
 #' @template treesCfParam
 #' @return A data frame listing the ternary coordinates of trees, based on the
-#'         amount of information that they have in common with the comparison
-#'         tree (which defaults to the first member of the list, if unspecified).
-#'         
-#'         If the comparison tree `cf` contains polytomies, then it is possible
-#'         that trees within `trees` will be more resolved than `cf`.  A split
-#'         that is resolved in `trees[[i]]` but not in `cf` will contribute 
-#'         `+1` to the `Contradicted` count, and `-1` to the `Unresolved` count.
+#' amount of information that they have in common with the comparison
+#' tree (which defaults to the first member of the list, if unspecified).
 #' 
 #' @examples {
 #'   library('Ternary')
 #'   data('sq_trees')
 #'   
-#'   TernaryPlot('Consistent', 'Contradicted', 'Unresolved')
-#'   TernaryLines(list(c(1/3, 2/3, 0), c(0, 0, 1)), col='red', lty='dotted')
+#'   cf <- sq_trees$collapse_one
+#'   
+#'   TernaryPlot(alab='Unresolved', blab='Contradicted', clab='Consistent', point='right')
+#'   TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col='red', lty='dotted')
 #'   TernaryPoints(QuartetPoints(sq_trees), col=Ternary::cbPalette8[2])
 #'   TernaryPoints(SplitPoints(sq_trees), col=Ternary::cbPalette8[3])
+#'   
 #' }
 #' 
 #' @references 
@@ -39,12 +50,13 @@ QuartetPoints <- function (trees, cf = trees[[1]]) {
              Consistent   = status[, 's'])
 }
 
-#' @describeIn QuartetPoints Uses partition distance instead of quartet metric.
+#' @describeIn QuartetPoints Uses partitions instead of quartets to calculate 
+#' tree distances.
 #' @export
 SplitPoints <- function (trees, cf = trees[[1]]) {
   status <- SplitStatus(trees, cf)
 
-    # Return: 
+  # Return: 
   data.frame(Unresolved   = status[, 'r2'],
              Contradicted = status[, 'd2'],
              Consistent   = status[, 's'])
