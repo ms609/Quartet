@@ -41,4 +41,5 @@ test_that("Line ends are correct", {
   expect_equal(c(r2a = 0, da = 0.5, sa = 0.5, r2b = 2/3, db = 0, sb = 1/3), 
                SymmetricDifferenceLineEnds(1:3/4)[2, ])
   expect_equal(2L, unique(rowSums(SymmetricDifferenceLineEnds(1:10/10))))
+  expect_error(unique(rowSums(SymmetricDifferenceLineEnds(1:11/10))))
 })

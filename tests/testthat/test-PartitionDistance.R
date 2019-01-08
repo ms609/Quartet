@@ -12,7 +12,7 @@ test_that("Splits are compared", {
   expect_equal(c(N=12L, P1=6L, P2=6L, s=5L, d1=1L, d2=1L, r1=0L, r2=0L),
                SharedSplitStatus(UnshiftTree(
                  ape::drop.tip(sq_trees$move_one_near, 10),
-                 ape::drop.tip(sq_trees$ref_tree, 11)))[2, ])
+                 list(ape::drop.tip(sq_trees$ref_tree, 11))))[2, ])
 })
 
 test_that("CompareSplits works", {
