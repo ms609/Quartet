@@ -26,7 +26,7 @@ i.e. 2 \emph{Q}.}
 \description{
 Uses explicit enumeration to compare two lists of quartet states,
 detailing how many are identical and how many are unresolved.
-For most purposes, the faster function \link{QuartetStatus} will be preferable.
+For most purposes, the faster function \code{[QuartetStatus]} will be preferable.
 }
 \examples{
   n_tip <- 6

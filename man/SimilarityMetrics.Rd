@@ -146,9 +146,9 @@ obtained.
 }
 \seealso{
 \itemize{
-\item \code{[QuartetStatus]}: Calculate status of each quartet: the raw material
+\item \code{\link{QuartetStatus}}: Calculate status of each quartet: the raw material
 from which the Estabrook \emph{et al.} metrics are calculated.
-\item \code{[SplitStatus]``, }\link{CompareSplits}`: equivalent metrics for bipartition splits.
+\item \code{\link{SplitStatus}}, \code{\link{CompareSplits}}: equivalent metrics for bipartition splits.
 }
 }
 \author{

@@ -12,7 +12,7 @@ CompareBipartitions(splits, splits2)
 \arguments{
 \item{splits}{A two-dimensional matrix of logicals, with rows corresponding
 to terminal taxa, and each column defining a split that divides taxa marked
-\code{TRUE} from taxa marked \code{FALSE}.  Possibly generated using \link{Tree2Splits}.
+\code{TRUE} from taxa marked \code{FALSE}.  Possibly generated using \code{[Tree2Splits]}.
 The parity of each column is irrelevant.}
 
 \item{splits2}{A matrix of bipartitions against which to compare \code{splits}.
@@ -53,7 +53,7 @@ Compare bipartition status
 }
 \seealso{
 \itemize{
-\item \code{[CompareQuartets]}
+\item \code{\link{CompareQuartets}}
 }
 }
 \author{

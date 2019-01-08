@@ -87,7 +87,7 @@ tips that do not occur in both trees being compared.
 }
 \seealso{
 \itemize{
-\item \code{[QuartetStatus]}: Uses quartets rather than bipartition splits as the unit
+\item \code{\link{QuartetStatus}}: Uses quartets rather than bipartition splits as the unit
 of similarity.
 }
 }

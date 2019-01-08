@@ -24,7 +24,7 @@
 #'   **RF**   the number of splits that occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
 #'   the Robinson-Foulds distance.
 #'
-#' @seealso - `[CompareQuartets]`
+#' @seealso - `\link{CompareQuartets}`
 #'         
 #' @references {
 #' 
@@ -127,7 +127,7 @@ CompareBipartitions <- CompareSplits
 #'   present nor contradicted in tree 1.
 #'   
 #' @seealso
-#'   * `[QuartetStatus]`: Uses quartets rather than bipartition splits as the unit
+#'   * `\link{QuartetStatus}`: Uses quartets rather than bipartition splits as the unit
 #'     of similarity.
 #'         
 #' @examples{

@@ -81,10 +81,10 @@
 #'   similarity (or difference) between the trees.
 #'
 #' @seealso 
-#'   * `[QuartetStatus]`: Calculate status of each quartet: the raw material 
+#'   * `\link{QuartetStatus}`: Calculate status of each quartet: the raw material 
 #'     from which the Estabrook _et al._ metrics are calculated.
 #'     
-#'   * `[SplitStatus]``, `[CompareSplits]`: equivalent metrics for bipartition splits.
+#'   * `\link{SplitStatus}`, `\link{CompareSplits}`: equivalent metrics for bipartition splits.
 #'
 #' @examples 
 #'   data('sq_trees')

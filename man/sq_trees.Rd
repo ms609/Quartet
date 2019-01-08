@@ -9,7 +9,7 @@
 sq_trees
 }
 \description{
-A list of class \code{multiPhylo} containing phylogenetic trees:
+A list of class \code{\link[ape:multiphylo]{multiPhylo}} containing phylogenetic trees:
 \describe{
 \item{\code{ref_tree}}{A reference tree, bearing tips labelled 1 to 11.}
 \item{\code{move_one_near}}{Tip 1 has been moved a short distance.}

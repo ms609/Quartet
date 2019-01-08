@@ -72,7 +72,7 @@ BipartitionPoints <- SplitPoints
 #' Assumes that tree 1 is perfectly resolved, but that the resolution
 #' of tree 2 can vary.
 #' 
-#' @param nsd Vector specifying normalized symmetric differences to plot
+#' @param nsd Vector specifying normalized symmetric differences to plot.
 #' 
 #' @return Returns a matrix of dim `(length(nsd), 6)`, with columns named
 #' `r2a`, `da`, `sa`, `r2b`, `db` and `sb`.
@@ -96,7 +96,7 @@ SymmetricDifferenceLineEnds <- function (nsd) {
 
 #' @describeIn SymmetricDifferenceLineEnds Plot the lines onto the active ternary plot.
 #' @param \dots Further parameters to pass to 
-#' \code{\link[Ternary:AddToTernary]{TernaryLines}}
+#' \code{\link[Ternary:AddToTernary]{TernaryLines}}.
 #' @importFrom Ternary TernaryLines
 #' @export
 SymmetricDifferenceLines <- function (nsd, ...) {
