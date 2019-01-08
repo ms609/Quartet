@@ -163,8 +163,9 @@ CompareBipartitions <- CompareSplits
 #' @importFrom TreeSearch RenumberTips Tree2Splits
 #' @aliases  BipartitionStatus
 #' @export
-SplitStatus <- function (trees, cf=trees[[1]]) {
-  if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
+SplitStatus <- function (trees, cf = trees[[1]]) {
+  compareWithFirst <- identical(cf, trees[[1]])
+  if (!compareWithFirst) trees <- UnshiftTree(cf, trees)
   
   treeStats <- vapply(trees, function (tr) length(tr$tip.label), double(1))
   if (length(unique(treeStats)) > 1) {
@@ -178,7 +179,7 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   rownames(ret) <- c('N', 'P1', 'P2', 's', 'd1', 'd2', 'r1', 'r2')
   
   # Return:
-  if (is.null(cf)) t(ret) else t(ret[, -1])
+  if (compareWithFirst) t(ret) else t(ret[, -1])
 }
 
 #' @keywords internal

@@ -121,6 +121,7 @@ test_that ("Partitions are counted correctly", {
   expect_true(all(rowSums(p_dist[, c('s', 'd2', 'r2')]) == p_dist[, 'P2']))
   
   expect_equal(rf_dist, as.integer(RobinsonFoulds(p_dist)))
+  expect_equal(rf_dist, as.integer(p_dist[, 'N'] - RobinsonFoulds(p_dist, similarity=TRUE)))
   expect_equal(sum(p_dist['move_one_mid' , c('r1', 'd1')]),
                sum(p_dist['m1mid_col1'   , c('r1', 'd1')]),
                sum(p_dist['m1mid_colsome', c('r1', 'd1')]))
