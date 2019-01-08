@@ -475,8 +475,8 @@ calculate <- FALSE
 if (calculate) {
   all8 <- phytools::allFurcTrees(8, letters[1:8], FALSE)
   allBif8 <- all8[vapply(all8, function(x) x$Nnode, 1L) == 6]
-  inBalanced <- SplitStatus(allBif8, balancedTree)[, 'cf_and_ref']
-  inCaterpillar <- SplitStatus(allBif8, caterpillarTree)[, 'cf_and_ref']
+  inBalanced <- SplitStatus(allBif8, balancedTree)[, 's']
+  inCaterpillar <- SplitStatus(allBif8, caterpillarTree)[, 's']
   qInBalanced <- QuartetStatus(allBif8, balancedTree)[, 's']
   qInCaterpillar <- QuartetStatus(allBif8, balancedTree)[, 's']
   
