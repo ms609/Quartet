@@ -27,6 +27,7 @@
 #'   - **RF**   occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
 #'   the Robinson-Foulds distance.
 #'
+#' @family element-by-element comparisons
 #' @seealso `\link{CompareQuartets}`: equivalent function for quartets.
 #'         
 #' @references {
@@ -129,9 +130,7 @@ CompareBipartitions <- CompareSplits
 #'   **r2**: The number of partitions present in tree 2, and neither 
 #'   present nor contradicted in tree 1.
 #'   
-#' @seealso
-#'   * `\link{QuartetStatus}`: Uses quartets rather than bipartition splits as the unit
-#'     of similarity.
+#' @family element-by-element comparisons
 #'         
 #' @examples{
 #'   data('sq_trees')
@@ -164,8 +163,9 @@ CompareBipartitions <- CompareSplits
 #' @importFrom TreeSearch RenumberTips Tree2Splits
 #' @aliases  BipartitionStatus
 #' @export
-SplitStatus <- function (trees, cf=trees[[1]]) {
-  if (!is.null(cf)) trees <- UnshiftTree(cf, trees)
+SplitStatus <- function (trees, cf = trees[[1]]) {
+  compareWithFirst <- identical(cf, trees[[1]])
+  if (!compareWithFirst) trees <- UnshiftTree(cf, trees)
   
   treeStats <- vapply(trees, function (tr) length(tr$tip.label), double(1))
   if (length(unique(treeStats)) > 1) {
@@ -179,7 +179,7 @@ SplitStatus <- function (trees, cf=trees[[1]]) {
   rownames(ret) <- c('N', 'P1', 'P2', 's', 'd1', 'd2', 'r1', 'r2')
   
   # Return:
-  if (is.null(cf)) t(ret) else t(ret[, -1])
+  if (compareWithFirst) t(ret) else t(ret[, -1])
 }
 
 #' @keywords internal
@@ -208,7 +208,7 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' @param ref,cf Trees of class phylo to compare.
 #' 
 #' @return Named integer of length 6, as per [CompareSplits]
-#' #' 
+#' 
 #' @keywords internal
 #' @importFrom ape drop.tip
 #' @importFrom TreeSearch Tree2Splits

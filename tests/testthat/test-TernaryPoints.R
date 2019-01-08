@@ -34,3 +34,11 @@ test_that("Quartet comparisons are correct", {
   expect_equal(c(0, 8, 52, 76, 24, 78, 92, 0, 0, 52, 52, 78, 0, 237, 219), 
                cfCollapseOne$Contradicted)
 })
+
+test_that("Line ends are correct", {
+  expect_equal(c(r2a = 0, da = 0.5, sa = 0.5, r2b = 2/3, db = 0, sb = 1/3), 
+               SymmetricDifferenceLineEnds(0.5)[1, ])
+  expect_equal(c(r2a = 0, da = 0.5, sa = 0.5, r2b = 2/3, db = 0, sb = 1/3), 
+               SymmetricDifferenceLineEnds(1:3/4)[2, ])
+  expect_equal(2L, unique(rowSums(SymmetricDifferenceLineEnds(1:10/10))))
+})

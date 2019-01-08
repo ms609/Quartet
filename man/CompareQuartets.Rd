@@ -26,7 +26,7 @@ i.e. 2 \emph{Q}.}
 \description{
 Uses explicit enumeration to compare two lists of quartet states,
 detailing how many are identical and how many are unresolved.
-For most purposes, the faster function \code{[QuartetStatus]} will be preferable.
+For most purposes, the faster function \code{\link{QuartetStatus}} will be preferable.
 }
 \examples{
   n_tip <- 6
@@ -45,7 +45,14 @@ For most purposes, the faster function \code{[QuartetStatus]} will be preferable
 \seealso{
 \code{\link{QuartetStatus}}, generates this output from a list of
 trees.
+
+Other element-by-element comparisons: \code{\link{CompareSplits}},
+  \code{\link{PairSharedQuartetStatus}},
+  \code{\link{QuartetState}},
+  \code{\link{SharedQuartetStatus}},
+  \code{\link{SplitStatus}}
 }
 \author{
 Martin R. Smith
 }
+\concept{element-by-element comparisons}

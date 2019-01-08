@@ -99,11 +99,11 @@ SymmetricDifferenceLineEnds <- function (nsd) {
 #' \code{\link[Ternary:AddToTernary]{TernaryLines}}.
 #' @importFrom Ternary TernaryLines
 #' @export
-SymmetricDifferenceLines <- function (nsd, ...) {
+SymmetricDifferenceLines <- function (nsd, ...) { #nocov start
   apply(SymmetricDifferenceLineEnds(nsd), 1, function (ends) {
     TernaryLines(rbind(ends[1:3], ends[4:6]), ...)
   })
   # Return:
   invisible()
-}
+} #nocov end
 

@@ -65,7 +65,6 @@ tips that do not occur in both trees being compared.
  # Calculate Estabrook et al's similarity measures:
  SimilarityMetrics(sq_status)
 
-
 }
 \references{
 {
@@ -81,7 +80,13 @@ tips that do not occur in both trees being compared.
 \seealso{
 \code{\link{SplitStatus}}: Uses bipartition splits (groups/clades defined by
 nodes or edges of the tree) instead of quartets as the unit of comparison.
+
+Other element-by-element comparisons: \code{\link{CompareQuartets}},
+  \code{\link{CompareSplits}},
+  \code{\link{PairSharedQuartetStatus}},
+  \code{\link{QuartetState}}, \code{\link{SplitStatus}}
 }
 \author{
 Martin R. Smith
 }
+\concept{element-by-element comparisons}

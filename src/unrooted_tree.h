@@ -16,18 +16,18 @@ typedef struct UnrootedTree
 	public:
 		string name;
 		unsigned int level;
-		UnrootedTree *dontRecurceOnMe;
+		UnrootedTree *dontRecurseOnMe;
 		int maxDegree;
 
 		UnrootedTree()
 		{
-			dontRecurceOnMe = NULL;
+			dontRecurseOnMe = NULL;
 			level = maxDegree = 0;
 		}
 
 		UnrootedTree(string name)
 		{
-			dontRecurceOnMe = NULL;
+			dontRecurseOnMe = NULL;
 			level = maxDegree = 0;
 			this->name = name;
 		}
@@ -37,9 +37,9 @@ typedef struct UnrootedTree
 			for(vector<UnrootedTree*>::iterator i = edges.begin(); i != edges.end(); i++)
 			{
 				UnrootedTree *t = *i;
-				if (dontRecurceOnMe != t)
+				if (dontRecurseOnMe != t)
 				{
-					t->dontRecurceOnMe = this;
+					t->dontRecurseOnMe = this;
 					delete t;
 				}
 			}
@@ -53,11 +53,8 @@ typedef struct UnrootedTree
 
 		void toDot()
 		{
-			dontRecurceOnMe = NULL;
-//			cout << "graph g {" << endl;
-//			cout << "node[shape=circle,label=\"\"];" << endl;
+			dontRecurseOnMe = NULL;
 			toDotImpl();
-//			cout << "}" << endl;
 		}
 
 		bool isLeaf()
@@ -67,7 +64,7 @@ typedef struct UnrootedTree
 
 		vector<UnrootedTree*>* getList()
 		{
-			dontRecurceOnMe = NULL;
+			dontRecurseOnMe = NULL;
 			vector<UnrootedTree*>* list = new vector<UnrootedTree*>();
 			getListImpl(list);
 			return list;
@@ -78,18 +75,19 @@ typedef struct UnrootedTree
 			UnrootedTree *t = this;
 
 			// Make sure the root is not a leaf
-			// (unless of course there's only 2 elements in which case we can't avoid it)
+			// (unless there are only 2 elements, in which case we can't avoid it)
 			if (isLeaf())
 			{
 				t = edges.front();
 			}
 
-			t->dontRecurceOnMe = NULL;
+			t->dontRecurseOnMe = NULL;
 			RootedTreeFactory *factory = new RootedTreeFactory(oldFactory);
 			RootedTree *rooted = t->convertToRootedTreeImpl(factory);
 
-			// Make sure the root always recurses on everything! (e.g. so that we can cleanup properly!)
-			dontRecurceOnMe = NULL;
+			// Make sure the root always recurses on everything
+			// (e.g. so that we can cleanup properly)
+			dontRecurseOnMe = NULL;
 
 			return rooted;
 		}
@@ -114,9 +112,9 @@ typedef struct UnrootedTree
 			for(vector<UnrootedTree*>::iterator i = edges.begin(); i != edges.end(); i++)
 			{
 				UnrootedTree *t = *i;
-				if (t != dontRecurceOnMe)
+				if (t != dontRecurseOnMe)
 				{
-					t->dontRecurceOnMe = this;
+					t->dontRecurseOnMe = this;
 					t->toDotImpl();
 //					cout << "n" << this << " -- n" << t << ";" << endl;
 				}
@@ -133,9 +131,9 @@ typedef struct UnrootedTree
 			for(vector<UnrootedTree*>::iterator i = edges.begin(); i != edges.end(); i++)
 			{
 				UnrootedTree *t = *i;
-				if (t != dontRecurceOnMe)
+				if (t != dontRecurseOnMe)
 				{
-					t->dontRecurceOnMe = this;
+					t->dontRecurseOnMe = this;
 					t->level = level + 1;
 					t->getListImpl(list);
 				}
@@ -150,10 +148,10 @@ typedef struct UnrootedTree
 			for(vector<UnrootedTree*>::iterator i = edges.begin(); i != edges.end(); i++)
 			{
 				UnrootedTree *t = *i;
-				if (t != dontRecurceOnMe)
+				if (t != dontRecurseOnMe)
 				{
 					maxDegreeHere++;
-					t->dontRecurceOnMe = this;
+					t->dontRecurseOnMe = this;
 					RootedTree *rt = t->convertToRootedTreeImpl(factory);
 					result->addChild(rt);
 					maxDegreeChildren = max(maxDegreeChildren, rt->maxDegree);

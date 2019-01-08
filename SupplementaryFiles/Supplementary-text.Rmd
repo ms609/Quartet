@@ -155,7 +155,7 @@ polyplot <- function (tr, title, highlight, ...) {
   text(x_mid, -0.5, cex=0.8, pos=4, 
        paste0(QuartetStatus(tree_pair)[2, 'd'], '/', choose(11, 4)))
   text(x_mid, -1.5, cex=0.8, pos=4, 
-       paste0(sum(QuartetStatus(tree_pair)[2, c('r1','r2','u')]), '/', choose(11, 4)))
+       paste0(sum(QuartetStatus(tree_pair)[2, c('r1', 'r2', 'u')]), '/', choose(11, 4)))
   # The below assumes that ref is bifurcated, so if a partition's in cf not ref it must contradict.
   text(x_mid, -2.5, cex=0.8, pos=4, paste0(partitions['cf_not_ref'], '/', rf_max / 2))
   text(x_mid, -3.5, cex=0.8, pos=4, paste0(partitions['ref_not_cf'] - partitions['cf_not_ref'], '/', rf_max / 2)) 
@@ -366,7 +366,8 @@ pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 
 n_random <- if(Sys.getenv('TRAVIS') == "") 10000 else 10
-random_trees <- lapply(seq_len(n_random), function (x) rtree(11, br=NULL, tip.label=1:11))
+random_trees <- lapply(seq_len(n_random), 
+                       function (x) ape::rtree(11, br=NULL, tip.label=1:11))
 random_quartets <- QuartetStatus(random_trees, cf=pectinate_tree)[, 'd'] / choose(11, 4)
 random_distances <- vapply(random_trees, phangorn::treedist,
                            tree2=pectinate_tree, double(2))
@@ -474,8 +475,8 @@ calculate <- FALSE
 if (calculate) {
   all8 <- phytools::allFurcTrees(8, letters[1:8], FALSE)
   allBif8 <- all8[vapply(all8, function(x) x$Nnode, 1L) == 6]
-  inBalanced <- SplitStatus(allBif8, balancedTree)[, 'cf_and_ref']
-  inCaterpillar <- SplitStatus(allBif8, caterpillarTree)[, 'cf_and_ref']
+  inBalanced <- SplitStatus(allBif8, balancedTree)[, 's']
+  inCaterpillar <- SplitStatus(allBif8, caterpillarTree)[, 's']
   qInBalanced <- QuartetStatus(allBif8, balancedTree)[, 's']
   qInCaterpillar <- QuartetStatus(allBif8, balancedTree)[, 's']
   
