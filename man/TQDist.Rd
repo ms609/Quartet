@@ -19,10 +19,11 @@ SingleTreeQuartetAgreement(treeList, comparison)
 \item{treeList}{List of phylogenetic trees, of class \code{list} or
 \code{phylo}. All trees must be bifurcating.}
 
-\item{comparison}{A single tree against which to compare the trees in treeList}
+\item{comparison}{A tree of class \code{phylo} against which to compare the trees
+in \code{treeList}.}
 }
 \value{
-\code{TQDist} returns the quartet distance between each pair of trees
+\code{TQDist} returns the quartet distance between each pair of trees.
 
 \code{TQAE} returns the number of resolved quartets in agreement between
 each pair of trees (A in Brodal \emph{et al}. 2013) and the number of quartets
@@ -46,21 +47,22 @@ Quartets can be resolved in one of five ways, which
 Brodal \emph{et al}. (2013) and Holt \emph{et al}. (2014) distinguish using the letters
 A--E, and Estabrook (1985) refers to as:
 \itemize{
-\item A: \emph{s} = resolved the \strong{s}ame in both trees
-\item B: \emph{d} = resolved \strong{d}ifferently in both trees
-\item C: \emph{r1} = \strong{r}esolved only in tree \strong{1}
-\item D: \emph{r2} = \strong{r}esolved only in tree \strong{2} (the comparison tree)
-\item E: \emph{u} = \strong{u}nresolved in both trees
+\item A: \emph{s} = resolved the \strong{s}ame in both trees;
+\item B: \emph{d} = resolved \strong{d}ifferently in both trees;
+\item C: \emph{r1} = \strong{r}esolved only in tree \strong{1};
+\item D: \emph{r2} = \strong{r}esolved only in tree \strong{2} (the comparison tree);
+\item E: \emph{u} = \strong{u}nresolved in both trees.
 }
 }
 \section{Functions}{
 \itemize{
-\item \code{TQAE}: Number of agreeing quartets that are resolved / unresolved
+\item \code{TQAE}: Number of agreeing quartets that are resolved / unresolved.
 
-\item \code{ManyToManyQuartetAgreement}: Agreement of each quartet, comparing each pair of trees in a list
+\item \code{ManyToManyQuartetAgreement}: Agreement of each quartet, comparing each pair of trees
+in a list.
 
 \item \code{SingleTreeQuartetAgreement}: Agreement of each quartet in trees in a list with the
-quartets in a comparison tree
+quartets in a comparison tree.
 }}
 
 \references{
