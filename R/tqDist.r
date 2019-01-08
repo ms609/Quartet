@@ -146,7 +146,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #'  # Calculate Estabrook et al's similarity measures:
 #'  SimilarityMetrics(sq_status)
 #' 
-#' 
+#' @family element-by-element comparisons
 #' @seealso `\link{SplitStatus}`: Uses bipartition splits (groups/clades defined by
 #'  nodes or edges of the tree) instead of quartets as the unit of comparison.
 #' 

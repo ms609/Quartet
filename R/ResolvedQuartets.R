@@ -12,6 +12,8 @@
 #'         
 #' @author Martin R. Smith
 #' 
+#' @family quartet counting functions
+#' 
 #' @examples {
 #'   data(sq_trees)
 #'   

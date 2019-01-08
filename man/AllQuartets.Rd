@@ -30,7 +30,10 @@ A more computationally efficient alternative to \code{\link[utils]{combn}},
 }
 \seealso{
 \code{\link[utils]{combn}}
+
+Other quartet counting functions: \code{\link{ResolvedQuartets}}
 }
 \author{
 Martin R. Smith
 }
+\concept{quartet counting functions}

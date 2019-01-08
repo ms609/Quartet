@@ -86,11 +86,13 @@ tips that do not occur in both trees being compared.
 }
 }
 \seealso{
-\itemize{
-\item \code{\link{QuartetStatus}}: Uses quartets rather than bipartition splits as the unit
-of similarity.
-}
+Other element-by-element comparisons: \code{\link{CompareQuartets}},
+  \code{\link{CompareSplits}},
+  \code{\link{PairSharedQuartetStatus}},
+  \code{\link{QuartetState}},
+  \code{\link{SharedQuartetStatus}}
 }
 \author{
 Martin R. Smith
 }
+\concept{element-by-element comparisons}

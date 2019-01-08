@@ -49,7 +49,14 @@ in a set of reference splits.
 }
 \seealso{
 \code{\link{CompareQuartets}}: equivalent function for quartets.
+
+Other element-by-element comparisons: \code{\link{CompareQuartets}},
+  \code{\link{PairSharedQuartetStatus}},
+  \code{\link{QuartetState}},
+  \code{\link{SharedQuartetStatus}},
+  \code{\link{SplitStatus}}
 }
 \author{
 Martin R. Smith
 }
+\concept{element-by-element comparisons}

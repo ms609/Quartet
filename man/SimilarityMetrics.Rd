@@ -146,11 +146,10 @@ obtained.
 \insertRef{Smith2019}{Quartet}
 }
 \seealso{
-\itemize{
-\item \code{\link{QuartetStatus}}: Calculate status of each quartet: the raw material
+\code{\link{QuartetStatus}}: Calculate status of each quartet: the raw material
 from which the metrics are calculated.
-\item \code{\link{SplitStatus}}, \code{\link{CompareSplits}}: equivalent metrics for bipartition splits.
-}
+
+\code{\link{SplitStatus}}, \code{\link{CompareSplits}}: equivalent metrics for bipartition splits.
 }
 \author{
 Martin R. Smith

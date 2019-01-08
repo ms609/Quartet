@@ -44,6 +44,10 @@ resolved/unresolved triplets.
 \references{
 \insertRef{Brodal2013}{Quartet}
 }
+\seealso{
+Other quartet counting functions: \code{\link{AllQuartets}}
+}
 \author{
 Martin R. Smith
 }
+\concept{quartet counting functions}

@@ -26,7 +26,14 @@ i.e. 2 \emph{Q}.}
 Removes all tips that do not occur in both \code{tree1} and \code{tree2}, then calculates
 the status of the remaining quartets.
 }
+\seealso{
+Other element-by-element comparisons: \code{\link{CompareQuartets}},
+  \code{\link{CompareSplits}}, \code{\link{QuartetState}},
+  \code{\link{SharedQuartetStatus}},
+  \code{\link{SplitStatus}}
+}
 \author{
 Martin R. Smith
 }
+\concept{element-by-element comparisons}
 \keyword{internal}
