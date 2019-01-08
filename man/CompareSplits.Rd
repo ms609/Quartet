@@ -3,7 +3,7 @@
 \name{CompareSplits}
 \alias{CompareSplits}
 \alias{CompareBipartitions}
-\title{Compare bipartition status}
+\title{Compare status of bipartitions}
 \usage{
 CompareSplits(splits, splits2)
 
@@ -22,25 +22,21 @@ number of rows, and tips will be assumed to be in the same sequence.}
 }
 \value{
 A named vector of six integers, listing the number of unique splits that:
-
-\strong{N}    exist in total; i.e. the number of splits in \code{splits1} plus the number in \code{splits2},
+\itemize{
+\item \strong{N}    exist in total; i.e. the number of splits in \code{splits1} plus the number in \code{splits2},
 equivalent to 2 \emph{s} + \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2};
-
-\strong{s}    occur in both \code{splits1} and \code{splits2};
-
-\strong{d1}   occur in \code{splits1} but are contradicted by \code{splits2};
-
-\strong{d2}   occur in \code{splits2} but are contradicted by \code{splits1};
-
-\strong{r1}   occur in \code{splits1} only, being neither present in nor contradicted by \code{splits2};
-
-\strong{r2}   occur in \code{splits2} only, being neither present in nor contradicted by \code{splits1};
-
-\strong{RF}   the number of splits that occur in one tree only; i.e. \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2},
+\item \strong{s}    occur in both \code{splits1} and \code{splits2};
+\item \strong{d1}   occur in \code{splits1} but are contradicted by \code{splits2};
+\item \strong{d2}   occur in \code{splits2} but are contradicted by \code{splits1};
+\item \strong{r1}   occur in \code{splits1} only, being neither present in nor contradicted by \code{splits2};
+\item \strong{r2}   occur in \code{splits2} only, being neither present in nor contradicted by \code{splits1};
+\item \strong{RF}   occur in one tree only; i.e. \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2},
 the Robinson-Foulds distance.
 }
+}
 \description{
-Compare bipartition status
+Reports whether bipartition splits are present or contradicted
+in a set of reference splits.
 }
 \references{
 {
@@ -52,9 +48,7 @@ Compare bipartition status
 }
 }
 \seealso{
-\itemize{
-\item \code{\link{CompareQuartets}}
-}
+\code{\link{CompareQuartets}}: equivalent function for quartets.
 }
 \author{
 Martin R. Smith

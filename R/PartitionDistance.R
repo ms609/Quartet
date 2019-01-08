@@ -1,4 +1,7 @@
-#' Compare bipartition status
+#' Compare status of bipartitions
+#' 
+#' Reports whether bipartition splits are present or contradicted
+#' in a set of reference splits.
 #' 
 #' @template splitsParam
 #' @param splits2 A matrix of bipartitions against which to compare `splits`.
@@ -8,23 +11,23 @@
 #' 
 #' @return A named vector of six integers, listing the number of unique splits that:
 #' 
-#'   **N**    exist in total; i.e. the number of splits in `splits1` plus the number in `splits2`,
+#'   - **N**    exist in total; i.e. the number of splits in `splits1` plus the number in `splits2`,
 #'   equivalent to 2 _s_ + _d1_ + _d2_ + _r1_ + _r2_;
 #' 
-#'   **s**    occur in both `splits1` and `splits2`; 
+#'   - **s**    occur in both `splits1` and `splits2`; 
 #'   
-#'   **d1**   occur in `splits1` but are contradicted by `splits2`;
+#'   - **d1**   occur in `splits1` but are contradicted by `splits2`;
 #'   
-#'   **d2**   occur in `splits2` but are contradicted by `splits1`;
+#'   - **d2**   occur in `splits2` but are contradicted by `splits1`;
 #'   
-#'   **r1**   occur in `splits1` only, being neither present in nor contradicted by `splits2`;
+#'   - **r1**   occur in `splits1` only, being neither present in nor contradicted by `splits2`;
 #'   
-#'   **r2**   occur in `splits2` only, being neither present in nor contradicted by `splits1`;
+#'   - **r2**   occur in `splits2` only, being neither present in nor contradicted by `splits1`;
 #'   
-#'   **RF**   the number of splits that occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
+#'   - **RF**   occur in one tree only; i.e. _d1_ + _d2_ + _r1_ + _r2_,
 #'   the Robinson-Foulds distance.
 #'
-#' @seealso - `\link{CompareQuartets}`
+#' @seealso `\link{CompareQuartets}`: equivalent function for quartets.
 #'         
 #' @references {
 #' 

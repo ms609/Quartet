@@ -1,11 +1,11 @@
-#' Count Resolved Quartets
+#' Count resolved quartets
 #' 
 #' Counts how many quartets are resolved or unresolved in a given tree, 
-#' following Brodal _et al._ 2013.
+#' following Brodal _et al._ (2013).
 #' 
 #' @template treeParam
 #' @param countTriplets Logical; if `TRUE`, the function will return the number
-#' of triplets instead of the number of quartets
+#' of triplets instead of the number of quartets.
 #' 
 #' @return A vector of length two, listing the number of quartets (or triplets)
 #'  that are \[1\] resolved; \[2\] unresolved in the specified tree.

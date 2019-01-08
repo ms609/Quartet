@@ -10,10 +10,10 @@ SymmetricDifferenceLineEnds(nsd)
 SymmetricDifferenceLines(nsd, ...)
 }
 \arguments{
-\item{nsd}{Vector specifying normalized symmetric differences to plot}
+\item{nsd}{Vector specifying normalized symmetric differences to plot.}
 
 \item{\dots}{Further parameters to pass to
-\code{\link[Ternary:AddToTernary]{TernaryLines}}}
+\code{\link[Ternary:AddToTernary]{TernaryLines}}.}
 }
 \value{
 Returns a matrix of dim \code{(length(nsd), 6)}, with columns named

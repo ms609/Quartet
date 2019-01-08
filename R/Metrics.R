@@ -1,4 +1,4 @@
-#' Tree Similarity Metrics
+#' Tree similarity metrics
 #' 
 #' Functions to calculate tree similarity / difference metrics.
 #' 
@@ -82,7 +82,7 @@
 #'
 #' @seealso 
 #'   * `\link{QuartetStatus}`: Calculate status of each quartet: the raw material 
-#'     from which the Estabrook _et al._ metrics are calculated.
+#'     from which the metrics are calculated.
 #'     
 #'   * `\link{SplitStatus}`, `\link{CompareSplits}`: equivalent metrics for bipartition splits.
 #'

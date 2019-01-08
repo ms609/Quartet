@@ -38,7 +38,7 @@ that all three four-taxon trees are consistent with the set of bipartitions.
 \section{Functions}{
 \itemize{
 \item \code{QuartetStates}: A convenience wrapper that need only be provided
-with a tree or a list of splits
+with a tree or a list of splits.
 }}
 
 \examples{

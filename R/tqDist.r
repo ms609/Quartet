@@ -8,17 +8,17 @@
 #'  Brodal _et al_. (2013) and Holt _et al_. (2014) distinguish using the letters
 #'  A--E, and Estabrook (1985) refers to as:
 #'  
-#'  - A: _s_ = resolved the **s**ame in both trees
+#'  - A: _s_ = resolved the **s**ame in both trees;
 #'  
-#'  - B: _d_ = resolved **d**ifferently in both trees
-#'  - C: _r1_ = **r**esolved only in tree **1**
-#'  - D: _r2_ = **r**esolved only in tree **2** (the comparison tree)
-#'  - E: _u_ = **u**nresolved in both trees
+#'  - B: _d_ = resolved **d**ifferently in both trees;
+#'  - C: _r1_ = **r**esolved only in tree **1**;
+#'  - D: _r2_ = **r**esolved only in tree **2** (the comparison tree);
+#'  - E: _u_ = **u**nresolved in both trees.
 #'  
 #' 
 #' @param treeList List of phylogenetic trees, of class \code{list} or
 #'                 \code{phylo}. All trees must be bifurcating.
-#' @return `TQDist` returns the quartet distance between each pair of trees
+#' @return `TQDist` returns the quartet distance between each pair of trees.
 #' 
 #' @references
 #'   \insertRef{Brodal2013}{Quartet}
@@ -39,7 +39,7 @@ TQDist <- function (treeList) {
   AllPairsQuartetDistance(fileName)
 }
 
-#' @describeIn TQDist Number of agreeing quartets that are resolved / unresolved
+#' @describeIn TQDist Number of agreeing quartets that are resolved / unresolved.
 #' @return `TQAE` returns the number of resolved quartets in agreement between 
 #'   each pair of trees (A in Brodal _et al_. 2013) and the number of quartets 
 #'   that are unresolved in both trees (E in Brodal _et al_. 2013).
@@ -50,7 +50,8 @@ TQAE <- function (treeList) {
   AllPairsQuartetAgreement(fileName)
 }
 
-#' @describeIn TQDist Agreement of each quartet, comparing each pair of trees in a list
+#' @describeIn TQDist Agreement of each quartet, comparing each pair of trees 
+#' in a list.
 #' @return `ManyToManyQuartetAgreement` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @export 
@@ -72,8 +73,9 @@ ManyToManyQuartetAgreement <- function (treeList) {
 }
 
 #' @describeIn TQDist Agreement of each quartet in trees in a list with the
-#' quartets in a comparison tree
-#' @param comparison A single tree against which to compare the trees in treeList
+#' quartets in a comparison tree.
+#' @param comparison A tree of class `phylo` against which to compare the trees
+#'  in `treeList`.
 #' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
 #'   for tree in `treeList`, the total number of quartets and the 
 #'   number of quartets in each category.  
@@ -199,11 +201,12 @@ TQFile <- function (treeList) {
 #'  referred to by Brodal _et al_. (2013) and Holt _et al_. (2014).
 #' 
 #' @author 
-#'   * Algorithms: Brodal _et al._ (2013); Holt _et al._ (2014)
+#'   * Algorithms: Brodal _et al._ (2013); Holt _et al._ (2014).
 #' 
-#'   * C implementation: Sand _et al._ (2014) (modified for portability by MRS).
+#'   * C implementation: Sand _et al._ (2014); 
+#'   modified for portability by Martin R. Smith.
 #'   
-#'   * R interface: Martin R. Smith
+#'   * R interface: Martin R. Smith.
 #' 
 #' @references {
 #'   \insertRef{Brodal2013}{Quartet}

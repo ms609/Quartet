@@ -3,7 +3,7 @@
 \name{ResolvedQuartets}
 \alias{ResolvedQuartets}
 \alias{ResolvedTriplets}
-\title{Count Resolved Quartets}
+\title{Count resolved quartets}
 \usage{
 ResolvedQuartets(tree, countTriplets = FALSE)
 
@@ -13,7 +13,7 @@ ResolvedTriplets(tree)
 \item{tree}{A tree of class \code{\link[ape:read.tree]{phylo}}.}
 
 \item{countTriplets}{Logical; if \code{TRUE}, the function will return the number
-of triplets instead of the number of quartets}
+of triplets instead of the number of quartets.}
 }
 \value{
 A vector of length two, listing the number of quartets (or triplets)
@@ -21,7 +21,7 @@ that are [1] resolved; [2] unresolved in the specified tree.
 }
 \description{
 Counts how many quartets are resolved or unresolved in a given tree,
-following Brodal \emph{et al.} 2013.
+following Brodal \emph{et al.} (2013).
 }
 \section{Functions}{
 \itemize{

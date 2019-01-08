@@ -91,9 +91,10 @@ each other tree therein.
 }
 \author{
 \itemize{
-\item Algorithms: Brodal \emph{et al.} (2013); Holt \emph{et al.} (2014)
-\item C implementation: Sand \emph{et al.} (2014) (modified for portability by MRS).
-\item R interface: Martin R. Smith
+\item Algorithms: Brodal \emph{et al.} (2013); Holt \emph{et al.} (2014).
+\item C implementation: Sand \emph{et al.} (2014);
+modified for portability by Martin R. Smith.
+\item R interface: Martin R. Smith.
 }
 }
 \concept{Tree distances}

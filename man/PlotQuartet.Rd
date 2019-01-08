@@ -22,7 +22,7 @@ or to plot trees side-by-side in a new graphical device (\code{TRUE}).}
 whether the quartet selected is in the same or a different state to the
 reference tree.}
 
-\item{\dots}{Additional parameters to send to \code{\link[graphics]{plot}}}
+\item{\dots}{Additional parameters to send to \code{\link[graphics]{plot}}.}
 }
 \value{
 Returns \code{invisible()}, having plotted a tree in which the first two members

@@ -11,7 +11,7 @@
 \alias{MarczewskiSteinhaus}
 \alias{SteelPenny}
 \alias{QuartetDivergence}
-\title{Tree Similarity Metrics}
+\title{Tree similarity metrics}
 \usage{
 SimilarityMetrics(elementStatus, similarity = TRUE)
 
@@ -36,7 +36,8 @@ QuartetDivergence(elementStatus, similarity = TRUE)
 \arguments{
 \item{elementStatus}{Two-dimensional integer array, with rows corresponding to
 counts of matching quartets or partitions for each tree, and columns named
-according to the output of \link{QuartetStatus} or \link{SplitStatus}.}
+according to the output of \code{[QuartetStatus]} or
+\code{[SplitStatus]}.}
 
 \item{similarity}{Logical specifying whether to calculate the similarity
 or dissimilarity.}
@@ -147,7 +148,7 @@ obtained.
 \seealso{
 \itemize{
 \item \code{\link{QuartetStatus}}: Calculate status of each quartet: the raw material
-from which the Estabrook \emph{et al.} metrics are calculated.
+from which the metrics are calculated.
 \item \code{\link{SplitStatus}}, \code{\link{CompareSplits}}: equivalent metrics for bipartition splits.
 }
 }
