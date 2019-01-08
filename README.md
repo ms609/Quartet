@@ -32,7 +32,7 @@ devtools::install_github('ms609/Quartet', args='--no-multiarch')
 library('Quartet')
 ```
 
-You will need Rtools installed (https://cran.r-project.org/bin/windows/Rtools/) to allow R to build the package.
+You will need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed to allow R to build the package.
 
 ## References
 - Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet 
