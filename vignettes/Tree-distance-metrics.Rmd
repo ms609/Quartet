@@ -18,7 +18,7 @@ vignette: >
 
 ```{R initialize, echo=FALSE}
 library('Quartet')
-
+cbPalette8 <- Ternary::cbPalette8
 
 ColPlot <- function (tr, title=NULL, bold=NULL, ...) {
   tr$edge.length <- rep(1, dim(tr$edge)[1])
@@ -47,15 +47,21 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]], ...) {
   text(text_x, -2.5, paste0(signif(tree_dist[2], 3)), cex=0.8, pos=4)
   text(text_x, -3.5, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
 }
+
+Phangorn <- function (linkText) {
+  paste0('[`', linkText, '`](https://www.rdocumentation.org/packages/phangorn/topics/treedist])')
+}
 ```
 
 # Tree distance metrics
 
 A number of metrics area available to quantify the similarity between two undirected
-topologies (i.e. unrooted trees with no edge lengths).
+topologies (i.e. unrooted trees with no edge lengths), many of which are
+implemented in the `phangorn` function `r Phangorn('treedist')`.
 
 ## SPR metric
-The subtree pruning and regrafting (SPR) distance [@Penny1985] counts the 
+The subtree pruning and regrafting (SPR) distance [@Penny1985; 
+`r Phangorn('SPR.dist')`] counts the 
 number of SPR rearrangements necessary to transform Tree A into Tree B.
 
 ## Path difference metric
@@ -65,11 +71,12 @@ within the tree that must be crossed to navigate from one tip to the other.
 Given two trees, is possible to calculate the difference in path length between
 each pair of tips.
 
-The path difference metric [@Steel1993] is the square root of the sum of squares
-of each of these differences.
+The path difference metric [@Steel1993; `r Phangorn('path.dist')`] is the 
+square root of the sum of squaresof each of these differences.
 
 ## Partition metric
-The Robinson-Foulds (RF or 'partition') metric [@Robinson1981; @Steel1993]
+The Robinson-Foulds (RF or 'partition') metric [@Robinson1981; @Steel1993;
+phangorn's `r Phangorn('RF.dist')` or this package's `RobinsonFoulds`]
 measures the symmetric difference between two trees by adding
 the number of bipartitions that are present in tree A (but not tree B)
 to the number of bipartitions present in tree B (but not tree A).  
@@ -89,9 +96,9 @@ all other tips from the tree will leave one of these three trees:
 
 ```{R Three-four-taxon-trees, echo=FALSE, cache=TRUE, fig.width=6, fig.asp=1/3, out.width='66%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(0.5, 1, 0.5, 1), cex=1)
-plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=Ternary::cbPalette8[c(1, 4, 7, 5)], font=2)
-plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=Ternary::cbPalette8[c(1, 7, 4, 5)], font=2)
-plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=Ternary::cbPalette8[c(1, 5, 7, 4)], font=2)
+plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=cbPalette8[c(1, 4, 7, 5)], font=2)
+plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=cbPalette8[c(1, 7, 4, 5)], font=2)
+plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=cbPalette8[c(1, 5, 7, 4)], font=2)
 ```
 
 Thus two of the random trees below share the quartet `(A, B), (C, D)`, whereas 
@@ -185,8 +192,8 @@ pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10,
 pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 ColPlot(pectinate_tree, 'Pectinate tree')
-RFPlot(pectinate_move1,  'Move one taxon', 1, ref=pectinate_unrooted)
-RFPlot(sq_trees$random_tree,   'Random tree',   1, ref=pectinate_unrooted)
+RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_unrooted)
+RFPlot(sq_trees$random_tree, 'Random tree', 1, ref=pectinate_unrooted)
 ```
 
 A notable proportion of random trees receive a lower RF distance from the original tree, even though they do not show any structural similarity.
@@ -197,7 +204,7 @@ pectinate_tree  <- ape::read.tree(text='(1, (2, (3, (4, (5, (6, (7, (8, (9, (10,
 pectinate_unrooted <- ape::unroot(pectinate_tree)
 pectinate_move1 <- ape::read.tree(text='(2, (3, (4, (5, (6, (7, (8, (9, (10, (11, 1))))))))));')
 
-n_random <- if(Sys.getenv('TRAVIS') == "") 10000 else 10
+n_random <- if (Sys.getenv('TRAVIS') == "") 10000 else 10
 random_trees <- lapply(seq_len(n_random), function (x) ape::rtree(11, br=NULL, tip.label=1:11))
 random_quartets <- QuartetStatus(random_trees, cf=pectinate_tree)[, 'd'] / choose(11, 4)
 random_distances <- vapply(random_trees, phangorn::treedist,
@@ -210,12 +217,12 @@ manyBreaks <- seq(0, 1, length.out=40)
 PlotHist <- function (distances, breaks, pectDist, title) {
   hist(distances, xlab=NULL, main=NULL, breaks=breaks, cex=0.8)
   legend('topleft', bty='n', c('', '', title), cex=0.8)
-  abline(v=pectDist, col=Ternary::cbPalette8[3], lwd=2)
+  abline(v=pectDist, col=cbPalette8[3], lwd=2)
 }
 
 PlotHist(random_distances[1, ] / 16, manyBreaks, 1, 'Robinson-Foulds distance')
 mtext('Distance between pectinate tree (above) and random trees', outer=TRUE, cex=0.8)
-legend('topleft', bty='n', col=Ternary::cbPalette8[3], lwd=2, '"Move one taxon" tree', cex=0.8)
+legend('topleft', bty='n', col=cbPalette8[3], lwd=2, '"Move one taxon" tree', cex=0.8)
 
 PlotHist(random_distances[2, ], breaks=manyBreaks*max(random_distances[2, ]),
          17.7, "Path distance")
@@ -249,14 +256,14 @@ Consider a balanced and an unbalanced eight-taxon tree:
 
 ```{r two-trees, echo=FALSE, fig.height = 3, fig.width=6}
 par(mfrow=c(1, 2), mar=rep(0.8, 4), cex=0.9)
-plot(balancedTree <- read.tree(text="(((a, b), (c, d)), ((e, f), (g, h)));"),
+plot(balancedTree <- ape::read.tree(text="(((a, b), (c, d)), ((e, f), (g, h)));"),
      edge.color = cbPalette8[3])
-edgelabels(1:5, c(1, 2, 5, 9, 12))
+ape::edgelabels(1:5, c(1, 2, 5, 9, 12))
 legend('topleft', 'Balanced tree', bty='n')
 
-plot(caterpillarTree <- read.tree(text="(a, (b, (c, (d, (e, (f, (g, h)))))));"),
+plot(caterpillarTree <- ape::read.tree(text="(a, (b, (c, (d, (e, (f, (g, h)))))));"),
      edge.color = cbPalette8[2])
-edgelabels(1:5, c(4, 6, 8, 10, 12))
+ape::edgelabels(1:5, c(4, 6, 8, 10, 12))
 legend('topleft', 'Asymmetric tree', bty='n')
 ```
 
@@ -306,8 +313,8 @@ calculate <- FALSE
 if (calculate) {
   all8 <- phytools::allFurcTrees(8, letters[1:8], FALSE)
   allBif8 <- all8[vapply(all8, function(x) x$Nnode, 1L) == 6]
-  inBalanced <- SplitStatus(allBif8, balancedTree)[, 'cf_and_ref']
-  inCaterpillar <- SplitStatus(allBif8, caterpillarTree)[, 'cf_and_ref']
+  inBalanced <- SplitStatus(allBif8, balancedTree)[, 's']
+  inCaterpillar <- SplitStatus(allBif8, caterpillarTree)[, 's']
   qInBalanced <- QuartetStatus(allBif8, balancedTree)[, 's']
   qInCaterpillar <- QuartetStatus(allBif8, balancedTree)[, 's']
   
@@ -365,3 +372,6 @@ all of the following desiderata:
    are not fully bifurcating (resolved)
  - Identifies pairs of trees that are more random than expected by chance
  - Does not reach its maximum value after relatively trivial rearrangements
+ 
+# References
+ 
