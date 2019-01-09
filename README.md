@@ -51,8 +51,9 @@ You will need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed
   binary or general trees. 
   Bioinformatics. 30:2079–2080. https://doi.org/10.1093/bioinformatics/btu157
 
-- Smith, M.R. (forthcoming.) Bayesian and parsimony approaches reconstruct 
-  informative trees from simulated morphological datasets.
+- Smith, M.R. (2019) Bayesian and parsimony approaches reconstruct 
+  informative trees from simulated morphological datasets. Biology Letters. 
+  In production.
 
 - Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results.
   Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
