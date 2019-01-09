@@ -1,18 +1,20 @@
-year <- "2017"
+year <- "2019"
 
 citHeader(paste0("Package citation: Smith (", year, 
           "). Quartet distance algorithm citation: Sand et al. (2014)."))
 
+#TODO: Create a separate Zenodo citation for the package.
 citEntry(entry = "article",
-        journal = "BioRxiv",
+        journal = "Biology Letters",
         author = personList(as.person("Martin R. Smith")),
-        title = "Quantifying and visualising divergence between pairs of phylogenetic trees",
+        doi = "Preprint at BioRxiv: 10.1101/227942"
+        title = "Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets",
         year = year,
 
         textVersion =
         paste0("Smith (", year, "). ",
-               "Quantifying and visualising divergence between pairs of phylogenetic trees. ",
-               "BioRxiv",
+               "Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets. ",
+               "Biology Letters. Preprint at BioRxiv",
                ", doi: 10.1101/227942"))
                
 
