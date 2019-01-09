@@ -70,7 +70,7 @@ algebraically using the identity \emph{Q} = \emph{s} + \emph{d} + \emph{r1} + \e
 \item SemiStrict Joint Assertions (SSJA): \emph{s} / (\emph{s} + \emph{d} + \emph{u})
 }
 
-(The numerator of the Semistrict Joint Assertions similarity metric is given in
+(The numerator of the SemiStrict Joint Assertions similarity metric is given in
 Estabrook \emph{et al}. (1985)'s table 2 as \emph{s} + \emph{d}, but this is interpreted, with
 reference to their text, as a typographic error.)
 
