@@ -9,12 +9,12 @@ citEntry(entry = "Manual",
         author = personList(as.person("Martin R. Smith")),
         note = vers,
         year = year,
-        doi = "10.5281/zenodo.2536319",
+        doi = "10.5281/zenodo.2536318",
 
         textVersion =
         paste0("Smith (", year, "). ",
                "Quartet: comparison of phylogenetic trees using quartet and ",
-               "bipartition measures. doi: 10.5281/zenodo.2536319"))
+               "bipartition measures. doi: 10.5281/zenodo.2536318"))
                
 
 citEntry (entry = 'article',
