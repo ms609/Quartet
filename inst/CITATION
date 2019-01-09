@@ -7,7 +7,7 @@ citHeader(paste0("Package citation: Smith (", year,
 citEntry(entry = "article",
         journal = "Biology Letters",
         author = personList(as.person("Martin R. Smith")),
-        doi = "Preprint at BioRxiv: 10.1101/227942"
+        doi = "Preprint at BioRxiv: 10.1101/227942",
         title = "Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets",
         year = year,
 

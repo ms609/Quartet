@@ -1,7 +1,7 @@
 ## Test environments
 * local Windows 10 install, R 3.5.2
 * win-builder, with `check_win_devel()`
-* Ubuntu 14.04.5 LTS, R 3.4 and devel, via Travis CI (https://travis-ci.org/ms609/Quartet)
+* Ubuntu 14.04.5 LTS, R 3.4 and devel, via [Travis CI](https://travis-ci.org/ms609/Quartet)
 * R-hub, with `check_rhub()`
 
   * Installation failed with PREPERROR on rhub/ubuntu-gcc-release and
