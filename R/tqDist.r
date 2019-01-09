@@ -17,7 +17,8 @@
 #'  
 #' 
 #' @param treeList List of phylogenetic trees, of class \code{list} or
-#'                 \code{phylo}. All trees must be bifurcating.
+#'                 \code{\link[ape:read.tree]{phylo}}. 
+#'                 All trees must be bifurcating.
 #' @return `TQDist` returns the quartet distance between each pair of trees.
 #' 
 #' @references
@@ -74,7 +75,7 @@ ManyToManyQuartetAgreement <- function (treeList) {
 
 #' @describeIn TQDist Agreement of each quartet in trees in a list with the
 #' quartets in a comparison tree.
-#' @param comparison A tree of class `phylo` against which to compare the trees
+#' @param comparison A tree of class \code{\link[ape:read.tree]{phylo}} against which to compare the trees
 #'  in `treeList`.
 #' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
 #'   for tree in `treeList`, the total number of quartets and the 

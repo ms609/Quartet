@@ -7,7 +7,7 @@
 PairSharedSplitStatus(ref, cf)
 }
 \arguments{
-\item{ref, cf}{Trees of class phylo to compare.}
+\item{ref, cf}{Trees of class \code{\link[ape:read.tree]{phylo}} to compare.}
 }
 \value{
 Named integer of length 6, as per \link{CompareSplits}

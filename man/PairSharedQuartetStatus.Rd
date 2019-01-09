@@ -7,7 +7,8 @@
 PairSharedQuartetStatus(tree1, tree2)
 }
 \arguments{
-\item{tree1, tree2}{Trees of class phylo to compare.}
+\item{tree1, tree2}{Trees of class \code{\link[ape:read.tree]{phylo}}
+to compare.}
 }
 \value{
 Returns a named array of six integers corresponding to the quantities of Estabrook \emph{et al}. (1985):

@@ -17,9 +17,10 @@ SingleTreeQuartetAgreement(treeList, comparison)
 }
 \arguments{
 \item{treeList}{List of phylogenetic trees, of class \code{list} or
-\code{phylo}. All trees must be bifurcating.}
+\code{\link[ape:read.tree]{phylo}}.
+All trees must be bifurcating.}
 
-\item{comparison}{A tree of class \code{phylo} against which to compare the trees
+\item{comparison}{A tree of class \code{\link[ape:read.tree]{phylo}} against which to compare the trees
 in \code{treeList}.}
 }
 \value{

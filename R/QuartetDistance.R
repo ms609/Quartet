@@ -5,7 +5,8 @@ WHICH_OTHER_NODE <- 2:4
 #' Draws a tree, highlighting the members of a specified quartet in colour.
 #' 
 #' 
-#' @param tree A tree of class \code{phylo}, or a list of such trees.
+#' @param tree A tree of class \code{\link[ape:read.tree]{phylo}},
+#'   or a list of such trees.
 #' @param quartet A vector of four integers, corresponding to numbered tips on
 #'                the tree; or a character vector specifying the labels of four
 #'                tips.
@@ -154,7 +155,7 @@ QuartetState <- function (tips, bips) {
 #' @param splits A list of bipartition splits, perhaps generated using 
 #'        \code{\link[TreeSearch]{Tree2Splits}}, with row names corresponding 
 #'        to taxon labels.
-#'        If a tree or list of trees (of class `phylo`) is sent instead, 
+#'        If a tree or list of trees (of class \code{\link[ape:read.tree]{phylo}}) is sent instead, 
 #'        it will be silently converted to its constituent splits.
 #'        
 #' @importFrom TreeSearch Tree2Splits
@@ -238,7 +239,8 @@ SharedQuartetStatus <- function (trees, cf=trees[[1]]) {
 #' Removes all tips that do not occur in both `tree1` and `tree2`, then calculates 
 #' the status of the remaining quartets.
 #' 
-#' @param tree1,tree2 Trees of class phylo to compare.
+#' @param tree1,tree2 Trees of class \code{\link[ape:read.tree]{phylo}}
+#'  to compare.
 #' 
 #' @templateVar intro Returns a named array of six integers corresponding to the quantities of Estabrook _et al_. (1985):
 #' @template returnEstabrook

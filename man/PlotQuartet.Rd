@@ -7,7 +7,8 @@
 PlotQuartet(tree, quartet, overwritePar = TRUE, caption = TRUE, ...)
 }
 \arguments{
-\item{tree}{A tree of class \code{phylo}, or a list of such trees.}
+\item{tree}{A tree of class \code{\link[ape:read.tree]{phylo}},
+or a list of such trees.}
 
 \item{quartet}{A vector of four integers, corresponding to numbered tips on
 the tree; or a character vector specifying the labels of four

@@ -7,10 +7,11 @@
 UnshiftTree(add, treeList)
 }
 \arguments{
-\item{add}{Tree to add to the list, of class \code{phylo}}
+\item{add}{Tree to add to the list, of class \code{\link[ape:read.tree]{phylo}}.}
 
-\item{treeList}{A list of trees, of class \code{list}, \code{multiPhylo},
-or, if a single tree, \code{phylo}.}
+\item{treeList}{A list of trees, of class \code{list},
+\code{\link[ape:multiphylo]{multiPhylo}},
+or, if a single tree, \code{\link[ape:read.tree]{phylo}}.}
 }
 \value{
 A list of class \code{list} or \code{multiPhylo} (following the

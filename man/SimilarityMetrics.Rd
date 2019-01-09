@@ -80,7 +80,7 @@ which this package calculates using the function \code{SteelPenny}:
 \item Steel & Penny's Quartet Metric (dQ): (\emph{s} + \emph{u}) / \emph{Q}
 }
 
-Although defined using quartets, analagous values can be calculated using
+Although defined using quartets, analogous values can be calculated using
 partitions by replacing \emph{s} and \emph{d} with 2_s_ and (\emph{d1} + \emph{d2}),
 and \emph{Q} with \emph{N}.
 Note that, for reasons listed elsewhere (see Smith 2019, supplementary text),

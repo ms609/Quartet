@@ -205,7 +205,7 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' Removes all tips that do not occur in both `ref` and `cf`, then calculates 
 #' the status of the remaining splits
 #' 
-#' @param ref,cf Trees of class phylo to compare.
+#' @param ref,cf Trees of class \code{\link[ape:read.tree]{phylo}} to compare.
 #' 
 #' @return Named integer of length 6, as per [CompareSplits]
 #' 

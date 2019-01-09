@@ -6,9 +6,10 @@
 #' Adding a tree to a multiPhylo object whose own attributes apply to all trees,
 #' for example trees read from a nexus file, causes data to be lost.
 #' 
-#' @param add Tree to add to the list, of class \code{phylo}
-#' @param treeList A list of trees, of class \code{list}, \code{multiPhylo},
-#' or, if a single tree, \code{phylo}.
+#' @param add Tree to add to the list, of class \code{\link[ape:read.tree]{phylo}}.
+#' @param treeList A list of trees, of class \code{list}, 
+#' \code{\link[ape:multiphylo]{multiPhylo}},
+#' or, if a single tree, \code{\link[ape:read.tree]{phylo}}.
 #' 
 #' @return A list of class \code{list} or \code{multiPhylo} (following the 
 #' original class of \code{treeList}), whose first element is the tree specified

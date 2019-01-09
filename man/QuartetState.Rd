@@ -18,7 +18,7 @@ number (if class \code{numeric}) or their name (if class \code{character}).}
 \item{splits}{A list of bipartition splits, perhaps generated using
 \code{\link[TreeSearch]{Tree2Splits}}, with row names corresponding
 to taxon labels.
-If a tree or list of trees (of class \code{phylo}) is sent instead,
+If a tree or list of trees (of class \code{\link[ape:read.tree]{phylo}}) is sent instead,
 it will be silently converted to its constituent splits.}
 }
 \value{
