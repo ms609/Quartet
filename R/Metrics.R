@@ -61,7 +61,7 @@
 #'                              (_d1_ + _d2_ + _s_ + _r1_ + _r2_)
 #' 
 #' * The maximum number of quartets or partitions that could have been resolved, given the
-#' number of tips (Smith 2019):
+#' number of tips (Smith 2019; analogous to the Kullback-Leibler divergence):
 #'   * Quartet Divergence: (_d1_ + _d2_ + _r1_ + _r2_) / 2 _Q_
 #'   
 #' The partition equivalent to the latter will depend on the question being
@@ -97,6 +97,8 @@
 #' \insertRef{Day1986}{Quartet}
 #' 
 #' \insertRef{Estabrook1985}{Quartet}
+#' 
+#' \insertRef{Kullback1951}{Quartet}
 #' 
 #' \insertRef{Marczewski1958}{Quartet}
 #'
