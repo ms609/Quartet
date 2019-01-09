@@ -49,7 +49,8 @@ par(mar=rep(0.3, 4))
 plot(tree_b)
 ```
 
-Now create Tree C by adding a 6th tip as a sister to tip `3` on Tree A.  
+Now create Tree C by adding a 6<sup>th</sup> tip as a sister to tip `3` on Tree A.
+
 ```{r tree-c}
 tree_c <- ape::read.tree(text="((1, 2), ((3, 6), (4, 5)));")
 ```

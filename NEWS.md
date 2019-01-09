@@ -1,12 +1,12 @@
 # Quartet v1.0.0
 ## New features
- - Add functions to generate ternary plots from tree similarity measures
+ - Add functions to generate ternary plots from tree similarity measures.
  
 ## Improvements
- - Use tqDist for all quartet calculations
- - Remove single "splits" from splits objects
- - Simplify installation via github_install
- - Add missing details to documentation
+ - Use tqDist for all quartet calculations.
+ - Remove single "splits" from splits objects.
+ - Simplify installation via `github_install`.
+ - Add missing details to documentation.
  
 ## Modifications
  - Function `SimilarityMetrics` now takes the output of `QuartetStatus(trees)`,

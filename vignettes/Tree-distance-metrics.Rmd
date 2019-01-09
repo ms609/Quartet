@@ -72,7 +72,7 @@ Given two trees, is possible to calculate the difference in path length between
 each pair of tips.
 
 The path difference metric [@Steel1993; `r Phangorn('path.dist')`] is the 
-square root of the sum of squaresof each of these differences.
+square root of the sum of squares of each of these differences.
 
 ## Partition metric
 The Robinson-Foulds (RF or 'partition') metric [@Robinson1981; @Steel1993;

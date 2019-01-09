@@ -21,7 +21,7 @@
 #' 
 #' * SemiStrict Joint Assertions (SSJA): _s_ / (_s_ + _d_ + _u_)
 #' 
-#' (The numerator of the Semistrict Joint Assertions similarity metric is given in
+#' (The numerator of the SemiStrict Joint Assertions similarity metric is given in
 #'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is interpreted, with
 #'  reference to their text, as a typographic error.)
 #' 
@@ -31,7 +31,7 @@
 #' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _Q_
 #' 
 #' 
-#' Although defined using quartets, analagous values can be calculated using
+#' Although defined using quartets, analogous values can be calculated using
 #' partitions by replacing _s_ and _d_ with 2_s_ and (_d1_ + _d2_), 
 #' and _Q_ with _N_.
 #' Note that, for reasons listed elsewhere (see Smith 2019, supplementary text),
