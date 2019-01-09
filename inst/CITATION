@@ -1,24 +1,23 @@
 year <- "2019"
+vers <- paste("R package version", meta$Version)
 
 citHeader(paste0("Package citation: Smith (", year, 
           "). Quartet distance algorithm citation: Sand et al. (2014)."))
 
-#TODO: Create a separate Zenodo citation for the package.
-citEntry(entry = "article",
-        journal = "Biology Letters",
+citEntry(entry = "Manual",
+        title = "Quartet: comparison of phylogenetic trees using quartet and bipartition measures",
         author = personList(as.person("Martin R. Smith")),
-        doi = "Preprint at BioRxiv: 10.1101/227942",
-        title = "Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets",
+        note = vers,
         year = year,
+        doi = "10.5281/zenodo/XXXXXXX",
 
         textVersion =
         paste0("Smith (", year, "). ",
-               "Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets. ",
-               "Biology Letters. Preprint at BioRxiv",
-               ", doi: 10.1101/227942"))
+               "Quartet: comparison of phylogenetic trees using quartet and ",
+               "bipartition measures. doi: 10.5281/zenodo/XXXXXXX"))
                
 
-citEntry (entry= 'article',
+citEntry (entry = 'article',
           author = personList(as.person("Sand, Andreas"),
                   as.person("Holt, Morten K."),
                   as.person("Johansen, Jens"),
