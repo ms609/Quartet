@@ -112,7 +112,7 @@ To contextualize the symmetric difference, it may be normalized against:
 (\emph{d1} + \emph{d2} + \emph{s} + \emph{r1} + \emph{r2})
 }
 \item The maximum number of quartets or partitions that could have been resolved, given the
-number of tips (Smith 2019):
+number of tips (Smith 2019; analogous to the Kullback-Leibler divergence):
 \itemize{
 \item Quartet Divergence: (\emph{d1} + \emph{d2} + \emph{r1} + \emph{r2}) / 2 \emph{Q}
 }
@@ -134,6 +134,8 @@ obtained.
 \insertRef{Day1986}{Quartet}
 
 \insertRef{Estabrook1985}{Quartet}
+
+\insertRef{Kullback1951}{Quartet}
 
 \insertRef{Marczewski1958}{Quartet}
 

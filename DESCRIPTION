@@ -33,14 +33,14 @@ Depends: R (>= 3.4.0)
 Imports:
     ape,
     memoise,
-    phangorn,
-    Rcpp,
     Rdpack,
     Ternary (>= 1.0),
     TreeSearch (>= 0.2.1)
 Suggests:
     bookdown,
     knitr,
+    phangorn,
+    Rcpp,
     rmarkdown,
     testthat,
     usethis
