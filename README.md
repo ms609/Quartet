@@ -1,4 +1,4 @@
-[![Project Status: Active.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![Project Status: Inactive.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 [![Build Status](https://travis-ci.org/ms609/Quartet.svg?branch=master)](https://travis-ci.org/ms609/Quartet)
 [![codecov](https://codecov.io/gh/ms609/Quartet/branch/master/graph/badge.svg)](https://codecov.io/gh/ms609/Quartet)
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/Quartet)](https://cran.r-project.org/package=Quartet)
