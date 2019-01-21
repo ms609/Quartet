@@ -12,10 +12,8 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
     // This will make sure the entire subtree has color 0!
     v->colorSubtree(0);
     
-/*#ifdef doExtractAndContract*/
     delete hdt->factory;
-/*#endif*/
-    
+
     return;
   }
 
@@ -52,7 +50,6 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
   hdt->updateCounters();
   updateCounters();
   
-/*#ifdef doExtractAndContract*/
   // Extract
   RootedTree** extractedVersions = new RootedTree*[v->numChildren - 1];
   c = 0;
@@ -68,7 +65,6 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
     }
     c++;
   }
-/*#endif*/
 
   // Color to 0
   for(TemplatedLinkedList<RootedTree*> *current = v->children->next;
@@ -80,16 +76,11 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
   RootedTree *firstChild = v->children->data;
   if (firstChild->isLeaf() || firstChild->n <= 2) {
     // Do "nothing" (except clean up and possibly color!)
-/*#ifdef doExtractAndContract*/
     // Notice no recoloring here... It's not neccesary as it is extracted and contracted away,
     // and will actually cause an error if called with firstChild->colorSubtree(0) as t2 is linked
     // to a non-existing hdt (as we just deleted it) (we could wait with deleting it, but as we don't need the coloring why bother)
     delete hdt->factory;
-/*#else
-    firstChild->colorSubtree(0);
-#endif*/
   } else {
-/*#ifdef doExtractAndContract*/
     bool hdtTooBig = firstChild->n * CONTRACT_MAX_EXTRA_SIZE < hdt->leafCount();
     if (hdtTooBig) {
       HDT *newHDT;
@@ -103,9 +94,8 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
       delete hdt->factory;
       hdt = newHDT;
     }
-/*#endif*/
     count(firstChild);
-    // HDT is deleted in recursive call!
+    // HDT is deleted in recursive call
   }
   
   // Color 1 and recurse
@@ -113,22 +103,18 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
   for(TemplatedLinkedList<RootedTree*> *current = v->children->next;
       current != NULL; current = current->next) {
     if (!current->data->isLeaf() && current->data->n > 2) {
-/*#ifdef doExtractAndContract*/
       hdt = HDT::constructHDT(extractedVersions[c], t1->maxDegree, dummyHDTFactory, true);
       delete extractedVersions[c]->factory;
-/*#endif*/
-      
+
       current->data->colorSubtree(1);
       
       count(current->data);
     }
     c++;
-    // HDT is deleted on recursive calls!
+    // HDT is deleted on recursive call
   }
   
-/*#ifdef doExtractAndContract*/
   delete[] extractedVersions;
-/*#endif*/
 }
 
 void AbstractDistanceCalculator::countChildren(RootedTree *t) {
