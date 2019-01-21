@@ -22,14 +22,14 @@ class CountingLinkedList
 			n_i_arrow_circ_square, n_circ_arrow_ii, n_paren_ii_arrow_0, n_paren_ii_arrow_circ, n_paren_circ_circ_arrow_i,
 			n_0_arrow_i_arrow_i, n_i_arrow_circ_arrow_0, n_i_arrow_0_arrow_circ, n_circ_arrow_i_arrow_i;
 
-		// Added by us
+		// Added by Sand et al. (2014)
 		INTTYPE_REST n_i_arrow_paren_circ_circ, n_0_arrow_ii, n_paren_0_circ_arrow_i;
 
 		// Figure 15 counters (part 1)
 		CountingLinkedListNumOnly *n_i_j; // also used for E calculation
 		INTTYPE_REST n_0_arrow_i_circ; // also used for E calculation
 
-		// Added by us for filling out tables
+		// Added by Sand et al. (2014) for filling out tables
 		// A
 		INTTYPE_REST n_paren_i_paren_circ_circ;
 		INTTYPE_REST n_bracket_i_paren_circ_circ;
@@ -129,7 +129,7 @@ class CountingLinkedList
 
 			n_0_arrow_i_circ = 0;
 
-			// Added by us for filling out tables
+			// Added by Sand et al. (2014) for filling out tables
 			// A
 			n_paren_i_paren_circ_circ = 0;
 			n_bracket_i_paren_circ_circ = 0;

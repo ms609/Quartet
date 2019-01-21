@@ -52,7 +52,7 @@ void HDT::handleG()
 	n_paren_circ_square = 0;
 	n_bracket_circ_square = 0;
 
-	// Added by us for filling out tables (initialize)
+	// Added by Sand et al. (2014) for filling out tables (initialize)
 	n_bracket_circ_circ = 0;
 	n_paren_circ_paren_square_square = 0;
 	n_bracket_circ_paren_square_square = 0;
@@ -248,7 +248,7 @@ void HDT::handleG()
 				// j > i
 				//
 				// +------------------------------------------+
-				// | New sums for calculating E (Added by us) |
+				// | New sums for calculating E (Added by Sand et al. (2014)) |
 				// +------------------------------------------+
 				//
 
@@ -261,7 +261,7 @@ void HDT::handleG()
 			lastJPlus1 = j+1;
 		}
 
-		// Added by us for filling out tables
+		// Added by Sand et al. (2014) for filling out tables
 		// A
 		ourCount->n_paren_i_paren_circ_circ = g1Count->n_paren_i_paren_circ_circ + g2Count->n_paren_i_paren_circ_circ;
 
@@ -300,7 +300,7 @@ void HDT::handleG()
 		n_paren_circ_square += ourCount->n_paren_i_circ;
 		n_bracket_circ_square += ourCount->n_bracket_i_circ;
 
-		// Added by us for filling out tables (initialize)
+		// Added by Sand et al. (2014) for filling out tables (initialize)
 		n_bracket_circ_circ += Util::binom2(ourCount->n_i);
 		n_paren_circ_paren_square_square += ourCount->n_paren_i_paren_circ_circ;
 		n_bracket_circ_paren_square_square += ourCount->n_bracket_i_paren_circ_circ;
@@ -373,7 +373,7 @@ void HDT::handleG()
 
 		//
 		// +------------------------------------------+
-		// | New sums for calculating A (Added by us) |
+		// | New sums for calculating A (Added by Sand et al. (2014)) |
 		// +------------------------------------------+
 		//
 
@@ -397,7 +397,7 @@ void HDT::handleG()
 
 		//
 		// +------------------------------------------+
-		// | New sums for calculating E (Added by us) |
+		// | New sums for calculating E (Added by Sand et al. (2014)) |
 		// +------------------------------------------+
 		//
 

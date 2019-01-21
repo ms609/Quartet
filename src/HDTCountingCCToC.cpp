@@ -28,7 +28,7 @@ void HDT::handleCCToC()
 	n_paren_circ_square = 0;
 	n_circ_arrow_paren_square_square = 0;
 	n_bracket_circ_square = 0;
-	n_circ_arrow_square_square = 0; // Added by us
+	n_circ_arrow_square_square = 0; // Added by Sand et al. (2014)
 
 	// Not dependent on i
 	n_0_circ = c1->n_0_circ + c2->n_0_circ;
@@ -499,7 +499,7 @@ void HDT::handleCCToC()
 
 		//
 		// +------------------------------------------+
-		// | New sums for calculating A (Added by us) |
+		// | New sums for calculating A (Added by Sand et al. (2014)) |
 		// +------------------------------------------+
 		//
 
@@ -531,7 +531,7 @@ void HDT::handleCCToC()
 
 		//
 		// +------------------------------------------+
-		// | New sums for calculating E (Added by us) |
+		// | New sums for calculating E (Added by Sand et al. (2014)) |
 		// +------------------------------------------+
 		//
 
