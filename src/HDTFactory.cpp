@@ -179,9 +179,9 @@ TemplatedLinkedList<HDT*>* HDTFactory::getTemplatedLinkedList()
 	return returnMe;
 }
 
-int64_t HDTFactory::getSizeInRam()
+INTTYPE_N4 HDTFactory::getSizeInRam()
 {
-	int64_t resultHDT = 0;
+  INTTYPE_N4 resultHDT = 0;
 	{
 		HDT *current = createdHDTs;
 		while (current != NULL)
@@ -191,7 +191,7 @@ int64_t HDTFactory::getSizeInRam()
 		}
 	}
 
-	int64_t resultLL = 0;
+	INTTYPE_N4 resultLL = 0;
 	{
 		CountingLinkedList *current = createdLL;
 		while (current != NULL)
@@ -201,7 +201,7 @@ int64_t HDTFactory::getSizeInRam()
 		}
 	}
 
-	int64_t resultLLNO = 0;
+	INTTYPE_N4 resultLLNO = 0;
 	{
 		CountingLinkedListNumOnly *current = createdLLNO;
 		while (current != NULL)
@@ -211,7 +211,7 @@ int64_t HDTFactory::getSizeInRam()
 		}
 	}
 
-	int64_t resultTLL = 0;
+	INTTYPE_N4 resultTLL = 0;
 	{
 		TemplatedLinkedList<HDT*> *current = createdTLL;
 		while (current != NULL)
