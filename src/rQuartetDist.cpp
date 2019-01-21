@@ -7,7 +7,6 @@ using namespace Rcpp;
 #include <R.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
-#include <cstdlib>
 #include <vector>
 
 //' Triplet and quartet distances with tqDist
