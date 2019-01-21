@@ -76,36 +76,36 @@ BEGIN_RCPP
 END_RCPP
 }
 // tqdist_TripletDistance
-IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2);
+IntegerVector tqdist_TripletDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_TripletDistance(SEXP file1SEXP, SEXP file2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type file1(file1SEXP);
-    Rcpp::traits::input_parameter< SEXP >::type file2(file2SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file2(file2SEXP);
     rcpp_result_gen = Rcpp::wrap(tqdist_TripletDistance(file1, file2));
     return rcpp_result_gen;
 END_RCPP
 }
 // tqdist_PairsTripletDistance
-IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2);
+IntegerVector tqdist_PairsTripletDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_PairsTripletDistance(SEXP file1SEXP, SEXP file2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type file1(file1SEXP);
-    Rcpp::traits::input_parameter< SEXP >::type file2(file2SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file2(file2SEXP);
     rcpp_result_gen = Rcpp::wrap(tqdist_PairsTripletDistance(file1, file2));
     return rcpp_result_gen;
 END_RCPP
 }
 // tqdist_AllPairsTripletDistance
-IntegerMatrix tqdist_AllPairsTripletDistance(SEXP file);
+IntegerMatrix tqdist_AllPairsTripletDistance(CharacterVector file);
 RcppExport SEXP _Quartet_tqdist_AllPairsTripletDistance(SEXP fileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type file(fileSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file(fileSEXP);
     rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsTripletDistance(file));
     return rcpp_result_gen;
 END_RCPP
