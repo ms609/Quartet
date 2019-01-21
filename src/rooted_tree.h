@@ -2,7 +2,6 @@
 #define ROOTED_TREE_H
 
 #include <vector>
-#include <map>
 #include <string>
 
 #include "int_stuff.h"

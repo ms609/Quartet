@@ -5,7 +5,7 @@
 #include "int_stuff.h"
 #include "util.h"
 #include "rooted_tree_factory.h"
-//#include "counting_linked_list.h"
+
 class RootedTree; // forward declaration
 class HDTFactory; // forward declaration
 class CountingLinkedList; // forward declaration

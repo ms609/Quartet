@@ -1,4 +1,4 @@
-context("tqDist")
+context("tqDist tests")
 
 test_that("tqDist returns correct quartet distances", {
   expect_true(file.exists("../trees/quartet1.new"))
