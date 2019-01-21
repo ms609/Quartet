@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <algorithm>
 
 #include "rooted_tree.h"
 #include "rooted_tree_factory.h"
