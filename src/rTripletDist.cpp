@@ -1,8 +1,8 @@
 #include <Rcpp.h>
 using namespace Rcpp;
+#include "int_stuff.h"
 
 #include "TripletDistanceCalculator.h"
-#include "int_stuff.h"
 
 #include <R.h>
 #include <Rdefines.h>
