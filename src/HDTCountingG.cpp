@@ -30,7 +30,6 @@ void HDT::handleG()
 	CountingLinkedList *g2Count = NULL;
 	CountingLinkedList *ourCount = countingVars;
 
-/*#ifdef quartetsToo*/
 	INTTYPE_REST g1Zero = 0;
 	INTTYPE_REST g2Zero = 0;
 
@@ -53,7 +52,7 @@ void HDT::handleG()
 	n_paren_circ_square = 0;
 	n_bracket_circ_square = 0;
 
-	// Added by us for filling out tables (initialize)
+	// Added by Sand et al. (2014) for filling out tables (initialize)
 	n_bracket_circ_circ = 0;
 	n_paren_circ_paren_square_square = 0;
 	n_bracket_circ_paren_square_square = 0;
@@ -73,7 +72,6 @@ void HDT::handleG()
 
 	// Fetch sum for calculating E from children
 	quartSumE = g1->quartSumE + g2->quartSumE;
-/*#endif*/
 
 	while (g1Next != NULL || g2Next != NULL)
 	{
@@ -138,7 +136,6 @@ void HDT::handleG()
 		//ourCount->n_i_arrow_circ = 0; // undefined actually!
 
 		// Quartets
-/*#ifdef quartetsToo*/
 		// 2nd group in figure 12 (quartets only)
 		ourCount->n_0_i = g1Count->n_0_i + g2Count->n_0_i + 
 			g1Zero * g2Count->n_i +
@@ -251,7 +248,7 @@ void HDT::handleG()
 				// j > i
 				//
 				// +------------------------------------------+
-				// | New sums for calculating E (Added by us) |
+				// | New sums for calculating E (Added by Sand et al. (2014)) |
 				// +------------------------------------------+
 				//
 
@@ -264,7 +261,7 @@ void HDT::handleG()
 			lastJPlus1 = j+1;
 		}
 
-		// Added by us for filling out tables
+		// Added by Sand et al. (2014) for filling out tables
 		// A
 		ourCount->n_paren_i_paren_circ_circ = g1Count->n_paren_i_paren_circ_circ + g2Count->n_paren_i_paren_circ_circ;
 
@@ -280,14 +277,6 @@ void HDT::handleG()
 			g1Count->n_i * (g2->n_paren_circ_square - g2Count->n_paren_i_circ) +
 			g2Count->n_i * (g1->n_paren_circ_square - g1Count->n_paren_i_circ);
 
-		/*
-		// Undefined :)
-		ourCount->n_i_arrow_circ_arrow_circ = 0;
-		ourCount->n_i_arrow_circ_arrow_square = 0;
-		ourCount->n_paren_circ_square_arrow_i = 0;
-		if (ourCount->n_i_arrow_j != NULL) ourCount->n_i_arrow_j->type = CountingLinkedListNumOnly::SkipAndEnd;
-		*/
-
 		// New counters for calculating E
 		ourCount->n_paren_i_circ_square = g1Count->n_paren_i_circ_square + g2Count->n_paren_i_circ_square;
 
@@ -300,20 +289,18 @@ void HDT::handleG()
 		ourCount->n_bracket_0_i_circ = g1Count->n_bracket_0_i_circ + g2Count->n_bracket_0_i_circ +
 			g1Count->n_0_i * (g2->n_circ - g2Count->n_i) + g1Count->n_i * (g2->n_0_circ - g2Count->n_0_i) + g1Count->n_i_circ * g2Zero + 
 			g2Count->n_0_i * (g1->n_circ - g1Count->n_i) + g2Count->n_i * (g1->n_0_circ - g1Count->n_0_i) + g2Count->n_i_circ * g1Zero;
-/*#endif*/
 
 		// Sums and stuff
 		n_circ_square += ourCount->n_i_circ;
 
 		// Quartets
-/*#ifdef quartetsToo*/
 		n_circ_circ += ourCount->n_ii;
 		n_square_paren_circ_circ += ourCount->n_i_paren_circ_circ;
 		n_paren_circ_circ += ourCount->n_paren_ii;
 		n_paren_circ_square += ourCount->n_paren_i_circ;
 		n_bracket_circ_square += ourCount->n_bracket_i_circ;
 
-		// Added by us for filling out tables (initialize)
+		// Added by Sand et al. (2014) for filling out tables (initialize)
 		n_bracket_circ_circ += Util::binom2(ourCount->n_i);
 		n_paren_circ_paren_square_square += ourCount->n_paren_i_paren_circ_circ;
 		n_bracket_circ_paren_square_square += ourCount->n_bracket_i_paren_circ_circ;
@@ -324,7 +311,6 @@ void HDT::handleG()
 	
 		n_bracket_circ_square_triangle += ourCount->n_bracket_i_circ_square;
 		n_bracket_0_circ_square += ourCount->n_bracket_0_i_circ;
-/*#endif*/
 
 		// Update resolved/resolved and unresolved/unresolved
 		// (Figure 10)
@@ -335,7 +321,6 @@ void HDT::handleG()
 		tripUnresolved += g2Count->n_i * (g1->n_circ_square - g1Count->n_i_circ);
 
 		// Quartets
-/*#ifdef quartetsToo*/
 		//quartResolvedAgree & quartResolvedDisagree
 
 		// alpha & alpha
@@ -388,7 +373,7 @@ void HDT::handleG()
 
 		//
 		// +------------------------------------------+
-		// | New sums for calculating A (Added by us) |
+		// | New sums for calculating A (Added by Sand et al. (2014)) |
 		// +------------------------------------------+
 		//
 
@@ -412,7 +397,7 @@ void HDT::handleG()
 
 		//
 		// +------------------------------------------+
-		// | New sums for calculating E (Added by us) |
+		// | New sums for calculating E (Added by Sand et al. (2014)) |
 		// +------------------------------------------+
 		//
 
@@ -436,7 +421,6 @@ void HDT::handleG()
 		// epsilon & epsilon (part 2)
 		quartSumE += (INTTYPE_N4) (g1->n_paren_0_circ_square - g1Count->n_paren_0_i_circ) * g2Count->n_i;
 		quartSumE += (INTTYPE_N4) (g2->n_paren_0_circ_square - g2Count->n_paren_0_i_circ) * g1Count->n_i;
-/*#endif*/
 
 		// Go to next on children unless we're done
 		if (g1Next == NULL && g2Next == NULL)
@@ -450,16 +434,13 @@ void HDT::handleG()
 		}
 	}
 
-/*#ifdef quartetsToo*/
 	//gamma & beta (part 1) (continued from inside the loop) (figure 13)
 	quartResolvedAgree += (INTTYPE_N4) g1Zero * g2->n_square_paren_circ_circ;
 	quartResolvedAgree += (INTTYPE_N4) g2Zero * g1->n_square_paren_circ_circ;
-/*#endif*/
 
 	n_circ_square /= 2;
 
 	// Quartets
-/*#ifdef quartetsToo*/
 	n_paren_circ_square /= 2;
 	n_bracket_circ_square /= 2;
 
@@ -497,5 +478,4 @@ void HDT::handleG()
 	  Rcpp::stop("n_bracket_0_circ_square mod 2 check failed");
 	}
 	n_bracket_0_circ_square /= 2;
-/*#endif*/
 }

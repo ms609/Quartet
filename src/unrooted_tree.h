@@ -1,10 +1,8 @@
 #ifndef UNROOTED_TREE_H
 #define UNROOTED_TREE_H
 
-#include <iostream>
 #include <vector>
 #include <string>
-#include <algorithm>
 
 #include "rooted_tree.h"
 #include "rooted_tree_factory.h"

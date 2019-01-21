@@ -20,7 +20,7 @@ class RootedTreeFactory
 		~RootedTreeFactory();
 		RootedTree* getRootedTree(string name = "");
 		TemplatedLinkedList<RootedTree*>* getTemplatedLinkedList();
-		int64_t getSizeInRam();
+		INTTYPE_N4 getSizeInRam();
 };
 
 #endif

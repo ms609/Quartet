@@ -31,7 +31,7 @@ class HDTFactory
 		CountingLinkedListNumOnly* getLLNO();
 		TemplatedLinkedList<HDT*>* getTemplatedLinkedList();
 		void deleteTemplatedLinkedList();
-		int64_t getSizeInRam();
+		INTTYPE_N4 getSizeInRam();
 };
 
 #endif

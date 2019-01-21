@@ -19,21 +19,20 @@ function `SplitStatus`).
 
 
 ## Using the package
-The package will soon be compiled and uploaded to the CRAN repository.  
-Meanwhile, you can install the latest version of the package into R thus:
-
-```r
-# Install the devtools package from CRAN
-install.packages('devtools')
-
-# Install the package from github
-devtools::install_github('ms609/Quartet', args='--no-multiarch')
-
-# Load the package into R
+Install and load the library from CRAN as follows:
+```
+install.packages('Quartet')
 library('Quartet')
 ```
 
-You will need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed to allow R to build the package.
+If you're feeling brave, you can install the development version thus:
+```r
+if(!require(devtools)) install.packages("devtools")
+devtools::install_github('ms609/Quartet')
+```
+
+You will need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed 
+in order to build the development version from source.
 
 ## References
 - Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet 

@@ -1,8 +1,8 @@
 #include <Rcpp.h>
 using namespace Rcpp;
+#include "int_stuff.h"
 
 #include "TripletDistanceCalculator.h"
-#include "int_stuff.h"
 
 #include <R.h>
 #include <Rdefines.h>
@@ -13,7 +13,12 @@ using namespace Rcpp;
 //' @describeIn tqdist_QuartetDistance Triplet distance between two trees
 //' @export
 // [[Rcpp::export]]
-IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
+IntegerVector tqdist_TripletDistance(CharacterVector file1, CharacterVector file2) {
+  int n1 = file1.size(), n2 = file2.size();
+  if (n1 != 1 || n2 != 1) {
+    Rcpp::stop("file1 and file2 must be character vectors of length 1");
+  }
+  
   const char *filename1;
   const char *filename2;
 
@@ -25,14 +30,19 @@ IntegerVector tqdist_TripletDistance(SEXP file1, SEXP file2) {
   INTTYPE_REST res = tripletCalc.calculateTripletDistance(filename1, filename2);
   
   IntegerVector IV_res(1);
-  IV_res = res;
+  IV_res[0] = res;
   return IV_res;
 }
 
 //' @describeIn tqdist_QuartetDistance Triplet distance between pairs
 //' @export
 // [[Rcpp::export]]
-IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
+IntegerVector tqdist_PairsTripletDistance(CharacterVector file1, CharacterVector file2) {
+  int n1 = file1.size(), n2 = file2.size();
+  if (n1 != 1 || n2 != 1) {
+    Rcpp::stop("file1 and file2 must be character vectors of length 1");
+  }
+  
   const char * filename1;
   const char * filename2;
   
@@ -40,6 +50,7 @@ IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
   filename2 = CHAR(STRING_ELT(file2, 0));
   
   TripletDistanceCalculator tripletCalc;
+  
   std::vector<INTTYPE_REST> res = tripletCalc.pairs_triplet_distance(filename1, filename2);
   
   IntegerVector IV_res(res.size());
@@ -52,16 +63,19 @@ IntegerVector tqdist_PairsTripletDistance(SEXP file1, SEXP file2) {
 //' @describeIn tqdist_QuartetDistance Triplet distance between all pairs
 //' @export
 // [[Rcpp::export]]
-IntegerMatrix tqdist_AllPairsTripletDistance(SEXP file) {
-  const char * filename;
+IntegerMatrix tqdist_AllPairsTripletDistance(CharacterVector file) {
+  int n = file.size();
+  if (n != 1) {
+    Rcpp::stop("file must be a character vector of length 1");
+  }
   
+  const char *filename;
   filename = CHAR(STRING_ELT(file, 0));
-
   TripletDistanceCalculator tripletCalc;
+
   std::vector<std::vector<INTTYPE_REST> > res = tripletCalc.calculateAllPairsTripletDistance(filename);
 
   IntegerMatrix IM_res(res.size(), res.size());
-  //  int *ians = INTEGER(res_sexp);
   
   for (size_t r = 0; r < res.size(); ++r) {
     for (size_t c = 0; c < r; ++c) {

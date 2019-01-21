@@ -1,16 +1,14 @@
 #ifndef ROOTED_TREE_H
 #define ROOTED_TREE_H
 
-#include <iostream>
 #include <vector>
-#include <map>
 #include <string>
 
 #include "int_stuff.h"
 #include "templated_linked_list.h"
 
-class HDT;// Forward declaration...
-class RootedTreeFactory; // Forward declaration...
+class HDT;// Forward declaration
+class RootedTreeFactory; // Forward declaration
 
 using namespace std;
 

@@ -22,7 +22,6 @@ void HDT::handleLeaf()
 	countingVars->n_i_arrow_circ = 0;
 
 	// Quartets
-/*#ifdef quartetsToo*/
 	countingVars->n_0_i = 0;
 	countingVars->n_ii = 0;
 	countingVars->n_0_paren_ii = 0;
@@ -62,7 +61,7 @@ void HDT::handleLeaf()
 	countingVars->n_i_arrow_0_arrow_circ = 0;
 	countingVars->n_circ_arrow_i_arrow_i = 0;
 	
-	// Added by us
+	// Added by Sand et al. (2014)
 	countingVars->n_i_arrow_paren_circ_circ = 0;
 	countingVars->n_0_arrow_ii = 0;
 	countingVars->n_paren_0_circ_arrow_i = 0;
@@ -70,7 +69,7 @@ void HDT::handleLeaf()
 	//countingVars->n_i_j = NULL; // it already is!
 	countingVars->n_0_arrow_i_circ = 0;
 
-	// Added by us for filling out tables
+	// Added by Sand et al. (2014) for filling out tables
 	// A
 	countingVars->n_paren_i_paren_circ_circ = 0;
 	countingVars->n_bracket_i_paren_circ_circ = 0;
@@ -92,7 +91,6 @@ void HDT::handleLeaf()
 	countingVars->n_paren_0_i_circ = 0;
 	countingVars->n_bracket_i_circ_square = 0;
 	countingVars->n_bracket_0_i_circ = 0;
-/*#endif*/
 
 	countingVars->type = CountingLinkedList::End;
 
@@ -102,7 +100,6 @@ void HDT::handleLeaf()
 	n_circ_square = 0;
 
 	// Sums (quartets)
-/* ifdef quartetsToo*/
 	n_0_circ = 0;
 	n_circ_circ = 0;
 	n_square_paren_circ_circ = 0;
@@ -116,10 +113,10 @@ void HDT::handleLeaf()
 	n_circ_arrow_0 = 0;
 	n_0_arrow_circ_circ = 0;
 
-	// Added by us
+	// Added by Sand et al. (2014)
 	n_circ_arrow_square_square = 0;
 
-	// Added by us for filling out tables
+	// Added by Sand et al. (2014) for filling out tables
 	n_bracket_circ_circ = 0;
 	n_paren_circ_paren_square_square = 0;
 	n_circ_arrow_circ = 0;
@@ -141,5 +138,4 @@ void HDT::handleLeaf()
 	n_paren_0_circ_square = 0;
 	n_bracket_circ_square_triangle = 0;
 	n_bracket_0_circ_square = 0;
-/*#endif */
 }

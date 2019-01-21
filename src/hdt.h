@@ -1,12 +1,11 @@
 #ifndef HDT_H
 #define HDT_H
 
-#include <iostream>
 #include <string>
 #include "int_stuff.h"
 #include "util.h"
 #include "rooted_tree_factory.h"
-//#include "counting_linked_list.h"
+
 class RootedTree; // forward declaration
 class HDTFactory; // forward declaration
 class CountingLinkedList; // forward declaration
@@ -81,7 +80,6 @@ class HDT
 		INTTYPE_REST n_circ_square;
 
 		// Quartets
-/*#ifdef quartetsToo*/
 		INTTYPE_REST n_0_circ;
 		INTTYPE_REST n_paren_0_circ;
 		INTTYPE_REST n_circ_circ;
@@ -94,10 +92,10 @@ class HDT
 		INTTYPE_REST n_circ_arrow_0;
 		INTTYPE_REST n_0_arrow_circ_circ;
 
-		// Added by us
+		// Added by Sand et al. (2014)
 		INTTYPE_REST n_circ_arrow_square_square;
 
-		// Added by us for filling out tables
+		// Added by Sand et al. (2014) for filling out tables
 		INTTYPE_REST n_bracket_circ_circ;
 		INTTYPE_REST n_paren_circ_paren_square_square;
 		INTTYPE_REST n_circ_arrow_circ;
@@ -118,7 +116,6 @@ class HDT
 		INTTYPE_REST n_paren_0_circ_square;
 		INTTYPE_REST n_bracket_circ_square_triangle;
 		INTTYPE_REST n_bracket_0_circ_square;
-/*#endif*/
 
 		// Summing resolved/resolved and unresolved/unresolved
 		INTTYPE_REST tripResolved;
@@ -138,14 +135,12 @@ class HDT
 		void handleCTransform();
 		void handleG();
 		
-/*#ifdef quartetsToo*/
 		bool gotoIteratorValueForList(CountingLinkedList *list, unsigned int num);
 		enum AddToType {i_j, paren_i_j, j_arrow_i, i_arrow_j, i_paren_i_j, paren_i_paren_i_j, bracket_i_paren_i_j};
 		INTTYPE_REST getIteratorValueForNumList(CountingLinkedListNumOnly *list, unsigned int num);
 		bool gotoIteratorValueForNumList(CountingLinkedListNumOnly *list, unsigned int num);
 		bool hasIteratorForNumListEnded(CountingLinkedListNumOnly *list);
 		void addToNumList(CountingLinkedList *parent, AddToType list, unsigned int num, INTTYPE_REST value);
-/*#endif*/
 };
 
 #endif

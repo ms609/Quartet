@@ -19,13 +19,12 @@ void HDT::initialize(CountingLinkedList *countingVars, NodeType type, int numD, 
 	goBackVariable = NULL;
 	tripResolved = 0;
 	tripUnresolved = 0;
-/*#ifdef quartetsToo*/
 	quartResolvedAgree = 0;
 	quartResolvedAgreeDiag = 0;
 	quartResolvedAgreeUpper = 0;
 	// New sum for calculating E
 	quartSumE = 0;
-/*#endif*/
+
 	up2date = altMarked = false;
 
 	this->type = type;
@@ -200,10 +199,7 @@ RootedTree* HDT::extractAndGoBackImpl(RootedTree *addToMe, RootedTreeFactory *fa
 
 void HDT::toDot()
 {
-	// cout << "digraph g {" << endl;
-	//  << "node[shape=circle];" << endl;
 	toDotImpl();
-	//  << "}" << endl;
 }
 
 void HDT::updateCounters()
@@ -294,10 +290,11 @@ HDT* HDT::preFirstRound(RootedTree *t, int numD, bool doLink, HDTFactory *factor
 
 HDT* HDT::round(HDTFactory *factory)
 {
-	// NOTE: C -> G when parent I etc is moved down!!
+	// NOTE: C -> G when parent I etc is moved down.
 
 	// Composition 3: If we're a C we only have 1 child.
-	// If that's a C, use CC->C, skip the child and go directly to that-one's child (if exists)
+	// If that's a C, use CC->C, skip the child and go directly to that-one's 
+	// child (if it exists)
 	if (type == C && children != NULL && children->next == NULL /*children.size() == 1*/)
 	{
 		HDT *child = children->data;
@@ -310,7 +307,8 @@ HDT* HDT::round(HDTFactory *factory)
 			newC->right = child;
 			newC->right->parent = newC;
 
-			// If there's children, there's only 1. We recurse on that one and add the result to our children list.
+			// If there's children, there's only 1. 
+			// We recurse on that one and add the result to our children list.
 			if (child->children != NULL)
 			{
 				child = child->children->data;
@@ -346,7 +344,8 @@ HDT* HDT::round(HDTFactory *factory)
 			// We found 2 G's
 			if (lastG != NULL)
 			{
-				// Merge the two G's by removing one and replaceing the other with the new G that points to the two old ones
+				// Merge the two G's by removing one and replacing the other with the 
+				// new G that points to the two old ones
 
 				// Replace one with a new one with left, right and parent pointers set
 				HDT *newG = factory->getHDT(G, NULL, false);
@@ -409,38 +408,12 @@ bool HDT::isDownwardsClosed()
 
 void HDT::toDotImpl()
 {
-  /*
-	cout << "n" << this << "[label=\"";
-	if (convertedFrom != NotConverted)
-	{
-		switch(convertedFrom)
-		{
-			case I: cout << "I"; break;
-			case C: cout << "C"; break;
-			case G: cout << "G"; break;
-			case NotConverted: cout << "NotConverted"; break; // Shouldn't happen!
-		}
-		cout << " -> ";
-	}
-	switch(type)
-	{
-		case I: cout << "I"; break;
-		case C: cout << "C"; break;
-		case G: cout << "G"; break;
-		case NotConverted: cout << "NotConverted"; break; // Shouldn't happen!
-	}
-	if (link != NULL) cout << "; " << link->name;
-	if (type == G && convertedFrom == C && left == NULL && right == NULL) cout << "; 0's: " << numZeroes;
-	cout << "\"];" << endl;
-  */
 	if (left != NULL)
 	{
 		left->toDotImpl();
-		// cout << "n" << this << " -> n" << left << ";" << endl;
 	}
 	if (right != NULL)
 	{
 		right->toDotImpl();
-		// cout << "n" << this << " -> n" << right << ";" << endl;
 	}
 }

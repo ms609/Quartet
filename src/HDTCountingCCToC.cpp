@@ -21,7 +21,6 @@ void HDT::handleCCToC()
 	n_circ_square = 0;
 
 	// Quartets
-/*#ifdef quartetsToo*/
 	// Initialize sums to 0 so we can increment it in the loop
 	n_circ_circ = 0;
 	n_square_paren_circ_circ = 0;
@@ -29,13 +28,13 @@ void HDT::handleCCToC()
 	n_paren_circ_square = 0;
 	n_circ_arrow_paren_square_square = 0;
 	n_bracket_circ_square = 0;
-	n_circ_arrow_square_square = 0; // Added by us
+	n_circ_arrow_square_square = 0; // Added by Sand et al. (2014)
 
 	// Not dependent on i
 	n_0_circ = c1->n_0_circ + c2->n_0_circ;
 	n_paren_0_circ = c1->n_paren_0_circ + c2->n_paren_0_circ;
 
-	// Added by us for filling out tables (initialize)
+	// Added by Sand et al. (2014) for filling out tables (initialize)
 	n_bracket_circ_circ = 0;
 	n_paren_circ_paren_square_square = 0;
 	n_circ_arrow_circ = 0;
@@ -65,7 +64,6 @@ void HDT::handleCCToC()
 
 	// Fetch sum for calculating E from children
 	quartSumE = c1->quartSumE + c2->quartSumE;
-/*#endif*/
 
 	// Fetch the childrens "result counting data"
 	tripResolved = c1->tripResolved + c2->tripResolved;
@@ -79,7 +77,6 @@ void HDT::handleCCToC()
 	CountingLinkedList *ourCount = countingVars;
 
 	// Quartets
-/*#ifdef quartetsToo*/
 	INTTYPE_REST c1Zero = 0;
 	INTTYPE_REST c2Zero = 0;
 
@@ -97,7 +94,6 @@ void HDT::handleCCToC()
 	n_0_arrow_circ_circ = c1->n_0_arrow_circ_circ + c2->n_0_arrow_circ_circ +
 		c1Zero * c2->n_circ_circ;
 	// Not dependent on i (end)
-/*#endif*/
 
 	while (c1Next != NULL || c2Next != NULL)
 	{
@@ -158,7 +154,6 @@ void HDT::handleCCToC()
 			c1Count->n_i * (c2->n_circ - c2Count->n_i);
 
 		// Quartets
-/*#ifdef quartetsToo*/
 		// 2nd group in figure 12 (quartets only)
 		ourCount->n_0_i = c1Count->n_0_i + c2Count->n_0_i;
 		ourCount->n_ii = c1Count->n_ii + c2Count->n_ii;
@@ -258,7 +253,7 @@ void HDT::handleCCToC()
 			(c1->n_circ - c1Count->n_i) * c2Count->n_i_arrow_i +
 			c1Count->n_circ_arrow_i * c2Count->n_i;
 
-		// Added by us!
+		// Added by Sand et al. (2014)
 		ourCount->n_i_arrow_paren_circ_circ = c1Count->n_i_arrow_paren_circ_circ + c2Count->n_i_arrow_paren_circ_circ +
 			c1Count->n_i * (c2->n_paren_circ_circ - c2Count->n_paren_ii);
 
@@ -281,7 +276,7 @@ void HDT::handleCCToC()
 		if (ourCount->n_j_arrow_i != NULL) ourCount->n_j_arrow_i->type = CountingLinkedListNumOnly::SkipAndEnd;
 		if (ourCount->n_i_arrow_j != NULL) ourCount->n_i_arrow_j->type = CountingLinkedListNumOnly::SkipAndEnd;
 
-		// Added by us for filling out tables
+		// Added by Sand et al. (2014) for filling out tables
 		// A
 		ourCount->n_bracket_i_paren_circ_circ = c1Count->n_bracket_i_paren_circ_circ + c2Count->n_bracket_i_paren_circ_circ + 
 			(c1->n_bracket_circ_circ - Util::binom2(c1Count->n_i)) * c2Count->n_i + c1Count->n_i * (c2->n_paren_circ_circ - c2Count->n_paren_ii);
@@ -349,7 +344,7 @@ void HDT::handleCCToC()
 				ourCount->n_bracket_i_circ_square += addThis;
 				// E end
 
-				// Added by us for filling out tables
+				// Added by Sand et al. (2014) for filling out tables
 				ourCount->n_bracket_i_paren_circ_circ += c1->countingVars->getIteratorValue(j)->n_i * getIteratorValueForNumList(c2Count->n_j_arrow_i, j);
 				ourCount->n_bracket_i_paren_circ_square += c1->countingVars->getIteratorValue(j)->n_i * (c2Count->n_circ_arrow_i - getIteratorValueForNumList(c2Count->n_j_arrow_i, j));
 				ourCount->n_i_arrow_circ_arrow_circ += getIteratorValueForNumList(c1Count->n_i_arrow_j, j) * c2->countingVars->getIteratorValue(j)->n_i;
@@ -361,7 +356,7 @@ void HDT::handleCCToC()
 		ourCount->n_0_arrow_i_circ = c1Count->n_0_arrow_i_circ + c2Count->n_0_arrow_i_circ +
 			c1Zero * c2Count->n_i_circ;
 
-		// Added by us for filling out tables
+		// Added by Sand et al. (2014) for filling out tables
 		ourCount->n_paren_i_paren_circ_circ = c1Count->n_paren_i_paren_circ_circ + c2Count->n_paren_i_paren_circ_circ;
 
 		ourCount->n_paren_i_paren_circ_square = c1Count->n_paren_i_paren_circ_square + c2Count->n_paren_i_paren_circ_square;
@@ -394,13 +389,11 @@ void HDT::handleCCToC()
 			c1Zero * c2Count->n_i_circ + 
 			c1Count->n_i * (c2->n_0_circ - c2Count->n_0_i) +
 			(c1->n_circ - c1Count->n_i) * c2Count->n_0_i;
-/*#endif*/
 
 		// Sums and stuff
 		n_circ_square += ourCount->n_i_circ;
 				
 		// Quartets
-/*#ifdef quartetsToo*/
 		n_circ_circ += ourCount->n_ii;
 		n_square_paren_circ_circ += ourCount->n_i_paren_circ_circ;
 		n_paren_circ_circ += ourCount->n_paren_ii;
@@ -408,10 +401,10 @@ void HDT::handleCCToC()
 		n_circ_arrow_paren_square_square += ourCount->n_circ_arrow_paren_ii; // FIXED!!
 		n_bracket_circ_square += ourCount->n_bracket_i_circ;
 
-		// Added by us
+		// Added by Sand et al. (2014)
 		n_circ_arrow_square_square += ourCount->n_i_arrow_circ_circ;
 
-		// Added by us for filling out tables
+		// Added by Sand et al. (2014) for filling out tables
 		// A
 		n_bracket_circ_circ += Util::binom2(ourCount->n_i);
 		n_paren_circ_paren_square_square += ourCount->n_paren_i_paren_circ_circ;
@@ -432,7 +425,6 @@ void HDT::handleCCToC()
 
 		n_bracket_circ_square_triangle += ourCount->n_bracket_i_circ_square;
 		n_bracket_0_circ_square += ourCount->n_bracket_0_i_circ;
-/*#endif*/
 
 		// Update resolved/resolved and unresolved/unresolved
 		// (Figure 10)
@@ -442,7 +434,6 @@ void HDT::handleCCToC()
 		tripUnresolved += c1Count->n_i * (c2->n_circ_square - c2Count->n_i_circ);
 
 		// Quartets
-/*#ifdef quartetsToo*/
 		//quartResolvedAgree & quartResolvedDisagree
 
 		// alpha & alpha
@@ -508,7 +499,7 @@ void HDT::handleCCToC()
 
 		//
 		// +------------------------------------------+
-		// | New sums for calculating A (Added by us) |
+		// | New sums for calculating A (Added by Sand et al. (2014)) |
 		// +------------------------------------------+
 		//
 
@@ -540,7 +531,7 @@ void HDT::handleCCToC()
 
 		//
 		// +------------------------------------------+
-		// | New sums for calculating E (Added by us) |
+		// | New sums for calculating E (Added by Sand et al. (2014)) |
 		// +------------------------------------------+
 		//
 
@@ -562,7 +553,6 @@ void HDT::handleCCToC()
 		quartSumE += (INTTYPE_N4) c1Count->n_i * (c2->n_0_circ_arrow_square - c2Count->n_0_i_arrow_circ - c2Count->n_0_circ_arrow_i);
 		quartSumE += (INTTYPE_N4) (c1->n_bracket_0_circ_square - c1Count->n_bracket_0_i_circ) * c2Count->n_i;
 		quartSumE += (INTTYPE_N4) c1Count->n_i * (c2->n_paren_0_circ_square - c2Count->n_paren_0_i_circ);
-/*#endif*/
 
 		// Go to next on children unless we're done
 		if (c1Next == NULL && c2Next == NULL)
@@ -578,7 +568,6 @@ void HDT::handleCCToC()
 	n_circ_square /= 2;
 
 	// Quartets
-/*#ifdef quartetsToo*/
 	n_paren_circ_square /= 2;
 	n_bracket_circ_square /= 2;
 
@@ -617,5 +606,4 @@ void HDT::handleCCToC()
 	  Rcpp::warning("n_0_arrow_circ_square mod 2 check failed");
 	}
 	n_0_arrow_circ_square /= 2;
-/*#endif*/
 }

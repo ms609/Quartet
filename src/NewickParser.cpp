@@ -2,10 +2,8 @@
 
 #include <Rcpp.h>
 #include <fstream>
-#include <sstream>
 #include <cstdlib>
-#include <algorithm> 
-#include <functional> 
+
 #include <cctype>
 #include <locale>
 
