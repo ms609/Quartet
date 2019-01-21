@@ -228,18 +228,13 @@ AE QuartetDistanceCalculator::calculateQuartetAgreement(UnrootedTree *t1, Unroot
   
   count(this->t1);
 
-/*#ifndef doExtractAndContract
-// factory deleted in count if def.
-  delete hdt->factory;
-#endif*/
-
   n = this->t1->n;
   
   res.a = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
   res.e = unresolvedQuartets;
   res.noQuartets = Util::binom4(n);
   
-  // HDT is deleted in count!
+  // HDT is deleted in count
   delete this->t1->factory;
   delete this->t2->factory;
   

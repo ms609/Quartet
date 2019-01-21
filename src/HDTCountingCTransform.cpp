@@ -10,7 +10,6 @@ void HDT::handleCTransform()
 	n_circ_square = 0;
 
 	// Quartets
-/*#ifdef quartetsToo*/
 	// Sums initialized to 0, summed in loop below
 	n_paren_circ_circ = 0;
 	n_paren_circ_square = 0;
@@ -27,15 +26,7 @@ void HDT::handleCTransform()
 	n_paren_0_circ = gZero * n_circ;
 
 
-	/*
-	// Added by us for filling out tables (Actually undefined!)
-	n_circ_arrow_circ = 0;
-	n_circ_arrow_square = 0;
-	n_paren_circ_circ_arrow_square = 0;
-	n_circ_arrow_square_arrow_square = 0;
-	*/
-
-	// Added by us for filling out tables (initialize)
+	// Added by Sand et al. (2014) for filling out tables (initialize)
 	n_paren_circ_paren_square_square = 0;
 
 	// Reset sums and stuff for calculating E
@@ -43,7 +34,6 @@ void HDT::handleCTransform()
 	n_0_circ_square = 0;
 	n_paren_circ_square_triangle = 0;
 	n_paren_0_circ_square = 0;
-/*#endif*/
 
 	CountingLinkedList *current = countingVars;
 	if (current->num == 0)
@@ -60,7 +50,6 @@ void HDT::handleCTransform()
 		current->n_paren_ii = Util::binom2(current->n_i);
 
 		// Quartets
-/*#ifdef quartetsToo*/
 		// 2nd group in figure 12 (quartets only)
 		current->n_0_i = 0;
 		current->n_ii = 0;
@@ -84,12 +73,12 @@ void HDT::handleCTransform()
 		// Figure 15 counters (part 1)
 		if (current->n_i_j != NULL) current->n_i_j->type = CountingLinkedListNumOnly::SkipAndEnd;
 
-		// Added by us for filling out tables
+		// Added by Sand et al. (2014) for filling out tables
 		// A
 		current->n_paren_i_paren_circ_circ = current->n_bracket_i_paren_circ_circ;
 		current->n_paren_i_paren_circ_square = current->n_bracket_i_paren_circ_square;
 
-		// Added by us for filling out tables (sum)
+		// Added by Sand et al. (2014) for filling out tables (sum)
 		// A
 		n_paren_circ_paren_square_square += current->n_paren_i_paren_circ_circ;
 		
@@ -102,7 +91,6 @@ void HDT::handleCTransform()
 		// New sums for E
 		n_paren_circ_square_triangle += current->n_paren_i_circ_square;
 		n_paren_0_circ_square += current->n_paren_0_i_circ;
-/*#endif*/
 
 		// Go to next on children unless we're done
 		if (current->type != CountingLinkedList::End)
@@ -113,7 +101,6 @@ void HDT::handleCTransform()
 		else current = NULL;
 	}
 
-/*#ifdef quartetsToo*/
 	// These are all based on stuff that is reset to 0
 	n_circ_circ = 0;
 	n_square_paren_circ_circ = 0;
@@ -134,5 +121,4 @@ void HDT::handleCTransform()
 	  Rcpp::stop("n_paren_0_circ_square mod 2 test... FAIL!!!");
 	}
 	n_paren_0_circ_square /= 2;
-/*#endif*/
 }
