@@ -1,7 +1,6 @@
 #ifndef HDT_H
 #define HDT_H
 
-#include <iostream>
 #include <string>
 #include "int_stuff.h"
 #include "util.h"

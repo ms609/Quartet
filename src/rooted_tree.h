@@ -1,7 +1,6 @@
 #ifndef ROOTED_TREE_H
 #define ROOTED_TREE_H
 
-#include <iostream>
 #include <vector>
 #include <map>
 #include <string>
