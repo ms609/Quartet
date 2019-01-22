@@ -1,13 +1,9 @@
 #include <Rcpp.h>
 using namespace Rcpp;
-#include "int_stuff.h"
 
+#include "int_stuff.h"
 #include "TripletDistanceCalculator.h"
 
-#include <R.h>
-#include <Rdefines.h>
-#include <Rinternals.h>
-#include <cstdlib>
 #include <vector>
 
 //' @describeIn tqdist_QuartetDistance Triplet distance between two trees
