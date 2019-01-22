@@ -2,7 +2,7 @@
 % Please edit documentation in R/TreeManipulation.R
 \name{UnshiftTree}
 \alias{UnshiftTree}
-\title{Unshift Tree}
+\title{Add Tree to Start of List}
 \usage{
 UnshiftTree(add, treeList)
 }
