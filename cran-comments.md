@@ -5,22 +5,27 @@
 * R-hub, with `check_rhub(platforms = platforms())`
 
   * Installation failed with PREPERROR on rhub/ubuntu-gcc-release and
-    rhub/fedora-clang-devel, on account of failures to install a required 
-    dependency (`phangorn`).  This seems to be an issue outside
-    of my control; the Debian rhub installation reports success.
+    rhub/fedora-clang-devel (and other platforms), on account of failures 
+    to install a required dependency (`phangorn`).  
+    This seems to be an issue outside of my control.
+  * Installation failed with ERROR on x86_64-pc-linux-gnu:
+    > "there is no package called `lattice`"
+    The failure to install the dependency `lattice` seems to be outwith my 
+    control.
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
 
 There was one NOTE:
 
- > Days since last update: 5
+ > Days since last update: 6
 
-This release comes soon after the release of v1.0.0 on 2019-01-16, which failed
+This release comes on the heels of v1.0.0 on 2019-01-16, which failed
 certain CRAN package checks -- Brian Ripley requested that these be fixed 
-immediately.  After following Prof. Ripley's suggestions and testing the 
-errant platforms using `check_rhub`, it appears that the issues have been 
-resolved.
+immediately and kindly proposed some suggestions for how portability could be
+improved.
+After implementing these and testing the relevant platforms using `check_rhub`, 
+I believe that the issues have been resolved.
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.
