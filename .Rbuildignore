@@ -14,5 +14,4 @@ cran-comments.md
 ^.*\.Rproj$
 man-roxygen
 data-raw
-R/ReleaseQuestions.R
 /^src\-/
