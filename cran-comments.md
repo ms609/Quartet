@@ -8,7 +8,7 @@
     rhub/fedora-clang-devel (and other platforms), on account of failures 
     to install a required dependency (`phangorn`).  
     This seems to be an issue outside of my control.
-  * Installation failed with ERROR on x86_64-pc-linux-gnu:
+  * Installation failed with ERROR on ubuntu-gcc-devel and debian-gcc-patched:
     > "there is no package called `lattice`"
     The failure to install the dependency `lattice` seems to be outwith my 
     control.
