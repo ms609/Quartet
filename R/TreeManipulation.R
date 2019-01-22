@@ -1,4 +1,4 @@
-#' Unshift Tree
+#' Add Tree to Start of List
 #' 
 #' Add a tree to the start of a list of trees
 #' 

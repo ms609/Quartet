@@ -1,8 +1,8 @@
-[![Project Status: Inactive.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
+[![Project Status: Inactive.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 [![Build Status](https://travis-ci.org/ms609/Quartet.svg?branch=master)](https://travis-ci.org/ms609/Quartet)
 [![codecov](https://codecov.io/gh/ms609/Quartet/branch/master/graph/badge.svg)](https://codecov.io/gh/ms609/Quartet)
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/Quartet)](https://cran.r-project.org/package=Quartet)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/Quartet)](https://cran.r-project.org/package=Quartet)
+[![CRAN Status Badge](https://www.r-pkg.org/badges/version/Quartet)](https://cran.r-project.org/package=Quartet)
+[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/Quartet)](https://cran.r-project.org/package=Quartet)
 [![DOI](https://zenodo.org/badge/80424189.svg)](https://zenodo.org/badge/latestdoi/80424189)
 
 # Quartet
