@@ -1,12 +1,9 @@
 #include <Rcpp.h>
 using namespace Rcpp;
-#include "int_stuff.h"
 
+#include "int_stuff.h"
 #include "QuartetDistanceCalculator.h"
 
-#include <R.h>
-#include <Rdefines.h>
-#include <Rinternals.h>
 #include <vector>
 
 //' Triplet and quartet distances with tqDist
