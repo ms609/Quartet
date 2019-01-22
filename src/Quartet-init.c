@@ -1,5 +1,5 @@
 #include <R.h>
-#include <Rinternals.h>
+#include <Rinternals.h> /* for SEXP */
 #include <stdlib.h> /* for NULL */
 #include <R_ext/Rdynload.h>
 

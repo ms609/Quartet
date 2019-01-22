@@ -1,4 +1,4 @@
-# Quartet v1.0.0.9000
+# Quartet v1.0.1
 ## Portability
  - Improved portability of C++ code.
 
