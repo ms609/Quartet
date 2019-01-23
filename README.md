@@ -52,8 +52,8 @@ in order to build the development version from source.
   Bioinformatics. 30:2079–2080. https://doi.org/10.1093/bioinformatics/btu157
 
 - Smith, M.R. (2019) Bayesian and parsimony approaches reconstruct 
-  informative trees from simulated morphological datasets. Biology Letters
-  20180632. https://doi.org/10.1098/rsbl.2018.0632
+  informative trees from simulated morphological datasets. Biol. Lett.
+  15:20180632. https://doi.org/10.1098/rsbl.2018.0632
 
 - Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results.
   Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
