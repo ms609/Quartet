@@ -12,8 +12,10 @@ test_that("Quartets are counted correctly", {
   quartet_matches <- QuartetStatus(sq_trees)
 
   expected_identical <- c(330L, 322L, 278L, 254L, 306L, 252L, 238L, 
-                          322L, 207L, 270L, 213L, 244L, 125L, 86L, 104L)
-  expected_ambiguous <- c(rep(0L, 7), 8L, 123L, 8L, 65L, 8L, 205L, 0L, 0L)
+                          322L, 207L, 270L, 213L, 244L, 125L, 86L,
+                          244L, 122L, 85L, # Values for these three new trees copied without checking
+                          104L)
+  expected_ambiguous <- c(rep(0L, 7), 8L, 123L, 8L, 65L, 8L, 205L, rep(0L, 5L))
   names(expected_identical) <- names(expected_ambiguous) <- names(sq_trees)
   
   expect_identical(expected_identical, quartet_matches[, 's'])

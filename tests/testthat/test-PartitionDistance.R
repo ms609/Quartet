@@ -3,8 +3,8 @@ context("PartitionDistance.R")
 data('sq_trees')
 
 test_that("SplitStatus works", {
-  expect_equal(c(15, 8), dim(SplitStatus(sq_trees)))
-  expect_equal(c(15, 8), dim(SplitStatus(sq_trees, sq_trees$opposite_tree)))
+  expect_equal(c(length(sq_trees), 8), dim(SplitStatus(sq_trees)))
+  expect_equal(c(length(sq_trees), 8), dim(SplitStatus(sq_trees, sq_trees$opposite_tree)))
   expect_equal(SplitStatus(sq_trees, sq_trees$ref_tree), SplitStatus(sq_trees))
 })
 
