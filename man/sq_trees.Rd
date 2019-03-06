@@ -3,8 +3,8 @@
 \docType{data}
 \name{sq_trees}
 \alias{sq_trees}
-\title{Fifteen trees}
-\format{An object of class \code{multiPhylo} of length 15.}
+\title{Eighteen trees}
+\format{An object of class \code{multiPhylo} of length 18.}
 \usage{
 sq_trees
 }
@@ -24,7 +24,12 @@ A list of class \code{\link[ape:multiphylo]{multiPhylo}} containing phylogenetic
 \item{\code{m1mid_colsome}}{Tree \code{move_one_mid} with several nodes collapsed.}
 \item{\code{m2mid_col1}}{Tree \code{move_two_mid} with one node collapsed.}
 \item{\code{m2mid_colsome}}{Tree \code{move_two_mid} with several nodes collapsed.}
-\item{\code{opposite_tree}}{A tree that is more different from \code{ref_tree} than expected by chance.}
+\item{\code{opposite_tree}}{A tree that shares fewer quartets with \code{ref_tree} than expected by chance.}
+\item{\code{caterpillar}}{A pectinate 'caterpillar' tree.}
+\item{\code{top_and_tail}}{Tree \code{caterpillar}, with its outermost taxa swapped
+such that it shares no partitions with \code{caterpillar}.}
+\item{\code{anti_pectinate}}{A random tree that shares no partitions with
+\code{caterpillar}.}
 \item{\code{random_tree}}{A random tree.}
 }
 }

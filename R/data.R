@@ -1,4 +1,4 @@
-#' Fifteen trees
+#' Eighteen trees
 #' 
 #' A list of class \code{\link[ape:multiphylo]{multiPhylo}} containing phylogenetic trees:
 #' \describe{
@@ -15,7 +15,12 @@
 #'    \item{`m1mid_colsome`}{Tree `move_one_mid` with several nodes collapsed.}
 #'    \item{`m2mid_col1`}{Tree `move_two_mid` with one node collapsed.}
 #'    \item{`m2mid_colsome`}{Tree `move_two_mid` with several nodes collapsed.}
-#'    \item{`opposite_tree`}{A tree that is more different from `ref_tree` than expected by chance.}
+#'    \item{`opposite_tree`}{A tree that shares fewer quartets with `ref_tree` than expected by chance.}
+#'    \item{`caterpillar`}{A pectinate 'caterpillar' tree.}
+#'    \item{`top_and_tail`}{Tree `caterpillar`, with its outermost taxa swapped 
+#'    such that it shares no partitions with `caterpillar`.}
+#'    \item{`anti_pectinate`}{A random tree that shares no partitions with 
+#'    `caterpillar`.}
 #'    \item{`random_tree`}{A random tree.}
 #' }
 #'
