@@ -1,3 +1,4 @@
+suppressWarnings(RNGversion("3.5.0"))
 set.seed(1) # 1 produces a random tree with a Qt dist of 226 ~= 330 * 2 / 3
 ref_tree <- ape::read.tree(text="(((1, 2), 3), (((4, 5), 6), ((7, (8, 9)), (10, 11))));")
 sq_trees <- structure(list (
