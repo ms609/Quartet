@@ -16,6 +16,7 @@ test_that("Splits are compared", {
 })
 
 test_that("CompareSplits works", {
+  suppressWarnings(RNGversion("3.5.0")) # Stopgap until R 3.6.0 is widely available
   set.seed(1)
   splits6 <- Tree2Splits(ape::rtree(6, br=NULL)) # No longer needed but
   # preserves random seed!
