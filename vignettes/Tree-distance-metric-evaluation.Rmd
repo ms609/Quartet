@@ -23,7 +23,7 @@ Tree distance metrics are introduced in an [earlier vignette](tree-distance-metr
 ##library('Quartet')
 unloadNamespace('Quartet')
 unloadNamespace('TreeSearch')
-load_all('c:/research/r/TreeSearch')
+devtools::load_all('c:/research/r/TreeSearch')
 library('Quartet')
 cbPalette8 <- Ternary::cbPalette8
 
@@ -62,11 +62,11 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]], ...) {
   text(text_x, y <- y - 1, paste0(signif(tree_dist[2], 3)), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(topo_dist, '/', (11L - 3L) * 2L), cex=0.8, pos=4)
-  text(text_x, y <- y - 1, paste0(signif(TreeSearch::MatchingSplitDistance(tr, ref), 4)), cex=0.8, pos=4)
-  text(text_x, y <- y - 1, paste0(signif(TreeSearch::NyeTreeSimilarity(tr, ref), 4)), cex=0.8, pos=4)
-  text(text_x, y <- y - 1, paste0(signif(TreeSearch::MutualClusterInfo(tr, ref), 4)), cex=0.8, pos=4)
-  text(text_x, y <- y - 1, paste0(signif(TreeSearch::MutualArborealInfo(tr, ref), 4)), cex=0.8, pos=4)
-  text(text_x, y <- y - 1, paste0(signif(TreeSearch::VariationOfArborealInfo(tr, ref), 4)), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(signif(TreeSearch::MatchingSplitDistance(tr, ref), 4), '/16'), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(signif(TreeSearch::NyeTreeSimilarity(tr, ref), 4), '/8'), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, signif(TreeSearch::MutualClusterInfo(tr, ref), 4), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, signif(TreeSearch::MutualArborealInfo(tr, ref), 4), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, signif(TreeSearch::VariationOfArborealInfo(tr, ref), 4), cex=0.8, pos=4)
 }
 
 Phangorn <- function (linkText) {
@@ -76,8 +76,10 @@ Phangorn <- function (linkText) {
 
 # Desired behaviour of tree distance metrics
 
-The advantages of the quartet symmetric difference over other tree distance
-metrics [@Penny1985] are best illustrated by examining a set of example trees.
+The most fundamental desideratum for a tree distance metric is that it assigns
+higher distance scores (or lower similarity scores) to trees that are more 
+different.  A consideration of problematic cases shows that some metrics
+do not consistently meet this fundamental criterion.
 
 ## Moving a single taxon
 
@@ -97,6 +99,13 @@ between these trees, as they differ only in the placement of a single tip.
 The Robinson-Foulds, path difference and quartet metrics, 
 in contrast, recognize trees in which this tip has been 
 moved further as more distant from the starting tree.
+
+`r pass <- '**Pass**'; FAIL <- '<span style="color:red">**FAIL**</span>'`
+
+| Measure | Quartet | Path    | SPR     | RF      | MS  | Nye _et al._ | MClInf  | MArInf  | VoArInf |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
+| Outcome | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` |
+
 
 ## Moving two taxa
 
@@ -124,6 +133,14 @@ RFPlot(sq_trees$move_one_far,   'Long move 1', 1)
 RFPlot(sq_trees$move_two_far,   'Long move 2', 10:11)
 ```
 
+
+| Measure | Quartet | Path    | SPR     | RF      | MS  | Nye _et al._ | MClInf  | MArInf  | VoArInf |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
+| Short move | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` |
+| Medium move | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` |
+| Long move | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` |
+
+
 ## Maximum distance
 A distance metric should distinguish slightly-perturbed trees from
 random trees and those that are more different from the starting tree than 
@@ -149,6 +166,13 @@ RFPlot(sq_trees$random_tree, 'Random tree', ref=pectinate_tree)
 RFPlot(sq_trees$anti_pectinate, 'Random contradictory tree', ref=pectinate_tree)
 ```
 
+| Criterion       | Quartet | Path    | SPR     | RF      | MS  | Nye _et al._ | MClInf  | MArInf  | VoArInf |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
+| Swap 2 > Move 1 | `r pass` | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r pass` |
+| Random > Swap 2 | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r FAIL` | `r FAIL` |
+| Contra > Random | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` |
+
+
 A notable proportion of random trees receive a lower RF distance from the original tree, even though they do not show any structural similarity.
 This is not the case with the quartet symmetric difference.
 
@@ -162,7 +186,7 @@ more_random_trees <- lapply(seq_len(n_random), function (x)
 random_quartets <- QuartetStatus(random_trees, cf=pectinate_tree)[, 'd'] / choose(n_random_tips, 4)
 random_distances <- vapply(random_trees, phangorn::treedist,
                            tree2=pectinate_tree, double(2))
-random_arb_info <- TreeSearch::MutualArborealInfo(random_trees, more_random_trees)
+random_arb_info <- TreeSearch::MutualArborealInfo(random_trees, pectinate_tree)
 random_clu_info <- TreeSearch::MutualClusterInfo(random_trees, pectinate_tree)
 random_spr <- vapply(random_trees, phangorn::sprdist, tree2=pectinate_tree, double(4))
 
