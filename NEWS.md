@@ -1,3 +1,7 @@
+# Quartet v1.0.2.9000
+## Improvements
+ - Update vignettes to incorporate mutual arboreal information distances.
+
 # Quartet v1.0.2
 ## Modifications
  - Force R 3.5.0-style random number generation in examples,
