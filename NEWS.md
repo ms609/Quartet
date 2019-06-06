@@ -1,6 +1,7 @@
 # Quartet v1.0.2.9000
 ## Improvements
  - Update vignettes to incorporate mutual arboreal information distances.
+ - Clarify some documentation pages.
 
 # Quartet v1.0.2
 ## Modifications

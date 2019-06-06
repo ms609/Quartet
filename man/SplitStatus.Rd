@@ -32,9 +32,11 @@ i.e. \emph{P1} + \emph{P2}.
 
 \strong{s}: The number of partitions present in both trees.
 
-\strong{d1}: The number of partitions present in tree 1, but contradicted by tree 2.
+\strong{d1}: The number of partitions present in tree 1,
+but contradicted by tree 2.
 
-\strong{d2}: The number of partitions present in tree 2, but contradicted by tree 1.
+\strong{d2}: The number of partitions present in tree 2,
+but contradicted by tree 1.
 
 \strong{r1}: The number of partitions present in tree 1, and neither
 present nor contradicted in tree 2.
@@ -43,10 +45,12 @@ present nor contradicted in tree 2.
 present nor contradicted in tree 1.
 }
 \description{
-Calculates how many of the partitions present in tree A are also present in
-tree B, how many of the partitions in tree A are absent in tree B, and how
-many of the partitions in tree B are absent in tree A.  The Robinson-Foulds
-(symmetric partition) distance is the sum of the latter two quantities.
+Calculates how many of the partitions present in tree 1 are also present in
+tree 2 (\code{s}),
+how many of the partitions in tree 1 are absent in tree 2 (\code{d1}),
+and how many of the partitions in tree 2 are absent in tree 1 (\code{d2}).
+The Robinson-Foulds (symmetric partition) distance is the sum of the
+latter two quantities, i.e. \code{d1} + \code{d2}.
 }
 \section{Functions}{
 \itemize{

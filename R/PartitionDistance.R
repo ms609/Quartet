@@ -100,10 +100,12 @@ CompareBipartitions <- CompareSplits
 
 #' Matching partitions
 #' 
-#' Calculates how many of the partitions present in tree A are also present in 
-#' tree B, how many of the partitions in tree A are absent in tree B, and how
-#' many of the partitions in tree B are absent in tree A.  The Robinson-Foulds
-#' (symmetric partition) distance is the sum of the latter two quantities.
+#' Calculates how many of the partitions present in tree 1 are also present in 
+#' tree 2 (`s`), 
+#' how many of the partitions in tree 1 are absent in tree 2 (`d1`),
+#' and how many of the partitions in tree 2 are absent in tree 1 (`d2`).
+#' The Robinson-Foulds (symmetric partition) distance is the sum of the 
+#' latter two quantities, i.e. `d1` + `d2`.
 #' 
 #' @inheritParams QuartetStatus
 #' 
@@ -120,9 +122,11 @@ CompareBipartitions <- CompareSplits
 #'   
 #'   **s**: The number of partitions present in both trees.
 #'   
-#'   **d1**: The number of partitions present in tree 1, but contradicted by tree 2.
+#'   **d1**: The number of partitions present in tree 1,
+#'   but contradicted by tree 2.
 #'   
-#'   **d2**: The number of partitions present in tree 2, but contradicted by tree 1.
+#'   **d2**: The number of partitions present in tree 2,
+#'   but contradicted by tree 1.
 #'   
 #'   **r1**: The number of partitions present in tree 1, and neither 
 #'   present nor contradicted in tree 2.
