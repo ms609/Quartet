@@ -16,15 +16,21 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r PhangornDistLinker echo=FALSE}
+PhangornDist <- function (linkText) {
+  paste0('[`', linkText, '`](https://www.rdocumentation.org/packages/phangorn/topics/treedist])')
+}
+```
+
 # Tree distance metrics
 
 A number of metrics area available to quantify the similarity between two undirected
 topologies (i.e. unrooted trees with no edge lengths), many of which are
-implemented in the `phangorn` function `r Phangorn('treedist')`.
+implemented in the `phangorn` function `r PhangornDist('treedist')`.
 
 ## SPR metric
 The subtree pruning and regrafting (SPR) distance [@Penny1985; 
-`r Phangorn('SPR.dist')`] counts the 
+`r PhangornDist('SPR.dist')`] counts the 
 number of SPR rearrangements necessary to transform Tree A into Tree B.
 
 ## Path difference metric
@@ -34,14 +40,14 @@ within the tree that must be crossed to navigate from one tip to the other.
 Given two trees, is possible to calculate the difference in path length between
 each pair of tips.
 
-The path difference metric [@Steel1993; `r Phangorn('path.dist')`] is the 
+The path difference metric [@Steel1993; `r PhangornDist('path.dist')`] is the 
 square root of the sum of squares of each of these differences.
 
 The related nodal distance [@Bluis2003] is not considered further here.
 
 ## Partition metric
 The Robinson-Foulds (RF or 'partition') metric [@Robinson1981; @Steel1993;
-phangorn's `r Phangorn('RF.dist')` or this package's `RobinsonFoulds`]
+phangorn's `r PhangornDist('RF.dist')` or this package's `RobinsonFoulds`]
 measures the symmetric difference between two trees by adding
 the number of bipartitions that are present in tree A (but not tree B)
 to the number of bipartitions present in tree B (but not tree A).  
