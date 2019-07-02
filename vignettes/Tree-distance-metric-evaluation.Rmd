@@ -72,7 +72,7 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
   
   text(text_x, y <- y - 1, paste0(-signif(TreeSearch::NyeTreeSimilarity(tr, ref), 4), '/8'), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(signif(TreeSearch::MatchingSplitDistance(tr, ref), 4),
-                                  '/32~'), cex=0.8, pos=4)
+                                  '/32'), cex=0.8, pos=4)
   
   text(text_x, y <- y - 1, paste0(QuartetStatus(list(tr, ref))[2, 'd'],
                             '/', choose(11,4)), cex=0.8, pos=4)
@@ -120,7 +120,7 @@ moved further as more distant from the starting tree.
 
 Intuitively, moving a pair of tips on a tree should lead to higher tree distances
 than moving a single tip.  In the case of a short move, the RF distance
-does not differ whether one or two tips are moved.
+does not differ whether one or two tips are moved.  
 
 ```{R Cherry-short-move, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
@@ -136,12 +136,25 @@ ape::nodelabels('*', 18, frame='none')
 
 ```
 
-For larger moves, however, the RF distance is _less_ when two tips are moved than
-when a single tip is moved.  The path and quartet metrics perform as expected.
+Arguably this is an ambiguous case, as the moves are equivalent to moving (10, 11) by one node; perhaps the quartet metric can be forgiven for allocating both moves an equivalent score.  With longer moves, all metrics except the SPR, RF and MS allocate higher scores when larger clades are moved:
 
-The trees below differ from a reference tree in the position of a single tip (tip 1), or a pair of tips (tips 10 and 11), which have been moved a short, medium or long distance from their original positions.
+```{R Cherry-short-move-2, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center'}
+par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
-```{R Move-a-cherry-two, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center'}
+RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 5), 2, rep(1, 14)))
+ape::edgelabels('*', 6, frame='none')
+#RFPlot(sq_trees$move_one_near, 'Short move 1', 1)
+#RFPlot(sq_trees$move_two_near, 'Short move 2', 10:11)
+RFPlot(ape::read.tree(text='(((1, 2), 3), (7, ((6, (5, 4)), ((10, 11), (8, 9)))));'), 'Move one tip (7) two nodes', 7, edge.lengths = c(rep(1, 6), 3.5, rep(1, 10), 2, 1, 1))
+ape::nodelabels('*', 15, frame='none')
+RFPlot(ape::read.tree(text='(((1, 2), 3), ((8, 9), ((6, (5, 4)), ((10, 11), 7))));'), 'Move two tips (8 & 9) two nodes', 8:9, edge.lengths=c(rep(1, 6), 2.5, rep(1, 12), 2))
+ape::nodelabels('*', 15, frame='none')
+
+```
+
+The Nye _et al_. metric also fails this test under certain situations:
+
+```{R Move-a-cherry-two, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center', eval=FALSE}
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 7), 2, rep(1, 4), 2, rep(1, 7)))
@@ -153,9 +166,9 @@ ape::nodelabels('*', 17, frame='none')
 
 ```
 
-```{R  Move-a-cherry-two-b, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center'}
+```{R  Move-a-cherry-two-b, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center', include=FALSE, eval=FALSE}
+# Equivalent metric results to last block; don't include
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
-
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 7), 2, rep(1, 7), 2, rep(1, 4)))
 ape::edgelabels('*', 16, frame='none')
@@ -166,7 +179,9 @@ RFPlot(ape::read.tree(text='(((1, 2), 3), (6, ((10, 11), ((5, 4), (7, (8, 9)))))
 ape::nodelabels('*', 18, frame='none')
 
 ```
+
 ```{R Moving-a-cherry-far, eval=FALSE, fig.align='center', fig.height=4, fig.width=6, message=FALSE, cache=TRUE, exec=FALSE, include=FALSE, out.width='66%'}
+# Equivalent to short move; no need to include
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 7), 2, rep(1, 7), 2, rep(1, 4)))
@@ -272,32 +287,14 @@ legend('topleft', bty='n', col=cbPalette8[3], lwd=2, '"Move one taxon" tree', ce
 
 ```
 
-```{r root-location, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=6, fig.width=5.6, out.width='80%', fig.align='center'}
+```{r simple-vs-complex, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=6, fig.width=5.6, out.width='80%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
-RFPlot(pectinate_tree, ref=pectinate_tree, 'Pectinate tree')
-
-RFPlot(ape::root(pectinate_move1, c('1', '11', '10', '9', '8', '7'), resolve.root=TRUE), ref=pectinate_tree, 'Pectinate tree')
+RFPlot(pectinate_tree, 'Pectinate tree', ref=pectinate_tree)
 
 RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
 
-
-```
-
-```{r, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=6, fig.width=5.6, out.width='80%', fig.align='center'}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
-
-RFPlot(pectinate_tree, 'Pectinate tree')
-
-#RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), #2, rep(1, 12), .5, .5, 1.5))
-
-RFPlot(ape::read.tree(text='(((((1, 5), 2), 6), (3, 4)), ((8, (7, 9)), (10, 11)));'), 'Short shuffle', ref=pectinate_tree)
-
-RFPlot(ape::read.tree(text='(((8, (7, 9)), (10, 11)), ((((1, 5), 2), 6), (3, 4)));'), 'Short shuffle re-root', ref=pectinate_tree)
-
-#shortPaths <- which(random_distances['path.difference', ] < 17.7)
-#RFPlot(random_trees[[max(shortPaths)]], ref=pectinate_tree)
-
+RFPlot(ape::read.tree(text='(((((1, 5), 6), 2), (3, 4)), ((8, (7, 9)), (10, 11)));'), 'Short shuffle', ref=pectinate_tree)
 ```
 
 An advantage of the quartet symmetric distance is that the normalized metric of a random
@@ -312,7 +309,7 @@ as an optimality criterion.
 par(mfrow=c(1, 3), mar=rep(0.4, 4))
 ColPlot(sq_trees[[1]], 'Reference tree')
 RFPlot(sq_trees$random_tree,   'Random tree'     )
-RFPlot(sq_trees$opposite_tree, 'Maximum distance')
+RFPlot(sq_trees$opposite_tree, 'Maximum quartet distance')
 ```
 
 ## Unit equivalence
@@ -340,7 +337,7 @@ The information content (Shannon entropy) of a split can be calculated based on
 what proportion of eight-tip trees contain the split in question. 
 This is a function of the evenness of the split:
 
-```{r ic-of-splits, display='asis', echo=FALSE}
+```{r ic-of-splits, display='asis', echo=FALSE, warnings=FALSE}
 splitSmall <- 2:4
 splitLarge <- 8L - splitSmall
 
