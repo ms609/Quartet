@@ -18,14 +18,18 @@ vignette: >
 
 Tree distance metrics are introduced in an [earlier vignette](tree-distance-metrics.html).
 
-```{R initialize, echo=FALSE, meassage=FALSE, warning=FALSE}
+```{R initialize, warning=FALSE, include=FALSE, meassage=FALSE}
 library('TreeSearch')
 #unloadNamespace('TreeSearch')
 ##devtools::load_all('c:/research/r/TreeSearch')
-unloadNamespace('Quartet')
+##unloadNamespace('Quartet')
 ##library('Quartet')
 library('Quartet')
 cbPalette8 <- Ternary::cbPalette8
+data('sq_trees')
+
+pectinate_tree  <- sq_trees$caterpillar
+pectinate_move1 <- ape::read.tree(text='(((((2, 3), 4), 5), 6), (7, (8, (9, (10, (11, 1))))));')
 
 ColPlot <- function (tr, title=NULL, bold=NULL, ...) {
   if (is.null(tr$edge.length)) tr$edge.length <- rep(1, dim(tr$edge)[1])
@@ -33,7 +37,7 @@ ColPlot <- function (tr, title=NULL, bold=NULL, ...) {
   if (!is.null(bold)) font[tr$tip.label %in% bold] <- 4
   plot(tr, tip.col=Ternary::cbPalette15[-c(4, 7)][as.integer(tr$tip.label)], 
        main=title, cex.main=0.8, font=font,
-       y.lim=c(-9.5, 11), ...) ## Change this when adding to legend
+       y.lim=c(-8.4, 11), ...) ## Change value 1 [minimum] when adding to legend
 }
 
 RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]], 
@@ -70,7 +74,7 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
                                   ' / ', pair_info), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(signif(TreeSearch::VariationOfPartitionInfo(tr, ref, MAX=sum), 4), ' / ', pair_info), cex=0.8, pos=4)
   
-  text(text_x, y <- y - 1, paste0(-signif(TreeSearch::NyeTreeSimilarity(tr, ref), 4), '/8'), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(8-signif(TreeSearch::NyeTreeSimilarity(tr, ref), 4), '/8'), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(signif(TreeSearch::MatchingSplitDistance(tr, ref), 4),
                                   '/32'), cex=0.8, pos=4)
   
@@ -90,12 +94,15 @@ higher distance scores (or lower similarity scores) to trees that are more
 different.  A consideration of problematic cases shows that some metrics
 do not consistently meet this fundamental criterion.
 
-## Moving a single taxon
+Note that the value of the Nye _et al._ similarity metric has been converted to
+a measure of distance by subtracting its value from the maximum possible (eight).
+
+## Length of move
 
 If trees differ only in the location of a single taxon (see taxon 1 in the trees below),
 then the distance between two trees should correspond to the distance that this taxon has been moved.
 
-```{R Moving-a-single-taxon, fig.asp=1.8/5, out.width='100%', fig.width=6, echo=FALSE, message=FALSE, cache=TRUE}
+```{R Moving-a-single-taxon, fig.asp=2/5, out.width='100%', fig.width=6, echo=FALSE, message=FALSE, cache=TRUE}
 par(mfrow=c(1, 4), mar=rep(0.4, 4))
 RFPlot(sq_trees[[1]],      'Reference tree', 1)
 RFPlot(sq_trees$move_one_near, 'Short move', 1)
@@ -104,31 +111,33 @@ RFPlot(sq_trees$move_one_far,   'Long move', 1)
 ```
 
 The subtree pruning and regrafting (SPR) distance does not distinguish
-between these trees, as they differ only in the placement of a single tip.
+between these trees, as they differ only in the placement of a single tip. 
+
+The Matching Splits metric lacks the resolution to distinguish a move of 
+two nodes from one of three.
+
 The Robinson-Foulds, path difference and quartet metrics, 
 in contrast, recognize trees in which this tip has been 
 moved further as more distant from the starting tree.
 
 `r pass <- 'Pass'; FAIL <- '<span style="color:red">**FAIL**</span>'`
 
-| Measure | Quartet | Path    | SPR     | RF      | MS  | Nye _et al._ | MClInf  | MArInf  | VoArInf |
+| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| Outcome | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` |
+| **Outcome** | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r pass` | `r FAIL` | `r pass` |
 
 
-## Moving two taxa
+## Number of tips moved
 
 Intuitively, moving a pair of tips on a tree should lead to higher tree distances
-than moving a single tip.  In the case of a short move, the RF distance
-does not differ whether one or two tips are moved.  
+than moving a single tip.  In the case of a short move, the Quartet, SPR and RF distances
+do not differ whether one or two tips are moved.  
 
-```{R Cherry-short-move, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center'}
+```{R Cherry-short-move, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6.4, fig.height=4, out.width='75%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 16), 2, 1,1,1))
 ape::edgelabels('*', 12, frame='none')
-#RFPlot(sq_trees$move_one_near, 'Short move 1', 1)
-#RFPlot(sq_trees$move_two_near, 'Short move 2', 10:11)
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), (7, ((10, 11), (8, 9)))));'), 'Move one tip (7) one node', 7, edge.lengths = c(rep(1, 11), 0.5, 3.5, 0.5, rep(1, 3), 2, 1, 1))
 ape::nodelabels('*', 18, frame='none')
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((8, 9), ((10, 11), 7))));'), 'Move two tips (8 & 9) one node', 8:9, edge.lengths=c(rep(1, 11), 0.5, 2.5, 1, 1, 0.5, 1,1,1,3))
@@ -136,9 +145,15 @@ ape::nodelabels('*', 18, frame='none')
 
 ```
 
-Arguably this is an ambiguous case, as the moves are equivalent to moving (10, 11) by one node; perhaps the quartet metric can be forgiven for allocating both moves an equivalent score.  With longer moves, all metrics except the SPR, RF and MS allocate higher scores when larger clades are moved:
+Arguably this is an ambiguous case, as the moves are equivalent to moving (10, 11) by one node; perhaps the quartet metric can be forgiven for allocating both moves an equivalent score.  
 
-```{R Cherry-short-move-2, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center'}
+| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
+| **Single-node move** | `r pass` | `r pass` | `r pass` | `r pass` | (?) | `r pass` | `r FAIL` | `r FAIL` |
+
+
+<!--
+```{R Cherry-short-move-2, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6.4, fig.height=4, out.width='75%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 5), 2, rep(1, 14)))
@@ -152,9 +167,20 @@ ape::nodelabels('*', 15, frame='none')
 
 ```
 
-The Nye _et al_. metric also fails this test under certain situations:
 
-```{R Move-a-cherry-two, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center', eval=FALSE}
+| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
+| **Two node move** | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r pass` | `r FAIL` | `r FAIL` |
+-->
+
+
+In the following situation, 
+the Nye _et al_. metric assigns a higher distance 
+to a move that relocates relocate a single tip than one that moves two tips to
+the same location, and the matching splits metric fails to differentiate between
+the two:
+
+```{R Move-a-cherry-two, eval=FALSE, echo=FALSE, fig.align='center', fig.height=4, fig.width=6.4, message=FALSE, cache=TRUE, out.width='66%'}
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 7), 2, rep(1, 4), 2, rep(1, 7)))
@@ -166,6 +192,10 @@ ape::nodelabels('*', 17, frame='none')
 
 ```
 
+| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
+| **Two node move** | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r FAIL` | `r FAIL` |
+<!--
 ```{R  Move-a-cherry-two-b, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center', include=FALSE, eval=FALSE}
 # Equivalent metric results to last block; don't include
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
@@ -192,31 +222,52 @@ ape::nodelabels()#'*', 18, frame='none')
 RFPlot(ape::read.tree(text='((((1, 2), (8, 9)), 3), ((6, (5, 4)), ((10, 11), 7)));'), 'Middling move 2a', 8:9)
 ape::nodelabels()#'*', 18, frame='none')
 ```
+-->
 
 
-| Measure | Quartet | Path    | SPR     | RF      | MS  | Nye _et al._ | MClInf  | MArInf  | VoArInf |
+
+## Number of moves made
+
+Moving one taxon a specified distance ought to result in a smaller difference than moving two taxa the same distance. As a simple example, exchanging a pair of taxa represents a larger change than moving one taxon adjacent to the other.
+
+
+```{R Move-vs-exchange, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6.4, fig.aspect=2/5, fig.align='center'}
+par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
+
+RFPlot(pectinate_tree, 'Pectinate tree', ref=pectinate_tree)
+RFPlot(pectinate_move1, 'Move one tip', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
+RFPlot(sq_trees$top_and_tail, 'Exchange two tips', c(1, 11), ref=pectinate_tree)
+```
+
+| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| Short move | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` |
-| Medium move | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` |
-| Long move | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` |
+| **Exchange two tips** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` |
 
-## Moving multiple taxa
+
+As a more nuanced example, I propose that a rearrangement that requires the 
+translocation of more than half the tips in a tree ought to result in
+a higher distance score than any rearrangement in which a single tip is moved:
 
 ```{r simple-vs-complex, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=6, fig.width=5.6, out.width='80%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
 
 RFPlot(pectinate_tree, 'Pectinate tree', ref=pectinate_tree)
 
-RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
+RFPlot(pectinate_move1, 'Move one tip', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
 
-#RFPlot(ape::read.tree(text='(((((1, 5), 6), 2), (3, 4)), ((8, (7, 9)), (10, 11)));'), 'Short shuffle', ref=pectinate_tree)
-#RFPlot(ape::read.tree(text='(1, (2, ((3, (4, 5)), ((8, 9), (7, (11, (6, 10)))))));'), 'Discovered: move 5 (4,5,8,9,6)', ref=pectinate_tree)
-RFPlot(ape::read.tree(text='(1, ((2, (4, 5)), (3, ((8, 9), ((7, 11), (6, 10))))));'), 'Move 6: 4,5,6,8,9,11', c(4,5,6,8,9,11), ref=pectinate_tree)
+RFPlot(ape::read.tree(text='(1, ((2, (4, 5)), (3, ((8, 9), ((7, 11), (6, 10))))));'), 'Move six tips: 4,5,6,8,9,11', c(4,5,6,8,9,11), ref=pectinate_tree)
 #RFPlot(ape::read.tree(text='(1, ((3, (4, 5)), (2, ((8, 9), ((7, 11), (6, 10))))));'), 'Move 6: 2,4,5,6,7,8', ref=pectinate_tree)
 ```
 
+In this example, the path metric fails this test.
 
-## Maximum distance
+| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
+| **Complexity** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r FAIL` |
+
+
+## Saturation
+
 A distance metric should distinguish slightly-perturbed trees from
 random trees and those that are more different from the starting tree than 
 expected by chance.
@@ -224,29 +275,24 @@ expected by chance.
 The Robinson-Foulds metric can reach its maximum value when a single taxon is
 relocated from the most basal to the most derived point of a pectinate tree, 
 representing a maximal value despite retaining relationship information about 
-all other taxa.
+all other taxa.  It thus lacks the capacity to distinguish a random tree from
+one that is selected to maximise the distance from the comparison tree.
 
-```{R Pectinate-to-break-RF, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=9, fig.align='center'}
-par(mfrow=c(3, 2), mar=rep(0.4, 4), cex=1)
-remove(sq_trees)
-data('sq_trees')
+```{R Pectinate-to-break-RF, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=6, fig.align='center'}
+par(mfrow=c(2, 2), mar=rep(0.4, 4), cex=1)
 
-pectinate_tree  <- sq_trees$caterpillar
-pectinate_move1 <- ape::read.tree(text='(((((2, 3), 4), 5), 6), (7, (8, (9, (10, (11, 1))))));')
-RFPlot(pectinate_tree, 'Pectinate tree', ref=pectinate_tree)
-plot.new()
+RFPlot(pectinate_tree, 'Pectinate reference tree', ref=pectinate_tree)
 RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
 #ape::edgelabels()
-RFPlot(sq_trees$top_and_tail, 'Swap two taxa', c(1, 11), ref=pectinate_tree)
 RFPlot(sq_trees$random_tree, 'Random tree', ref=pectinate_tree)
 RFPlot(sq_trees$anti_pectinate, 'Positively contradictory tree', ref=pectinate_tree)
 ```
 
-| Criterion       | Quartet | Path    | SPR     | RF      | MS  | Nye _et al._ | MClInf  | MArInf  | VoArInf |
+
+| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| Swap 2 > Move 1 | `r pass` | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r pass` |
-| Random > Swap 2 | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r FAIL` | `r FAIL` |
-| Contra > Random | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` |
+| **Saturation** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | (?) | `r FAIL` |
+
 
 
 A notable proportion of random trees receive a lower RF distance from the original tree, even though they do not show any structural similarity.
