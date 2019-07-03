@@ -76,7 +76,7 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
   
   text(text_x, y <- y - 1, paste0(QuartetStatus(list(tr, ref))[2, 'd'],
                             '/', choose(11,4)), cex=0.8, pos=4)
-  text(text_x, y <- y - 1, paste0(signif(tree_dist['path.difference'], 3)), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(signif(tree_dist['path.difference'], 4)), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(tree_dist['symmetric.difference'], '/', (11L - 3L) * 2L), cex=0.8, pos=4)
   #text(text_x, y <- y - 1, paste0(100 * signif(TreeSearch::VariationOfPartitionInfo(tr, ref) / pair_info, 4), '%'), cex=0.8, pos=4)
@@ -200,6 +200,21 @@ ape::nodelabels()#'*', 18, frame='none')
 | Medium move | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` |
 | Long move | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r pass` |
 
+## Moving multiple taxa
+
+```{r simple-vs-complex, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=6, fig.width=5.6, out.width='80%', fig.align='center'}
+par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+
+RFPlot(pectinate_tree, 'Pectinate tree', ref=pectinate_tree)
+
+RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
+
+#RFPlot(ape::read.tree(text='(((((1, 5), 6), 2), (3, 4)), ((8, (7, 9)), (10, 11)));'), 'Short shuffle', ref=pectinate_tree)
+#RFPlot(ape::read.tree(text='(1, (2, ((3, (4, 5)), ((8, 9), (7, (11, (6, 10)))))));'), 'Discovered: move 5 (4,5,8,9,6)', ref=pectinate_tree)
+RFPlot(ape::read.tree(text='(1, ((2, (4, 5)), (3, ((8, 9), ((7, 11), (6, 10))))));'), 'Move 6: 4,5,6,8,9,11', c(4,5,6,8,9,11), ref=pectinate_tree)
+#RFPlot(ape::read.tree(text='(1, ((3, (4, 5)), (2, ((8, 9), ((7, 11), (6, 10))))));'), 'Move 6: 2,4,5,6,7,8', ref=pectinate_tree)
+```
+
 
 ## Maximum distance
 A distance metric should distinguish slightly-perturbed trees from
@@ -287,15 +302,6 @@ legend('topleft', bty='n', col=cbPalette8[3], lwd=2, '"Move one taxon" tree', ce
 
 ```
 
-```{r simple-vs-complex, echo=FALSE, cache=TRUE, warn=FALSE, message=FALSE, fig.height=6, fig.width=5.6, out.width='80%', fig.align='center'}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
-
-RFPlot(pectinate_tree, 'Pectinate tree', ref=pectinate_tree)
-
-RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
-
-RFPlot(ape::read.tree(text='(((((1, 5), 6), 2), (3, 4)), ((8, (7, 9)), (10, 11)));'), 'Short shuffle', ref=pectinate_tree)
-```
 
 An advantage of the quartet symmetric distance is that the normalized metric of a random
 tree is $\frac{2}{3}$ [@Day1986; @Steel1993].  As such, trees that are more different
