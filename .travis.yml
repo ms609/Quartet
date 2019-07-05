@@ -35,10 +35,11 @@ r_binary_packages:
 r_packages:
  - bookdown
  - Ternary
- - TreeSearch
+# - TreeSearch
  
 r_github_packages:
  - ms609/CongreveLamsdell2016
+ - ms609/TreeSearch # Use latest whilst developing
  
 #before_script:
 #  - R -e "devtools::document()"
