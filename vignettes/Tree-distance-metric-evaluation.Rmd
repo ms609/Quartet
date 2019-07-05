@@ -373,7 +373,7 @@ legend('topleft', bty='n', col=cbPalette8[3], lwd=2, 'One tip moved\n maximum di
 
 How correlated are the measures?
 
-```{R metric-correlation, fig.width=7, fig.height=7, out.width='80%', fig.align='center'}
+```{R metric-correlation, echo=FALSE, fig.width=7, fig.height=7, out.width='95%', fig.align='center'}
 par(mfrow=c(8, 7), mar=rep(0.2, 4))
 CorrPlot <- function (a, b) {
   plot(a~b, pch='.')
