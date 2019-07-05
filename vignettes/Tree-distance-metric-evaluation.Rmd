@@ -302,6 +302,8 @@ RFPlot(sq_trees$anti_pectinate, 'Positively contradictory tree', ref=pectinate_t
 
 
 ```{R generate-random-trees, include=FALSE}
+suppressWarnings(RNGversion("3.5.0")) # Stopgap until we can require R 3.6.0
+set.seed(0)
 n_random <- if (Sys.getenv('TRAVIS') == "") 250 else 10 # TODO: Increase to 2500 for production
 n_random_tips <- 11
 random_trees <- lapply(seq_len(n_random), function (x) 
@@ -309,6 +311,7 @@ random_trees <- lapply(seq_len(n_random), function (x)
 random_quartets <- QuartetStatus(random_trees, cf=pectinate_tree)[, 'd'] / choose(n_random_tips, 4)
 random_distances <- vapply(random_trees, phangorn::treedist,
                            tree2=pectinate_tree, double(2))
+random_paths <- random_distances['path.difference', ]
 random_arb_info <- TreeSearch::VariationOfArborealInfo(random_trees, pectinate_tree)
 pect_arb_info <- TreeSearch::VariationOfArborealInfo(pectinate_move1, pectinate_tree)
 random_par_info <- TreeSearch::VariationOfPartitionInfo(random_trees, pectinate_tree)
@@ -354,8 +357,8 @@ PlotHist(random_ms_info, max(random_ms_info, pect_ms_info) * manyBreaks, pect_ms
 
 PlotHist(random_quartets, manyBreaks, 120 / 330, 'Quartet dissimilarity')
 
-PlotHist(random_distances['path.difference', ], breaks=manyBreaks *
-           max(random_distances['path.difference', ]), 17.7, "Path distance")
+
+PlotHist(random_paths, breaks=manyBreaks * max(random_paths), 17.7, "Path distance")
 
 PlotHist(random_spr[1, ], max(random_spr[1, ]) * manyBreaks, 1, 'SPR distance')
 
@@ -364,6 +367,84 @@ PlotHist(random_distances['symmetric.difference', ] / 16, manyBreaks, 1, '\nRobi
 #plot.new()
 legend('topleft', bty='n', col=cbPalette8[3], lwd=2, 'One tip moved\n maximum distance', cex=0.8, text.font=3)
 
+```
+
+## Correlation
+
+How correlated are the measures?
+
+```{R metric-correlation, fig.width=7, fig.height=7, out.width='80%', fig.align='center'}
+par(mfrow=c(8, 7), mar=rep(0.2, 4))
+CorrPlot <- function (a, b) {
+  plot(a~b, pch='.')
+  reg <- lm(a~b)
+  abline(reg)
+  legend('bottomright', legend=paste0("R² = ", signif(summary(reg)$adj.r.squared, 3)), bty='n')
+}
+plot.new(); text(0.5, 0.5, 'Var. Arb. Info')
+CorrPlot(random_arb_info, random_par_info)
+CorrPlot(random_arb_info, random_clu_info)
+CorrPlot(random_arb_info, random_nye_info)
+CorrPlot(random_arb_info, random_ms_info)
+CorrPlot(random_arb_info, random_quartets)
+CorrPlot(random_arb_info, random_paths)
+
+CorrPlot(random_par_info, random_arb_info)
+plot.new(); text(0.5, 0.5, 'Var. Par. Info')
+CorrPlot(random_par_info, random_clu_info)
+CorrPlot(random_par_info, random_nye_info)
+CorrPlot(random_par_info, random_ms_info)
+CorrPlot(random_par_info, random_quartets)
+CorrPlot(random_par_info, random_paths)
+
+CorrPlot(random_clu_info, random_arb_info)
+CorrPlot(random_clu_info, random_par_info)
+plot.new(); text(0.5, 0.5, 'Var. Clust. Info')
+CorrPlot(random_clu_info, random_nye_info)
+CorrPlot(random_clu_info, random_ms_info)
+CorrPlot(random_clu_info, random_quartets)
+CorrPlot(random_clu_info, random_paths)
+
+CorrPlot(random_nye_info, random_arb_info)
+CorrPlot(random_nye_info, random_par_info)
+CorrPlot(random_nye_info, random_clu_info)
+plot.new(); text(0.5, 0.5, 'Nye et al.')
+CorrPlot(random_nye_info, random_ms_info)
+CorrPlot(random_nye_info, random_quartets)
+CorrPlot(random_nye_info, random_paths)
+
+CorrPlot(random_ms_info, random_arb_info)
+CorrPlot(random_ms_info, random_par_info)
+CorrPlot(random_ms_info, random_clu_info)
+CorrPlot(random_ms_info, random_nye_info)
+plot.new(); text(0.5, 0.5, 'Matching Splits')
+CorrPlot(random_ms_info, random_quartets)
+CorrPlot(random_ms_info, random_paths)
+
+CorrPlot(random_quartets, random_arb_info)
+CorrPlot(random_quartets, random_par_info)
+CorrPlot(random_quartets, random_clu_info)
+CorrPlot(random_quartets, random_nye_info)
+CorrPlot(random_quartets, random_ms_info)
+plot.new(); text(0.5, 0.5, 'Quartet distance')
+CorrPlot(random_quartets, random_paths)
+
+CorrPlot(random_paths, random_arb_info)
+CorrPlot(random_paths, random_par_info)
+CorrPlot(random_paths, random_clu_info)
+CorrPlot(random_paths, random_nye_info)
+CorrPlot(random_paths, random_ms_info)
+CorrPlot(random_paths, random_quartets)
+plot.new(); text(0.5, 0.5, 'Path distance')
+
+CorrPlot(random_spr[1, ], random_arb_info)
+CorrPlot(random_spr[1, ], random_par_info)
+CorrPlot(random_spr[1, ], random_clu_info)
+CorrPlot(random_spr[1, ], random_nye_info)
+CorrPlot(random_spr[1, ], random_ms_info)
+CorrPlot(random_spr[1, ], random_paths)
+CorrPlot(random_spr[1, ], random_quartets)
+mtext('SPR distance', 4L, line=-1, cex=0.7)
 
 ```
 
