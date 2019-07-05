@@ -30,6 +30,8 @@ data('sq_trees')
 pectinate_tree  <- sq_trees$caterpillar
 pectinate_move1 <- ape::read.tree(text='(((((2, 3), 4), 5), 6), (7, (8, (9, (10, (11, 1))))));')
 
+standardMargin <- c(0.4, 0.4, 0.8, 0.4)
+
 ColPlot <- function (tr, title=NULL, bold=NULL, ...) {
   if (is.null(tr$edge.length)) tr$edge.length <- rep(1, dim(tr$edge)[1])
   font <- rep(1, length(tr$tip.label))
@@ -107,7 +109,7 @@ If trees differ only in the location of a single taxon (see taxon 1 in the trees
 then the distance between two trees should correspond to the distance that this taxon has been moved.
 
 ```{R Moving-a-single-taxon, fig.asp=2/5, out.width='100%', fig.width=6, echo=FALSE, message=FALSE, cache=TRUE}
-par(mfrow=c(1, 4), mar=rep(0.4, 4))
+par(mfrow=c(1, 4), mar=standardMargin)
 RFPlot(sq_trees[[1]],      'Reference tree', 1)
 RFPlot(sq_trees$move_one_near, 'Short move', 1)
 RFPlot(sq_trees$move_one_mid, 'Medium move', 1)
@@ -138,7 +140,7 @@ than moving a single tip.  In the case of a short move, the Quartet, SPR and RF 
 do not differ whether one or two tips are moved.  
 
 ```{R Cherry-short-move, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6.4, fig.height=4, out.width='75%', fig.align='center'}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+par(mfrow=c(1, 3), mar=standardMargin, cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 16), 2, 1,1,1))
 ape::edgelabels('*', 12, frame='none')
@@ -158,7 +160,7 @@ Arguably this is an ambiguous case, as the moves are equivalent to moving (10, 1
 
 <!--
 ```{R Cherry-short-move-2, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6.4, fig.height=4, out.width='75%', fig.align='center'}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+par(mfrow=c(1, 3), mar=standardMargin, cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 5), 2, rep(1, 14)))
 ape::edgelabels('*', 6, frame='none')
@@ -185,7 +187,7 @@ the same location, and the matching splits metric fails to differentiate between
 the two:
 
 ```{R Move-a-cherry-two, echo=FALSE, fig.align='center', fig.height=4, fig.width=6.4, message=FALSE, cache=TRUE, out.width='66%'}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+par(mfrow=c(1, 3), mar=standardMargin, cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 7), 2, rep(1, 4), 2, rep(1, 7)))
 ape::edgelabels('*', 13, frame='none')
@@ -202,7 +204,7 @@ ape::nodelabels('*', 17, frame='none')
 <!--
 ```{R  Move-a-cherry-two-b, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center', include=FALSE, eval=FALSE}
 # Equivalent metric results to last block; don't include
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+par(mfrow=c(1, 3), mar=standardMargin, cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 7), 2, rep(1, 7), 2, rep(1, 4)))
 ape::edgelabels('*', 16, frame='none')
@@ -216,7 +218,7 @@ ape::nodelabels('*', 18, frame='none')
 
 ```{R Moving-a-cherry-far, eval=FALSE, fig.align='center', fig.height=4, fig.width=6, message=FALSE, cache=TRUE, exec=FALSE, include=FALSE, out.width='66%'}
 # Equivalent to short move; no need to include
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+par(mfrow=c(1, 3), mar=standardMargin, cex=1)
 
 RFPlot(ape::read.tree(text='(((1, 2), 3), ((6, (5, 4)), ((10, 11), (7, (8, 9)))));'), 'Reference tree', edge.lengths=c(rep(1, 7), 2, rep(1, 7), 2, rep(1, 4)))
 ape::edgelabels('*', 16, frame='none')
@@ -236,7 +238,7 @@ Moving one taxon a specified distance ought to result in a smaller difference th
 
 
 ```{R Move-vs-exchange, echo=FALSE, fig.align='center', fig.height=4, fig.width=6.4, message=FALSE, cache=TRUE, out.width='66%'}
-par(mfrow=c(1, 3), mar=rep(0.4, 4), cex=1)
+par(mfrow=c(1, 3), mar=standardMargin, cex=1)
 
 RFPlot(pectinate_tree, 'Pectinate tree', ref=pectinate_tree)
 RFPlot(pectinate_move1, 'Move one tip', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
@@ -253,7 +255,7 @@ translocation of more than half the tips in a tree ought to result in
 a higher distance score than any rearrangement in which a single tip is moved:
 
 ```{r simple-vs-complex, echo=FALSE, fig.align='center', fig.height=4, fig.width=6.4, message=FALSE, cache=TRUE, out.width='66%'}
-par(mfrow=c(1, 3), mar=c(2.4, 0.4, 0.4, 0.4), cex=1)
+par(mfrow=c(1, 3), mar=standardMargin, cex=1)
 
 RFPlot(pectinate_tree, 'Pectinate tree', ref=pectinate_tree)
 
@@ -283,7 +285,7 @@ all other taxa.  It thus lacks the capacity to distinguish a random tree from
 one that is selected to maximise the distance from the comparison tree.
 
 ```{R Pectinate-to-break-RF, echo=FALSE, fig.align='center', fig.height=6.4, fig.width=6.4, message=FALSE, cache=TRUE, out.width='66%'}
-par(mfrow=c(2, 2), mar=rep(0.4, 4), cex=1)
+par(mfrow=c(2, 2), mar=standardMargin, cex=1)
 
 RFPlot(pectinate_tree, 'Pectinate reference tree', ref=pectinate_tree)
 RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
@@ -299,7 +301,7 @@ RFPlot(sq_trees$anti_pectinate, 'Positively contradictory tree', ref=pectinate_t
 
 
 ```{R generate-random-trees, include=FALSE}
-n_random <- if (Sys.getenv('TRAVIS') == "") 2500 else 10
+n_random <- if (Sys.getenv('TRAVIS') == "") 250 else 10 # TODO: Increase to 2500 for production
 n_random_tips <- 11
 random_trees <- lapply(seq_len(n_random), function (x) 
   ape::rtree(n_random_tips, br=NULL, tip.label=seq_len(n_random_tips)))
@@ -389,7 +391,7 @@ The 'maximum distance' tree depicted below was identified using the R package
 as an optimality criterion.
 
 ```{R Increasing-distances, echo=FALSE, message=FALSE, cache=TRUE, fig.asp=1.4/3, fig.width=6, out.width='90%', fig.align='center'}
-par(mfrow=c(1, 3), mar=rep(0.4, 4))
+par(mfrow=c(1, 3), mar=standardMargin)
 ColPlot(sq_trees[[1]], 'Reference tree')
 RFPlot(sq_trees$random_tree,   'Random tree'     )
 RFPlot(sq_trees$opposite_tree, 'Maximum quartet distance')
@@ -403,7 +405,7 @@ in contrast, are equally informative.
 Consider a balanced and an unbalanced eight-taxon tree:
 
 ```{r two-trees, echo=FALSE, fig.height = 3, fig.width=6}
-par(mfrow=c(1, 2), mar=rep(0.8, 4), cex=0.9)
+par(mfrow=c(1, 2), mar=standardMargin, cex=0.9)
 plot(balancedTree <- ape::read.tree(text="(((a, b), (c, d)), ((e, f), (g, h)));"),
      edge.color = cbPalette8[3])
 ape::edgelabels(1:5, c(1, 2, 5, 9, 12))
