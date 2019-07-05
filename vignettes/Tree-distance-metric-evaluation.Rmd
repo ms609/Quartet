@@ -19,11 +19,10 @@ vignette: >
 Tree distance metrics are introduced in an [earlier vignette](tree-distance-metrics.html).
 
 ```{R initialize, warning=FALSE, include=FALSE, meassage=FALSE}
-library('TreeSearch')
-#unloadNamespace('TreeSearch')
-##devtools::load_all('c:/research/r/TreeSearch')
-##unloadNamespace('Quartet')
-##library('Quartet')
+unloadNamespace('Quartet')
+unloadNamespace('TreeSearch')
+devtools::load_all('c:/research/r/TreeSearch')
+#library('TreeSearch')
 library('Quartet')
 cbPalette8 <- Ternary::cbPalette8
 data('sq_trees')
@@ -56,7 +55,7 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
   text(text_x, y <- y - 1, "VoArInf:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "VoParInf:", cex=0.8, pos=2)
   #text(text_x, y <- y - 1, "VoParInf+:", cex=0.8, pos=2)
-  text(text_x, y <- y - 1, "CluInf:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "ClustInf:", cex=0.8, pos=2)
   
   text(text_x, y <- y - 1, "NyeEtAl:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "MS:", cex=0.8, pos=2)
@@ -127,9 +126,9 @@ moved further as more distant from the starting tree.
 
 `r pass <- 'Pass'; FAIL <- '<span style="color:red">**FAIL**</span>'`
 
-| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| **Measure** | MArInf | MPaInf | ClustInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| **Outcome** | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r pass` | `r FAIL` | `r pass` |
+| **Outcome** | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r pass` | `r FAIL` | `r pass` |
 
 
 ## Number of tips moved
@@ -152,9 +151,9 @@ ape::nodelabels('*', 18, frame='none')
 
 Arguably this is an ambiguous case, as the moves are equivalent to moving (10, 11) by one node; perhaps the quartet metric can be forgiven for allocating both moves an equivalent score.  
 
-| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| **Measure** | MArInf | MPaInf | ClustInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| **Single-node move** | `r pass` | `r pass` | `r pass` | `r pass` | (?) | `r pass` | `r FAIL` | `r FAIL` |
+| **Single-node move** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | (?) | `r pass` | `r FAIL` | `r FAIL` |
 
 
 <!--
@@ -173,7 +172,7 @@ ape::nodelabels('*', 15, frame='none')
 ```
 
 
-| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| **Measure** | MArInf | MPaInf | ClustInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
 | **Two node move** | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r pass` | `r FAIL` | `r FAIL` |
 -->
@@ -197,9 +196,9 @@ ape::nodelabels('*', 17, frame='none')
 
 ```
 
-| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| **Measure** | MArInf | MPaInf | ClustInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| **Two node move** | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r FAIL` | `r FAIL` |
+| **Two node move** | `r pass` | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` | `r pass` | `r FAIL` | `r FAIL` |
 <!--
 ```{R  Move-a-cherry-two-b, echo=FALSE, message=FALSE, cache=TRUE, fig.width=6, fig.height=4, out.width='66%', fig.align='center', include=FALSE, eval=FALSE}
 # Equivalent metric results to last block; don't include
@@ -244,9 +243,9 @@ RFPlot(pectinate_move1, 'Move one tip', 1, ref=pectinate_tree, edge.lengths = c(
 RFPlot(sq_trees$top_and_tail, 'Exchange two tips', c(1, 11), ref=pectinate_tree)
 ```
 
-| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| **Measure** | MArInf | MPaInf | ClustInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| **Exchange two tips** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` |
+| **Exchange two tips** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` |
 
 
 As a more nuanced example, I propose that a rearrangement that requires the 
@@ -266,9 +265,9 @@ RFPlot(ape::read.tree(text='(1, ((2, (4, 5)), (3, ((8, 9), ((7, 11), (6, 10)))))
 
 In this example, the path metric fails this test.
 
-| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| **Measure** | MArInf | MPaInf | ClustInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| **Complexity** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r FAIL` |
+| **Complexity** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` | `r pass` | `r FAIL` |
 
 
 ## Saturation
@@ -294,17 +293,15 @@ RFPlot(sq_trees$anti_pectinate, 'Positively contradictory tree', ref=pectinate_t
 ```
 
 
-| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| **Measure** | MArInf | MPaInf | ClustInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| **Saturation** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | (?) | `r FAIL` |
+| **Saturation** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | (?) | `r FAIL` |
 
 
 ```{R generate-random-trees, include=FALSE}
 n_random <- if (Sys.getenv('TRAVIS') == "") 2500 else 10
 n_random_tips <- 11
 random_trees <- lapply(seq_len(n_random), function (x) 
-  ape::rtree(n_random_tips, br=NULL, tip.label=seq_len(n_random_tips)))
-more_random_trees <- lapply(seq_len(n_random), function (x) 
   ape::rtree(n_random_tips, br=NULL, tip.label=seq_len(n_random_tips)))
 random_quartets <- QuartetStatus(random_trees, cf=pectinate_tree)[, 'd'] / choose(n_random_tips, 4)
 random_distances <- vapply(random_trees, phangorn::treedist,
@@ -341,12 +338,12 @@ PlotHist <- function (distances, breaks, pectDist, title) {
   abline(v=pectDist, col=cbPalette8[3], lwd=2)
 }
 
-PlotHist(random_arb_info, max(random_arb_info, pect_arb_info) * manyBreaks, pect_arb_info, 'Var of Arb Info')
+PlotHist(random_arb_info, max(random_arb_info, pect_arb_info) * manyBreaks, pect_arb_info, 'Var. Arb Info')
 mtext('Distance between pectinate tree (above) and random bifurcating trees', outer=TRUE, cex=0.8)
 
-PlotHist(random_par_info, max(random_par_info, pect_par_info) * manyBreaks, pect_par_info, 'Var of Partition Info')
-PlotHist(random_clu_info, max(random_clu_info, pect_clu_info) * manyBreaks, pect_clu_info, 'Var of Clustering Info')
-#PlotHist(random_parsum_info, max(random_parsum_info, pect_parsum_info) * manyBreaks, #pect_parsum_info, 'Var of ParSUM Info')
+PlotHist(random_par_info, max(random_par_info, pect_par_info) * manyBreaks, pect_par_info, 'Var. Partition Info')
+PlotHist(random_clu_info, max(random_clu_info, pect_clu_info) * manyBreaks, pect_clu_info, 'Var. Clustering Info')
+#PlotHist(random_parsum_info, max(random_parsum_info, pect_parsum_info) * manyBreaks, #pect_parsum_info, 'Var. ParSUM Info')
 
 PlotHist(random_nye_info, max(random_nye_info, pect_nye_info) * manyBreaks, pect_nye_info, 'Nye et al.')
 
@@ -362,7 +359,7 @@ PlotHist(random_spr[1, ], max(random_spr[1, ]) * manyBreaks, 1, 'SPR distance')
 PlotHist(random_distances['symmetric.difference', ] / 16, manyBreaks, 1, '\nRobinson-Foulds')
 
 #plot.new()
-legend('topleft', bty='n', col=cbPalette8[3], lwd=2, 'One tip moved\n maximum distance', cex=0.8)
+legend('topleft', bty='n', col=cbPalette8[3], lwd=2, 'One tip moved\n maximum distance', cex=0.8, text.font=3)
 
 
 ```
@@ -375,9 +372,9 @@ symmetric difference approaches can be applied to trees that contain polytomies 
 not every node is resolved as bifurcating.
 
 
-| **Measure** | MArInf | MPaInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
+| **Measure** | MArInf | MPaInf | ClustInf | Nye _et al._ | MS | Quartet | Path | SPR | RF |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | 
-| **Polytomies** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` |
+| **Polytomies** | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r pass` | `r FAIL` | `r FAIL` | `r pass` |
 
 
 <!--
