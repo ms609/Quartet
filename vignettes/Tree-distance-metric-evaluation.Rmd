@@ -54,18 +54,18 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
   text_x <- par('usr')[2] * 0.5
   
   y <- 0.5
-  text(text_x, y <- y - 1, "VoArInf:", cex=0.8, pos=2)
-  text(text_x, y <- y - 1, "VoParInf:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "V. Arboreal Inf:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "V. Partition Inf:", cex=0.8, pos=2)
   #text(text_x, y <- y - 1, "VoParInf+:", cex=0.8, pos=2)
-  text(text_x, y <- y - 1, "ClustInf:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "Cluster Inf:", cex=0.8, pos=2)
   
-  text(text_x, y <- y - 1, "NyeEtAl:", cex=0.8, pos=2)
-  text(text_x, y <- y - 1, "MS:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "Nye et al.:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "Matching Splits:", cex=0.8, pos=2)
   
   text(text_x, y <- y - 1, 'Quartet:', cex=0.8, pos=2)
   text(text_x, y <- y - 1, "Path:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "SPR:", cex=0.8, pos=2)
-  text(text_x, y <- y - 1, "RF:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "Robinson-Foulds:", cex=0.8, pos=2)
   #text(text_x, y <- y - 1, "VPI%:", cex=0.8, pos=2)
   
   y <- 0.5
