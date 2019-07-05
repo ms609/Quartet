@@ -30,12 +30,12 @@ r_binary_packages:
  - rmarkdown
  - roxygen2
  - testthat
+ 
+# Some packages not available as binaries:
+r_packages:
  - bookdown
  - Ternary
  - TreeSearch
- 
-# Some packages not available as binaries:
-#r_packages:
  
 r_github_packages:
  - ms609/CongreveLamsdell2016
