@@ -30,6 +30,8 @@
 #'   
 #'   \insertRef{Sand2014}{Quartet}
 #' 
+#' @seealso [`CompareQuartets`], [`QuartetStatus`]
+#' 
 #' @importFrom ape write.tree
 #' @author Martin R. Smith
 #' @useDynLib Quartet, .registration = TRUE
