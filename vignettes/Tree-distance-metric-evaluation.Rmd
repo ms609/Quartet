@@ -51,7 +51,7 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
   
   if (!is.null(edge.lengths)) tr$edge.length <- edge.lengths
   ColPlot(tr, title, highlight, cex=0.8, ...)
-  text_x <- par('usr')[2] * 0.5 + 0.5
+  text_x <- par('usr')[2] * 0.6
   
   y <- 0.5
   text(text_x, y <- y - 1, "V. Arboreal Info.:", cex=0.8, pos=2)
