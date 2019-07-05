@@ -51,23 +51,22 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
   
   if (!is.null(edge.lengths)) tr$edge.length <- edge.lengths
   ColPlot(tr, title, highlight, cex=0.8, ...)
-  text_x <- par('usr')[2] * 0.5
+  text_x <- par('usr')[2] * 0.5 + 0.5
   
   y <- 0.5
-  text(text_x, y <- y - 1, "V. Arboreal Inf:", cex=0.8, pos=2)
-  text(text_x, y <- y - 1, "V. Partition Inf:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "V. Arboreal Info.:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "V. Partition Info.:", cex=0.8, pos=2)
   #text(text_x, y <- y - 1, "VoParInf+:", cex=0.8, pos=2)
-  text(text_x, y <- y - 1, "Cluster Inf:", cex=0.8, pos=2)
-  
+  text(text_x, y <- y - 1, "Cluster Info.:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "Nye et al.:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "Matching Splits:", cex=0.8, pos=2)
-  
   text(text_x, y <- y - 1, 'Quartet:', cex=0.8, pos=2)
   text(text_x, y <- y - 1, "Path:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "SPR:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "Robinson-Foulds:", cex=0.8, pos=2)
   #text(text_x, y <- y - 1, "VPI%:", cex=0.8, pos=2)
   
+  text_x <- text_x - 0.4
   y <- 0.5
   text(text_x, y <- y - 1, paste0(
     signif(TreeSearch::VariationOfArborealInfo(tr, ref), 4), ' / ', pair_info
@@ -80,15 +79,17 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
                                            TreeSearch::ClusteringInfo(ref), 4)),
        cex=0.8, pos=4)
   
-  text(text_x, y <- y - 1, paste0(8-signif(TreeSearch::NyeTreeSimilarity(tr, ref), 4), '/8'), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(8-signif(TreeSearch::NyeTreeSimilarity(tr, ref), 4),
+                                  ' / 8'), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(signif(TreeSearch::MatchingSplitDistance(tr, ref), 4),
-                                  '/32'), cex=0.8, pos=4)
+                                  ' / 32'), cex=0.8, pos=4)
   
   text(text_x, y <- y - 1, paste0(QuartetStatus(list(tr, ref))[2, 'd'],
-                            '/', choose(11,4)), cex=0.8, pos=4)
+                            ' / ', choose(11,4)), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(signif(tree_dist['path.difference'], 4)), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
-  text(text_x, y <- y - 1, paste0(tree_dist['symmetric.difference'], '/', (11L - 3L) * 2L), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(tree_dist['symmetric.difference'], 
+                                  ' / ', (11L - 3L) * 2L), cex=0.8, pos=4)
   #text(text_x, y <- y - 1, paste0(100 * signif(TreeSearch::VariationOfPartitionInfo(tr, ref) / pair_info, 4), '%'), cex=0.8, pos=4)
 }
 ```
