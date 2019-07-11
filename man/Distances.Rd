@@ -32,7 +32,8 @@ PairsTripletDistance(file1, file2)
 AllPairsTripletDistance(file)
 }
 \arguments{
-\item{file, file1, file2}{Paths to files containing a tree or trees in Newick format.}
+\item{file, file1, file2}{Paths to files containing a tree or trees in Newick
+format, possible created using \code{\link{TQFile}}.}
 }
 \value{
 \code{Distance} functions return the distance between the requested trees.
@@ -90,7 +91,10 @@ each other tree therein.
 }
 }
 \seealso{
-\code{\link{QuartetStatus}} takes trees, rather than files, as input.
+\itemize{
+\item \code{\link{QuartetStatus}} takes trees, rather than files, as input.
+\item \code{\link{TQFile}} creates a temporary file containing specified trees.
+}
 }
 \author{
 \itemize{

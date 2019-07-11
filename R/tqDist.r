@@ -194,7 +194,8 @@ TQFile <- function (treeList) {
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.
 #' 
-#' @param file,file1,file2 Paths to files containing a tree or trees in Newick format.
+#' @param file,file1,file2 Paths to files containing a tree or trees in Newick
+#'  format, possible created using [`TQFile`].
 #' 
 #' @return `Distance` functions return the distance between the requested trees.
 #'  
@@ -213,7 +214,10 @@ TQFile <- function (treeList) {
 #'   
 #'   * R interface: Martin R. Smith.
 #' 
-#' @seealso [`QuartetStatus`] takes trees, rather than files, as input.
+#' @seealso 
+#' * [`QuartetStatus`] takes trees, rather than files, as input.
+#' * [`TQFile`] creates a temporary file containing specified trees.
+#' 
 #' 
 #' @references {
 #'   \insertRef{Brodal2013}{Quartet}
