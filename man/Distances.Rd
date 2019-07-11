@@ -89,6 +89,9 @@ each other tree therein.
 \insertRef{Sand2014}{Quartet}
 }
 }
+\seealso{
+\code{\link{QuartetStatus}} takes trees, rather than files, as input.
+}
 \author{
 \itemize{
 \item Algorithms: Brodal \emph{et al.} (2013); Holt \emph{et al.} (2014).

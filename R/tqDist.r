@@ -152,6 +152,8 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @family element-by-element comparisons
 #' @seealso `\link{SplitStatus}`: Uses bipartition splits (groups/clades defined by
 #'  nodes or edges of the tree) instead of quartets as the unit of comparison.
+#'  
+#'  [`SimilarityMetrics`]: Generates distance metrics from quartet statuses.
 #' 
 #' @references {
 #'   \insertRef{Brodal2013}{Quartet}
@@ -210,6 +212,8 @@ TQFile <- function (treeList) {
 #'   modified for portability by Martin R. Smith.
 #'   
 #'   * R interface: Martin R. Smith.
+#' 
+#' @seealso [`QuartetStatus`] takes trees, rather than files, as input.
 #' 
 #' @references {
 #'   \insertRef{Brodal2013}{Quartet}
