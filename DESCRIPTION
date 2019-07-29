@@ -43,7 +43,9 @@ Suggests:
     Rcpp,
     rmarkdown,
     testthat,
+    TreeDist,
     usethis
+Remotes: ms609/TreeDist
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
