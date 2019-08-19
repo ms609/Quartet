@@ -12,6 +12,7 @@ cran-comments.md
 ^.*\.yml$
 /^\.git/
 ^.*\.Rproj$
+^vignettes/.*_cache/.*$
 man-roxygen
 data-raw
 /^src\-/
