@@ -44,6 +44,7 @@ Suggests:
     rmarkdown,
     testthat,
     usethis
+SystemRequirements: C++11
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true
