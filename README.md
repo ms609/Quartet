@@ -57,3 +57,7 @@ in order to build the development version from source.
 
 - Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results.
   Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
+
+Please note that the 'Quartet' project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
