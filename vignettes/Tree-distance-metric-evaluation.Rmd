@@ -521,22 +521,22 @@ predominantly uneven and thus likely to be matched) than the asymmetric tree
 (which contains more even partitions that are less likely to occur in a random tree).
 
 Of the 10&nbsp;395 eight-tip trees, many more bear at least one partition in 
-common with a balanced tree than with an asymmetric tree, whereas the distribution of quartets is identical:
+common with a balanced tree than with an asymmetric tree.
 
 ```{r all-8-tip-trees, echo=FALSE, cache=TRUE}
 #calculate <- FALSE
 #if (calculate) {
-#  all8 <- phytools::allFurcTrees(8, letters[1:8], FALSE)
-#  allBif8 <- all8[vapply(all8, function(x) x$Nnode, 1L) == 6]
-#  inBalanced <- SplitStatus(allBif8, balancedTree)[, 's']
-#  inCaterpillar <- SplitStatus(allBif8, caterpillarTree)[, 's']
-#  qInBalanced <- QuartetStatus(allBif8, balancedTree)[, 's']
-#  qInCaterpillar <- QuartetStatus(allBif8, balancedTree)[, 's']
+#  all8 <- phangorn::allTrees(8, letters[1:8], FALSE)
+#  inBalanced <- SplitStatus(all8, balancedTree)[, 's']
+#  inCaterpillar <- SplitStatus(all8, caterpillarTree)[, 's']
+#  qInBalanced <- QuartetStatus(all8, balancedTree)[, 's']
+#  qInCaterpillar <- QuartetStatus(all8, caterpillarTree)[, 's']
 #} else {
   inBalanced <- rep(0:5, c(7088, 2708, 512, 76, 10, 1))
   inCaterpillar <- rep(0:5, c(8162, 1808, 350, 64, 10, 1))
-  qInBalanced <- qInCaterpillar <- rep(c(10:42, 44:46, 49, 50, 53, 54, 57, 62, 70),
+  qInBalanced <- rep(c(10:42, 44:46, 49, 50, 53, 54, 57, 62, 70),
     c(32, 256, 512, 384, 512, 320, 512, 448, 512, 512, 688, 160, 512, 448, 256, 464, 416, 448, 576, 256, 192, 320, 160, 288, 128, 192, 132, 80, 32, 32, 224, 64, 8, 64, 112, 16, 64, 16, 4, 18, 16, 8, 1))
+  qInCaterpillar <- rep(c(9:54, 56, 57, 60:62, 65, 70), c(4, 36, 68, 172, 276, 384, 444, 636, 700, 600, 680, 604, 622, 592, 340, 436, 556, 384, 252, 384, 308, 149, 234, 212, 150, 126, 134, 112, 112, 27, 68, 144, 48, 32, 56, 64, 50, 8, 4, 52, 36, 4, 8, 24, 12, 8, 8, 20, 4, 2, 4, 4, 1))
 #}
 
 par(mfrow=c(1, 2))
