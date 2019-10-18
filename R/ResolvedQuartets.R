@@ -26,7 +26,7 @@
 #' 
 #' @references \insertRef{Brodal2013}{Quartet}
 #' 
-#' @importFrom TreeSearch Renumber
+#' @importFrom TreeTrunk Renumber
 #' @export 
 ResolvedQuartets <- function (tree, countTriplets = FALSE) {
   tree <- Renumber(tree)

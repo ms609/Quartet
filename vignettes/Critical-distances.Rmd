@@ -64,9 +64,9 @@ exists in Tree C.
 
 ```{r Adding tip 6 to Tree B duplicates a quartet, fig.height=5, fig.width=2.5, echo=FALSE}
 PlotApeTree <- function (text, quartet) {
-  orig <- TreeSearch::RenumberTips(tree_c, as.character(1:6))
+  orig <- TreeTrunk::RenumberTips(tree_c, as.character(1:6))
   tree <- ape::read.tree(text=text)
-  PlotQuartet(list(orig, TreeSearch::RenumberTips(tree, as.character(1:6))), quartet, overwritePar=FALSE, cex=0.9)
+  PlotQuartet(list(orig, TreeTrunk::RenumberTips(tree, as.character(1:6))), quartet, overwritePar=FALSE, cex=0.9)
 }
 
 par(mfrow=c(7, 2), mar=rep(0.4, 4), cex=0.9)

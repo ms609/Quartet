@@ -32,7 +32,7 @@ For most purposes, the faster function \code{\link{QuartetStatus}} will be prefe
   n_tip <- 6
   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-  splits <- lapply(trees, TreeSearch::Tree2Splits)
+  splits <- lapply(trees, TreeTrunk::Tree2Splits)
   quartets <- QuartetStates(splits)
   CompareQuartets(quartets[[1]], quartets[[2]])
 

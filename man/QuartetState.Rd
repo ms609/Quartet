@@ -16,7 +16,7 @@ number (if class \code{numeric}) or their name (if class \code{character}).}
 \item{bips}{Bipartitions to evaluate.}
 
 \item{splits}{A list of bipartition splits, perhaps generated using
-\code{\link[TreeSearch]{Tree2Splits}}, with row names corresponding
+\code{\link[TreeTrunk]{Tree2Splits}}, with row names corresponding
 to taxon labels.
 If a tree or list of trees (of class \code{\link[ape:read.tree]{phylo}}) is sent instead,
 it will be silently converted to its constituent splits.}
@@ -46,7 +46,7 @@ with a tree or a list of splits.
   n_tip <- 6
   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-  splits <- lapply(trees, TreeSearch::Tree2Splits)
+  splits <- lapply(trees, TreeTrunk::Tree2Splits)
   QuartetState(c(1, 3, 4, 6), splits[[2]])  
   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
   vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))

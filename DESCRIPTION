@@ -35,7 +35,7 @@ Imports:
     memoise,
     Rdpack,
     Ternary (>= 1.0),
-    TreeSearch (> 0.3.0)
+    TreeTrunk
 Suggests:
     bookdown,
     knitr,

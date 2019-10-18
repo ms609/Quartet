@@ -35,10 +35,10 @@ r_binary_packages:
 r_packages:
  - bookdown
  - Ternary
- - TreeSearch
  
 r_github_packages:
  - ms609/CongreveLamsdell2016
+ - ms609/TreeTrunk
  
 #before_script:
 # - R -e "devtools::document()"
