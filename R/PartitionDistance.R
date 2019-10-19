@@ -39,7 +39,7 @@
 #' }       
 #' @author Martin R. Smith
 #' @name CompareSplits
-#' @importFrom TreeTrunk DropSingleSplits UniqueSplits
+#' @importFrom TreeTools DropSingleSplits UniqueSplits
 #' @export
 CompareSplits <- function (splits, splits2) {
   tipNames <- rownames(splits)
@@ -164,7 +164,7 @@ CompareBipartitions <- CompareSplits
 #'   \insertRef{Penny1985}{Quartet}
 #' }
 #' @author Martin R. Smith
-#' @importFrom TreeTrunk RenumberTips Tree2Splits
+#' @importFrom TreeTools RenumberTips Tree2Splits
 #' @aliases  BipartitionStatus
 #' @export
 SplitStatus <- function (trees, cf = trees[[1]]) {
@@ -215,7 +215,7 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' 
 #' @keywords internal
 #' @importFrom ape drop.tip
-#' @importFrom TreeTrunk Tree2Splits
+#' @importFrom TreeTools Tree2Splits
 #' @author Martin R. Smith
 #' @export
 PairSharedSplitStatus <- function (ref, cf) {

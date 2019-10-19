@@ -1,7 +1,7 @@
 # Quartet v1.0.2.9001
 ## Improvements
  - Remove deprecated C function `ptr_fun`.
- - Link to `TreeTrunk` instead of `TreeSearch`.
+ - Link to `TreeTools` instead of `TreeSearch`.
 
 # Quartet v1.0.2.9000
 ## Improvements
