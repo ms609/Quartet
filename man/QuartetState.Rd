@@ -13,11 +13,7 @@ QuartetStates(splits)
 \item{tips}{A four-element array listing a quartet of tips, either by their
 number (if class \code{numeric}) or their name (if class \code{character}).}
 
-\item{bips}{Deprecated.}
-
-\item{splits}{Bipartitions to evaluate.}
-
-\item{statement}{Integer value corresponding to \code{Subsplit(splits, tips)}.}
+\item{bips}{Depreciated; included for comaptability with v1.0.2 and below.}
 
 \item{splits}{An object that can be induced to a \code{Splits} object using
 \code{\link[TreeTools]{as.Splits}}.}

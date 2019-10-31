@@ -129,9 +129,9 @@ AllQuartets <- memoise(function (n_tips) {
 #'
 #' @param tips A four-element array listing a quartet of tips, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
-#' @param splits Bipartitions to evaluate.
-#' @param bips Deprecated.
-#' @param statement Integer value corresponding to `Subsplit(splits, tips)`.
+#' @param splits An object that can be induced to a `Splits` object using
+#'   \code{\link[TreeTools]{as.Splits}}.
+#' @param bips Depreciated; included for comaptability with v1.0.2 and below.
 #'
 #' @return `QuartetState` returns `0` if the relationships of the four taxa are
 #'  not constrained by the provided bipartitions, or the index of the closest
@@ -179,8 +179,6 @@ QuartetState <- function (tips, bips, splits = bips) {
 
 #' @describeIn QuartetState A convenience wrapper that lists the status of all
 #' possible quartets for a given `Splits` object.
-#' @param splits An object that can be induced to a `Splits` object using
-#'   \code{\link[TreeTools]{as.Splits}}.
 #'        
 #' @importFrom TreeTools as.Splits Ntip
 #' @export
