@@ -28,3 +28,13 @@ test_that("CompareQuartets works", {
                CompareQuartets(c(2, 2, 4, 2, 0, 0, 0, 0),
                                c(2, 3, 3, 0, 2, 0, 0, 0)))
 })
+
+test_that("PlotQuartet works", {
+  library('vdiffr')
+  expect_doppelganger('PlotQuartet', function() {
+    data('sq_trees')
+    
+    par(mfrow=c(3, 2), mar=rep(0.5, 4), cex=1.1)
+    PlotQuartet(sq_trees[c(1, 9, 13:16)], c(2, 5, 3, 8), overwritePar = FALSE)
+  })
+})

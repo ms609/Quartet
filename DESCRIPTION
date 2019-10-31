@@ -43,7 +43,8 @@ Suggests:
     Rcpp,
     rmarkdown,
     testthat,
-    usethis
+    usethis,
+    vdiffr
 Remotes:
     ms609/TreeTools
 SystemRequirements: C++11
