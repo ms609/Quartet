@@ -5,7 +5,7 @@
 \alias{QuartetStates}
 \title{Quartet State(s)}
 \usage{
-QuartetState(tips, bips)
+QuartetState(tips, bips, splits = bips)
 
 QuartetStates(splits)
 }
@@ -13,14 +13,19 @@ QuartetStates(splits)
 \item{tips}{A four-element array listing a quartet of tips, either by their
 number (if class \code{numeric}) or their name (if class \code{character}).}
 
-\item{bips}{Bipartitions to evaluate.}
+\item{bips}{Deprecated.}
+
+\item{splits}{Bipartitions to evaluate.}
+
+\item{statement}{Integer value corresponding to \code{Subsplit(splits, tips)}.}
 
 \item{splits}{An object that can be induced to a \code{Splits} object using
 \code{\link[TreeTools]{as.Splits}}.}
 }
 \value{
-Returns \code{0} if the relationships of the four taxa are not constrained by the provided
-bipartitions, or the index of the closest relative to \code{tips[1]}, otherwise.
+\code{QuartetState} returns \code{0} if the relationships of the four taxa are
+not constrained by the provided bipartitions, or the index of the closest
+relative to \code{tips[1]}, otherwise.
 }
 \description{
 Report the status of the specified quartet(s).
@@ -36,19 +41,25 @@ of bipartitions.
 }
 \section{Functions}{
 \itemize{
-\item \code{QuartetStates}: A convenience wrapper that need only be provided
-with a tree or a list of splits.
+\item \code{QuartetStates}: A convenience wrapper that lists the status of all
+possible quartets for a given \code{Splits} object.
 }}
 
 \examples{
 {
-  n_tip <- 6
-  trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
-                ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-  splits <- lapply(trees, TreeSearch::Tree2Splits)
-  QuartetState(c(1, 3, 4, 6), splits[[2]])  
-  QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
-  vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))
+  nTip <- 6
+  trees <- list(ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL),
+                ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL))
+  
+  trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
+  
+  QuartetState(c(1, 3, 4, 6), trees[[2]])  
+  QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
+  QuartetState(c(1, 3, 4, 6), trees[[3]])  
+  
+  QuartetStates(trees[[2]])
+  QuartetStates(trees[[3]])
+  
 }
 
 }

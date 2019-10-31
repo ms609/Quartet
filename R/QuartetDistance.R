@@ -116,10 +116,13 @@ AllQuartets <- memoise(function (n_tips) {
 #'
 #' @param tips A four-element array listing a quartet of tips, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
-#' @param bips Bipartitions to evaluate.
+#' @param splits Bipartitions to evaluate.
+#' @param bips Deprecated.
+#' @param statement Integer value corresponding to `Subsplit(splits, tips)`.
 #'
-#' @return Returns `0` if the relationships of the four taxa are not constrained by the provided 
-#' bipartitions, or the index of the closest relative to `tips[1]`, otherwise.
+#' @return `QuartetState` returns `0` if the relationships of the four taxa are
+#'  not constrained by the provided bipartitions, or the index of the closest
+#'  relative to `tips[1]`, otherwise.
 #'
 #' @author Martin R. Smith
 #' 
@@ -127,52 +130,59 @@ AllQuartets <- memoise(function (n_tips) {
 #' @seealso \code{\link{CompareQuartets}}, used to compare quartet states between
 #'   trees.
 #' @examples{
-#'   n_tip <- 6
-#'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
-#'                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-#'   splits <- lapply(trees, TreeSearch::Tree2Splits)
-#'   QuartetState(c(1, 3, 4, 6), splits[[2]])  
-#'   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
-#'   vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))
+#'   nTip <- 6
+#'   trees <- list(ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL),
+#'                 ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL))
+#'   
+#'   trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
+#'   
+#'   QuartetState(c(1, 3, 4, 6), trees[[2]])  
+#'   QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
+#'   QuartetState(c(1, 3, 4, 6), trees[[3]])  
+#'   
+#'   QuartetStates(trees[[2]])
+#'   QuartetStates(trees[[3]])
+#'   
 #' }
 #' 
 #' @references 
 #'   \insertRef{Estabrook1985}{Quartet}
 #' 
-#' @importFrom TreeTools Subsplit
+#' @importFrom TreeTools Subsplit as.Splits
 #' @export
-QuartetState <- function (tips, bips) {
-  statement <- Subsplit(bips, tips, keepAll = FALSE, unique = TRUE)
-  
-  if (length(statement)) {
-    if (statement == 3L || statement == 12L) {
-      2L
-    } else if (statement == 5L || statement == 10L) {
-      3L
-    } else {
-      4L
-    }
-  } else {
+QuartetState <- function (tips, bips, splits = bips) {
+  statement <- Subsplit(as.Splits(splits), tips, keepAll = FALSE, 
+                        unique = TRUE)[1]
+  if (is.na(statement)) {
     0L
+  } else if (statement == 3L || statement == 12L) {
+    2L
+  } else if (statement == 5L || statement == 10L) {
+    3L
+  } else {
+    4L
   }
 }
 
-#' @describeIn QuartetState A convenience wrapper that need only be provided
-#'  with a tree or a list of splits.
+#' @describeIn QuartetState A convenience wrapper that lists the status of all
+#' possible quartets for a given `Splits` object.
 #' @param splits An object that can be induced to a `Splits` object using
 #'   \code{\link[TreeTools]{as.Splits}}.
 #'        
-#' @importFrom TreeTools as.Splits
+#' @importFrom TreeTools as.Splits Ntip
 #' @export
 QuartetStates <- function (splits) {
   splits <- as.Splits(splits)
-  nTip <- attr(splits, 'nTip')
+  nTip <- Ntip(splits)
+  allQuartets <- AllQuartets(nTip)
+  subs <- vapply(allQuartets, function (tips) 
+    vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE), function (x)
+      {if (length(x)) as.integer(x) else NA}, integer(1L)), integer(length(splits)))
   
-  stop("#TODO de-Tree2Splits")
-  lapply(splits, function (bips) {
-    vapply(AllQuartets(nTip), QuartetState, double(1), 
-           bips=bips[sort(rownames(bips)), , drop=FALSE])
-  })
+  # Return:
+  as.integer(ifelse(is.na(subs), 0L,
+                    ifelse(subs == 3L | subs == 12L, 2L,
+                           ifelse(subs == 5L | subs == 10L, 3L, 4L))))
 }
 
 #' Compare quartet states by explicit enumeration
