@@ -10,21 +10,20 @@ CompareSplits(splits, splits2)
 CompareBipartitions(splits, splits2)
 }
 \arguments{
-\item{splits}{A two-dimensional matrix of logicals, with rows corresponding
-to terminal taxa, and each column defining a split that divides taxa marked
-\code{TRUE} from taxa marked \code{FALSE}.  Possibly generated using \code{[Tree2Splits]}.
-The parity of each column is irrelevant.}
+\item{splits}{An object that can be coerced into class \code{Splits} using
+\code{\link[TreeTools]{as.Splits}}.}
 
-\item{splits2}{A matrix of bipartitions against which to compare \code{splits}.
-If row names are present, then all rows present in \code{splits} must be present
-in \code{splits2}.  If they are absent, then both matrices must have the same
-number of rows, and tips will be assumed to be in the same sequence.}
+\item{splits2}{Bipartitions against which to compare \code{splits}.}
 }
 \value{
-A named vector of six integers, listing the number of unique splits that:
+A named vector of eight integers, listing the number of unique splits
+that:
 \itemize{
-\item \strong{N}    exist in total; i.e. the number of splits in \code{splits1} plus the number in \code{splits2},
+\item \strong{N}    exist in total; i.e. the number of splits in \code{splits1} plus the
+number in \code{splits2},
 equivalent to 2 \emph{s} + \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2};
+\item \strong{P1}   occur in \code{splits1}
+\item \strong{P2}   occur in \code{splits2}
 \item \strong{s}    occur in both \code{splits1} and \code{splits2};
 \item \strong{d1}   occur in \code{splits1} but are contradicted by \code{splits2};
 \item \strong{d2}   occur in \code{splits2} but are contradicted by \code{splits1};
@@ -37,6 +36,13 @@ the Robinson-Foulds distance.
 \description{
 Reports whether bipartition splits are present or contradicted
 in a set of reference splits.
+}
+\examples{
+splits1 <- TreeTools::BalancedTree(8)
+splits2 <- TreeTools::PectinateTree(8)
+
+CompareSplits(splits1, splits2)
+        
 }
 \references{
 {

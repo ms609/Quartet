@@ -35,7 +35,7 @@ Imports:
     memoise,
     Rdpack,
     Ternary (>= 1.0),
-    TreeSearch (> 0.3.0)
+    TreeTools
 Suggests:
     bookdown,
     knitr,
@@ -44,6 +44,8 @@ Suggests:
     rmarkdown,
     testthat,
     usethis
+Remotes:
+    ms609/TreeTools
 SystemRequirements: C++11
 RdMacros: Rdpack
 LinkingTo: Rcpp

@@ -81,6 +81,10 @@ tips that do not occur in both trees being compared.
   
 }
 
+
+data('sq_trees')
+SplitStatus(sq_trees)
+
 }
 \references{
 {
