@@ -20,7 +20,7 @@ addons:
 r_binary_packages:
  - ape
  - covr
-# - devtools
+ - devtools
  - knitr
  - memoise
  - phangorn
@@ -34,15 +34,13 @@ r_binary_packages:
 # Some packages not available as binaries:
 r_packages:
  - bookdown
+ - CongreveLamsdell2016
  - Ternary
  - TreeSearch
  
-r_github_packages:
- - ms609/CongreveLamsdell2016
- 
-#before_script:
-# - R -e "devtools::document()"
-#  
+before_script:
+ - R -e "devtools::load_all();devtools::document()"
+  
 after_success:
  - Rscript -e "covr::codecov()"
  
