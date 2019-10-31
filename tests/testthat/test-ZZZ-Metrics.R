@@ -72,9 +72,9 @@ test_that("Quartet metrics handle polytomous pairs", {
     ape::read.tree(text='(A, (B, (C, ((D, E), (F, G)))));')
   )
   polyStates <- QuartetStates(polytomous)
-  expect_equal(c(rep(2, 19), 0, rep(2, 9), 0, 2, 2, 2, 0, 0), polyStates[[1]])
+  expect_equal(c(rep(2, 19), 0, rep(2, 9), 0, 2, 2, 2, 0, 0), polyStates[1, ])
   expect_equal(c(rep(2, 10), 0, 0, 4, 0, 4, 4, 0, 4, 
-                 4, 4, 0, 0, 4, 0, 4, 4, 0, 4, 4, 4, rep(0, 5)), polyStates[[2]])
+                 4, 4, 0, 0, 4, 0, 4, 4, 0, 4, 4, 4, rep(0, 5)), polyStates[2, ])
   
   qStat <- QuartetStatus(polytomous)
   expect_identical(qStat[1, ], c(N=70L, Q=35L, s=31L, d=0L, r1=0L, r2=0L, u=4L))

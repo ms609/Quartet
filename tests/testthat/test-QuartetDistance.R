@@ -13,7 +13,7 @@ test_that("Splits are compared", {
 test_that("QuartetStates works", {
   expect_equal(2L, QuartetStates(quartets[[1]]))
   expect_equal(3L, QuartetStates(as.Splits(quartets[[2]], letters[1:4])))
-  expect_equal(c(2L, 3L, 4L, 0L), QuartetStates(quartets))
+  expect_equal(c(2L, 3L, 4L, 0L), QuartetStates(quartets)[, 1])
 })
 
 test_that("QuartetState works", {

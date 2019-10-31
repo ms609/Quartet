@@ -180,9 +180,9 @@ QuartetStates <- function (splits) {
       {if (length(x)) as.integer(x) else NA}, integer(1L)), integer(length(splits)))
   
   # Return:
-  as.integer(ifelse(is.na(subs), 0L,
-                    ifelse(subs == 3L | subs == 12L, 2L,
-                           ifelse(subs == 5L | subs == 10L, 3L, 4L))))
+  ifelse(is.na(subs), 0L,
+         ifelse(subs == 3L | subs == 12L, 2L,
+                ifelse(subs == 5L | subs == 10L, 3L, 4L)))
 }
 
 #' Compare quartet states by explicit enumeration
