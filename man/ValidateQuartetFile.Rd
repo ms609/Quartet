@@ -17,6 +17,6 @@ a file that exists, a fatal error otherwise.
 Verifies that file parameters are character strings describing files that exist
 }
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \keyword{internal}

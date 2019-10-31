@@ -46,7 +46,7 @@
 #'  \insertRef{Robinson1981}{Quartet}
 #'  
 #' }       
-#' @author Martin R. Smith
+#' @template MRS
 #' @name CompareSplits
 #' @importFrom TreeTools as.Splits WithoutTrivialSplits in.Splits
 #'  CompatibleSplits
@@ -152,7 +152,7 @@ CompareBipartitions <- CompareSplits
 #' }
 #' 
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #' @importFrom TreeTools RenumberTips as.Splits UnshiftTree
 #' @aliases BipartitionStatus
 #' @export
@@ -211,7 +211,7 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' @keywords internal
 #' @importFrom ape drop.tip
 #' @importFrom TreeTools RenumberTips as.Splits
-#' @author Martin R. Smith
+#' @template MRS
 #' @export
 PairSharedSplitStatus <- function (ref, cf) {
   refTips <- ref$tip.label

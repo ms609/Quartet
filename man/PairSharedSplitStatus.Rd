@@ -26,6 +26,6 @@ PairSharedSplitStatus(ref, cf)
 
 }
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \keyword{internal}

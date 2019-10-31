@@ -19,7 +19,7 @@ WHICH_OTHER_NODE <- 2:4
 #'   reference tree.
 #' @param \dots Additional parameters to send to \code{\link[graphics]{plot}}.
 #'                
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @return Returns `invisible()`, having plotted a tree in which the first two members
 #' of `quartet` are highlighted in orange, and the second two highlighted in 
@@ -89,7 +89,7 @@ PlotQuartet <- function (tree, quartet, overwritePar = TRUE,
 #' corresponding to a unique selection of four different integers less than
 #' or equal to `n_tips`
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #'
 #' @family quartet counting functions
 #' @seealso \code{\link[utils]{combn}}
@@ -137,7 +137,7 @@ AllQuartets <- memoise(function (n_tips) {
 #'  not constrained by the provided bipartitions, or the index of the closest
 #'  relative to `tips[1]`, otherwise.
 #'
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @family element-by-element comparisons
 #' @seealso \code{\link{CompareQuartets}}, used to compare quartet states between
@@ -215,7 +215,7 @@ QuartetStates <- function (splits) {
 #' @templateVar intro Returns an array of seven numeric elements, corresponding to the quantities of Estabrook _et al_. (1985):
 #' @template returnEstabrook
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #'
 #' @family element-by-element comparisons
 #' @seealso \code{\link{QuartetStatus}}, generates this output from a list of
@@ -272,7 +272,7 @@ SharedQuartetStatus <- function (trees, cf=trees[[1]]) {
 #' @family element-by-element comparisons
 #' @keywords internal
 #' @importFrom ape drop.tip
-#' @author Martin R. Smith
+#' @template MRS
 #' @export
 PairSharedQuartetStatus <- function (tree1, tree2) {
   tips1 <- tree1$tip.label
