@@ -184,11 +184,17 @@ QuartetState <- function (tips, bips, splits = bips) {
 #' @export
 QuartetStates <- function (splits) {
   splits <- as.Splits(splits)
+  outLength <- if (mode(splits) == 'list') length(splits) else 1L
   nTip <- Ntip(splits)
   allQuartets <- AllQuartets(nTip)
-  subs <- vapply(allQuartets, function (tips) 
-    vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE), function (x)
-      {if (length(x)) as.integer(x) else NA}, integer(1L)), integer(length(splits)))
+  
+  subs <- vapply(allQuartets, function (tips) {
+    ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),
+                  function (x) {if (length(x)) as.integer(x) else NA},
+                  integer(1L))
+    if (length(ret) == 0L) ret <- rep(NA, outLength)
+    ret
+  }, integer(outLength))
   
   # Return:
   ifelse(is.na(subs), 0L,

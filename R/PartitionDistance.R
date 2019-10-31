@@ -151,14 +151,10 @@ CompareBipartitions <- CompareSplits
 #'   \insertRef{Penny1985}{Quartet}
 #' }
 #' 
-#' @examples 
-#' 
-#' data('sq_trees')
-#' SplitStatus(sq_trees)
 #' 
 #' @author Martin R. Smith
 #' @importFrom TreeTools RenumberTips as.Splits UnshiftTree
-#' @aliases  BipartitionStatus
+#' @aliases BipartitionStatus
 #' @export
 SplitStatus <- function (trees, cf = trees[[1]]) {
   compareWithFirst <- identical(cf, trees[[1]])
