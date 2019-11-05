@@ -110,10 +110,10 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
 std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   calculateAllPairsQuartetDistance(Rcpp::CharacterVector string) {
   NewickParser parser;
-
-  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiStr(string); 
+  
+  std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiStr(string); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
-    Rcpp::stop("Error: Failed to parse filename");
+    Rcpp::stop("Error: Failed to parse input string");
   }
 
   const std::vector<std::vector<INTTYPE_N4> > results = 

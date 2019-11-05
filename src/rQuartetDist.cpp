@@ -11,6 +11,9 @@ using namespace Rcpp;
 //' Functions to calculate triplet and quartet distances between pairs of trees.
 //' Input is not checked for sanity.
 //' 
+//' Functions are called from R with user-friendly functions such as 
+//' [`AllPairsQuartetDistance`].
+//' 
 //' @param file,file1,file2 Paths to files containing a tree or trees in Newick format.
 //' 
 //' @return The distance between the requested trees.
@@ -149,6 +152,8 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
 IntegerMatrix tqdist_AllPairsQuartetDistanceChar(CharacterVector string) {
   QuartetDistanceCalculator quartetCalc;
   
+  Rcout << string(0) << "\n";
+  Rcout << '.' << string[0] << "\n";
   std::vector<std::vector<INTTYPE_N4> > res =
     quartetCalc.calculateAllPairsQuartetDistance(string);
   

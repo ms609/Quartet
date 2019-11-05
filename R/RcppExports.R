@@ -6,6 +6,9 @@
 #' Functions to calculate triplet and quartet distances between pairs of trees.
 #' Input is not checked for sanity.
 #' 
+#' Functions are called from R with user-friendly functions such as 
+#' [`AllPairsQuartetDistance`].
+#' 
 #' @param file,file1,file2 Paths to files containing a tree or trees in Newick format.
 #' 
 #' @return The distance between the requested trees.
