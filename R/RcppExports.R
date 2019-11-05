@@ -44,6 +44,12 @@ tqdist_AllPairsQuartetDistance <- function(file) {
     .Call(`_Quartet_tqdist_AllPairsQuartetDistance`, file)
 }
 
+#' @describeIn tqdist_QuartetDistance Distance between all pairs
+#' @export
+tqdist_AllPairsQuartetDistanceChar <- function(string) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetDistanceChar`, string)
+}
+
 #' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 #' @export
 tqdist_AllPairsQuartetAgreement <- function(file) {

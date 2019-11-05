@@ -1,3 +1,5 @@
+#include <Rcpp.h>
+
 #ifndef NEWICK_PARSER_H
 	#define NEWICK_PARSER_H
 
@@ -11,8 +13,10 @@
 		public:
 			~NewickParser() {};
 			UnrootedTree *parseStr(string inputStr);
+			UnrootedTree *parseStr(Rcpp::CharacterVector string);
 			UnrootedTree *parseFile(const char* filename);
 			std::vector<UnrootedTree *> parseMultiFile(const char *filename);
+			std::vector<UnrootedTree *> parseMultiStr(Rcpp::CharacterVector string);
 			bool isError();
 
 		private:

@@ -64,6 +64,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tqdist_AllPairsQuartetDistanceChar
+IntegerMatrix tqdist_AllPairsQuartetDistanceChar(CharacterVector string);
+RcppExport SEXP _Quartet_tqdist_AllPairsQuartetDistanceChar(SEXP stringSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type string(stringSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetDistanceChar(string));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_AllPairsQuartetAgreement
 IntegerMatrix tqdist_AllPairsQuartetAgreement(CharacterVector file);
 RcppExport SEXP _Quartet_tqdist_AllPairsQuartetAgreement(SEXP fileSEXP) {

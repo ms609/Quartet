@@ -3,6 +3,15 @@ context("QuartetDistance.R")
 data('sq_trees')
 quartets <- read.tree('../trees/all_quartets.new')
 
+test_that("Distances are calculated from strings", {
+  set.seed(0)
+  trees <- structure(lapply(rep(8, 3), ape::rtree, br=NULL), class='multiPhylo')
+  strs <- write.tree(trees)
+  
+  tqdist_AllPairsQuartetDistanceChar(strs)
+  
+})
+
 test_that("Splits are compared", {
   expect_equal(c(N=252L, Q=126L, s=120L, d=6L, r1=0L, r2=0L, u=0L), 
                SharedQuartetStatus(UnshiftTree(

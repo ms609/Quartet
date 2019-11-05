@@ -143,6 +143,29 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
   return IM_res;
 }
 
+//' @describeIn tqdist_QuartetDistance Distance between all pairs
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetDistanceChar(CharacterVector string) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<INTTYPE_N4> > res =
+    quartetCalc.calculateAllPairsQuartetDistance(string);
+  
+  IntegerMatrix IM_res(res.size(), res.size());
+  
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c < r; c++) {
+      int current_res = int(res[r][c]);
+      IM_res[r + res.size() * c] = current_res;
+      IM_res[c + res.size() * r] = current_res;
+    }
+    IM_res[r + res.size()*r] = res[r][r];
+  }
+  
+  return IM_res;
+}
+
 //' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 //' @export
 // [[Rcpp::export]]

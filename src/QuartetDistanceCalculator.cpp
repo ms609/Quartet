@@ -108,6 +108,26 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
 }
 
 std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
+  calculateAllPairsQuartetDistance(Rcpp::CharacterVector string) {
+  NewickParser parser;
+
+  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiStr(string); 
+  if (unrootedTrees.size() == 0 || parser.isError()) {
+    Rcpp::stop("Error: Failed to parse filename");
+  }
+
+  const std::vector<std::vector<INTTYPE_N4> > results = 
+    calculateAllPairsQuartetDistance(unrootedTrees);
+
+  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
+    UnrootedTree * tmp = unrootedTrees[i];
+    delete tmp;
+  }
+
+  return results;
+}
+
+std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees) {
   std::vector<std::vector<INTTYPE_N4> > results(trees.size());
 
