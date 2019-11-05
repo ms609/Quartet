@@ -37,6 +37,7 @@ r_packages:
 r_github_packages:
  - ms609/CongreveLamsdell2016
  - ms609/TreeTools
+ - ms609/TreeDist
 
 before_script:
   - R -e "pkgload::load_all(); devtools::document()"
