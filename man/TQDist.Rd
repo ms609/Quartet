@@ -7,21 +7,20 @@
 \alias{SingleTreeQuartetAgreement}
 \title{tqDist wrapper}
 \usage{
-TQDist(treeList)
+TQDist(trees)
 
-TQAE(treeList)
+TQAE(trees)
 
-ManyToManyQuartetAgreement(treeList)
+ManyToManyQuartetAgreement(trees)
 
-SingleTreeQuartetAgreement(treeList, comparison)
+SingleTreeQuartetAgreement(trees, comparison = trees[[1]])
 }
 \arguments{
-\item{treeList}{List of phylogenetic trees, of class \code{list} or
-\code{\link[ape:read.tree]{phylo}}.
-All trees must be bifurcating.}
+\item{trees}{List of phylogenetic trees, of class \code{list} or
+\code{\link[ape:read.tree]{multiPhylo}}.}
 
-\item{comparison}{A tree of class \code{\link[ape:read.tree]{phylo}} against which to compare the trees
-in \code{treeList}.}
+\item{comparison}{A tree of class \code{\link[ape:read.tree]{phylo}} against
+which to compare \code{trees}.}
 }
 \value{
 \code{TQDist} returns the quartet distance between each pair of trees.
@@ -34,7 +33,7 @@ that are unresolved in both trees (E in Brodal \emph{et al}. 2013).
 for each pair of trees in turn, the number of quartets in each category.
 
 \code{SingleTreeQuartetAgreement} returns a two-dimensional array listing,
-for tree in \code{treeList}, the total number of quartets and the
+for tree in \code{trees}, the total number of quartets and the
 number of quartets in each category.
 The \code{comparison} tree is treated as \code{tree2}.
 }

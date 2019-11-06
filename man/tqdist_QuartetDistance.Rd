@@ -5,7 +5,10 @@
 \alias{tqdist_QuartetAgreement}
 \alias{tqdist_PairsQuartetDistance}
 \alias{tqdist_OneToManyQuartetAgreement}
+\alias{tqdist_OneToManyQuartetAgreementChar}
 \alias{tqdist_AllPairsQuartetDistance}
+\alias{tqdist_AllPairsQuartetDistanceChar}
+\alias{tqdist_AllPairsQuartetAgreementChar}
 \alias{tqdist_AllPairsQuartetAgreement}
 \alias{tqdist_TripletDistance}
 \alias{tqdist_PairsTripletDistance}
@@ -20,7 +23,13 @@ tqdist_PairsQuartetDistance(file1, file2)
 
 tqdist_OneToManyQuartetAgreement(file1, fileMany)
 
+tqdist_OneToManyQuartetAgreementChar(tree, trees)
+
 tqdist_AllPairsQuartetDistance(file)
+
+tqdist_AllPairsQuartetDistanceChar(string)
+
+tqdist_AllPairsQuartetAgreementChar(string)
 
 tqdist_AllPairsQuartetAgreement(file)
 
@@ -40,6 +49,10 @@ The distance between the requested trees.
 Functions to calculate triplet and quartet distances between pairs of trees.
 Input is not checked for sanity.
 }
+\details{
+Functions are called from R with user-friendly functions such as
+\code{\link{AllPairsQuartetDistance}}.
+}
 \section{Functions}{
 \itemize{
 \item \code{tqdist_QuartetAgreement}: Agreement of each quartet
@@ -48,7 +61,13 @@ Input is not checked for sanity.
 
 \item \code{tqdist_OneToManyQuartetAgreement}: Distance between pairs
 
+\item \code{tqdist_OneToManyQuartetAgreementChar}: Distance between pairs
+
 \item \code{tqdist_AllPairsQuartetDistance}: Distance between all pairs
+
+\item \code{tqdist_AllPairsQuartetDistanceChar}: Distance between all pairs
+
+\item \code{tqdist_AllPairsQuartetAgreementChar}: Agreement between all pairs of trees
 
 \item \code{tqdist_AllPairsQuartetAgreement}: Agreement between all pairs of trees
 
