@@ -28,7 +28,7 @@ std::vector<UnrootedTree *> EdgeParser::parseEdges(ListOf<IntegerMatrix> edges) 
 
 UnrootedTree* EdgeParser::parse() {
   nTip = edg(0, 0) - 1;
-  it = 0;
+  it = -1;
   
   UnrootedTree *t = new UnrootedTree();
   ParseBranchSet(t);
@@ -37,7 +37,7 @@ UnrootedTree* EdgeParser::parse() {
 
 void EdgeParser::ParseBranchSet(UnrootedTree *parent) {
   int degreeHere = 0;
-  int subtreeRoot = edg(it, 1);
+  int subtreeRoot = edg(it + 1, 0);
   int largestDegreeBelow = 0;
   
   while(it++ < edg.nrow() - 1) {
