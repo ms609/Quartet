@@ -130,7 +130,8 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
   filename = CHAR(STRING_ELT(file, 0));
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<std::vector<INTTYPE_N4> > res = quartetCalc.calculateAllPairsQuartetDistance(filename);
+  std::vector<std::vector<INTTYPE_N4> > res = 
+    quartetCalc.calculateAllPairsQuartetDistance(filename);
   
   IntegerMatrix IM_res(res.size(), res.size());
   
@@ -152,8 +153,6 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
 IntegerMatrix tqdist_AllPairsQuartetDistanceChar(CharacterVector string) {
   QuartetDistanceCalculator quartetCalc;
   
-  Rcout << string(0) << "\n";
-  Rcout << '.' << string[0] << "\n";
   std::vector<std::vector<INTTYPE_N4> > res =
     quartetCalc.calculateAllPairsQuartetDistance(string);
   
@@ -174,6 +173,32 @@ IntegerMatrix tqdist_AllPairsQuartetDistanceChar(CharacterVector string) {
 //' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 //' @export
 // [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetAgreementChar(CharacterVector string) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = 
+    quartetCalc.calculateAllPairsQuartetAgreement(string);
+
+  IntegerMatrix IM_res(res.size(), res.size() * 2);
+
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c <= r; c++) {
+      int current_a = int(res[r][c][0]);
+      int current_e = int(res[r][c][1]);
+      IM_res[r + res.size() * c] = current_a;
+      IM_res[c + res.size() * r] = current_a;
+      IM_res[r + res.size() * c + (res.size() * res.size())] = current_e;
+      IM_res[c + res.size() * r + (res.size() * res.size())] = current_e;
+    }
+  }
+  
+  return IM_res;
+}
+
+
+//' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
+//' @export
+// [[Rcpp::export]]
 IntegerMatrix tqdist_AllPairsQuartetAgreement(CharacterVector file) {
   int n = file.size();
   if (n != 1) {
@@ -184,8 +209,9 @@ IntegerMatrix tqdist_AllPairsQuartetAgreement(CharacterVector file) {
   filename = CHAR(STRING_ELT(file, 0));
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = quartetCalc.calculateAllPairsQuartetAgreement(filename);
-
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = 
+    quartetCalc.calculateAllPairsQuartetAgreement(filename);
+  
   IntegerMatrix IM_res(res.size(), res.size() * 2);
 
   for (size_t r = 0; r < res.size(); r++) {
