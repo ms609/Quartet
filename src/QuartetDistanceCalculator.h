@@ -29,7 +29,7 @@ QuartetDistanceCalculator : private AbstractDistanceCalculator {
   std::vector<std::vector<INTTYPE_N4> > 
     calculateAllPairsQuartetDistance(CharacterVector string);
   std::vector<std::vector<INTTYPE_N4> > 
-    calculateAllPairsQuartetDistance(ListOf<IntegerMatrix> string);
+    calculateAllPairsQuartetDistance(ListOf<IntegerMatrix> edges);
   std::vector<std::vector<INTTYPE_N4> > 
     calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees);
   
