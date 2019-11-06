@@ -5,14 +5,19 @@ quartets <- read.tree('../trees/all_quartets.new')
 
 test_that("Distances are calculated from strings", {
   set.seed(0)
+  
   trees <- structure(lapply(rep(8, 4), ape::rtree, br=NULL), class='multiPhylo')
   strs <- write.tree(trees)
   
   fileName <- TQFile(trees)
   on.exit(file.remove(fileName))
   
-  expect_equal(tqdist_AllPairsQuartetDistanceChar(strs),
-               AllPairsQuartetDistance(fileName))
+  expect_equal(AllPairsQuartetDistance(fileName),
+               TQDist(trees))
+  expect_equal(AllPairsQuartetAgreement(fileName),
+               TQAE(trees))
+  expect_equal(ManyToManyQuartetAgreement(trees)[1, , ],
+               SingleTreeQuartetAgreement(trees)[, 3:7])
   
 })
 
