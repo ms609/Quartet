@@ -188,7 +188,6 @@ UnrootedTree* NewickParser::parseSubTree() {
   }
   
   if (*it == '(') return parseInternal();
-  // TODO: Other possibilities than name?!?
   return new UnrootedTree(parseName());
 }
 
