@@ -16,8 +16,8 @@
 #'  - E: _u_ = **u**nresolved in both trees.
 #'  
 #' 
-#' @param treeList List of phylogenetic trees, of class \code{list} or
-#'                 \code{\link[ape:read.tree]{phylo}}. 
+#' @param trees List of phylogenetic trees, of class \code{list} or
+#'                 \code{\link[ape:read.tree]{multiPhylo}}. 
 #'                 All trees must be bifurcating.
 #' @return `TQDist` returns the quartet distance between each pair of trees.
 #' 
@@ -30,14 +30,11 @@
 #'   
 #'   \insertRef{Sand2014}{Quartet}
 #' 
-#' @importFrom ape write.tree
 #' @author Martin R. Smith
 #' @useDynLib Quartet, .registration = TRUE
 #' @export
-TQDist <- function (treeList) {
-  fileName <- TQFile(treeList)
-  on.exit(file.remove(fileName))
-  AllPairsQuartetDistance(fileName)
+TQDist <- function (trees) {
+  .Call('_Quartet_tqdist_AllPairsQuartetDistanceChar', .TreeToString(trees))
 }
 
 #' @describeIn TQDist Number of agreeing quartets that are resolved / unresolved.
@@ -45,10 +42,11 @@ TQDist <- function (treeList) {
 #'   each pair of trees (A in Brodal _et al_. 2013) and the number of quartets 
 #'   that are unresolved in both trees (E in Brodal _et al_. 2013).
 #' @export 
-TQAE <- function (treeList) {
-  fileName <- TQFile(treeList)
-  on.exit(file.remove(fileName))
-  AllPairsQuartetAgreement(fileName)
+TQAE <- function (trees) {
+  result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreementChar',
+                  .TreeToString(trees))
+  nTrees <- nrow(result)
+  array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
 }
 
 #' @describeIn TQDist Agreement of each quartet, comparing each pair of trees 
@@ -56,8 +54,8 @@ TQAE <- function (treeList) {
 #' @return `ManyToManyQuartetAgreement` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @export 
-ManyToManyQuartetAgreement <- function (treeList) {
-  AE <- TQAE(treeList)
+ManyToManyQuartetAgreement <- function (trees) {
+  AE <- TQAE(trees)
   nTree <- dim(AE)[1]
   A   <- AE[, , 1]
   E   <- AE[, , 2]
@@ -82,13 +80,13 @@ ManyToManyQuartetAgreement <- function (treeList) {
 #'   number of quartets in each category.  
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
-SingleTreeQuartetAgreement <- function (treeList, comparison) {
-  if (class(treeList) == 'phylo') treeList <- structure(list(treeList), class='multiPhylo')
-  singleFile <- TQFile(comparison)
-  multiFile  <- TQFile(treeList)
-  on.exit(file.remove(singleFile, multiFile))
-  AE <- OneToManyQuartetAgreement(singleFile, multiFile)
-  DE <- vapply(treeList, ResolvedQuartets, integer(2))[2, ]
+SingleTreeQuartetAgreement <- function (trees, comparison) {
+
+  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementChar', 
+                     .TreeToString(comparison), .TreeToString(trees)),
+               ncol=2, dimnames=list(NULL, c('A', 'E')))
+  
+  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
   nTree <- length(DE)
   
   A   <- AE[, 1]
@@ -172,6 +170,9 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #' Creates a temporary file corresponding to a list of trees,
 #' to be processed with tqDist.  Files should be destroyed using
 #' `on.exit(file.remove(fileName))` by the calling function.
+#' 
+#' Shouls now only be necessary for testing purposes.
+#' 
 #' @return Name of the created file
 #' @keywords internal
 #' @export
@@ -288,6 +289,22 @@ OneToManyQuartetAgreement <- function(file1, file2) {
 AllPairsQuartetDistance <- function(file) {
   ValidateQuartetFile(file)
   .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
+}
+
+#' @export
+#' @describeIn Distances Quartet distance between each pair of trees.
+QuartetDistance <- function(file) {
+  ValidateQuartetFile(file)
+  .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
+}
+
+#' @importFrom ape write.tree
+#' @keywords internal
+#' @export
+.TreeToString <- function (trees) {
+  # TODO Improve
+  # TODO Ultimately: avoid this step entirely, and feed trees directly in to C++
+  write.tree(trees, digits = 0)
 }
 
 #' @export
