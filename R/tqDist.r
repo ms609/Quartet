@@ -315,7 +315,7 @@ AllPairsQuartetDistance <- function(file) {
   }
 }
 
-#' @importFrom TreeTools RenumberTips
+#' @importFrom TreeTools RenumberTips RenumberTree
 #' @keywords internal
 #' @export
 .TreeToEdge <- function (trees, tipOrder = trees[[1]]$tip.label) {
@@ -331,6 +331,9 @@ AllPairsQuartetDistance <- function(file) {
   }
 }
 
+#' @importFrom TreeTools RenumberTips RenumberTree
+#' @keywords internal
+#' @export
 .SortTree <- function (tree, tipOrder) {
   edge <- RenumberTips(tree, tipOrder)$edge
   RenumberTree(edge[, 1], edge[, 2])
