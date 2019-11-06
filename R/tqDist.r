@@ -17,8 +17,7 @@
 #'  
 #' 
 #' @param trees List of phylogenetic trees, of class \code{list} or
-#'                 \code{\link[ape:read.tree]{multiPhylo}}. 
-#'                 All trees must be bifurcating.
+#'                 \code{\link[ape:read.tree]{multiPhylo}}.
 #' @return `TQDist` returns the quartet distance between each pair of trees.
 #' 
 #' @references
