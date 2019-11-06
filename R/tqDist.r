@@ -86,8 +86,15 @@ SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
                      .TreeToString(comparison), .TreeToString(trees)),
                ncol=2, dimnames=list(NULL, c('A', 'E')))
   
-  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
-  nTree <- length(DE)
+  if (class(trees) == 'phylo') {
+    nTree <- 1L
+    DE <- ResolvedQuartets(trees)[2]
+    treeNames <- NULL
+  } else {
+    DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
+    nTree <- length(DE)
+    treeNames <- names(trees)
+  }
   
   A   <- AE[, 1]
   E   <- AE[, 2]
@@ -102,7 +109,7 @@ SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
   
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
-        dimnames=list(names(trees), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
+        dimnames=list(treeNames, c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
 #' Status of quartets
@@ -291,20 +298,17 @@ AllPairsQuartetDistance <- function(file) {
   .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
 }
 
-#' @export
-#' @describeIn Distances Quartet distance between each pair of trees.
-QuartetDistance <- function(file) {
-  ValidateQuartetFile(file)
-  .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
-}
-
 #' @importFrom ape write.tree
 #' @keywords internal
 #' @export
 .TreeToString <- function (trees) {
   # TODO Improve
   # TODO Ultimately: avoid this step entirely, and feed trees directly in to C++
-  write.tree(trees, digits = 0)
+  if(class(trees) == 'list') {
+    vapply(trees, write.tree, digits = 0, character(1))
+  } else {
+    write.tree(trees, digits = 0)
+  }
 }
 
 #' @export
