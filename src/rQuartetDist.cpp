@@ -225,11 +225,11 @@ IntegerMatrix tqdist_AllPairsQuartetDistanceChar(CharacterVector string) {
 //' @describeIn tqdist_QuartetDistance Distance between all pairs
 //' @export
 // [[Rcpp::export]]
-IntegerMatrix tqdist_AllPairsQuartetDistanceEdge(IntegerMatrix edge) {
+IntegerMatrix tqdist_AllPairsQuartetDistanceEdge(ListOf<IntegerMatrix> edges) {
   QuartetDistanceCalculator quartetCalc;
   
   std::vector<std::vector<INTTYPE_N4> > res =
-    quartetCalc.calculateAllPairsQuartetDistance(edge);
+    quartetCalc.calculateAllPairsQuartetDistance(edges);
   
   IntegerMatrix IM_res(res.size(), res.size());
   
@@ -305,11 +305,11 @@ IntegerMatrix tqdist_AllPairsQuartetAgreementChar(CharacterVector string) {
 //' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 //' @export
 // [[Rcpp::export]]
-IntegerMatrix tqdist_AllPairsQuartetAgreementEdge(CharacterVector edge) {
+IntegerMatrix tqdist_AllPairsQuartetAgreementEdge(ListOf<IntegerMatrix> edges) {
   QuartetDistanceCalculator quartetCalc;
   
   std::vector<std::vector<std::vector<INTTYPE_N4> > > res = 
-    quartetCalc.calculateAllPairsQuartetAgreement(edge);
+    quartetCalc.calculateAllPairsQuartetAgreement(edges);
   
   IntegerMatrix IM_res(res.size(), res.size() * 2);
   

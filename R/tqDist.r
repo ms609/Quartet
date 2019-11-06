@@ -45,8 +45,8 @@ TQDist <- function (trees) {
 #'   that are unresolved in both trees (E in Brodal _et al_. 2013).
 #' @export 
 TQAE <- function (trees) {
-  result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreementChar',
-                  .TreeToString(trees))
+  result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreementEdge',
+                  .TreeToEdge(trees))
   nTrees <- nrow(result)
   array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
 }
