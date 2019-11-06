@@ -28,8 +28,12 @@ std::vector<UnrootedTree *> EdgeParser::parseEdges(ListOf<IntegerMatrix> edges) 
 
 UnrootedTree* EdgeParser::parse() {
   nTip = edg(0, 0) - 1;
-  it = 0;
-  return parseSubTree();
+  Rcout << "\n *** Welcome to my Parser, fellow traveller *** " << endl << endl;
+  it = -1;
+  
+  UnrootedTree *t = new UnrootedTree(std::to_string(edg(0, 0)));
+  ParseBranchSet(t);
+  return t;
 }
 
 void EdgeParser::ParseBranchSet(UnrootedTree *parent) {
@@ -37,12 +41,11 @@ void EdgeParser::ParseBranchSet(UnrootedTree *parent) {
   int subtreeRoot = edg(it + 1, 0);
   int largestDegreeBelow = 0;
   
-  while(it++ < edg.nrow() - 1) {
+  while(++it < edg.nrow()) {
     degreeHere++;
-    UnrootedTree *t = parseSubTree();
-    largestDegreeBelow = max(largestDegreeBelow, t->maxDegree);
-    parent->addEdgeTo(t);
-    if (edg(it, 0) != subtreeRoot) break;
+    UnrootedTree *child = parseSubTree();
+    largestDegreeBelow = max(largestDegreeBelow, child->maxDegree);
+    if ((it + 1) >= edg.nrow() || edg(it + 1, 0) != subtreeRoot) break;
   }
   
   parent->maxDegree = max(degreeHere, largestDegreeBelow);
@@ -50,7 +53,7 @@ void EdgeParser::ParseBranchSet(UnrootedTree *parent) {
 
 UnrootedTree* EdgeParser::parseSubTree() {
   if (edg(it, 1) > nTip) {
-    UnrootedTree *internalNode = new UnrootedTree();
+    UnrootedTree *internalNode = new UnrootedTree(std::to_string(edg(it, 1)));
     ParseBranchSet(internalNode);
     return internalNode;
   } else {
