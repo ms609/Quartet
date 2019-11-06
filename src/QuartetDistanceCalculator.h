@@ -5,6 +5,7 @@
 #include "int_stuff.h"
 #include "unrooted_tree.h"
 #include <Rcpp.h>
+using namespace Rcpp;
 
 class 
 QuartetDistanceCalculator : private AbstractDistanceCalculator {
@@ -20,10 +21,11 @@ QuartetDistanceCalculator : private AbstractDistanceCalculator {
   INTTYPE_N4 calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2);
 
   std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetDistance(const char *filename);
-  std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetDistance(Rcpp::CharacterVector string);
+  std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetDistance(CharacterVector string);
   std::vector<std::vector<INTTYPE_N4> > calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees);
   
   std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetAgreement(const char *filename);
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetAgreement(CharacterVector string);
   std::vector<std::vector<std::vector<INTTYPE_N4> > > calculateAllPairsQuartetAgreement(std::vector<UnrootedTree *> trees);
 
   Rcpp::IntegerVector oneToManyQuartetAgreement(UnrootedTree *unrootedSingle,
