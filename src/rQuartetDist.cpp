@@ -88,7 +88,8 @@ IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector
   
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<INTTYPE_N4> res = quartetCalc.pairs_quartet_distance(filename1, filename2);
+  std::vector<INTTYPE_N4> res = 
+    quartetCalc.pairs_quartet_distance(filename1, filename2);
   
   IntegerVector IV_res(res.size());
   for (size_t i = 0; i < res.size(); i++) {
@@ -100,7 +101,8 @@ IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector
 //' @describeIn tqdist_QuartetDistance Distance between pairs
 //' @export
 // [[Rcpp::export]]
-IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterVector fileMany) {
+IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1,
+                                               CharacterVector fileMany) {
   int n1 = file1.size(), n2 = fileMany.size();
   if (n1 != 1 || n2 != 1) {
     Rcpp::stop("file1 and file2 must be character vectors of length 1");
