@@ -81,12 +81,14 @@ tips that do not occur in both trees being compared.
 \code{\link{SplitStatus}}: Uses bipartition splits (groups/clades defined by
 nodes or edges of the tree) instead of quartets as the unit of comparison.
 
+\code{\link{SimilarityMetrics}}: Generates distance metrics from quartet statuses.
+
 Other element-by-element comparisons: \code{\link{CompareQuartets}},
   \code{\link{CompareSplits}},
   \code{\link{PairSharedQuartetStatus}},
   \code{\link{QuartetState}}, \code{\link{SplitStatus}}
 }
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}

@@ -5,7 +5,7 @@
 \alias{QuartetStates}
 \title{Quartet State(s)}
 \usage{
-QuartetState(tips, bips)
+QuartetState(tips, bips, splits = bips)
 
 QuartetStates(splits)
 }
@@ -13,7 +13,10 @@ QuartetStates(splits)
 \item{tips}{A four-element array listing a quartet of tips, either by their
 number (if class \code{numeric}) or their name (if class \code{character}).}
 
-\item{bips}{Bipartitions to evaluate.}
+\item{bips}{Depreciated; included for comaptability with v1.0.2 and below.}
+
+\item{splits}{An object that can be induced to a \code{Splits} object using
+\code{\link[TreeTools]{as.Splits}}.}
 
 \item{splits}{A list of bipartition splits, perhaps generated using
 \code{\link[TreeTools]{Tree2Splits}}, with row names corresponding
@@ -22,18 +25,21 @@ If a tree or list of trees (of class \code{\link[ape:read.tree]{phylo}}) is sent
 it will be silently converted to its constituent splits.}
 }
 \value{
-Returns \code{0} if the relationships of the four taxa are not constrained by the provided
-bipartitions, or the index of the closest relative to \code{tips[1]}, otherwise.
+\code{QuartetState} returns \code{0} if the relationships of the four taxa are
+not constrained by the provided bipartitions, or the index of the closest
+relative to \code{tips[1]}, otherwise.
 }
 \description{
 Report the status of the specified quartet(s).
 }
 \details{
-One of the three possible four-taxon trees will be consistent with any set of bipartitions
-generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tree can be
-identified by naming the tip most closely related to taxon 1.
-If a set of bipartitions is generated from a tree that contains polytomies, it is possible
-that all three four-taxon trees are consistent with the set of bipartitions.
+One of the three possible four-taxon trees will be consistent with any set of
+bipartitions generated from a fully resolved tree.  If the taxa are numbered
+1 to 4, this tree can be identified by naming the tip most closely related
+to taxon 1.
+If a set of bipartitions is generated from a tree that contains polytomies,
+it is possible that all three four-taxon trees are consistent with the set
+of bipartitions.
 }
 \section{Functions}{
 \itemize{
@@ -43,13 +49,19 @@ with a tree or a list of splits.
 
 \examples{
 {
-  n_tip <- 6
-  trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
-                ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-  splits <- lapply(trees, TreeTools::Tree2Splits)
-  QuartetState(c(1, 3, 4, 6), splits[[2]])  
-  QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
-  vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))
+  nTip <- 6
+  trees <- list(ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL),
+                ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL))
+  
+  trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
+  
+  QuartetState(c(1, 3, 4, 6), trees[[2]])  
+  QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
+  QuartetState(c(1, 3, 4, 6), trees[[3]])  
+  
+  QuartetStates(trees[[2]])
+  QuartetStates(trees[[3]])
+  
 }
 
 }
@@ -67,6 +79,6 @@ Other element-by-element comparisons: \code{\link{CompareQuartets}},
   \code{\link{SplitStatus}}
 }
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}

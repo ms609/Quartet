@@ -4,16 +4,19 @@
 #' in a set of reference splits.
 #' 
 #' @template splitsParam
-#' @param splits2 A matrix of bipartitions against which to compare `splits`.
-#'   If row names are present, then all rows present in `splits` must be present
-#'   in `splits2`.  If they are absent, then both matrices must have the same
-#'   number of rows, and tips will be assumed to be in the same sequence.
+#' @param splits2 Bipartitions against which to compare `splits`.
 #' 
-#' @return A named vector of six integers, listing the number of unique splits that:
+#' @return A named vector of eight integers, listing the number of unique splits 
+#' that:
 #' 
-#'   - **N**    exist in total; i.e. the number of splits in `splits1` plus the number in `splits2`,
+#'   - **N**    exist in total; i.e. the number of splits in `splits1` plus the 
+#'   number in `splits2`,
 #'   equivalent to 2 _s_ + _d1_ + _d2_ + _r1_ + _r2_;
 #' 
+#'   - **P1**   occur in `splits1`
+#'   
+#'   - **P2**   occur in `splits2`
+#'   
 #'   - **s**    occur in both `splits1` and `splits2`; 
 #'   
 #'   - **d1**   occur in `splits1` but are contradicted by `splits2`;
@@ -30,6 +33,12 @@
 #' @family element-by-element comparisons
 #' @seealso `\link{CompareQuartets}`: equivalent function for quartets.
 #'         
+#' @examples 
+#' splits1 <- TreeTools::BalancedTree(8)
+#' splits2 <- TreeTools::PectinateTree(8)
+#' 
+#' CompareSplits(splits1, splits2)
+#'         
 #' @references {
 #' 
 #'  \insertRef{Estabrook1985}{Quartet}
@@ -37,61 +46,39 @@
 #'  \insertRef{Robinson1981}{Quartet}
 #'  
 #' }       
-#' @author Martin R. Smith
+#' @template MRS
 #' @name CompareSplits
-#' @importFrom TreeTools DropSingleSplits UniqueSplits
+#' @importFrom TreeTools as.Splits WithoutTrivialSplits in.Splits
+#'  CompatibleSplits
 #' @export
 CompareSplits <- function (splits, splits2) {
-  tipNames <- rownames(splits)
-  if (!is.null(tipNames)) if (!all(tipNames %in% rownames(splits2))) 
-    stop ("All taxa named in splits must exist in splits2")
-  splits2 <- splits2[tipNames, ]
+  splits <- as.Splits(splits)
+  splits2 <- as.Splits(splits2, splits)
   
-  nTip <- dim(splits)[1]
-  if (dim(splits2)[1] != nTip) 
-    stop("Both splits and splits2 must relate to the same tips")
+  nTip <- attr(splits, 'nTip')
   
-  splits <- DropSingleSplits(splits)
-  splits2 <- DropSingleSplits(splits2)
+  splits <- unique(WithoutTrivialSplits(splits, nTip))
+  splits2 <- unique(WithoutTrivialSplits(splits2, nTip))
   
-  # preserveParity = FALSE will ensure that parity(splits) == parity(splits2)
-  splits2 <- UniqueSplits(splits2, preserveParity=FALSE)
+  duplicates <- in.Splits(splits, splits2)
   
-  duplicates <- duplicated(rbind(t(splits), t(splits2)))
-  
-  nSplits <- dim(splits)[2]
-  nSplits2 <- dim(splits2)[2]
+  nSplits <- length(splits)
+  nSplits2 <- length(splits2)
   nTotal <- nSplits + nSplits2
   nBoth <- sum(duplicates)
   
-  InOneOnly <- function (uniques, otherSplits) {
-    if (length(uniques) == 0) return (0L)
-    splitSizes <- colSums(otherSplits)
-    sum(apply(uniques, 2, function (x) {
-      all(colSums(x & otherSplits) == splitSizes | colSums(x | otherSplits) == splitSizes |
-            colSums(!x & otherSplits) == splitSizes | colSums(!x | otherSplits) == splitSizes)
-    }))
-  }
-  
-  r1 <- if (nTip - nSplits2 == 3L) {
-    0L # Can't be resolved in 1 only if 2 is perfectly resolved.
-  } else if (nSplits2 == 0L) {
-    nSplits
+  incompatibles <- !CompatibleSplits(splits, splits2)
+  if (length(incompatibles) > 0) {
+    d1 <- sum(apply(incompatibles, 1, any))
+    d2 <- sum(apply(incompatibles, 2, any))
   } else {
-    InOneOnly(splits[, !duplicated(rbind(t(splits2), t(splits)))[-seq_len(nSplits2)], drop=FALSE], splits2)
+    d1 <- d2 <- 0
   }
-  r2 <- if(nTip - nSplits == 3L) {
-    0L
-  } else if (nSplits == 0L) {
-    nSplits2
-  } else {
-    InOneOnly(splits2[, !duplicates[-seq_len(nSplits)], drop=FALSE], splits)
-  }
-  
+
   # Return:
   c(N = nTotal, P1 = nSplits, P2 = nSplits2, s = nBoth,
-    d1 = nSplits - nBoth - r1, d2 = nSplits2 - nBoth - r2,
-    r1 = r1, r2 = r2)
+    d1 = d1, d2 = d2,
+    r1 = nSplits - nBoth - d1, r2 = nSplits2 - nBoth - d2)
 }
 
 #' @rdname CompareSplits
@@ -163,9 +150,11 @@ CompareBipartitions <- CompareSplits
 #'   
 #'   \insertRef{Penny1985}{Quartet}
 #' }
-#' @author Martin R. Smith
-#' @importFrom TreeTools RenumberTips Tree2Splits
-#' @aliases  BipartitionStatus
+#' 
+#' 
+#' @template MRS
+#' @importFrom TreeTools RenumberTips as.Splits UnshiftTree
+#' @aliases BipartitionStatus
 #' @export
 SplitStatus <- function (trees, cf = trees[[1]]) {
   compareWithFirst <- identical(cf, trees[[1]])
@@ -176,9 +165,7 @@ SplitStatus <- function (trees, cf = trees[[1]]) {
     stop("All trees must have the same number of tips")
   }
   
-  tree1Labels <- trees[[1]]$tip.label
-  trees <- lapply(trees, RenumberTips, tipOrder = tree1Labels)
-  splits <- lapply(trees, Tree2Splits)
+  splits <- as.Splits(trees)
   ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(8))
   rownames(ret) <- c('N', 'P1', 'P2', 's', 'd1', 'd2', 'r1', 'r2')
   
@@ -213,10 +200,18 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' 
 #' @return Named integer of length 6, as per [CompareSplits]
 #' 
+#' @examples
+#' 
+#' library('TreeTools')
+#' ref <- BalancedTree(letters[1:9])
+#' cf <- BalancedTree(letters[3:13])
+#' 
+#' PairSharedSplitStatus(ref, cf)
+#' 
 #' @keywords internal
 #' @importFrom ape drop.tip
-#' @importFrom TreeTools Tree2Splits
-#' @author Martin R. Smith
+#' @importFrom TreeTools RenumberTips as.Splits
+#' @template MRS
 #' @export
 PairSharedSplitStatus <- function (ref, cf) {
   refTips <- ref$tip.label
@@ -224,12 +219,10 @@ PairSharedSplitStatus <- function (ref, cf) {
   
   prunedRef <- drop.tip(ref, setdiff(refTips, cfTips))
   prunedCf <- drop.tip(cf, setdiff(cfTips, refTips))
-  prunedCf <- RenumberTips(prunedCf, tipOrder = intersect(refTips, cfTips))
   
-  refSplits <- Tree2Splits(prunedRef)
-  cfSplits <- Tree2Splits(prunedCf)
-  ret <- CompareSplits(refSplits, cfSplits)
+  refSplits <- as.Splits(prunedRef)
+  cfSplits <- as.Splits(prunedCf, prunedRef)
   
   # Return:
-  ret
+  CompareSplits(refSplits, cfSplits)
 }

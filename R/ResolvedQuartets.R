@@ -10,7 +10,7 @@
 #' @return A vector of length two, listing the number of quartets (or triplets)
 #'  that are \[1\] resolved; \[2\] unresolved in the specified tree.
 #'         
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @family quartet counting functions
 #' 

@@ -12,11 +12,7 @@
 #' are their complement (i.e. 1 - _similarity_), and can be calculated 
 #' algebraically using the identity _N_ = _s_ + _d_ + _r1_ + _r2_ + _u_.
 #' 
-#' Although defined using quartets, analagous values can be calculated using partitions
-#' -- though for a number of reasons, quartets offer a more meaningful
-#' measure of the amount of information shared by two trees.
-#' 
-#' * Do Not Conflict (DC): (_s_ + _r1_ + _r2_ + _u_) / _N_
+#' * Do Not Conflict (DC): 1 - (_d_ / _Q_)
 #' 
 #' * Explicitly Agree (EA): _s_ / _N_
 #' 
@@ -128,7 +124,7 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' The row name means that column names are dropped in
 #' the output of `DoNotConflict` etc.
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #' @export
 #' @keywords internal
 StatusToMatrix <- function (statusVector) {

@@ -19,7 +19,7 @@ WHICH_OTHER_NODE <- 2:4
 #'   reference tree.
 #' @param \dots Additional parameters to send to \code{\link[graphics]{plot}}.
 #'                
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @return Returns `invisible()`, having plotted a tree in which the first two members
 #' of `quartet` are highlighted in orange, and the second two highlighted in 
@@ -32,13 +32,16 @@ WHICH_OTHER_NODE <- 2:4
 #'   PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
 #' 
 #' @importFrom graphics par plot legend
-#' @importFrom TreeTools RenumberTips Tree2Splits
+#' @importFrom TreeTools RenumberTips
 #' @export
-PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { # nocov start
+PlotQuartet <- function (tree, quartet, overwritePar = TRUE, 
+                         caption = TRUE, ...) {
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
                  "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
-  if (class(tree) == 'phylo') tree <- structure(list(tree), class='multiPhylo')
+  if (class(tree) == 'phylo') {
+    tree <- structure(list(tree), class='multiPhylo')
+  }
   
   n_tip <- length(tree[[1]]$tip.label)
   
@@ -48,7 +51,7 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { 
   }
   
   labelOrder <- tree[[1]]$tip.label
-  state1 <- QuartetState(quartet, Tree2Splits(tree[[1]]))
+  state1 <- QuartetState(quartet, tree[[1]])
   tip_colours <- integer(n_tip) + 1L
   names(tip_colours) <- tree[[1]]$tip.label
   tip_colours[quartet] <- 3L
@@ -56,11 +59,22 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { 
   for (tr in tree) {
     tr <- RenumberTips(tr, labelOrder)
     plot(tr, tip.color=cbPalette[tip_colours], ...)
-    if (caption) legend('bottomleft', bty='n', cex=0.9,
-         if (QuartetState(quartet, Tree2Splits(tr)) == state1) "Same" else "Different")
+    if (caption) {
+      trState <- QuartetState(quartet, tr)
+      legend('bottomleft', bty='n', cex=0.9,
+         if (trState == state1) {
+           "Same"
+         } else if (trState == 0L) {
+           "Lost resolution"
+         } else if (state1 == 0L) {
+           "Gained resolution"
+         } else {
+           "Different"
+         })
+    }
   }
   invisible()
-} #nocov end
+}
 
 #' List all quartets
 #'
@@ -75,7 +89,7 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { 
 #' corresponding to a unique selection of four different integers less than
 #' or equal to `n_tips`
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #'
 #' @family quartet counting functions
 #' @seealso \code{\link[utils]{combn}}
@@ -105,77 +119,93 @@ AllQuartets <- memoise(function (n_tips) {
 #' 
 #' Report the status of the specified quartet(s).
 #' 
-#' One of the three possible four-taxon trees will be consistent with any set of bipartitions 
-#' generated from a fully resolved tree.  If the taxa are numbered 1 to 4, this tree can be 
-#' identified by naming the tip most closely related to taxon 1.
-#' If a set of bipartitions is generated from a tree that contains polytomies, it is possible
-#' that all three four-taxon trees are consistent with the set of bipartitions.
+#' One of the three possible four-taxon trees will be consistent with any set of
+#' bipartitions generated from a fully resolved tree.  If the taxa are numbered 
+#' 1 to 4, this tree can be identified by naming the tip most closely related 
+#' to taxon 1.
+#' If a set of bipartitions is generated from a tree that contains polytomies, 
+#' it is possible that all three four-taxon trees are consistent with the set
+#' of bipartitions.
 #'
 #' @param tips A four-element array listing a quartet of tips, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
-#' @param bips Bipartitions to evaluate.
+#' @param splits An object that can be induced to a `Splits` object using
+#'   \code{\link[TreeTools]{as.Splits}}.
+#' @param bips Depreciated; included for comaptability with v1.0.2 and below.
 #'
-#' @return Returns `0` if the relationships of the four taxa are not constrained by the provided 
-#' bipartitions, or the index of the closest relative to `tips[1]`, otherwise.
+#' @return `QuartetState` returns `0` if the relationships of the four taxa are
+#'  not constrained by the provided bipartitions, or the index of the closest
+#'  relative to `tips[1]`, otherwise.
 #'
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @family element-by-element comparisons
 #' @seealso \code{\link{CompareQuartets}}, used to compare quartet states between
 #'   trees.
 #' @examples{
-#'   n_tip <- 6
-#'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
-#'                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-#'   splits <- lapply(trees, TreeTools::Tree2Splits)
-#'   QuartetState(c(1, 3, 4, 6), splits[[2]])  
-#'   QuartetState(1:4, splits[[1]]) == QuartetState(1:4, splits[[2]])
-#'   vapply(AllQuartets(n_tip), QuartetState, bips=splits[[1]], double(1))
+#'   nTip <- 6
+#'   trees <- list(ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL),
+#'                 ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL))
+#'   
+#'   trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
+#'   
+#'   QuartetState(c(1, 3, 4, 6), trees[[2]])  
+#'   QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
+#'   QuartetState(c(1, 3, 4, 6), trees[[3]])  
+#'   
+#'   QuartetStates(trees[[2]])
+#'   QuartetStates(trees[[3]])
+#'   
 #' }
 #' 
 #' @references 
 #'   \insertRef{Estabrook1985}{Quartet}
 #' 
+#' @importFrom TreeTools Subsplit as.Splits
 #' @export
-QuartetState <- function (tips, bips) {
-  quartet_splits <- bips[tips, , drop=FALSE]
-  statement <- quartet_splits[, colSums(quartet_splits) == 2, drop=FALSE]
-  if (length(statement)) {
-    statement <- statement[, 1]
-    if (statement[1]) return (WHICH_OTHER_NODE[statement[WHICH_OTHER_NODE]])
-    if (statement[2]) if (statement[3]) return (4) else return (3)
-    return (2)
+QuartetState <- function (tips, bips, splits = bips) {
+  statement <- Subsplit(as.Splits(splits), tips, keepAll = FALSE, 
+                        unique = TRUE)[1]
+  if (is.na(statement)) {
+    0L
+  } else if (statement == 3L || statement == 12L) {
+    2L
+  } else if (statement == 5L || statement == 10L) {
+    3L
   } else {
-    return (0)
+    4L
   }
 }
+
 
 #' @describeIn QuartetState A convenience wrapper that need only be provided
 #'  with a tree or a list of splits.
 #' @param splits A list of bipartition splits, perhaps generated using 
-#'        \code{\link[TreeTools]{Tree2Splits}}, with row names corresponding 
+#'        \code{\link[TreeTools]{as.Splits}}, with row names corresponding 
 #'        to taxon labels.
 #'        If a tree or list of trees (of class \code{\link[ape:read.tree]{phylo}}) is sent instead, 
 #'        it will be silently converted to its constituent splits.
 #'        
-#' @importFrom TreeTools Tree2Splits
+#' @importFrom TreeTools as.Splits
 #' @export
 QuartetStates <- function (splits) {
-  if (class(splits) == 'phylo') {
-    splits <- list(Tree2Splits(splits))
-  } else if (class(splits) == 'multiPhylo') {
-    splits <- lapply(splits, Tree2Splits)
-  }
+  splits <- as.Splits(splits)
+  outLength <- if (mode(splits) == 'list') length(splits) else 1L
+  nTip <- NTip(splits)
+  allQuartets <- AllQuartets(nTip)
   
-  if (class(splits) != 'list') splits <- list(splits)
+  subs <- vapply(allQuartets, function (tips) {
+    ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),
+                  function (x) {if (length(x)) as.integer(x) else NA},
+                  integer(1L))
+    if (length(ret) == 0L) ret <- rep(NA, outLength)
+    ret
+  }, integer(outLength))
   
-  if (class(splits[[1]]) == 'phylo') splits <- lapply(splits, Tree2Splits)
-  
-  n_tips <- dim(splits[[1]])[1]
-  lapply(splits, function (bips) {
-    vapply(AllQuartets(n_tips), QuartetState, double(1), 
-           bips=bips[sort(rownames(bips)), , drop=FALSE])
-  })
+  # Return:
+  ifelse(is.na(subs), 0L,
+         ifelse(subs == 3L | subs == 12L, 2L,
+                ifelse(subs == 5L | subs == 10L, 3L, 4L)))
 }
 
 #' Compare quartet states by explicit enumeration
@@ -190,7 +220,7 @@ QuartetStates <- function (splits) {
 #' @templateVar intro Returns an array of seven numeric elements, corresponding to the quantities of Estabrook _et al_. (1985):
 #' @template returnEstabrook
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #'
 #' @family element-by-element comparisons
 #' @seealso \code{\link{QuartetStatus}}, generates this output from a list of
@@ -200,7 +230,7 @@ QuartetStates <- function (splits) {
 #'   n_tip <- 6
 #'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
 #'                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
-#'   splits <- lapply(trees, TreeTools::Tree2Splits)
+#'   splits <- lapply(trees, TreeTools::as.Splits)
 #'   quartets <- QuartetStates(splits)
 #'   CompareQuartets(quartets[[1]], quartets[[2]])
 #' 
@@ -248,7 +278,7 @@ SharedQuartetStatus <- function (trees, cf=trees[[1]]) {
 #' @family element-by-element comparisons
 #' @keywords internal
 #' @importFrom ape drop.tip
-#' @author Martin R. Smith
+#' @template MRS
 #' @export
 PairSharedQuartetStatus <- function (tree1, tree2) {
   tips1 <- tree1$tip.label

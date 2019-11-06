@@ -140,5 +140,5 @@ from which the Estabrook \emph{et al.} metrics are calculated.
 }
 }
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
