@@ -71,6 +71,36 @@ IntegerVector tqdist_QuartetAgreement(CharacterVector file1, CharacterVector fil
   return IV_res;
 }
 
+//' @describeIn tqdist_QuartetDistance Agreement of each quartet
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_QuartetAgreementEdge(IntegerMatrix edge1,
+                                          IntegerMatrix edge2) {
+  QuartetDistanceCalculator quartetCalc;
+  AE counts = quartetCalc.calculateQuartetAgreement(edge1, edge2);
+  
+  IntegerVector IV_res(2);
+  IV_res[0] = counts.a;
+  IV_res[1] = counts.e;
+  
+  return IV_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Agreement of each quartet
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_QuartetAgreementChar(CharacterVector string1,
+                                          CharacterVector string2) {
+  QuartetDistanceCalculator quartetCalc;
+  AE counts = quartetCalc.calculateQuartetAgreement(string1, string2);
+  
+  IntegerVector IV_res(2);
+  IV_res[0] = counts.a;
+  IV_res[1] = counts.e;
+  
+  return IV_res;
+}
+
 //' @describeIn tqdist_QuartetDistance Distance between pairs
 //' @export
 // [[Rcpp::export]]
@@ -127,6 +157,16 @@ IntegerVector tqdist_OneToManyQuartetAgreementChar(CharacterVector tree,
   QuartetDistanceCalculator quartetCalc;
   
   return quartetCalc.oneToManyQuartetAgreement(tree, trees);
+}
+
+//' @describeIn tqdist_QuartetDistance Distance between pairs
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_OneToManyQuartetAgreementEdge(IntegerMatrix edge, 
+                                                   ListOf<IntegerMatrix> edges) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  return quartetCalc.oneToManyQuartetAgreement(edge, edges);
 }
 
 //' @describeIn tqdist_QuartetDistance Distance between all pairs
