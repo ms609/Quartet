@@ -117,6 +117,16 @@ IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterV
   return quartetCalc.oneToManyQuartetAgreement(fileSingle, fileMultiple);
 }
 
+//' @describeIn tqdist_QuartetDistance Distance between pairs
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_OneToManyQuartetAgreementChar(CharacterVector tree, 
+                                                   CharacterVector trees) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  return quartetCalc.oneToManyQuartetAgreement(tree, trees);
+}
+
 //' @describeIn tqdist_QuartetDistance Distance between all pairs
 //' @export
 // [[Rcpp::export]]

@@ -54,6 +54,26 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   return oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
 }
 
+Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
+  (CharacterVector tree, CharacterVector trees) {
+  NewickParser parser;
+  
+  UnrootedTree *unrootedSingle = parser.parseStr(tree); 
+  
+  if (unrootedSingle == NULL || parser.isError()) {
+    Rcpp::stop("Error parsing tree in oneToManyQuartets -> parser.parseFile");
+  }
+
+  std::vector<UnrootedTree *> unrootedMultiple = parser.parseMultiStr(trees); 
+  if (unrootedMultiple.size() == 0) {
+    Rcpp::stop("No trees found in trees");
+  } else if (parser.isError()) {
+    Rcpp::stop("Error parsing trees in oneToManyQuartetAgreement -> parser.parseFile");
+  }
+
+  return oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+}
+
 std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
   pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1,
                          std::vector<UnrootedTree *> &unrootedTrees2) {

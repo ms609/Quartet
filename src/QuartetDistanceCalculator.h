@@ -32,6 +32,8 @@ QuartetDistanceCalculator : private AbstractDistanceCalculator {
     std::vector<UnrootedTree *> &unrootedMultiple);
   Rcpp::IntegerVector oneToManyQuartetAgreement(const char *fileSingle,
                                                  const char *fileMultiple);
+  Rcpp::IntegerVector oneToManyQuartetAgreement(CharacterVector tree,
+                                                CharacterVector trees);
   
   std::vector<INTTYPE_N4> pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
   void pairs_quartet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
