@@ -30,8 +30,10 @@
 #'   
 #'   \insertRef{Sand2014}{Quartet}
 #' 
+#' @seealso [`CompareQuartets`], [`QuartetStatus`]
+#' 
 #' @importFrom ape write.tree
-#' @author Martin R. Smith
+#' @template MRS
 #' @useDynLib Quartet, .registration = TRUE
 #' @export
 TQDist <- function (treeList) {
@@ -137,7 +139,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @templateVar intro Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
 #' @template returnEstabrook
 #'         
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @examples
 #'  data('sq_trees')
@@ -150,6 +152,8 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @family element-by-element comparisons
 #' @seealso `\link{SplitStatus}`: Uses bipartition splits (groups/clades defined by
 #'  nodes or edges of the tree) instead of quartets as the unit of comparison.
+#'  
+#'  [`SimilarityMetrics`]: Generates distance metrics from quartet statuses.
 #' 
 #' @references {
 #'   \insertRef{Brodal2013}{Quartet}
@@ -339,7 +343,7 @@ AllPairsTripletDistance <- function(file) {
 #' @return `TRUE` if `file` is a character vector of length one describing 
 #'   a file that exists, a fatal error otherwise.
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @export
 #' @keywords internal

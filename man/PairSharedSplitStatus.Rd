@@ -16,7 +16,16 @@ Named integer of length 6, as per \link{CompareSplits}
 Removes all tips that do not occur in both \code{ref} and \code{cf}, then calculates
 the status of the remaining splits
 }
+\examples{
+
+library('TreeTools')
+ref <- BalancedTree(letters[1:9])
+cf <- BalancedTree(letters[3:13])
+
+PairSharedSplitStatus(ref, cf)
+
+}
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \keyword{internal}

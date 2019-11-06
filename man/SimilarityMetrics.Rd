@@ -154,5 +154,5 @@ from which the metrics are calculated.
 \code{\link{SplitStatus}}, \code{\link{CompareSplits}}: equivalent metrics for bipartition splits.
 }
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
