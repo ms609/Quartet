@@ -34,7 +34,7 @@ Other element-by-element comparisons: \code{\link{CompareQuartets}},
   \code{\link{SplitStatus}}
 }
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}
 \keyword{internal}

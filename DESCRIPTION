@@ -24,7 +24,8 @@ Authors@R: c(person("Martin R.", 'Smith',
                person('Jens', 'Johansen', role=c('ant')),
                person('Morten K.', 'Holt', role=c('ant'))
             )
-Copyright: Incorporates code modified from tqDist <doi:10.1093/bioinformatics/btu157>.
+Copyright: Incorporates code modified from tqDist
+  <doi:10.1093/bioinformatics/btu157>.
 License: GPL (>= 2)
 Encoding: UTF-8
 Language: en-GB
@@ -34,7 +35,7 @@ Imports:
     memoise,
     Rdpack,
     Ternary (>= 1.0),
-    TreeSearch (> 0.3.0)
+    TreeTools
 Suggests:
     bookdown,
     knitr,
@@ -42,7 +43,12 @@ Suggests:
     Rcpp,
     rmarkdown,
     testthat,
-    usethis
+    TreeDist,
+    usethis,
+    vdiffr
+Remotes:
+    ms609/TreeDist,
+    ms609/TreeTools
 SystemRequirements: C++11
 RdMacros: Rdpack
 LinkingTo: Rcpp

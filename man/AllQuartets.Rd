@@ -34,6 +34,6 @@ A more computationally efficient alternative to \code{\link[utils]{combn}},
 Other quartet counting functions: \code{\link{ResolvedQuartets}}
 }
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{quartet counting functions}

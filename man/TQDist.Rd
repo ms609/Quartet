@@ -74,6 +74,9 @@ quartets in a comparison tree.
 
 \insertRef{Sand2014}{Quartet}
 }
+\seealso{
+\code{\link{CompareQuartets}}, \code{\link{QuartetStatus}}
+}
 \author{
-Martin R. Smith
+Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
