@@ -36,7 +36,7 @@
 #' @useDynLib Quartet, .registration = TRUE
 #' @export
 TQDist <- function (trees) {
-  .Call('_Quartet_tqdist_AllPairsQuartetDistanceChar', .TreeToString(trees))
+  .Call('_Quartet_tqdist_AllPairsQuartetDistanceEdge', .TreeToEdge(trees))
 }
 
 #' @describeIn TQDist Number of agreeing quartets that are resolved / unresolved.
@@ -309,10 +309,31 @@ AllPairsQuartetDistance <- function(file) {
   # TODO Improve
   # TODO Ultimately: avoid this step entirely, and feed trees directly in to C++
   if(class(trees) == 'list') {
-    vapply(trees, write.tree, digits = 0, character(1))
+    lapply(trees, write.tree, digits = 0, character(1))
   } else {
     write.tree(trees, digits = 0)
   }
+}
+
+#' @importFrom TreeTools RenumberTips
+#' @keywords internal
+#' @export
+.TreeToEdge <- function (trees, tipOrder = trees[[1]]$tip.label) {
+  if(class(trees) == 'list' || class(trees) == 'multiPhylo') {
+    lapply(trees, .SortTree, tipOrder)
+  } else {
+    if (is.null(tipOrder)) {
+      edge <- trees$edge
+      RenumberTree(edge[, 1], edge[, 2])
+    } else {
+      .SortTree(trees, tipOrder)
+    }
+  }
+}
+
+.SortTree <- function (tree, tipOrder) {
+  edge <- RenumberTips(tree, tipOrder)$edge
+  RenumberTree(edge[, 1], edge[, 2])
 }
 
 #' @export
