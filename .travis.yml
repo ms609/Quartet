@@ -79,4 +79,4 @@ matrix:
          - testthat
       before_install:
       - brew install cairo
-      - sudo tlmgr install doi titling hyperref
+      - sudo tlmgr install doi titling hyperref framed
