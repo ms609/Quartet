@@ -180,6 +180,7 @@ QuartetState <- function (tips, bips, splits = bips) {
 #' @describeIn QuartetState A convenience wrapper that lists the status of all
 #' possible quartets for a given `Splits` object.
 #'        
+#' @importFrom ape Ntip
 #' @importFrom TreeTools as.Splits NTip
 #' @export
 QuartetStates <- function (splits) {
