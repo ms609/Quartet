@@ -15,7 +15,6 @@ std::vector<UnrootedTree *> EdgeParser::parseEdges(ListOf<IntegerMatrix> edges) 
   std::vector<UnrootedTree *> trees;
   
   for (int i = 0; i < edges.size(); i++) {
-    Rcout << " * i = " << i << endl;
     edg = edges[i];
     trees.push_back(parse());
   }
@@ -25,7 +24,6 @@ std::vector<UnrootedTree *> EdgeParser::parseEdges(ListOf<IntegerMatrix> edges) 
 
 UnrootedTree* EdgeParser::parse() {
   nTip = edg(0, 0) - 1;
-  Rcout << "\n *** Welcome to my Parser, fellow traveller *** " << endl << endl;
   it = -1;
   
   UnrootedTree *t = new UnrootedTree(std::to_string(edg(0, 0)));

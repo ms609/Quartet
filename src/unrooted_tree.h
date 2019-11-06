@@ -95,18 +95,6 @@ typedef struct UnrootedTree
 
 		void toDotImpl()
 		{
-			/*
-			Rcout << "n" << this << "[label=\"" << name << "\"];" << endl;
-			if (isLeaf())
-			{
-				Rcout << "n" << this << "[label=\"" << name << "\"];" << endl;
-			}
-			else
-			{
-				Rcout << "n" << this << ";" << endl;
-			}
-			*/
-
 			for(vector<UnrootedTree*>::iterator i = edges.begin(); i != edges.end(); i++)
 			{
 				UnrootedTree *t = *i;
@@ -114,7 +102,6 @@ typedef struct UnrootedTree
 				{
 					t->dontRecurseOnMe = this;
 					t->toDotImpl();
-//					Rcout << "n" << this << " -- n" << t << ";" << endl;
 				}
 			}
 		}
