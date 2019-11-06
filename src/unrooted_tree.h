@@ -96,14 +96,14 @@ typedef struct UnrootedTree
 		void toDotImpl()
 		{
 			/*
-			cout << "n" << this << "[label=\"" << name << "\"];" << endl;
+			Rcout << "n" << this << "[label=\"" << name << "\"];" << endl;
 			if (isLeaf())
 			{
-				cout << "n" << this << "[label=\"" << name << "\"];" << endl;
+				Rcout << "n" << this << "[label=\"" << name << "\"];" << endl;
 			}
 			else
 			{
-				cout << "n" << this << ";" << endl;
+				Rcout << "n" << this << ";" << endl;
 			}
 			*/
 
@@ -114,7 +114,7 @@ typedef struct UnrootedTree
 				{
 					t->dontRecurseOnMe = this;
 					t->toDotImpl();
-//					cout << "n" << this << " -- n" << t << ";" << endl;
+//					Rcout << "n" << this << " -- n" << t << ";" << endl;
 				}
 			}
 		}

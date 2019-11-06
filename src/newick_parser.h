@@ -1,8 +1,7 @@
-#include <Rcpp.h>
-
 #ifndef NEWICK_PARSER_H
 	#define NEWICK_PARSER_H
 
+  #include <Rcpp.h>
 	#include <string>
 	#include "unrooted_tree.h"
 
