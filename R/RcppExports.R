@@ -41,6 +41,12 @@ tqdist_OneToManyQuartetAgreement <- function(file1, fileMany) {
     .Call(`_Quartet_tqdist_OneToManyQuartetAgreement`, file1, fileMany)
 }
 
+#' @describeIn tqdist_QuartetDistance Distance between pairs
+#' @export
+tqdist_OneToManyQuartetAgreementChar <- function(tree, trees) {
+    .Call(`_Quartet_tqdist_OneToManyQuartetAgreementChar`, tree, trees)
+}
+
 #' @describeIn tqdist_QuartetDistance Distance between all pairs
 #' @export
 tqdist_AllPairsQuartetDistance <- function(file) {
@@ -51,6 +57,12 @@ tqdist_AllPairsQuartetDistance <- function(file) {
 #' @export
 tqdist_AllPairsQuartetDistanceChar <- function(string) {
     .Call(`_Quartet_tqdist_AllPairsQuartetDistanceChar`, string)
+}
+
+#' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
+#' @export
+tqdist_AllPairsQuartetAgreementChar <- function(string) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetAgreementChar`, string)
 }
 
 #' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
