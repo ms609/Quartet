@@ -1,8 +1,3 @@
-#include <Rcpp.h>
-using namespace Rcpp;
-
-
-
 #include "newick_parser.h"
 
 #include <Rcpp.h>
@@ -13,6 +8,7 @@ using namespace Rcpp;
 #include <locale>
 
 using namespace std;
+using namespace Rcpp;
 
 namespace {
 
