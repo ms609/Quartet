@@ -6,7 +6,7 @@ quartets <- read.tree('../trees/all_quartets.new')
 test_that("Distances are calculated from strings", {
   set.seed(0)
   
-  trees <- structure(lapply(rep(8, 4), ape::rtree, br=NULL), class='multiPhylo')
+  trees <- structure(lapply(rep(15, 5), ape::rtree, br=NULL), class='multiPhylo')
   strs <- write.tree(trees)
   
   fileName <- TQFile(trees)
