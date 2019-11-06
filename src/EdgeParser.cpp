@@ -1,10 +1,7 @@
 #include "edge_parser.h"
 
-#include <Rcpp.h>
 #include <cstdlib>
-
-#include <cctype>
-#include <locale>
+#include <Rcpp.h>
 
 using namespace std;
 using namespace Rcpp;
