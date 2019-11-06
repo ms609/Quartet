@@ -2,6 +2,7 @@
 #include "int_stuff.h"
 
 #include <Rcpp.h>
+using namespace Rcpp;
 #include "hdt.h"
 #include "hdt_factory.h"
 #include "newick_parser.h"
@@ -108,7 +109,7 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
 }
 
 std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
-  calculateAllPairsQuartetDistance(Rcpp::CharacterVector string) {
+  calculateAllPairsQuartetDistance(CharacterVector string) {
   NewickParser parser;
   
   std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiStr(string); 
@@ -147,9 +148,30 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename);
+  std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiFile(filename);
   if (unrootedTrees.size() == 0 || parser.isError()) {
     Rcpp::stop("Error: Failed to parse filename");
+  }
+  
+  const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
+    calculateAllPairsQuartetAgreement(unrootedTrees);
+  
+  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
+    UnrootedTree * tmp = unrootedTrees[i];
+    delete tmp;
+  }
+  
+  return results;
+}
+
+std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
+    calculateAllPairsQuartetAgreement(CharacterVector string) {
+  
+  NewickParser parser;
+  
+  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiStr(string);
+  if (unrootedTrees.size() == 0 || parser.isError()) {
+    Rcpp::stop("Error: Failed to parse input string");
   }
   
   const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
