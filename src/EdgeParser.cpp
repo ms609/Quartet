@@ -42,6 +42,7 @@ void EdgeParser::ParseBranchSet(UnrootedTree *parent) {
     degreeHere++;
     UnrootedTree *child = parseSubTree();
     largestDegreeBelow = max(largestDegreeBelow, child->maxDegree);
+    parent->addEdgeTo(child);
     if ((it + 1) >= edg.nrow() || edg(it + 1, 0) != subtreeRoot) break;
   }
   
