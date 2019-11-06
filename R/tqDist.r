@@ -85,7 +85,8 @@ ManyToManyQuartetAgreement <- function (trees) {
 SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
 
   AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementChar', 
-                     .TreeToString(comparison), .TreeToString(trees)),
+                     .TreeToEdge(comparison),
+                     .TreeToEdge(trees, comparison$tip.label)),
                ncol=2, dimnames=list(NULL, c('A', 'E')))
   
   if (class(trees) == 'phylo') {
