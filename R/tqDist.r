@@ -73,14 +73,14 @@ ManyToManyQuartetAgreement <- function (trees) {
 
 #' @describeIn TQDist Agreement of each quartet in trees in a list with the
 #' quartets in a comparison tree.
-#' @param comparison A tree of class \code{\link[ape:read.tree]{phylo}} against which to compare the trees
-#'  in `treeList`.
+#' @param comparison A tree of class \code{\link[ape:read.tree]{phylo}} against
+#' which to compare `trees`.
 #' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
-#'   for tree in `treeList`, the total number of quartets and the 
+#'   for tree in `trees`, the total number of quartets and the 
 #'   number of quartets in each category.  
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
-SingleTreeQuartetAgreement <- function (trees, comparison) {
+SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
 
   AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementChar', 
                      .TreeToString(comparison), .TreeToString(trees)),
@@ -102,7 +102,7 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
   
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
-        dimnames=list(names(treeList), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
+        dimnames=list(names(trees), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
 #' Status of quartets
