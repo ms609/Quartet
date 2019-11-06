@@ -29,6 +29,18 @@ tqdist_QuartetAgreement <- function(file1, file2) {
     .Call(`_Quartet_tqdist_QuartetAgreement`, file1, file2)
 }
 
+#' @describeIn tqdist_QuartetDistance Agreement of each quartet
+#' @export
+tqdist_QuartetAgreementEdge <- function(edge1, edge2) {
+    .Call(`_Quartet_tqdist_QuartetAgreementEdge`, edge1, edge2)
+}
+
+#' @describeIn tqdist_QuartetDistance Agreement of each quartet
+#' @export
+tqdist_QuartetAgreementChar <- function(string1, string2) {
+    .Call(`_Quartet_tqdist_QuartetAgreementChar`, string1, string2)
+}
+
 #' @describeIn tqdist_QuartetDistance Distance between pairs
 #' @export
 tqdist_PairsQuartetDistance <- function(file1, file2) {
@@ -47,6 +59,12 @@ tqdist_OneToManyQuartetAgreementChar <- function(tree, trees) {
     .Call(`_Quartet_tqdist_OneToManyQuartetAgreementChar`, tree, trees)
 }
 
+#' @describeIn tqdist_QuartetDistance Distance between pairs
+#' @export
+tqdist_OneToManyQuartetAgreementEdge <- function(edge, edges) {
+    .Call(`_Quartet_tqdist_OneToManyQuartetAgreementEdge`, edge, edges)
+}
+
 #' @describeIn tqdist_QuartetDistance Distance between all pairs
 #' @export
 tqdist_AllPairsQuartetDistance <- function(file) {
@@ -59,6 +77,18 @@ tqdist_AllPairsQuartetDistanceChar <- function(string) {
     .Call(`_Quartet_tqdist_AllPairsQuartetDistanceChar`, string)
 }
 
+#' @describeIn tqdist_QuartetDistance Distance between all pairs
+#' @export
+tqdist_AllPairsQuartetDistanceEdge <- function(edges) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetDistanceEdge`, edges)
+}
+
+#' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
+#' @export
+tqdist_AllPairsQuartetAgreement <- function(file) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetAgreement`, file)
+}
+
 #' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 #' @export
 tqdist_AllPairsQuartetAgreementChar <- function(string) {
@@ -67,8 +97,8 @@ tqdist_AllPairsQuartetAgreementChar <- function(string) {
 
 #' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 #' @export
-tqdist_AllPairsQuartetAgreement <- function(file) {
-    .Call(`_Quartet_tqdist_AllPairsQuartetAgreement`, file)
+tqdist_AllPairsQuartetAgreementEdge <- function(edges) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetAgreementEdge`, edges)
 }
 
 #' @describeIn tqdist_QuartetDistance Triplet distance between two trees

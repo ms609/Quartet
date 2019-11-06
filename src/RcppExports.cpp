@@ -29,6 +29,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tqdist_QuartetAgreementEdge
+IntegerVector tqdist_QuartetAgreementEdge(IntegerMatrix edge1, IntegerMatrix edge2);
+RcppExport SEXP _Quartet_tqdist_QuartetAgreementEdge(SEXP edge1SEXP, SEXP edge2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type edge1(edge1SEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type edge2(edge2SEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_QuartetAgreementEdge(edge1, edge2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_QuartetAgreementChar
+IntegerVector tqdist_QuartetAgreementChar(CharacterVector string1, CharacterVector string2);
+RcppExport SEXP _Quartet_tqdist_QuartetAgreementChar(SEXP string1SEXP, SEXP string2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type string1(string1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type string2(string2SEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_QuartetAgreementChar(string1, string2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_PairsQuartetDistance
 IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_PairsQuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {
@@ -65,6 +89,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tqdist_OneToManyQuartetAgreementEdge
+IntegerVector tqdist_OneToManyQuartetAgreementEdge(IntegerMatrix edge, ListOf<IntegerMatrix> edges);
+RcppExport SEXP _Quartet_tqdist_OneToManyQuartetAgreementEdge(SEXP edgeSEXP, SEXP edgesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type edge(edgeSEXP);
+    Rcpp::traits::input_parameter< ListOf<IntegerMatrix> >::type edges(edgesSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_OneToManyQuartetAgreementEdge(edge, edges));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_AllPairsQuartetDistance
 IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file);
 RcppExport SEXP _Quartet_tqdist_AllPairsQuartetDistance(SEXP fileSEXP) {
@@ -87,14 +123,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// tqdist_AllPairsQuartetAgreementChar
-IntegerMatrix tqdist_AllPairsQuartetAgreementChar(CharacterVector string);
-RcppExport SEXP _Quartet_tqdist_AllPairsQuartetAgreementChar(SEXP stringSEXP) {
+// tqdist_AllPairsQuartetDistanceEdge
+IntegerMatrix tqdist_AllPairsQuartetDistanceEdge(ListOf<IntegerMatrix> edges);
+RcppExport SEXP _Quartet_tqdist_AllPairsQuartetDistanceEdge(SEXP edgesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type string(stringSEXP);
-    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetAgreementChar(string));
+    Rcpp::traits::input_parameter< ListOf<IntegerMatrix> >::type edges(edgesSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetDistanceEdge(edges));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -106,6 +142,28 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type file(fileSEXP);
     rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetAgreement(file));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_AllPairsQuartetAgreementChar
+IntegerMatrix tqdist_AllPairsQuartetAgreementChar(CharacterVector string);
+RcppExport SEXP _Quartet_tqdist_AllPairsQuartetAgreementChar(SEXP stringSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type string(stringSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetAgreementChar(string));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tqdist_AllPairsQuartetAgreementEdge
+IntegerMatrix tqdist_AllPairsQuartetAgreementEdge(ListOf<IntegerMatrix> edges);
+RcppExport SEXP _Quartet_tqdist_AllPairsQuartetAgreementEdge(SEXP edgesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< ListOf<IntegerMatrix> >::type edges(edgesSEXP);
+    rcpp_result_gen = Rcpp::wrap(tqdist_AllPairsQuartetAgreementEdge(edges));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -148,13 +206,18 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_Quartet_tqdist_QuartetDistance", (DL_FUNC) &_Quartet_tqdist_QuartetDistance, 2},
     {"_Quartet_tqdist_QuartetAgreement", (DL_FUNC) &_Quartet_tqdist_QuartetAgreement, 2},
+    {"_Quartet_tqdist_QuartetAgreementEdge", (DL_FUNC) &_Quartet_tqdist_QuartetAgreementEdge, 2},
+    {"_Quartet_tqdist_QuartetAgreementChar", (DL_FUNC) &_Quartet_tqdist_QuartetAgreementChar, 2},
     {"_Quartet_tqdist_PairsQuartetDistance", (DL_FUNC) &_Quartet_tqdist_PairsQuartetDistance, 2},
     {"_Quartet_tqdist_OneToManyQuartetAgreement", (DL_FUNC) &_Quartet_tqdist_OneToManyQuartetAgreement, 2},
     {"_Quartet_tqdist_OneToManyQuartetAgreementChar", (DL_FUNC) &_Quartet_tqdist_OneToManyQuartetAgreementChar, 2},
+    {"_Quartet_tqdist_OneToManyQuartetAgreementEdge", (DL_FUNC) &_Quartet_tqdist_OneToManyQuartetAgreementEdge, 2},
     {"_Quartet_tqdist_AllPairsQuartetDistance", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetDistance, 1},
     {"_Quartet_tqdist_AllPairsQuartetDistanceChar", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetDistanceChar, 1},
-    {"_Quartet_tqdist_AllPairsQuartetAgreementChar", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetAgreementChar, 1},
+    {"_Quartet_tqdist_AllPairsQuartetDistanceEdge", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetDistanceEdge, 1},
     {"_Quartet_tqdist_AllPairsQuartetAgreement", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetAgreement, 1},
+    {"_Quartet_tqdist_AllPairsQuartetAgreementChar", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetAgreementChar, 1},
+    {"_Quartet_tqdist_AllPairsQuartetAgreementEdge", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetAgreementEdge, 1},
     {"_Quartet_tqdist_TripletDistance", (DL_FUNC) &_Quartet_tqdist_TripletDistance, 2},
     {"_Quartet_tqdist_PairsTripletDistance", (DL_FUNC) &_Quartet_tqdist_PairsTripletDistance, 2},
     {"_Quartet_tqdist_AllPairsTripletDistance", (DL_FUNC) &_Quartet_tqdist_AllPairsTripletDistance, 1},
