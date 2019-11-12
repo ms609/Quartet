@@ -84,6 +84,7 @@ ManyToManyQuartetAgreement <- function (trees) {
 #' @export 
 SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
 
+  if (class(trees) == 'phylo') trees <- list(trees)
   AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge', 
                      .TreeToEdge(comparison),
                      .TreeToEdge(trees, comparison$tip.label)),
@@ -320,8 +321,8 @@ AllPairsQuartetDistance <- function(file) {
 #' @keywords internal
 #' @export
 .TreeToEdge <- function (trees, tipOrder = NULL) {
-  if(class(trees) == 'list' || class(trees) == 'multiPhylo') {
-    if (is.null(tipOrder)) tipOrder = trees[[1]]$tip.label
+  if (class(trees) == 'list' || class(trees) == 'multiPhylo') {
+    if (is.null(tipOrder)) tipOrder <- trees[[1]]$tip.label
     lapply(trees, .SortTree, tipOrder)
   } else {
     if (is.null(tipOrder)) {
