@@ -6,6 +6,9 @@
 #' Functions to calculate triplet and quartet distances between pairs of trees.
 #' Input is not checked for sanity.
 #' 
+#' Functions are called from R with user-friendly functions such as 
+#' [`AllPairsQuartetDistance`].
+#' 
 #' @param file,file1,file2 Paths to files containing a tree or trees in Newick format.
 #' 
 #' @return The distance between the requested trees.
@@ -26,6 +29,18 @@ tqdist_QuartetAgreement <- function(file1, file2) {
     .Call(`_Quartet_tqdist_QuartetAgreement`, file1, file2)
 }
 
+#' @describeIn tqdist_QuartetDistance Agreement of each quartet
+#' @export
+tqdist_QuartetAgreementEdge <- function(edge1, edge2) {
+    .Call(`_Quartet_tqdist_QuartetAgreementEdge`, edge1, edge2)
+}
+
+#' @describeIn tqdist_QuartetDistance Agreement of each quartet
+#' @export
+tqdist_QuartetAgreementChar <- function(string1, string2) {
+    .Call(`_Quartet_tqdist_QuartetAgreementChar`, string1, string2)
+}
+
 #' @describeIn tqdist_QuartetDistance Distance between pairs
 #' @export
 tqdist_PairsQuartetDistance <- function(file1, file2) {
@@ -38,16 +53,52 @@ tqdist_OneToManyQuartetAgreement <- function(file1, fileMany) {
     .Call(`_Quartet_tqdist_OneToManyQuartetAgreement`, file1, fileMany)
 }
 
+#' @describeIn tqdist_QuartetDistance Distance between pairs
+#' @export
+tqdist_OneToManyQuartetAgreementChar <- function(tree, trees) {
+    .Call(`_Quartet_tqdist_OneToManyQuartetAgreementChar`, tree, trees)
+}
+
+#' @describeIn tqdist_QuartetDistance Distance between pairs
+#' @export
+tqdist_OneToManyQuartetAgreementEdge <- function(edge, edges) {
+    .Call(`_Quartet_tqdist_OneToManyQuartetAgreementEdge`, edge, edges)
+}
+
 #' @describeIn tqdist_QuartetDistance Distance between all pairs
 #' @export
 tqdist_AllPairsQuartetDistance <- function(file) {
     .Call(`_Quartet_tqdist_AllPairsQuartetDistance`, file)
 }
 
+#' @describeIn tqdist_QuartetDistance Distance between all pairs
+#' @export
+tqdist_AllPairsQuartetDistanceChar <- function(string) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetDistanceChar`, string)
+}
+
+#' @describeIn tqdist_QuartetDistance Distance between all pairs
+#' @export
+tqdist_AllPairsQuartetDistanceEdge <- function(edges) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetDistanceEdge`, edges)
+}
+
 #' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
 #' @export
 tqdist_AllPairsQuartetAgreement <- function(file) {
     .Call(`_Quartet_tqdist_AllPairsQuartetAgreement`, file)
+}
+
+#' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
+#' @export
+tqdist_AllPairsQuartetAgreementChar <- function(string) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetAgreementChar`, string)
+}
+
+#' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
+#' @export
+tqdist_AllPairsQuartetAgreementEdge <- function(edges) {
+    .Call(`_Quartet_tqdist_AllPairsQuartetAgreementEdge`, edges)
 }
 
 #' @describeIn tqdist_QuartetDistance Triplet distance between two trees
