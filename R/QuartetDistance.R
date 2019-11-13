@@ -186,7 +186,7 @@ QuartetState <- function (tips, bips, splits = bips) {
 QuartetStates <- function (splits) {
   splits <- as.Splits(splits)
   outLength <- if (mode(splits) == 'list') length(splits) else 1L
-  nTip <- NTip(splits)
+  nTip <- NTip(splits)[1]
   allQuartets <- AllQuartets(nTip)
   
   subs <- vapply(allQuartets, function (tips) {
