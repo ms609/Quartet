@@ -1,4 +1,5 @@
 context("PartitionDistance.R")
+library('TreeTools')
 
 data('sq_trees')
 
@@ -16,7 +17,7 @@ test_that("Splits are compared", {
 })
 
 test_that("CompareSplits works", {
-  splits9 <- as.Splits(TreeTools::BalancedTree(9))
+  splits9 <- as.Splits(BalancedTree(9))
   splits9Fewer <- splits9[[-(4:6)]]
   
   expect_error(CompareSplits(matrix(FALSE, 2, 2), matrix(TRUE, 3, 3)))
