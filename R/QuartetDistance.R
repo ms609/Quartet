@@ -166,7 +166,7 @@ AllQuartets <- memoise(function (n_tips) {
 QuartetState <- function (tips, bips, splits = bips) {
   statement <- Subsplit(as.Splits(splits), tips, keepAll = FALSE, 
                         unique = TRUE)[1]
-  if (is.na(statement)) {
+  if (statement == 0L) {
     0L
   } else if (statement == 3L || statement == 12L) {
     2L
