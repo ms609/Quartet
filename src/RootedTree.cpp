@@ -74,7 +74,7 @@ void RootedTree::pairAltWorld(RootedTree *t)
 		if (j == altWorldEnd)
 		{
 			// This leaf wasn't found in the input tree!
-		  Rcpp::stop("Leaves doesn't agree: a tip in tree 1 didn't exist in second tree! Aborting.");
+		  Rcpp::stop("Leaves don't agree: a tip in tree 1 didn't exist in second tree! Aborting.");
 			error = true;
 			delete l;
 			return;
@@ -91,7 +91,7 @@ void RootedTree::pairAltWorld(RootedTree *t)
 	// Is there results left in altWorldLeaves? If so it had more leaves than we do...
 	if (altWorldLeaves.size() > 0)
 	{
-		Rcpp::stop("Leaves doesn't agree: a tip in tree 2 didn't exist in first tree! Aborting.");
+		Rcpp::stop("Leaves don't agree: a tip in tree 2 didn't exist in first tree! Aborting.");
 		//if (altWorldLeaves.size() > 1)
 		//	cerr << " (and " << (altWorldLeaves.size() - 1) << " other leaves missing from first tree!)";
 		

@@ -16,9 +16,8 @@
 #'  - E: _u_ = **u**nresolved in both trees.
 #'  
 #' 
-#' @param treeList List of phylogenetic trees, of class \code{list} or
-#'                 \code{\link[ape:read.tree]{phylo}}. 
-#'                 All trees must be bifurcating.
+#' @param trees List of phylogenetic trees, of class \code{list} or
+#'                 \code{\link[ape:read.tree]{multiPhylo}}.
 #' @return `TQDist` returns the quartet distance between each pair of trees.
 #' 
 #' @references
@@ -33,13 +32,11 @@
 #' @seealso [`CompareQuartets`], [`QuartetStatus`]
 #' 
 #' @importFrom ape write.tree
-#' @author Martin R. Smith
+#' @template MRS
 #' @useDynLib Quartet, .registration = TRUE
 #' @export
-TQDist <- function (treeList) {
-  fileName <- TQFile(treeList)
-  on.exit(file.remove(fileName))
-  AllPairsQuartetDistance(fileName)
+TQDist <- function (trees) {
+  .Call('_Quartet_tqdist_AllPairsQuartetDistanceEdge', .TreeToEdge(trees))
 }
 
 #' @describeIn TQDist Number of agreeing quartets that are resolved / unresolved.
@@ -47,10 +44,11 @@ TQDist <- function (treeList) {
 #'   each pair of trees (A in Brodal _et al_. 2013) and the number of quartets 
 #'   that are unresolved in both trees (E in Brodal _et al_. 2013).
 #' @export 
-TQAE <- function (treeList) {
-  fileName <- TQFile(treeList)
-  on.exit(file.remove(fileName))
-  AllPairsQuartetAgreement(fileName)
+TQAE <- function (trees) {
+  result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreementEdge',
+                  .TreeToEdge(trees))
+  nTrees <- nrow(result)
+  array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
 }
 
 #' @describeIn TQDist Agreement of each quartet, comparing each pair of trees 
@@ -58,8 +56,8 @@ TQAE <- function (treeList) {
 #' @return `ManyToManyQuartetAgreement` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @export 
-ManyToManyQuartetAgreement <- function (treeList) {
-  AE <- TQAE(treeList)
+ManyToManyQuartetAgreement <- function (trees) {
+  AE <- TQAE(trees)
   nTree <- dim(AE)[1]
   A   <- AE[, , 1]
   E   <- AE[, , 2]
@@ -77,21 +75,30 @@ ManyToManyQuartetAgreement <- function (treeList) {
 
 #' @describeIn TQDist Agreement of each quartet in trees in a list with the
 #' quartets in a comparison tree.
-#' @param comparison A tree of class \code{\link[ape:read.tree]{phylo}} against which to compare the trees
-#'  in `treeList`.
+#' @param comparison A tree of class \code{\link[ape:read.tree]{phylo}} against
+#' which to compare `trees`.
 #' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
-#'   for tree in `treeList`, the total number of quartets and the 
+#'   for tree in `trees`, the total number of quartets and the 
 #'   number of quartets in each category.  
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
-SingleTreeQuartetAgreement <- function (treeList, comparison) {
-  if (class(treeList) == 'phylo') treeList <- structure(list(treeList), class='multiPhylo')
-  singleFile <- TQFile(comparison)
-  multiFile  <- TQFile(treeList)
-  on.exit(file.remove(singleFile, multiFile))
-  AE <- OneToManyQuartetAgreement(singleFile, multiFile)
-  DE <- vapply(treeList, ResolvedQuartets, integer(2))[2, ]
-  nTree <- length(DE)
+SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
+
+  if (class(trees) == 'phylo') trees <- list(trees)
+  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge', 
+                     .TreeToEdge(comparison),
+                     .TreeToEdge(trees, comparison$tip.label)),
+               ncol=2, dimnames=list(NULL, c('A', 'E')))
+  
+  if (class(trees) == 'phylo') {
+    nTree <- 1L
+    DE <- ResolvedQuartets(trees)[2]
+    treeNames <- NULL
+  } else {
+    DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
+    nTree <- length(DE)
+    treeNames <- names(trees)
+  }
   
   A   <- AE[, 1]
   E   <- AE[, 2]
@@ -106,7 +113,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
   
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
-        dimnames=list(names(treeList), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
+        dimnames=list(treeNames, c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
 #' Status of quartets
@@ -139,7 +146,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
 #' @templateVar intro Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
 #' @template returnEstabrook
 #'         
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @examples
 #'  data('sq_trees')
@@ -176,6 +183,9 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #' Creates a temporary file corresponding to a list of trees,
 #' to be processed with tqDist.  Files should be destroyed using
 #' `on.exit(file.remove(fileName))` by the calling function.
+#' 
+#' Shouls now only be necessary for testing purposes.
+#' 
 #' @return Name of the created file
 #' @keywords internal
 #' @export
@@ -294,6 +304,44 @@ AllPairsQuartetDistance <- function(file) {
   .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
 }
 
+#' @importFrom ape write.tree
+#' @keywords internal
+#' @export
+.TreeToString <- function (trees) {
+  # TODO Improve
+  # TODO Ultimately: avoid this step entirely, and feed trees directly in to C++
+  if(class(trees) == 'list') {
+    lapply(trees, write.tree, digits = 0, character(1))
+  } else {
+    write.tree(trees, digits = 0)
+  }
+}
+
+#' @importFrom TreeTools RenumberTips RenumberTree
+#' @keywords internal
+#' @export
+.TreeToEdge <- function (trees, tipOrder = NULL) {
+  if (class(trees) == 'list' || class(trees) == 'multiPhylo') {
+    if (is.null(tipOrder)) tipOrder <- trees[[1]]$tip.label
+    lapply(trees, .SortTree, tipOrder)
+  } else {
+    if (is.null(tipOrder)) {
+      edge <- trees$edge
+      RenumberTree(edge[, 1], edge[, 2])
+    } else {
+      .SortTree(trees, tipOrder)
+    }
+  }
+}
+
+#' @importFrom TreeTools RenumberTips RenumberTree
+#' @keywords internal
+#' @export
+.SortTree <- function (tree, tipOrder) {
+  edge <- RenumberTips(tree, tipOrder)$edge
+  RenumberTree(edge[, 1], edge[, 2])
+}
+
 #' @export
 #' @describeIn Distances Quartet status for each pair of trees in `file`.
 AllPairsQuartetAgreement <- function(file) {
@@ -343,7 +391,7 @@ AllPairsTripletDistance <- function(file) {
 #' @return `TRUE` if `file` is a character vector of length one describing 
 #'   a file that exists, a fatal error otherwise.
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @export
 #' @keywords internal

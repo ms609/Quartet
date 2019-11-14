@@ -18,13 +18,10 @@ vignette: >
 
 Tree distance metrics are introduced in an [earlier vignette](tree-distance-metrics.html).
 
-```{R initialize, warning=FALSE, include=FALSE, meassage=FALSE}
-#unloadNamespace('Quartet')
-#unloadNamespace('TreeSearch')
-#devtools::load_all('c:/research/r/TreeSearch')
-library('TreeSearch') # TODO delete?
-library('TreeDist') # TODO delete?
-library('Quartet')
+```{R initialize, echo=FALSE}
+library('TreeTools')
+library('TreeDist')
+suppressWarnings(library('Quartet'))
 cbPalette8 <- Ternary::cbPalette8
 data('sq_trees')
 
@@ -55,8 +52,8 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
   text_x <- par('usr')[2] * 0.6
   
   y <- 0.5
-  text(text_x, y <- y - 1, "V. Arboreal Info.:", cex=0.8, pos=2)
-  #text(text_x, y <- y - 1, "V. Partition Info.:", cex=0.8, pos=2)
+  text(text_x, y <- y - 1, "V. Phylog. Info.:", cex=0.8, pos=2)
+  #text(text_x, y <- y - 1, "V. Cluster. Info.:", cex=0.8, pos=2)
   #text(text_x, y <- y - 1, "VoParInf+:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "V. Cluster Info.:", cex=0.8, pos=2)
   text(text_x, y <- y - 1, "Nye et al.:", cex=0.8, pos=2)
@@ -70,7 +67,7 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
   text_x <- text_x - 0.4
   y <- 0.5
   text(text_x, y <- y - 1, paste0(
-    signif(TreeDist::VariationOfArborealInfo(tr, ref), 4), ' / ', pair_info
+    signif(TreeDist::VariationOfPhylogeneticInfo(tr, ref), 4), ' / ', pair_info
     ), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(signif(TreeDist::VariationOfClusteringInfo(tr, ref), 4),
                                   ' / ',
@@ -82,14 +79,23 @@ RFPlot <- function (tr, title=NULL, highlight=NULL, ref=sq_trees[[1]],
                                   ' / 8'), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(signif(TreeDist::MatchingSplitDistance(tr, ref), 4),
                                   ' / 32'), cex=0.8, pos=4)
+
   
   text(text_x, y <- y - 1, paste0(QuartetStatus(list(tr, ref))[2, 'd'],
                             ' / ', choose(11,4)), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(signif(tree_dist['path.difference'], 4)), cex=0.8, pos=4)
   text(text_x, y <- y - 1, paste0(phangorn::sprdist(tr, ref)[1]), cex=0.8, pos=4)
-  text(text_x, y <- y - 1, paste0(tree_dist['symmetric.difference'], 
-                                  ' / ', (11L - 3L) * 2L), cex=0.8, pos=4)
-  #text(text_x, y <- y - 1, paste0(100 * signif(TreeDist::VariationOfPartitionInfo(tr, ref) / pair_info, 4), '%'), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(topo_dist, '/', (11L - 3L) * 2L), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(signif(TreeDist::MatchingSplitDistance(tr, ref), 4), '/16'), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, paste0(signif(TreeDist::NyeTreeSimilarity(tr, ref), 4), '/8'), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, signif(TreeDist::MutualClusteringInfo(tr, ref), 4), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, signif(TreeDist::MutualPhylogeneticInfo(tr, ref), 4), cex=0.8, pos=4)
+  text(text_x, y <- y - 1, signif(TreeDist::VariationOfPhylogeneticInfo(tr, ref), 4), cex=0.8, pos=4)
+}
+
+Phangorn <- function (linkText) {
+  paste0('[`', linkText, '`](https://www.rdocumentation.org/packages/phangorn/topics/treedist])')
+
 }
 ```
 
@@ -287,6 +293,7 @@ one that is selected to maximise the distance from the comparison tree.
 ```{R Pectinate-to-break-RF, echo=FALSE, fig.align='center', fig.height=6.4, fig.width=6.4, message=FALSE, cache=TRUE, out.width='66%'}
 par(mfrow=c(2, 2), mar=standardMargin, cex=1)
 
+
 RFPlot(pectinate_tree, 'Pectinate reference tree', ref=pectinate_tree)
 RFPlot(pectinate_move1, 'Move one taxon', 1, ref=pectinate_tree, edge.lengths = c(rep(1, 4), 2, rep(1, 12), .5, .5, 1.5))
 #ape::edgelabels()
@@ -310,18 +317,9 @@ random_trees <- lapply(seq_len(n_random), function (x)
 random_quartets <- QuartetStatus(random_trees, cf=pectinate_tree)[, 'd'] / choose(n_random_tips, 4)
 random_distances <- vapply(random_trees, phangorn::treedist,
                            tree2=pectinate_tree, double(2))
-random_paths <- random_distances['path.difference', ]
-random_arb_info <- TreeDist::VariationOfArborealInfo(random_trees, pectinate_tree)
-pect_arb_info <- TreeDist::VariationOfArborealInfo(pectinate_move1, pectinate_tree)
-#random_par_info <- TreeDist::VariationOfPartitionInfo(random_trees, pectinate_tree)
-#pect_par_info <- TreeDist::VariationOfPartitionInfo(pectinate_move1, pectinate_tree)
-pect_arb_info <- TreeDist::VariationOfArborealInfo(pectinate_move1, pectinate_tree)
-random_clu_info <- TreeDist::VariationOfClusteringInfo(random_trees, pectinate_tree)
-pect_clu_info <- TreeDist::VariationOfClusteringInfo(pectinate_move1, pectinate_tree)
-random_ms_info <- TreeDist::MatchingSplitDistance(random_trees, pectinate_tree)
-pect_ms_info <- TreeDist::MatchingSplitDistance(pectinate_move1, pectinate_tree)
-random_nye_info <- 8L - TreeDist::NyeTreeSimilarity(random_trees, pectinate_tree)
-pect_nye_info <- 8L - TreeDist::NyeTreeSimilarity(pectinate_move1, pectinate_tree)
+
+random_arb_info <- TreeDist::MutualPhylogeneticInfo(random_trees, pectinate_tree)
+random_clu_info <- TreeDist::MutualClusteringInfo(random_trees, pectinate_tree)
 
 random_spr <- vapply(random_trees, phangorn::sprdist, tree2=pectinate_tree, double(4))
 RandomPercent <- function (distances, comparison) {
@@ -346,13 +344,16 @@ PlotHist <- function (distances, breaks, pectDist, title) {
 PlotHist(random_arb_info, max(random_arb_info, pect_arb_info) * manyBreaks, pect_arb_info, 'Var. Arb Info')
 mtext('Distance between pectinate tree (above) and random bifurcating trees', outer=TRUE, cex=0.8)
 
-#PlotHist(random_par_info, max(random_par_info, pect_par_info) * manyBreaks, pect_par_info, 'Var. Partition Info')
-PlotHist(random_clu_info, max(random_clu_info, pect_clu_info) * manyBreaks, pect_clu_info, 'Var. Clustering Info')
-#PlotHist(random_parsum_info, max(random_parsum_info, pect_parsum_info) * manyBreaks, #pect_parsum_info, 'Var. ParSUM Info')
+
+pect_arb_info <- TreeDist::MutualPhylogeneticInfo(pectinate_move1, pectinate_tree)
+PlotHist(random_arb_info, max(random_arb_info, pect_arb_info) * manyBreaks, pect_arb_info, 'Mut Arb Info')
+PlotHist(log(random_arb_info), (log(max(random_arb_info, pect_arb_info)) - log(min(random_arb_info))) * manyBreaks + log(min(random_arb_info)), log(pect_arb_info), 'Log MutArbInf')
 
 PlotHist(random_nye_info, max(random_nye_info, pect_nye_info) * manyBreaks, pect_nye_info, 'Nye et al.')
 
-PlotHist(random_ms_info, max(random_ms_info, pect_ms_info) * manyBreaks, pect_ms_info, 'Matching splits')
+pect_clu_info <- TreeDist::MutualClusteringInfo(pectinate_move1, pectinate_tree)
+PlotHist(random_clu_info, max(random_clu_info, pect_clu_info) * manyBreaks, pect_clu_info, 'Mut Par Info')
+PlotHist(log(random_clu_info), (log(max(random_clu_info, pect_clu_info)) - log(min(random_clu_info))) * manyBreaks + log(min(random_clu_info)), log(pect_clu_info), 'Log MutParInf')
 
 PlotHist(random_quartets, manyBreaks, 120 / 330, 'Quartet dissimilarity')
 

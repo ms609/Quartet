@@ -30,3 +30,5 @@ SupplementaryFiles/*_files
 vignettes/*.html
 vignettes/*.pdf
 vignettes/*_files
+vignettes/*.log
+vignettes/*.md

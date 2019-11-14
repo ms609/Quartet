@@ -8,6 +8,7 @@
 #include <locale>
 
 using namespace std;
+using namespace Rcpp;
 
 namespace {
 
@@ -17,7 +18,9 @@ namespace {
   }
 
   static inline std::string &rtrim(std::string &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), 
+                         [](int c) {return !std::isspace(c);}).base(),
+                         s.end());
     return s;
   }
   
@@ -46,28 +49,37 @@ UnrootedTree* NewickParser::parseFile(const char* filename) {
       line = trim_comment(line);
       line = rtrim(line);
       if(emptyLine(line)) {
-	continue;
+        continue;
       }
       ss << line;
       if(infile.eof()) {
-	str = ss.str();
-	break;
+        str = ss.str();
+        break;
       }
       if(line[line.size()-1] == ';') {
-	str = ss.str();
-	break;
+        str = ss.str();
+        break;
       }
     }
     infile.close();
-
+    
     // replace all whitespace
     eraseWhitespace(str);
-
+    
     UnrootedTree *t = parse();
     return t;
   } else { // Couldn't open file!
     Rcpp::stop("Nexus Parser couldn't open file");
   }
+}
+
+UnrootedTree* NewickParser::parseStr(Rcpp::CharacterVector string_in) {
+  str = as<std::string>(string_in);
+  eraseWhitespace(str);
+  
+  UnrootedTree *t = parse();
+  return t;
+
 }
 
 std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
@@ -101,6 +113,27 @@ std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
   } else {
     Rcpp::stop("Nexus Parser couldn't open multifile");
   }
+}
+
+std::vector<UnrootedTree *> NewickParser::parseMultiStr(CharacterVector string_in) {
+  std::vector<UnrootedTree *> trees;
+  std::string line;
+  std::stringstream ss;
+  for (int i = 0; i < string_in.length(); i++) {
+    line = string_in(i);
+    if(emptyLine(line))
+      continue;
+    line = trim_comment(line);
+    ss << line;
+    if(line[line.size()-1] == ';') {
+      str = ss.str();
+      
+      trees.push_back(parse());
+      ss.str(std::string());
+    }
+  }
+  
+  return trees;
 }
 
 UnrootedTree* NewickParser::parseStr(string inputStr) {
@@ -155,7 +188,6 @@ UnrootedTree* NewickParser::parseSubTree() {
   }
   
   if (*it == '(') return parseInternal();
-  // TODO: Other possibilities than name?!?
   return new UnrootedTree(parseName());
 }
 

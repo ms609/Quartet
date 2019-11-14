@@ -1,3 +1,12 @@
+# Quartet v1.0.2.9002
+## Improvements
+ - Pass trees directly to C, without writing to temporary intermediate file.
+ - Use `TreeTools` in place of `TreeSearch`, supporting new `Splits` class.
+
+# Quartet v1.0.2.9001
+## Improvements
+ - Remove deprecated C function `ptr_fun`.
+
 # Quartet v1.0.2.9000
 ## Improvements
  - Update vignettes to incorporate mutual arboreal information distances.
@@ -11,7 +20,7 @@
    distance metrics.
 
 # Quartet v1.0.1
-## Portability
+## Improvements
  - Improved portability of C++ code.
 
 # Quartet v1.0.0

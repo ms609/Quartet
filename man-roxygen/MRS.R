@@ -1,1 +1,1 @@
-#' @author Martin R. Smith
+#' @author Martin R. Smith (<martin.smith@durham.ac.uk>)

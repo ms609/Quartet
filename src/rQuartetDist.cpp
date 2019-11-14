@@ -11,6 +11,9 @@ using namespace Rcpp;
 //' Functions to calculate triplet and quartet distances between pairs of trees.
 //' Input is not checked for sanity.
 //' 
+//' Functions are called from R with user-friendly functions such as 
+//' [`AllPairsQuartetDistance`].
+//' 
 //' @param file,file1,file2 Paths to files containing a tree or trees in Newick format.
 //' 
 //' @return The distance between the requested trees.
@@ -68,6 +71,36 @@ IntegerVector tqdist_QuartetAgreement(CharacterVector file1, CharacterVector fil
   return IV_res;
 }
 
+//' @describeIn tqdist_QuartetDistance Agreement of each quartet
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_QuartetAgreementEdge(IntegerMatrix edge1,
+                                          IntegerMatrix edge2) {
+  QuartetDistanceCalculator quartetCalc;
+  AE counts = quartetCalc.calculateQuartetAgreement(edge1, edge2);
+  
+  IntegerVector IV_res(2);
+  IV_res[0] = counts.a;
+  IV_res[1] = counts.e;
+  
+  return IV_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Agreement of each quartet
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_QuartetAgreementChar(CharacterVector string1,
+                                          CharacterVector string2) {
+  QuartetDistanceCalculator quartetCalc;
+  AE counts = quartetCalc.calculateQuartetAgreement(string1, string2);
+  
+  IntegerVector IV_res(2);
+  IV_res[0] = counts.a;
+  IV_res[1] = counts.e;
+  
+  return IV_res;
+}
+
 //' @describeIn tqdist_QuartetDistance Distance between pairs
 //' @export
 // [[Rcpp::export]]
@@ -85,7 +118,8 @@ IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector
   
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<INTTYPE_N4> res = quartetCalc.pairs_quartet_distance(filename1, filename2);
+  std::vector<INTTYPE_N4> res = 
+    quartetCalc.pairs_quartet_distance(filename1, filename2);
   
   IntegerVector IV_res(res.size());
   for (size_t i = 0; i < res.size(); i++) {
@@ -97,7 +131,8 @@ IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector
 //' @describeIn tqdist_QuartetDistance Distance between pairs
 //' @export
 // [[Rcpp::export]]
-IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterVector fileMany) {
+IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1,
+                                               CharacterVector fileMany) {
   int n1 = file1.size(), n2 = fileMany.size();
   if (n1 != 1 || n2 != 1) {
     Rcpp::stop("file1 and file2 must be character vectors of length 1");
@@ -114,6 +149,26 @@ IntegerVector tqdist_OneToManyQuartetAgreement(CharacterVector file1, CharacterV
   return quartetCalc.oneToManyQuartetAgreement(fileSingle, fileMultiple);
 }
 
+//' @describeIn tqdist_QuartetDistance Distance between pairs
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_OneToManyQuartetAgreementChar(CharacterVector tree, 
+                                                   CharacterVector trees) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  return quartetCalc.oneToManyQuartetAgreement(tree, trees);
+}
+
+//' @describeIn tqdist_QuartetDistance Distance between pairs
+//' @export
+// [[Rcpp::export]]
+IntegerVector tqdist_OneToManyQuartetAgreementEdge(IntegerMatrix edge, 
+                                                   ListOf<IntegerMatrix> edges) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  return quartetCalc.oneToManyQuartetAgreement(edge, edges);
+}
+
 //' @describeIn tqdist_QuartetDistance Distance between all pairs
 //' @export
 // [[Rcpp::export]]
@@ -127,7 +182,54 @@ IntegerMatrix tqdist_AllPairsQuartetDistance(CharacterVector file) {
   filename = CHAR(STRING_ELT(file, 0));
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<std::vector<INTTYPE_N4> > res = quartetCalc.calculateAllPairsQuartetDistance(filename);
+  std::vector<std::vector<INTTYPE_N4> > res = 
+    quartetCalc.calculateAllPairsQuartetDistance(filename);
+  
+  IntegerMatrix IM_res(res.size(), res.size());
+  
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c < r; c++) {
+      int current_res = int(res[r][c]);
+      IM_res[r + res.size() * c] = current_res;
+      IM_res[c + res.size() * r] = current_res;
+    }
+    IM_res[r + res.size()*r] = res[r][r];
+  }
+  
+  return IM_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Distance between all pairs
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetDistanceChar(CharacterVector string) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<INTTYPE_N4> > res =
+    quartetCalc.calculateAllPairsQuartetDistance(string);
+  
+  IntegerMatrix IM_res(res.size(), res.size());
+  
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c < r; c++) {
+      int current_res = int(res[r][c]);
+      IM_res[r + res.size() * c] = current_res;
+      IM_res[c + res.size() * r] = current_res;
+    }
+    IM_res[r + res.size()*r] = res[r][r];
+  }
+  
+  return IM_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Distance between all pairs
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetDistanceEdge(ListOf<IntegerMatrix> edges) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<INTTYPE_N4> > res =
+    quartetCalc.calculateAllPairsQuartetDistance(edges);
   
   IntegerMatrix IM_res(res.size(), res.size());
   
@@ -156,10 +258,61 @@ IntegerMatrix tqdist_AllPairsQuartetAgreement(CharacterVector file) {
   filename = CHAR(STRING_ELT(file, 0));
   QuartetDistanceCalculator quartetCalc;
   
-  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = quartetCalc.calculateAllPairsQuartetAgreement(filename);
-
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = 
+    quartetCalc.calculateAllPairsQuartetAgreement(filename);
+  
   IntegerMatrix IM_res(res.size(), res.size() * 2);
 
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c <= r; c++) {
+      int current_a = int(res[r][c][0]);
+      int current_e = int(res[r][c][1]);
+      IM_res[r + res.size() * c] = current_a;
+      IM_res[c + res.size() * r] = current_a;
+      IM_res[r + res.size() * c + (res.size() * res.size())] = current_e;
+      IM_res[c + res.size() * r + (res.size() * res.size())] = current_e;
+    }
+  }
+  
+  return IM_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetAgreementChar(CharacterVector string) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = 
+    quartetCalc.calculateAllPairsQuartetAgreement(string);
+  
+  IntegerMatrix IM_res(res.size(), res.size() * 2);
+  
+  for (size_t r = 0; r < res.size(); r++) {
+    for (size_t c = 0; c <= r; c++) {
+      int current_a = int(res[r][c][0]);
+      int current_e = int(res[r][c][1]);
+      IM_res[r + res.size() * c] = current_a;
+      IM_res[c + res.size() * r] = current_a;
+      IM_res[r + res.size() * c + (res.size() * res.size())] = current_e;
+      IM_res[c + res.size() * r + (res.size() * res.size())] = current_e;
+    }
+  }
+  
+  return IM_res;
+}
+
+//' @describeIn tqdist_QuartetDistance Agreement between all pairs of trees
+//' @export
+// [[Rcpp::export]]
+IntegerMatrix tqdist_AllPairsQuartetAgreementEdge(ListOf<IntegerMatrix> edges) {
+  QuartetDistanceCalculator quartetCalc;
+  
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > res = 
+    quartetCalc.calculateAllPairsQuartetAgreement(edges);
+  
+  IntegerMatrix IM_res(res.size(), res.size() * 2);
+  
   for (size_t r = 0; r < res.size(); r++) {
     for (size_t c = 0; c <= r; c++) {
       int current_a = int(res[r][c][0]);
