@@ -5,6 +5,11 @@ r_check_args: --as-cran --no-manual # Workaround error compiling PDF manual
 env:
  - _R_CHECK_FORCE_SUGGESTS_=false
 
+addons:
+  apt:
+    packages:
+      - ghostscript
+
 git:
   depth: 1
 
@@ -46,10 +51,6 @@ matrix:
       env: _R_CHECK_FORCE_SUGGESTS_=false VALGRIND_OPTS='--leak-check=full --track-origins=yes'
       r_check_args: --as-cran --use-valgrind --no-manual
     - r: release
-      addons:
-        apt:
-          packages:
-            - ghostscript
       before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
       deploy:
         provider: script
