@@ -1,10 +1,10 @@
-language: R
+language: r
 cache: packages
-sudo: required # required if r_binary_packages; false otherwise
 warnings_are_errors: true
-r_check_args: --as-cran --no-manual # Workaround error compiling PDF manual
+r_check_args: --as-cran --use-valgrind # --no-manual # Workaround error compiling PDF manual
 env:
  - _R_CHECK_FORCE_SUGGESTS_=false
+ - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
 
 git:
   depth: 1
