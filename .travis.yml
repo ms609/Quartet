@@ -3,7 +3,7 @@ cache: packages
 warnings_are_errors: true
 r_check_args: --as-cran --use-valgrind # --no-manual # Workaround error compiling PDF manual
 env:
- - _R_CHECK_FORCE_SUGGESTS_=false VALGRIND_OPTS='--leak-check=full --track-origins=yes'
+ - _R_CHECK_FORCE_SUGGESTS_=false
 
 git:
   depth: 1
@@ -45,6 +45,7 @@ before_script:
 matrix:
   include:
     - r: 3.4.0
+      env: _R_CHECK_FORCE_SUGGESTS_=false VALGRIND_OPTS='--leak-check=full --track-origins=yes'
     - r: release
       before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
       deploy:
