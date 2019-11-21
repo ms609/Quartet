@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>tqDist wrapper — TQDist • Quartet</title>
+<title>Add slice to 3D array — .AddSlice • Quartet</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="tqDist wrapper — TQDist" />
-<meta property="og:description" content="Convenience function that takes a list of trees, writes them to the text file
-expected by the C implementation of tqDist (Sand et al. 2014).
-tqDist is then called, and the temporary file is deleted when analysis is complete." />
+<meta property="og:title" content="Add slice to 3D array — .AddSlice" />
+<meta property="og:description" content="Add slice to 3D array" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -128,78 +126,38 @@ tqDist is then called, and the temporary file is deleted when analysis is comple
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>tqDist wrapper</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ms609/Quartet/blob/master/R/tqDist.r'><code>R/tqDist.r</code></a></small>
-    <div class="hidden name"><code>TQDist.Rd</code></div>
+    <h1>Add slice to 3D array</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ms609/Quartet/blob/master/R/Metrics.R'><code>R/Metrics.R</code></a></small>
+    <div class="hidden name"><code>dot-AddSlice.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Convenience function that takes a list of trees, writes them to the text file
-expected by the C implementation of tqDist (Sand <em>et al.</em> 2014).
-tqDist is then called, and the temporary file is deleted when analysis is complete.</p>
+    <p>Add slice to 3D array</p>
     </div>
 
-    <pre class="usage"><span class='fu'>TQDist</span>(<span class='no'>trees</span>)
-
-<span class='fu'>TQAE</span>(<span class='no'>trees</span>)</pre>
+    <pre class="usage"><span class='fu'>.AddSlice</span>(<span class='no'>arr</span>, <span class='no'>slice</span>, <span class='kw'>sliceName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>trees</th>
-      <td><p>List of phylogenetic trees, of class <code>list</code> or
-<code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>multiPhylo</a></code>.</p></td>
+      <th>arr</th>
+      <td><p>Three-dimensional array.</p></td>
+    </tr>
+    <tr>
+      <th>slice</th>
+      <td><p>Two-dimensional matrix to add to array.</p></td>
+    </tr>
+    <tr>
+      <th>sliceName</th>
+      <td><p>Character vector specifying name for new slice.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TQDist</code> returns the quartet distance between each pair of trees.</p>
-<p><code>TQAE</code> returns the number of resolved quartets in agreement between
-each pair of trees (A in Brodal <em>et al</em>. 2013) and the number of quartets
-that are unresolved in both trees (E in Brodal <em>et al</em>. 2013).</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Quartets can be resolved in one of five ways, which
-Brodal <em>et al</em>. (2013) and Holt <em>et al</em>. (2014) distinguish using the letters
-A--E, and Estabrook (1985) refers to as:</p><ul>
-<li><p>A: <em>s</em> = resolved the <strong>s</strong>ame in both trees;</p></li>
-<li><p>B: <em>d</em> = resolved <strong>d</strong>ifferently in both trees;</p></li>
-<li><p>C: <em>r1</em> = <strong>r</strong>esolved only in tree <strong>1</strong>;</p></li>
-<li><p>D: <em>r2</em> = <strong>r</strong>esolved only in tree <strong>2</strong> (the comparison tree);</p></li>
-<li><p>E: <em>u</em> = <strong>u</strong>nresolved in both trees.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
-
-    
-<ul>
-<li><p><code>TQAE</code>: Number of agreeing quartets that are resolved / unresolved.</p></li>
-</ul>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Brodal GS, Fagerberg R, Mailund T, Pedersen CNS, Sand A (2013).
-&#8220;Efficient algorithms for computing the triplet and quartet distance between trees of arbitrary degree.&#8221;
-<em>SODA '13 Proceedings of the Twenty-Fourth Annual ACM-SIAM Symposium on Discrete Algorithms</em>, 1814--1832.
-doi: <a href='https://doi.org/10.1137/1.9781611973105.130'>10.1137/1.9781611973105.130</a>
-.</p>
-<p>Estabrook GF, McMorris FR, Meacham CA (1985).
-&#8220;Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units.&#8221;
-<em>Systematic Zoology</em>, <b>34</b>(2), 193--200.
-doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
-.</p>
-<p>Holt MK, Johansen J, Brodal GS (2014).
-&#8220;On the scalability of computing triplet and quartet distances.&#8221;
-In <em>Proceedings of 16th Workshop on Algorithm Engineering and Experiments (ALENEX) Portland, Oregon, USA</em>.</p>
-<p>Sand A, Holt MK, Johansen J, Brodal GS, Mailund T, Pedersen CNS (2014).
-&#8220;tqDist: a library for computing the quartet and triplet distances between binary or general trees.&#8221;
-<em>Bioinformatics</em>, <b>30</b>(14), 2079--2080.
-ISSN 1460-2059, doi: <a href='https://doi.org/10.1093/bioinformatics/btu157'>10.1093/bioinformatics/btu157</a>
-.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='CompareQuartets.html'>CompareQuartets</a></code>, <code><a href='QuartetStatus.html'>QuartetStatus</a></code></p></div>
+    <p>A three-dimensional array formed by adding <code>slice</code> to the end of
+<code>arr</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -207,10 +165,6 @@ ISSN 1460-2059, doi: <a href='https://doi.org/10.1093/bioinformatics/btu157'>10.
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#functions">Functions</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
     </ul>
 
     <h2>Author</h2>
