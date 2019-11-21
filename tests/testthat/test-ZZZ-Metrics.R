@@ -66,10 +66,12 @@ test_that("Quartet metrics are sane", {
 
 test_that('Three-dimensional calculation is correct', {
   testTrees <- sq_trees[11:18]
+  test2 <- sq_trees[5:6]
   lapply(Metrics, function (Func) {
     expect_equal(Func(QuartetStatus(testTrees)),
-      Func(ManyToManyQuartetAgreement(testTrees))[, 1]
-    )
+      Func(ManyToManyQuartetAgreement(testTrees))[, 1])
+    expect_equal(Func(QuartetStatus(testTrees, test2[[1]])),
+      Func(TwoListQuartetAgreement(testTrees, test2))[, 1])
   })
 })
 
