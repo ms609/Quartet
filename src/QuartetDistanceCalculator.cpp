@@ -350,6 +350,7 @@ AE QuartetDistanceCalculator::\
 
   ut2 = parser.parseEdge(edge2);
   if(ut2 == NULL) {
+    delete ut1;
     Rcpp::stop("calculateQuartetDistance failed to parse edge2");
   }
 

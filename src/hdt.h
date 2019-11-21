@@ -38,8 +38,11 @@ class HDT
 {
 	public:
 		enum NodeType {I, C, G, NotConverted};
-		void initialize(CountingLinkedList *countingVars, NodeType type, int numD, RootedTree *link = NULL, bool doLink = true);
-		static HDT* constructHDT(RootedTree *t, int numD, HDTFactory *copyStuffFromFactory, bool doLink = true);
+		void initialize(CountingLinkedList *countingVars, NodeType type, int numD,
+                  RootedTree *link = NULL, bool doLink = true);
+		static HDT* constructHDT(RootedTree *t, int numD, 
+                             HDTFactory *copyStuffFromFactory,
+                             bool doLink = true);
 
 		void forceLinks();
 		void toDot();
