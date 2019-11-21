@@ -39,7 +39,7 @@
 #'  
 #'  # Calculate the status of each quartet relative to a given tree
 #'  two_moved <- sq_trees[5:7]
-#'  sq_status <- QuartetStatus(move_two, sq_trees$ref_tree)
+#'  sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
 #'  
 #'  # Calculate Estabrook et al's similarity measures:
 #'  SimilarityMetrics(sq_status)
