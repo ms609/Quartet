@@ -51,12 +51,13 @@ TQAE <- function (trees) {
   array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
 }
 
-#' @describeIn TQDist Agreement of each quartet, comparing each pair of trees 
+#' @describeIn QuartetStatus Agreement of each quartet, comparing each pair of trees 
 #' in a list.
 #' @return `ManyToManyQuartetAgreement` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @export 
 ManyToManyQuartetAgreement <- function (trees) {
+  treeNames <- names(trees)
   AE <- TQAE(trees)
   nTree <- dim(AE)[1]
   A   <- AE[, , 1]
@@ -70,10 +71,10 @@ ManyToManyQuartetAgreement <- function (trees) {
   
   # Return:
   array(c(A, B, C, D, E), dim=c(nTree, nTree, 5),
-        dimnames = list(NULL, NULL, c('s', 'd', 'r1', 'r2', 'u')))
+        dimnames = list(treeNames, treeNames, c('s', 'd', 'r1', 'r2', 'u')))
 }
 
-#' @describeIn TQDist Agreement of each quartet in trees in a list with the
+#' @describeIn QuartetStatus Agreement of each quartet in trees in a list with the
 #' quartets in a comparison tree.
 #' @param comparison A tree of class \code{\link[ape:read.tree]{phylo}} against
 #' which to compare `trees`.
@@ -150,11 +151,28 @@ SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
 #' 
 #' @examples
 #'  data('sq_trees')
-#'  # Calculate the status of each quartet
+#'  # Calculate the status of each quartet relative to the first entry in 
+#'  # sq_trees
 #'  sq_status <- QuartetStatus(sq_trees)
-#'
+#'  
+#'  # Calculate the status of each quartet relative to a given tree
+#'  two_moved <- sq_trees[5:7]
+#'  sq_status <- QuartetStatus(move_two, sq_trees$ref_tree)
+#'  
 #'  # Calculate Estabrook et al's similarity measures:
 #'  SimilarityMetrics(sq_status)
+#'  
+#'  # Calculate Quartet Divergence between each pair of trees in one list
+#'  # and each pair of trees in another
+#'  qd <- vapply(two_moved, 
+#'               function (ref) QuartetDivergence(QuartetStatus(sq_trees, ref)),
+#'               FUN.VALUE = numeric(length(sq_trees)))
+#'  head(qd)
+#'  
+#'  # Calculate Quartet Divergence between each tree and each other tree in a 
+#'  # list
+#'  QuartetDivergence(ManyToManyQuartetAgreement(two_moved))
+#'  
 #' 
 #' @family element-by-element comparisons
 #' @seealso `\link{SplitStatus}`: Uses bipartition splits (groups/clades defined by
@@ -173,6 +191,7 @@ SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
 #' }
 #'
 #' @importFrom Rdpack reprompt 
+#' @name QuartetStatus
 #' @export
 QuartetStatus <- function (trees, cf=trees[[1]]) {
   SingleTreeQuartetAgreement(trees, comparison=cf)

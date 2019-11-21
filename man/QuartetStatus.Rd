@@ -2,10 +2,16 @@
 % Please edit documentation in R/QuartetDistance.R, R/tqDist.r
 \name{SharedQuartetStatus}
 \alias{SharedQuartetStatus}
+\alias{ManyToManyQuartetAgreement}
+\alias{SingleTreeQuartetAgreement}
 \alias{QuartetStatus}
 \title{Status of quartets}
 \usage{
 SharedQuartetStatus(trees, cf = trees[[1]])
+
+ManyToManyQuartetAgreement(trees)
+
+SingleTreeQuartetAgreement(trees, comparison = trees[[1]])
 
 QuartetStatus(trees, cf = trees[[1]])
 }
@@ -15,8 +21,19 @@ with identically labelled tips.}
 
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
 each tree is compared to the first tree in \code{trees}.}
+
+\item{comparison}{A tree of class \code{\link[ape:read.tree]{phylo}} against
+which to compare \code{trees}.}
 }
 \value{
+\code{ManyToManyQuartetAgreement} returns a three-dimensional array listing,
+for each pair of trees in turn, the number of quartets in each category.
+
+\code{SingleTreeQuartetAgreement} returns a two-dimensional array listing,
+for tree in \code{trees}, the total number of quartets and the
+number of quartets in each category.
+The \code{comparison} tree is treated as \code{tree2}.
+
 Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if \code{cf} is not specified).  Columns list the status of each quartet:
 \describe{
 \item{N}{The total number of quartet \emph{statements} for two trees of \emph{n} tips,
@@ -55,15 +72,38 @@ tqdist C library (Sand \emph{et al}. 2014).
 \itemize{
 \item \code{SharedQuartetStatus}: Reports split statistics obtained after removing all
 tips that do not occur in both trees being compared.
+
+\item \code{ManyToManyQuartetAgreement}: Agreement of each quartet, comparing each pair of trees
+in a list.
+
+\item \code{SingleTreeQuartetAgreement}: Agreement of each quartet in trees in a list with the
+quartets in a comparison tree.
 }}
 
 \examples{
  data('sq_trees')
- # Calculate the status of each quartet
+ # Calculate the status of each quartet relative to the first entry in 
+ # sq_trees
  sq_status <- QuartetStatus(sq_trees)
-
+ 
+ # Calculate the status of each quartet relative to a given tree
+ two_moved <- sq_trees[5:7]
+ sq_status <- QuartetStatus(move_two, sq_trees$ref_tree)
+ 
  # Calculate Estabrook et al's similarity measures:
  SimilarityMetrics(sq_status)
+ 
+ # Calculate Quartet Divergence between each pair of trees in one list
+ # and each pair of trees in another
+ qd <- vapply(two_moved, 
+              function (ref) QuartetDivergence(QuartetStatus(sq_trees, ref)),
+              FUN.VALUE = numeric(length(sq_trees)))
+ head(qd)
+ 
+ # Calculate Quartet Divergence between each tree and each other tree in a 
+ # list
+ QuartetDivergence(ManyToManyQuartetAgreement(two_moved))
+ 
 
 }
 \references{
