@@ -50,6 +50,7 @@ matrix:
           packages: valgrind
       env: _R_CHECK_FORCE_SUGGESTS_=false VALGRIND_OPTS='--leak-check=full --track-origins=yes'
       r_check_args: --as-cran --use-valgrind --no-manual
+      script: R -d valgrind --vanilla > tests/testthat.R
     - r: release
       before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
       deploy:
@@ -58,7 +59,7 @@ matrix:
         skip_cleanup: true
         local_dir: "docs"
         keep-history: true
-        on: 
+        on:
           branch: master
     - r: devel
       branches:
