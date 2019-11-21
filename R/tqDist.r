@@ -149,6 +149,8 @@ ManyToManyQuartetAgreement <- function (trees) {
 
 #' @describeIn QuartetStatus Agreement of each quartet in trees in one list with
 #' eaceh quartet in trees in a second list.
+#' @param trees1,trees2 List or `multiPhylo` objects containing
+#'   trees of class `phylo`.
 #' @return `TwoListQuartetAgreement` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @examples 

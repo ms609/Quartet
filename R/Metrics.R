@@ -185,7 +185,7 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' equivalent to either `d + d` or `d1 + d2` as appropriate.
 #' 
 #' @examples 
-#'   .StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7])
+#'   .StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7]))
 #'   
 #' @keywords internal
 #' @export

@@ -34,7 +34,7 @@ function family.
 \examples{
   data('sq_trees')
 
-  .StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7])
+  .StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7]))
   
 }
 \author{

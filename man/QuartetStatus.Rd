@@ -25,6 +25,9 @@ with identically labelled tips.}
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
 each tree is compared to the first tree in \code{trees}.}
 
+\item{trees1, trees2}{List or \code{multiPhylo} objects containing
+trees of class \code{phylo}.}
+
 \item{comparison}{A tree of class \code{\link[ape:read.tree]{phylo}} against
 which to compare \code{trees}.}
 }
