@@ -1,7 +1,7 @@
 language: r
 cache: packages
 warnings_are_errors: true
-r_check_args: --as-cran --use-valgrind # --no-manual # Workaround error compiling PDF manual
+r_check_args: --as-cran --use-valgrind --no-manual # Workaround error compiling PDF manual
 env:
  - _R_CHECK_FORCE_SUGGESTS_=false
 
@@ -12,6 +12,7 @@ addons:
   apt:
     packages:
       - ghostscript
+      - valgrind
 
 r_binary_packages:
  - ape
