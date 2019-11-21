@@ -11,7 +11,8 @@
 // C: a connected subset of the nodes of T,
 // G: a set of subtrees with roots being siblings in 
 
-void HDT::initialize(CountingLinkedList *countingVars, NodeType type, int numD, RootedTree *link, bool doLink)
+void HDT::initialize(CountingLinkedList *countingVars, NodeType type, int numD,
+                     RootedTree *link, bool doLink)
 {
 	parent = childParent = left = right = NULL;
 	children = NULL;
@@ -120,7 +121,9 @@ RootedTree* HDT::extractAndGoBackImpl(RootedTree *addToMe, RootedTreeFactory *fa
 
 			newRight = factory->getRootedTree("");
 			newRight->numZeroes = right->n_circ;
-			if (right->countingVars->num == 0) newRight->numZeroes += right->countingVars->n_i;
+			if (right->countingVars->num == 0) {
+			  newRight->numZeroes += right->countingVars->n_i;
+			}
 
 			if (type == C)
 			{
@@ -137,7 +140,9 @@ RootedTree* HDT::extractAndGoBackImpl(RootedTree *addToMe, RootedTreeFactory *fa
 			newLeft = factory->getRootedTree("");
 			RootedTree *newDummy = factory->getRootedTree("");
 			newDummy->numZeroes = left->n_circ;
-			if (left->countingVars->num == 0) newDummy->numZeroes += left->countingVars->n_i;
+			if (left->countingVars->num == 0) {
+			  newDummy->numZeroes += left->countingVars->n_i;
+			}
 			newLeft->addChild(newDummy);
 			left->goBackVariable = newLeft;
 
@@ -167,7 +172,9 @@ RootedTree* HDT::extractAndGoBackImpl(RootedTree *addToMe, RootedTreeFactory *fa
 		{
 			RootedTree *newNode = factory->getRootedTree("");
 			newNode->numZeroes = left->n_circ;
-			if (left->countingVars->num == 0) newNode->numZeroes += left->countingVars->n_i;
+			if (left->countingVars->num == 0) {
+			  newNode->numZeroes += left->countingVars->n_i;
+			}
 
 			addToMe->addChild(newNode);
 			left->goBackVariable = addToMe;
@@ -178,7 +185,9 @@ RootedTree* HDT::extractAndGoBackImpl(RootedTree *addToMe, RootedTreeFactory *fa
 		{
 			RootedTree *newNode = factory->getRootedTree("");
 			newNode->numZeroes = right->n_circ;
-			if (right->countingVars->num == 0) newNode->numZeroes += right->countingVars->n_i;
+			if (right->countingVars->num == 0) {
+			  newNode->numZeroes += right->countingVars->n_i;
+			}
 
 			addToMe->addChild(newNode);
 			right->goBackVariable = addToMe;
@@ -241,7 +250,8 @@ INTTYPE_REST HDT::getUnresolvedTriplets()
 	return tripUnresolved;
 }
 
-HDT* HDT::constructHDT(RootedTree *t, int numD, HDTFactory *copyStuffFromFactory, bool doLink)
+HDT* HDT::constructHDT(RootedTree *t, int numD, HDTFactory *copyStuffFromFactory,
+                       bool doLink)
 {
 	HDTFactory *factory = new HDTFactory(numD, copyStuffFromFactory);
 	HDT *hdt = preFirstRound(t, numD, doLink, factory);
