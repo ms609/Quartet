@@ -41,7 +41,8 @@ class HDT
 		void initialize(CountingLinkedList *countingVars, NodeType type, int numD,
                   RootedTree *link = NULL, bool doLink = true);
 		static HDT* constructHDT(RootedTree *t, int numD, 
-                           HDTFactory *copyStuffFromFactory, bool doLink = true);
+                             HDTFactory *copyStuffFromFactory,
+                             bool doLink = true);
 
 		void forceLinks();
 		void toDot();

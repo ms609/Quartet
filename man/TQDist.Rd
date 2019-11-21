@@ -3,24 +3,15 @@
 \name{TQDist}
 \alias{TQDist}
 \alias{TQAE}
-\alias{ManyToManyQuartetAgreement}
-\alias{SingleTreeQuartetAgreement}
 \title{tqDist wrapper}
 \usage{
 TQDist(trees)
 
 TQAE(trees)
-
-ManyToManyQuartetAgreement(trees)
-
-SingleTreeQuartetAgreement(trees, comparison = trees[[1]])
 }
 \arguments{
 \item{trees}{List of phylogenetic trees, of class \code{list} or
 \code{\link[ape:read.tree]{multiPhylo}}.}
-
-\item{comparison}{A tree of class \code{\link[ape:read.tree]{phylo}} against
-which to compare \code{trees}.}
 }
 \value{
 \code{TQDist} returns the quartet distance between each pair of trees.
@@ -28,14 +19,6 @@ which to compare \code{trees}.}
 \code{TQAE} returns the number of resolved quartets in agreement between
 each pair of trees (A in Brodal \emph{et al}. 2013) and the number of quartets
 that are unresolved in both trees (E in Brodal \emph{et al}. 2013).
-
-\code{ManyToManyQuartetAgreement} returns a three-dimensional array listing,
-for each pair of trees in turn, the number of quartets in each category.
-
-\code{SingleTreeQuartetAgreement} returns a two-dimensional array listing,
-for tree in \code{trees}, the total number of quartets and the
-number of quartets in each category.
-The \code{comparison} tree is treated as \code{tree2}.
 }
 \description{
 Convenience function that takes a list of trees, writes them to the text file
@@ -57,12 +40,6 @@ A--E, and Estabrook (1985) refers to as:
 \section{Functions}{
 \itemize{
 \item \code{TQAE}: Number of agreeing quartets that are resolved / unresolved.
-
-\item \code{ManyToManyQuartetAgreement}: Agreement of each quartet, comparing each pair of trees
-in a list.
-
-\item \code{SingleTreeQuartetAgreement}: Agreement of each quartet in trees in a list with the
-quartets in a comparison tree.
 }}
 
 \references{
