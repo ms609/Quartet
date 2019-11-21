@@ -38,8 +38,10 @@ class HDT
 {
 	public:
 		enum NodeType {I, C, G, NotConverted};
-		void initialize(CountingLinkedList *countingVars, NodeType type, int numD, RootedTree *link = NULL, bool doLink = true);
-		static HDT* constructHDT(RootedTree *t, int numD, HDTFactory *copyStuffFromFactory, bool doLink = true);
+		void initialize(CountingLinkedList *countingVars, NodeType type, int numD,
+                  RootedTree *link = NULL, bool doLink = true);
+		static HDT* constructHDT(RootedTree *t, int numD, 
+                           HDTFactory *copyStuffFromFactory, bool doLink = true);
 
 		void forceLinks();
 		void toDot();
@@ -124,11 +126,13 @@ class HDT
 		// Marking stuff as changed or updated
 		bool up2date;
 
-		static HDT* preFirstRound(RootedTree *t, int numD, bool doLink, HDTFactory *factory);
+		static HDT* preFirstRound(RootedTree *t, int numD, bool doLink,
+                              HDTFactory *factory);
 		HDT* round(HDTFactory *factory);
 		inline bool isDownwardsClosed();
 		void toDotImpl();
-		RootedTree *extractAndGoBackImpl(RootedTree *addToMe, RootedTreeFactory *factory);
+		RootedTree *extractAndGoBackImpl(RootedTree *addToMe, 
+                                     RootedTreeFactory *factory);
 		void handleLeaf();
 		void handleCCToC();
 		void handleIGToC();
@@ -136,11 +140,15 @@ class HDT
 		void handleG();
 		
 		bool gotoIteratorValueForList(CountingLinkedList *list, unsigned int num);
-		enum AddToType {i_j, paren_i_j, j_arrow_i, i_arrow_j, i_paren_i_j, paren_i_paren_i_j, bracket_i_paren_i_j};
-		INTTYPE_REST getIteratorValueForNumList(CountingLinkedListNumOnly *list, unsigned int num);
-		bool gotoIteratorValueForNumList(CountingLinkedListNumOnly *list, unsigned int num);
+		enum AddToType {i_j, paren_i_j, j_arrow_i, i_arrow_j, i_paren_i_j, 
+                  paren_i_paren_i_j, bracket_i_paren_i_j};
+		INTTYPE_REST getIteratorValueForNumList(CountingLinkedListNumOnly *list, 
+                                            unsigned int num);
+		bool gotoIteratorValueForNumList(CountingLinkedListNumOnly *list, 
+                                     unsigned int num);
 		bool hasIteratorForNumListEnded(CountingLinkedListNumOnly *list);
-		void addToNumList(CountingLinkedList *parent, AddToType list, unsigned int num, INTTYPE_REST value);
+		void addToNumList(CountingLinkedList *parent, AddToType list,
+                      unsigned int num, INTTYPE_REST value);
 };
 
 #endif
