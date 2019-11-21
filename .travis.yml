@@ -48,9 +48,7 @@ matrix:
       addons:
         apt:
           packages: valgrind
-      env: _R_CHECK_FORCE_SUGGESTS_=false VALGRIND_OPTS='--leak-check=full --track-origins=yes'
-      r_check_args: --as-cran --use-valgrind --no-manual
-      script: R -d valgrind --vanilla > tests/testthat.R
+      script: R -d "valgrind --leak-check=full --track-origins=yes" --vanilla < tests/testthat.R
     - r: release
       before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
       deploy:
