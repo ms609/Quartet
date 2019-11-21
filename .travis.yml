@@ -3,8 +3,7 @@ cache: packages
 warnings_are_errors: true
 r_check_args: --as-cran --use-valgrind # --no-manual # Workaround error compiling PDF manual
 env:
- - _R_CHECK_FORCE_SUGGESTS_=false
- - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
+ - _R_CHECK_FORCE_SUGGESTS_=false VALGRIND_OPTS='--leak-check=full --track-origins=yes'
 
 git:
   depth: 1
