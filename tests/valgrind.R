@@ -3,6 +3,5 @@ library(pkgload)
 load_all()
 getwd()
 dir()
-setwd('tests/testthat')
-lapply(list.files('testthat', pattern = 'test\\-.*\\.R', full.names= TRUE),
-       source)
+setwd('testthat')
+lapply(list.files(pattern = 'test\\-.*\\.R', full.names= TRUE), source)
