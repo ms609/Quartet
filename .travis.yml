@@ -50,7 +50,7 @@ jobs:
           packages: valgrind
       r_check_args: --as-cran --no-manual
       after_success:
-        - R -d "valgrind --leak-check=full --track-origins=yes" --vanilla < tests/valgrind.R
+        - R -d "valgrind --leak-check=full --track-origins=yes" --vanilla < tests/testthat/valgrind.R
     - r: release
 #      before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
 #      deploy:
