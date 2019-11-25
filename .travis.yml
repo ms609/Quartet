@@ -49,8 +49,9 @@ jobs:
         apt:
           packages: valgrind
       warnings_are_errors: false
-      r_check_args: --no-manual --no-build-vignettes --no-vignettes --no-codoc --no-examples --no-clean --no-tests --use-valgrind
-      r_build_args: --no-build-vignettes --no-manual --compact-vignettes="no"
+      r_check_args: --no-manual --no-build-vignettes --no-vignettes --no-tests
+      #r_check_args: --no-manual --no-build-vignettes --no-vignettes --no-codoc --no-examples --no-clean --no-tests --use-valgrind
+      #r_build_args: --no-build-vignettes --no-manual --compact-vignettes="no"
       after_success:
         - R -d "valgrind --leak-check=full --track-origins=yes" --vanilla < tests/testthat/valgrind.R
     - r: release
