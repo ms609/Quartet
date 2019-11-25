@@ -52,36 +52,36 @@ jobs:
       after_success:
         - R -d "valgrind --leak-check=full --track-origins=yes" --vanilla < tests/valgrind.R
     - r: release
-      before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
-      deploy:
-        provider: script
-        script: Rscript -e 'pkgdown::deploy_site_github()'
-        skip_cleanup: true
-        local_dir: "docs"
-        keep-history: true
-        on:
-          branch: master
-    - r: devel
-      branches:
-        only: master
-      after_success:
-        - Rscript -e "covr::codecov()"
-    - os: osx
-      branches:
-        only: master
-      r: release
-      r_packages:
-         - ape
-         - devtools
-         - knitr
-         - memoise
-         - phangorn
-         - R.cache
-         - Rcpp
-         - Rdpack
-         - rmarkdown
-         - roxygen2
-         - testthat
-      before_install:
-      - brew install cairo
-      - sudo tlmgr install doi titling hyperref framed
+#      before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
+#      deploy:
+#        provider: script
+#        script: Rscript -e 'pkgdown::deploy_site_github()'
+#        skip_cleanup: true
+#        local_dir: "docs"
+#        keep-history: true
+#        on:
+#          branch: master
+#    - r: devel
+#      branches:
+#        only: master
+#      after_success:
+#        - Rscript -e "covr::codecov()"
+#    - os: osx
+#      branches:
+#        only: master
+#      r: release
+#      r_packages:
+#         - ape
+#         - devtools
+#         - knitr
+#         - memoise
+#         - phangorn
+#         - R.cache
+#         - Rcpp
+#         - Rdpack
+#         - rmarkdown
+#         - roxygen2
+#         - testthat
+#      before_install:
+#      - brew install cairo
+#      - sudo tlmgr install doi titling hyperref framed
