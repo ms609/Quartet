@@ -48,7 +48,7 @@ jobs:
       addons:
         apt:
           packages: valgrind
-      r_check_args: --no-manual --no-build-vignettes --no-vignettes --no-codoc --no-examples --no-clean --no-install --no-tests --use-valgrind
+      r_check_args: --no-manual --no-build-vignettes --no-vignettes --no-codoc --no-examples --no-clean --no-tests --use-valgrind #--no-install
       r_build_args: --no-build-vignettes --no-manual --compact-vignettes="no"
       after_success:
         - R -d "valgrind --leak-check=full --track-origins=yes" --vanilla < tests/testthat/valgrind.R
