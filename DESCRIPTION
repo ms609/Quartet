@@ -39,7 +39,8 @@ Imports:
 Suggests:
     bookdown,
     knitr,
-    phangorn, 
+    phangorn,
+    pkgload,
     Rcpp,
     rmarkdown,
     testthat,
