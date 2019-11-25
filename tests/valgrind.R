@@ -4,4 +4,6 @@ load_all()
 getwd()
 dir()
 setwd('testthat')
-lapply(list.files(pattern = 'test\\-.*\\.R', full.names= TRUE)[-1], source)
+testFiles <- list.files(pattern = 'test\\-.*\\.R', full.names= TRUE)
+# No doppleganger testing in interactive mode
+lapply(testFiles[-3], source)
