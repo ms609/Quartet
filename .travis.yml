@@ -53,7 +53,7 @@ jobs:
       #r_check_args: --no-manual --no-build-vignettes --no-vignettes --no-codoc --no-examples --no-clean --no-tests --use-valgrind
       r_build_args: --no-build-vignettes --no-manual --compact-vignettes="no"
       after_success:
-        - R -d "valgrind --leak-check=full --track-origins=yes" --vanilla < tests/testthat/valgrind.R
+        - R -d "valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all" --vanilla < tests/testthat/valgrind.R
     - r: release
 #      before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
 #      deploy:
