@@ -16,3 +16,4 @@ cran-comments.md
 man-roxygen
 data-raw
 /^src\-/
+^codemeta\.json$
