@@ -1,0 +1,311 @@
+{
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@type": "SoftwareSourceCode",
+  "identifier": "Quartet",
+  "description": "Calculates the number of four-taxon subtrees consistent with a pair\n  of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),\n  Reconstructing the shape of a tree from observed dissimilarity data,\n  Advances in Applied Mathematics, 7, 309-343 <doi:10.1016/0196-8858(86)90038-2>, \n  and using the tqDist algorithm of Sand et al. (2014), tqDist: a library for\n  computing the quartet and triplet distances between binary or general trees,\n  Bioinformatics, 30, 2079–2080 <doi:10.1093/bioinformatics/btu157>\n  for pairs of bifurcating trees.",
+  "name": "Quartet: Comparison of Phylogenetic Trees Using Quartet and Bipartition Measures",
+  "codeRepository": "https://github.com/ms609/Quartet",
+  "issueTracker": "https://github.com/ms609/Quartet/issues",
+  "license": "https://spdx.org/licenses/GPL-2.0",
+  "version": "1.0.2.9002",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "version": "3.6.1",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 3.6.1 (2019-07-05)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Martin R.",
+      "familyName": "Smith",
+      "email": "martin.smith@durham.ac.uk",
+      "@id": "https://orcid.org/0000-0001-5660-1727"
+    }
+  ],
+  "contributor": {},
+  "copyrightHolder": [
+    {
+      "@type": "Person",
+      "givenName": "Martin R.",
+      "familyName": "Smith",
+      "email": "martin.smith@durham.ac.uk",
+      "@id": "https://orcid.org/0000-0001-5660-1727"
+    }
+  ],
+  "funder": {},
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Martin R.",
+      "familyName": "Smith",
+      "email": "martin.smith@durham.ac.uk",
+      "@id": "https://orcid.org/0000-0001-5660-1727"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "bookdown",
+      "name": "bookdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=bookdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "phangorn",
+      "name": "phangorn",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=phangorn"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "pkgload",
+      "name": "pkgload",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=pkgload"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Rcpp",
+      "name": "Rcpp",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Rcpp"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "TreeDist",
+      "name": "TreeDist",
+      "sameAs": "https://github.com/ms609/TreeDist"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "usethis",
+      "name": "usethis",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=usethis"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "vdiffr",
+      "name": "vdiffr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=vdiffr"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.4.0"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ape",
+      "name": "ape",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ape"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "memoise",
+      "name": "memoise",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=memoise"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Rdpack",
+      "name": "Rdpack",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Rdpack"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Ternary",
+      "name": "Ternary",
+      "version": ">= 1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Ternary"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "TreeTools",
+      "name": "TreeTools",
+      "sameAs": "https://github.com/ms609/TreeTools"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "https://sysreqs.r-hub.io/get/cxx11"
+    }
+  ],
+  "releaseNotes": "https://github.com/ms609/SlowQuartet/blob/master/NEWS.md",
+  "readme": "https://github.com/ms609/Quartet/blob/master/README.md",
+  "contIntegration": ["https://travis-ci.org/ms609/Quartet", "https://codecov.io/gh/ms609/Quartet"],
+  "developmentStatus": "https://www.repostatus.org/#inactive",
+  "keywords": ["phylogenetics", "bioinformatics", "research-tool", "quartet", "tree", "cran", "phylogenetic-trees", "quartet-distance", "comparison"],
+  "citation": [
+    {
+      "@type": "SoftwareSourceCode",
+      "datePublished": "2019",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["Martin", "R."],
+          "familyName": "Smith"
+        }
+      ],
+      "name": "Quartet: comparison of phylogenetic trees using quartet and bipartition measures",
+      "identifier": "10.5281/zenodo.2536318",
+      "description": "R package version ",
+      "@id": "https://doi.org/10.5281/zenodo.2536318",
+      "sameAs": "https://doi.org/10.5281/zenodo.2536318"
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2014",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Andreas",
+          "familyName": "Sand"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Morten", "K."],
+          "familyName": "Holt"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Jens",
+          "familyName": "Johansen"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Gerth", "S."],
+          "familyName": "Brodal"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Thomas",
+          "familyName": "Mailund"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Christian", "N.", "S."],
+          "familyName": "Pedersen"
+        }
+      ],
+      "name": "tqDist: a library for computing the quartet and triplet distances between binary or general trees",
+      "identifier": "10.1093/bioinformatics/btu157",
+      "paginiation": "2079--2080",
+      "@id": "https://doi.org/10.1093/bioinformatics/btu157",
+      "sameAs": "https://doi.org/10.1093/bioinformatics/btu157",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "14",
+        "datePublished": "2014",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "30",
+          "name": "Bioinformatics"
+        }
+      }
+    }
+  ],
+  "relatedLink": "https://CRAN.R-project.org/package=Quartet"
+}
