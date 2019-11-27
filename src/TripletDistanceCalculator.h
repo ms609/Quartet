@@ -18,10 +18,14 @@ TripletDistanceCalculator : private AbstractDistanceCalculator {
   INTTYPE_REST calculateTripletDistance(RootedTree *t1, RootedTree *t2);
 
   std::vector<std::vector<INTTYPE_REST> > calculateAllPairsTripletDistance(const char *filename);
-  std::vector<std::vector<INTTYPE_REST> > calculateAllPairsTripletDistance(std::vector<UnrootedTree *> trees);
+  std::vector<std::vector<INTTYPE_REST> > 
+    calculateAllPairsTripletDistance(std::vector<std::shared_ptr<UnrootedTree> > trees);
 
-  void pairs_triplet_distance_verbose(std::ostream &out, std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
-  std::vector<INTTYPE_REST> pairs_triplet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2);
+  void pairs_triplet_distance_verbose(std::ostream &out, 
+                                      std::vector<std::shared_ptr<UnrootedTree> > &unrootedTrees1,
+                                      std::vector<std::shared_ptr<UnrootedTree> > &unrootedTrees2);
+  std::vector<INTTYPE_REST> pairs_triplet_distance(std::vector<std::shared_ptr<UnrootedTree> > &unrootedTrees1,
+                                                   std::vector<std::shared_ptr<UnrootedTree> > &unrootedTrees2);
   std::vector<INTTYPE_REST> pairs_triplet_distance(const char *filename1, const char *filename2);  
 
  private:

@@ -35,7 +35,7 @@ namespace {
   
 }
 
-UnrootedTree* NewickParser::parseFile(const char* filename) {
+std::shared_ptr<UnrootedTree> NewickParser::parseFile(const char* filename) {
   // Read file
   ifstream infile;
   
@@ -66,29 +66,30 @@ UnrootedTree* NewickParser::parseFile(const char* filename) {
     // replace all whitespace
     eraseWhitespace(str);
     
-    UnrootedTree *t = parse();
+    std::shared_ptr<UnrootedTree> t = parse();
     return t;
   } else { // Couldn't open file!
     Rcpp::stop("Nexus Parser couldn't open file");
   }
 }
 
-UnrootedTree* NewickParser::parseStr(Rcpp::CharacterVector string_in) {
+std::shared_ptr<UnrootedTree> NewickParser::parseStr(Rcpp::CharacterVector string_in) {
   str = as<std::string>(string_in);
   eraseWhitespace(str);
   
-  UnrootedTree *t = parse();
+  std::shared_ptr<UnrootedTree> t = parse();
   return t;
 
 }
 
-std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
+std::vector<std::shared_ptr<UnrootedTree> > NewickParser::\
+  parseMultiFile(const char *filename) {
   ifstream infile;
 
   // Open
   infile.open(filename);
   if(infile) {
-    std::vector<UnrootedTree *> trees;
+    std::vector<std::shared_ptr<UnrootedTree> > trees;
 
     std::string line;
     std::stringstream ss;
@@ -103,7 +104,7 @@ std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
       if(line[line.size()-1] == ';') {
         str = ss.str();
         
-        trees.push_back(parse());
+        trees.push_back(std::move(parse()));
         ss.str(std::string());
       }    
     }
@@ -115,8 +116,8 @@ std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
   }
 }
 
-std::vector<UnrootedTree *> NewickParser::parseMultiStr(CharacterVector string_in) {
-  std::vector<UnrootedTree *> trees;
+std::vector<std::shared_ptr<UnrootedTree> > NewickParser::parseMultiStr(CharacterVector string_in) {
+  std::vector<std::shared_ptr<UnrootedTree> > trees;
   std::string line;
   std::stringstream ss;
   for (int i = 0; i < string_in.length(); i++) {
@@ -136,7 +137,7 @@ std::vector<UnrootedTree *> NewickParser::parseMultiStr(CharacterVector string_i
   return trees;
 }
 
-UnrootedTree* NewickParser::parseStr(string inputStr) {
+std::shared_ptr<UnrootedTree> NewickParser::parseStr(string inputStr) {
   str = inputStr;
   return parse();
 }
@@ -154,14 +155,14 @@ int NewickParser::getPos() {
   return distance(str.begin(), it);
 }
 
-UnrootedTree* NewickParser::parse() {
+std::shared_ptr<UnrootedTree>  NewickParser::parse() {
   parseError = false;
   it = str.begin();
   strEnd = str.end();
   
   if (*str.rbegin() != ';') 
     return NULL;
-  UnrootedTree *t = parseSubTree();
+  std::shared_ptr<UnrootedTree> t = parseSubTree();
   parseLength();
   if (it == strEnd) {
     Rcpp::stop("Parse error! String is finished before ';'");
@@ -180,22 +181,22 @@ UnrootedTree* NewickParser::parse() {
   return t;
 }
 
-UnrootedTree* NewickParser::parseSubTree() {
+std::shared_ptr<UnrootedTree> NewickParser::parseSubTree() {
   if (it == strEnd) {
     Rcpp::stop("Parse error! String ended!");
     parseError = true;
-    return new UnrootedTree();
+    return make_shared<UnrootedTree>();
   }
   
   if (*it == '(') return parseInternal();
-  return new UnrootedTree(parseName());
+  return make_shared<UnrootedTree>(parseName());
 }
 
-UnrootedTree* NewickParser::parseInternal() {
+std::shared_ptr<UnrootedTree> NewickParser::parseInternal() {
   if (it == strEnd) {
     Rcpp::stop("Parse error! String ended!");
     parseError = true;
-    return new UnrootedTree();
+    return make_shared<UnrootedTree>();
   }
   
   // Remove '(' char, create internal node, and recurse
@@ -204,7 +205,7 @@ UnrootedTree* NewickParser::parseInternal() {
     parseError = true;
   }
   it++;
-  UnrootedTree *internalNode = new UnrootedTree();
+  std::shared_ptr<UnrootedTree> internalNode = make_shared<UnrootedTree>();
   ParseBranchSet(internalNode);
   
   if (it == strEnd) {
@@ -228,7 +229,7 @@ UnrootedTree* NewickParser::parseInternal() {
   return internalNode;
 }
 
-void NewickParser::ParseBranchSet(UnrootedTree *parent) {
+void NewickParser::ParseBranchSet(std::shared_ptr<UnrootedTree> parent) {
   if (it == strEnd) {
     Rcpp::stop("Parse error! String ended!");
     parseError = true;
@@ -240,9 +241,9 @@ void NewickParser::ParseBranchSet(UnrootedTree *parent) {
   int largestDegreeBelow = 0;
   while(true) {
     degreeHere++;
-    UnrootedTree *t = parseSubTree();
+    std::shared_ptr<UnrootedTree> t = parseSubTree();
     largestDegreeBelow = max(largestDegreeBelow, t->maxDegree);
-    parent->addEdgeTo(t);
+    parent->addEdgeTo(t.get());
     parseLength();
     if (it != strEnd && *it == ',')
       it++; // and go again!

@@ -2,6 +2,7 @@
 #define UNROOTED_TREE_H
 
 #include <vector>
+#include <memory>
 #include <string>
 
 #include "rooted_tree.h"

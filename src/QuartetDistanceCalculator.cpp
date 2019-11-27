@@ -22,11 +22,13 @@ QuartetDistanceCalculator::~QuartetDistanceCalculator() {
 }
 
 Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
-  (UnrootedTree *unrootedSingle, std::vector<UnrootedTree *> &unrootedMultiple) {
+  (std::shared_ptr<UnrootedTree> unrootedSingle, 
+   std::vector<std::shared_ptr<UnrootedTree>> &unrootedMultiple) {
   Rcpp::IntegerVector res(unrootedMultiple.size() * 2);
   
   for(size_t i = 0; i < unrootedMultiple.size(); i++) {
-    AE status = calculateQuartetAgreement(unrootedSingle, unrootedMultiple[i]);
+    AE status = calculateQuartetAgreement(std::move(unrootedSingle),
+                                          std::move(unrootedMultiple[i]));
     res[i] = status.a;
     res[i + unrootedMultiple.size()] = status.e;
   }
@@ -39,13 +41,13 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   
   NewickParser parser;
   
-  UnrootedTree *unrootedSingle = parser.parseFile(fileSingle); 
+  std::shared_ptr<UnrootedTree> unrootedSingle = parser.parseFile(fileSingle); 
   
   if (unrootedSingle == NULL || parser.isError()) {
     Rcpp::stop("Error parsing fileSingle in oneToManyQuartets -> parser.parseFile");
   }
 
-  std::vector<UnrootedTree *> unrootedMultiple = parser.parseMultiFile(fileMultiple); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedMultiple = parser.parseMultiFile(fileMultiple); 
   if (unrootedMultiple.size() == 0) {
     Rcpp::stop("No trees found in fileMultiple; does file end with blank line?");
   } else if (parser.isError()) {
@@ -59,13 +61,13 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (CharacterVector tree, CharacterVector trees) {
   NewickParser parser;
   
-  UnrootedTree *unrootedSingle = parser.parseStr(tree); 
+  std::shared_ptr<UnrootedTree> unrootedSingle = parser.parseStr(tree); 
   
   if (unrootedSingle == NULL || parser.isError()) {
     Rcpp::stop("Error parsing tree in oneToManyQuartets -> parser.parseFile");
   }
 
-  std::vector<UnrootedTree *> unrootedMultiple = parser.parseMultiStr(trees); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedMultiple = parser.parseMultiStr(trees); 
   if (unrootedMultiple.size() == 0) {
     Rcpp::stop("No trees found in trees");
   } else if (parser.isError()) {
@@ -73,19 +75,20 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   }
 
   return oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
-}
+  }
 
 Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (IntegerMatrix edge, ListOf<IntegerMatrix> edges) {
   EdgeParser parser;
   
-  UnrootedTree *unrootedSingle = parser.parseEdge(edge); 
+  std::shared_ptr<UnrootedTree> unrootedSingle = parser.parseEdge(edge); 
   
   if (unrootedSingle == NULL) {
     Rcpp::stop("Error parsing tree in oneToManyQuartets -> parser.parseFile");
   }
 
-  std::vector<UnrootedTree *> unrootedMultiple = parser.parseEdges(edges); 
+  std::vector<std::shared_ptr<UnrootedTree>> unrootedMultiple = 
+    parser.parseEdges(edges); 
   if (unrootedMultiple.size() == 0) {
     Rcpp::stop("No trees found in trees");
   }
@@ -94,12 +97,13 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
 }
 
 std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
-  pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1,
-                         std::vector<UnrootedTree *> &unrootedTrees2) {
+  pairs_quartet_distance(std::vector<std::shared_ptr<UnrootedTree>> &unrootedTrees1,
+                         std::vector<std::shared_ptr<UnrootedTree>> &unrootedTrees2) {
   std::vector<INTTYPE_N4> res;
 
   for(size_t i = 0; i < unrootedTrees1.size(); i++) {
-    INTTYPE_N4 dist = calculateQuartetDistance(unrootedTrees1[i], unrootedTrees2[i]);
+    INTTYPE_N4 dist = calculateQuartetDistance(std::move(unrootedTrees1[i]),
+                                               std::move(unrootedTrees2[i]));
     
     res.push_back(dist);
   }
@@ -111,14 +115,14 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
   pairs_quartet_distance(const char *filename1, const char *filename2) {
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees1  = parser.parseMultiFile(filename1); 
   if (unrootedTrees1.size() == 0) {
     Rcpp::stop("No trees found in filename1; does file end with blank line?");
   } else if (parser.isError()) {
     Rcpp::stop("Error parsing filename1 in pairs_quartet_distance -> parser.parseMultiFile");
   }
 
-  std::vector<UnrootedTree *> unrootedTrees2  = parser.parseMultiFile(filename2); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees2  = parser.parseMultiFile(filename2); 
   if (unrootedTrees2.size() == 0) {
     Rcpp::stop("No trees found in filename2; does file end with blank line?");
   } else if (parser.isError()) {
@@ -126,7 +130,7 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
   }
 
   return pairs_quartet_distance(unrootedTrees1, unrootedTrees2);
-}
+  }
 
 
 /*  Calculate All Pairs DISTANCE */
@@ -134,18 +138,13 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   calculateAllPairsQuartetDistance(const char *filename) {
   NewickParser parser;
 
-  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees  = parser.parseMultiFile(filename); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
     Rcpp::stop("Error: Failed to parse filename");
   }
 
   const std::vector<std::vector<INTTYPE_N4> > results =
     calculateAllPairsQuartetDistance(unrootedTrees);
-
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
 
   return results;
 }
@@ -154,7 +153,7 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   calculateAllPairsQuartetDistance(CharacterVector string) {
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiStr(string); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees = parser.parseMultiStr(string); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
     Rcpp::stop("Error: Failed to parse input string");
   }
@@ -162,19 +161,14 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   const std::vector<std::vector<INTTYPE_N4> > results = 
     calculateAllPairsQuartetDistance(unrootedTrees);
 
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
-
   return results;
-}
+  }
 
 std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   calculateAllPairsQuartetDistance(ListOf<IntegerMatrix> edges) {
   EdgeParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees = parser.parseEdges(edges); 
+  std::vector<std::shared_ptr<UnrootedTree>> unrootedTrees = parser.parseEdges(edges); 
   if (unrootedTrees.size() == 0) {
     Rcpp::stop("Error: Failed to parse input edges");
   }
@@ -182,21 +176,17 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   const std::vector<std::vector<INTTYPE_N4> > results = 
     calculateAllPairsQuartetDistance(unrootedTrees);
 
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
-
   return results;
 }
 
 std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
-  calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees) {
+  calculateAllPairsQuartetDistance(std::vector<std::shared_ptr<UnrootedTree>> trees) {
   std::vector<std::vector<INTTYPE_N4> > results(trees.size());
 
   for(size_t r = 0; r < trees.size(); ++r) {
     for(size_t c = 0; c < r; ++c) {
-      INTTYPE_N4 distance = calculateQuartetDistance(trees[r], trees[c]);
+      INTTYPE_N4 distance = calculateQuartetDistance(std::move(trees[r]), 
+                                                     std::move(trees[c]));
       results[r].push_back(distance);
     }
     results[r].push_back(0);
@@ -211,18 +201,13 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiFile(filename);
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees = parser.parseMultiFile(filename);
   if (unrootedTrees.size() == 0 || parser.isError()) {
     Rcpp::stop("Error: Failed to parse filename");
   }
   
   const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
     calculateAllPairsQuartetAgreement(unrootedTrees);
-  
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
   
   return results;
 }
@@ -232,7 +217,7 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiStr(string);
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees  = parser.parseMultiStr(string);
   if (unrootedTrees.size() == 0 || parser.isError()) {
     Rcpp::stop("Error: Failed to parse input string");
   }
@@ -240,10 +225,6 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
     calculateAllPairsQuartetAgreement(unrootedTrees);
   
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
   
   return results;
 }
@@ -253,7 +234,8 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   
   EdgeParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees  = parser.parseEdges(edges);
+  std::vector<std::shared_ptr<UnrootedTree>> unrootedTrees =
+    parser.parseEdges(edges);
   if (unrootedTrees.size() == 0) {
     Rcpp::stop("Error: Failed to parse input edges");
   }
@@ -261,16 +243,11 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
     calculateAllPairsQuartetAgreement(unrootedTrees);
   
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
-  
   return results;
 }
 
 std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
-  calculateAllPairsQuartetAgreement(std::vector<UnrootedTree *> trees) {
+  calculateAllPairsQuartetAgreement(std::vector<std::shared_ptr<UnrootedTree>> trees) {
   
   std::vector<std::vector<std::vector<INTTYPE_N4> > > results(trees.size());
   AE counts;
@@ -278,6 +255,7 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   for(size_t r = 0; r < trees.size(); ++r) {
     for(size_t c = 0; c <= r; ++c) {
       // comparing a tree with itself gives us (A+B+C) / (D+E)
+      
       counts = calculateQuartetAgreement(trees[r], trees[c]);
       std::vector<INTTYPE_N4> ae(2);
       ae[0] = counts.a;
@@ -291,8 +269,8 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
 
 AE QuartetDistanceCalculator::\
   calculateQuartetAgreement(const char *filename1, const char *filename2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
+  std::shared_ptr<UnrootedTree> ut1 = NULL;
+  std::shared_ptr<UnrootedTree> ut2 = NULL;
   NewickParser parser;
 
   ut1 = parser.parseFile(filename1);
@@ -307,16 +285,13 @@ AE QuartetDistanceCalculator::\
 
   AE res = calculateQuartetAgreement(ut1, ut2);
 
-  delete ut1;
-  delete ut2;
-
   return res;
 }
 
 AE QuartetDistanceCalculator::\
   calculateQuartetAgreement(CharacterVector t1, CharacterVector t2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
+  std::shared_ptr<UnrootedTree> ut1 = NULL;
+  std::shared_ptr<UnrootedTree> ut2 = NULL;
   NewickParser parser;
     
   ut1 = parser.parseStr(t1);
@@ -331,16 +306,13 @@ AE QuartetDistanceCalculator::\
 
   AE res = calculateQuartetAgreement(ut1, ut2);
 
-  delete ut1;
-  delete ut2;
-
   return res;
 }
-
+ 
 AE QuartetDistanceCalculator::\
   calculateQuartetAgreement(IntegerMatrix edge1, IntegerMatrix edge2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
+  std::shared_ptr<UnrootedTree> ut1 = NULL;
+  std::shared_ptr<UnrootedTree> ut2 = NULL;
   EdgeParser parser;
 
   ut1 = parser.parseEdge(edge1);
@@ -350,27 +322,24 @@ AE QuartetDistanceCalculator::\
 
   ut2 = parser.parseEdge(edge2);
   if(ut2 == NULL) {
-    delete ut1;
     Rcpp::stop("calculateQuartetDistance failed to parse edge2");
   }
 
-  AE res = calculateQuartetAgreement(ut1, ut2);
-
-  delete ut1;
-  delete ut2;
+  AE res = calculateQuartetAgreement(std::move(ut1), std::move(ut2));
 
   return res;
 }
 
 AE QuartetDistanceCalculator::\
-  calculateQuartetAgreement(UnrootedTree *t1, UnrootedTree *t2) {
+  calculateQuartetAgreement(std::shared_ptr<UnrootedTree> t1, 
+                            std::shared_ptr<UnrootedTree> t2) {
 
   AE res;
-  UnrootedTree *tmp;
+  std::shared_ptr<UnrootedTree> tmp;
   if(t1->maxDegree > t2->maxDegree) { // Smallest degree tree as t1
-    tmp = t1;
-    t1 = t2;
-    t2 = tmp;
+    tmp = std::move(t1);
+    t1 = std::move(t2);
+    t2 = std::move(tmp);
   }
 
   this->t1 = t1->convertToRootedTree(NULL);
@@ -419,8 +388,8 @@ AE QuartetDistanceCalculator::\
 
 INTTYPE_N4 QuartetDistanceCalculator::\
   calculateQuartetDistance(const char *filename1, const char *filename2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
+  std::shared_ptr<UnrootedTree> ut1 = NULL;
+  std::shared_ptr<UnrootedTree> ut2 = NULL;
   NewickParser parser;
   
   ut1 = parser.parseFile(filename1);
@@ -435,16 +404,13 @@ INTTYPE_N4 QuartetDistanceCalculator::\
   
   INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
   
-  delete ut1;
-  delete ut2;
-  
   return res;
 }
 
 INTTYPE_N4 QuartetDistanceCalculator::\
   calculateQuartetDistance(CharacterVector t1, CharacterVector t2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
+  std::shared_ptr<UnrootedTree> ut1 = NULL;
+  std::shared_ptr<UnrootedTree> ut2 = NULL;
   NewickParser parser;
   
   ut1 = parser.parseStr(t1);
@@ -459,9 +425,6 @@ INTTYPE_N4 QuartetDistanceCalculator::\
   
   INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
   
-  delete ut1;
-  delete ut2;
-  
   return res;
 }
 
@@ -473,8 +436,9 @@ INTTYPE_N4 QuartetDistanceCalculator::\
 }
 
 INTTYPE_N4 QuartetDistanceCalculator::\
-  calculateQuartetDistance(UnrootedTree *t1, UnrootedTree *t2) {
-  AE ae = calculateQuartetAgreement(t1, t2);
+  calculateQuartetDistance(std::shared_ptr<UnrootedTree> t1, 
+                           std::shared_ptr<UnrootedTree> t2) {
+  AE ae = calculateQuartetAgreement(std::move(t1), std::move(t2));
   INTTYPE_N4 result = ae.noQuartets - (ae.a + ae.e);
   return result;
 }

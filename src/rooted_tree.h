@@ -1,8 +1,9 @@
 #ifndef ROOTED_TREE_H
 #define ROOTED_TREE_H
 
-#include <vector>
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "int_stuff.h"
 #include "templated_linked_list.h"

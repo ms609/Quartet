@@ -11,20 +11,20 @@
 	{
 		public:
 			~NewickParser() {};
-			UnrootedTree *parseStr(string inputStr);
-			UnrootedTree *parseStr(Rcpp::CharacterVector string);
-			UnrootedTree *parseFile(const char* filename);
-			std::vector<UnrootedTree *> parseMultiFile(const char *filename);
-			std::vector<UnrootedTree *> parseMultiStr(Rcpp::CharacterVector string);
+			std::shared_ptr<UnrootedTree> parseStr(string inputStr);
+			std::shared_ptr<UnrootedTree> parseStr(Rcpp::CharacterVector string);
+			std::shared_ptr<UnrootedTree> parseFile(const char* filename);
+			std::vector<std::shared_ptr<UnrootedTree> > parseMultiFile(const char *filename);
+			std::vector<std::shared_ptr<UnrootedTree> > parseMultiStr(Rcpp::CharacterVector string);
 			bool isError();
 
 		private:
-			UnrootedTree *parseSubTree();
-			UnrootedTree *parseInternal();
-			void ParseBranchSet(UnrootedTree *parent);
+			std::shared_ptr<UnrootedTree> parseSubTree();
+		  std::shared_ptr<UnrootedTree> parseInternal();
+			void ParseBranchSet(std::shared_ptr<UnrootedTree> parent);
 			string parseName();
 			void parseLength();
-			UnrootedTree *parse();
+			std::shared_ptr<UnrootedTree> parse();
 			int getPos();
 
 			string str;

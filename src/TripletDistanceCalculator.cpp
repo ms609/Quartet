@@ -19,15 +19,18 @@ TripletDistanceCalculator::~TripletDistanceCalculator() {
   delete dummyHDTFactory;
 }
 
-std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(const char *filename1, const char *filename2) {
+std::vector<INTTYPE_REST> TripletDistanceCalculator::\
+  pairs_triplet_distance(const char *filename1, const char *filename2) {
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees1 =
+    parser.parseMultiFile(filename1); 
   if (unrootedTrees1.size() == 0 || parser.isError()) {
     stop("Error: Parsing of filename1 failed.");
   }
 
-  std::vector<UnrootedTree *> unrootedTrees2  = parser.parseMultiFile(filename2); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees2 =
+    parser.parseMultiFile(filename2); 
   if (unrootedTrees2.size() == 0 || parser.isError()) {
     stop("Error: Parsing of filename2 failed.");
   }
@@ -36,7 +39,9 @@ std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(cons
 }
 
 
-std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2) {
+std::vector<INTTYPE_REST> TripletDistanceCalculator::\
+  pairs_triplet_distance(std::vector<std::shared_ptr<UnrootedTree> > &unrootedTrees1,
+                         std::vector<std::shared_ptr<UnrootedTree> > &unrootedTrees2) {
   std::vector<INTTYPE_REST> res;
 
   RootedTree *rt1;
@@ -53,23 +58,24 @@ std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(std:
   return res;
 }
 
-std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::calculateAllPairsTripletDistance(const char *filename) {
+std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::\
+  calculateAllPairsTripletDistance(const char *filename) {
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename); 
+  std::vector<std::shared_ptr<UnrootedTree> > unrootedTrees =
+    parser.parseMultiFile(filename); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
     stop("Error: Parsing of filename failed.");
   }
 
-  std::vector<std::vector<INTTYPE_REST> > results = calculateAllPairsTripletDistance(unrootedTrees);
-
-  for(std::vector<UnrootedTree *>::iterator it = unrootedTrees.begin(); it != unrootedTrees.end(); ++it)
-    delete (*it);
+  std::vector<std::vector<INTTYPE_REST> > results = 
+    calculateAllPairsTripletDistance(unrootedTrees);
 
   return results;
 }
 
-std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::calculateAllPairsTripletDistance(std::vector<UnrootedTree *> trees) {
+std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::\
+  calculateAllPairsTripletDistance(std::vector<std::shared_ptr<UnrootedTree> > trees) {
   std::vector<std::vector<INTTYPE_REST> > results(trees.size());
   
   RootedTree *rt1;
@@ -92,9 +98,10 @@ std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::calculateAllP
   return results;
 } 
  
-INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(const char *filename1, const char *filename2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
+INTTYPE_REST TripletDistanceCalculator::\
+  calculateTripletDistance(const char *filename1, const char *filename2) {
+  std::shared_ptr<UnrootedTree> ut1 = NULL;
+  std::shared_ptr<UnrootedTree> ut2 = NULL;
   RootedTree *rt1 = NULL;
   RootedTree *rt2 = NULL;
 
@@ -115,15 +122,14 @@ INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(const char *fil
 
   INTTYPE_REST result = calculateTripletDistance(rt1, rt2);
 
-  if (ut1 != NULL) delete ut1;
-  if (ut2 != NULL) delete ut2;
   if (rt1 != NULL) delete rt1->factory;
   if (rt2 != NULL) delete rt2->factory;
 
   return result;
 }
 
-INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(RootedTree *t1, RootedTree *t2) {
+INTTYPE_REST TripletDistanceCalculator::\
+  calculateTripletDistance(RootedTree *t1, RootedTree *t2) {
   this->t1 = t1;
   t1->pairAltWorld(t2);
   if (t1->isError()) {

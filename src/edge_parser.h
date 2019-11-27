@@ -11,15 +11,15 @@
   {
   public:
     ~EdgeParser() {};
-    UnrootedTree *parseEdge(IntegerMatrix edge);
-    std::vector<UnrootedTree *> parseEdges(ListOf<IntegerMatrix> edges);
+    std::shared_ptr<UnrootedTree> parseEdge(IntegerMatrix edge);
+    std::vector<std::shared_ptr<UnrootedTree>> parseEdges(ListOf<IntegerMatrix> edges);
 
   private:
-    UnrootedTree *parseSubTree();
-    UnrootedTree *parseInternal();
-    void ParseBranchSet(UnrootedTree *parent);
+    std::shared_ptr<UnrootedTree> parseSubTree();
+    std::shared_ptr<UnrootedTree> parseInternal();
+    void ParseBranchSet(std::shared_ptr<UnrootedTree> parent);
     string parseName();
-    UnrootedTree *parse();
+    std::shared_ptr<UnrootedTree> parse();
     int getPos();
     
     IntegerMatrix edg;
