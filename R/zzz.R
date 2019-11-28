@@ -1,7 +1,6 @@
 release_questions <- function() {
   c(
     "Is the code free of #TODOs?",
-    "Have you refreshed the package meta with codemetar::write_codemeta()?",
     "Have you updated the version number in .zenodo.json, NEWS & DESCRIPTION?",
     "Have you checked the Vignettes for sanity?"
   )
