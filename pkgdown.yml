@@ -3,6 +3,5 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   Critical-distances: Critical-distances.html
-  Tree-distance-metric-evaluation: Tree-distance-metric-evaluation.html
   Tree-distance-metrics: Tree-distance-metrics.html
 
