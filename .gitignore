@@ -14,6 +14,7 @@ doc
 *.pdf
 *.trees
 *.zip
+*_cache
 Figures/*.svg
 manuscript/doc
 manuscript/Referee*
@@ -25,7 +26,7 @@ src-*
 src/*.o
 src/*.so
 src/*.dll
-*_cache
+revdep
 SupplementaryFiles/*_files
 vignettes/*.html
 vignettes/*.pdf
