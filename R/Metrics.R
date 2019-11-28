@@ -12,7 +12,7 @@
 #' are their complement (i.e. 1 - _similarity_), and can be calculated 
 #' algebraically using the identity _N_ = _s_ + _d_ + _r1_ + _r2_ + _u_.
 #' 
-#' Although defined using quartets, analagous values can be calculated using partitions
+#' Although defined using quartets, analogous values can be calculated using partitions
 #' -- though for a number of reasons, quartets may offer a more meaningful
 #' measure of the amount of information shared by two trees.
 #' 
