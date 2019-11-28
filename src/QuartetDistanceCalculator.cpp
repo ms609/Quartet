@@ -333,18 +333,17 @@ AE QuartetDistanceCalculator::\
 AE QuartetDistanceCalculator::\
   calculateQuartetAgreement(std::shared_ptr<UnrootedTree> t1, 
                             std::shared_ptr<UnrootedTree> t2) {
-
+  Rcout << "Calculating Quartet Agreement (UT1, UT2);\n";
   AE res;
-  std::shared_ptr<UnrootedTree> tmp;
   if(t1->maxDegree > t2->maxDegree) { // Smallest degree tree as t1
-    tmp = std::move(t1);
-    t1 = std::move(t2);
-    t2 = std::move(tmp);
+    Rcout <<"Swapping!\n";
+    std::swap(t1, t2);
   }
+  Rcout <<"   - T1 > T2.\n";
 
-  this->t1 = t1->convertToRootedTree(NULL);
+  this->t1 = t1->convertToRootedTree(NULL); Rcout << 344;
   this->t2 = t2->convertToRootedTree(this->t1->factory);
-  
+  Rcout << 346;
   this->t1->pairAltWorld(this->t2);
   if (this->t1->isError()) {
     Rcpp::stop("The two trees do not have the same set of leaves.");
@@ -357,11 +356,11 @@ AE QuartetDistanceCalculator::\
   // tqDist comment asserts that countChildren corresponds to 
   // Section 3 of Brodal et al. 2013:
   // Counting unresolved triplets and quartets in a single tree
-  
+  Rcout << 359;
   // Populate this->t1->n with the number of leaves
   countChildren(this->t1);
   
-  
+  Rcout << 363;
   // HDT: Heirarchical Decomposition Tree
   // See Section 4 in Brodal et al. 2013
   hdt = HDT::constructHDT(this->t2, this->t1->maxDegree, dummyHDTFactory);
@@ -374,7 +373,7 @@ AE QuartetDistanceCalculator::\
   count(this->t1);
 
   n = this->t1->n;
-  
+  Rcout << 376;
   res.a = resolvedQuartetsAgree + resolvedQuartetsAgreeDiag + resolvedQuartetsAgreeUpper;
   res.e = unresolvedQuartets;
   res.noQuartets = Util::binom4(n);
@@ -391,17 +390,20 @@ INTTYPE_N4 QuartetDistanceCalculator::\
   std::shared_ptr<UnrootedTree> ut1 = NULL;
   std::shared_ptr<UnrootedTree> ut2 = NULL;
   NewickParser parser;
-  
+  Rcout << "\nSTARHA\n";
   ut1 = parser.parseFile(filename1);
+  Rcout << "ut1 parsed.\n";
   if (ut1 == NULL || parser.isError()) {
     Rcpp::stop("calculateQuartetDistance failed to parse filename1");
   }
   
   ut2 = parser.parseFile(filename2);
+  Rcout << "ut2 parsed.\n";
   if(ut2 == NULL || parser.isError()) {
     Rcpp::stop("calculateQuartetDistance failed to parse filename2");
   }
   
+  Rcout << "About to CQD from ut1, ut2.\n";
   INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
   
   return res;
@@ -414,15 +416,18 @@ INTTYPE_N4 QuartetDistanceCalculator::\
   NewickParser parser;
   
   ut1 = parser.parseStr(t1);
+  Rcout << "Parsed ut1\n";
   if (ut1 == NULL || parser.isError()) {
     Rcpp::stop("calculateQuartetDistance failed to parse filename1");
   }
   
   ut2 = parser.parseStr(t2);
+  Rcout << "Parsed ut2\n";
   if(ut2 == NULL || parser.isError()) {
     Rcpp::stop("calculateQuartetDistance failed to parse filename2");
   }
   
+  Rcout << "Prepare to calculate...\n";
   INTTYPE_N4 res = calculateQuartetDistance(ut1, ut2);
   
   return res;
@@ -438,7 +443,9 @@ INTTYPE_N4 QuartetDistanceCalculator::\
 INTTYPE_N4 QuartetDistanceCalculator::\
   calculateQuartetDistance(std::shared_ptr<UnrootedTree> t1, 
                            std::shared_ptr<UnrootedTree> t2) {
+  Rcout << "Two pointers to UnrootedTrees ready to compare!\n";
   AE ae = calculateQuartetAgreement(std::move(t1), std::move(t2));
+  Rcout << "AE has landed.\n";
   INTTYPE_N4 result = ae.noQuartets - (ae.a + ae.e);
   return result;
 }

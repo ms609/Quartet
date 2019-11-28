@@ -21,7 +21,7 @@
 		private:
 			std::shared_ptr<UnrootedTree> parseSubTree();
 		  std::shared_ptr<UnrootedTree> parseInternal();
-			void ParseBranchSet(std::shared_ptr<UnrootedTree> parent);
+			void ParseBranchSet(UnrootedTree& parent);
 			string parseName();
 			void parseLength();
 			std::shared_ptr<UnrootedTree> parse();

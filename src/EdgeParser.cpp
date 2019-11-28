@@ -27,7 +27,7 @@ std::shared_ptr<UnrootedTree> EdgeParser::parse() {
   nTip = edg(0, 0) - 1;
   it = -1;
   
-  std::shared_ptr<UnrootedTree> t = make_shared<UnrootedTree>(std::to_string(edg(0, 0)));
+  auto t = make_shared<UnrootedTree>(std::to_string(edg(0, 0)));
   ParseBranchSet(t);
   return t;
 }
@@ -41,7 +41,7 @@ void EdgeParser::ParseBranchSet(std::shared_ptr<UnrootedTree> parent) {
     degreeHere++;
     std::shared_ptr<UnrootedTree> child = parseSubTree();
     largestDegreeBelow = max(largestDegreeBelow, child->maxDegree);
-    parent->addEdgeTo(child.get());
+    parent->addEdgeTo(std::move(child));
     if ((it + 1) >= edg.nrow() || edg(it + 1, 0) != subtreeRoot) break;
   }
   
@@ -50,8 +50,7 @@ void EdgeParser::ParseBranchSet(std::shared_ptr<UnrootedTree> parent) {
 
 std::shared_ptr<UnrootedTree> EdgeParser::parseSubTree() {
   if (edg(it, 1) > nTip) {
-    std::shared_ptr<UnrootedTree> internalNode = 
-      make_shared<UnrootedTree>(std::to_string(edg(it, 1)));
+    auto internalNode = make_shared<UnrootedTree>(std::to_string(edg(it, 1)));
     ParseBranchSet(internalNode);
     return internalNode;
   } else {
