@@ -1,7 +1,8 @@
 context("QuartetDistance.R")
 
 data('sq_trees')
-quartets <- read.tree('../trees/all_quartets.new')
+quartets <- read.tree(paste0(system.file(package='Quartet'), 
+                             '/../tests/trees/all_quartets.new'))
 
 test_that("Distances are calculated from strings", {
   set.seed(0)
