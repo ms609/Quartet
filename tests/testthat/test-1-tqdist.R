@@ -98,3 +98,10 @@ test_that("tqDist returns correct triplet distances", {
   expect_equal(allPairs[0 + 1L, 0 + 1L],  0L)
   expect_equal(allPairs[2 + 1L, 1 + 1L],  26L)
 })
+
+test_that("QuartetStatus works", {
+  randomTreeIds <- c(30899669, 9149275, 12823175, 19740197, 31296318,
+                     6949843, 30957991, 32552966, 22770711, 21678908)
+  randomTrees <- ape::as.phylo(randomTreeIds, 11L)
+  expect_false(any(is.na(QuartetStatus(randomTrees, cf=TreeTools::PectinateTree(11)))))
+})

@@ -182,8 +182,8 @@ SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
                ncol=2, dimnames=list(NULL, c('A', 'E')))
   
   if (class(trees) == 'phylo') {
-    nTree <- 1L
     DE <- ResolvedQuartets(trees)[2]
+    nTree <- 1L
     treeNames <- NULL
   } else {
     DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
