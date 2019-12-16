@@ -88,7 +88,7 @@ trees7 <- lapply(logical(3), function (X) {
     tr$tip.label <- LETTERS[1:7]
     tr
   })
-PlotQuartet(trees7, LETTERS[1:4], cex=1.4, font=2)
+Quartet::PlotQuartet(trees7, LETTERS[1:4], cex=1.4, font=2)
 ```
 
 There are $n\choose4$ groups of four taxa in a tree with $n$ tips;
