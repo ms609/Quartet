@@ -96,9 +96,5 @@ quartets in common. Because quartets are not independent of one another,
 no pair of trees with six or more tips can have all $n\choose4$ quartets in
 common [@Steel1993].
 
-# Evaluation
-
-The strengths and limitations of these tree distance metrics are introduced in a [separate vignette](tree-distance-metric-evaluation.html).
-
 # References
  
