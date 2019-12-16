@@ -3,9 +3,7 @@ immediate fix.
 
 ## Test environments
 * local Windows 10 install, R 3.6.1
-* win-builder, with `check_win_devel()`
-* Ubuntu 14.04.5 LTS, R 3.4 and devel, via [Travis CI](https://travis-ci.org/ms609/Quartet)
-* R-hub, with `check_rhub(platforms = rhub::platforms()[[1]])`
+* Ubuntu 16.04.6 LTS, R 3.4 and devel, via [Travis CI](https://travis-ci.org/ms609/Quartet)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
