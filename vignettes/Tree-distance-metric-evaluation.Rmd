@@ -19,11 +19,7 @@ vignette: >
 Tree distance metrics are introduced in an [earlier vignette](tree-distance-metrics.html).
 
 ```{R initialize, echo=FALSE}
-##library('TreeSearch')
-##library('Quartet')
-unloadNamespace('Quartet')
-unloadNamespace('TreeSearch')
-devtools::load_all('c:/research/r/TreeSearch')
+library('TreeSearch')
 library('Quartet')
 cbPalette8 <- Ternary::cbPalette8
 
