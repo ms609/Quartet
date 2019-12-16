@@ -38,7 +38,7 @@ PlotQuartet <- function (tree, quartet, overwritePar=TRUE, caption=TRUE, ...) { 
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
                  "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
-  if (class(tree) == 'phylo') tree <- structure(list(tree), class='multiPhylo')
+  if (inherits(tree, 'phylo')) tree <- structure(list(tree), class='multiPhylo')
   
   n_tip <- length(tree[[1]]$tip.label)
   
@@ -161,15 +161,15 @@ QuartetState <- function (tips, bips) {
 #' @importFrom TreeSearch Tree2Splits
 #' @export
 QuartetStates <- function (splits) {
-  if (class(splits) == 'phylo') {
+  if (inherits(splits, 'phylo')) {
     splits <- list(Tree2Splits(splits))
-  } else if (class(splits) == 'multiPhylo') {
+  } else if (inherits(splits, 'multiPhylo')) {
     splits <- lapply(splits, Tree2Splits)
   }
   
-  if (class(splits) != 'list') splits <- list(splits)
+  if (!inherits(splits, 'list')) splits <- list(splits)
   
-  if (class(splits[[1]]) == 'phylo') splits <- lapply(splits, Tree2Splits)
+  if (inherits(splits[[1]], 'phylo')) splits <- lapply(splits, Tree2Splits)
   
   n_tips <- dim(splits[[1]])[1]
   lapply(splits, function (bips) {

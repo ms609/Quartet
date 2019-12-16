@@ -83,7 +83,9 @@ ManyToManyQuartetAgreement <- function (treeList) {
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
 SingleTreeQuartetAgreement <- function (treeList, comparison) {
-  if (class(treeList) == 'phylo') treeList <- structure(list(treeList), class='multiPhylo')
+  if (inherits(treeList, 'phylo')) {
+    treeList <- structure(list(treeList), class='multiPhylo')
+  }  
   singleFile <- TQFile(comparison)
   multiFile  <- TQFile(treeList)
   on.exit(file.remove(singleFile, multiFile))
@@ -176,8 +178,10 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #' @keywords internal
 #' @export
 TQFile <- function (treeList) {
-  if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
-  if (!class(treeList) %in% c('phylo', 'multiPhylo'))
+  if (inherits(treeList, 'list')){
+    class(treeList) <- 'multiPhylo'
+  }
+  if (!inherits(treeList, c('phylo', 'multiPhylo')))
     stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
   fileName <- tempfile()
   write.tree(treeList, file=fileName)
@@ -256,7 +260,7 @@ PairsQuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (length(trees1) != length(trees2) || class(trees1) != class(trees2)) {
+  if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
   .Call('_Quartet_tqdist_PairsQuartetDistance', as.character(file1), as.character(file2));
@@ -271,7 +275,7 @@ OneToManyQuartetAgreement <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (class(trees1) != "phylo") {
+  if (!inherits(trees1, "phylo")) {
     stop("file1 must contain a single tree")
   }
   if (length(trees2) < 1) {
@@ -316,7 +320,7 @@ PairsTripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (length(trees1) != length(trees2) || class(trees1) != class(trees2)) {
+  if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
   .Call('_Quartet_tqdist_PairsTripletDistance', as.character(file1), as.character(file2));
