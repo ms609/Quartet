@@ -67,9 +67,12 @@ all other tips from the tree will leave one of these three trees:
 
 ```{R Three-four-taxon-trees, echo=FALSE, cache=TRUE, fig.width=6, fig.asp=1/3, out.width='66%', fig.align='center'}
 par(mfrow=c(1, 3), mar=c(0.5, 1, 0.5, 1), cex=1)
-plot(ape::read.tree(text='((A, B), (C, D));'), tip.color=cbPalette8[c(1, 4, 7, 5)], font=2)
-plot(ape::read.tree(text='((A, C), (B, D));'), tip.color=cbPalette8[c(1, 7, 4, 5)], font=2)
-plot(ape::read.tree(text='((A, D), (C, B));'), tip.color=cbPalette8[c(1, 5, 7, 4)], font=2)
+plot(ape::read.tree(text='((A, B), (C, D));'),
+     tip.color=Ternary::cbPalette8[c(1, 4, 7, 5)], font=2)
+plot(ape::read.tree(text='((A, C), (B, D));'),
+     tip.color=Ternary::cbPalette8[c(1, 7, 4, 5)], font=2)
+plot(ape::read.tree(text='((A, D), (C, B));'),
+     tip.color=Ternary::cbPalette8[c(1, 5, 7, 4)], font=2)
 ```
 
 Thus two of the random trees below share the quartet `(A, B), (C, D)`, whereas 
