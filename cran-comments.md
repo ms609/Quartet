@@ -1,5 +1,4 @@
-This release addresses the RNG issue flagged by Kurt Hornik as requiring an 
-immediate fix.
+This release removes `ptr_fun`.
 
 ## Test environments
 * local Windows 10 install, R 3.6.1
@@ -29,5 +28,5 @@ These URLs are generated from DOIs in citations, and are valid.
 
 ## Downstream dependencies
 
-The modifications only affect documentation objects and thus do not impact
-the reverse dependency `CongreveLamsdell2016` (which I maintain).
+The modifications do not impact the reverse dependency `CongreveLamsdell2016` 
+(which I maintain).  

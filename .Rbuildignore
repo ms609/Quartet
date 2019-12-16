@@ -17,3 +17,4 @@ man-roxygen
 data-raw
 /^src\-/
 ^codemeta\.json$
+^CRAN-RELEASE$
