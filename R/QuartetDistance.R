@@ -39,10 +39,7 @@ PlotQuartet <- function (tree, quartet, overwritePar = TRUE,
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
                  "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
-  if (class(tree) == 'phylo') {
-    tree <- structure(list(tree), class='multiPhylo')
-  }
-  
+  if (inherits(tree, 'phylo')) tree <- structure(list(tree), class='multiPhylo')
   n_tip <- length(tree[[1]]$tip.label)
   
   if (overwritePar) {
@@ -190,11 +187,11 @@ QuartetStates <- function (splits) {
   allQuartets <- AllQuartets(nTip)
   
   subs <- vapply(allQuartets, function (tips) {
-    ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),
-                  function (x) {if (length(x)) as.integer(x) else NA},
-                  integer(1L))
-    if (length(ret) == 0L) ret <- rep(NA, outLength)
-    ret
+  ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),	
+                function (x) {if (length(x)) as.integer(x) else NA},	
+                integer(1L))	
+  if (length(ret) == 0L) ret <- rep(NA, outLength)	
+  ret	
   }, integer(outLength))
   
   # Return:

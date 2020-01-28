@@ -29,5 +29,5 @@ These URLs are generated from DOIs in citations, and are valid.
 
 ## Downstream dependencies
 
-The modifications only affect documentation objects and thus do not impact
-the reverse dependency `CongreveLamsdell2016` (which I maintain).
+The modifications do not impact the reverse dependency `CongreveLamsdell2016` 
+(which I maintain).  

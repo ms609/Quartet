@@ -173,24 +173,16 @@ TwoListQuartetAgreement <- function (trees1, trees2) {
 #'   number of quartets in each category.  
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
-SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
-
-  if (class(trees) == 'phylo') trees <- list(trees)
-  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge', 
+SingleTreeQuartetAgreement <- function (trees, comparison) {
+  if (inherits(trees, 'phylo')) trees <- list(trees)	
+  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge',
                      .TreeToEdge(comparison),
                      .TreeToEdge(trees, comparison$tip.label)),
                ncol=2, dimnames=list(NULL, c('A', 'E')))
   
-  if (class(trees) == 'phylo') {
-    DE <- ResolvedQuartets(trees)[2]
-    nTree <- 1L
-    treeNames <- NULL
-  } else {
-    DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
-    nTree <- length(DE)
-    treeNames <- names(trees)
-  }
-  
+  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
+  nTree <- length(DE)
+
   A   <- AE[, 1]
   E   <- AE[, 2]
   rq <- ResolvedQuartets(comparison)
@@ -204,7 +196,7 @@ SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
   
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
-        dimnames=list(treeNames, c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
+        dimnames=list(names(trees), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
 #' tqDist file generator
@@ -219,8 +211,10 @@ SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
 #' @keywords internal
 #' @export
 TQFile <- function (treeList) {
-  if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
-  if (!class(treeList) %in% c('phylo', 'multiPhylo'))
+  if (inherits(treeList, 'list')){
+    class(treeList) <- 'multiPhylo'
+  }
+  if (!inherits(treeList, c('phylo', 'multiPhylo')))
     stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
   fileName <- tempfile()
   write.tree(treeList, file=fileName)
@@ -299,7 +293,7 @@ PairsQuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (length(trees1) != length(trees2) || class(trees1) != class(trees2)) {
+  if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
   .Call('_Quartet_tqdist_PairsQuartetDistance', as.character(file1), as.character(file2));
@@ -314,7 +308,7 @@ OneToManyQuartetAgreement <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (class(trees1) != "phylo") {
+  if (!inherits(trees1, "phylo")) {
     stop("file1 must contain a single tree")
   }
   if (length(trees2) < 1) {
@@ -397,7 +391,7 @@ PairsTripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (length(trees1) != length(trees2) || class(trees1) != class(trees2)) {
+  if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
   .Call('_Quartet_tqdist_PairsTripletDistance', as.character(file1), as.character(file2));
