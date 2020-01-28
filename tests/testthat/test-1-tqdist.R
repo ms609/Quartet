@@ -1,8 +1,7 @@
 context("tqDist tests")
 
 TreePath <- function (fileName) {
-  paste0(system.file(package='Quartet'), '/trees/',
-         fileName, '.new')
+  paste0(system.file(package='Quartet'), '/trees/', fileName, '.new')
 }
 
 test_that("tqDist returns correct quartet distances", {
