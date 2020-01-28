@@ -173,16 +173,15 @@ TwoListQuartetAgreement <- function (trees1, trees2) {
 #'   number of quartets in each category.  
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
-SingleTreeQuartetAgreement <- function (treeList, comparison) {
-  if (inherits(treeList, 'phylo')) treeList <- list(treeList)	
+SingleTreeQuartetAgreement <- function (trees, comparison) {
+  if (inherits(trees, 'phylo')) trees <- list(trees)	
   AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge',
                      .TreeToEdge(comparison),
-                     .TreeToEdge(treeList, comparison$tip.label)),
+                     .TreeToEdge(trees, comparison$tip.label)),
                ncol=2, dimnames=list(NULL, c('A', 'E')))
   
-  DE <- vapply(treeList, ResolvedQuartets, integer(2))[2, ]
+  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
   nTree <- length(DE)
-  treeNames <- names(treeList)
 
   A   <- AE[, 1]
   E   <- AE[, 2]
@@ -197,7 +196,7 @@ SingleTreeQuartetAgreement <- function (treeList, comparison) {
   
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
-        dimnames=list(treeNames, c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
+        dimnames=list(names(trees), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
 #' tqDist file generator

@@ -16,7 +16,7 @@ ManyToManyQuartetAgreement(trees)
 
 TwoListQuartetAgreement(trees1, trees2)
 
-SingleTreeQuartetAgreement(treeList, comparison)
+SingleTreeQuartetAgreement(trees, comparison)
 }
 \arguments{
 \item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}},
