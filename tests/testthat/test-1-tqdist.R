@@ -1,7 +1,7 @@
 context("tqDist tests")
 
 TreePath <- function (fileName) {
-  paste0(system.file(package='Quartet'), '/../tests/trees/',
+  paste0(system.file(package='Quartet'), '/trees/',
          fileName, '.new')
 }
 
