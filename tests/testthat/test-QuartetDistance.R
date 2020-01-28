@@ -23,7 +23,7 @@ test_that("Distances are calculated from strings", {
 })
 
 test_that("Splits are compared", {
-  trees <- UnshiftTree(
+  trees <- TreeTools::UnshiftTree(
     ape::drop.tip(sq_trees$move_one_near, 10),
     ape::drop.tip(sq_trees$ref_tree, 11))
   expect_equal(c(N=252L, Q=126L, s=120L, d=6L, r1=0L, r2=0L, u=0L), 
