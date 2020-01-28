@@ -1,5 +1,8 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "Quartet",
   "description": "Calculates the number of four-taxon subtrees consistent with a pair\n  of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),\n  Reconstructing the shape of a tree from observed dissimilarity data,\n  Advances in Applied Mathematics, 7, 309-343 <doi:10.1016/0196-8858(86)90038-2>, \n  and using the tqDist algorithm of Sand et al. (2014), tqDist: a library for\n  computing the quartet and triplet distances between binary or general trees,\n  Bioinformatics, 30, 2079–2080 <doi:10.1093/bioinformatics/btu157>\n  for pairs of bifurcating trees.",
@@ -223,10 +226,20 @@
   ],
   "releaseNotes": "https://github.com/ms609/SlowQuartet.git/blob/master/NEWS.md",
   "readme": "https://github.com/ms609/Quartet/blob/master/README.md",
-  "fileSize": "130.019KB",
+  "fileSize": "130.512KB",
   "contIntegration": ["https://travis-ci.org/ms609/Quartet", "https://codecov.io/gh/ms609/Quartet"],
   "developmentStatus": "https://www.repostatus.org/#inactive",
-  "keywords": ["phylogenetics", "bioinformatics", "research-tool", "quartet", "tree", "cran", "phylogenetic-trees", "quartet-distance", "comparison"],
+  "keywords": [
+    "phylogenetics",
+    "bioinformatics",
+    "research-tool",
+    "quartet",
+    "tree",
+    "cran",
+    "phylogenetic-trees",
+    "quartet-distance",
+    "comparison"
+  ],
   "citation": [
     {
       "@type": "SoftwareSourceCode",
