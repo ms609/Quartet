@@ -2,7 +2,8 @@
 
  - Pass trees directly to C, without writing to temporary intermediate file.
  - Use `TreeTools` in place of `TreeSearch`, supporting new `Splits` class.
- - Facilitate comparison between lists of multiple trees
+ - Facilitate comparison between lists of multiple trees.
+ - Fix Latex error in vignettes.
 
 # Quartet v1.0.3
 
