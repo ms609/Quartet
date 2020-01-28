@@ -18,7 +18,7 @@ test_that("Distances are calculated from strings", {
   expect_equal(AllPairsQuartetAgreement(fileName),
                TQAE(trees))
   expect_equal(ManyToManyQuartetAgreement(trees)[1, , ],
-               SingleTreeQuartetAgreement(trees)[, 3:7])
+               SingleTreeQuartetAgreement(trees, trees[[1]])[, 3:7])
   
 })
 

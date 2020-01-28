@@ -174,15 +174,15 @@ TwoListQuartetAgreement <- function (trees1, trees2) {
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
 SingleTreeQuartetAgreement <- function (treeList, comparison) {
-  if (inherits(treeList, 'phylo')) {
-    treeList <- structure(list(treeList), class='multiPhylo')
-  }  
-  singleFile <- TQFile(comparison)
-  multiFile  <- TQFile(treeList)
-  on.exit(file.remove(singleFile, multiFile))
-  AE <- OneToManyQuartetAgreement(singleFile, multiFile)
+  if (inherits(treeList, 'phylo')) treeList <- list(treeList)	
+  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge',
+                     .TreeToEdge(comparison),
+                     .TreeToEdge(treeList, comparison$tip.label)),
+               ncol=2, dimnames=list(NULL, c('A', 'E')))
+  
   DE <- vapply(treeList, ResolvedQuartets, integer(2))[2, ]
   nTree <- length(DE)
+  treeNames <- names(treeList)
 
   A   <- AE[, 1]
   E   <- AE[, 2]

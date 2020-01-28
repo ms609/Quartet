@@ -181,16 +181,19 @@ QuartetState <- function (tips, bips, splits = bips) {
 #' @importFrom TreeTools as.Splits NTip
 #' @export
 QuartetStates <- function (splits) {
-  if (inherits(splits, 'phylo')) {
-    splits <- list(Tree2Splits(splits))
-  } else if (inherits(splits, 'multiPhylo')) {
-    splits <- lapply(splits, Tree2Splits)
-  }
+  splits <- as.Splits(splits)
+  outLength <- if (mode(splits) == 'list') length(splits) else 1L
+  nTip <- NTip(splits)[1]
+  allQuartets <- AllQuartets(nTip)
   
-  if (!inherits(splits, 'list')) splits <- list(splits)
+  subs <- vapply(allQuartets, function (tips) {
+  ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),	
+                function (x) {if (length(x)) as.integer(x) else NA},	
+                integer(1L))	
+  if (length(ret) == 0L) ret <- rep(NA, outLength)	
+  ret	
+  }, integer(outLength))
   
-  if (inherits(splits[[1]], 'phylo')) splits <- lapply(splits, Tree2Splits)
-
   # Return:
   ifelse(is.na(subs), 0L,
          ifelse(subs == 3L | subs == 12L, 2L,
