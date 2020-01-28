@@ -6,6 +6,7 @@
 * R-hub, with `check_rhub(platforms = rhub::platforms()[[1]])`
 
 ## R CMD check results
+There were no ERRORs or WARNINGs:
 
 There was one NOTE:
 
