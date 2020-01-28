@@ -92,8 +92,8 @@ each other tree therein.
 }
 \seealso{
 \itemize{
-\item \code{\link{QuartetStatus}} takes trees, rather than files, as input.
-\item \code{\link{TQFile}} creates a temporary file containing specified trees.
+\item \code{\link[=QuartetStatus]{QuartetStatus()}} takes trees, rather than files, as input.
+\item \code{\link[=TQFile]{TQFile()}} creates a temporary file containing specified trees.
 }
 }
 \author{

@@ -10,7 +10,7 @@
 #' trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
 #' 
 #' 
-#' If trees do not bear the same number of tips, `SharedQuartetStatus` will 
+#' If trees do not bear the same number of tips, `SharedQuartetStatus()` will 
 #' consider only the quartets that include taxa common to both trees.
 #' 
 #' From this information it is possible to calculate how many of all possible
@@ -45,7 +45,7 @@
 #'  SimilarityMetrics(sq_status)
 #'  
 #' @family element-by-element comparisons
-#' @seealso `\link{SplitStatus}`: Uses bipartition splits (groups/clades defined by
+#' @seealso `\link{SplitStatus}`: Uses splits (groups/clades defined by
 #'  nodes or edges of the tree) instead of quartets as the unit of comparison.
 #'  
 #'  [`SimilarityMetrics`]: Generates distance metrics from quartet statuses.
@@ -98,7 +98,7 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #'   
 #'   \insertRef{Sand2014}{Quartet}
 #' 
-#' @seealso [`CompareQuartets`], [`QuartetStatus`]
+#' @seealso [`CompareQuartets()`], [`QuartetStatus()`]
 #' 
 #' @importFrom ape write.tree
 #' @template MRS
@@ -148,7 +148,7 @@ ManyToManyQuartetAgreement <- function (trees) {
 }
 
 #' @describeIn QuartetStatus Agreement of each quartet in trees in one list with
-#' eaceh quartet in trees in a second list.
+#' each quartet in trees in a second list.
 #' @param trees1,trees2 List or `multiPhylo` objects containing
 #'   trees of class `phylo`.
 #' @return `TwoListQuartetAgreement` returns a three-dimensional array listing,
@@ -248,8 +248,8 @@ TQFile <- function (treeList) {
 #'   * R interface: Martin R. Smith.
 #' 
 #' @seealso 
-#' * [`QuartetStatus`] takes trees, rather than files, as input.
-#' * [`TQFile`] creates a temporary file containing specified trees.
+#' * [`QuartetStatus()`] takes trees, rather than files, as input.
+#' * [`TQFile()`] creates a temporary file containing specified trees.
 #' 
 #' 
 #' @references {

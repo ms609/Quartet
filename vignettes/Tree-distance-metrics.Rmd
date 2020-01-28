@@ -49,8 +49,8 @@ The related nodal distance [@Bluis2003] is not considered further here.
 The Robinson-Foulds (RF or 'partition') metric [@Robinson1981; @Steel1993;
 phangorn's `r PhangornDist('RF.dist')` or this package's `RobinsonFoulds`]
 measures the symmetric difference between two trees by adding
-the number of bipartitions that are present in tree A (but not tree B)
-to the number of bipartitions present in tree B (but not tree A).  
+the number of splits that are present in tree A (but not tree B)
+to the number of splits present in tree B (but not tree A).  
 
 It is most useful when the trees to be compared are very similar; it has
 a low range of integer values, limiting its ability to distinguish between
@@ -61,7 +61,7 @@ Instead of partitions, symmetric differences can be measured by counting the
 number of four-taxon statements (quartets) that differ between two trees
 [@Estabrook1985;@Day1986].
 
-For any four tips A, B, C and D, a bipartition on a bifurcating tree will separate
+For any four tips A, B, C and D, a split on a bifurcating tree will separate
 tip A and either B, C or D from the other two tips.  That is to say, removing
 all other tips from the tree will leave one of these three trees:
 

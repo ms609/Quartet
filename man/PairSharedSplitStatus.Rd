@@ -10,11 +10,11 @@ PairSharedSplitStatus(ref, cf)
 \item{ref, cf}{Trees of class \code{\link[ape:read.tree]{phylo}} to compare.}
 }
 \value{
-Named integer of length 6, as per \link{CompareSplits}
+Named integer of length 6, as per \code{\link[=CompareSplits]{CompareSplits()}}
 }
 \description{
 Removes all tips that do not occur in both \code{ref} and \code{cf}, then calculates
-the status of the remaining splits
+the status of the remaining splits.
 }
 \examples{
 

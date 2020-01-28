@@ -24,7 +24,7 @@
 #' 
 #' * SemiStrict Joint Assertions (SSJA): _s_ / (_s_ + _d_ + _u_)
 #' 
-#' (The numerator of the Semistrict Joint Assertions similarity metric is given in
+#' (The numerator of the SemiStrict Joint Assertions similarity metric is given in
 #'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is understood, with
 #'  reference to the text to be a typographic error.)
 #' 
@@ -70,10 +70,10 @@
 #'   similarity (or difference) between the trees.
 #'
 #' @seealso 
-#'   * [QuartetStatus]: Calculate status of each quartet: the raw material 
+#'   * [`QuartetStatus()`]: Calculate status of each quartet: the raw material 
 #'     from which the Estabrook _et al._ metrics are calculated.
 #'     
-#'   * [SplitStatus], [CompareSplits]: equivalent metrics for bipartition splits.
+#'   * [`SplitStatus()`], [`CompareSplits()`]: equivalent metrics for bipartition splits.
 #'
 #' @examples 
 #'   data('sq_trees')

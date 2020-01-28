@@ -65,7 +65,7 @@ reference tree (the first entry in \code{trees}, if \code{cf} is not specified)
 that are also present in each other tree.  A random pair of fully resolved
 trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
 
-If trees do not bear the same number of tips, \code{SharedQuartetStatus} will
+If trees do not bear the same number of tips, \code{SharedQuartetStatus()} will
 consider only the quartets that include taxa common to both trees.
 
 From this information it is possible to calculate how many of all possible
@@ -86,7 +86,7 @@ tips that do not occur in both trees being compared.
 in a list.
 
 \item \code{TwoListQuartetAgreement}: Agreement of each quartet in trees in one list with
-eaceh quartet in trees in a second list.
+each quartet in trees in a second list.
 
 \item \code{SingleTreeQuartetAgreement}: Agreement of each quartet in trees in a list with the
 quartets in a comparison tree.
@@ -124,7 +124,7 @@ quartets in a comparison tree.
 }
 }
 \seealso{
-\code{\link{SplitStatus}}: Uses bipartition splits (groups/clades defined by
+\code{\link{SplitStatus}}: Uses splits (groups/clades defined by
 nodes or edges of the tree) instead of quartets as the unit of comparison.
 
 \code{\link{SimilarityMetrics}}: Generates distance metrics from quartet statuses.
