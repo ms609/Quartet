@@ -224,7 +224,7 @@
       "identifier": "https://sysreqs.r-hub.io/get/cxx11"
     }
   ],
-  "releaseNotes": "https://github.com/ms609/SlowQuartet.git/blob/master/NEWS.md",
+  "releaseNotes": "https://github.com/ms609/Quartet.git/blob/master/NEWS.md",
   "readme": "https://github.com/ms609/Quartet/blob/master/README.md",
   "fileSize": "130.512KB",
   "contIntegration": ["https://travis-ci.org/ms609/Quartet", "https://codecov.io/gh/ms609/Quartet"],

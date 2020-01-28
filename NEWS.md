@@ -22,6 +22,7 @@
  - Improved portability of C++ code.
 
 # Quartet v1.0.0
+
 ## New features
  - Add functions to generate ternary plots from tree similarity measures.
  
