@@ -217,11 +217,11 @@ doi: <a href='https://doi.org/10.2307/2413347'>10.2307/2413347</a>
   <span class='fu'><a href='SimilarityMetrics.html'>RobinsonFoulds</a></span>(<span class='no'>splitStatuses</span>)
 
   <span class='co'># Normalize the Robinson Foulds distance by dividing by the number of </span>
-  <span class='co'># splits (bipartitions) present in the two trees:</span>
+  <span class='co'># splits present in the two trees:</span>
   <span class='fu'><a href='SimilarityMetrics.html'>RobinsonFoulds</a></span>(<span class='no'>splitStatuses</span>) / <span class='no'>splitStatuses</span>[, <span class='st'>'N'</span>]
 
   <span class='co'># Normalize the Robinson Foulds distance by dividing by the total number of </span>
-  <span class='co'># splits (bipartitions) that it is possible to resolve for `n` tips:</span>
+  <span class='co'># splits that it is possible to resolve for `n` tips:</span>
   <span class='no'>nTip</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>sq_trees</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>tip.label</span>)
   <span class='no'>nPartitions</span> <span class='kw'>&lt;-</span> <span class='fl'>2</span> * (<span class='no'>nTip</span> - <span class='fl'>3L</span>) <span class='co'># Does not include the nTip partitions that </span>
                                  <span class='co'># comprise but a single tip</span>

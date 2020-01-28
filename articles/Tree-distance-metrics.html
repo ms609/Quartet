@@ -117,18 +117,18 @@
 <div id="partition-metric" class="section level2">
 <h2 class="hasAnchor">
 <a href="#partition-metric" class="anchor"></a>Partition metric</h2>
-<p>The Robinson-Foulds (RF or ‘partition’) metric [<span class="citation">Robinson &amp; Foulds (1981)</span>; <span class="citation">Steel &amp; Penny (1993)</span>; phangorn’s <a href="https://www.rdocumentation.org/packages/phangorn/topics/treedist%5D"><code>RF.dist</code></a> or this package’s <code>RobinsonFoulds</code>] measures the symmetric difference between two trees by adding the number of bipartitions that are present in tree A (but not tree B) to the number of bipartitions present in tree B (but not tree A).</p>
+<p>The Robinson-Foulds (RF or ‘partition’) metric [<span class="citation">Robinson &amp; Foulds (1981)</span>; <span class="citation">Steel &amp; Penny (1993)</span>; phangorn’s <a href="https://www.rdocumentation.org/packages/phangorn/topics/treedist%5D"><code>RF.dist</code></a> or this package’s <code>RobinsonFoulds</code>] measures the symmetric difference between two trees by adding the number of splits that are present in tree A (but not tree B) to the number of splits present in tree B (but not tree A).</p>
 <p>It is most useful when the trees to be compared are very similar; it has a low range of integer values, limiting its ability to distinguish between trees <span class="citation">(Steel &amp; Penny, 1993)</span>.</p>
 </div>
 <div id="quartet-metric" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quartet-metric" class="anchor"></a>Quartet metric</h2>
 <p>Instead of partitions, symmetric differences can be measured by counting the number of four-taxon statements (quartets) that differ between two trees <span class="citation">(Day, 1986; Estabrook, McMorris, &amp; Meacham, 1985)</span>.</p>
-<p>For any four tips A, B, C and D, a bipartition on a bifurcating tree will separate tip A and either B, C or D from the other two tips. That is to say, removing all other tips from the tree will leave one of these three trees:</p>
+<p>For any four tips A, B, C and D, a split on a bifurcating tree will separate tip A and either B, C or D from the other two tips. That is to say, removing all other tips from the tree will leave one of these three trees:</p>
 <p><img src="Tree-distance-metrics_files/figure-html/Three-four-taxon-trees-1.png" width="66%" style="display: block; margin: auto;"></p>
 <p>Thus two of the random trees below share the quartet <code>(A, B), (C, D)</code>, whereas the third does not; these four tips are divided into <code>(A, D), (B, C)</code>.</p>
 <p><img src="Tree-distance-metrics_files/figure-html/Plot-a-quartet-1.png" width="80%" style="display: block; margin: auto;"></p>
-<p>There are <span class="math inline">\(n\choose4\)</span> groups of four taxa in a tree with <span class="math inline">\(n\)</span> tips; for each of these groups, one of the three trees above will be consistent with a given tree. As such, two identical trees will have a quartet distance of 0, and a random pair of trees will have an expected <span class="math inline">\({n\choose{4}} / 3\)</span> quartets in common. Because quartets are not independent of one another, no pair of trees with six or more tips can have all <span class="math inline">\(n\choose4\)</span> quartets in common <span class="citation">(Steel &amp; Penny, 1993)</span>.</p>
+<p>There are <span class="math inline">\(\binom{n}{4}\)</span> groups of four taxa in a tree with <span class="math inline">\(n\)</span> tips; for each of these groups, one of the three trees above will be consistent with a given tree. As such, two identical trees will have a quartet distance of 0, and a random pair of trees will have an expected <span class="math inline">\(\binom{n}{4} / 3\)</span> quartets in common. Because quartets are not independent of one another, no pair of trees with six or more tips can have all <span class="math inline">\(\binom{n}{4}\)</span> quartets in common <span class="citation">(Steel &amp; Penny, 1993)</span>.</p>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">

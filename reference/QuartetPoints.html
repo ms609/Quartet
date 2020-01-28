@@ -162,7 +162,7 @@ amount of information that they have in common with the comparison
 tree (which defaults to the first member of the list, if unspecified).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The ternary plot will depict the number of quartets or bipartitions that are:</p><ul>
+    <p>The ternary plot will depict the number of quartets or splits that are:</p><ul>
 <li><p>resolved in the reference tree (<code>cf</code>), but neither present nor contradicted
 in each comparison tree (<code>trees</code>);</p></li>
 <li><p>resolved differently in the reference and the comparison tree;</p></li>
@@ -201,7 +201,7 @@ doi: <a href='https://doi.org/10.1098/rsbl.2018.0632'>10.1098/rsbl.2018.0632</a>
     <span class='kw'>col</span><span class='kw'>=</span><span class='kw pkg'>Ternary</span><span class='kw ns'>::</span><span class='no'><a href='https://ms609.github.io/Ternary/reference/cbPalette8.html'>cbPalette8</a></span>[<span class='fl'>2</span>], <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.8</span>)
   <span class='fu'><a href='https://ms609.github.io/Ternary/reference/AddToTernary.html'>TernaryText</a></span>(<span class='fu'>SplitPoints</span>(<span class='no'>sq_trees</span>, <span class='kw'>cf</span><span class='kw'>=</span><span class='no'>sq_trees</span>$<span class='no'>collapse_one</span>), <span class='fl'>1</span>:<span class='fl'>15</span>,
     <span class='kw'>col</span><span class='kw'>=</span><span class='kw pkg'>Ternary</span><span class='kw ns'>::</span><span class='no'><a href='https://ms609.github.io/Ternary/reference/cbPalette8.html'>cbPalette8</a></span>[<span class='fl'>3</span>], <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.8</span>)
-  <span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>'bottomright'</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Quartets"</span>, <span class='st'>"Bipartitions"</span>), <span class='kw'>bty</span><span class='kw'>=</span><span class='st'>'n'</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.8</span>,
+  <span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>'bottomright'</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Quartets"</span>, <span class='st'>"Splits"</span>), <span class='kw'>bty</span><span class='kw'>=</span><span class='st'>'n'</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.8</span>,
     <span class='kw'>col</span><span class='kw'>=</span><span class='kw pkg'>Ternary</span><span class='kw ns'>::</span><span class='no'><a href='https://ms609.github.io/Ternary/reference/cbPalette8.html'>cbPalette8</a></span>[<span class='fl'>2</span>:<span class='fl'>3</span>])
 
 }</div><div class='img'><img src='QuartetPoints-1.png' alt='' width='700' height='433' /></div><div class='input'>

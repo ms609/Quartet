@@ -197,7 +197,7 @@ The <code>comparison</code> tree is treated as <code>tree2</code>.</p>
 reference tree (the first entry in <code>trees</code>, if <code>cf</code> is not specified)
 that are also present in each other tree.  A random pair of fully resolved
 trees is expected to share <code>choose(n_tip, 4) / 3</code> quartets.</p>
-<p>If trees do not bear the same number of tips, <code>SharedQuartetStatus</code> will
+<p>If trees do not bear the same number of tips, <code>SharedQuartetStatus()</code> will
 consider only the quartets that include taxa common to both trees.</p>
 <p>From this information it is possible to calculate how many of all possible
 quartets occur in one tree or the other, though there is not yet a function
@@ -215,7 +215,7 @@ tips that do not occur in both trees being compared.</p></li>
 <li><p><code>ManyToManyQuartetAgreement</code>: Agreement of each quartet, comparing each pair of trees
 in a list.</p></li>
 <li><p><code>TwoListQuartetAgreement</code>: Agreement of each quartet in trees in one list with
-eaceh quartet in trees in a second list.</p></li>
+each quartet in trees in a second list.</p></li>
 <li><p><code>SingleTreeQuartetAgreement</code>: Agreement of each quartet in trees in a list with the
 quartets in a comparison tree.</p></li>
 </ul>
@@ -238,7 +238,7 @@ ISSN 1460-2059, doi: <a href='https://doi.org/10.1093/bioinformatics/btu157'>10.
 .</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>\link{SplitStatus}</code>: Uses bipartition splits (groups/clades defined by
+    <div class='dont-index'><p><code>\link{SplitStatus}</code>: Uses splits (groups/clades defined by
 nodes or edges of the tree) instead of quartets as the unit of comparison.</p>
 <p><code><a href='SimilarityMetrics.html'>SimilarityMetrics</a></code>: Generates distance metrics from quartet statuses.</p>
 <p>Other element-by-element comparisons: 
