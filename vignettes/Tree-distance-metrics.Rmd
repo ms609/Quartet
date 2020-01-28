@@ -91,12 +91,12 @@ trees7 <- lapply(logical(3), function (X) {
 Quartet::PlotQuartet(trees7, LETTERS[1:4], cex=1.4, font=2)
 ```
 
-There are $n\choose4$ groups of four taxa in a tree with $n$ tips;
+There are $\binom{n}{4}$ groups of four taxa in a tree with $n$ tips;
 for each of these groups, one of the three trees above will be consistent with
 a given tree.  As such, two identical trees will have a quartet distance of
-0, and a random pair of trees will have an expected ${n\choose{4}} / 3$
+0, and a random pair of trees will have an expected $\binom{n}{4} / 3$
 quartets in common. Because quartets are not independent of one another,
-no pair of trees with six or more tips can have all $n\choose4$ quartets in
+no pair of trees with six or more tips can have all $\binom{n}{4}$ quartets in
 common [@Steel1993].
 
 # References
