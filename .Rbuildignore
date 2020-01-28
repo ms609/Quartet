@@ -13,7 +13,8 @@ cran-comments.md
 /^\.git/
 ^.*\.Rproj$
 ^vignettes/.*_cache/.*$
-man-roxygen
 data-raw
+man-roxygen
+revdep
 /^src\-/
 ^codemeta\.json$
