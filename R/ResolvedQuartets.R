@@ -10,7 +10,7 @@
 #' @return A vector of length two, listing the number of quartets (or triplets)
 #'  that are \[1\] resolved; \[2\] unresolved in the specified tree.
 #'         
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @family quartet counting functions
 #' 
@@ -26,10 +26,10 @@
 #' 
 #' @references \insertRef{Brodal2013}{Quartet}
 #' 
-#' @importFrom TreeSearch Renumber
+## @importFrom TreeTools Renumber
 #' @export 
 ResolvedQuartets <- function (tree, countTriplets = FALSE) {
-  tree <- Renumber(tree)
+  #tree <- Renumber(tree)
   nTip <- length(tree$tip.label)
   nNode <- tree$Nnode
   

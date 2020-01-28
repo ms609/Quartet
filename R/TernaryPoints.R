@@ -40,7 +40,7 @@
 #' @references 
 #' \insertRef{Smith2019}{Quartet}
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #' 
 #' @export
 QuartetPoints <- function (trees, cf = trees[[1]]) {
@@ -78,7 +78,7 @@ BipartitionPoints <- SplitPoints
 #' `r2a`, `da`, `sa`, `r2b`, `db` and `sb`.
 #' Lines from `a` to `b` in each row connect points of equal symmetric difference.
 #' 
-#' @author Martin R. Smith
+#' @template MRS
 #' @export
 SymmetricDifferenceLineEnds <- function (nsd) {
   if (any(nsd < 0 | nsd > 1)) stop("nsd must be between 0 and 1")

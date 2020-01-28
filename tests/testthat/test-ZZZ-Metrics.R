@@ -2,6 +2,9 @@ context("Distances: Quartet distances")
 
 data('sq_trees')
 ref_tree <- sq_trees$ref_tree
+Metrics <- list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions,
+                SemiStrictJointAssertions, SymmetricDifference,
+                MarczewskiSteinhaus, SteelPenny, QuartetDivergence)
 
 test_that("Quartets are counted correctly", {
   easyTreesy <- list(
@@ -41,14 +44,14 @@ test_that("Quartet metrics are sane", {
   expect_equal(sims[, 'QuartetDivergence'], as.double(QuartetDivergence(sq_status)))
   
   testData <- c(N=16L, Q=8, s=1, d=2, r1=1, r2=1, u=3)
-  expect_equal(2/8, DoNotConflict(testData, FALSE))
-  expect_equal(7/8, ExplicitlyAgree(testData, FALSE))
-  expect_equal(c(tree=2/3), StrictJointAssertions(testData, FALSE))
-  expect_equal(c(tree=2/6), SemiStrictJointAssertions(testData, FALSE))
-  expect_equal(c(tree=6/8), SymmetricDifference(testData, FALSE))
-  expect_equal(c(tree=6/7), MarczewskiSteinhaus(testData, FALSE))
-  expect_equal(c(tree=4/8), SteelPenny(testData, FALSE))
-  expect_equal(c(tree=6/16), QuartetDivergence(testData, FALSE))
+  expect_equal(c(tree = 2/8), DoNotConflict(testData, FALSE))
+  expect_equal(c(tree = 7/8), ExplicitlyAgree(testData, FALSE))
+  expect_equal(c(tree = 2/3), StrictJointAssertions(testData, FALSE))
+  expect_equal(c(tree = 2/6), SemiStrictJointAssertions(testData, FALSE))
+  expect_equal(c(tree = 6/8), SymmetricDifference(testData, FALSE))
+  expect_equal(c(tree = 6/7), MarczewskiSteinhaus(testData, FALSE))
+  expect_equal(c(tree = 4/8), SteelPenny(testData, FALSE))
+  expect_equal(c(tree = 6/16), QuartetDivergence(testData, FALSE))
   
   # Metrics should be identical with bifurcating trees.
   treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
@@ -57,11 +60,19 @@ test_that("Quartet metrics are sane", {
   expect_true(all(apply(sims[bifurcators, colnames(sims) != 'MarczewskiSteinhaus'],
                         1, var) < 1e-08))
   
-  fncs <- vapply(list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions,
-                      SemiStrictJointAssertions, SymmetricDifference,
-                      MarczewskiSteinhaus, SteelPenny, QuartetDivergence),
-                 function (X) X(sq_status), double(length(sq_trees)))
+  fncs <- vapply(Metrics, function (X) X(sq_status), double(length(sq_trees)))
   expect_true(all(fncs - sims < 1e-08))
+})
+
+test_that('Three-dimensional calculation is correct', {
+  testTrees <- sq_trees[11:18]
+  test2 <- sq_trees[5:6]
+  lapply(Metrics, function (Func) {
+    expect_equal(Func(QuartetStatus(testTrees)),
+      Func(ManyToManyQuartetAgreement(testTrees))[, 1])
+    expect_equal(Func(QuartetStatus(testTrees, test2[[1]])),
+      Func(TwoListQuartetAgreement(testTrees, test2))[, 1])
+  })
 })
 
 test_that("Quartet metrics handle polytomous pairs", {
@@ -72,9 +83,9 @@ test_that("Quartet metrics handle polytomous pairs", {
     ape::read.tree(text='(A, (B, (C, ((D, E), (F, G)))));')
   )
   polyStates <- QuartetStates(polytomous)
-  expect_equal(c(rep(2, 19), 0, rep(2, 9), 0, 2, 2, 2, 0, 0), polyStates[[1]])
+  expect_equal(c(rep(2, 19), 0, rep(2, 9), 0, 2, 2, 2, 0, 0), polyStates[1, ])
   expect_equal(c(rep(2, 10), 0, 0, 4, 0, 4, 4, 0, 4, 
-                 4, 4, 0, 0, 4, 0, 4, 4, 0, 4, 4, 4, rep(0, 5)), polyStates[[2]])
+                 4, 4, 0, 0, 4, 0, 4, 4, 0, 4, 4, 4, rep(0, 5)), polyStates[2, ])
   
   qStat <- QuartetStatus(polytomous)
   expect_identical(qStat[1, ], c(N=70L, Q=35L, s=31L, d=0L, r1=0L, r2=0L, u=4L))
