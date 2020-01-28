@@ -8,14 +8,8 @@ release_questions <- function() {
 
 # Additional tests:
 #
-# check_win_devel(); check_rhub()
-# #rhub::check_on_windows()
-# rhub::check_with_rdevel() # redundifies check_on_debian()
-# rhub::check_on_ubuntu()
-# rhub::check_on_fedora()
-# rhub::check_on_centos()
-# rhub::check_with_valgrind() # runs the build and check on Linux, in valgrind to find memory leaks and pointer errors.
-# rhub::check_with_sanitizers() # runs all package package tests, examples and vignettes with Address Sanitizer and Undefined Behavior Sanitizer.
+# codemetar::write_codemeta()
+# check_win_devel(); rhub::check_for_cran()
 # list_my_checks() # list_package_checks
 # revdepcheck::revdep_check()
 # build_vignettes()
