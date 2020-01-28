@@ -1,8 +1,11 @@
 context("QuartetDistance.R")
 
 data('sq_trees')
-quartets <- read.tree(paste0(system.file(package='Quartet'), 
-                             '/../tests/trees/all_quartets.new'))
+
+TreePath <- function (fileName) {
+  paste0(system.file(package='Quartet'), '/trees/', fileName, '.new')
+}
+quartets <- ape::read.tree(TreePath('all_quartets'))
 
 test_that("Distances are calculated from strings", {
   set.seed(0)
