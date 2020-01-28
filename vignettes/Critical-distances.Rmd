@@ -17,6 +17,7 @@ vignette: >
 ---
 ```{r Load package, include=FALSE}
 require('Quartet')
+require('ape') # for plot.phylo
 ```
 
 Properties of the quartet distance are explored fully in Steel [-@Steel1993].  
