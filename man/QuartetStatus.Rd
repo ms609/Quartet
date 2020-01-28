@@ -16,7 +16,7 @@ ManyToManyQuartetAgreement(trees)
 
 TwoListQuartetAgreement(trees1, trees2)
 
-SingleTreeQuartetAgreement(trees, comparison = trees[[1]])
+SingleTreeQuartetAgreement(trees, comparison)
 }
 \arguments{
 \item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}},
@@ -135,6 +135,7 @@ Other element-by-element comparisons: \code{\link{CompareQuartets}},
   \code{\link{QuartetState}}, \code{\link{SplitStatus}}
 }
 \author{
-Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+\href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}

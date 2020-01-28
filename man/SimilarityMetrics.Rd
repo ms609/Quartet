@@ -64,7 +64,7 @@ The similarity metrics are then given as below.  The dissimilarity metrics
 are their complement (i.e. 1 - \emph{similarity}), and can be calculated
 algebraically using the identity \emph{N} = \emph{s} + \emph{d} + \emph{r1} + \emph{r2} + \emph{u}.
 
-Although defined using quartets, analagous values can be calculated using partitions
+Although defined using quartets, analogous values can be calculated using partitions
 -- though for a number of reasons, quartets may offer a more meaningful
 measure of the amount of information shared by two trees.
 \itemize{
@@ -142,5 +142,6 @@ from which the Estabrook \emph{et al.} metrics are calculated.
 }
 }
 \author{
-Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+\href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }

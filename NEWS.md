@@ -1,27 +1,23 @@
-# Quartet v1.0.2.9002
-## Improvements
+# Quartet v1.1.0
+
  - Pass trees directly to C, without writing to temporary intermediate file.
  - Use `TreeTools` in place of `TreeSearch`, supporting new `Splits` class.
  - Facilitate comparison between lists of multiple trees
 
-# Quartet v1.0.2.9001
-## Improvements
- - Remove deprecated C function `ptr_fun`.
+# Quartet v1.0.3
 
-# Quartet v1.0.2.9000
-## Improvements
- - Update vignettes to incorporate mutual arboreal information distances.
+ - Remove deprecated C function `ptr_fun`.
  - Clarify some documentation pages.
 
 # Quartet v1.0.2
-## Modifications
+
  - Force R 3.5.0-style random number generation in examples,
    to ensure backward compatibility.
  - Add caterpillar trees to `sq_trees`, to illustrate issues with partition-based
    distance metrics.
 
 # Quartet v1.0.1
-## Improvements
+
  - Improved portability of C++ code.
 
 # Quartet v1.0.0

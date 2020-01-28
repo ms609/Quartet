@@ -26,10 +26,10 @@
 #' 
 #' @references \insertRef{Brodal2013}{Quartet}
 #' 
-#' @importFrom TreeTools Renumber
+## @importFrom TreeTools Renumber
 #' @export 
 ResolvedQuartets <- function (tree, countTriplets = FALSE) {
-  tree <- Renumber(tree)
+  #tree <- Renumber(tree)
   nTip <- length(tree$tip.label)
   nNode <- tree$Nnode
   

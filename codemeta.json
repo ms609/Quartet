@@ -7,7 +7,7 @@
   "codeRepository": "https://github.com/ms609/Quartet",
   "issueTracker": "https://github.com/ms609/Quartet/issues",
   "license": "https://spdx.org/licenses/GPL-2.0",
-  "version": "1.0.2.9002",
+  "version": "1.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -89,18 +89,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "pkgload",
-      "name": "pkgload",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=pkgload"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "Rcpp",
       "name": "Rcpp",
       "provider": {
@@ -134,12 +122,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "TreeDist",
-      "name": "TreeDist",
-      "sameAs": "https://github.com/ms609/TreeDist"
     },
     {
       "@type": "SoftwareApplication",
@@ -226,7 +208,13 @@
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
-      "sameAs": "https://github.com/ms609/TreeTools"
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=TreeTools"
     },
     {
       "@type": "SoftwareApplication",
