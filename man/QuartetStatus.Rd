@@ -3,11 +3,20 @@
 \name{SharedQuartetStatus}
 \alias{SharedQuartetStatus}
 \alias{QuartetStatus}
+\alias{ManyToManyQuartetAgreement}
+\alias{TwoListQuartetAgreement}
+\alias{SingleTreeQuartetAgreement}
 \title{Status of quartets}
 \usage{
 SharedQuartetStatus(trees, cf = trees[[1]])
 
 QuartetStatus(trees, cf = trees[[1]])
+
+ManyToManyQuartetAgreement(trees)
+
+TwoListQuartetAgreement(trees1, trees2)
+
+SingleTreeQuartetAgreement(trees, comparison)
 }
 \arguments{
 \item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}},
@@ -15,6 +24,12 @@ with identically labelled tips.}
 
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
 each tree is compared to the first tree in \code{trees}.}
+
+\item{trees1, trees2}{List or \code{multiPhylo} objects containing
+trees of class \code{phylo}.}
+
+\item{comparison}{A tree of class \code{\link[ape:read.tree]{phylo}} against
+which to compare \code{trees}.}
 }
 \value{
 Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if \code{cf} is not specified).  Columns list the status of each quartet:
@@ -28,6 +43,17 @@ i.e. 2 \emph{Q}.}
 \item{r2}{The number of quartets that are resolved in tree 2, but not in tree 1.}
 \item{u}{The number of quartets that are unresolved in both trees.}
 }
+
+\code{ManyToManyQuartetAgreement} returns a three-dimensional array listing,
+for each pair of trees in turn, the number of quartets in each category.
+
+\code{TwoListQuartetAgreement} returns a three-dimensional array listing,
+for each pair of trees in turn, the number of quartets in each category.
+
+\code{SingleTreeQuartetAgreement} returns a two-dimensional array listing,
+for tree in \code{trees}, the total number of quartets and the
+number of quartets in each category.
+The \code{comparison} tree is treated as \code{tree2}.
 }
 \description{
 Determines the number of quartets that are consistent within pairs of
@@ -39,7 +65,7 @@ reference tree (the first entry in \code{trees}, if \code{cf} is not specified)
 that are also present in each other tree.  A random pair of fully resolved
 trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
 
-If trees do not bear the same number of tips, \code{SharedQuartetStatus} will
+If trees do not bear the same number of tips, \code{SharedQuartetStatus()} will
 consider only the quartets that include taxa common to both trees.
 
 From this information it is possible to calculate how many of all possible
@@ -55,16 +81,36 @@ tqdist C library (Sand \emph{et al}. 2014).
 \itemize{
 \item \code{SharedQuartetStatus}: Reports split statistics obtained after removing all
 tips that do not occur in both trees being compared.
+
+\item \code{ManyToManyQuartetAgreement}: Agreement of each quartet, comparing each pair of trees
+in a list.
+
+\item \code{TwoListQuartetAgreement}: Agreement of each quartet in trees in one list with
+each quartet in trees in a second list.
+
+\item \code{SingleTreeQuartetAgreement}: Agreement of each quartet in trees in a list with the
+quartets in a comparison tree.
 }}
 
 \examples{
  data('sq_trees')
- # Calculate the status of each quartet
+ # Calculate the status of each quartet relative to the first entry in 
+ # sq_trees
  sq_status <- QuartetStatus(sq_trees)
-
+ 
+ # Calculate the status of each quartet relative to a given tree
+ two_moved <- sq_trees[5:7]
+ sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
+ 
  # Calculate Estabrook et al's similarity measures:
  SimilarityMetrics(sq_status)
-
+ 
+ # Calculate Quartet Divergence between each tree and each other tree in a 
+ # list
+ QuartetDivergence(ManyToManyQuartetAgreement(two_moved))
+  # Calculate Quartet Divergence between each tree in one list and each 
+  # tree in another
+  QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
 }
 \references{
 {
@@ -78,7 +124,7 @@ tips that do not occur in both trees being compared.
 }
 }
 \seealso{
-\code{\link{SplitStatus}}: Uses bipartition splits (groups/clades defined by
+\code{\link{SplitStatus}}: Uses splits (groups/clades defined by
 nodes or edges of the tree) instead of quartets as the unit of comparison.
 
 \code{\link{SimilarityMetrics}}: Generates distance metrics from quartet statuses.
@@ -89,6 +135,7 @@ Other element-by-element comparisons: \code{\link{CompareQuartets}},
   \code{\link{QuartetState}}, \code{\link{SplitStatus}}
 }
 \author{
-Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+\href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}

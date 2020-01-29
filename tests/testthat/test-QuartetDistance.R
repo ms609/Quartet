@@ -1,7 +1,11 @@
 context("QuartetDistance.R")
 
 data('sq_trees')
-quartets <- read.tree('../trees/all_quartets.new')
+
+TreePath <- function (fileName) {
+  paste0(system.file(package='Quartet'), '/trees/', fileName, '.new')
+}
+quartets <- ape::read.tree(TreePath('all_quartets'))
 
 test_that("Distances are calculated from strings", {
   set.seed(0)
@@ -17,12 +21,12 @@ test_that("Distances are calculated from strings", {
   expect_equal(AllPairsQuartetAgreement(fileName),
                TQAE(trees))
   expect_equal(ManyToManyQuartetAgreement(trees)[1, , ],
-               SingleTreeQuartetAgreement(trees)[, 3:7])
+               SingleTreeQuartetAgreement(trees, trees[[1]])[, 3:7])
   
 })
 
 test_that("Splits are compared", {
-  trees <- UnshiftTree(
+  trees <- TreeTools::UnshiftTree(
     ape::drop.tip(sq_trees$move_one_near, 10),
     ape::drop.tip(sq_trees$ref_tree, 11))
   expect_equal(c(N=252L, Q=126L, s=120L, d=6L, r1=0L, r2=0L, u=0L), 

@@ -2,7 +2,7 @@
     "description": "An R package that calculates distances between phylogenetic topologies, integrating the tqDist algorithm for quartet distances", 
     "license": "gpl-3.0", 
     "title": "Quartet: Comparison of Phylogenetic Trees Using Quartet and Bipartition Measures", 
-    "version": "v1.0.2", 
+    "version": "v1.1.0", 
     "upload_type": "software", 
     "creators": [
         {

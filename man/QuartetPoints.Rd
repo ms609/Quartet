@@ -29,7 +29,7 @@ Generate points to depict tree difference (in terms of resolution
 and accuracy) on a ternary plot.
 }
 \details{
-The ternary plot will depict the number of quartets or bipartitions that are:
+The ternary plot will depict the number of quartets or splits that are:
 \itemize{
 \item resolved in the reference tree (\code{cf}), but neither present nor contradicted
 in each comparison tree (\code{trees});
@@ -61,7 +61,7 @@ tree distances.
     col=Ternary::cbPalette8[2], cex=0.8)
   TernaryText(SplitPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
     col=Ternary::cbPalette8[3], cex=0.8)
-  legend('bottomright', c("Quartets", "Bipartitions"), bty='n', pch=1, cex=0.8,
+  legend('bottomright', c("Quartets", "Splits"), bty='n', pch=1, cex=0.8,
     col=Ternary::cbPalette8[2:3])
   
 }
@@ -71,5 +71,6 @@ tree distances.
 \insertRef{Smith2019}{Quartet}
 }
 \author{
-Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+\href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }

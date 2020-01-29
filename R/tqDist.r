@@ -1,3 +1,72 @@
+
+#' Status of quartets
+#' 
+#' Determines the number of quartets that are consistent within pairs of
+#' cladograms.
+#' 
+#' Given a list of trees, returns the number of quartet statements present in the
+#' reference tree (the first entry in `trees`, if `cf` is not specified)
+#' that are also present in each other tree.  A random pair of fully resolved 
+#' trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
+#' 
+#' 
+#' If trees do not bear the same number of tips, `SharedQuartetStatus()` will 
+#' consider only the quartets that include taxa common to both trees.
+#' 
+#' From this information it is possible to calculate how many of all possible
+#' quartets occur in one tree or the other, though there is not yet a function
+#' calculating this; [let us know](https://github.com/ms609/Quartet/issues/new)
+#' if you would appreciate this functionality.
+#' 
+#' The status of each quartet is calculated using the algorithms of
+#' Brodal _et al_. (2013) and Holt _et al_. (2014), implemented in the
+#' tqdist C library (Sand _et al_. 2014).
+#'       
+#' 
+#' @template treesParam
+#' @template treesCfParam
+#' 
+#' @templateVar intro Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
+#' @template returnEstabrook
+#'         
+#' @template MRS
+#' 
+#' @examples
+#'  data('sq_trees')
+#'  # Calculate the status of each quartet relative to the first entry in 
+#'  # sq_trees
+#'  sq_status <- QuartetStatus(sq_trees)
+#'  
+#'  # Calculate the status of each quartet relative to a given tree
+#'  two_moved <- sq_trees[5:7]
+#'  sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
+#'  
+#'  # Calculate Estabrook et al's similarity measures:
+#'  SimilarityMetrics(sq_status)
+#'  
+#' @family element-by-element comparisons
+#' @seealso `\link{SplitStatus}`: Uses splits (groups/clades defined by
+#'  nodes or edges of the tree) instead of quartets as the unit of comparison.
+#'  
+#'  [`SimilarityMetrics`]: Generates distance metrics from quartet statuses.
+#' 
+#' @references {
+#'   \insertRef{Brodal2013}{Quartet}
+#' 
+#'   \insertRef{Estabrook1985}{Quartet}
+#'
+#'   \insertRef{Holt2014}{Quartet}
+#'
+#'   \insertRef{Sand2014}{Quartet}
+#' }
+#'
+#' @importFrom Rdpack reprompt 
+#' @name QuartetStatus
+#' @export
+QuartetStatus <- function (trees, cf=trees[[1]]) {
+  SingleTreeQuartetAgreement(trees, comparison=cf)
+}
+
 #' tqDist wrapper
 #' 
 #' Convenience function that takes a list of trees, writes them to the text file
@@ -29,7 +98,7 @@
 #'   
 #'   \insertRef{Sand2014}{Quartet}
 #' 
-#' @seealso [`CompareQuartets`], [`QuartetStatus`]
+#' @seealso [`CompareQuartets()`], [`QuartetStatus()`]
 #' 
 #' @importFrom ape write.tree
 #' @template MRS
@@ -51,12 +120,17 @@ TQAE <- function (trees) {
   array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
 }
 
-#' @describeIn TQDist Agreement of each quartet, comparing each pair of trees 
+#' @describeIn QuartetStatus Agreement of each quartet, comparing each pair of trees 
 #' in a list.
 #' @return `ManyToManyQuartetAgreement` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
+#' @examples 
+#'  # Calculate Quartet Divergence between each tree and each other tree in a 
+#'  # list
+#'  QuartetDivergence(ManyToManyQuartetAgreement(two_moved))
 #' @export 
 ManyToManyQuartetAgreement <- function (trees) {
+  treeNames <- names(trees)
   AE <- TQAE(trees)
   nTree <- dim(AE)[1]
   A   <- AE[, , 1]
@@ -70,10 +144,27 @@ ManyToManyQuartetAgreement <- function (trees) {
   
   # Return:
   array(c(A, B, C, D, E), dim=c(nTree, nTree, 5),
-        dimnames = list(NULL, NULL, c('s', 'd', 'r1', 'r2', 'u')))
+        dimnames = list(treeNames, treeNames, c('s', 'd', 'r1', 'r2', 'u')))
 }
 
-#' @describeIn TQDist Agreement of each quartet in trees in a list with the
+#' @describeIn QuartetStatus Agreement of each quartet in trees in one list with
+#' each quartet in trees in a second list.
+#' @param trees1,trees2 List or `multiPhylo` objects containing
+#'   trees of class `phylo`.
+#' @return `TwoListQuartetAgreement` returns a three-dimensional array listing,
+#'   for each pair of trees in turn, the number of quartets in each category.
+#' @examples 
+#'   # Calculate Quartet Divergence between each tree in one list and each 
+#'   # tree in another
+#'   QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
+#' @export
+TwoListQuartetAgreement <- function (trees1, trees2) {
+  aperm(vapply(trees2, function (cf) SingleTreeQuartetAgreement(trees1, cf),
+         matrix(0L, length(trees1), 7)), c(1, 3, 2))
+  
+}
+
+#' @describeIn QuartetStatus Agreement of each quartet in trees in a list with the
 #' quartets in a comparison tree.
 #' @param comparison A tree of class \code{\link[ape:read.tree]{phylo}} against
 #' which to compare `trees`.
@@ -82,24 +173,16 @@ ManyToManyQuartetAgreement <- function (trees) {
 #'   number of quartets in each category.  
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
-SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
-
-  if (class(trees) == 'phylo') trees <- list(trees)
-  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge', 
+SingleTreeQuartetAgreement <- function (trees, comparison) {
+  if (inherits(trees, 'phylo')) trees <- list(trees)	
+  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge',
                      .TreeToEdge(comparison),
                      .TreeToEdge(trees, comparison$tip.label)),
                ncol=2, dimnames=list(NULL, c('A', 'E')))
   
-  if (class(trees) == 'phylo') {
-    nTree <- 1L
-    DE <- ResolvedQuartets(trees)[2]
-    treeNames <- NULL
-  } else {
-    DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
-    nTree <- length(DE)
-    treeNames <- names(trees)
-  }
-  
+  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
+  nTree <- length(DE)
+
   A   <- AE[, 1]
   E   <- AE[, 2]
   rq <- ResolvedQuartets(comparison)
@@ -113,69 +196,7 @@ SingleTreeQuartetAgreement <- function (trees, comparison = trees[[1]]) {
   
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
-        dimnames=list(treeNames, c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
-}
-
-#' Status of quartets
-#' 
-#' Determines the number of quartets that are consistent within pairs of
-#' cladograms.
-#' 
-#' Given a list of trees, returns the number of quartet statements present in the
-#' reference tree (the first entry in `trees`, if `cf` is not specified)
-#' that are also present in each other tree.  A random pair of fully resolved 
-#' trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
-#' 
-#' 
-#' If trees do not bear the same number of tips, `SharedQuartetStatus` will 
-#' consider only the quartets that include taxa common to both trees.
-#' 
-#' From this information it is possible to calculate how many of all possible
-#' quartets occur in one tree or the other, though there is not yet a function
-#' calculating this; [let us know](https://github.com/ms609/Quartet/issues/new)
-#' if you would appreciate this functionality.
-#' 
-#' The status of each quartet is calculated using the algorithms of
-#' Brodal _et al_. (2013) and Holt _et al_. (2014), implemented in the
-#' tqdist C library (Sand _et al_. 2014).
-#'       
-#' 
-#' @template treesParam
-#' @template treesCfParam
-#' 
-#' @templateVar intro Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
-#' @template returnEstabrook
-#'         
-#' @template MRS
-#' 
-#' @examples
-#'  data('sq_trees')
-#'  # Calculate the status of each quartet
-#'  sq_status <- QuartetStatus(sq_trees)
-#'
-#'  # Calculate Estabrook et al's similarity measures:
-#'  SimilarityMetrics(sq_status)
-#' 
-#' @family element-by-element comparisons
-#' @seealso `\link{SplitStatus}`: Uses bipartition splits (groups/clades defined by
-#'  nodes or edges of the tree) instead of quartets as the unit of comparison.
-#'  
-#'  [`SimilarityMetrics`]: Generates distance metrics from quartet statuses.
-#' 
-#' @references {
-#'   \insertRef{Brodal2013}{Quartet}
-#' 
-#'   \insertRef{Estabrook1985}{Quartet}
-#'
-#'   \insertRef{Holt2014}{Quartet}
-#'
-#'   \insertRef{Sand2014}{Quartet}
-#' }
-#'
-#' @importFrom Rdpack reprompt 
-#' @export
-QuartetStatus <- function (trees, cf=trees[[1]]) {
-  SingleTreeQuartetAgreement(trees, comparison=cf)
+        dimnames=list(names(trees), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
 }
 
 #' tqDist file generator
@@ -190,8 +211,10 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #' @keywords internal
 #' @export
 TQFile <- function (treeList) {
-  if (class(treeList) == 'list') class(treeList) <- 'multiPhylo'
-  if (!class(treeList) %in% c('phylo', 'multiPhylo'))
+  if (inherits(treeList, 'list')){
+    class(treeList) <- 'multiPhylo'
+  }
+  if (!inherits(treeList, c('phylo', 'multiPhylo')))
     stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
   fileName <- tempfile()
   write.tree(treeList, file=fileName)
@@ -225,8 +248,8 @@ TQFile <- function (treeList) {
 #'   * R interface: Martin R. Smith.
 #' 
 #' @seealso 
-#' * [`QuartetStatus`] takes trees, rather than files, as input.
-#' * [`TQFile`] creates a temporary file containing specified trees.
+#' * [`QuartetStatus()`] takes trees, rather than files, as input.
+#' * [`TQFile()`] creates a temporary file containing specified trees.
 #' 
 #' 
 #' @references {
@@ -270,7 +293,7 @@ PairsQuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (length(trees1) != length(trees2) || class(trees1) != class(trees2)) {
+  if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
   .Call('_Quartet_tqdist_PairsQuartetDistance', as.character(file1), as.character(file2));
@@ -285,7 +308,7 @@ OneToManyQuartetAgreement <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (class(trees1) != "phylo") {
+  if (!inherits(trees1, "phylo")) {
     stop("file1 must contain a single tree")
   }
   if (length(trees2) < 1) {
@@ -368,7 +391,7 @@ PairsTripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (length(trees1) != length(trees2) || class(trees1) != class(trees2)) {
+  if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
   .Call('_Quartet_tqdist_PairsTripletDistance', as.character(file1), as.character(file2));

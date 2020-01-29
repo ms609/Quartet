@@ -1,10 +1,10 @@
-#' Compare status of bipartitions
+#' Compare status of splits
 #' 
-#' Reports whether bipartition splits are present or contradicted
-#' in a set of reference splits.
+#' Reports whether splits are present or contradicted in a set of reference
+#' splits.
 #' 
 #' @template splitsParam
-#' @param splits2 Bipartitions against which to compare `splits`.
+#' @param splits2 Splits against which to compare `splits`.
 #' 
 #' @return A named vector of eight integers, listing the number of unique splits 
 #' that:
@@ -133,11 +133,11 @@ CompareBipartitions <- CompareSplits
 #'   RobinsonFoulds(splitStatuses)
 #'   
 #'   # Normalize the Robinson Foulds distance by dividing by the number of 
-#'   # splits (bipartitions) present in the two trees:
+#'   # splits present in the two trees:
 #'   RobinsonFoulds(splitStatuses) / splitStatuses[, 'N']
 #'   
 #'   # Normalize the Robinson Foulds distance by dividing by the total number of 
-#'   # splits (bipartitions) that it is possible to resolve for `n` tips:
+#'   # splits that it is possible to resolve for `n` tips:
 #'   nTip <- length(sq_trees[[1]]$tip.label)
 #'   nPartitions <- 2 * (nTip - 3L) # Does not include the nTip partitions that 
 #'                                  # comprise but a single tip
@@ -194,11 +194,11 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' Pair shared split status
 #' 
 #' Removes all tips that do not occur in both `ref` and `cf`, then calculates 
-#' the status of the remaining splits
+#' the status of the remaining splits.
 #' 
 #' @param ref,cf Trees of class \code{\link[ape:read.tree]{phylo}} to compare.
 #' 
-#' @return Named integer of length 6, as per [CompareSplits]
+#' @return Named integer of length 6, as per [`CompareSplits()`]
 #' 
 #' @examples
 #' 

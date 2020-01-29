@@ -13,14 +13,14 @@ QuartetStates(splits)
 \item{tips}{A four-element array listing a quartet of tips, either by their
 number (if class \code{numeric}) or their name (if class \code{character}).}
 
-\item{bips}{Depreciated; included for comaptability with v1.0.2 and below.}
+\item{bips}{Depreciated; included for compatibility with v1.0.2 and below.}
 
 \item{splits}{An object that can be induced to a \code{Splits} object using
 \code{\link[TreeTools]{as.Splits}}.}
 }
 \value{
 \code{QuartetState} returns \code{0} if the relationships of the four taxa are
-not constrained by the provided bipartitions, or the index of the closest
+not constrained by the provided splits, or the index of the closest
 relative to \code{tips[1]}, otherwise.
 }
 \description{
@@ -28,12 +28,12 @@ Report the status of the specified quartet(s).
 }
 \details{
 One of the three possible four-taxon trees will be consistent with any set of
-bipartitions generated from a fully resolved tree.  If the taxa are numbered
+splits generated from a fully resolved tree.  If the taxa are numbered
 1 to 4, this tree can be identified by naming the tip most closely related
 to taxon 1.
-If a set of bipartitions is generated from a tree that contains polytomies,
+If a set of splits is generated from a tree that contains polytomies,
 it is possible that all three four-taxon trees are consistent with the set
-of bipartitions.
+of splits
 }
 \section{Functions}{
 \itemize{
@@ -73,6 +73,7 @@ Other element-by-element comparisons: \code{\link{CompareQuartets}},
   \code{\link{SplitStatus}}
 }
 \author{
-Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+\href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}

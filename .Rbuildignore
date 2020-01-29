@@ -13,8 +13,11 @@ cran-comments.md
 /^\.git/
 ^.*\.Rproj$
 ^vignettes/.*_cache/.*$
-man-roxygen
 data-raw
+man-roxygen
+revdep
 /^src\-/
 ^vignettes/.*_cache$
 ^CODE_OF_CONDUCT\.md$
+^codemeta\.json$
+CRAN-RELEASE

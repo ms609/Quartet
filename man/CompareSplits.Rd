@@ -3,7 +3,7 @@
 \name{CompareSplits}
 \alias{CompareSplits}
 \alias{CompareBipartitions}
-\title{Compare status of bipartitions}
+\title{Compare status of splits}
 \usage{
 CompareSplits(splits, splits2)
 
@@ -13,7 +13,7 @@ CompareBipartitions(splits, splits2)
 \item{splits}{An object that can be coerced into class \code{Splits} using
 \code{\link[TreeTools]{as.Splits}}.}
 
-\item{splits2}{Bipartitions against which to compare \code{splits}.}
+\item{splits2}{Splits against which to compare \code{splits}.}
 }
 \value{
 A named vector of eight integers, listing the number of unique splits
@@ -34,8 +34,8 @@ the Robinson-Foulds distance.
 }
 }
 \description{
-Reports whether bipartition splits are present or contradicted
-in a set of reference splits.
+Reports whether splits are present or contradicted in a set of reference
+splits.
 }
 \examples{
 splits1 <- TreeTools::BalancedTree(8)
@@ -63,6 +63,7 @@ Other element-by-element comparisons: \code{\link{CompareQuartets}},
   \code{\link{SplitStatus}}
 }
 \author{
-Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+\href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}

@@ -39,10 +39,7 @@ PlotQuartet <- function (tree, quartet, overwritePar = TRUE,
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
                  "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
-  if (class(tree) == 'phylo') {
-    tree <- structure(list(tree), class='multiPhylo')
-  }
-  
+  if (inherits(tree, 'phylo')) tree <- structure(list(tree), class='multiPhylo')
   n_tip <- length(tree[[1]]$tip.label)
   
   if (overwritePar) {
@@ -120,21 +117,21 @@ AllQuartets <- memoise(function (n_tips) {
 #' Report the status of the specified quartet(s).
 #' 
 #' One of the three possible four-taxon trees will be consistent with any set of
-#' bipartitions generated from a fully resolved tree.  If the taxa are numbered 
+#' splits generated from a fully resolved tree.  If the taxa are numbered 
 #' 1 to 4, this tree can be identified by naming the tip most closely related 
 #' to taxon 1.
-#' If a set of bipartitions is generated from a tree that contains polytomies, 
+#' If a set of splits is generated from a tree that contains polytomies, 
 #' it is possible that all three four-taxon trees are consistent with the set
-#' of bipartitions.
+#' of splits
 #'
 #' @param tips A four-element array listing a quartet of tips, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
 #' @param splits An object that can be induced to a `Splits` object using
 #'   \code{\link[TreeTools]{as.Splits}}.
-#' @param bips Depreciated; included for comaptability with v1.0.2 and below.
+#' @param bips Depreciated; included for compatibility with v1.0.2 and below.
 #'
 #' @return `QuartetState` returns `0` if the relationships of the four taxa are
-#'  not constrained by the provided bipartitions, or the index of the closest
+#'  not constrained by the provided splits, or the index of the closest
 #'  relative to `tips[1]`, otherwise.
 #'
 #' @template MRS
@@ -190,11 +187,11 @@ QuartetStates <- function (splits) {
   allQuartets <- AllQuartets(nTip)
   
   subs <- vapply(allQuartets, function (tips) {
-    ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),
-                  function (x) {if (length(x)) as.integer(x) else NA},
-                  integer(1L))
-    if (length(ret) == 0L) ret <- rep(NA, outLength)
-    ret
+  ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),	
+                function (x) {if (length(x)) as.integer(x) else NA},	
+                integer(1L))	
+  if (length(ret) == 0L) ret <- rep(NA, outLength)	
+  ret	
   }, integer(outLength))
   
   # Return:

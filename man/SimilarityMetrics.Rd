@@ -64,7 +64,7 @@ The similarity metrics are then given as below.  The dissimilarity metrics
 are their complement (i.e. 1 - \emph{similarity}), and can be calculated
 algebraically using the identity \emph{N} = \emph{s} + \emph{d} + \emph{r1} + \emph{r2} + \emph{u}.
 
-Although defined using quartets, analagous values can be calculated using partitions
+Although defined using quartets, analogous values can be calculated using partitions
 -- though for a number of reasons, quartets may offer a more meaningful
 measure of the amount of information shared by two trees.
 \itemize{
@@ -74,7 +74,7 @@ measure of the amount of information shared by two trees.
 \item SemiStrict Joint Assertions (SSJA): \emph{s} / (\emph{s} + \emph{d} + \emph{u})
 }
 
-(The numerator of the Semistrict Joint Assertions similarity metric is given in
+(The numerator of the SemiStrict Joint Assertions similarity metric is given in
 Estabrook \emph{et al}. (1985)'s table 2 as \emph{s} + \emph{d}, but this is understood, with
 reference to the text to be a typographic error.)
 
@@ -136,11 +136,12 @@ number of tips (Smith 2019):
 }
 \seealso{
 \itemize{
-\item \link{QuartetStatus}: Calculate status of each quartet: the raw material
+\item \code{\link[=QuartetStatus]{QuartetStatus()}}: Calculate status of each quartet: the raw material
 from which the Estabrook \emph{et al.} metrics are calculated.
-\item \link{SplitStatus}, \link{CompareSplits}: equivalent metrics for bipartition splits.
+\item \code{\link[=SplitStatus]{SplitStatus()}}, \code{\link[=CompareSplits]{CompareSplits()}}: equivalent metrics for bipartition splits.
 }
 }
 \author{
-Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+\href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }

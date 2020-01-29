@@ -1,6 +1,6 @@
 Package: Quartet
-Version: 1.0.2.9002
-Title: Comparison of Phylogenetic Trees Using Quartet and Bipartition Measures
+Version: 1.1.0.9001
+Title: Comparison of Phylogenetic Trees Using Quartet and Split Measures
 Description: Calculates the number of four-taxon subtrees consistent with a pair
   of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),
   Reconstructing the shape of a tree from observed dissimilarity data,
@@ -8,7 +8,7 @@ Description: Calculates the number of four-taxon subtrees consistent with a pair
   and using the tqDist algorithm of Sand et al. (2014), tqDist: a library for
   computing the quartet and triplet distances between binary or general trees,
   Bioinformatics, 30, 2079–2080 <doi:10.1093/bioinformatics/btu157>
-  for pairs of bifurcating trees.
+  for pairs of binary trees.
 URL: https://ms609.github.io/Quartet, https://github.com/ms609/Quartet
 BugReports: https://github.com/ms609/Quartet/issues
 Authors@R: c(person("Martin R.", 'Smith',
@@ -43,12 +43,8 @@ Suggests:
     Rcpp,
     rmarkdown,
     testthat,
-    TreeDist,
     usethis,
     vdiffr
-Remotes:
-    ms609/TreeDist,
-    ms609/TreeTools
 SystemRequirements: C++11
 RdMacros: Rdpack
 LinkingTo: Rcpp

@@ -69,11 +69,11 @@ tips that do not occur in both trees being compared.
   RobinsonFoulds(splitStatuses)
   
   # Normalize the Robinson Foulds distance by dividing by the number of 
-  # splits (bipartitions) present in the two trees:
+  # splits present in the two trees:
   RobinsonFoulds(splitStatuses) / splitStatuses[, 'N']
   
   # Normalize the Robinson Foulds distance by dividing by the total number of 
-  # splits (bipartitions) that it is possible to resolve for `n` tips:
+  # splits that it is possible to resolve for `n` tips:
   nTip <- length(sq_trees[[1]]$tip.label)
   nPartitions <- 2 * (nTip - 3L) # Does not include the nTip partitions that 
                                  # comprise but a single tip
@@ -97,6 +97,7 @@ Other element-by-element comparisons: \code{\link{CompareQuartets}},
   \code{\link{SharedQuartetStatus}}
 }
 \author{
-Martin R. Smith (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+\href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}

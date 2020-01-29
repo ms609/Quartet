@@ -17,24 +17,24 @@ vignette: >
 ---
 ```{r Load package, include=FALSE}
 require('Quartet')
+require('ape') # for plot.phylo
 ```
-# Properties of the quartet distance
 
 Properties of the quartet distance are explored fully in Steel [-@Steel1993].  
 As quartet distances of 1 can only be accomplished for small trees (five or fewer
-tips), it is perhaps more appropriate to consider whether or not trees are more
+leaves), it is perhaps more appropriate to consider whether or not trees are more
 dissimilar than a pair of random trees, whose distance will be, on average, 
-$2/3$.
+$\frac{2}{3}$.
 
 ## Minimum quartet distance
 
 When there are six or more tips in a bifurcating tree, some quartets are necessarily shared between trees.
 
 Consider the tree:
-```{r Example tree}
+```{r example-tree}
 tree_a <- ape::read.tree(text="((1, 2), (3, (4, 5)));")
 ```
-```{r Plot trees, fig.height=1.6, fig.width=2, echo=FALSE}
+```{r plot-trees, fig.height=1.6, fig.width=2, echo=FALSE}
 par(mar=rep(0.3, 4))
 plot(tree_a)
 ```
@@ -44,7 +44,7 @@ The only trees with no quartets in common with Tree A are symmetric with
 ```{r none-in-common}
 tree_b <- ape::read.tree(text="((1, 5), (3, (2, 4)));")
 ```
-```{r Plot next tree, fig.height=1.6, fig.width=2, echo=FALSE}
+```{r plot-tree-b, fig.height=1.6, fig.width=2, echo=FALSE}
 par(mar=rep(0.3, 4))
 plot(tree_b)
 ```
@@ -62,7 +62,7 @@ plot(tree_c, tip.color=c(1,1,1,2,1,1))
 There's nowhere to add tip `6` to Tree B without creating a quartet that 
 exists in Tree C.
 
-```{r Adding tip 6 to Tree B duplicates a quartet, fig.height=5, fig.width=2.5, echo=FALSE}
+```{r Adding-tip-6-to-Tree-B-duplicates-a-quartet, fig.height=5, fig.width=2.5, echo=FALSE}
 PlotApeTree <- function (text, quartet) {
   orig <- TreeTools::RenumberTips(tree_c, as.character(1:6))
   tree <- ape::read.tree(text=text)
@@ -82,7 +82,7 @@ PlotApeTree("((1, 5), (3, ((2, 4), 6)));", c(4, 2, 3, 6))
 
 ## Quartet distance in a pair of random trees
 
-On average, $1/3$ of the quartets resolved in a pair of random trees will match. This is because there are
+On average, $\frac{1}{3}$ of the quartets resolved in a pair of random trees will match. This is because there are
 three quartets involving any set of four tips, each of which is equally likely to 
 occur on a truly random tree.
 
