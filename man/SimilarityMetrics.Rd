@@ -11,7 +11,7 @@
 \alias{MarczewskiSteinhaus}
 \alias{SteelPenny}
 \alias{QuartetDivergence}
-\title{Tree Similarity Metrics}
+\title{Tree Similarity Measures}
 \usage{
 SimilarityMetrics(elementStatus, similarity = TRUE)
 
@@ -43,15 +43,15 @@ according to the output of \code{[QuartetStatus]} or
 or dissimilarity.}
 }
 \value{
-\code{SimilarityMetrics} returns a named two-dimensional array in which each row
+\code{SimilarityMetrics()} returns a named two-dimensional array in which each row
 corresponds to an input tree, and each column corresponds to one of the
 listed measures.
 
-\code{DoNotConflict} and others return a named vector describing the requested
+\code{DoNotConflict()} and others return a named vector describing the requested
 similarity (or difference) between the trees.
 }
 \description{
-Functions to calculate tree similarity / difference metrics.
+Measure tree similarity or difference.
 }
 \details{
 Estabrook \emph{et al.} (1985, table 2) define four similarity metrics in terms of the
@@ -78,8 +78,8 @@ measure of the amount of information shared by two trees.
 Estabrook \emph{et al}. (1985)'s table 2 as \emph{s} + \emph{d}, but this is understood, with
 reference to the text to be a typographic error.)
 
-Steel & Penny (1993) propose a further metric, which they denote d<sub>Q</sub>,
-which this package calculates using the function \code{SteelPenny}:
+Steel & Penny (1993) propose a further metric, which they denote d_Q_,
+which this package calculates using the function \code{SteelPenny()}:
 \itemize{
 \item Steel & Penny's Quartet Metric (dQ): (\emph{s} + \emph{u}) / \emph{N}
 }
@@ -112,11 +112,11 @@ number of tips (Smith 2019):
 }
 }
 \examples{
-  data('sq_trees')
-  
-  sq_status <- QuartetStatus(sq_trees)
-  SimilarityMetrics(sq_status)
-  QuartetDivergence(sq_status, similarity=FALSE)
+data('sq_trees')
+
+sq_status <- QuartetStatus(sq_trees)
+SimilarityMetrics(sq_status)
+QuartetDivergence(sq_status, similarity=FALSE)
 
 }
 \references{

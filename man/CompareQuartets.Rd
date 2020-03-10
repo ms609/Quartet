@@ -45,11 +45,12 @@ For most purposes, the faster function \code{\link{QuartetStatus}} will be prefe
 \code{\link{QuartetStatus}}, generates this output from a list of
 trees.
 
-Other element-by-element comparisons: \code{\link{CompareSplits}},
-  \code{\link{PairSharedQuartetStatus}},
-  \code{\link{QuartetState}},
-  \code{\link{SharedQuartetStatus}},
-  \code{\link{SplitStatus}}
+Other element-by-element comparisons: 
+\code{\link{CompareSplits}()},
+\code{\link{PairSharedQuartetStatus}()},
+\code{\link{QuartetState}()},
+\code{\link{SharedQuartetStatus}()},
+\code{\link{SplitStatus}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

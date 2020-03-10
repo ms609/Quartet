@@ -7,16 +7,17 @@
 
 # Quartet
 
-Quartet is an R package that calculates the Quartet distance between two trees:
+'[Quartet](https://ms609.github.io/Quartet/)' is an R package that calculates 
+the Quartet distance between two trees:
 a measure of their similarity based on the number of shared four-taxon subtrees.
 
 The package uses the `tqDist` algorithm.  Unlike many other implementations,
 it distinguishes between quartets that are contradicted by one tree,
-and quartets that are simply absent due to a lack of resolution (i.e. the presence
-of polytomies).  `Quartet` makes this distinction in both the quartet metric
-(function `QuartetStatus`) and the partition metric (i.e. Robinson-Foulds distance;
-function `SplitStatus`).
-
+and quartets that are simply absent due to a lack of resolution (i.e.
+the presence of polytomies).
+'Quartet' makes this distinction in both the quartet metric (function
+`QuartetStatus()`) and the partition metric (i.e. Robinson-Foulds distance;
+function `SplitStatus()`).
 
 ## Using the package
 Install and load the library from CRAN as follows:
@@ -34,7 +35,20 @@ devtools::install_github('ms609/Quartet')
 You will need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed 
 in order to build the development version from source.
 
+## Known limitations
+
+Quartet supports trees with up to 477 leaves.  Larger trees contain more 
+quartets than can be represented by R's signed 32-bit integers.
+
+The underlying 'tqDist' library may handle trees with up to 568 leaves,
+and 64-bit integer representations could increase this number further.  
+Making either of these imporvements within the R package 
+would require substantial additional work, but could be implemented -- do
+[file an issue](https://ms609.github.io/Quartet/issues) if this would be
+useful to you.
+
 ## References
+
 - Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet 
   distance between evolutionary trees in time O(_n_ log _n_). 
   Algorithmica. 38:377–395.

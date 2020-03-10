@@ -90,11 +90,12 @@ tips that do not occur in both trees being compared.
 }
 }
 \seealso{
-Other element-by-element comparisons: \code{\link{CompareQuartets}},
-  \code{\link{CompareSplits}},
-  \code{\link{PairSharedQuartetStatus}},
-  \code{\link{QuartetState}},
-  \code{\link{SharedQuartetStatus}}
+Other element-by-element comparisons: 
+\code{\link{CompareQuartets}()},
+\code{\link{CompareSplits}()},
+\code{\link{PairSharedQuartetStatus}()},
+\code{\link{QuartetState}()},
+\code{\link{SharedQuartetStatus}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

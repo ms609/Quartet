@@ -9,8 +9,8 @@ Description: Calculates the number of four-taxon subtrees consistent with a pair
   computing the quartet and triplet distances between binary or general trees,
   Bioinformatics, 30, 2079–2080 <doi:10.1093/bioinformatics/btu157>
   for pairs of binary trees.
-URL: https://ms609.github.io/Quartet, https://github.com/ms609/Quartet
-BugReports: https://github.com/ms609/Quartet/issues
+URL: https://ms609.github.io/Quartet/, https://github.com/ms609/Quartet/
+BugReports: https://github.com/ms609/Quartet/issues/
 Authors@R: c(person("Martin R.", 'Smith',
                   email='martin.smith@durham.ac.uk',
                   role=c("aut", "cre", "cph"), 
@@ -51,5 +51,5 @@ LinkingTo: Rcpp
 LazyData: true
 ByteCompile: true
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
