@@ -14,15 +14,15 @@
 #' 
 #' @family quartet counting functions
 #' 
-#' @examples {
-#'   data(sq_trees)
-#'   
-#'   ResolvedTriplets(sq_trees$collapse_some)
-#'   # Equivalent to:
-#'   ResolvedQuartets(sq_trees$collapse_some, countTriplets=TRUE)
-#'   
-#'   vapply(sq_trees, ResolvedQuartets, integer(2))
-#' }
+#' @examples
+#' data(sq_trees)
+#' 
+#' ResolvedTriplets(sq_trees$collapse_some)
+#' # Equivalent to:
+#' ResolvedQuartets(sq_trees$collapse_some, countTriplets = TRUE)
+#' 
+#' vapply(sq_trees, ResolvedQuartets, integer(2))
+#'
 #' 
 #' @references \insertRef{Brodal2013}{Quartet}
 #' 
