@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • Quartet</title>
+<title>Check tree size — .CheckSize • Quartet</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,10 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Check tree size — .CheckSize" />
+<meta property="og:description" content="Trees with &amp;gt; 477 leaves may have counts &amp;gt; .Machine$integer.max so cannot
+be reliably evaluated." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +57,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -121,133 +124,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/ms609/Quartet/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Check tree size</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ms609/Quartet/blob/master/R/tqDist.r'><code>R/tqDist.r</code></a></small>
+    <div class="hidden name"><code>dot-CheckSize.Rd</code></div>
     </div>
 
-    <div id="quartet-v1-1-0-9000-development" class="section level1">
-<h1 class="page-header">
-<a href="#quartet-v1-1-0-9000-development" class="anchor"></a>Quartet v1.1.0.9000 (development)<small> Unreleased </small>
-</h1>
-<ul>
-<li>Minor documentation improvements</li>
-</ul>
-</div>
-    <div id="quartet-v1-1-0" class="section level1">
-<h1 class="page-header">
-<a href="#quartet-v1-1-0" class="anchor"></a>Quartet v1.1.0<small> 2020-01-28 </small>
-</h1>
-<ul>
-<li>Pass trees directly to C, without writing to temporary intermediate file.</li>
-<li>Use <code>TreeTools</code> in place of <code>TreeSearch</code>, supporting new <code>Splits</code> class.</li>
-<li>Facilitate comparison between lists of multiple trees.</li>
-<li>Fix Latex error in vignettes.</li>
-</ul>
-</div>
-    <div id="quartet-v1-0-3" class="section level1">
-<h1 class="page-header">
-<a href="#quartet-v1-0-3" class="anchor"></a>Quartet v1.0.3<small> 2019-12-30 </small>
-</h1>
-<ul>
-<li>Remove deprecated C function <code>ptr_fun</code>.</li>
-<li>Clarify some documentation pages.</li>
-</ul>
-</div>
-    <div id="quartet-v1-0-2" class="section level1">
-<h1 class="page-header">
-<a href="#quartet-v1-0-2" class="anchor"></a>Quartet v1.0.2<small> 2019-03-06 </small>
-</h1>
-<ul>
-<li>Force R 3.5.0-style random number generation in examples, to ensure backward compatibility.</li>
-<li>Add caterpillar trees to <code>sq_trees</code>, to illustrate issues with partition-based distance metrics.</li>
-</ul>
-</div>
-    <div id="quartet-v1-0-1" class="section level1">
-<h1 class="page-header">
-<a href="#quartet-v1-0-1" class="anchor"></a>Quartet v1.0.1<small> 2019-01-22 </small>
-</h1>
-<ul>
-<li>Improved portability of C++ code.</li>
-</ul>
-</div>
-    <div id="quartet-v1-0-0" class="section level1">
-<h1 class="page-header">
-<a href="#quartet-v1-0-0" class="anchor"></a>Quartet v1.0.0<small> 2019-01-16 </small>
-</h1>
-<div id="new-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New features</h2>
-<ul>
-<li>Add functions to generate ternary plots from tree similarity measures.</li>
-</ul>
-</div>
-<div id="improvements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#improvements" class="anchor"></a>Improvements</h2>
-<ul>
-<li>Use tqDist for all quartet calculations.</li>
-<li>Remove single “splits” from splits objects.</li>
-<li>Simplify installation via <code>github_install</code>.</li>
-<li>Add missing details to documentation.</li>
-</ul>
-</div>
-<div id="modifications" class="section level2">
-<h2 class="hasAnchor">
-<a href="#modifications" class="anchor"></a>Modifications</h2>
-<ul>
-<li>Function <code>SimilarityMetrics</code> now takes the output of <code><a href="../reference/QuartetStatus.html">QuartetStatus(trees)</a></code>, rather than a list of trees.</li>
-<li>Function <code>SplitStatus</code> now returns output using the same column headers as <code>QuartetStatus</code>
-</li>
-<li>Column <code>N</code> added to <code>QuartetStatus</code> output.</li>
-<li>Function names changed, to become more precise:
-<ul>
-<li>
-<code>QuartetMetrics</code> → <code>SimilarityMetrics</code>
-</li>
-<li>
-<code>MatchingSplits</code> → <code>SplitStatus</code>
-</li>
-<li>
-<code>MatchingQuartets</code> → <code>QuartetStatus</code>
-</li>
-<li>
-<code>Choices</code> → <code>AllQuartets</code>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-    <div id="slowquartet-v0-2-0" class="section level1">
-<h1 class="page-header">
-<a href="#slowquartet-v0-2-0" class="anchor"></a>SlowQuartet v0.2.0<small> Unreleased </small>
-</h1>
-<div id="modifications-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#modifications-1" class="anchor"></a>Modifications</h2>
-<ul>
-<li>Add <code>MatchingSplits</code> function to calculate number of splits contradicted / unresolved.</li>
-<li>Add vignettes to document when the quartet metric may be preferable to other tree distance metrics.</li>
-</ul>
-</div>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Trees with &gt; 477 leaves may have counts &gt; .Machine$integer.max so cannot
+be reliably evaluated.</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>.CheckSize</span>(<span class='no'>tree</span>)</pre>
+
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>It may be possible to increase this number to 568 by converting what R
+represents as negative integers to the unsigned equivalent that is sent
+from C.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#quartet-v1-1-0-9000-development">1.1.0.9000</a></li>
-        <li><a href="#quartet-v1-1-0">1.1.0</a></li>
-        <li><a href="#quartet-v1-0-3">1.0.3</a></li>
-        <li><a href="#quartet-v1-0-2">1.0.2</a></li>
-        <li><a href="#quartet-v1-0-1">1.0.1</a></li>
-        <li><a href="#quartet-v1-0-0">1.0.0</a></li>
-        <li><a href="#slowquartet-v0-2-0">0.2.0</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#details">Details</a></li>
+    </ul>
 
+  </div>
 </div>
 
 

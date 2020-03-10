@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tree Similarity Metrics — SimilarityMetrics • Quartet</title>
+<title>Tree Similarity Measures — SimilarityMetrics • Quartet</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Tree Similarity Metrics — SimilarityMetrics" />
-<meta property="og:description" content="Functions to calculate tree similarity / difference metrics." />
+<meta property="og:title" content="Tree Similarity Measures — SimilarityMetrics" />
+<meta property="og:description" content="Measure tree similarity or difference." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9000</span>
       </span>
     </div>
 
@@ -123,13 +123,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tree Similarity Metrics</h1>
+    <h1>Tree Similarity Measures</h1>
     <small class="dont-index">Source: <a href='https://github.com/ms609/Quartet/blob/master/R/Metrics.R'><code>R/Metrics.R</code></a></small>
     <div class="hidden name"><code>SimilarityMetrics.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Functions to calculate tree similarity / difference metrics.</p>
+    <p>Measure tree similarity or difference.</p>
     </div>
 
     <pre class="usage"><span class='fu'>SimilarityMetrics</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -171,10 +171,10 @@ or dissimilarity.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>SimilarityMetrics</code> returns a named two-dimensional array in which each row
+    <p><code>SimilarityMetrics()</code> returns a named two-dimensional array in which each row
 corresponds to an input tree, and each column corresponds to one of the
 listed measures.</p>
-<p><code>DoNotConflict</code> and others return a named vector describing the requested
+<p><code>DoNotConflict()</code> and others return a named vector describing the requested
 similarity (or difference) between the trees.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -198,8 +198,8 @@ measure of the amount of information shared by two trees.</p><ul>
 <p>(The numerator of the SemiStrict Joint Assertions similarity metric is given in
 Estabrook <em>et al</em>. (1985)'s table 2 as <em>s</em> + <em>d</em>, but this is understood, with
 reference to the text to be a typographic error.)</p>
-<p>Steel &amp; Penny (1993) propose a further metric, which they denote d&lt;sub&gt;Q&lt;/sub&gt;,
-which this package calculates using the function <code>SteelPenny</code>:</p><ul>
+<p>Steel &amp; Penny (1993) propose a further metric, which they denote d_Q_,
+which this package calculates using the function <code>SteelPenny()</code>:</p><ul>
 <li><p>Steel &amp; Penny's Quartet Metric (dQ): (<em>s</em> + <em>u</em>) / <em>N</em></p></li>
 </ul>
 
@@ -272,10 +272,10 @@ from which the Estabrook <em>et al.</em> metrics are calculated.</p></li>
 </div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'sq_trees'</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'sq_trees'</span>)
 
-  <span class='no'>sq_status</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='QuartetStatus.html'>QuartetStatus</a></span>(<span class='no'>sq_trees</span>)
-  <span class='fu'>SimilarityMetrics</span>(<span class='no'>sq_status</span>)</div><div class='output co'>#&gt;                DoNotConflict ExplicitlyAgree StrictJointAssertions
+<span class='no'>sq_status</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='QuartetStatus.html'>QuartetStatus</a></span>(<span class='no'>sq_trees</span>)
+<span class='fu'>SimilarityMetrics</span>(<span class='no'>sq_status</span>)</div><div class='output co'>#&gt;                DoNotConflict ExplicitlyAgree StrictJointAssertions
 #&gt; ref_tree           1.0000000       1.0000000             1.0000000
 #&gt; move_one_near      0.9757576       0.9757576             0.9757576
 #&gt; move_one_mid       0.8424242       0.8424242             0.8424242
@@ -331,7 +331,7 @@ from which the Estabrook <em>et al.</em> metrics are calculated.</p></li>
 #&gt; caterpillar              0.5865385  0.7393939         0.7393939
 #&gt; top_and_tail             0.2267658  0.3696970         0.3696970
 #&gt; anti_pectinate           0.1478261  0.2575758         0.2575758
-#&gt; random_tree              0.1870504  0.3151515         0.3151515</div><div class='input'>  <span class='fu'>QuartetDivergence</span>(<span class='no'>sq_status</span>, <span class='kw'>similarity</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;       ref_tree  move_one_near   move_one_mid   move_one_far  move_two_near 
+#&gt; random_tree              0.1870504  0.3151515         0.3151515</div><div class='input'><span class='fu'>QuartetDivergence</span>(<span class='no'>sq_status</span>, <span class='kw'>similarity</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;       ref_tree  move_one_near   move_one_mid   move_one_far  move_two_near 
 #&gt;     0.00000000     0.02424242     0.15757576     0.23030303     0.07272727 
 #&gt;   move_two_mid   move_two_far   collapse_one  collapse_some     m1mid_col1 
 #&gt;     0.23636364     0.27878788     0.01212121     0.18636364     0.16969697 
