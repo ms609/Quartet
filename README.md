@@ -40,13 +40,15 @@ in order to build the development version from source.
 Quartet supports trees with up to 477 leaves.  Larger trees contain more 
 quartets than can be represented by R's signed 32-bit integers.
 
-'tqDist' may handle trees with up to 568 leaves (not tested), and 64-bit 
-integer representations could increase this number further.  Either of these
+The underlying 'tqDist' library may handle trees with up to 568 leaves,
+and 64-bit integer representations could increase this number further.  
+Making either of these imporvements within the R package 
 would require substantial additional work, but could be implemented -- do
-[file an issue](https://ms609.github.io/Quartet/issues) if this would be useful
-to you.
+[file an issue](https://ms609.github.io/Quartet/issues) if this would be
+useful to you.
 
 ## References
+
 - Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet 
   distance between evolutionary trees in time O(_n_ log _n_). 
   Algorithmica. 38:377–395.

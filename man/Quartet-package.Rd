@@ -4,28 +4,30 @@
 \name{Quartet-package}
 \alias{Quartet}
 \alias{Quartet-package}
-\title{'\href{https://ms609.github.io/Quartet/}{Quartet}' is an R package that calculates
-the Quartet distance between two trees: a measure of their similarity based
-on the number of shared four-taxon subtrees.}
+\title{Quartet}
 \description{
+'\href{https://ms609.github.io/Quartet/}{Quartet}' is an R package that calculates
+the Quartet distance between two trees: a measure of their similarity based
+on the number of shared four-taxon subtrees.
+}
+\details{
 The package uses the \code{tqDist} algorithm.  Unlike many other implementations,
 it distinguishes between quartets that are contradicted by one tree,
 and quartets that are simply absent due to a lack of resolution (i.e. the presence
 of polytomies).  'Quartet' makes this distinction in both the quartet metric
 (function \code{\link[=QuartetStatus]{QuartetStatus()}}) and the partition metric (i.e. Robinson-Foulds
 distance; function \code{\link[=SplitStatus]{SplitStatus()}}).
-}
-\details{
 \subsection{Known limitations}{
 
 Quartet supports trees with up to 477 leaves.  Larger trees contain more
 quartets than can be represented by R's signed 32-bit integers.
 
-'tqDist' may handle trees with up to 568 leaves (not tested), and 64-bit
-integer representations could increase this number further.  Either of these
+The underlying 'tqDist' library may handle trees with up to 568 leaves,
+and 64-bit integer representations could increase this number further.
+Making either of these imporvements within the R package
 would require substantial additional work, but could be implemented -- do
-\href{https://ms609.github.io/Quartet/issues}{file an issue} if this would be useful
-to you.
+\href{https://ms609.github.io/Quartet/issues}{file an issue} if this would be
+useful to you.
 }
 }
 \references{

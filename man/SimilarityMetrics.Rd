@@ -11,7 +11,7 @@
 \alias{MarczewskiSteinhaus}
 \alias{SteelPenny}
 \alias{QuartetDivergence}
-\title{Tree Similarity Metrics}
+\title{Tree Similarity Measures}
 \usage{
 SimilarityMetrics(elementStatus, similarity = TRUE)
 
@@ -43,15 +43,15 @@ according to the output of \code{[QuartetStatus]} or
 or dissimilarity.}
 }
 \value{
-\code{SimilarityMetrics} returns a named two-dimensional array in which each row
+\code{SimilarityMetrics()} returns a named two-dimensional array in which each row
 corresponds to an input tree, and each column corresponds to one of the
 listed measures.
 
-\code{DoNotConflict} and others return a named vector describing the requested
+\code{DoNotConflict()} and others return a named vector describing the requested
 similarity (or difference) between the trees.
 }
 \description{
-Functions to calculate tree similarity / difference metrics.
+Measure tree similarity or difference.
 }
 \details{
 Estabrook \emph{et al.} (1985, table 2) define four similarity metrics in terms of the
