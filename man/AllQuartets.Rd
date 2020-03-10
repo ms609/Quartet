@@ -31,7 +31,8 @@ A more computationally efficient alternative to \code{\link[utils]{combn}},
 \seealso{
 \code{\link[utils]{combn}}
 
-Other quartet counting functions: \code{\link{ResolvedQuartets}}
+Other quartet counting functions: 
+\code{\link{ResolvedQuartets}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

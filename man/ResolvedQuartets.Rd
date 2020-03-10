@@ -45,7 +45,8 @@ resolved/unresolved triplets.
 \insertRef{Brodal2013}{Quartet}
 }
 \seealso{
-Other quartet counting functions: \code{\link{AllQuartets}}
+Other quartet counting functions: 
+\code{\link{AllQuartets}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

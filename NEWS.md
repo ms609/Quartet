@@ -1,3 +1,7 @@
+# Quartet v1.1.0.9000 (development)
+
+ - Minor documentation improvements
+
 # Quartet v1.1.0
 
  - Pass trees directly to C, without writing to temporary intermediate file.

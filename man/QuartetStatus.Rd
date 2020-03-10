@@ -124,15 +124,17 @@ quartets in a comparison tree.
 }
 }
 \seealso{
-\code{\link{SplitStatus}}: Uses splits (groups/clades defined by
+\verb{\link{SplitStatus}}: Uses splits (groups/clades defined by
 nodes or edges of the tree) instead of quartets as the unit of comparison.
 
 \code{\link{SimilarityMetrics}}: Generates distance metrics from quartet statuses.
 
-Other element-by-element comparisons: \code{\link{CompareQuartets}},
-  \code{\link{CompareSplits}},
-  \code{\link{PairSharedQuartetStatus}},
-  \code{\link{QuartetState}}, \code{\link{SplitStatus}}
+Other element-by-element comparisons: 
+\code{\link{CompareQuartets}()},
+\code{\link{CompareSplits}()},
+\code{\link{PairSharedQuartetStatus}()},
+\code{\link{QuartetState}()},
+\code{\link{SplitStatus}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

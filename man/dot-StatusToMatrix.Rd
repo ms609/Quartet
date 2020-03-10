@@ -18,13 +18,13 @@ names \code{N}, \code{s}, \code{r1}, \code{r2}, either \code{d} or \code{d1} and
 named \code{s}, \code{r1}, \code{r2}, either \code{d} or \code{d1} and \code{d2}, and either \code{N} or \code{u}.}
 }
 \value{
-A matrix, containing the input columns plus \code{2d}, representing
+A matrix, containing the input columns plus \verb{2d}, representing
 either \code{2 * d} or \code{d1 + d2}, and row names.
 
 The row name means that column names are dropped in
 the output of \code{DoNotConflict} etc.
 
-A three-dimensional array containing a slice labelled \code{2d},
+A three-dimensional array containing a slice labelled \verb{2d},
 equivalent to either \code{d + d} or \code{d1 + d2} as appropriate.
 }
 \description{

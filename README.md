@@ -7,15 +7,17 @@
 
 # Quartet
 
-Quartet is an R package that calculates the Quartet distance between two trees:
+'[Quartet](https://ms609.github.io/Quartet/)' is an R package that calculates 
+the Quartet distance between two trees:
 a measure of their similarity based on the number of shared four-taxon subtrees.
 
 The package uses the `tqDist` algorithm.  Unlike many other implementations,
 it distinguishes between quartets that are contradicted by one tree,
-and quartets that are simply absent due to a lack of resolution (i.e. the presence
-of polytomies).  `Quartet` makes this distinction in both the quartet metric
-(function `QuartetStatus`) and the partition metric (i.e. Robinson-Foulds distance;
-function `SplitStatus`).
+and quartets that are simply absent due to a lack of resolution (i.e.
+the presence of polytomies).
+'Quartet' makes this distinction in both the quartet metric (function
+`QuartetStatus()`) and the partition metric (i.e. Robinson-Foulds distance;
+function `SplitStatus()`).
 
 
 ## Using the package

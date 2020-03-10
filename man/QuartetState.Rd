@@ -66,11 +66,12 @@ possible quartets for a given \code{Splits} object.
 \code{\link{CompareQuartets}}, used to compare quartet states between
 trees.
 
-Other element-by-element comparisons: \code{\link{CompareQuartets}},
-  \code{\link{CompareSplits}},
-  \code{\link{PairSharedQuartetStatus}},
-  \code{\link{SharedQuartetStatus}},
-  \code{\link{SplitStatus}}
+Other element-by-element comparisons: 
+\code{\link{CompareQuartets}()},
+\code{\link{CompareSplits}()},
+\code{\link{PairSharedQuartetStatus}()},
+\code{\link{SharedQuartetStatus}()},
+\code{\link{SplitStatus}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

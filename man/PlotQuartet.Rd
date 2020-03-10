@@ -15,7 +15,7 @@ the tree; or a character vector specifying the labels of four
 tips.}
 
 \item{overwritePar}{Logical specifying whether to use existing
-\code{\link[graphics]{par}} \code{mfrow} and \code{mar} parameters
+\verb{\link[graphics]\{par\}} \code{mfrow} and \code{mar} parameters
 (\code{FALSE}),
 or to plot trees side-by-side in a new graphical device (\code{TRUE}).}
 
