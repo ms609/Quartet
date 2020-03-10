@@ -19,7 +19,6 @@ the presence of polytomies).
 `QuartetStatus()`) and the partition metric (i.e. Robinson-Foulds distance;
 function `SplitStatus()`).
 
-
 ## Using the package
 Install and load the library from CRAN as follows:
 ```
@@ -35,6 +34,17 @@ devtools::install_github('ms609/Quartet')
 
 You will need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed 
 in order to build the development version from source.
+
+## Known limitations
+
+Quartet supports trees with up to 477 leaves.  Larger trees contain more 
+quartets than can be represented by R's signed 32-bit integers.
+
+'tqDist' may handle trees with up to 568 leaves (not tested), and 64-bit 
+integer representations could increase this number further.  Either of these
+would require substantial additional work, but could be implemented -- do
+[file an issue](https://ms609.github.io/Quartet/issues) if this would be useful
+to you.
 
 ## References
 - Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet 

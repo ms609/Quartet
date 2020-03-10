@@ -1,6 +1,6 @@
-#' Tree Similarity Metrics
+#' Tree Similarity Measures
 #' 
-#' Functions to calculate tree similarity / difference metrics.
+#' Measure tree similarity or difference.
 #' 
 #' Estabrook _et al._ (1985, table 2) define four similarity metrics in terms of the 
 #' total number of quartets (_N_, their _Q_), the number of quartets resolved in the same
@@ -28,8 +28,8 @@
 #'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is understood, with
 #'  reference to the text to be a typographic error.)
 #' 
-#' Steel & Penny (1993) propose a further metric, which they denote d<sub>Q</sub>,
-#' which this package calculates using the function `SteelPenny`:
+#' Steel & Penny (1993) propose a further metric, which they denote d_Q_,
+#' which this package calculates using the function `SteelPenny()`:
 #' 
 #' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _N_
 #' 
@@ -62,11 +62,11 @@
 #'                   or dissimilarity.
 #'
 #' @return
-#'   `SimilarityMetrics` returns a named two-dimensional array in which each row 
+#'   `SimilarityMetrics()` returns a named two-dimensional array in which each row 
 #'   corresponds to an input tree, and each column corresponds to one of the
 #'   listed measures.
 #'   
-#'   `DoNotConflict` and others return a named vector describing the requested
+#'   `DoNotConflict()` and others return a named vector describing the requested
 #'   similarity (or difference) between the trees.
 #'
 #' @seealso 
@@ -76,11 +76,11 @@
 #'   * [`SplitStatus()`], [`CompareSplits()`]: equivalent metrics for bipartition splits.
 #'
 #' @examples 
-#'   data('sq_trees')
-#'   
-#'   sq_status <- QuartetStatus(sq_trees)
-#'   SimilarityMetrics(sq_status)
-#'   QuartetDivergence(sq_status, similarity=FALSE)
+#' data('sq_trees')
+#' 
+#' sq_status <- QuartetStatus(sq_trees)
+#' SimilarityMetrics(sq_status)
+#' QuartetDivergence(sq_status, similarity=FALSE)
 #'
 #' @references 
 #' \insertRef{Day1986}{Quartet}

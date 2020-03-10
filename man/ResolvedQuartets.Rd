@@ -30,15 +30,14 @@ resolved/unresolved triplets.
 }}
 
 \examples{
-{
-  data(sq_trees)
-  
-  ResolvedTriplets(sq_trees$collapse_some)
-  # Equivalent to:
-  ResolvedQuartets(sq_trees$collapse_some, countTriplets=TRUE)
-  
-  vapply(sq_trees, ResolvedQuartets, integer(2))
-}
+data(sq_trees)
+
+ResolvedTriplets(sq_trees$collapse_some)
+# Equivalent to:
+ResolvedQuartets(sq_trees$collapse_some, countTriplets = TRUE)
+
+vapply(sq_trees, ResolvedQuartets, integer(2))
+
 
 }
 \references{
