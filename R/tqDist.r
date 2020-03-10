@@ -64,7 +64,7 @@
 #' @name QuartetStatus
 #' @export
 QuartetStatus <- function (trees, cf=trees[[1]]) {
-  SingleTreeQuartetAgreement(trees, comparison=cf)
+  SingleTreeQuartetAgreement(trees, comparison = cf)
 }
 
 #' tqDist wrapper
@@ -135,7 +135,7 @@ TQAE <- function (trees) {
 .CheckSize <- function (tree) {
   if (!inherits(tree, 'phylo')) tree <- tree[[1]]
   if (length(tree$tip.label) > 477L) {
-    stop("Only trees with < 478 tips are supported.")
+    warning("Trees with > 477 tips may produce integer overflow errors.")
   }
 }
 
