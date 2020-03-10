@@ -29,7 +29,7 @@
 ## @importFrom TreeTools Renumber
 #' @export 
 ResolvedQuartets <- function (tree, countTriplets = FALSE) {
-  #tree <- Renumber(tree)
+  .CheckSize(tree)
   nTip <- length(tree$tip.label)
   nNode <- tree$Nnode
   
@@ -67,8 +67,13 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
   unresolved <- ifelse(countTriplets, sum(unresolvedTripletsRootedHere),
                            sum(unresolvedQuartetsRootedHere))
   resolved <- choose(nTip, ifelse(countTriplets, 3, 4)) - unresolved
-  # Return:
-  as.integer(c(resolved, unresolved))
+  
+  if (resolved + unresolved > .Machine$integer.max) {
+    stop("Sorry: trees too large for integer representation")
+  } else {
+    # Return:
+    as.integer(c(resolved, unresolved))
+  }
 }
 
 

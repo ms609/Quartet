@@ -1,8 +1,23 @@
 context("tqDist tests")
 
 TreePath <- function (fileName) {
-  paste0(system.file(package='Quartet'), '/trees/', fileName, '.new')
+  system.file(paste0('/trees/', fileName, '.new'), package = 'Quartet')
 }
+
+test_that("Out-of-range errors are detected", {
+  library('TreeTools')
+  b478 <- BalancedTree(478)
+  p478 <- PectinateTree(478)
+  c478 <- CollapseNode(PectinateTree(478), 480:585)
+  o478 <- CollapseNode(PectinateTree(478), 480:955)
+  expect_error(TQAE(list(b478, p478)))
+  expect_error(TQAE(list(b478, c478)))
+  expect_error(TQAE(list(b478, o478)))
+  expect_error(TQDist(list(b478, p478)))
+  expect_error(TQDist(list(b478, p478, c478)))
+  expect_error(QuartetStatus(list(b478, p478)))
+  expect_error(QuartetStatus(list(b478, c478)))
+})
 
 test_that("tqDist returns correct quartet distances", {
   expect_true(file.exists(TreePath("quartet1")))
@@ -63,7 +78,7 @@ test_that("tqDist runs from temporary files", {
   expect_equal(mmqa[, , 'r1'], t(mmqa[, , 'r2']))  
   expect_equal(tqae[, , 'E'], mmqa[, , 'u'])
   
-  expect_equal(c(N=2L, Q=1L, s=0, d=1, r1=0, r2=0, u=0),
+  expect_equal(c(N = 2L, Q = 1L, s = 0, d = 1, r1 = 0, r2 = 0, u = 0),
                SingleTreeQuartetAgreement(allQuartets[[1]], allQuartets[[2]])[1, ])
   
   expect_true(file.remove(TQFile(list(allQuartets[[1]]))))

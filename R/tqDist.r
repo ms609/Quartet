@@ -105,6 +105,7 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #' @useDynLib Quartet, .registration = TRUE
 #' @export
 TQDist <- function (trees) {
+  .CheckSize(trees)
   .Call('_Quartet_tqdist_AllPairsQuartetDistanceEdge', .TreeToEdge(trees))
 }
 
@@ -114,10 +115,28 @@ TQDist <- function (trees) {
 #'   that are unresolved in both trees (E in Brodal _et al_. 2013).
 #' @export 
 TQAE <- function (trees) {
+  .CheckSize(trees)
   result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreementEdge',
                   .TreeToEdge(trees))
   nTrees <- nrow(result)
   array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
+}
+
+#' Check tree size
+#' 
+#' Trees with > 477 leaves may have counts > .Machine$integer.max so cannot 
+#' be reliably evaluated.
+#' 
+#' It may be possible to increase this number to 568 by converting what R 
+#' represents as negative integers to the unsigned equivalent that is sent 
+#' from C.
+#' 
+#' @keywords internal
+.CheckSize <- function (tree) {
+  if (!inherits(tree, 'phylo')) tree <- tree[[1]]
+  if (length(tree$tip.label) > 477L) {
+    stop("Only trees with < 478 tips are supported.")
+  }
 }
 
 #' @describeIn QuartetStatus Agreement of each quartet, comparing each pair of trees 
@@ -143,7 +162,7 @@ ManyToManyQuartetAgreement <- function (trees) {
   B   <- ABD - A - D
   
   # Return:
-  array(c(A, B, C, D, E), dim=c(nTree, nTree, 5),
+  array(c(A, B, C, D, E), dim = c(nTree, nTree, 5),
         dimnames = list(treeNames, treeNames, c('s', 'd', 'r1', 'r2', 'u')))
 }
 
@@ -174,18 +193,19 @@ TwoListQuartetAgreement <- function (trees1, trees2) {
 #'   The `comparison` tree is treated as `tree2`.
 #' @export 
 SingleTreeQuartetAgreement <- function (trees, comparison) {
+  .CheckSize(trees)
   if (inherits(trees, 'phylo')) trees <- list(trees)	
+  
+  rq <- ResolvedQuartets(comparison)
+  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
+  
   AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge',
                      .TreeToEdge(comparison),
                      .TreeToEdge(trees, comparison$tip.label)),
-               ncol=2, dimnames=list(NULL, c('A', 'E')))
+               ncol = 2L, dimnames = list(NULL, c('A', 'E')))
   
-  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
-  nTree <- length(DE)
-
   A   <- AE[, 1]
   E   <- AE[, 2]
-  rq <- ResolvedQuartets(comparison)
   ABD <- rq[1]
   CE <-  rq[2]
   C   <- CE - E
@@ -193,6 +213,8 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
   
   B   <- ABD - A - D
   Q   <- sum(ABD, CE)
+  
+  nTree <- length(DE)
   
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
@@ -269,7 +291,8 @@ NULL
 QuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
-  .Call('_Quartet_tqdist_QuartetDistance', as.character(file1), as.character(file2));
+  .Call('_Quartet_tqdist_QuartetDistance',
+        as.character(file1), as.character(file2));
 }
 
 #' @describeIn Distances Returns a vector of length two, listing \[1\]
@@ -281,7 +304,8 @@ QuartetDistance <- function(file1, file2) {
 QuartetAgreement <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
-  .Call('_Quartet_tqdist_QuartetAgreement', as.character(file1), as.character(file2));
+  .Call('_Quartet_tqdist_QuartetAgreement',
+        as.character(file1), as.character(file2));
 }
 
 #' @importFrom ape read.tree
@@ -296,7 +320,8 @@ PairsQuartetDistance <- function(file1, file2) {
   if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
-  .Call('_Quartet_tqdist_PairsQuartetDistance', as.character(file1), as.character(file2));
+  .Call('_Quartet_tqdist_PairsQuartetDistance', 
+        as.character(file1), as.character(file2));
 }
 
 #' @export
@@ -316,7 +341,7 @@ OneToManyQuartetAgreement <- function(file1, file2) {
   }
   matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreement', 
                as.character(file1), as.character(file2)),
-         ncol=2, dimnames=list(NULL, c('A', 'E')))
+         ncol = 2, dimnames = list(NULL, c('A', 'E')))
 }
 
 #' @export
