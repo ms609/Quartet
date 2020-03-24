@@ -34,9 +34,9 @@ which to compare \code{trees}.}
 \value{
 Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if \code{cf} is not specified).  Columns list the status of each quartet:
 \describe{
-\item{N}{The total number of quartet \emph{statements} for two trees of \emph{n} tips,
+\item{N}{The total number of quartet \emph{statements} for two trees of \emph{n} leaves,
 i.e. 2 \emph{Q}.}
-\item{Q}{The total number of quartets for \emph{n} tips.}
+\item{Q}{The total number of quartets for \emph{n} leaves.}
 \item{s}{The number of quartets that are resolved identically in both trees.}
 \item{d}{The number of quartets that are resolved differently in each tree.}
 \item{r1}{The number of quartets that are resolved in tree 1, but not in tree 2.}
@@ -130,6 +130,7 @@ nodes or edges of the tree) instead of quartets as the unit of comparison.
 \code{\link{SimilarityMetrics}}: Generates distance metrics from quartet statuses.
 
 Other element-by-element comparisons: 
+\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareQuartets}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},

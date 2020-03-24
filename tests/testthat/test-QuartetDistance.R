@@ -46,12 +46,6 @@ test_that("QuartetState works", {
   expect_equal(0L, QuartetState(letters[1:4], as.Splits(quartets[[4]])))
 })
 
-test_that("CompareQuartets works", {
-  expect_equal(c(N=16L, Q=8L, s=1, d=2, r1=1, r2=1, u=3),
-               CompareQuartets(c(2, 2, 4, 2, 0, 0, 0, 0),
-                               c(2, 3, 3, 0, 2, 0, 0, 0)))
-})
-
 test_that("PlotQuartet works", {
   library('vdiffr')
   expect_doppelganger('PlotQuartet', function() {

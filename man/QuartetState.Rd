@@ -67,6 +67,7 @@ possible quartets for a given \code{Splits} object.
 trees.
 
 Other element-by-element comparisons: 
+\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareQuartets}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},
