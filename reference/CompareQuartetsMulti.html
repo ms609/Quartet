@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compare Quartets — CompareQuartetsMulti • Quartet</title>
+<title>Compare one tree's quartets against many others — CompareQuartetsMulti • Quartet</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="Compare Quartets — CompareQuartetsMulti" />
-<meta property="og:description" content="Count the number of quartets whose resolution is unique to a given tree" />
+<meta property="og:title" content="Compare one tree's quartets against many others — CompareQuartetsMulti" />
+<meta property="og:description" content="Count how many quartets in one tree are resolved in the same way or
+different ways in a forest of comparison trees." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,13 +124,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compare Quartets</h1>
+    <h1>Compare one tree's quartets against many others</h1>
     <small class="dont-index">Source: <a href='https://github.com/ms609/Quartet/blob/master/R/CompareQuartets.R'><code>R/CompareQuartets.R</code></a></small>
     <div class="hidden name"><code>CompareQuartetsMulti.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Count the number of quartets whose resolution is unique to a given tree</p>
+    <p>Count how many quartets in one tree are resolved in the same way or
+different ways in a forest of comparison trees.</p>
     </div>
 
     <pre class="usage"><span class='fu'>CompareQuartetsMulti</span>(<span class='no'>x</span>, <span class='no'>cf</span>)</pre>
@@ -157,11 +159,12 @@ resolutions in <code>cf</code>.</p>
 <dt>N</dt><dd><p>The total number of quartet <em>statements</em> for the given number of
 <em>n</em>-leaf trees, i.e. <em>n_trees</em> × <em>Q</em>.</p></dd>
 <dt>Q</dt><dd><p>The total number of quartets for <em>n</em> leaves.</p></dd>
-<dt>s_all</dt><dd><p>The number of quartets that are resolved identically in all trees.</p></dd>
+<dt>s_all</dt><dd><p>The number of quartets that are resolved identically in all
+trees.</p></dd>
 <dt>s_any</dt><dd><p>The number of quartets that are resolved in <code>x</code>, and
 identically in at least one of <code>cf</code>.</p></dd>
-<dt>d_all</dt><dd><p>The number of quartets that are resolved in every tree in <code>cf</code>,
-never matching the resolution in <code>x</code>.</p></dd>
+<dt>d_all</dt><dd><p>The number of quartets that are resolved in every tree in
+<code>cf</code>, but never in the same way as they are resolved in in <code>x</code>.</p></dd>
 <dt>d_any</dt><dd><p>The number of quartets in <code>x</code> that are resolved differently
 (i.e. contradicted) in at least one tree in <code>cf</code>.</p></dd>
 <dt>r1_all</dt><dd><p>The number of quartets that are resolved in <code>x</code>, but not in
