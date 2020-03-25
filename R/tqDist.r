@@ -67,7 +67,7 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
   SingleTreeQuartetAgreement(trees, comparison = cf)
 }
 
-#' tqDist wrapper
+#' Wrapper for tqDist
 #' 
 #' Convenience function that takes a list of trees, writes them to the text file
 #' expected by the C implementation of tqDist (Sand _et al._ 2014).

@@ -33,3 +33,4 @@ vignettes/*.pdf
 vignettes/*_files
 vignettes/*.log
 vignettes/*.md
+docs/

@@ -54,6 +54,7 @@ Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://ms609.github.io/Quartet/}
   \item \url{https://github.com/ms609/Quartet/}
   \item Report bugs at \url{https://github.com/ms609/Quartet/issues/}
 }

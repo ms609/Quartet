@@ -52,9 +52,15 @@ Other element-by-element comparisons:
 \code{\link{QuartetState}()},
 \code{\link{SharedQuartetStatus}()},
 \code{\link{SplitStatus}()}
+
+Other quartet counting functions: 
+\code{\link{AllQuartets}()},
+\code{\link{CompareQuartetsMulti}()},
+\code{\link{ResolvedQuartets}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}
+\concept{quartet counting functions}

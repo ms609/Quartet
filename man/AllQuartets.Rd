@@ -18,20 +18,23 @@ integers less than or equal to \code{n_tips}.
 Lists all choices of four taxa from a tree.
 
 A more computationally efficient alternative to \code{\link[utils]{combn}},
-\code{AllQuartets} uses \code{\link[memoise]{memoise}} to make repeated calls faster.
+\code{AllQuartets()} uses memoisation to make repeated calls faster.
 }
 \examples{
- n_tips <- 6
- AllQuartets(n_tips)
+ AllQuartets(5)
  
- combn(n_tips, 4) # Provides the same information, but for large 
-                  # values of n_tips is significantly slower.
+ combn(5, 4) # Provides the same information, but for large 
+             # values of n_tips is significantly slower.
 
 }
 \seealso{
-\code{\link[utils]{combn}}
+\itemize{
+\item \code{\link[utils]{combn()}}
+}
 
 Other quartet counting functions: 
+\code{\link{CompareQuartetsMulti}()},
+\code{\link{CompareQuartets}()},
 \code{\link{ResolvedQuartets}()}
 }
 \author{
