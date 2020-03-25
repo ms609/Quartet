@@ -46,9 +46,10 @@ CompareQuartets <- function (x, cf) {
   )
 }
 
-#' Compare Quartets
+#' Compare one tree's quartets against many others
 #' 
-#' Count the number of quartets whose resolution is unique to a given tree
+#' Count how many quartets in one tree are resolved in the same way or 
+#' different ways in a forest of comparison trees.
 #' 
 #' @param x Tree of interest
 #' @param cf Tree of class `phylo`, or list thereof, for comparison
@@ -63,11 +64,12 @@ CompareQuartets <- function (x, cf) {
 #'   \item{N}{The total number of quartet _statements_ for the given number of
 #'    _n_-leaf trees, i.e. _n_trees_ &times; _Q_.}
 #'   \item{Q}{The total number of quartets for _n_ leaves.}
-#'   \item{s_all}{The number of quartets that are resolved identically in all trees.}
+#'   \item{s_all}{The number of quartets that are resolved identically in all 
+#'   trees.}
 #'   \item{s_any}{The number of quartets that are resolved in `x`, and 
 #'   identically in at least one of `cf`.}
-#'   \item{d_all}{The number of quartets that are resolved in every tree in `cf`, 
-#'   never matching the resolution in `x`.}
+#'   \item{d_all}{The number of quartets that are resolved in every tree in 
+#'            `cf`, but never in the same way as they are resolved in in `x`.}
 #'   \item{d_any}{The number of quartets in `x` that are resolved differently
 #'   (i.e. contradicted) in at least one tree in `cf`.}
 #'   \item{r1_all}{The number of quartets that are resolved in `x`, but not in 

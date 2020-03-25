@@ -2,7 +2,7 @@
 % Please edit documentation in R/CompareQuartets.R
 \name{CompareQuartetsMulti}
 \alias{CompareQuartetsMulti}
-\title{Compare Quartets}
+\title{Compare one tree's quartets against many others}
 \usage{
 CompareQuartetsMulti(x, cf)
 }
@@ -22,11 +22,12 @@ Named elements are:
 \item{N}{The total number of quartet \emph{statements} for the given number of
 \emph{n}-leaf trees, i.e. \emph{n_trees} × \emph{Q}.}
 \item{Q}{The total number of quartets for \emph{n} leaves.}
-\item{s_all}{The number of quartets that are resolved identically in all trees.}
+\item{s_all}{The number of quartets that are resolved identically in all
+trees.}
 \item{s_any}{The number of quartets that are resolved in \code{x}, and
 identically in at least one of \code{cf}.}
-\item{d_all}{The number of quartets that are resolved in every tree in \code{cf},
-never matching the resolution in \code{x}.}
+\item{d_all}{The number of quartets that are resolved in every tree in
+\code{cf}, but never in the same way as they are resolved in in \code{x}.}
 \item{d_any}{The number of quartets in \code{x} that are resolved differently
 (i.e. contradicted) in at least one tree in \code{cf}.}
 \item{r1_all}{The number of quartets that are resolved in \code{x}, but not in
@@ -45,7 +46,15 @@ same way in any of \code{cf}.}
 }
 }
 \description{
-Count the number of quartets whose resolution is unique to a given tree
+Count how many quartets in one tree are resolved in the same way or
+different ways in a forest of comparison trees.
+}
+\examples{
+library('TreeTools')
+CompareQuartetsMulti(x  = CollapseNode(as.phylo(42, 6), 8:9),
+                     cf = list(BalancedTree(6), PectinateTree(6), 
+                               CollapseNode(as.phylo(1337, 6), 9:10)))
+
 }
 \seealso{
 Other element-by-element comparisons: 
