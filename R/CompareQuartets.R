@@ -139,10 +139,11 @@ QuartetStates <- function (splits, asRaw = FALSE) {
 #' @export
 .Subsplit <- function (tips, splits, nTip = NTip(splits)[1]) {
   blankMask <- raw((nTip - 1L) %/% 8L + 1L)
+  masks <- as.raw(c(1, 2, 4, 8, 16, 32, 64, 128))
   tipMask <- vapply(tips, function (tip) {
     mask <- blankMask
     element <- (tip - 1L) %/% 8L + 1L
-    mask[element] <- as.raw(bitwShiftL(1L, (tip - 1L) %% 8L))
+    mask[element] <- masks[(tip - 1L) %% 8L + 1L]
     mask
   }, blankMask)
   if (is.null(dim(tipMask))) tipMask <- matrix(tipMask, 1L)
