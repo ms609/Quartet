@@ -123,7 +123,7 @@ QuartetStates <- function (splits, asRaw = FALSE) {
                   asRaw = asRaw)))
   }
   
-  ret <- vapply(allQuartets, .Subsplit, raw(1L), splits, nTip)
+  ret <- vapply(allQuartets, .Subsplit, raw(1L), unname(splits), nTip)
   
   # Return:
   if (asRaw) {
@@ -153,7 +153,7 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   mask24 <- tipMask[, 2] | tipMask[, 4]
   mask34 <- tipMask[, 3] | tipMask[, 4]
   mask <- tipMask[, 1] | tipMask[, 2] | tipMask[, 3] | tipMask[, 4]
-  subSplits <- unname(splits) & mask
+  subSplits <- splits & mask
   ret <- as.raw(0L)
   for (i in seq_len(nrow(subSplits))) {
     # Up to twice as fast if we don't remove duplicates
