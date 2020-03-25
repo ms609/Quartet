@@ -102,7 +102,7 @@ CompareQuartets <- function (x, cf) {
 #'                      cf = list(BalancedTree(6), PectinateTree(6), 
 #'                                CollapseNode(as.phylo(1337, 6), 9:10)))
 #' 
-#' @importFrom TreeTools NTip
+#' @importFrom TreeTools NTip RenumberTips
 #' @export
 CompareQuartetsMulti <- function (x, cf) {
   
@@ -121,6 +121,7 @@ CompareQuartetsMulti <- function (x, cf) {
     stop("All trees must contain the same tip labels.")
   }
   
+  cf <- lapply(cf, RenumberTips, xLabels)
   
   nCf <- length(cf)
   comparison <- vapply(cf, QuartetStates, input)

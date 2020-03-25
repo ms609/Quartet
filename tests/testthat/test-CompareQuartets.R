@@ -54,4 +54,10 @@ test_that('CompareQuartetsMulti() insensitive to label order', {
                CompareQuartetsMulti(BalancedTree(1:8), 
                                     list(BalancedTree(8:1), 
                                          BalancedTree(c(1, 2, 4, 3, 8:5))))[-1])
+  
+  # Same representation, different labels
+  expect_equivalent(c(210, 70, 53, 53, 17, 17, rep(0, 6), 17),
+               CompareQuartetsMulti(BalancedTree(1:8), 
+                                    list(BalancedTree(c(1, 3, 2, 4, 5:8)),
+                                         BalancedTree(c(1, 3, 2, 4, 8:5)))))
 })
