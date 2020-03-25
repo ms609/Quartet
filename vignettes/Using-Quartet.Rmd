@@ -1,0 +1,139 @@
+---
+title: "Getting started with Quartet"
+author: "Martin R. Smith"
+date: "`r Sys.Date()`"
+output: 
+  bookdown::pdf_document2:
+    includes:
+      in_header: ../inst/preamble.tex
+  rmarkdown::html_document:
+bibliography: ../inst/REFERENCES.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
+
+vignette: >
+  %\VignetteIndexEntry{Getting started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This document should contain all you need to get started measuring tree 
+distances with 'Quartet'.  If you get stuck, please 
+[let me know](https://github.com/ms609/Quartet/issues/new?title=Suggestion:+)
+so I can improve this documentation.
+
+## Loading trees
+
+Instructions for loading phylogenetic trees into R can be found in a [separate vignette](https://ms609.github.io/TreeTools/articles/load-trees.html).
+For these examples, we'll enter two simple trees by hand:
+
+```{r set-up}
+tree1 <- ape::read.tree(text='(A, ((B, (C, (D, E))), ((F, G), (H, I))));')
+tree2 <- ape::read.tree(text='(A, ((B, (C, (D, (H, I)))), ((F, G), E)));')
+```
+
+## Calculating distances
+
+We can calculate distances between pairs of trees using the `Quartet` package.
+
+First we'll install the package.
+We can either install the stable version from the CRAN repository:
+
+```r
+install.packages('Quartet')
+```
+
+or the development version, from GitHub -- which will contain the latest
+features but may not be as extensively tested:
+
+```r 
+devtools::install_github('ms609/Quartet')
+```
+
+Then we'll load the package in to R's working environment:
+
+```{r load-package, message=FALSE}
+library('Quartet')
+```
+
+Now the package's functions are available within R.
+Let's proceed to calculate some tree distances.
+
+### Pairs of trees
+
+Calculating the distance between two trees is a two stage process.
+For a quartet distance, we first have to calculate the status of each quartet:
+
+```{r quartet-status}
+statuses <- QuartetStatus(tree1, tree2)
+```
+
+Then we convert these counts into a distance metric (or similarity measure)
+that suits our needs:
+
+```{r measure-distance}
+QuartetDivergence(statuses, similarity = FALSE)
+```
+
+We can calculate all similarity metrics at once using:
+
+```{r all-metrics}
+SimilarityMetrics(statuses, similarity = TRUE)
+```
+
+Rather than using quartets, we might want to use partitions as the basis of our
+comparison:
+
+```{r partitions}
+SimilarityMetrics(SplitStatus(tree1, tree2))
+```
+
+
+### Multiple comparisons
+
+If you have more than two trees to compare, you can send a list of trees 
+(class: `list` or `multiPhylo`) to the distance comparison function.
+
+You can calculate the similarity between one tree and a forest of other trees:
+
+```{r multi-trees}
+library('TreeTools')
+oneTree <- CollapseNode(as.phylo(0, 11), 14)
+twoTrees <- structure(list(bal = BalancedTree(11), pec = PectinateTree(11)),
+                      class = 'multiPhylo')
+
+status <- SharedQuartetStatus(twoTrees, cf = oneTree)
+QuartetDivergence(status)
+```
+
+Or between one tree and (itself and) all other trees in the forest:
+```{r one-to-many}
+forest <- as.phylo(0:5, 11)
+names(forest) <- letters[1:6]
+status <- SharedQuartetStatus(forest)
+QuartetDivergence(status)
+```
+
+Or between each pair of trees in a forest:
+```{r many-to-many}
+status <- ManyToManyQuartetAgreement(forest)
+QuartetDivergence(status, similarity = FALSE)
+```
+
+Or between one list of trees and a second:
+```{r pairwise}
+status <- TwoListQuartetAgreement(forest[1:3], forest[4:6])
+QuartetDivergence(status, similarity = FALSE)
+```
+
+## What next?
+
+You may wish to:
+
+- [Read more](Critical-distances.html) about Quartet distances
+
+- [Provide context](https://ms609.github.io/TreeDist/using-distances.html) for tree distances
+
+- Review [alternative distance measures](https://ms609.github.io/TreeDist/index.html)
+  and corresponding [functions](https://ms609.github.io/TreeDist/reference/index.html#section-tree-distance-measures)
+
+- [Evaluate tree distance metrics](https://ms609.github.io/TreeDist/Tree-distance-metric-evaluation.html)

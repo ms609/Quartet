@@ -3,7 +3,7 @@
  - New function `CompareQuartetsMulti()` compares quartet status in one tree
  with status in multiple others.
  - `SimilarityMetrics()` now handles single tree comparisons.
- - Minor documentation improvements.
+ - Documentation improvements.
 
 # Quartet v1.1.0
 
