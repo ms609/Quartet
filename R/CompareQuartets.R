@@ -143,7 +143,7 @@ QuartetStates <- function (splits, asRaw = FALSE) {
 #' @importFrom TreeTools NTip
 #' @keywords internal
 .Subsplit4 <- function (tips, splits, nTip = NTip(splits)[1]) {
-  
+
   blankMask <- raw((nTip - 1L) %/% 8L + 1L)
   masks <- as.raw(c(1, 2, 4, 8, 16, 32, 64, 128))
   tipMask <- vapply(tips, function (tip) {
