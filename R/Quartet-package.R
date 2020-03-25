@@ -10,6 +10,11 @@
 #' of polytomies).  'Quartet' makes this distinction in both the quartet metric
 #' (function [`QuartetStatus()`]) and the partition metric (i.e. Robinson-Foulds
 #'  distance; function [`SplitStatus()`]).
+#'  
+#' ## Using Quartet
+#' 
+#' View the [function reference](https://ms609.github.io/Quartet/reference/)
+#' and [basic usage instructions](https://ms609.github.io/Quartet/articles/Using-Quartet.html).
 #' 
 #' ## Known limitations
 #' 
@@ -18,7 +23,7 @@
 #' 
 #' The underlying 'tqDist' library may handle trees with up to 568 leaves,
 #' and 64-bit integer representations could increase this number further.  
-#' Making either of these imporvements within the R package 
+#' Making either of these improvements within the R package 
 #' would require substantial additional work, but could be implemented -- do
 #' [file an issue](https://ms609.github.io/Quartet/issues) if this would be
 #' useful to you.

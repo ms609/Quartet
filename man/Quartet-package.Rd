@@ -24,7 +24,7 @@ quartets than can be represented by R's signed 32-bit integers.
 
 The underlying 'tqDist' library may handle trees with up to 568 leaves,
 and 64-bit integer representations could increase this number further.
-Making either of these imporvements within the R package
+Making either of these improvements within the R package
 would require substantial additional work, but could be implemented -- do
 \href{https://ms609.github.io/Quartet/issues}{file an issue} if this would be
 useful to you.
@@ -54,6 +54,7 @@ Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://ms609.github.io/Quartet/}
   \item \url{https://github.com/ms609/Quartet/}
   \item Report bugs at \url{https://github.com/ms609/Quartet/issues/}
 }

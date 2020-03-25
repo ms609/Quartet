@@ -17,4 +17,7 @@ data-raw
 man-roxygen
 revdep
 /^src\-/
+^vignettes/.*_cache$
+^CODE_OF_CONDUCT\.md$
 ^codemeta\.json$
+CRAN-RELEASE

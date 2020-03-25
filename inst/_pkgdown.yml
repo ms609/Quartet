@@ -1,0 +1,4 @@
+template:
+  params:
+    bootswatch: pulse
+    ganalytics: UA-156666971-4

@@ -22,23 +22,22 @@
 #' amount of information that they have in common with the comparison
 #' tree (which defaults to the first member of the list, if unspecified).
 #' 
-#' @examples {
-#'   library('Ternary')
-#'   data('sq_trees')
-#'   
-#'   TernaryPlot(alab='Unresolved', blab='Contradicted', clab='Consistent', point='right')
-#'   TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col='red', lty='dotted')
-#'   TernaryText(QuartetPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
-#'     col=Ternary::cbPalette8[2], cex=0.8)
-#'   TernaryText(SplitPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
-#'     col=Ternary::cbPalette8[3], cex=0.8)
-#'   legend('bottomright', c("Quartets", "Splits"), bty='n', pch=1, cex=0.8,
-#'     col=Ternary::cbPalette8[2:3])
-#'   
-#' }
+#' @examples
+#' library('Ternary')
+#' data('sq_trees')
+#' 
+#' TernaryPlot(alab = 'Unresolved', blab = 'Contradicted', clab = 'Consistent',
+#'             point = 'right')
+#' TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col = 'red', lty = 'dotted')
+#' TernaryText(QuartetPoints(sq_trees, cf = sq_trees$collapse_one), 1:15, 
+#'             col = Ternary::cbPalette8[2], cex = 0.8)
+#' TernaryText(SplitPoints(sq_trees, cf = sq_trees$collapse_one), 1:15, 
+#'             col = Ternary::cbPalette8[3], cex = 0.8)
+#' legend('bottomright', c("Quartets", "Splits"), bty = 'n', pch = 1, cex = 0.8,
+#'        col = Ternary::cbPalette8[2:3])
 #' 
 #' @references 
-#' \insertRef{Smith2019}{Quartet}
+#' - \insertRef{Smith2019}{Quartet}
 #' 
 #' @template MRS
 #' 
@@ -52,8 +51,7 @@ QuartetPoints <- function (trees, cf = trees[[1]]) {
              Consistent   = status[, 's'])
 }
 
-#' @describeIn QuartetPoints Uses partitions instead of quartets to calculate 
-#' tree distances.
+#' @rdname QuartetPoints
 #' @export
 SplitPoints <- function (trees, cf = trees[[1]]) {
   status <- SplitStatus(trees, cf)
@@ -96,7 +94,7 @@ SymmetricDifferenceLineEnds <- function (nsd) {
 
 #' @describeIn SymmetricDifferenceLineEnds Plot the lines onto the active ternary plot.
 #' @param \dots Further parameters to pass to 
-#' \code{\link[Ternary:AddToTernary]{TernaryLines}}.
+#' \code{\link[Ternary:AddToTernary]{TernaryLines}()}.
 #' @importFrom Ternary TernaryLines
 #' @export
 SymmetricDifferenceLines <- function (nsd, ...) { #nocov start

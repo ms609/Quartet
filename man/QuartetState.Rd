@@ -10,7 +10,7 @@ QuartetState(tips, bips, splits = bips, asRaw = FALSE)
 QuartetStates(splits, asRaw = FALSE)
 }
 \arguments{
-\item{tips}{A four-element array listing a quartet of tips, either by their
+\item{tips}{A four-element array listing a quartet of leaves, either by their
 number (if class \code{numeric}) or their name (if class \code{character}).}
 
 \item{bips}{Depreciated; included for compatibility with v1.0.2 and below.}
@@ -20,56 +20,55 @@ number (if class \code{numeric}) or their name (if class \code{character}).}
 
 \item{asRaw}{Logical specifying whether return format should be \code{raw},
 which uses less memory and can be processed faster than \code{integer} type.
-Default is currently set to \code{FALSE} for backwards compatability; suggest
+Default is currently set to \code{FALSE} for backwards compatibility; suggest
 overriding to \code{TRUE}.}
 }
 \value{
-\code{QuartetState()} returns \code{0} if the relationships of the four taxa
+\code{QuartetState()} returns \code{0} if the relationships of the four leaves
 are not constrained by the provided splits, or the index of the closest
 relative to \code{tips[1]}, otherwise.
+
+\code{QuartetStates()} returns a vector listing the status of each
+quartet of leaves (in the order listed by \verb{[AllQuartets()]}) in turn.
 }
 \description{
-Report the status of the specified quartet(s).
+Report the status of the specified quartet(s) in given trees or lists of
+splits.
 }
 \details{
-One of the three possible four-taxon trees will be consistent with any set of
-splits generated from a fully resolved tree.  If the taxa are numbered
-1 to 4, this tree can be identified by naming the tip most closely related
-to taxon 1.
+One of the three possible four-leaf trees will be consistent with any set of
+splits generated from a fully resolved tree.  If the leaves are numbered
+1 to 4, this tree can be identified by naming the leaf most closely related
+to leaf 1.
 If a set of splits is generated from a tree that contains polytomies,
-it is possible that all three four-taxon trees are consistent with the set
-of splits
+it is possible that all three four-leaf trees are consistent with the set
+of splits.
 }
-\section{Functions}{
-\itemize{
-\item \code{QuartetStates}: A convenience wrapper that lists the status of all
-possible quartets for a given \code{Splits} object.
-}}
-
 \examples{
-{
-  nTip <- 6
-  trees <- list(ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL),
-                ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL))
-  
-  trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
-  
-  QuartetState(c(1, 3, 4, 6), trees[[2]])  
-  QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
-  QuartetState(c(1, 3, 4, 6), trees[[3]])  
-  
-  QuartetStates(trees[[2]])
-  QuartetStates(trees[[3]])
-  
-}
+trees <- list(TreeTools::BalancedTree(6),
+              TreeTools::PectinateTree(6))
+
+trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
+
+QuartetState(c(1, 3, 4, 6), trees[[2]])  
+QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
+QuartetState(c(1, 3, 4, 6), trees[[3]])  
+
+QuartetStates(trees[[2]])
+QuartetStates(trees[[3]])
+
+CompareQuartets(QuartetStates(trees[[2]]), QuartetStates(trees[[3]]))
+CompareQuartetsMulti(trees[[1]], trees[2:3])
 
 }
 \references{
-\insertRef{Estabrook1985}{Quartet}
+\itemize{
+\item \insertRef{Estabrook1985}{Quartet}
+}
 }
 \seealso{
-\code{\link{CompareQuartets}}, used to compare quartet states between
-trees.
+Compare quartet states between trees (slowly) using
+\verb{[CompareQuartets()]} and \verb{[CompareQuartetsMulti()}].
 
 Other element-by-element comparisons: 
 \code{\link{CompareQuartetsMulti}()},

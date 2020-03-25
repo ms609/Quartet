@@ -2,19 +2,19 @@
 % Please edit documentation in R/CompareQuartets.R
 \name{CompareQuartetsMulti}
 \alias{CompareQuartetsMulti}
-\title{Compare one tree's quartets against many others}
+\title{Compare one tree's quartets against others'}
 \usage{
 CompareQuartetsMulti(x, cf)
 }
 \arguments{
-\item{x}{Tree of interest}
+\item{x}{Object of class \code{phylo} representing the tree of interest.}
 
 \item{cf}{Comparison tree of class \code{phylo}, or list thereof, each with the
 same leaves as \code{x}.}
 }
 \value{
-\code{UniqueQuartets()} returns a named integer vector specifying the
-number of quartets whose resolution in \code{x} matches all or any of the
+\code{CompareQuartetsMulti()} returns a named integer vector specifying
+the number of quartets whose resolution in \code{x} matches all or any of the
 resolutions in \code{cf}.
 
 Named elements are:
@@ -47,11 +47,11 @@ same way in any of \code{cf}.}
 }
 }
 \description{
-Count how many quartets in one tree are resolved in the same way or
-different ways in a forest of comparison trees.
+\code{CompareQuartetsMulti()} counts how many quartets in one tree are resolved
+in the same way or different ways in a forest of comparison trees.
 }
 \details{
-This function relies on explicitly enumerating each quartet in each tree.
+\code{CompareQuartetsMulti()} explicitly evaluates each quartet in each tree.
 As such its runtime will increase hyper-exponentially with the number of
 leaves in trees being compared.  30 leaves will take around 5 seconds;
 40 closer to 20 s, and 50 around a minute.
@@ -71,9 +71,15 @@ Other element-by-element comparisons:
 \code{\link{QuartetState}()},
 \code{\link{SharedQuartetStatus}()},
 \code{\link{SplitStatus}()}
+
+Other quartet counting functions: 
+\code{\link{AllQuartets}()},
+\code{\link{CompareQuartets}()},
+\code{\link{ResolvedQuartets}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}
+\concept{quartet counting functions}

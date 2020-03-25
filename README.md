@@ -35,6 +35,9 @@ devtools::install_github('ms609/Quartet')
 You will need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed 
 in order to build the development version from source.
 
+View the [function reference](https://ms609.github.io/Quartet/reference/)
+and [basic usage instructions](https://ms609.github.io/Quartet/articles/Using-Quartet.html).
+
 ## Known limitations
 
 Quartet supports trees with up to 477 leaves.  Larger trees contain more 
@@ -42,9 +45,9 @@ quartets than can be represented by R's signed 32-bit integers.
 
 The underlying 'tqDist' library may handle trees with up to 568 leaves,
 and 64-bit integer representations could increase this number further.  
-Making either of these imporvements within the R package 
+Making either of these improvements within the R package 
 would require substantial additional work, but could be implemented -- do
-[file an issue](https://ms609.github.io/Quartet/issues) if this would be
+[file an issue](http://github.com/ms609/Quartet/issues/new/) if this would be
 useful to you.
 
 ## References
@@ -71,3 +74,7 @@ useful to you.
 
 - Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results.
   Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
+
+Please note that the 'Quartet' project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.

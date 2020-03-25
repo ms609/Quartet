@@ -13,7 +13,7 @@ SymmetricDifferenceLines(nsd, ...)
 \item{nsd}{Vector specifying normalized symmetric differences to plot.}
 
 \item{\dots}{Further parameters to pass to
-\code{\link[Ternary:AddToTernary]{TernaryLines}}.}
+\code{\link[Ternary:AddToTernary]{TernaryLines}()}.}
 }
 \value{
 Returns a matrix of dim \verb{(length(nsd), 6)}, with columns named

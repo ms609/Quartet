@@ -32,7 +32,7 @@ trees of class \code{phylo}.}
 which to compare \code{trees}.}
 }
 \value{
-Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if \code{cf} is not specified).  Columns list the status of each quartet:
+\code{QuartetStatus()} returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if \code{cf} is not specified).  Columns list the status of each quartet:
 \describe{
 \item{N}{The total number of quartet \emph{statements} for two trees of \emph{n} leaves,
 i.e. 2 \emph{Q}.}
@@ -44,20 +44,19 @@ i.e. 2 \emph{Q}.}
 \item{u}{The number of quartets that are unresolved in both trees.}
 }
 
-\code{ManyToManyQuartetAgreement} returns a three-dimensional array listing,
+\code{ManyToManyQuartetAgreement()} returns a three-dimensional array listing,
 for each pair of trees in turn, the number of quartets in each category.
 
-\code{TwoListQuartetAgreement} returns a three-dimensional array listing,
+\code{TwoListQuartetAgreement()} returns a three-dimensional array listing,
 for each pair of trees in turn, the number of quartets in each category.
 
-\code{SingleTreeQuartetAgreement} returns a two-dimensional array listing,
+\code{SingleTreeQuartetAgreement()} returns a two-dimensional array listing,
 for tree in \code{trees}, the total number of quartets and the
 number of quartets in each category.
 The \code{comparison} tree is treated as \code{tree2}.
 }
 \description{
-Determines the number of quartets that are consistent within pairs of
-cladograms.
+Determines the number of quartets that are consistent within pairs of trees.
 }
 \details{
 Given a list of trees, returns the number of quartet statements present in the
@@ -93,17 +92,17 @@ quartets in a comparison tree.
 }}
 
 \examples{
- data('sq_trees')
- # Calculate the status of each quartet relative to the first entry in 
- # sq_trees
- sq_status <- QuartetStatus(sq_trees)
- 
- # Calculate the status of each quartet relative to a given tree
- two_moved <- sq_trees[5:7]
- sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
- 
- # Calculate Estabrook et al's similarity measures:
- SimilarityMetrics(sq_status)
+data('sq_trees')
+# Calculate the status of each quartet relative to the first entry in 
+# sq_trees
+sq_status <- QuartetStatus(sq_trees)
+
+# Calculate the status of each quartet relative to a given tree
+two_moved <- sq_trees[5:7]
+sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
+
+# Calculate Estabrook et al's similarity measures:
+SimilarityMetrics(sq_status)
  
  # Calculate Quartet Divergence between each tree and each other tree in a 
  # list
@@ -113,21 +112,19 @@ quartets in a comparison tree.
   QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
 }
 \references{
-{
-\insertRef{Brodal2013}{Quartet}
-
-\insertRef{Estabrook1985}{Quartet}
-
-\insertRef{Holt2014}{Quartet}
-
-\insertRef{Sand2014}{Quartet}
+\itemize{
+\item \insertRef{Brodal2013}{Quartet}
+\item \insertRef{Estabrook1985}{Quartet}
+\item \insertRef{Holt2014}{Quartet}
+\item \insertRef{Sand2014}{Quartet}
 }
 }
 \seealso{
-\verb{\link{SplitStatus}}: Uses splits (groups/clades defined by
+\itemize{
+\item \code{\link[=SplitStatus]{SplitStatus()}}: Uses splits (groups/clades defined by
 nodes or edges of the tree) instead of quartets as the unit of comparison.
-
-\code{\link{SimilarityMetrics}}: Generates distance metrics from quartet statuses.
+\item \code{\link[=SimilarityMetrics]{SimilarityMetrics()}}: Generates distance metrics from quartet statuses.
+}
 
 Other element-by-element comparisons: 
 \code{\link{CompareQuartetsMulti}()},

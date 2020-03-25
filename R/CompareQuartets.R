@@ -3,7 +3,7 @@
 #' Lists all choices of four taxa from a tree.
 #'  
 #' A more computationally efficient alternative to \code{\link[utils]{combn}},
-#' `AllQuartets` uses \code{\link[memoise]{memoise}} to make repeated calls faster.
+#' `AllQuartets()` uses memoization to make repeated calls faster.
 #'
 #' @param n_tips Integer, specifying the number of tips in a tree.
 #' 
@@ -14,14 +14,14 @@
 #' @template MRS
 #'
 #' @family quartet counting functions
-#' @seealso \code{\link[utils]{combn}}
+#' @seealso 
+#' - \code{\link[utils]{combn}()}
 #' 
 #' @examples
-#'  n_tips <- 6
-#'  AllQuartets(n_tips)
+#'  AllQuartets(5)
 #'  
-#'  combn(n_tips, 4) # Provides the same information, but for large 
-#'                   # values of n_tips is significantly slower.
+#'  combn(5, 4) # Provides the same information, but for large 
+#'              # values of n_tips is significantly slower.
 #' 
 #' @importFrom memoise memoise
 #' @export
@@ -39,53 +39,55 @@ AllQuartets <- memoise(function (n_tips) {
 
 #' Quartet State(s)
 #' 
-#' Report the status of the specified quartet(s).
+#' Report the status of the specified quartet(s) in given trees or lists of 
+#' splits.
 #' 
-#' One of the three possible four-taxon trees will be consistent with any set of
-#' splits generated from a fully resolved tree.  If the taxa are numbered 
-#' 1 to 4, this tree can be identified by naming the tip most closely related 
-#' to taxon 1.
+#' One of the three possible four-leaf trees will be consistent with any set of
+#' splits generated from a fully resolved tree.  If the leaves are numbered 
+#' 1 to 4, this tree can be identified by naming the leaf most closely related 
+#' to leaf 1.
 #' If a set of splits is generated from a tree that contains polytomies, 
-#' it is possible that all three four-taxon trees are consistent with the set
-#' of splits
+#' it is possible that all three four-leaf trees are consistent with the set
+#' of splits.
 #'
-#' @param tips A four-element array listing a quartet of tips, either by their
+#' @param tips A four-element array listing a quartet of leaves, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
 #' @param splits An object that can be induced to a `Splits` object using
 #'   \code{\link[TreeTools]{as.Splits}}.
 #' @param bips Depreciated; included for compatibility with v1.0.2 and below.
 #' @param asRaw Logical specifying whether return format should be `raw`,
 #' which uses less memory and can be processed faster than `integer` type.
-#' Default is currently set to `FALSE` for backwards compatability; suggest
+#' Default is currently set to `FALSE` for backwards compatibility; suggest
 #' overriding to `TRUE`.
 #'
-#' @return `QuartetState()` returns `0` if the relationships of the four taxa 
+#' @return `QuartetState()` returns `0` if the relationships of the four leaves
 #' are not constrained by the provided splits, or the index of the closest
 #' relative to `tips[1]`, otherwise.
 #'
 #' @template MRS
 #' 
 #' @family element-by-element comparisons
-#' @seealso \code{\link{CompareQuartets}}, used to compare quartet states between
-#'   trees.
-#' @examples{
-#'   nTip <- 6
-#'   trees <- list(ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL),
-#'                 ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL))
-#'   
-#'   trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
-#'   
-#'   QuartetState(c(1, 3, 4, 6), trees[[2]])  
-#'   QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
-#'   QuartetState(c(1, 3, 4, 6), trees[[3]])  
-#'   
-#'   QuartetStates(trees[[2]])
-#'   QuartetStates(trees[[3]])
-#'   
-#' }
+#' @seealso Compare quartet states between trees (slowly) using 
+#' `[CompareQuartets()]` and `[CompareQuartetsMulti()`].
+#' 
+#' @examples
+#' trees <- list(TreeTools::BalancedTree(6),
+#'               TreeTools::PectinateTree(6))
+#' 
+#' trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
+#' 
+#' QuartetState(c(1, 3, 4, 6), trees[[2]])  
+#' QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
+#' QuartetState(c(1, 3, 4, 6), trees[[3]])  
+#' 
+#' QuartetStates(trees[[2]])
+#' QuartetStates(trees[[3]])
+#' 
+#' CompareQuartets(QuartetStates(trees[[2]]), QuartetStates(trees[[3]]))
+#' CompareQuartetsMulti(trees[[1]], trees[2:3])
 #' 
 #' @references 
-#'   \insertRef{Estabrook1985}{Quartet}
+#' - \insertRef{Estabrook1985}{Quartet}
 #' 
 #' @importFrom TreeTools Subsplit as.Splits
 #' @export
@@ -106,10 +108,10 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
   if(asRaw) as.raw(ret) else ret
 }
 
-#' @describeIn QuartetState A convenience wrapper that lists the status of all
-#' possible quartets for a given `Splits` object.
-#'        
+#' @rdname QuartetState
 #' @importFrom TreeTools as.Splits NTip
+#' @return `QuartetStates()` returns a vector listing the status of each 
+#' quartet of leaves (in the order listed by `[AllQuartets()]`) in turn.
 #' @export
 QuartetStates <- function (splits, asRaw = FALSE) {
   splits <- as.Splits(splits)
@@ -138,7 +140,7 @@ QuartetStates <- function (splits, asRaw = FALSE) {
 #' @param tips Vector of length four specifying index of tips to consider.
 #' @param splits Splits object.
 #' @param nTip Integer specifying number of splits in `splits`.
-#' @return Vector of raws specifying the closest relative of `tips[1]` in each 
+#' @return Raw vector specifying the closest relative of `tips[1]` in each 
 #' split
 #' @importFrom TreeTools NTip
 #' @keywords internal
@@ -187,32 +189,32 @@ QuartetStates <- function (splits, asRaw = FALSE) {
 
 #' Compare quartet states by explicit enumeration
 #' 
-#' Uses explicit enumeration to compare two lists of quartet states, 
-#' detailing how many are identical and how many are unresolved.
-#' For most purposes, the faster function \code{\link{QuartetStatus}} will be preferable.
+#' `CompareQuartets()` uses explicit enumeration to compare two lists of 
+#' quartet states, detailing how many are identical and how many are unresolved.
+#' For most purposes, the faster function `[QuartetStatus()]` will be preferable.
 #' 
-#' @param x,cf List of quartet states, perhaps generated by
-#'  \code{\link{QuartetStates}}.
+#' @param x,cf List of quartet states, perhaps generated by `[QuartetStates()]`.
 #'
-#' @templateVar intro Returns an array of seven numeric elements, corresponding to the quantities of Estabrook _et al_. (1985):
+#' @templateVar intro Returns an array of seven numeric elements, corresponding
+#' to the quantities of Estabrook _et al_. (1985):
 #' @template returnEstabrook
 #' 
 #' @template MRS
 #'
 #' @family element-by-element comparisons
-#' @seealso \code{\link{QuartetStatus}}, generates this output from a list of
-#'  trees.
+#' @family quartet counting functions
+#' 
+#' @seealso
+#' - `[QuartetStatus()]` generates the same output from a list of trees.
 #'
 #' @examples
-#'   n_tip <- 6
-#'   trees <- list(ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL),
-#'                 ape::rtree(n_tip, tip.label=seq_len(n_tip), br=NULL))
+#'   trees <- list(TreeTools::BalancedTree(6),
+#'                 TreeTools::PectinateTree(6))
 #'   quartets <- QuartetStates(trees)
 #'   CompareQuartets(quartets[[1]], quartets[[2]])
 #' 
-#'@references {
+#' @references 
 #' \insertRef{Estabrook1985}{Quartet}
-#'}
 #' 
 #' @export
 CompareQuartets <- function (x, cf) {
@@ -232,22 +234,22 @@ CompareQuartets <- function (x, cf) {
   )
 }
 
-#' Compare one tree's quartets against many others
+#' Compare one tree's quartets against others'
 #' 
-#' Count how many quartets in one tree are resolved in the same way or 
-#' different ways in a forest of comparison trees.
+#' `CompareQuartetsMulti()` counts how many quartets in one tree are resolved
+#' in the same way or different ways in a forest of comparison trees.
 #' 
-#' This function relies on explicitly enumerating each quartet in each tree.
+#' `CompareQuartetsMulti()` explicitly evaluates each quartet in each tree.
 #' As such its runtime will increase hyper-exponentially with the number of 
 #' leaves in trees being compared.  30 leaves will take around 5 seconds; 
 #' 40 closer to 20 s, and 50 around a minute.
 #' 
-#' @param x Tree of interest
+#' @param x Object of class `phylo` representing the tree of interest.
 #' @param cf Comparison tree of class `phylo`, or list thereof, each with the 
 #' same leaves as `x`.
 #' 
-#' @return `UniqueQuartets()` returns a named integer vector specifying the
-#' number of quartets whose resolution in `x` matches all or any of the
+#' @return `CompareQuartetsMulti()` returns a named integer vector specifying 
+#' the number of quartets whose resolution in `x` matches all or any of the
 #' resolutions in `cf`.
 #' 
 #' Named elements are:
@@ -281,6 +283,7 @@ CompareQuartets <- function (x, cf) {
 #' 
 #' @template MRS
 #' @family element-by-element comparisons
+#' @family quartet counting functions
 #' 
 #' @examples 
 #' library('TreeTools')

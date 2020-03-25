@@ -1,4 +1,4 @@
-#' Eighteen trees
+#' Eighteen example trees
 #' 
 #' A list of class \code{\link[ape:multiphylo]{multiPhylo}} containing phylogenetic trees:
 #' \describe{

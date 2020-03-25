@@ -36,8 +36,8 @@ QuartetDivergence(elementStatus, similarity = TRUE)
 \arguments{
 \item{elementStatus}{Two-dimensional integer array, with rows corresponding to
 counts of matching quartets or partitions for each tree, and columns named
-according to the output of \code{[QuartetStatus]} or
-\code{[SplitStatus]}.}
+according to the output of \code{\link[=QuartetStatus]{QuartetStatus()}} or
+\code{\link[=SplitStatus]{SplitStatus()}}.}
 
 \item{similarity}{Logical specifying whether to calculate the similarity
 or dissimilarity.}
@@ -116,21 +116,18 @@ data('sq_trees')
 
 sq_status <- QuartetStatus(sq_trees)
 SimilarityMetrics(sq_status)
-QuartetDivergence(sq_status, similarity=FALSE)
+QuartetDivergence(sq_status, similarity = FALSE)
 
 }
 \references{
-\insertRef{Day1986}{Quartet}
-
-\insertRef{Estabrook1985}{Quartet}
-
-\insertRef{Marczewski1958}{Quartet}
-
-\insertRef{Robinson1981}{Quartet}
-
-\insertRef{Smith2019}{Quartet}
-
-\insertRef{Steel1993}{Quartet}
+\itemize{
+\item \insertRef{Day1986}{Quartet}
+\item \insertRef{Estabrook1985}{Quartet}
+\item \insertRef{Marczewski1958}{Quartet}
+\item \insertRef{Robinson1981}{Quartet}
+\item \insertRef{Smith2019}{Quartet}
+\item \insertRef{Steel1993}{Quartet}
+}
 
 \insertRef{Smith2019}{Quartet}
 }

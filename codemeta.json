@@ -335,5 +335,5 @@
       }
     }
   ],
-  "relatedLink": "https://CRAN.R-project.org/package=Quartet"
+  "relatedLink": ["https://CRAN.R-project.org/package=Quartet", "https://ms609.github.io/Quartet"]
 }

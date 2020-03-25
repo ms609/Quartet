@@ -80,20 +80,20 @@
 #' 
 #' sq_status <- QuartetStatus(sq_trees)
 #' SimilarityMetrics(sq_status)
-#' QuartetDivergence(sq_status, similarity=FALSE)
+#' QuartetDivergence(sq_status, similarity = FALSE)
 #'
 #' @references 
-#' \insertRef{Day1986}{Quartet}
+#' - \insertRef{Day1986}{Quartet}
 #' 
-#' \insertRef{Estabrook1985}{Quartet}
+#' - \insertRef{Estabrook1985}{Quartet}
 #' 
-#' \insertRef{Marczewski1958}{Quartet}
+#' - \insertRef{Marczewski1958}{Quartet}
 #'
-#' \insertRef{Robinson1981}{Quartet}
+#' - \insertRef{Robinson1981}{Quartet}
 #'
-#' \insertRef{Smith2019}{Quartet}
+#' - \insertRef{Smith2019}{Quartet}
 #'
-#' \insertRef{Steel1993}{Quartet}
+#' - \insertRef{Steel1993}{Quartet}
 #' 
 #' @template MRS
 #' 

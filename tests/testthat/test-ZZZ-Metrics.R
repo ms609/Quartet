@@ -29,7 +29,8 @@ test_that("Quartets are counted correctly", {
 test_that("Quartet metrics are sane", {
   sq_status <- QuartetStatus(sq_trees)
   sims  <- SimilarityMetrics(sq_status)
-  dists <- SimilarityMetrics(sq_status, similarity=FALSE)
+  dists <- SimilarityMetrics(sq_status, similarity = FALSE)
+
   expect_true(all(sims <= 1))
   expect_true(all(sims + dists == 1)[-4]) # SSJA doesn't sum to 1
   expect_true(all(dists['ref_tree', ] == 0))
@@ -43,7 +44,10 @@ test_that("Quartet metrics are sane", {
   expect_equal(sims[, 'SteelPenny'], as.double(SteelPenny(sq_status)))
   expect_equal(sims[, 'QuartetDivergence'], as.double(QuartetDivergence(sq_status)))
   
-  testData <- c(N=16L, Q=8, s=1, d=2, r1=1, r2=1, u=3)
+  sim6 <- SimilarityMetrics(sq_status[6, ])
+  expect_equivalent(sims[6, ], sim6)
+  
+  testData <- c(N = 16L, Q = 8, s = 1, d = 2, r1 = 1, r2 = 1, u = 3)
   expect_equal(c(tree = 2/8), DoNotConflict(testData, FALSE))
   expect_equal(c(tree = 7/8), ExplicitlyAgree(testData, FALSE))
   expect_equal(c(tree = 2/3), StrictJointAssertions(testData, FALSE))
@@ -134,7 +138,8 @@ test_that ("Partitions are counted correctly", {
   expect_true(all(rowSums(p_dist[, c('s', 'd2', 'r2')]) == p_dist[, 'P2']))
   
   expect_equal(rf_dist, as.integer(RobinsonFoulds(p_dist)))
-  expect_equal(rf_dist, as.integer(p_dist[, 'N'] - RobinsonFoulds(p_dist, similarity=TRUE)))
+  expect_equal(rf_dist, as.integer(p_dist[, 'N'] - 
+                                     RobinsonFoulds(p_dist, similarity = TRUE)))
   expect_equal(sum(p_dist['move_one_mid' , c('r1', 'd1')]),
                sum(p_dist['m1mid_col1'   , c('r1', 'd1')]),
                sum(p_dist['m1mid_colsome', c('r1', 'd1')]))
