@@ -53,8 +53,8 @@ different ways in a forest of comparison trees.
 \details{
 This function relies on explicitly enumerating each quartet in each tree.
 As such its runtime will increase hyper-exponentially with the number of
-leaves in trees being compared.  20 leaves will take around 10 seconds;
-25 closer to 40 s.
+leaves in trees being compared.  30 leaves will take around 5 seconds;
+40 closer to 20 s, and 50 around a minute.
 }
 \examples{
 library('TreeTools')
