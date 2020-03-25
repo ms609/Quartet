@@ -1,3 +1,180 @@
+#' List all quartets
+#'
+#' Lists all choices of four taxa from a tree.
+#'  
+#' A more computationally efficient alternative to \code{\link[utils]{combn}},
+#' `AllQuartets` uses \code{\link[memoise]{memoise}} to make repeated calls faster.
+#'
+#' @param n_tips Integer, specifying the number of tips in a tree.
+#' 
+#' @return Returns a list of length \code{choose(n_tips, 4)}, with each entry 
+#' corresponding to a unique selection of four different integers less than
+#' or equal to `n_tips`
+#' 
+#' @template MRS
+#'
+#' @family quartet counting functions
+#' @seealso \code{\link[utils]{combn}}
+#' 
+#' @examples
+#'  n_tips <- 6
+#'  AllQuartets(n_tips)
+#'  
+#'  combn(n_tips, 4) # Provides the same information, but for large 
+#'                   # values of n_tips is significantly slower.
+#' 
+#' @importFrom memoise memoise
+#' @export
+AllQuartets <- memoise(function (n_tips) {
+  unlist(lapply(seq_len(n_tips - 3), function (i) {
+    unlist(lapply((i + 1):(n_tips - 2), function (j) {
+      unlist(lapply((j + 1):(n_tips - 1), function (k) {
+        lapply((k + 1):n_tips, function (l) {
+          c(i, j, k, l)
+        })
+      }), recursive=FALSE)
+    }), recursive=FALSE)
+  }), recursive=FALSE)
+})
+
+#' Quartet State(s)
+#' 
+#' Report the status of the specified quartet(s).
+#' 
+#' One of the three possible four-taxon trees will be consistent with any set of
+#' splits generated from a fully resolved tree.  If the taxa are numbered 
+#' 1 to 4, this tree can be identified by naming the tip most closely related 
+#' to taxon 1.
+#' If a set of splits is generated from a tree that contains polytomies, 
+#' it is possible that all three four-taxon trees are consistent with the set
+#' of splits
+#'
+#' @param tips A four-element array listing a quartet of tips, either by their
+#'             number (if class `numeric`) or their name (if class `character`).
+#' @param splits An object that can be induced to a `Splits` object using
+#'   \code{\link[TreeTools]{as.Splits}}.
+#' @param bips Depreciated; included for compatibility with v1.0.2 and below.
+#' @param asRaw Logical specifying whether return format should be `raw`,
+#' which uses less memory and can be processed faster than `integer` type.
+#' Default is currently set to `FALSE` for backwards compatability; suggest
+#' overriding to `TRUE`.
+#'
+#' @return `QuartetState()` returns `0` if the relationships of the four taxa 
+#' are not constrained by the provided splits, or the index of the closest
+#' relative to `tips[1]`, otherwise.
+#'
+#' @template MRS
+#' 
+#' @family element-by-element comparisons
+#' @seealso \code{\link{CompareQuartets}}, used to compare quartet states between
+#'   trees.
+#' @examples{
+#'   nTip <- 6
+#'   trees <- list(ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL),
+#'                 ape::rtree(nTip, tip.label=seq_len(nTip), br=NULL))
+#'   
+#'   trees[[3]] <- TreeTools::CollapseNode(trees[[2]], 9:10)
+#'   
+#'   QuartetState(c(1, 3, 4, 6), trees[[2]])  
+#'   QuartetState(1:4, trees[[1]]) == QuartetState(1:4, trees[[2]])
+#'   QuartetState(c(1, 3, 4, 6), trees[[3]])  
+#'   
+#'   QuartetStates(trees[[2]])
+#'   QuartetStates(trees[[3]])
+#'   
+#' }
+#' 
+#' @references 
+#'   \insertRef{Estabrook1985}{Quartet}
+#' 
+#' @importFrom TreeTools Subsplit as.Splits
+#' @export
+QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
+  statement <- Subsplit(as.Splits(splits), tips, keepAll = FALSE, 
+                        unique = TRUE)[1]
+  ret <- if (statement == 0L) {
+    0L
+  } else if (statement == 3L || statement == 12L) {
+    2L
+  } else if (statement == 5L || statement == 10L) {
+    3L
+  } else {
+    4L
+  }
+  
+  # Return:
+  if(asRaw) as.raw(ret) else ret
+}
+
+#' @describeIn QuartetState A convenience wrapper that lists the status of all
+#' possible quartets for a given `Splits` object.
+#'        
+#' @importFrom TreeTools as.Splits NTip
+#' @export
+QuartetStates <- function (splits, asRaw = FALSE) {
+  splits <- as.Splits(splits)
+  nTip <- NTip(splits)[1]
+  allQuartets <- AllQuartets(nTip)
+  
+  if (mode(splits) == 'list') {
+    nQuartets <- length(allQuartets)
+    return(t(vapply(splits, QuartetStates, 
+                  if (asRaw) raw(nQuartets) else integer(nQuartets),
+                  asRaw = asRaw)))
+  }
+  
+  ret <- vapply(allQuartets, .Subsplit, raw(1L), unname(splits), nTip)
+  
+  # Return:
+  if (asRaw) {
+    ret 
+  } else {
+    as.integer(ret)
+  }
+}
+
+
+#' @importFrom TreeTools NTip
+#' @keywords internal
+#' @export
+.Subsplit <- function (tips, splits, nTip = NTip(splits)[1]) {
+  blankMask <- raw((nTip - 1L) %/% 8L + 1L)
+  masks <- as.raw(c(1, 2, 4, 8, 16, 32, 64, 128))
+  tipMask <- vapply(tips, function (tip) {
+    mask <- blankMask
+    element <- (tip - 1L) %/% 8L + 1L
+    mask[element] <- masks[(tip - 1L) %% 8L + 1L]
+    mask
+  }, blankMask)
+  if (is.null(dim(tipMask))) tipMask <- matrix(tipMask, 1L)
+  mask12 <- tipMask[, 1] | tipMask[, 2]
+  mask13 <- tipMask[, 1] | tipMask[, 3]
+  mask14 <- tipMask[, 1] | tipMask[, 4]
+  mask23 <- tipMask[, 2] | tipMask[, 3]
+  mask24 <- tipMask[, 2] | tipMask[, 4]
+  mask34 <- tipMask[, 3] | tipMask[, 4]
+  mask <- tipMask[, 1] | tipMask[, 2] | tipMask[, 3] | tipMask[, 4]
+  subSplits <- splits & mask
+  ret <- as.raw(0L)
+  for (i in seq_len(nrow(subSplits))) {
+    # Up to twice as fast if we don't remove duplicates
+    split <- subSplits[i, ]
+    if (identical(split, mask12) || identical(split, mask34)) {
+      ret <- as.raw(2L)
+      break
+    } else if (identical(split, mask13) || identical(split, mask24))  {
+      ret <- as.raw(3L)
+      break
+    } else if (identical(split, mask14) || identical(split, mask23))  {
+      ret <- as.raw(4L)
+      break
+    }
+  }
+  
+  # Return:
+  ret
+}
+
 
 #' Compare quartet states by explicit enumeration
 #' 
@@ -106,7 +283,7 @@ CompareQuartets <- function (x, cf) {
 #' @export
 CompareQuartetsMulti <- function (x, cf) {
   
-  input <- QuartetStates(x)
+  input <- QuartetStates(x, asRaw = TRUE)
   if (inherits(cf, 'phylo')) {
     cf <- list(cf)
   }
@@ -124,10 +301,10 @@ CompareQuartetsMulti <- function (x, cf) {
   cf <- lapply(cf, RenumberTips, xLabels)
   
   nCf <- length(cf)
-  comparison <- vapply(cf, QuartetStates, input)
+  comparison <- vapply(cf, QuartetStates, input, asRaw = TRUE)
   
   xResolved <- as.logical(input)
-  cfResolved <- comparison != 0
+  cfResolved <- comparison != as.raw(0)
   cfAnyResolved <- as.logical(rowSums(cfResolved))
   cfAllResolved <- rowSums(cfResolved) == nCf
   
