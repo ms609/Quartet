@@ -125,6 +125,19 @@ status <- TwoListQuartetAgreement(forest[1:3], forest[4:6])
 QuartetDivergence(status, similarity = FALSE)
 ```
 
+## Other calculations
+
+To calculate how many quartets are unique to a certain tree (akin to
+the partitionwise equivalent `[ape::prop.clades]`), use:
+```{r in-one-only}
+interestingTree <- as.phylo(42, 7)
+referenceTrees <- list(BalancedTree(7), PectinateTree(7))
+status <- CompareQuartetsMulti(interestingTree, referenceTrees)
+```
+
+`status['x_only']` = `r status['x_only']` quartets are resolved in a certain way
+in `interestingTree`, but not resolved that way in any `referenceTrees`.
+
 ## What next?
 
 You may wish to:

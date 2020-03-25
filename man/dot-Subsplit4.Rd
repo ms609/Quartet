@@ -14,7 +14,7 @@
 \item{nTip}{Integer specifying number of splits in \code{splits}.}
 }
 \value{
-Vector of raws specifying the closest relative of \code{tips[1]} in each
+Raw vector specifying the closest relative of \code{tips[1]} in each
 split
 }
 \description{

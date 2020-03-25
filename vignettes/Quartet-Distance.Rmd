@@ -27,7 +27,7 @@ require('ape') # for plot.phylo
 The Robinson-Foulds (RF or 'partition') metric [@Robinson1981; @Steel1993]
 measures the symmetric difference between two trees by adding
 the number of splits that are present in tree A (but not tree B)
-to the number of splits present in tree B (but not tree A).  
+to the number of splits present in tree B (but not tree A).
 
 It is most useful when the trees to be compared are very similar; it has
 a low range of integer values, limiting its ability to distinguish between

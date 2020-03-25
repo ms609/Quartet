@@ -1,8 +1,7 @@
 
 #' Status of quartets
 #' 
-#' Determines the number of quartets that are consistent within pairs of
-#' cladograms.
+#' Determines the number of quartets that are consistent within pairs of trees.
 #' 
 #' Given a list of trees, returns the number of quartet statements present in the
 #' reference tree (the first entry in `trees`, if `cf` is not specified)
@@ -21,44 +20,43 @@
 #' The status of each quartet is calculated using the algorithms of
 #' Brodal _et al_. (2013) and Holt _et al_. (2014), implemented in the
 #' tqdist C library (Sand _et al_. 2014).
-#'       
 #' 
 #' @template treesParam
 #' @template treesCfParam
 #' 
-#' @templateVar intro Returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
+#' @templateVar intro `QuartetStatus()` returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
 #' @template returnEstabrook
 #'         
 #' @template MRS
 #' 
 #' @examples
-#'  data('sq_trees')
-#'  # Calculate the status of each quartet relative to the first entry in 
-#'  # sq_trees
-#'  sq_status <- QuartetStatus(sq_trees)
-#'  
-#'  # Calculate the status of each quartet relative to a given tree
-#'  two_moved <- sq_trees[5:7]
-#'  sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
-#'  
-#'  # Calculate Estabrook et al's similarity measures:
-#'  SimilarityMetrics(sq_status)
+#' data('sq_trees')
+#' # Calculate the status of each quartet relative to the first entry in 
+#' # sq_trees
+#' sq_status <- QuartetStatus(sq_trees)
+#' 
+#' # Calculate the status of each quartet relative to a given tree
+#' two_moved <- sq_trees[5:7]
+#' sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
+#' 
+#' # Calculate Estabrook et al's similarity measures:
+#' SimilarityMetrics(sq_status)
 #'  
 #' @family element-by-element comparisons
-#' @seealso `\link{SplitStatus}`: Uses splits (groups/clades defined by
+#' @seealso 
+#' - [`SplitStatus()`]: Uses splits (groups/clades defined by
 #'  nodes or edges of the tree) instead of quartets as the unit of comparison.
 #'  
-#'  [`SimilarityMetrics`]: Generates distance metrics from quartet statuses.
+#' - [`SimilarityMetrics()`]: Generates distance metrics from quartet statuses.
 #' 
-#' @references {
-#'   \insertRef{Brodal2013}{Quartet}
+#' @references 
+#' - \insertRef{Brodal2013}{Quartet}
 #' 
-#'   \insertRef{Estabrook1985}{Quartet}
+#' - \insertRef{Estabrook1985}{Quartet}
 #'
-#'   \insertRef{Holt2014}{Quartet}
+#' - \insertRef{Holt2014}{Quartet}
 #'
-#'   \insertRef{Sand2014}{Quartet}
-#' }
+#' - \insertRef{Sand2014}{Quartet}
 #'
 #' @importFrom Rdpack reprompt 
 #' @name QuartetStatus
@@ -87,16 +85,16 @@ QuartetStatus <- function (trees, cf=trees[[1]]) {
 #' 
 #' @param trees List of phylogenetic trees, of class \code{list} or
 #'                 \code{\link[ape:read.tree]{multiPhylo}}.
-#' @return `TQDist` returns the quartet distance between each pair of trees.
+#' @return `TQDist()` returns the quartet distance between each pair of trees.
 #' 
 #' @references
-#'   \insertRef{Brodal2013}{Quartet}
+#' - \insertRef{Brodal2013}{Quartet}
 #'   
-#'   \insertRef{Estabrook1985}{Quartet}
+#' - \insertRef{Estabrook1985}{Quartet}
 #'   
-#'   \insertRef{Holt2014}{Quartet}
+#' - \insertRef{Holt2014}{Quartet}
 #'   
-#'   \insertRef{Sand2014}{Quartet}
+#'- \insertRef{Sand2014}{Quartet}
 #' 
 #' @seealso [`CompareQuartets()`], [`QuartetStatus()`]
 #' 
@@ -109,10 +107,10 @@ TQDist <- function (trees) {
   .Call('_Quartet_tqdist_AllPairsQuartetDistanceEdge', .TreeToEdge(trees))
 }
 
-#' @describeIn TQDist Number of agreeing quartets that are resolved / unresolved.
-#' @return `TQAE` returns the number of resolved quartets in agreement between 
-#'   each pair of trees (A in Brodal _et al_. 2013) and the number of quartets 
-#'   that are unresolved in both trees (E in Brodal _et al_. 2013).
+#' @rdname TQDist
+#' @return `TQAE()` returns the number of resolved quartets in agreement between 
+#'   each pair of trees ('A' in Brodal _et al_. 2013) and the number of quartets 
+#'   that are unresolved in both trees ('E' in Brodal _et al_. 2013).
 #' @export 
 TQAE <- function (trees) {
   .CheckSize(trees)
@@ -141,7 +139,7 @@ TQAE <- function (trees) {
 
 #' @describeIn QuartetStatus Agreement of each quartet, comparing each pair of trees 
 #' in a list.
-#' @return `ManyToManyQuartetAgreement` returns a three-dimensional array listing,
+#' @return `ManyToManyQuartetAgreement()` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @examples 
 #'  # Calculate Quartet Divergence between each tree and each other tree in a 
@@ -170,7 +168,7 @@ ManyToManyQuartetAgreement <- function (trees) {
 #' each quartet in trees in a second list.
 #' @param trees1,trees2 List or `multiPhylo` objects containing
 #'   trees of class `phylo`.
-#' @return `TwoListQuartetAgreement` returns a three-dimensional array listing,
+#' @return `TwoListQuartetAgreement()` returns a three-dimensional array listing,
 #'   for each pair of trees in turn, the number of quartets in each category.
 #' @examples 
 #'   # Calculate Quartet Divergence between each tree in one list and each 
@@ -187,7 +185,7 @@ TwoListQuartetAgreement <- function (trees1, trees2) {
 #' quartets in a comparison tree.
 #' @param comparison A tree of class \code{\link[ape:read.tree]{phylo}} against
 #' which to compare `trees`.
-#' @return `SingleTreeQuartetAgreement` returns a two-dimensional array listing,
+#' @return `SingleTreeQuartetAgreement()` returns a two-dimensional array listing,
 #'   for tree in `trees`, the total number of quartets and the 
 #'   number of quartets in each category.  
 #'   The `comparison` tree is treated as `tree2`.
@@ -250,11 +248,11 @@ TQFile <- function (treeList) {
 #' Functions to calculate triplet and quartet distances between pairs of trees.
 #' 
 #' @param file,file1,file2 Paths to files containing a tree or trees in Newick
-#'  format, possible created using [`TQFile`].
+#'  format, possibly created using [`TQFile()`].
 #' 
-#' @return `Distance` functions return the distance between the requested trees.
+#' @return `...Distance()` functions return the distance between the requested trees.
 #'  
-#'  `Agreement` functions return the number of triplets or quartets that are:
+#'  `...Agreement()` functions return the number of triplets or quartets that are:
 #'  * `A`, resolved in the same fashion in both trees;
 #'  * `E`, unresolved in both trees.
 #'  
@@ -274,13 +272,13 @@ TQFile <- function (treeList) {
 #' * [`TQFile()`] creates a temporary file containing specified trees.
 #' 
 #' 
-#' @references {
-#'   \insertRef{Brodal2013}{Quartet}
+#' @references 
+#' -  \insertRef{Brodal2013}{Quartet}
 #'   
-#'   \insertRef{Holt2014}{Quartet}
+#' -  \insertRef{Holt2014}{Quartet}
 #'   
-#'   \insertRef{Sand2014}{Quartet}
-#' }
+#' -  \insertRef{Sand2014}{Quartet}
+#' 
 #' @concept Tree distances
 #' @name Distances
 NULL

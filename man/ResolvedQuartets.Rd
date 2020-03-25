@@ -48,7 +48,9 @@ vapply(sq_trees, ResolvedQuartets, integer(2))
 
 }
 \references{
-\insertRef{Brodal2013}{Quartet}
+\itemize{
+\item \insertRef{Brodal2013}{Quartet}
+}
 }
 \seealso{
 Other quartet counting functions: 

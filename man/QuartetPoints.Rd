@@ -44,31 +44,25 @@ polytomy, it is not possible to establish (based only on the reference tree)
 whether this resolution is correct or erroneous.  As such, extra resolution
 in \code{trees} that is neither corroborated nor contradicted by \code{cf} is ignored.
 }
-\section{Functions}{
-\itemize{
-\item \code{SplitPoints}: Uses partitions instead of quartets to calculate
-tree distances.
-}}
-
 \examples{
-{
-  library('Ternary')
-  data('sq_trees')
-  
-  TernaryPlot(alab='Unresolved', blab='Contradicted', clab='Consistent', point='right')
-  TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col='red', lty='dotted')
-  TernaryText(QuartetPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
-    col=Ternary::cbPalette8[2], cex=0.8)
-  TernaryText(SplitPoints(sq_trees, cf=sq_trees$collapse_one), 1:15, 
-    col=Ternary::cbPalette8[3], cex=0.8)
-  legend('bottomright', c("Quartets", "Splits"), bty='n', pch=1, cex=0.8,
-    col=Ternary::cbPalette8[2:3])
-  
-}
+library('Ternary')
+data('sq_trees')
+
+TernaryPlot(alab = 'Unresolved', blab = 'Contradicted', clab = 'Consistent',
+            point = 'right')
+TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col = 'red', lty = 'dotted')
+TernaryText(QuartetPoints(sq_trees, cf = sq_trees$collapse_one), 1:15, 
+            col = Ternary::cbPalette8[2], cex = 0.8)
+TernaryText(SplitPoints(sq_trees, cf = sq_trees$collapse_one), 1:15, 
+            col = Ternary::cbPalette8[3], cex = 0.8)
+legend('bottomright', c("Quartets", "Splits"), bty = 'n', pch = 1, cex = 0.8,
+       col = Ternary::cbPalette8[2:3])
 
 }
 \references{
-\insertRef{Smith2019}{Quartet}
+\itemize{
+\item \insertRef{Smith2019}{Quartet}
+}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

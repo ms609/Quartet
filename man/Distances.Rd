@@ -33,12 +33,12 @@ AllPairsTripletDistance(file)
 }
 \arguments{
 \item{file, file1, file2}{Paths to files containing a tree or trees in Newick
-format, possible created using \code{\link{TQFile}}.}
+format, possibly created using \code{\link[=TQFile]{TQFile()}}.}
 }
 \value{
-\code{Distance} functions return the distance between the requested trees.
+\code{...Distance()} functions return the distance between the requested trees.
 
-\code{Agreement} functions return the number of triplets or quartets that are:
+\code{...Agreement()} functions return the number of triplets or quartets that are:
 \itemize{
 \item \code{A}, resolved in the same fashion in both trees;
 \item \code{E}, unresolved in both trees.
@@ -82,12 +82,10 @@ each other tree therein.
 }}
 
 \references{
-{
-\insertRef{Brodal2013}{Quartet}
-
-\insertRef{Holt2014}{Quartet}
-
-\insertRef{Sand2014}{Quartet}
+\itemize{
+\item \insertRef{Brodal2013}{Quartet}
+\item \insertRef{Holt2014}{Quartet}
+\item \insertRef{Sand2014}{Quartet}
 }
 }
 \seealso{

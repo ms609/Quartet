@@ -30,7 +30,8 @@
 #' vapply(sq_trees, ResolvedQuartets, integer(2))
 #'
 #' 
-#' @references \insertRef{Brodal2013}{Quartet}
+#' @references
+#' - \insertRef{Brodal2013}{Quartet}
 #' 
 ## @importFrom TreeTools Renumber
 #' @export 

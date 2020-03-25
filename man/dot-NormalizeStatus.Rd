@@ -9,8 +9,8 @@
 \arguments{
 \item{elementStatus}{Two-dimensional integer array, with rows corresponding to
 counts of matching quartets or partitions for each tree, and columns named
-according to the output of \code{[QuartetStatus]} or
-\code{[SplitStatus]}.}
+according to the output of \code{\link[=QuartetStatus]{QuartetStatus()}} or
+\code{\link[=SplitStatus]{SplitStatus()}}.}
 
 \item{numerator, denominator}{Character vector listing elements to sum in
 numerator / denominator}

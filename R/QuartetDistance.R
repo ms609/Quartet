@@ -1,35 +1,34 @@
 WHICH_OTHER_NODE <- 2:4
 
-#' Plot quartet on a tree topology
+#' Plot quartet on tree topologies
 #' 
 #' Draws a tree, highlighting the members of a specified quartet in colour.
 #' 
 #' 
 #' @param tree A tree of class \code{\link[ape:read.tree]{phylo}},
 #'   or a list of such trees.
-#' @param quartet A vector of four integers, corresponding to numbered tips on
-#'                the tree; or a character vector specifying the labels of four
-#'                tips.
-#' @param overwritePar Logical specifying whether to use existing 
-#'                     `\link[graphics]{par}` `mfrow` and `mar` parameters
-#'                      (\code{FALSE}),
-#'                     or to plot trees side-by-side in a new graphical device (`TRUE`).
+#' @param quartet A vector of four integers, corresponding to numbered leaves on
+#'  the tree; or a character vector specifying the labels of four leaves.
+#' @param overwritePar Logical specifying whether to use existing `mfrow` and 
+#' `mar` parameters from \code{\link[graphics]{par}()} (`FALSE`),
+#' or to plot trees side-by-side in a new graphical device (`TRUE`).
 #' @param caption Logical specifying whether to annotate each plot to specify
 #'   whether the quartet selected is in the same or a different state to the 
 #'   reference tree.
-#' @param \dots Additional parameters to send to \code{\link[graphics]{plot}}.
+#' @param \dots Additional parameters to send to \code{\link[graphics]{plot}()}.
 #'                
 #' @template MRS
 #' 
-#' @return Returns `invisible()`, having plotted a tree in which the first two members
-#' of `quartet` are highlighted in orange, and the second two highlighted in 
-#' blue.
+#' @return `PlotQuartet()` returns `invisible()`, having plotted a tree in 
+#' which the first two members of `quartet` are highlighted in orange, and the
+#' second two highlighted in blue.
 #' 
 #' @examples 
-#'   data('sq_trees')
+#' data('sq_trees')
 #'   
-#'   par(mfrow=c(3, 5), mar=rep(0.5, 4))
-#'   PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
+#' oPar <- par(mfrow = c(3, 6), mar = rep(0.5, 4))
+#' PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
+#' par(oPar)
 #' 
 #' @importFrom graphics par plot legend
 #' @importFrom TreeTools RenumberTips

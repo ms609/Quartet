@@ -45,16 +45,13 @@ CompareSplits(splits1, splits2)
         
 }
 \references{
-{
-
-\insertRef{Estabrook1985}{Quartet}
-
-\insertRef{Robinson1981}{Quartet}
-
+\itemize{
+\item \insertRef{Estabrook1985}{Quartet}
+\item \insertRef{Robinson1981}{Quartet}
 }
 }
 \seealso{
-\verb{\link{CompareQuartets}}: equivalent function for quartets.
+Equivalent function for quartets: \verb{[CompareQuartets()]}
 
 Other element-by-element comparisons: 
 \code{\link{CompareQuartetsMulti}()},

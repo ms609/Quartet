@@ -59,34 +59,31 @@ tips that do not occur in both trees being compared.
 }}
 
 \examples{
-{
-  data('sq_trees')
-  
-  # Calculate the status of each quartet
-  splitStatuses <- SplitStatus(sq_trees)
-  
-  # Calculate the Robinson Foulds distances
-  RobinsonFoulds(splitStatuses)
-  
-  # Normalize the Robinson Foulds distance by dividing by the number of 
-  # splits present in the two trees:
-  RobinsonFoulds(splitStatuses) / splitStatuses[, 'N']
-  
-  # Normalize the Robinson Foulds distance by dividing by the total number of 
-  # splits that it is possible to resolve for `n` tips:
-  nTip <- length(sq_trees[[1]]$tip.label)
-  nPartitions <- 2 * (nTip - 3L) # Does not include the nTip partitions that 
-                                 # comprise but a single tip
-  RobinsonFoulds(splitStatuses) / nPartitions
-  
-}
+data('sq_trees')
+
+# Calculate the status of each quartet
+splitStatuses <- SplitStatus(sq_trees)
+
+# Calculate the Robinson Foulds distances
+RobinsonFoulds(splitStatuses)
+
+# Normalize the Robinson Foulds distance by dividing by the number of 
+# splits present in the two trees:
+RobinsonFoulds(splitStatuses) / splitStatuses[, 'N']
+
+# Normalize the Robinson Foulds distance by dividing by the total number of 
+# splits that it is possible to resolve for `n` tips:
+nTip <- length(sq_trees[[1]]$tip.label)
+nPartitions <- 2 * (nTip - 3L) # Does not include the nTip partitions that 
+                               # comprise but a single tip
+RobinsonFoulds(splitStatuses) / nPartitions
+
 
 }
 \references{
-{
-\insertRef{Robinson1981}{Quartet}
-
-\insertRef{Penny1985}{Quartet}
+\itemize{
+\item \insertRef{Robinson1981}{Quartet}
+\item \insertRef{Penny1985}{Quartet}
 }
 }
 \seealso{
