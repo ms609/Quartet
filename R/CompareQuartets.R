@@ -7,9 +7,9 @@
 #'
 #' @param n_tips Integer, specifying the number of tips in a tree.
 #' 
-#' @return Returns a list of length \code{choose(n_tips, 4)}, with each entry 
-#' corresponding to a unique selection of four different integers less than
-#' or equal to `n_tips`
+#' @return `AllQuartets()` returns a list of length \code{choose(n_tips, 4)}, 
+#' with each entry corresponding to a unique selection of four different
+#' integers less than or equal to `n_tips`.
 #' 
 #' @template MRS
 #'
@@ -123,7 +123,7 @@ QuartetStates <- function (splits, asRaw = FALSE) {
                   asRaw = asRaw)))
   }
   
-  ret <- vapply(allQuartets, .Subsplit, raw(1L), unname(splits), nTip)
+  ret <- vapply(allQuartets, .Subsplit4, raw(1L), unname(splits), nTip)
   
   # Return:
   if (asRaw) {
@@ -133,11 +133,17 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   }
 }
 
-
+#' Closest to tip 1 in each split
+#' 
+#' @param tips Vector of length four specifying index of tips to consider.
+#' @param splits Splits object.
+#' @param nTip Integer specifying number of splits in `splits`.
+#' @return Vector of raws specifying the closest relative of `tips[1]` in each 
+#' split
 #' @importFrom TreeTools NTip
 #' @keywords internal
-#' @export
-.Subsplit <- function (tips, splits, nTip = NTip(splits)[1]) {
+.Subsplit4 <- function (tips, splits, nTip = NTip(splits)[1]) {
+
   blankMask <- raw((nTip - 1L) %/% 8L + 1L)
   masks <- as.raw(c(1, 2, 4, 8, 16, 32, 64, 128))
   tipMask <- vapply(tips, function (tip) {
@@ -147,14 +153,17 @@ QuartetStates <- function (splits, asRaw = FALSE) {
     mask
   }, blankMask)
   if (is.null(dim(tipMask))) tipMask <- matrix(tipMask, 1L)
+  
   mask12 <- tipMask[, 1] | tipMask[, 2]
   mask13 <- tipMask[, 1] | tipMask[, 3]
   mask14 <- tipMask[, 1] | tipMask[, 4]
   mask23 <- tipMask[, 2] | tipMask[, 3]
   mask24 <- tipMask[, 2] | tipMask[, 4]
   mask34 <- tipMask[, 3] | tipMask[, 4]
-  mask <- tipMask[, 1] | tipMask[, 2] | tipMask[, 3] | tipMask[, 4]
+  mask <- mask12 | mask34
+  
   subSplits <- splits & mask
+  
   ret <- as.raw(0L)
   for (i in seq_len(nrow(subSplits))) {
     # Up to twice as fast if we don't remove duplicates
@@ -230,8 +239,8 @@ CompareQuartets <- function (x, cf) {
 #' 
 #' This function relies on explicitly enumerating each quartet in each tree.
 #' As such its runtime will increase hyper-exponentially with the number of 
-#' leaves in trees being compared.  20 leaves will take around 10 seconds; 
-#' 25 closer to 40 s.
+#' leaves in trees being compared.  30 leaves will take around 5 seconds; 
+#' 40 closer to 20 s, and 50 around a minute.
 #' 
 #' @param x Tree of interest
 #' @param cf Comparison tree of class `phylo`, or list thereof, each with the 
