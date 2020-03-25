@@ -154,10 +154,9 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   mask34 <- tipMask[, 3] | tipMask[, 4]
   mask <- tipMask[, 1] | tipMask[, 2] | tipMask[, 3] | tipMask[, 4]
   subSplits <- unname(splits) & mask
-  dups <- duplicated.array(subSplits, MARGIN = 1L)
-  subSplits <- subSplits[!dups, , drop = FALSE]
   ret <- as.raw(0L)
   for (i in seq_len(nrow(subSplits))) {
+    # Up to twice as fast if we don't remove duplicates
     split <- subSplits[i, ]
     if (identical(split, mask12) || identical(split, mask34)) {
       ret <- as.raw(2L)
