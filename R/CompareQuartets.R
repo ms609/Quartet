@@ -153,7 +153,7 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   mask23 <- tipMask[, 2] | tipMask[, 3]
   mask24 <- tipMask[, 2] | tipMask[, 4]
   mask34 <- tipMask[, 3] | tipMask[, 4]
-  mask <- tipMask[, 1] | tipMask[, 2] | tipMask[, 3] | tipMask[, 4]
+  mask <- mask12 | mask34
   subSplits <- splits & mask
   ret <- as.raw(0L)
   for (i in seq_len(nrow(subSplits))) {
