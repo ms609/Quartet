@@ -10,6 +10,11 @@
 #' of polytomies).  'Quartet' makes this distinction in both the quartet metric
 #' (function [`QuartetStatus()`]) and the partition metric (i.e. Robinson-Foulds
 #'  distance; function [`SplitStatus()`]).
+#'  
+#' ## Using Quartet
+#' 
+#' View the [function reference](https://ms609.github.io/Quartet/reference/)
+#' and [basic usage instructions](https://ms609.github.io/Quartet/articles/Using-Quartet.html).
 #' 
 #' ## Known limitations
 #' 
