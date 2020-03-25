@@ -91,6 +91,7 @@ tips that do not occur in both trees being compared.
 }
 \seealso{
 Other element-by-element comparisons: 
+\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareQuartets}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},

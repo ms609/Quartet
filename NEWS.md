@@ -1,6 +1,8 @@
-# Quartet v1.1.0.9000 (development)
+# Quartet v1.1.0.9001 (development)
 
- - Minor documentation improvements
+ - New function `CompareQuartetsMulti()` compares quartet status in one tree
+ with status in multiple others.
+ - Minor documentation improvements.
 
 # Quartet v1.1.0
 

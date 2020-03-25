@@ -7,17 +7,17 @@
   "identifier": "Quartet",
   "description": "Calculates the number of four-taxon subtrees consistent with a pair\n  of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),\n  Reconstructing the shape of a tree from observed dissimilarity data,\n  Advances in Applied Mathematics, 7, 309-343 <doi:10.1016/0196-8858(86)90038-2>, \n  and using the tqDist algorithm of Sand et al. (2014), tqDist: a library for\n  computing the quartet and triplet distances between binary or general trees,\n  Bioinformatics, 30, 2079–2080 <doi:10.1093/bioinformatics/btu157>\n  for pairs of binary trees.",
   "name": "Quartet: Comparison of Phylogenetic Trees Using Quartet and Split Measures",
-  "codeRepository": "https://github.com/ms609/Quartet",
-  "issueTracker": "https://github.com/ms609/Quartet/issues",
+  "codeRepository": "https://github.com/ms609/Quartet/",
+  "issueTracker": "https://github.com/ms609/Quartet/issues/",
   "license": "https://spdx.org/licenses/GPL-2.0",
   "version": "1.1.0.9001",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.1",
+    "version": "3.6.3",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.1 (2019-07-05)",
+  "runtimePlatform": "R version 3.6.3 (2020-02-29)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -226,7 +226,7 @@
   ],
   "releaseNotes": "https://github.com/ms609/SlowQuartet.git/blob/master/NEWS.md",
   "readme": "https://github.com/ms609/Quartet/blob/master/README.md",
-  "fileSize": "131.427KB",
+  "fileSize": "135.7KB",
   "contIntegration": ["https://travis-ci.org/ms609/Quartet", "https://codecov.io/gh/ms609/Quartet"],
   "developmentStatus": "https://www.repostatus.org/#inactive",
   "keywords": [

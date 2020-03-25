@@ -57,6 +57,7 @@ CompareSplits(splits1, splits2)
 \verb{\link{CompareQuartets}}: equivalent function for quartets.
 
 Other element-by-element comparisons: 
+\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareQuartets}()},
 \code{\link{PairSharedQuartetStatus}()},
 \code{\link{QuartetState}()},

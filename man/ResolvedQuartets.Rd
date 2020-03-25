@@ -16,12 +16,19 @@ ResolvedTriplets(tree)
 of triplets instead of the number of quartets.}
 }
 \value{
-A vector of length two, listing the number of quartets (or triplets)
+\code{ResolvedQuartets()} returns a vector of length two, listing the
+number of quartets (or triplets)
 that are [1] resolved; [2] unresolved in the specified tree.
 }
 \description{
 Counts how many quartets are resolved or unresolved in a given tree,
 following Brodal \emph{et al.} (2013).
+}
+\details{
+Trees with more than 477 leaves risk encountering integer overflow errors,
+as the number of quartets is larger than can be stored in R's signed
+32-bit integer representation.  If warnings are thrown, check subsequent
+calculations for errors.
 }
 \section{Functions}{
 \itemize{
