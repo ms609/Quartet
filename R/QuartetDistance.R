@@ -185,7 +185,7 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
 #' possible quartets for a given `Splits` object.
 #'        
 #' @importFrom ape Ntip
-#' @importFrom TreeTools as.Splits NTip Subsplit
+#' @importFrom TreeTools as.Splits NTip
 #' @export
 QuartetStates <- function (splits, asRaw = FALSE) {
   splits <- as.Splits(splits)
@@ -194,12 +194,7 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   allQuartets <- AllQuartets(nTip)
   NA_RAW <- as.raw(255L)
   
-  subs <- vapply(allQuartets, function (tips) {
-    ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),	
-                function (x) if (length(x)) as.raw(x) else NA_RAW, raw(1L))	
-    if (length(ret) == 0L) ret <- rep(NA_RAW, outLength)
-    ret	
-  }, raw(outLength))
+  subs <- vapply(allQuartets, function (tips) .Subsplit(splits, tips), raw(outLength))
   
   states <- c(0L, 2L, 3L, 4L)
   if (asRaw) {
@@ -217,6 +212,38 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   }  
   # Return:
   ret
+}
+
+#' @importFrom TreeTools NTip
+#' @keywords internal
+#' @export
+.Subsplit <- function (splits, tips) {
+  nTip <- NTip(splits)
+  blankMask <- raw((nTip - 1L) %/% 8L + 1L)
+  tipMask <- vapply(tips, function (tip) {
+    mask <- blankMask
+    element <- (tip - 1L) %/% 8L + 1L
+    mask[element] <- as.raw(bitwShiftL(1L, (tip - 1L) %% 8L))
+    mask
+  }, blankMask)
+  mask12 <- tipMask[, 1] | tipMask[, 2]
+  mask13 <- tipMask[, 1] | tipMask[, 3]
+  mask14 <- tipMask[, 1] | tipMask[, 4]
+  mask23 <- tipMask[, 2] | tipMask[, 3]
+  mask24 <- tipMask[, 2] | tipMask[, 4]
+  mask34 <- tipMask[, 3] | tipMask[, 4]
+  mask <- tipMask[, 1] | tipMask[, 2] | tipMask[, 3] | tipMask[, 4]
+  subSplits <- splits & mask
+  dups <- duplicated.array(subSplits, MARGIN = 1L)
+  subSplits <- subSplits[!dups, ]
+  hits <- apply(subSplits, 1, function (split) {
+    if (identical(split, mask12) || identical(split, mask34)) as.raw(2L) else
+    if (identical(split, mask13) || identical(split, mask24)) as.raw(3L) else
+    if (identical(split, mask14) || identical(split, mask23)) as.raw(4L) else 
+    as.raw(0)
+  })
+  hits <- hits[hits != as.raw(0L)]
+  if (any(hits)) hits else as.raw(0L)
 }
 
 #' @describeIn QuartetStatus Reports split statistics obtained after removing all
