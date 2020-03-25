@@ -129,6 +129,10 @@ AllQuartets <- memoise(function (n_tips) {
 #' @param splits An object that can be induced to a `Splits` object using
 #'   \code{\link[TreeTools]{as.Splits}}.
 #' @param bips Depreciated; included for compatibility with v1.0.2 and below.
+#' @param asRaw Logical specifying whether return format should be `raw`,
+#' which uses less memory and can be processed faster than `integer` type.
+#' Default is currently set to `FALSE` for backwards compatability; suggest
+#' overriding to `TRUE`.
 #'
 #' @return `QuartetState` returns `0` if the relationships of the four taxa are
 #'  not constrained by the provided splits, or the index of the closest
@@ -160,10 +164,10 @@ AllQuartets <- memoise(function (n_tips) {
 #' 
 #' @importFrom TreeTools Subsplit as.Splits
 #' @export
-QuartetState <- function (tips, bips, splits = bips) {
+QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
   statement <- Subsplit(as.Splits(splits), tips, keepAll = FALSE, 
                         unique = TRUE)[1]
-  if (statement == 0L) {
+  ret <- if (statement == 0L) {
     0L
   } else if (statement == 3L || statement == 12L) {
     2L
@@ -172,6 +176,9 @@ QuartetState <- function (tips, bips, splits = bips) {
   } else {
     4L
   }
+  
+  # Return:
+  if(asRaw) as.raw(ret) else ret
 }
 
 #' @describeIn QuartetState A convenience wrapper that lists the status of all
@@ -180,24 +187,31 @@ QuartetState <- function (tips, bips, splits = bips) {
 #' @importFrom ape Ntip
 #' @importFrom TreeTools as.Splits NTip
 #' @export
-QuartetStates <- function (splits) {
+QuartetStates <- function (splits, asRaw = FALSE) {
   splits <- as.Splits(splits)
   outLength <- if (mode(splits) == 'list') length(splits) else 1L
   nTip <- NTip(splits)[1]
   allQuartets <- AllQuartets(nTip)
+  NA_RAW <- as.raw(255L)
   
   subs <- vapply(allQuartets, function (tips) {
-  ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),	
-                function (x) {if (length(x)) as.integer(x) else NA},	
-                integer(1L))	
-  if (length(ret) == 0L) ret <- rep(NA, outLength)	
-  ret	
-  }, integer(outLength))
+    ret <- vapply(Subsplit(splits, tips, keepAll = FALSE, unique = TRUE),	
+                function (x) if (length(x)) as.raw(x) else NA_RAW, raw(1L))	
+    if (length(ret) == 0L) ret <- rep(NA_RAW, outLength)
+    ret	
+  }, raw(outLength))
   
+  states <- c(0L, 2L, 3L, 4L)
+  if (asRaw) {
+    states <- as.raw(states)
+  }
+  # try states[ret]
+  # try as integer, then decoding using decode[subs], decode=xxx2x3x4xxxx3x2x4
+  ret <- ifelse(subs == NA_RAW, 0L,
+                ifelse(subs == as.raw(3L) | subs == as.raw(12L), 2L,
+                       ifelse(subs == as.raw(5L) | subs == as.raw(10L), 3L, 4L)))
   # Return:
-  ifelse(is.na(subs), 0L,
-         ifelse(subs == 3L | subs == 12L, 2L,
-                ifelse(subs == 5L | subs == 10L, 3L, 4L)))
+  if (asRaw) matrix(as.raw(ret), nrow(ret), ncol(ret)) else ret
 }
 
 #' @describeIn QuartetStatus Reports split statistics obtained after removing all
