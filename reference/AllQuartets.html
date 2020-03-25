@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/pulse/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -38,7 +38,7 @@
 <meta property="og:title" content="List all quartets — AllQuartets" />
 <meta property="og:description" content="Lists all choices of four taxa from a tree.
 A more computationally efficient alternative to combn,
-AllQuartets uses memoise to make repeated calls faster." />
+AllQuartets() uses memoization to make repeated calls faster." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -53,6 +53,16 @@ AllQuartets uses memoise to make repeated calls faster." />
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-156666971-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-156666971-4');
+</script>
 
 
   </head>
@@ -94,10 +104,10 @@ AllQuartets uses memoise to make repeated calls faster." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Critical-distances.html">Interpreting large quartet distances</a>
+      <a href="../articles/Quartet-Distance.html">About the quartet distance</a>
     </li>
     <li>
-      <a href="../articles/Tree-distance-metrics.html">Tree distance metrics</a>
+      <a href="../articles/Using-Quartet.html">Getting started with Quartet</a>
     </li>
   </ul>
 </li>
@@ -133,7 +143,7 @@ AllQuartets uses memoise to make repeated calls faster." />
     <div class="ref-description">
     <p>Lists all choices of four taxa from a tree.</p>
 <p>A more computationally efficient alternative to <code><a href='https://rdrr.io/r/utils/combn.html'>combn</a></code>,
-<code>AllQuartets</code> uses <code><a href='https://rdrr.io/pkg/memoise/man/memoise.html'>memoise</a></code> to make repeated calls faster.</p>
+<code>AllQuartets()</code> uses memoization to make repeated calls faster.</p>
     </div>
 
     <pre class="usage"><span class='fu'>AllQuartets</span>(<span class='no'>n_tips</span>)</pre>
@@ -154,67 +164,37 @@ with each entry corresponding to a unique selection of four different
 integers less than or equal to <code>n_tips</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/r/utils/combn.html'>combn</a></code></p>
+    <div class='dont-index'>
+<ul>
+<li><p><code><a href='https://rdrr.io/r/utils/combn.html'>combn</a>()</code></p></li>
+</ul>
+
 <p>Other quartet counting functions: 
+<code><a href='CompareQuartetsMulti.html'>CompareQuartetsMulti</a>()</code>,
+<code><a href='CompareQuartets.html'>CompareQuartets</a>()</code>,
 <code><a href='ResolvedQuartets.html'>ResolvedQuartets</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='no'>n_tips</span> <span class='kw'>&lt;-</span> <span class='fl'>6</span>
- <span class='fu'>AllQuartets</span>(<span class='no'>n_tips</span>)</div><div class='output co'>#&gt; [[1]]
+    <pre class="examples"><div class='input'> <span class='fu'>AllQuartets</span>(<span class='fl'>5</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] 1 2 3 4
 #&gt; 
 #&gt; [[2]]
 #&gt; [1] 1 2 3 5
 #&gt; 
 #&gt; [[3]]
-#&gt; [1] 1 2 3 6
-#&gt; 
-#&gt; [[4]]
 #&gt; [1] 1 2 4 5
 #&gt; 
-#&gt; [[5]]
-#&gt; [1] 1 2 4 6
-#&gt; 
-#&gt; [[6]]
-#&gt; [1] 1 2 5 6
-#&gt; 
-#&gt; [[7]]
+#&gt; [[4]]
 #&gt; [1] 1 3 4 5
 #&gt; 
-#&gt; [[8]]
-#&gt; [1] 1 3 4 6
-#&gt; 
-#&gt; [[9]]
-#&gt; [1] 1 3 5 6
-#&gt; 
-#&gt; [[10]]
-#&gt; [1] 1 4 5 6
-#&gt; 
-#&gt; [[11]]
+#&gt; [[5]]
 #&gt; [1] 2 3 4 5
-#&gt; 
-#&gt; [[12]]
-#&gt; [1] 2 3 4 6
-#&gt; 
-#&gt; [[13]]
-#&gt; [1] 2 3 5 6
-#&gt; 
-#&gt; [[14]]
-#&gt; [1] 2 4 5 6
-#&gt; 
-#&gt; [[15]]
-#&gt; [1] 3 4 5 6
 #&gt; </div><div class='input'>
- <span class='fu'><a href='https://rdrr.io/r/utils/combn.html'>combn</a></span>(<span class='no'>n_tips</span>, <span class='fl'>4</span>) <span class='co'># Provides the same information, but for large </span></div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14]
-#&gt; [1,]    1    1    1    1    1    1    1    1    1     1     2     2     2     2
-#&gt; [2,]    2    2    2    2    2    2    3    3    3     4     3     3     3     4
-#&gt; [3,]    3    3    3    4    4    5    4    4    5     5     4     4     5     5
-#&gt; [4,]    4    5    6    5    6    6    5    6    6     6     5     6     6     6
-#&gt;      [,15]
-#&gt; [1,]     3
-#&gt; [2,]     4
-#&gt; [3,]     5
-#&gt; [4,]     6</div><div class='input'>                  # values of n_tips is significantly slower.
+ <span class='fu'><a href='https://rdrr.io/r/utils/combn.html'>combn</a></span>(<span class='fl'>5</span>, <span class='fl'>4</span>) <span class='co'># Provides the same information, but for large </span></div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5]
+#&gt; [1,]    1    1    1    1    2
+#&gt; [2,]    2    2    2    3    3
+#&gt; [3,]    3    3    4    4    4
+#&gt; [4,]    4    5    5    5    5</div><div class='input'>             # values of n_tips is significantly slower.
 
 </div></pre>
   </div>

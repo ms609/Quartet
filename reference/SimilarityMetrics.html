@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/pulse/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -51,6 +51,16 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-156666971-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-156666971-4');
+</script>
 
 
   </head>
@@ -92,10 +102,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Critical-distances.html">Interpreting large quartet distances</a>
+      <a href="../articles/Quartet-Distance.html">About the quartet distance</a>
     </li>
     <li>
-      <a href="../articles/Tree-distance-metrics.html">Tree distance metrics</a>
+      <a href="../articles/Using-Quartet.html">Getting started with Quartet</a>
     </li>
   </ul>
 </li>
@@ -159,8 +169,8 @@
       <th>elementStatus</th>
       <td><p>Two-dimensional integer array, with rows corresponding to
 counts of matching quartets or partitions for each tree, and columns named
-according to the output of <code>[QuartetStatus]</code> or
-<code>[SplitStatus]</code>.</p></td>
+according to the output of <code><a href='QuartetStatus.html'>QuartetStatus()</a></code> or
+<code><a href='SplitStatus.html'>SplitStatus()</a></code>.</p></td>
     </tr>
     <tr>
       <th>similarity</th>
@@ -227,35 +237,39 @@ number of tips (Smith 2019):</p><ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Day WH (1986).
+    
+<ul>
+<li><p>Day WH (1986).
 &#8220;Analysis of quartet dissimilarity measures between undirected phylogenetic trees.&#8221;
 <em>Systematic Biology</em>, <b>35</b>(3), 325--333.
 doi: <a href='https://doi.org/10.1093/sysbio/35.3.325'>10.1093/sysbio/35.3.325</a>
-.</p>
-<p>Estabrook GF, McMorris FR, Meacham CA (1985).
+.</p></li>
+<li><p>Estabrook GF, McMorris FR, Meacham CA (1985).
 &#8220;Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units.&#8221;
 <em>Systematic Zoology</em>, <b>34</b>(2), 193--200.
 doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
-.</p>
-<p>Marczewski E, Steinhaus H (1958).
+.</p></li>
+<li><p>Marczewski E, Steinhaus H (1958).
 &#8220;On a certain distance of sets and the corresponding distance of functions.&#8221;
 <em>Colloquium Mathematicae</em>, <b>6</b>(1), 319--327.
-<a href='https://eudml.org/doc/210378'>https://eudml.org/doc/210378</a>.</p>
-<p>Robinson DF, Foulds LR (1981).
+<a href='https://eudml.org/doc/210378'>https://eudml.org/doc/210378</a>.</p></li>
+<li><p>Robinson DF, Foulds LR (1981).
 &#8220;Comparison of phylogenetic trees.&#8221;
 <em>Mathematical Biosciences</em>, <b>53</b>(1-2), 131--147.
 doi: <a href='https://doi.org/10.1016/0025-5564(81)90043-2'>10.1016/0025-5564(81)90043-2</a>
-.</p>
-<p>Smith MR (2019).
+.</p></li>
+<li><p>Smith MR (2019).
 &#8220;Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets.&#8221;
 <em>Biology Letters</em>, <b>15</b>, 20180632.
 doi: <a href='https://doi.org/10.1098/rsbl.2018.0632'>10.1098/rsbl.2018.0632</a>
-.</p>
-<p>Steel MA, Penny D (1993).
+.</p></li>
+<li><p>Steel MA, Penny D (1993).
 &#8220;Distributions of tree comparison metrics---some new results.&#8221;
 <em>Systematic Biology</em>, <b>42</b>(2), 126--141.
 doi: <a href='https://doi.org/10.1093/sysbio/42.2.126'>10.1093/sysbio/42.2.126</a>
-, <a href='http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf'>http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf</a>.</p>
+, <a href='http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf'>http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf</a>.</p></li>
+</ul>
+
 <p>Smith MR (2019).
 &#8220;Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets.&#8221;
 <em>Biology Letters</em>, <b>15</b>, 20180632.
@@ -331,7 +345,7 @@ from which the Estabrook <em>et al.</em> metrics are calculated.</p></li>
 #&gt; caterpillar              0.5865385  0.7393939         0.7393939
 #&gt; top_and_tail             0.2267658  0.3696970         0.3696970
 #&gt; anti_pectinate           0.1478261  0.2575758         0.2575758
-#&gt; random_tree              0.1870504  0.3151515         0.3151515</div><div class='input'><span class='fu'>QuartetDivergence</span>(<span class='no'>sq_status</span>, <span class='kw'>similarity</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;       ref_tree  move_one_near   move_one_mid   move_one_far  move_two_near 
+#&gt; random_tree              0.1870504  0.3151515         0.3151515</div><div class='input'><span class='fu'>QuartetDivergence</span>(<span class='no'>sq_status</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;       ref_tree  move_one_near   move_one_mid   move_one_far  move_two_near 
 #&gt;     0.00000000     0.02424242     0.15757576     0.23030303     0.07272727 
 #&gt;   move_two_mid   move_two_far   collapse_one  collapse_some     m1mid_col1 
 #&gt;     0.23636364     0.27878788     0.01212121     0.18636364     0.16969697 

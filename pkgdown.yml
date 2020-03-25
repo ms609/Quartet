@@ -2,6 +2,6 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
-  Critical-distances: Critical-distances.html
-  Tree-distance-metrics: Tree-distance-metrics.html
+  Quartet-Distance: Quartet-Distance.html
+  Using-Quartet: Using-Quartet.html
 
