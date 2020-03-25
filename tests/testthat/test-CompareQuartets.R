@@ -9,12 +9,12 @@ quartets <- ape::read.tree(TreePath('all_quartets'))
 test_that("QuartetStates works", {
   expect_equal(2L, QuartetStates(quartets[[1]]))
   expect_equal(3L, QuartetStates(as.Splits(quartets[[2]], letters[1:4])))
-  expect_equal(c(2L, 3L, 4L, 0L), QuartetStates(quartets))
+  expect_equal(c(2L, 3L, 4L, 0L), QuartetStates(quartets)[1, ])
 
   expect_equal(as.raw(2L), QuartetStates(quartets[[1]], TRUE))
   expect_equal(as.raw(3L), 
                QuartetStates(as.Splits(quartets[[2]], letters[1:4]), TRUE))
-  expect_equal(as.raw(c(2L, 3L, 4L, 0L)), QuartetStates(quartets, TRUE))
+  expect_equal(as.raw(c(2L, 3L, 4L, 0L)), QuartetStates(quartets, TRUE)[1, ])
   
   expect_equal(c(2, 2, 2, 2, 2), QuartetStates(BalancedTree(5), asRaw = FALSE))
   expect_equal(c(3, 3, 4, 2, 3),

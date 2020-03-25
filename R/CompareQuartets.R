@@ -118,9 +118,9 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   
   if (mode(splits) == 'list') {
     nQuartets <- length(allQuartets)
-    return(vapply(splits, QuartetStates, 
+    return(t(vapply(splits, QuartetStates, 
                   if (asRaw) raw(nQuartets) else integer(nQuartets),
-                  asRaw = asRaw))
+                  asRaw = asRaw)))
   }
   
   ret <- vapply(allQuartets, .Subsplit, raw(1L), splits, nTip)
