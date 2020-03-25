@@ -104,14 +104,14 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
   result <- data.frame(
     DoNotConflict = elementStatus[, '2d'] / elementStatus[, 'N'],
     ExplicitlyAgree = 1 - (2L * elementStatus[, 's']) / elementStatus[, 'N'],
-    StrictJointAssertions = elementStatus[, '2d'] / rowSums(elementStatus[, c('2d', 's', 's')]),
+    StrictJointAssertions = elementStatus[, '2d'] / rowSums(elementStatus[, c('2d', 's', 's'), drop = FALSE]),
     SemiStrictJointAssertions = SemiStrictJointAssertions(elementStatus, similarity = FALSE),
-    SymmetricDifference =  rowSums(elementStatus[, c('2d', 'r1', 'r2')]) /
-      rowSums(elementStatus[, c('2d', 's', 's', 'r1', 'r2')]),
-    MarczewskiSteinhaus = rowSums(elementStatus[, c('2d', 'r1', 'r2')]) /
-      rowSums(elementStatus[, c('2d', 's', 'r1', 'r2')]),
+    SymmetricDifference =  rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop = FALSE]) /
+      rowSums(elementStatus[, c('2d', 's', 's', 'r1', 'r2'), drop = FALSE]),
+    MarczewskiSteinhaus = rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop = FALSE]) /
+      rowSums(elementStatus[, c('2d', 's', 'r1', 'r2'), drop = FALSE]),
     SteelPenny = SteelPenny(elementStatus, similarity = FALSE),
-    QuartetDivergence = rowSums(elementStatus[, c('2d', 'r1', 'r2')]) / elementStatus[, 'N']
+    QuartetDivergence = rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop = FALSE]) / elementStatus[, 'N']
   )
   if (similarity) 1 - result else result
 }
