@@ -1,4 +1,5 @@
 context('CompareQuartets.R')
+library('TreeTools')
 
 test_that("CompareQuartets works", {
   expect_equal(c(N=16L, Q=8L, s=1, d=2, r1=1, r2=1, u=3),
@@ -6,8 +7,7 @@ test_that("CompareQuartets works", {
                                c(2, 3, 3, 0, 2, 0, 0, 0)))
 })
 
-test_that('Unique quartets identified', {
-  library('TreeTools')
+test_that('Compare Quartets Multi works okay', {
   bal <- BalancedTree(6L)
   pec <- PectinateTree(6L)
   rnd <- CollapseNode(as.phylo(1337, 6L), 8:9)
@@ -33,6 +33,17 @@ test_that('Unique quartets identified', {
                  r1_all = 0, r1_any = 0, r2_all = 6, r2_any = 6, u_all = 9,
                  u_any = 9, x_only = 0),
                CompareQuartetsMulti(star, part))
-  
-  #TODO TEST: Identical trees with different label order.
 })
+
+test_that('CompareQuartetsMulti insensitive to label order', {
+  all_same <- c(Q = 70, s_all = 70, s_any = 70, d_all = 0, d_any = 0,
+                r1_all = 0, r1_any = 0, r2_all = 0, r2_any = 0, u_all = 0,
+                u_any = 0, x_only = 0)
+  expect_equal(all_same, 
+               CompareQuartetsMulti(PectinateTree(1:8), PectinateTree(8:1))[-1])
+  expect_equal(all_same,
+               CompareQuartetsMulti(BalancedTree(1:8), 
+                                    list(BalancedTree(8:1), 
+                                         BalancedTree(c(1, 2, 4, 3, 8:5))))[-1])
+})
+  
