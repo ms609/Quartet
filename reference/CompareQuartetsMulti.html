@@ -145,7 +145,8 @@ different ways in a forest of comparison trees.</p>
     </tr>
     <tr>
       <th>cf</th>
-      <td><p>Tree of class <code>phylo</code>, or list thereof, for comparison</p></td>
+      <td><p>Comparison tree of class <code>phylo</code>, or list thereof, each with the
+same leaves as <code>x</code>.</p></td>
     </tr>
     </table>
 
@@ -183,6 +184,12 @@ same way in any of <code>cf</code>.</p></dd>
 
 </dl>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function relies on explicitly enumerating each quartet in each tree.
+As such its runtime will increase hyper-exponentially with the number of
+leaves in trees being compared.  20 leaves will take around 10 seconds;
+25 closer to 40 s.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other element-by-element comparisons: 
@@ -207,6 +214,7 @@ same way in any of <code>cf</code>.</p></dd>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
