@@ -106,7 +106,7 @@ CompareQuartets <- function (x, cf) {
 #' @export
 CompareQuartetsMulti <- function (x, cf) {
   
-  input <- QuartetStates(x)
+  input <- QuartetStates(x, asRaw = TRUE)
   if (inherits(cf, 'phylo')) {
     cf <- list(cf)
   }
@@ -123,7 +123,7 @@ CompareQuartetsMulti <- function (x, cf) {
   
   
   nCf <- length(cf)
-  comparison <- vapply(cf, QuartetStates, input)
+  comparison <- vapply(cf, QuartetStates, input, asRaw = TRUE)
   
   xResolved <- as.logical(input)
   cfResolved <- comparison != 0

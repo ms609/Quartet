@@ -185,7 +185,7 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
 #' possible quartets for a given `Splits` object.
 #'        
 #' @importFrom ape Ntip
-#' @importFrom TreeTools as.Splits NTip
+#' @importFrom TreeTools as.Splits NTip Subsplit
 #' @export
 QuartetStates <- function (splits, asRaw = FALSE) {
   splits <- as.Splits(splits)
@@ -210,8 +210,13 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   ret <- ifelse(subs == NA_RAW, 0L,
                 ifelse(subs == as.raw(3L) | subs == as.raw(12L), 2L,
                        ifelse(subs == as.raw(5L) | subs == as.raw(10L), 3L, 4L)))
+  if (asRaw) {
+    at <- attributes(ret)
+    ret <- as.raw(ret)
+    attributes(ret) <- at
+  }  
   # Return:
-  if (asRaw) matrix(as.raw(ret), nrow(ret), ncol(ret)) else ret
+  ret
 }
 
 #' @describeIn QuartetStatus Reports split statistics obtained after removing all
