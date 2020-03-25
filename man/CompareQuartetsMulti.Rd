@@ -49,6 +49,12 @@ same way in any of \code{cf}.}
 Count how many quartets in one tree are resolved in the same way or
 different ways in a forest of comparison trees.
 }
+\details{
+This function relies on explicitly enumerating each quartet in each tree.
+As such its runtime will increase hyper-exponentially with the number of
+leaves in trees being compared.  20 leaves will take around 10 seconds;
+25 closer to 40 s.
+}
 \examples{
 library('TreeTools')
 CompareQuartetsMulti(x  = CollapseNode(as.phylo(42, 6), 8:9),
