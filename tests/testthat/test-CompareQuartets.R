@@ -7,7 +7,16 @@ test_that("CompareQuartets works", {
                                c(2, 3, 3, 0, 2, 0, 0, 0)))
 })
 
-test_that('Compare Quartets Multi works okay', {
+
+test_that("CompareQuartetsMulti() fails if leaves don't match", {
+  expect_error(CompareQuartetsMulti(PectinateTree(1:8), 
+                                    list(PectinateTree(1:8),
+                                         PectinateTree(1:9))))
+  expect_error(CompareQuartetsMulti(PectinateTree(1:8), PectinateTree(2:9)))
+})
+
+
+test_that('CompareQuartetsMulti() gets values correct', {
   bal <- BalancedTree(6L)
   pec <- PectinateTree(6L)
   rnd <- CollapseNode(as.phylo(1337, 6L), 8:9)
@@ -35,7 +44,7 @@ test_that('Compare Quartets Multi works okay', {
                CompareQuartetsMulti(star, part))
 })
 
-test_that('CompareQuartetsMulti insensitive to label order', {
+test_that('CompareQuartetsMulti() insensitive to label order', {
   all_same <- c(Q = 70, s_all = 70, s_any = 70, d_all = 0, d_any = 0,
                 r1_all = 0, r1_any = 0, r2_all = 0, r2_any = 0, u_all = 0,
                 u_any = 0, x_only = 0)
@@ -46,4 +55,3 @@ test_that('CompareQuartetsMulti insensitive to label order', {
                                     list(BalancedTree(8:1), 
                                          BalancedTree(c(1, 2, 4, 3, 8:5))))[-1])
 })
-  

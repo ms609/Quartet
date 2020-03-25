@@ -9,7 +9,8 @@ CompareQuartetsMulti(x, cf)
 \arguments{
 \item{x}{Tree of interest}
 
-\item{cf}{Tree of class \code{phylo}, or list thereof, for comparison}
+\item{cf}{Comparison tree of class \code{phylo}, or list thereof, each with the
+same leaves as \code{x}.}
 }
 \value{
 \code{UniqueQuartets()} returns a named integer vector specifying the

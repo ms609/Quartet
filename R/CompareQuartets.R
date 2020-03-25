@@ -57,7 +57,8 @@ CompareQuartets <- function (x, cf) {
 #' 25 closer to 40 s.
 #' 
 #' @param x Tree of interest
-#' @param cf Tree of class `phylo`, or list thereof, for comparison
+#' @param cf Comparison tree of class `phylo`, or list thereof, each with the 
+#' same leaves as `x`.
 #' 
 #' @return `UniqueQuartets()` returns a named integer vector specifying the
 #' number of quartets whose resolution in `x` matches all or any of the
@@ -101,12 +102,26 @@ CompareQuartets <- function (x, cf) {
 #'                      cf = list(BalancedTree(6), PectinateTree(6), 
 #'                                CollapseNode(as.phylo(1337, 6), 9:10)))
 #' 
+#' @importFrom TreeTools NTip
 #' @export
 CompareQuartetsMulti <- function (x, cf) {
+  
   input <- QuartetStates(x)
   if (inherits(cf, 'phylo')) {
     cf <- list(cf)
   }
+  xLabels <- x$tip.label
+  xSorted <- sort(xLabels)
+  cfTips <- vapply(cf, NTip, 0L)
+  if (!all(cfTips == length(xLabels))) {
+    stop("All trees must contain the same number of leaves.")
+  }
+  if (!all(apply(sapply(cf, getElement, 'tip.label'), 2L, function (lab)
+    identical(sort(lab), xSorted)))) {
+    stop("All trees must contain the same tip labels.")
+  }
+  
+  
   nCf <- length(cf)
   comparison <- vapply(cf, QuartetStates, input)
   
