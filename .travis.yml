@@ -32,14 +32,8 @@ r_binary_packages:
 # Some packages not available as binaries:
 r_packages:
  - bookdown
- - CongreveLamsdell2016
  - Ternary
-# - TreeTools
- 
-r_github_packages:
- - ms609/CongreveLamsdell2016
- - ms609/TreeTools
- - ms609/TreeDist
+ - TreeTools
 
 before_script:
   - R -e "pkgload::load_all(); devtools::document()"
@@ -79,6 +73,7 @@ jobs:
          - rmarkdown
          - roxygen2
          - testthat
+         - Ternary
       before_install:
       - brew install cairo
       - sudo tlmgr install doi titling hyperref framed
