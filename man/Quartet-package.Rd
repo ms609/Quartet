@@ -17,6 +17,12 @@ and quartets that are simply absent due to a lack of resolution (i.e. the presen
 of polytomies).  'Quartet' makes this distinction in both the quartet metric
 (function \code{\link[=QuartetStatus]{QuartetStatus()}}) and the partition metric (i.e. Robinson-Foulds
 distance; function \code{\link[=SplitStatus]{SplitStatus()}}).
+\subsection{Using Quartet}{
+
+View the \href{https://ms609.github.io/Quartet/reference/}{function reference}
+and \href{https://ms609.github.io/Quartet/articles/Using-Quartet.html}{basic usage instructions}.
+}
+
 \subsection{Known limitations}{
 
 Quartet supports trees with up to 477 leaves.  Larger trees contain more

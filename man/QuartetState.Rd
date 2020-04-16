@@ -68,7 +68,7 @@ CompareQuartetsMulti(trees[[1]], trees[2:3])
 }
 \seealso{
 Compare quartet states between trees (slowly) using
-\verb{[CompareQuartets()]} and \verb{[CompareQuartetsMulti()}].
+\code{\link[=CompareQuartets]{CompareQuartets()}} and \code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}}.
 
 Other element-by-element comparisons: 
 \code{\link{CompareQuartetsMulti}()},

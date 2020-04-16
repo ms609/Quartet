@@ -68,7 +68,7 @@ AllQuartets <- memoise(function (n_tips) {
 #' 
 #' @family element-by-element comparisons
 #' @seealso Compare quartet states between trees (slowly) using 
-#' `[CompareQuartets()]` and `[CompareQuartetsMulti()`].
+#' [`CompareQuartets()`] and [`CompareQuartetsMulti()`].
 #' 
 #' @examples
 #' trees <- list(TreeTools::BalancedTree(6),
