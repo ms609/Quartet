@@ -211,7 +211,7 @@
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
-      "version": ">= 0.1.4.9002",
+      "version": ">= 0.1.4.9001",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
