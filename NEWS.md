@@ -1,3 +1,8 @@
+# Quartet v1.1.0.9002 (development) 
+
+ - Correctly calculate resolution of unrooted trees with unconventional node
+   numbering conventions.
+
 # Quartet v1.1.0.9001 (development)
 
  - New function `CompareQuartetsMulti()` compares quartet status in one tree

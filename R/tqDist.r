@@ -194,6 +194,9 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
   .CheckSize(trees)
   if (inherits(trees, 'phylo')) trees <- list(trees)	
   
+  comparison <- Preorder(comparison)
+  trees <- lapply(trees, Preorder)
+  
   rq <- ResolvedQuartets(comparison)
   DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
   
@@ -367,7 +370,7 @@ AllPairsQuartetDistance <- function(file) {
 #' @keywords internal
 #' @export
 .TreeToEdge <- function (trees, tipOrder = NULL) {
-  if (class(trees) == 'list' || class(trees) == 'multiPhylo') {
+  if (inherits(trees, c('list', 'multiPhylo'))) {
     if (is.null(tipOrder)) tipOrder <- trees[[1]]$tip.label
     lapply(trees, .SortTree, tipOrder)
   } else {

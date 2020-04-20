@@ -33,10 +33,11 @@
 #' @references
 #' - \insertRef{Brodal2013}{Quartet}
 #' 
-## @importFrom TreeTools Renumber
+#' @importFrom TreeTools Preorder
 #' @export 
 ResolvedQuartets <- function (tree, countTriplets = FALSE) {
   .CheckSize(tree)
+  tree <- Preorder(tree)
   nTip <- length(tree$tip.label)
   nNode <- tree$Nnode
   
@@ -90,4 +91,5 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
 #' @describeIn ResolvedQuartets Convenience function to calculate the number of 
 #' resolved/unresolved triplets.
 #' @export
-ResolvedTriplets <- function (tree) ResolvedQuartets(tree=tree, countTriplets=TRUE)
+ResolvedTriplets <- function (tree) ResolvedQuartets(tree = tree,
+                                                     countTriplets = TRUE)
