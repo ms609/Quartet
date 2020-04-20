@@ -128,7 +128,7 @@ QuartetDivergence(status, similarity = FALSE)
 ## Other calculations
 
 To calculate how many quartets are unique to a certain tree (akin to
-the partitionwise equivalent `[ape::prop.clades]`), use:
+the partitionwise equivalent [`ape::prop.clades`]), use:
 ```{r in-one-only}
 interestingTree <- as.phylo(42, 7)
 referenceTrees <- list(BalancedTree(7), PectinateTree(7))

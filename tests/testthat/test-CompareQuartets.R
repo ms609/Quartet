@@ -6,7 +6,7 @@ TreePath <- function (fileName) {
 }
 quartets <- ape::read.tree(TreePath('all_quartets'))
 
-test_that("QuartetStates works", {
+test_that("QuartetStates() works", {
   expect_equal(2L, QuartetStates(quartets[[1]]))
   expect_equal(3L, QuartetStates(as.Splits(quartets[[2]], letters[1:4])))
   expect_equal(c(2L, 3L, 4L, 0L), QuartetStates(quartets)[1, ])
@@ -21,9 +21,15 @@ test_that("QuartetStates works", {
                QuartetStates(RenumberTips(BalancedTree(c(1, 3, 5, 4, 2)), 
                                                        BalancedTree(1:5)),
                              asRaw = FALSE))
+  funnyNodes5 <- structure(list(
+    edge = matrix(c(6, 6, 6, 8, 8, 7, 7,
+                    1, 2, 8, 3, 7, 4, 5), 7L, 2L),
+    tip.label = paste0('t', 1:5),
+    Nnode = 3L), class = 'phylo')
+  expect_equal(rep(2L, 5), QuartetStates(funnyNodes5))
 })
 
-test_that("QuartetState works", {
+test_that("QuartetState() works", {
   expect_equal(as.raw(2L),
                QuartetState(letters[1:4], as.Splits(quartets[[1]]), asRaw = TRUE))
   expect_equal(as.raw(3L),
@@ -34,7 +40,7 @@ test_that("QuartetState works", {
                QuartetState(letters[1:4], as.Splits(quartets[[4]]), asRaw = TRUE))
 })
 
-test_that("CompareQuartets works", {
+test_that("CompareQuartets() works", {
   expect_equal(c(N = 16L, Q = 8L, s = 1, d = 2, r1 = 1, r2 = 1, u = 3),
                CompareQuartets(c(2, 2, 4, 2, 0, 0, 0, 0),
                                c(2, 3, 3, 0, 2, 0, 0, 0)))
