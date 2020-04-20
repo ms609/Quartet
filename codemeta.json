@@ -211,13 +211,14 @@
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
+      "version": ">= 0.1.4.9002",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=TreeTools"
+      "sameAs": "https://github.com/ms609/TreeTools"
     },
     {
       "@type": "SoftwareApplication",
@@ -338,6 +339,5 @@
     "https://CRAN.R-project.org/package=Quartet",
     "https://ms609.github.io/Quartet",
     "https://ms609.github.io/Quartet/"
-  ],
-  "fileSize": "320.491KB"
+  ]
 }
