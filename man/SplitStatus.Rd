@@ -9,7 +9,7 @@
 \usage{
 SplitStatus(trees, cf = trees[[1]])
 
-SharedSplitStatus(trees, cf = trees[[1]])
+SharedSplitStatus(trees, cf)
 }
 \arguments{
 \item{trees}{A list of trees of class \code{\link[ape:read.tree]{phylo}},

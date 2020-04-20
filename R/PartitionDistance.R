@@ -179,9 +179,21 @@ BipartitionStatus <- SplitStatus
 #'   tips that do not occur in both trees being compared.
 #' @aliases SharedBipartitionStatus
 #' @export
-SharedSplitStatus <- function (trees, cf=trees[[1]]) {
-  t(vapply(trees, PairSharedSplitStatus, cf=cf, 
-           c(N = 0L, P1 = 0L, P2 = 0L, s = 0L, d1 = 0L, d2 = 0L, r1 = 0L, r2 = 0L)))
+SharedSplitStatus <- function (trees, cf) UseMethod('SharedSplitStatus')
+
+#' @export
+SharedSplitStatus.list <-  function (trees, cf = trees[[1]]) {
+  t(vapply(trees, PairSharedSplitStatus, cf = cf, 
+           c(N = 0L, P1 = 0L, P2 = 0L, s = 0L, 
+             d1 = 0L, d2 = 0L, r1 = 0L, r2 = 0L)))
+}
+
+#' @export
+SharedSplitStatus.multiPhylo <- SharedSplitStatus.list
+
+#' @export
+SharedSplitStatus.phylo <- function (trees, cf = trees) {
+  PairSharedSplitStatus(trees, cf)
 }
 
 #' @keywords internal

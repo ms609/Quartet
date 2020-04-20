@@ -14,6 +14,12 @@ test_that("Splits are compared", {
                SharedSplitStatus(TreeTools::UnshiftTree(
                  ape::drop.tip(sq_trees$move_one_near, 10),
                  list(ape::drop.tip(sq_trees$ref_tree, 11))))[2, ])
+  expect_equal(SharedSplitStatus(BalancedTree(9)),
+               PairSharedSplitStatus(BalancedTree(9), BalancedTree(9)))
+  expect_equal(SharedSplitStatus(BalancedTree(9), PectinateTree(9)),
+               PairSharedSplitStatus(BalancedTree(9), PectinateTree(9)))
+  expect_equal(SharedSplitStatus(list(BalancedTree(9)), PectinateTree(9)),
+               SharedSplitStatus(c(BalancedTree(9)), PectinateTree(9)))
 })
 
 test_that("CompareSplits works", {
@@ -50,4 +56,11 @@ test_that("CompareSplits works", {
   expect_equal(c(N=2L, P1=0L, P2=2L, s=0L, d1=0L, d2=0L, r1=0L, r2=2L),
                CompareSplits(splitsU, splitsD))
   
+  funnyNodes5 <- structure(list(
+    edge = matrix(c(6, 6, 6, 8, 8, 7, 7,
+                    1, 2, 8, 3, 7, 4, 5), 7L, 2L),
+    tip.label = paste0('t', 1:5),
+    Nnode = 3L), class = 'phylo')
+  expect_equivalent(c(4, 2, 2, 2, 0, 0, 0, 0),
+                    CompareSplits(funnyNodes5, unroot(PectinateTree(5))))
 })
