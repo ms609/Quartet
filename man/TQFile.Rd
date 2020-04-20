@@ -15,6 +15,6 @@ to be processed with tqDist.  Files should be destroyed using
 \code{on.exit(file.remove(fileName))} by the calling function.
 }
 \details{
-Shouls now only be necessary for testing purposes.
+Should now only be necessary for testing purposes.
 }
 \keyword{internal}

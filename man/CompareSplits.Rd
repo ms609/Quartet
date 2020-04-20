@@ -51,7 +51,7 @@ CompareSplits(splits1, splits2)
 }
 }
 \seealso{
-Equivalent function for quartets: \verb{[CompareQuartets()]}
+Equivalent function for quartets: \code{\link[=CompareQuartets]{CompareQuartets()}}
 
 Other element-by-element comparisons: 
 \code{\link{CompareQuartetsMulti}()},

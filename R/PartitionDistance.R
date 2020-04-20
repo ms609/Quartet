@@ -31,7 +31,7 @@
 #'   the Robinson-Foulds distance.
 #'
 #' @family element-by-element comparisons
-#' @seealso Equivalent function for quartets: `[CompareQuartets()]`
+#' @seealso Equivalent function for quartets: [`CompareQuartets()`]
 #'         
 #' @examples 
 #' splits1 <- TreeTools::BalancedTree(8)

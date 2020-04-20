@@ -235,7 +235,7 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
 #' to be processed with tqDist.  Files should be destroyed using
 #' `on.exit(file.remove(fileName))` by the calling function.
 #' 
-#' Shouls now only be necessary for testing purposes.
+#' Should now only be necessary for testing purposes.
 #' 
 #' @return Name of the created file
 #' @keywords internal

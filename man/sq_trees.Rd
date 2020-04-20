@@ -4,7 +4,9 @@
 \name{sq_trees}
 \alias{sq_trees}
 \title{Eighteen example trees}
-\format{An object of class \code{multiPhylo} of length 18.}
+\format{
+An object of class \code{multiPhylo} of length 18.
+}
 \usage{
 sq_trees
 }
