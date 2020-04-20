@@ -55,21 +55,36 @@ test_that('CompareQuartetsMulti() gets values correct', {
   rnd <- CollapseNode(as.phylo(1337, 6L), 8:9)
   part <- CollapseNode(pec, 9:10)
   star <- CollapseNode(bal, 8:11)
-  cbind(
-    QuartetStates(RenumberTips(rnd, bal), T),
-    QuartetStates(RenumberTips(bal, bal), T),
-    QuartetStates(RenumberTips(pec, bal), T),
-    QuartetStates(RenumberTips(part, bal), T)
+  index <- cbind(
+    rnd = QuartetStates(RenumberTips(rnd, bal), T),
+    bal = QuartetStates(RenumberTips(bal, bal), T),
+    pec = QuartetStates(RenumberTips(pec, bal), T),
+    prt = QuartetStates(RenumberTips(part, bal), T)
   )
-
+  rownames(index) <- vapply(AllQuartets(6), paste0, character(1), collapse='')
+  
+  expect_equivalent(as.raw(c(4, 3, 4, 3, 0, 4, 3, 0, 4, 0, 4, 2, 3, 3, 3)), 
+                    index[, 'rnd'])
+  expect_equivalent(as.raw(c(4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)), 
+                    index[, 'bal'])
+  expect_equivalent(as.raw(c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)), 
+                    index[, 'pec'])
+  expect_equivalent(as.raw(c(0, 0, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 2, 2)), 
+                    index[, 'prt'])
+  index
+  
+  # par (mfrow = c(2, 2), mar = rep(0.1, 4))
+  # plot(rnd, main='rnd'); plot(bal, main='bal')
+  # plot(pec, main = 'pec'); plot(part, main = 'part')
+  
   expect_equal(c(N = 15 * 4, Q = 15, s_all = 0, s_any = 6, #1..4
-                 d_all = 0, d_any = 3, r1_all = 0, r1_any = 3, # 5..8
-                 r2_all = 3, r2_any = 9, u_all = 0, u_any = 6, x_only = 0),
+                 d_all = 0, d_any = 5, r1_all = 0, r1_any = 1, # 5..8
+                 r2_all = 7, r2_any = 9, u_all = 0, u_any = 2, x_only = 0),
                CompareQuartetsMulti(x = part, cf = list(bal, pec, rnd)))
   
-  expect_equal(c(N = 15 * 4, Q = 15, s_all = 0, s_any = 0,
-                 d_all = 3, d_any = 6, r1_all = 0, r1_any = 3,
-                 r2_all = 3, r2_any = 9, u_all = 0, u_any = 6, x_only = 6),
+  expect_equal(c(N = 15 * 4, Q = 15, s_all = 0, s_any = 3,
+                 d_all = 5, d_any = 11, r1_all = 0, r1_any = 7,
+                 r2_all = 1, r2_any = 3, u_all = 0, u_any = 2, x_only = 9),
                CompareQuartetsMulti(x = rnd, cf = list(bal, pec, part)))
   
   expect_equal(c(N = 15 * 2, Q = 15, s_all = 0, s_any = 0, d_all = 0, d_any = 0,
