@@ -38,7 +38,9 @@ PlotQuartet <- function (tree, quartet, overwritePar = TRUE,
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73",
                  "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
-  if (inherits(tree, 'phylo')) tree <- structure(list(tree), class='multiPhylo')
+  if (inherits(tree, 'phylo')) {
+    tree <- structure(list(tree), class = 'multiPhylo')
+  }
   n_tip <- length(tree[[1]]$tip.label)
   
   if (overwritePar) {

@@ -130,12 +130,19 @@ TQAE <- function (trees) {
 #' from C.
 #' 
 #' @keywords internal
-.CheckSize <- function (tree) {
-  if (!inherits(tree, 'phylo')) tree <- tree[[1]]
+.CheckSize <- function (tree) UseMethod('.CheckSize')
+
+.CheckSize.phylo <- function (tree) {
   if (length(tree$tip.label) > 477L) {
     warning("Trees with > 477 tips may produce integer overflow errors.")
   }
 }
+
+.CheckSize.list <- function (tree) {
+  .CheckSize(tree[[1]])
+}
+
+.CheckSize.multiPhylo  <- .CheckSize.list
 
 #' @describeIn QuartetStatus Agreement of each quartet, comparing each pair of trees 
 #' in a list.
@@ -237,10 +244,11 @@ TQFile <- function (treeList) {
   if (inherits(treeList, 'list')){
     class(treeList) <- 'multiPhylo'
   }
-  if (!inherits(treeList, c('phylo', 'multiPhylo')))
+  if (!inherits(treeList, c('phylo', 'multiPhylo'))) {
     stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
+  }
   fileName <- tempfile()
-  write.tree(treeList, file=fileName)
+  write.tree(treeList, file = fileName)
   
   # Return:
   fileName
@@ -369,17 +377,19 @@ AllPairsQuartetDistance <- function(file) {
 #' @importFrom TreeTools RenumberTips RenumberTree
 #' @keywords internal
 #' @export
-.TreeToEdge <- function (trees, tipOrder = NULL) {
-  if (inherits(trees, c('list', 'multiPhylo'))) {
-    if (is.null(tipOrder)) tipOrder <- trees[[1]]$tip.label
-    lapply(trees, .SortTree, tipOrder)
+.TreeToEdge <- function (trees, tipOrder) UseMethod('.TreeToEdge')
+
+.TreeToEdge.list <- function (trees, tipOrder = trees[[1]]$tip.label) {
+  lapply(trees, .SortTree, tipOrder)
+}
+.TreeToEdge.multiPhylo <- .TreeToEdge.list
+
+.TreeToEdge.phylo <- function (trees, tipOrder = NULL) {
+  if (is.null(tipOrder)) {
+    edge <- trees$edge
+    RenumberTree(edge[, 1], edge[, 2])
   } else {
-    if (is.null(tipOrder)) {
-      edge <- trees$edge
-      RenumberTree(edge[, 1], edge[, 2])
-    } else {
-      .SortTree(trees, tipOrder)
-    }
+    .SortTree(trees, tipOrder)
   }
 }
 
