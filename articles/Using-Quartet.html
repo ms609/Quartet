@@ -190,7 +190,7 @@
 <div id="other-calculations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-calculations" class="anchor"></a>Other calculations</h2>
-<p>To calculate how many quartets are unique to a certain tree (akin to the partitionwise equivalent <code>[ape::prop.clades]</code>), use:</p>
+<p>To calculate how many quartets are unique to a certain tree (akin to the partitionwise equivalent [<code><a href="https://rdrr.io/pkg/ape/man/boot.phylo.html">ape::prop.clades</a></code>]), use:</p>
 <div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">interestingTree</span> <span class="kw">&lt;-</span> <span class="fu">as.phylo</span>(<span class="fl">42</span>, <span class="fl">7</span>)
 <span class="no">referenceTrees</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://ms609.github.io/TreeTools/reference/BalancedTree.html">BalancedTree</a></span>(<span class="fl">7</span>), <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/PectinateTree.html">PectinateTree</a></span>(<span class="fl">7</span>))
 <span class="no">status</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/CompareQuartetsMulti.html">CompareQuartetsMulti</a></span>(<span class="no">interestingTree</span>, <span class="no">referenceTrees</span>)</pre></body></html></div>
