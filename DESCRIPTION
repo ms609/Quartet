@@ -31,20 +31,22 @@ Encoding: UTF-8
 Language: en-GB
 Depends: R (>= 3.4.0)
 Imports:
-    ape,
-    memoise,
-    Rdpack,
-    Ternary (>= 1.0),
-    TreeTools
+  ape,
+  memoise,
+  Rdpack,
+  Ternary (>= 1.0),
+  TreeTools (>= 0.1.4.9002)
 Suggests:
-    bookdown,
-    knitr,
-    phangorn,
-    Rcpp,
-    rmarkdown,
-    testthat,
-    usethis,
-    vdiffr
+  bookdown,
+  knitr,
+  phangorn,
+  Rcpp,
+  rmarkdown,
+  testthat,
+  usethis,
+  vdiffr
+Remotes:
+  ms609/TreeTools
 SystemRequirements: C++11
 RdMacros: Rdpack
 LinkingTo: Rcpp
