@@ -2,6 +2,7 @@
 
  - Correctly calculate resolution of unrooted trees with unconventional node
    numbering conventions.
+ - Minor efficiency improvements.
 
 # Quartet v1.1.0.9001 (development)
 
