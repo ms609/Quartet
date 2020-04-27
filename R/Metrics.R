@@ -101,17 +101,18 @@
 #' @export
 SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
   elementStatus <- .StatusToMatrix(elementStatus)
+  rows <- nrow(elementStatus)
+  RS <- function (x) .rowSums(elementStatus[, x], rows, length(x))
+  ddr1r2 <- RS(c('2d', 'r1', 'r2'))
   result <- data.frame(
     DoNotConflict = elementStatus[, '2d'] / elementStatus[, 'N'],
     ExplicitlyAgree = 1 - (2L * elementStatus[, 's']) / elementStatus[, 'N'],
-    StrictJointAssertions = elementStatus[, '2d'] / rowSums(elementStatus[, c('2d', 's', 's'), drop = FALSE]),
+    StrictJointAssertions = elementStatus[, '2d'] / RS(c('2d', 's', 's')),
     SemiStrictJointAssertions = SemiStrictJointAssertions(elementStatus, similarity = FALSE),
-    SymmetricDifference =  rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop = FALSE]) /
-      rowSums(elementStatus[, c('2d', 's', 's', 'r1', 'r2'), drop = FALSE]),
-    MarczewskiSteinhaus = rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop = FALSE]) /
-      rowSums(elementStatus[, c('2d', 's', 'r1', 'r2'), drop = FALSE]),
+    SymmetricDifference = ddr1r2 / RS(c('2d', 's', 's', 'r1', 'r2')),
+    MarczewskiSteinhaus = ddr1r2 / RS(c('2d', 's', 'r1', 'r2')),
     SteelPenny = SteelPenny(elementStatus, similarity = FALSE),
-    QuartetDivergence = rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop = FALSE]) / elementStatus[, 'N']
+    QuartetDivergence = ddr1r2 / elementStatus[, 'N']
   )
   if (similarity) 1 - result else result
 }

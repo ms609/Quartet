@@ -296,6 +296,7 @@ CompareQuartets <- function (x, cf) {
 CompareQuartetsMulti <- function (x, cf) {
   
   input <- QuartetStates(x, asRaw = TRUE)
+  nIn <- length(input)
   if (inherits(cf, 'phylo')) {
     cf <- list(cf)
   }
@@ -317,18 +318,19 @@ CompareQuartetsMulti <- function (x, cf) {
   
   xResolved <- as.logical(input)
   cfResolved <- comparison != as.raw(0)
-  cfAnyResolved <- as.logical(rowSums(cfResolved))
-  cfAllResolved <- rowSums(cfResolved) == nCf
+  cfResolvedSums <- .rowSums(cfResolved, nIn, nCf)
+  cfAnyResolved <- as.logical(cfResolvedSums)
+  cfAllResolved <- cfResolvedSums == nCf
   
   equal <- comparison == input
-  same <- rowSums(equal)
+  same <- .rowSums(equal, nIn, nCf)
   anySame <- as.logical(same)
   allSame <- same == nCf
-  different <- rowSums(!equal & cfResolved)
+  different <- .rowSums(!equal & cfResolved, nIn, nCf)
   
   # Return:
   c(
-    N = (length(cf) + 1L) * length(input),
+    N = (length(cf) + 1L) * nIn,
     Q = length(input),
     s_all = sum(xResolved & allSame), # Same in all cf
     s_any = sum(xResolved & anySame), # Same in at least one of cf
