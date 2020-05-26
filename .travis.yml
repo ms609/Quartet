@@ -26,8 +26,8 @@ jobs:
       r_binary_packages:
        - ape
        - covr
-       - devtools
-       - knitr
+       #- devtools # Not available 2020-05-20
+       #- knitr # Not available 2020-05-20
        - memoise
        - phangorn
        - R.cache
