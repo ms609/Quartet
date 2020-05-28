@@ -21,7 +21,8 @@ or to plot trees side-by-side in a new graphical device (\code{TRUE}).}
 whether the quartet selected is in the same or a different state to the
 reference tree.}
 
-\item{\dots}{Additional parameters to send to \code{\link[graphics]{plot}()}.}
+\item{\dots}{Additional parameters to send to
+\code{\link[ape:plot.phylo]{plot}()}.}
 }
 \value{
 \code{PlotQuartet()} returns \code{invisible()}, having plotted a tree in

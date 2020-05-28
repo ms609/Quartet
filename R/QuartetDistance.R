@@ -15,7 +15,8 @@ WHICH_OTHER_NODE <- 2:4
 #' @param caption Logical specifying whether to annotate each plot to specify
 #'   whether the quartet selected is in the same or a different state to the 
 #'   reference tree.
-#' @param \dots Additional parameters to send to \code{\link[graphics]{plot}()}.
+#' @param \dots Additional parameters to send to 
+#' \code{\link[ape:plot.phylo]{plot}()}.
 #'                
 #' @template MRS
 #' 
