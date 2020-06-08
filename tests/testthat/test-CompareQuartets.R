@@ -71,7 +71,7 @@ test_that('CompareQuartetsMulti() gets values correct', {
   
   expect_equivalent(as.raw(c(4, 3, 4, 3, 0, 4, 3, 0, 4, 0, 4, 2, 3, 3, 3)), 
                     index[, 'rnd'])
-  expect_equivalent(as.raw(c(4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)), 
+  expect_equivalent(as.raw(c(2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 4, 4)), 
                     index[, 'bal'])
   expect_equivalent(as.raw(c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)), 
                     index[, 'pec'])
@@ -84,13 +84,13 @@ test_that('CompareQuartetsMulti() gets values correct', {
   # plot(pec, main = 'pec'); plot(part, main = 'part')
   
   expect_equal(c(N = 15 * 4, Q = 15, s_all = 0, s_any = 6, #1..4
-                 d_all = 0, d_any = 5, r1_all = 0, r1_any = 1, # 5..8
+                 d_all = 0, d_any = 6, r1_all = 0, r1_any = 1, # 5..8
                  r2_all = 7, r2_any = 9, u_all = 0, u_any = 2, x_only = 0),
                CompareQuartetsMulti(x = part, cf = list(bal, pec, rnd)))
   
-  expect_equal(c(N = 15 * 4, Q = 15, s_all = 0, s_any = 3,
+  expect_equal(c(N = 15 * 4, Q = 15, s_all = 0, s_any = 1,
                  d_all = 5, d_any = 11, r1_all = 0, r1_any = 7,
-                 r2_all = 1, r2_any = 3, u_all = 0, u_any = 2, x_only = 9),
+                 r2_all = 1, r2_any = 3, u_all = 0, u_any = 2, x_only = 11),
                CompareQuartetsMulti(x = rnd, cf = list(bal, pec, part)))
   
   expect_equal(c(N = 15 * 2, Q = 15, s_all = 0, s_any = 0, d_all = 0, d_any = 0,
