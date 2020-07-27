@@ -26,7 +26,7 @@
 #' 
 #' (The numerator of the SemiStrict Joint Assertions similarity metric is given in
 #'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is understood, with
-#'  reference to the text to be a typographic error.)
+#'  reference to the text, to be a typographic error.)
 #' 
 #' Steel & Penny (1993) propose a further metric, which they denote d_Q_,
 #' which this package calculates using the function `SteelPenny()`:
@@ -54,7 +54,7 @@
 #' The maximum number of quartets or partitions that could have been resolved, given the
 #' number of tips (Smith 2019):
 #' 
-#' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / 2 _Q_
+#' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / _N_
 #' 
 #'
 #' @template elementStatusParam
