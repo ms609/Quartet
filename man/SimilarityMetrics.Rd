@@ -76,7 +76,7 @@ measure of the amount of information shared by two trees.
 
 (The numerator of the SemiStrict Joint Assertions similarity metric is given in
 Estabrook \emph{et al}. (1985)'s table 2 as \emph{s} + \emph{d}, but this is understood, with
-reference to the text to be a typographic error.)
+reference to the text, to be a typographic error.)
 
 Steel & Penny (1993) propose a further metric, which they denote d_Q_,
 which this package calculates using the function \code{SteelPenny()}:
@@ -108,7 +108,7 @@ The total distinctly resolved quartets or partitions (Day 1986):
 The maximum number of quartets or partitions that could have been resolved, given the
 number of tips (Smith 2019):
 \itemize{
-\item Symmetric Divergence: (\emph{d} + \emph{d} + \emph{r1} + \emph{r2}) / 2 \emph{Q}
+\item Symmetric Divergence: (\emph{d} + \emph{d} + \emph{r1} + \emph{r2}) / \emph{N}
 }
 }
 \examples{
@@ -128,8 +128,6 @@ QuartetDivergence(sq_status, similarity = FALSE)
 \item \insertRef{Smith2019}{Quartet}
 \item \insertRef{Steel1993}{Quartet}
 }
-
-\insertRef{Smith2019}{Quartet}
 }
 \seealso{
 \itemize{

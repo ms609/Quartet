@@ -291,7 +291,6 @@ SteelPenny <- function (elementStatus, similarity = TRUE) {
 }
 
 #' @rdname SimilarityMetrics
-#' @references \insertRef{Smith2019}{Quartet}
 #' @export
 QuartetDivergence <- function (elementStatus, similarity = TRUE) {
   .NormalizeStatus(elementStatus, c('2d', 'r1', 'r2'), 'N', similarity)
