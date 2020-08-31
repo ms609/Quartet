@@ -21,7 +21,7 @@ citEntry(entry = "manual",
                
 
 citEntry (entry = 'article',
-          key = "Holt2014",
+          key = "Sand2014",
           author = personList(as.person("Andreas Sand"),
                   as.person("Morten K. Holt"),
                   as.person("Jens Johansen"),
