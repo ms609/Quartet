@@ -15,7 +15,7 @@
 #'
 #' @family quartet counting functions
 #' @seealso 
-#' - \code{\link[utils]{combn}()}
+#' States of quartets in given trees: [`QuartetStates()`]
 #' 
 #' @examples
 #' AllQuartets(5)

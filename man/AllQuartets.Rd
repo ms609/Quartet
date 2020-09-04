@@ -34,9 +34,7 @@ combn(5, 4) # Provides the same information, but for large
 
 }
 \seealso{
-\itemize{
-\item \code{\link[utils]{combn}()}
-}
+States of quartets in given trees: \code{\link[=QuartetStates]{QuartetStates()}}
 
 Other quartet counting functions: 
 \code{\link{CompareQuartetsMulti}()},
