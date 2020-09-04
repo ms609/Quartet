@@ -6,12 +6,12 @@ output:
   bookdown::pdf_document2:
     includes:
       in_header: ../inst/preamble.tex
+    number_sections: false
   rmarkdown::html_document:
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
-
 vignette: >
-  %\VignetteIndexEntry{Getting started}
+  %\VignetteIndexEntry{Getting started with Quartet}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -96,7 +96,7 @@ If you have more than two trees to compare, you can send a list of trees
 You can calculate the similarity between one tree and a forest of other trees:
 
 ```{r multi-trees}
-library('TreeTools')
+library('TreeTools', quietly = TRUE, warn.conflicts = FALSE)
 oneTree <- CollapseNode(as.phylo(0, 11), 14)
 twoTrees <- structure(list(bal = BalancedTree(11), pec = PectinateTree(11)),
                       class = 'multiPhylo')
