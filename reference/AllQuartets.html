@@ -41,8 +41,7 @@
 
 <meta property="og:title" content="List all quartets — AllQuartets" />
 <meta property="og:description" content="Lists all choices of four taxa from a tree.
-A more computationally efficient alternative to combn,
-AllQuartets() uses memoization to make repeated calls faster." />
+A more computationally efficient alternative to combn." />
 
 
 
@@ -84,7 +83,7 @@ AllQuartets() uses memoization to make repeated calls faster." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9003</span>
       </span>
     </div>
 
@@ -145,26 +144,32 @@ AllQuartets() uses memoization to make repeated calls faster." />
 
     <div class="ref-description">
     <p>Lists all choices of four taxa from a tree.</p>
-<p>A more computationally efficient alternative to <code><a href='https://rdrr.io/r/utils/combn.html'>combn</a></code>,
-<code>AllQuartets()</code> uses memoization to make repeated calls faster.</p>
+<p>A more computationally efficient alternative to <code><a href='https://rdrr.io/r/utils/combn.html'>combn</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>AllQuartets</span>(<span class='no'>n_tips</span>)</pre>
+    <pre class="usage"><span class='fu'>AllQuartets</span>(<span class='no'>nTips</span>)
+
+<span class='co'># S3 method for numeric</span>
+<span class='fu'>AllQuartets</span>(<span class='no'>nTips</span>)
+
+<span class='co'># S3 method for phylo</span>
+<span class='fu'>AllQuartets</span>(<span class='no'>nTips</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>n_tips</th>
-      <td><p>Integer, specifying the number of tips in a tree.</p></td>
+      <th>nTips</th>
+      <td><p>Integer, specifying the number of tips in a tree; or a tree,
+whose tips will be counted.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>AllQuartets()</code> returns a list of length <code><a href='https://rdrr.io/r/base/Special.html'>choose(n_tips, 4)</a></code>,
-with each entry corresponding to a unique selection of four different
-integers less than or equal to <code>n_tips</code>.</p>
+    <p><code>AllQuartets()</code> returns a matrix with four rows and
+<code><a href='https://rdrr.io/r/base/Special.html'>choose(n_tips, 4)</a></code> columns, with each column corresponding to a unique
+selection of four different integers less than or equal to <code>nTips</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'>
@@ -178,26 +183,16 @@ integers less than or equal to <code>n_tips</code>.</p>
 <code><a href='ResolvedQuartets.html'>ResolvedQuartets</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='fu'>AllQuartets</span>(<span class='fl'>5</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; [1] 1 2 3 4
-#&gt; 
-#&gt; [[2]]
-#&gt; [1] 1 2 3 5
-#&gt; 
-#&gt; [[3]]
-#&gt; [1] 1 2 4 5
-#&gt; 
-#&gt; [[4]]
-#&gt; [1] 1 3 4 5
-#&gt; 
-#&gt; [[5]]
-#&gt; [1] 2 3 4 5
-#&gt; </div><div class='input'>
- <span class='fu'><a href='https://rdrr.io/r/utils/combn.html'>combn</a></span>(<span class='fl'>5</span>, <span class='fl'>4</span>) <span class='co'># Provides the same information, but for large </span></div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5]
+    <pre class="examples"><div class='input'><span class='fu'>AllQuartets</span>(<span class='fl'>5</span>)</div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5]
 #&gt; [1,]    1    1    1    1    2
 #&gt; [2,]    2    2    2    3    3
 #&gt; [3,]    3    3    4    4    4
-#&gt; [4,]    4    5    5    5    5</div><div class='input'>             # values of n_tips is significantly slower.
+#&gt; [4,]    4    5    5    5    5</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/combn.html'>combn</a></span>(<span class='fl'>5</span>, <span class='fl'>4</span>) <span class='co'># Provides the same information, but for large </span></div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5]
+#&gt; [1,]    1    1    1    1    2
+#&gt; [2,]    2    2    2    3    3
+#&gt; [3,]    3    3    4    4    4
+#&gt; [4,]    4    5    5    5    5</div><div class='input'>            # values of n_tips is significantly slower.
 
 </div></pre>
   </div>
