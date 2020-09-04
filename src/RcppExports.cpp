@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// all_quartets
+IntegerMatrix all_quartets(IntegerVector nTips);
+RcppExport SEXP _Quartet_all_quartets(SEXP nTipsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type nTips(nTipsSEXP);
+    rcpp_result_gen = Rcpp::wrap(all_quartets(nTips));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_QuartetDistance
 IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_QuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {
@@ -204,6 +215,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_Quartet_all_quartets", (DL_FUNC) &_Quartet_all_quartets, 1},
     {"_Quartet_tqdist_QuartetDistance", (DL_FUNC) &_Quartet_tqdist_QuartetDistance, 2},
     {"_Quartet_tqdist_QuartetAgreement", (DL_FUNC) &_Quartet_tqdist_QuartetAgreement, 2},
     {"_Quartet_tqdist_QuartetAgreementEdge", (DL_FUNC) &_Quartet_tqdist_QuartetAgreementEdge, 2},

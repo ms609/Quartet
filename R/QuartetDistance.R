@@ -45,7 +45,7 @@ PlotQuartet <- function (tree, quartet, overwritePar = TRUE,
   n_tip <- length(tree[[1]]$tip.label)
   
   if (overwritePar) {
-    originalPar <- par(mfrow=c(1, length(tree)), mar=rep(1, 4))
+    originalPar <- par(mfrow = c(1, length(tree)), mar = rep(1, 4))
     on.exit(par(originalPar))
   }
   

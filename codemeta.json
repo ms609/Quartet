@@ -10,14 +10,13 @@
   "codeRepository": "https://github.com/ms609/Quartet/",
   "issueTracker": "https://github.com/ms609/Quartet/issues/",
   "license": "https://spdx.org/licenses/GPL-2.0",
-  "version": "1.1.0.9002",
+  "version": "1.1.0.9003",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.3",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.3 (2020-02-29)",
+  "runtimePlatform": "R version 4.0.2 (2020-06-22)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -172,18 +171,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "memoise",
-      "name": "memoise",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=memoise"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "Rdpack",
       "name": "Rdpack",
       "provider": {
@@ -225,7 +212,7 @@
       "identifier": "https://sysreqs.r-hub.io/get/cxx11"
     }
   ],
-  "releaseNotes": "https://github.com/ms609/SlowQuartet.git/blob/master/NEWS.md",
+  "releaseNotes": "https://github.com/ms609/Quartet/blob/master/NEWS.md",
   "readme": "https://github.com/ms609/Quartet/blob/master/README.md",
   "contIntegration": ["https://travis-ci.org/ms609/Quartet", "https://codecov.io/gh/ms609/Quartet"],
   "developmentStatus": "https://www.repostatus.org/#inactive",
@@ -294,7 +281,7 @@
       ],
       "name": "tqDist: a library for computing the quartet and triplet distances between binary or general trees",
       "identifier": "10.1093/bioinformatics/btu157",
-      "paginiation": "2079--2080",
+      "pagination": "2079--2080",
       "@id": "https://doi.org/10.1093/bioinformatics/btu157",
       "sameAs": "https://doi.org/10.1093/bioinformatics/btu157",
       "isPartOf": {
@@ -320,7 +307,7 @@
       ],
       "name": "Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets",
       "identifier": "10.1098/rsbl.2018.0632",
-      "paginiation": "20180632",
+      "pagination": "20180632",
       "@id": "https://doi.org/10.1098/rsbl.2018.0632",
       "sameAs": "https://doi.org/10.1098/rsbl.2018.0632",
       "isPartOf": {
@@ -339,5 +326,6 @@
     "https://CRAN.R-project.org/package=Quartet",
     "https://ms609.github.io/Quartet",
     "https://ms609.github.io/Quartet/"
-  ]
+  ],
+  "fileSize": "1181.993KB"
 }

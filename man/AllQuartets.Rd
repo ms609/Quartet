@@ -2,12 +2,18 @@
 % Please edit documentation in R/CompareQuartets.R
 \name{AllQuartets}
 \alias{AllQuartets}
+\alias{AllQuartets.numeric}
+\alias{AllQuartets.phylo}
 \title{List all quartets}
 \usage{
-AllQuartets(n_tips)
+AllQuartets(nTips)
+
+\method{AllQuartets}{numeric}(nTips)
+
+\method{AllQuartets}{phylo}(nTips)
 }
 \arguments{
-\item{n_tips}{Integer, specifying the number of tips in a tree.}
+\item{nTips}{Integer, specifying the number of tips in a tree.}
 }
 \value{
 \code{AllQuartets()} returns a list of length \code{choose(n_tips, 4)},

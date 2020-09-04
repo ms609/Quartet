@@ -5,7 +5,7 @@
 #' A more computationally efficient alternative to \code{\link[utils]{combn}},
 #' `AllQuartets()` uses memoization to make repeated calls faster.
 #'
-#' @param n_tips Integer, specifying the number of tips in a tree.
+#' @param nTips Integer, specifying the number of tips in a tree.
 #' 
 #' @return `AllQuartets()` returns a list of length \code{choose(n_tips, 4)}, 
 #' with each entry corresponding to a unique selection of four different
@@ -23,19 +23,18 @@
 #'  combn(5, 4) # Provides the same information, but for large 
 #'              # values of n_tips is significantly slower.
 #' 
-#' @importFrom memoise memoise
 #' @export
-AllQuartets <- memoise(function (n_tips) {
-  unlist(lapply(seq_len(n_tips - 3), function (i) {
-    unlist(lapply((i + 1):(n_tips - 2), function (j) {
-      unlist(lapply((j + 1):(n_tips - 1), function (k) {
-        lapply((k + 1):n_tips, function (l) {
-          c(i, j, k, l)
-        })
-      }), recursive=FALSE)
-    }), recursive=FALSE)
-  }), recursive=FALSE)
-})
+AllQuartets <- function (nTips) UseMethod('AllQuartets')
+
+#' @rdname AllQuartets
+#' @export
+AllQuartets.numeric <- function (nTips) all_quartets(nTips)
+
+#' @rdname AllQuartets
+#' @importFrom TreeTools NTip
+#' @export
+AllQuartets.phylo <- function (nTips) AllQuartets(NTip(nTips))
+
 
 #' Quartet State(s)
 #' 
