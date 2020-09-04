@@ -198,7 +198,7 @@
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
-      "version": ">= 0.1.4.9001",
+      "version": ">= 1.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -327,5 +327,5 @@
     "https://ms609.github.io/Quartet",
     "https://ms609.github.io/Quartet/"
   ],
-  "fileSize": "1181.993KB"
+  "fileSize": "1181.986KB"
 }

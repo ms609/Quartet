@@ -2,14 +2,14 @@
 #'
 #' Lists all choices of four taxa from a tree.
 #'  
-#' A more computationally efficient alternative to \code{\link[utils]{combn}},
-#' `AllQuartets()` uses memoization to make repeated calls faster.
+#' A more computationally efficient alternative to \code{\link[utils]{combn}}.
 #'
-#' @param nTips Integer, specifying the number of tips in a tree.
+#' @param nTips Integer, specifying the number of tips in a tree; or a tree,
+#' whose tips will be counted.
 #' 
-#' @return `AllQuartets()` returns a list of length \code{choose(n_tips, 4)}, 
-#' with each entry corresponding to a unique selection of four different
-#' integers less than or equal to `n_tips`.
+#' @return `AllQuartets()` returns a matrix with four rows and 
+#' \code{choose(n_tips, 4)} columns, with each column corresponding to a unique
+#' selection of four different integers less than or equal to `nTips`.
 #' 
 #' @template MRS
 #'
@@ -18,10 +18,10 @@
 #' - \code{\link[utils]{combn}()}
 #' 
 #' @examples
-#'  AllQuartets(5)
+#' AllQuartets(5)
 #'  
-#'  combn(5, 4) # Provides the same information, but for large 
-#'              # values of n_tips is significantly slower.
+#' combn(5, 4) # Provides the same information, but for large 
+#'             # values of n_tips is significantly slower.
 #' 
 #' @export
 AllQuartets <- function (nTips) UseMethod('AllQuartets')
@@ -118,13 +118,13 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   allQuartets <- AllQuartets(nTip)
   
   if (is.list(splits)) {
-    nQuartets <- length(allQuartets)
+    nQuartets <- ncol(allQuartets)
     return(t(vapply(splits, QuartetStates, 
                   if (asRaw) raw(nQuartets) else integer(nQuartets),
                   asRaw = asRaw)))
   }
   
-  ret <- vapply(allQuartets, .Subsplit4, raw(1L), unname(splits), nTip)
+  ret <- apply(allQuartets, 2, .Subsplit4, unname(splits), nTip)
   
   # Return:
   if (asRaw) {

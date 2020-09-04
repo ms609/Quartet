@@ -67,7 +67,7 @@ test_that('CompareQuartetsMulti() gets values correct', {
     pec = QuartetStates(RenumberTips(pec, bal), T),
     prt = QuartetStates(RenumberTips(part, bal), T)
   )
-  rownames(index) <- vapply(AllQuartets(6), paste0, character(1), collapse='')
+  rownames(index) <- apply(AllQuartets(6), 2, paste0, collapse = '')
   
   expect_equivalent(as.raw(c(4, 3, 4, 3, 0, 4, 3, 0, 4, 0, 4, 2, 3, 3, 3)), 
                     index[, 'rnd'])
