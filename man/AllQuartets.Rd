@@ -13,24 +13,24 @@ AllQuartets(nTips)
 \method{AllQuartets}{phylo}(nTips)
 }
 \arguments{
-\item{nTips}{Integer, specifying the number of tips in a tree.}
+\item{nTips}{Integer, specifying the number of tips in a tree; or a tree,
+whose tips will be counted.}
 }
 \value{
-\code{AllQuartets()} returns a list of length \code{choose(n_tips, 4)},
-with each entry corresponding to a unique selection of four different
-integers less than or equal to \code{n_tips}.
+\code{AllQuartets()} returns a matrix with four rows and
+\code{choose(n_tips, 4)} columns, with each column corresponding to a unique
+selection of four different integers less than or equal to \code{nTips}.
 }
 \description{
 Lists all choices of four taxa from a tree.
 
-A more computationally efficient alternative to \code{\link[utils]{combn}},
-\code{AllQuartets()} uses memoization to make repeated calls faster.
+A more computationally efficient alternative to \code{\link[utils]{combn}}.
 }
 \examples{
- AllQuartets(5)
+AllQuartets(5)
  
- combn(5, 4) # Provides the same information, but for large 
-             # values of n_tips is significantly slower.
+combn(5, 4) # Provides the same information, but for large 
+            # values of n_tips is significantly slower.
 
 }
 \seealso{
