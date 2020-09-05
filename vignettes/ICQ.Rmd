@@ -1,0 +1,30 @@
+---
+title: "Information-corrected quartet distance"
+author: "Martin R. Smith"
+date: "`r Sys.Date()`"
+output: 
+  bookdown::pdf_document2:
+    includes:
+      in_header: ../inst/preamble.tex
+    number_sections: false
+  rmarkdown::html_document:
+bibliography: ../inst/REFERENCES.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
+vignette: >
+  %\VignetteIndexEntry{Information-corrected quartet distance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo = FALSE}
+nTip <- 6
+trees <- as.phylo(seq_len(NUnrooted(nTip)), nTip)
+nSampl <- 40L
+tr1 <- sample(trees, nSampl, replace = TRUE)
+tr2 <- sample(trees, nSampl, replace = TRUE)
+dists <- mapply(ICQ, tr1, tr2)
+dists[dists < sqrt(.Machine$double.eps)] <- 0
+QD <- function (...) QuartetDivergence(QuartetStatus(...), similarity = TRUE)
+qd <- mapply(QD, tr1, tr2)
+plot (jitter(as.matrix(dists)) ~ jitter(qd))
+```
