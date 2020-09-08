@@ -1,6 +1,6 @@
 # Quartet v1.1.0.9003 (development) 
  
- - C++ implementation of `AllQuartets()`.
+ - C++ implementation of `AllQuartets()` and `QuartetStates()`.
 
 # Quartet v1.1.0.9002 (development) 
 

@@ -84,36 +84,74 @@ RawVector quartet_states(RawMatrix splits, IntegerVector nTip) {
   if (n_tip > QD_MAX_TIPS) throw std::range_error("Too many leaves for quartet_states()");
   if (n_tip < 4) throw std::range_error("Need four leaves to define quartets");
   
-  ;
-  const char bitmask[8] = {1, 2, 4, 8, 16, 32, 64, 128};
+  const unsigned char bitmask[8] = {1U, 2U, 4U, 8U, 16U, 32U, 64U, 128U};
   RawVector ret(n_quartets(n_tip));
   int32 q = 0;
-  for (int16 a = 0; a != n_tip - 4; a++) {
+  for (int16 a = 0; a != n_tip - 3; a++) {
     const int16 
       a_mask = bitmask[a % SPLIT_CHUNK],
       a_chunk = a / SPLIT_CHUNK
     ;
-    for (int16 b = a; b != n_tip - 3; b++) {
+    for (int16 b = a + 1; b != n_tip - 2; b++) {
       const int16 
         b_mask = bitmask[b % SPLIT_CHUNK],
         b_chunk = b / SPLIT_CHUNK
       ;
-      for (int16 c = b; c != n_tip - 2; c++) {
+      for (int16 c = b + 1; c != n_tip - 1; c++) {
         const int16 
           c_mask = bitmask[c % SPLIT_CHUNK],
           c_chunk = c / SPLIT_CHUNK
         ;
-        for (int16 d = c; d != n_tip - 1; d++) {
+        for (int16 d = c + 1; d != n_tip; d++) {
           const int16 
             d_mask = bitmask[d % SPLIT_CHUNK],
             d_chunk = d / SPLIT_CHUNK
           ;
-          for (int16 split = 0; split < splits.nrow(); split++) {
-            bool a_state = splits(split, a_offset) 
+          for (int16 split = 0; split != splits.nrow(); split++) {
+            const bool 
+              a_state = (unsigned char) (splits(split, a_chunk)) & a_mask,
+              b_state = (unsigned char) (splits(split, b_chunk)) & b_mask,
+              c_state = (unsigned char) (splits(split, c_chunk)) & c_mask,
+              d_state = (unsigned char) (splits(split, d_chunk)) & d_mask
+            ;
+//            Rcout << "\n\nA, B, C, D = " << a << ", " << b << ", " << c << ", " << d 
+//                  << ";\n chunks[#]" << a_chunk << ", " << b_chunk << ", " << c_chunk << ", " << d_chunk
+//                  << ";\n chunks = " << (unsigned int)(splits(split, a_chunk)) << ", " <<  (unsigned int)(splits(split, b_chunk)) << ", " 
+//                  << (unsigned int) splits(split, c_chunk) << ", " << (unsigned int) splits(split, d_chunk)
+//                  << ";\n masks = " << a_mask << ", " << b_mask << ", " << c_mask << ", " << d_mask
+//                  << ";\n states = " << a_state << ", " << b_state << ", " << c_state << ", " << d_state
+//                  << ";\n this is split " << split <<".\n";
+            if (a_state & b_state & !c_state & !d_state) {
+              ret[q] = 2;
+//              Rcout << "    - Matched quartet " << q << " to state 2.\n";
+              break;
+            } else if (!a_state & !b_state & c_state & d_state) {
+              ret[q] = 2;
+//              Rcout << "    - Matched quartet " << q << " to state 2.\n";
+              break;
+            } else if (a_state & !b_state & c_state & !d_state) {
+              ret[q] = 3;
+//              Rcout << "    - Matched quartet " << q << " to state 3.\n";
+              break;
+            } else if (!a_state & b_state & !c_state & d_state) {
+              ret[q] = 3;
+//              Rcout << "    - Matched quartet " << q << " to state 3.\n";
+              break;
+            } else if (a_state & !b_state & !c_state & d_state) {
+              ret[q] = 4;
+//              Rcout << "    - Matched quartet " << q << " to state 4.\n";
+              break;
+            } else if (!a_state & b_state & c_state & !d_state) {
+              ret[q] = 4;
+            //  Rcout << "    - Matched quartet " << q << " to state 4.\n";
+              break;
+            }
           }
+          //Rcout  << "Did quartet " << q << ", what's next?\n";
           q++;
         }
       }
     }
   }
+  return ret;
 }

@@ -9,6 +9,10 @@ which_index <- function(indices, m) {
     .Call(`_Quartet_which_index`, indices, m)
 }
 
+quartet_states <- function(splits, nTip) {
+    .Call(`_Quartet_quartet_states`, splits, nTip)
+}
+
 #' Triplet and quartet distances with tqDist
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.

@@ -17,7 +17,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // which_index
-int32 which_index(IntegerVector indices, IntegerVector m);
+int which_index(IntegerVector indices, IntegerVector m);
 RcppExport SEXP _Quartet_which_index(SEXP indicesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -25,6 +25,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< IntegerVector >::type indices(indicesSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type m(mSEXP);
     rcpp_result_gen = Rcpp::wrap(which_index(indices, m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// quartet_states
+RawVector quartet_states(RawMatrix splits, IntegerVector nTip);
+RcppExport SEXP _Quartet_quartet_states(SEXP splitsSEXP, SEXP nTipSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RawMatrix >::type splits(splitsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type nTip(nTipSEXP);
+    rcpp_result_gen = Rcpp::wrap(quartet_states(splits, nTip));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -229,6 +241,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_Quartet_all_quartets", (DL_FUNC) &_Quartet_all_quartets, 1},
     {"_Quartet_which_index", (DL_FUNC) &_Quartet_which_index, 2},
+    {"_Quartet_quartet_states", (DL_FUNC) &_Quartet_quartet_states, 2},
     {"_Quartet_tqdist_QuartetDistance", (DL_FUNC) &_Quartet_tqdist_QuartetDistance, 2},
     {"_Quartet_tqdist_QuartetAgreement", (DL_FUNC) &_Quartet_tqdist_QuartetAgreement, 2},
     {"_Quartet_tqdist_QuartetAgreementEdge", (DL_FUNC) &_Quartet_tqdist_QuartetAgreementEdge, 2},

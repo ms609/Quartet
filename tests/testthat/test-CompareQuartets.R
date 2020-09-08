@@ -1,4 +1,5 @@
 context('CompareQuartets.R')
+# See also: test-QuartetStates.R
 library('TreeTools')
 
 TreePath <- function (fileName) {
