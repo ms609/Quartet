@@ -117,9 +117,9 @@ QuartetStates <- function (splits, asRaw = FALSE) UseMethod('QuartetStates')
 #' @export
 QuartetStates.phylo <- function (splits, asRaw = FALSE) {
   splits <- as.Splits(splits)
-  nTip <- NTip(splits)
-  
-  ret <- quartet_states(splits, nTip)
+  # Treating most balanced splits first saves 20% of runtime compared to 
+  # least balanced first.  BUT calculating split balance takes 30% of runtime!
+  ret <- quartet_states(splits, NTip(splits))
   
   # Return:
   if (asRaw) {
