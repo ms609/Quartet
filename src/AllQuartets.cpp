@@ -114,40 +114,44 @@ RawVector quartet_states(RawMatrix splits, IntegerVector nTip) {
               c_state = (unsigned char) (splits(split, c_chunk)) & c_mask,
               d_state = (unsigned char) (splits(split, d_chunk)) & d_mask
             ;
-//            Rcout << "\n\nA, B, C, D = " << a << ", " << b << ", " << c << ", " << d 
-//                  << ";\n chunks[#]" << a_chunk << ", " << b_chunk << ", " << c_chunk << ", " << d_chunk
-//                  << ";\n chunks = " << (unsigned int)(splits(split, a_chunk)) << ", " <<  (unsigned int)(splits(split, b_chunk)) << ", " 
-//                  << (unsigned int) splits(split, c_chunk) << ", " << (unsigned int) splits(split, d_chunk)
-//                  << ";\n masks = " << a_mask << ", " << b_mask << ", " << c_mask << ", " << d_mask
-//                  << ";\n states = " << a_state << ", " << b_state << ", " << c_state << ", " << d_state
-//                  << ";\n this is split " << split <<".\n";
-            if (a_state & b_state & !c_state & !d_state) {
-              ret[q] = 2;
-//              Rcout << "    - Matched quartet " << q << " to state 2.\n";
-              break;
-            } else if (!a_state & !b_state & c_state & d_state) {
-              ret[q] = 2;
-//              Rcout << "    - Matched quartet " << q << " to state 2.\n";
-              break;
-            } else if (a_state & !b_state & c_state & !d_state) {
-              ret[q] = 3;
-//              Rcout << "    - Matched quartet " << q << " to state 3.\n";
-              break;
-            } else if (!a_state & b_state & !c_state & d_state) {
-              ret[q] = 3;
-//              Rcout << "    - Matched quartet " << q << " to state 3.\n";
-              break;
-            } else if (a_state & !b_state & !c_state & d_state) {
-              ret[q] = 4;
-//              Rcout << "    - Matched quartet " << q << " to state 4.\n";
-              break;
-            } else if (!a_state & b_state & c_state & !d_state) {
-              ret[q] = 4;
-            //  Rcout << "    - Matched quartet " << q << " to state 4.\n";
-              break;
+            if (a_state) {
+              if (b_state) {
+                if (!c_state & !d_state) {
+                  ret[q] = 2;
+                  break;
+                }
+              } else { // a & !b
+                if (c_state) {
+                  if (!d_state) {
+                    ret[q] = 3;
+                    break;
+                  }
+                } else { // a & !b & !c
+                  if (d_state) {
+                    ret[q] = 4;
+                    break;
+                  }
+                }
+              }
+            } else { // !a
+              if (b_state) { // !a & b
+                if (c_state) {
+                  if (!d_state) {
+                    ret[q] = 4;
+                    break;
+                  }
+                } else if (d_state) {
+                  ret[q] = 3;
+                  break;
+                }
+              } else { // !a, !b
+                if (c_state & d_state) { // !a, !b, c, d
+                  ret[q] = 2;
+                  break;
+                }
+              }
             }
           }
-          //Rcout  << "Did quartet " << q << ", what's next?\n";
           q++;
         }
       }
