@@ -344,8 +344,8 @@ QuartetDivergence <- function (elementStatus, similarity = TRUE) {
 SimilarityToReference <- function(elementStatus, similarity = TRUE,
                                   normalize = FALSE) {
   rawSimilarity <- .NormalizeStatus(elementStatus, 
-                                    c(rep('s', 3), 'r1', 'r2', 'u'),
-                                    c('s', 'd', 'r1', 'r2', 'u'), FALSE) / 3L
+                                    c(rep('s', 3), 'r1', 'r2', 'u'), 
+                                    'Q', FALSE) / 3L
   if (normalize) {
     refBestScore <- .NormalizeStatus(elementStatus,
                                      c(rep(c('s', 'd', 'r2'), 3L), 'r1', 'u'),
