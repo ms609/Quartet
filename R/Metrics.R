@@ -2,19 +2,20 @@
 #' 
 #' Measure tree similarity or difference.
 #' 
-#' Estabrook _et al._ (1985, table 2) define four similarity metrics in terms of the 
-#' total number of quartets (_N_, their _Q_), the number of quartets resolved in the same
-#' manner in two trees (_s_), the number resolved differently in both trees 
-#' (_d_), the number resolved in tree 1 or 2 but unresolved in the other tree
-#' (_r1_, _r2_), and the number that are unresolved in both trees (_u_).
+#' Estabrook _et al._ (1985, table 2) define four similarity metrics in terms 
+#' of the total number of quartets (_N_, their _Q_), the number of quartets 
+#' resolved in the same manner in two trees (_s_), the number resolved 
+#' differently in both trees (_d_), the number resolved in tree 1 or 2 but
+#' unresolved in the other tree (_r1_, _r2_), and the number that are
+#' unresolved in both trees (_u_).
 #' 
 #' The similarity metrics are then given as below.  The dissimilarity metrics 
 #' are their complement (i.e. 1 - _similarity_), and can be calculated 
 #' algebraically using the identity _N_ = _s_ + _d_ + _r1_ + _r2_ + _u_.
 #' 
-#' Although defined using quartets, analogous values can be calculated using partitions
-#' -- though for a number of reasons, quartets may offer a more meaningful
-#' measure of the amount of information shared by two trees.
+#' Although defined using quartets, analogous values can be calculated using
+#' partitions -- though for a number of reasons, quartets may offer a more
+#' meaningful measure of the amount of information shared by two trees.
 #' 
 #' * Do Not Conflict (DC): (_s_ + _r1_ + _r2_ + _u_) / _N_
 #' 
@@ -24,26 +25,29 @@
 #' 
 #' * SemiStrict Joint Assertions (SSJA): _s_ / (_s_ + _d_ + _u_)
 #' 
-#' (The numerator of the SemiStrict Joint Assertions similarity metric is given in
-#'  Estabrook _et al_. (1985)'s table 2 as _s_ + _d_, but this is understood, with
-#'  reference to the text, to be a typographic error.)
+#' (The numerator of the SemiStrict Joint Assertions similarity metric is 
+#' given in Estabrook _et al_. (1985) table 2 as _s_ + _d_, but this is
+#' understood, with reference to the text, to be a typographic error.)
 #' 
 #' Steel & Penny (1993) propose a further metric, which they denote d_Q_,
 #' which this package calculates using the function `SteelPenny()`:
 #' 
 #' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _N_
 #' 
-#' Another take on tree similarity is to consider the symmetric difference: that is,
-#' the number of partitions or quartets present in one tree that do not appear in the
-#' other, originally used to measure tree similarity by Robinson & Foulds (1981).
-#' (Note that, given the familiarity of the Robinson Foulds distance metric, this
-#' quantity is be default expressed as a difference rather than a similarity.)
+#' Another take on tree similarity is to consider the symmetric difference: 
+#' that is, the number of partitions or quartets present in one tree that do
+#' not appear in the other, originally used to measure tree similarity by
+#' Robinson & Foulds (1981).
+#' (Note that, given the familiarity of the Robinson Foulds distance metric,
+#' this quantity is be default expressed as a difference rather than a
+#' similarity.)
 #' 
 #' * Robinson Foulds (RF): _d1_ + _d2_ + _r1_ + _r2_
 #' 
 #' To contextualize the symmetric difference, it may be normalized against:
 #'
-#' The total number of resolved quartets or partitions present in both trees (Day 1986):
+#' The total number of resolved quartets or partitions present in both trees
+#' (Day 1986):
 #' 
 #' * Symmetric Difference (SD): (2 _d_ + _r1_ + _r2_) / (2 _d_ + 2 _s_ + _r1_ + _r2_)
 #' 
@@ -51,29 +55,44 @@
 #' 
 #' * Marczewski-Steinhaus (MS): (2 _d_ + _r1_ + _r2_) / (2 _d_ + _s_ + _r1_ + _r2_)
 #' 
-#' The maximum number of quartets or partitions that could have been resolved, given the
-#' number of tips (Smith 2019):
+#' The maximum number of quartets or partitions that could have been resolved,
+#' given the number of tips (Smith 2019):
 #' 
 #' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / _N_
 #' 
+#' Finally, in cases where a reconstructed tree is being compared to a
+#' reference tree taken to represent 'true' relationships,
+#' a symmetric difference is not desired.
+#' In such settings, the desired score is the expectation that a given 
+#' quartet's resolution in the reconstructed tree is 'correct', given by
+#' (Asher & Smith forthcoming):
+#' 
+#' * SimilarityToReference (STR): (_s_ + (_r1_ + _r2_ + _u_) / 3)
+#' / (_s_ + _d_ + _r2_ + _r1_ + _u_)
 #'
 #' @template elementStatusParam
 #' @param similarity Logical specifying whether to calculate the similarity
-#'                   or dissimilarity.
+#' or dissimilarity.
+#' @param normalize Logical; if `TRUE`, a random or star tree has expected
+#' similarity 0 (or difference 1), and the maximum possible score is one. 
+#' If `FALSE`, zero similarity corresponds to all quartets contradicted, 
+#' whereas one corresponds to all quartets correctly resolved -- which will be 
+#' unattainable if the reference tree contains polytomies.
 #'
 #' @return
-#'   `SimilarityMetrics()` returns a named two-dimensional array in which each row 
-#'   corresponds to an input tree, and each column corresponds to one of the
-#'   listed measures.
+#' `SimilarityMetrics()` returns a named two-dimensional array in which each row
+#' corresponds to an input tree, and each column corresponds to one of the
+#' listed measures.
 #'   
-#'   `DoNotConflict()` and others return a named vector describing the requested
-#'   similarity (or difference) between the trees.
+#' `DoNotConflict()` and others return a named vector describing the requested
+#' similarity (or difference) between the trees.
 #'
 #' @seealso 
-#'   * [`QuartetStatus()`]: Calculate status of each quartet: the raw material 
-#'     from which the Estabrook _et al._ metrics are calculated.
+#' * Calculate status of each quartet -- the raw material from which the 
+#'   Estabrook _et al._ metrics are calculated -- with [`QuartetStatus()`]: 
 #'     
-#'   * [`SplitStatus()`], [`CompareSplits()`]: equivalent metrics for bipartition splits.
+#' * Equivalent metrics for bipartition splits: [`SplitStatus()`],
+#'   [`CompareSplits()`]
 #'
 #' @examples 
 #' data('sq_trees')
@@ -83,6 +102,8 @@
 #' QuartetDivergence(sq_status, similarity = FALSE)
 #'
 #' @references 
+#' - \insertRef{Asher2020}{Quartet}
+#' 
 #' - \insertRef{Day1986}{Quartet}
 #' 
 #' - \insertRef{Estabrook1985}{Quartet}
@@ -108,11 +129,15 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
     DoNotConflict = elementStatus[, '2d'] / elementStatus[, 'N'],
     ExplicitlyAgree = 1 - (2L * elementStatus[, 's']) / elementStatus[, 'N'],
     StrictJointAssertions = elementStatus[, '2d'] / RS(c('2d', 's', 's')),
-    SemiStrictJointAssertions = SemiStrictJointAssertions(elementStatus, similarity = FALSE),
+    SemiStrictJointAssertions = SemiStrictJointAssertions(elementStatus, 
+                                                          similarity = FALSE),
     SymmetricDifference = ddr1r2 / RS(c('2d', 's', 's', 'r1', 'r2')),
     MarczewskiSteinhaus = ddr1r2 / RS(c('2d', 's', 'r1', 'r2')),
     SteelPenny = SteelPenny(elementStatus, similarity = FALSE),
-    QuartetDivergence = ddr1r2 / elementStatus[, 'N']
+    QuartetDivergence = ddr1r2 / elementStatus[, 'N'],
+    SimilarityToReference = SimilarityToReference(elementStatus,
+                                                  similarity = FALSE,
+                                                  normalize = FALSE)
   )
   if (similarity) 1 - result else result
 }
@@ -133,11 +158,11 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
   dims <- dim(elementStatus)
   if (is.null(dims) || length(dims) == 2L) {
     elementStatus <- .StatusToMatrix(elementStatus)
-    result <- rowSums(elementStatus[, numerator, drop=FALSE]) / 
+    result <- rowSums(elementStatus[, numerator, drop = FALSE]) / 
       rowSums(elementStatus[, denominator, drop = FALSE])
   } else {
     elementStatus <- .StatusToArray(elementStatus)
-    result <- rowSums(elementStatus[, , numerator, drop=FALSE], dims = 2L) / 
+    result <- rowSums(elementStatus[, , numerator, drop = FALSE], dims = 2L) / 
       rowSums(elementStatus[, , denominator, drop = FALSE], dims = 2L)
   }
   if (takeFromOne) 1 - result else result
@@ -145,12 +170,12 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 
 #' Status vector to matrix
 #' 
-#' Converts a vector to a matrix that can be analysed by the [DoNotConflict]
+#' Converts a vector to a matrix that can be analysed by the [`DoNotConflict()`]
 #' function family.
 #' 
 #' @param statusVector Either (i) a named vector of integers, with 
-#' names `N`, `s`, `r1`, `r2`, either `d` or `d1` and `d2`, and optionally `u`; or
-#' (ii) a matrix whose named rows correspond to the same quantities.
+#' names `N`, `s`, `r1`, `r2`, either `d` or `d1` and `d2`, and optionally `u`;
+#' or (ii) a matrix whose named rows correspond to the same quantities.
 #' @return A matrix, containing the input columns plus `2d`, representing 
 #' either `2 * d` or `d1 + d2`, and row names.  
 #' 
@@ -165,16 +190,18 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' @keywords internal
 .StatusToMatrix <- function (statusVector) {
   if (is.null(dim(statusVector))) {
-    statusVector <- matrix(statusVector, 1L, dimnames = list('tree', names(statusVector)))
+    statusVector <- matrix(statusVector, 1L,
+                           dimnames = list('tree', names(statusVector)))
   }
   if ('2d' %in% colnames(statusVector)) {
     # Repeat visitor; return unadulterated
     statusVector
   } else if ('d' %in% colnames(statusVector)) {
-    statusVector <- cbind(statusVector, '2d' = 2L * statusVector[, 'd'])
+    statusVector <- cbind(statusVector, '2d' = 2L * unname(statusVector[, 'd']))
   } else {
     statusVector <- cbind(statusVector,
-                          '2d' = statusVector[, 'd1'] + statusVector[, 'd2'])
+                          '2d' = unname(statusVector[, 'd1'] +
+                                        statusVector[, 'd2']))
   }
 }
 
@@ -231,19 +258,19 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 
 #' @rdname SimilarityMetrics
 #' @export
-DoNotConflict <- function (elementStatus, similarity=TRUE) {
+DoNotConflict <- function (elementStatus, similarity = TRUE) {
   .NormalizeStatus(elementStatus, '2d', 'N', similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @export
-ExplicitlyAgree <- function (elementStatus, similarity=TRUE) {
+ExplicitlyAgree <- function (elementStatus, similarity = TRUE) {
   .NormalizeStatus(elementStatus, c('s', 's'), 'N', !similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @export
-StrictJointAssertions <- function (elementStatus, similarity=TRUE) {
+StrictJointAssertions <- function (elementStatus, similarity = TRUE) {
   .NormalizeStatus(elementStatus, '2d', c('2d', 's', 's'), similarity)
 }
 
@@ -296,3 +323,38 @@ QuartetDivergence <- function (elementStatus, similarity = TRUE) {
   .NormalizeStatus(elementStatus, c('2d', 'r1', 'r2'), 'N', similarity)
 }
 
+#' @rdname SimilarityMetrics
+#' @examples 
+#' library('TreeTools', quietly = TRUE)
+#' set.seed(0)
+#' reference <- CollapseNode(as.phylo(101, 10), 16:18)
+#' trees <- c(
+#'   reference = reference,
+#'   binaryRef = MakeTreeBinary(reference),
+#'   balanced = BalancedTree(reference),
+#'   pectinate = PectinateTree(reference),
+#'   star = StarTree(reference),
+#'   random = RandomTree(reference),
+#'   random2 = RandomTree(reference)
+#' )
+#' elementStatus <- QuartetStatus(trees, reference)
+#' SimilarityToReference(elementStatus)
+#' SimilarityToReference(elementStatus, normalize = TRUE)
+#' @export
+SimilarityToReference <- function(elementStatus, similarity = TRUE,
+                                  normalize = FALSE) {
+  rawSimilarity <- .NormalizeStatus(elementStatus, 
+                                    c(rep('s', 3), 'r1', 'r2', 'u'),
+                                    c('s', 'd', 'r1', 'r2', 'u'), FALSE) / 3L
+  if (normalize) {
+    refBestScore <- .NormalizeStatus(elementStatus,
+                                     c(rep(c('s', 'd', 'r2'), 3L), 'r1', 'u'),
+                                     rep('Q', 3L), FALSE)
+    ret <- (rawSimilarity - (1/3)) / (refBestScore - (1/3))
+  } else {
+    ret <- rawSimilarity
+  }
+  
+  # Return:
+  if (similarity) ret else 1 - ret
+}

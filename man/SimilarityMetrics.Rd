@@ -11,6 +11,7 @@
 \alias{MarczewskiSteinhaus}
 \alias{SteelPenny}
 \alias{QuartetDivergence}
+\alias{SimilarityToReference}
 \title{Tree Similarity Measures}
 \usage{
 SimilarityMetrics(elementStatus, similarity = TRUE)
@@ -32,6 +33,8 @@ MarczewskiSteinhaus(elementStatus, similarity = TRUE)
 SteelPenny(elementStatus, similarity = TRUE)
 
 QuartetDivergence(elementStatus, similarity = TRUE)
+
+SimilarityToReference(elementStatus, similarity = TRUE, normalize = FALSE)
 }
 \arguments{
 \item{elementStatus}{Two-dimensional integer array, with rows corresponding to
@@ -41,6 +44,12 @@ according to the output of \code{\link[=QuartetStatus]{QuartetStatus()}} or
 
 \item{similarity}{Logical specifying whether to calculate the similarity
 or dissimilarity.}
+
+\item{normalize}{Logical; if \code{TRUE}, a random or star tree has expected
+similarity 0 (or difference 1), and the maximum possible score is one.
+If \code{FALSE}, zero similarity corresponds to all quartets contradicted,
+whereas one corresponds to all quartets correctly resolved -- which will be
+unattainable if the reference tree contains polytomies.}
 }
 \value{
 \code{SimilarityMetrics()} returns a named two-dimensional array in which each row
@@ -54,19 +63,20 @@ similarity (or difference) between the trees.
 Measure tree similarity or difference.
 }
 \details{
-Estabrook \emph{et al.} (1985, table 2) define four similarity metrics in terms of the
-total number of quartets (\emph{N}, their \emph{Q}), the number of quartets resolved in the same
-manner in two trees (\emph{s}), the number resolved differently in both trees
-(\emph{d}), the number resolved in tree 1 or 2 but unresolved in the other tree
-(\emph{r1}, \emph{r2}), and the number that are unresolved in both trees (\emph{u}).
+Estabrook \emph{et al.} (1985, table 2) define four similarity metrics in terms
+of the total number of quartets (\emph{N}, their \emph{Q}), the number of quartets
+resolved in the same manner in two trees (\emph{s}), the number resolved
+differently in both trees (\emph{d}), the number resolved in tree 1 or 2 but
+unresolved in the other tree (\emph{r1}, \emph{r2}), and the number that are
+unresolved in both trees (\emph{u}).
 
 The similarity metrics are then given as below.  The dissimilarity metrics
 are their complement (i.e. 1 - \emph{similarity}), and can be calculated
 algebraically using the identity \emph{N} = \emph{s} + \emph{d} + \emph{r1} + \emph{r2} + \emph{u}.
 
-Although defined using quartets, analogous values can be calculated using partitions
--- though for a number of reasons, quartets may offer a more meaningful
-measure of the amount of information shared by two trees.
+Although defined using quartets, analogous values can be calculated using
+partitions -- though for a number of reasons, quartets may offer a more
+meaningful measure of the amount of information shared by two trees.
 \itemize{
 \item Do Not Conflict (DC): (\emph{s} + \emph{r1} + \emph{r2} + \emph{u}) / \emph{N}
 \item Explicitly Agree (EA): \emph{s} / \emph{N}
@@ -74,9 +84,9 @@ measure of the amount of information shared by two trees.
 \item SemiStrict Joint Assertions (SSJA): \emph{s} / (\emph{s} + \emph{d} + \emph{u})
 }
 
-(The numerator of the SemiStrict Joint Assertions similarity metric is given in
-Estabrook \emph{et al}. (1985)'s table 2 as \emph{s} + \emph{d}, but this is understood, with
-reference to the text, to be a typographic error.)
+(The numerator of the SemiStrict Joint Assertions similarity metric is
+given in Estabrook \emph{et al}. (1985) table 2 as \emph{s} + \emph{d}, but this is
+understood, with reference to the text, to be a typographic error.)
 
 Steel & Penny (1993) propose a further metric, which they denote d_Q_,
 which this package calculates using the function \code{SteelPenny()}:
@@ -84,18 +94,21 @@ which this package calculates using the function \code{SteelPenny()}:
 \item Steel & Penny's Quartet Metric (dQ): (\emph{s} + \emph{u}) / \emph{N}
 }
 
-Another take on tree similarity is to consider the symmetric difference: that is,
-the number of partitions or quartets present in one tree that do not appear in the
-other, originally used to measure tree similarity by Robinson & Foulds (1981).
-(Note that, given the familiarity of the Robinson Foulds distance metric, this
-quantity is be default expressed as a difference rather than a similarity.)
+Another take on tree similarity is to consider the symmetric difference:
+that is, the number of partitions or quartets present in one tree that do
+not appear in the other, originally used to measure tree similarity by
+Robinson & Foulds (1981).
+(Note that, given the familiarity of the Robinson Foulds distance metric,
+this quantity is be default expressed as a difference rather than a
+similarity.)
 \itemize{
 \item Robinson Foulds (RF): \emph{d1} + \emph{d2} + \emph{r1} + \emph{r2}
 }
 
 To contextualize the symmetric difference, it may be normalized against:
 
-The total number of resolved quartets or partitions present in both trees (Day 1986):
+The total number of resolved quartets or partitions present in both trees
+(Day 1986):
 \itemize{
 \item Symmetric Difference (SD): (2 \emph{d} + \emph{r1} + \emph{r2}) / (2 \emph{d} + 2 \emph{s} + \emph{r1} + \emph{r2})
 }
@@ -105,10 +118,21 @@ The total distinctly resolved quartets or partitions (Day 1986):
 \item Marczewski-Steinhaus (MS): (2 \emph{d} + \emph{r1} + \emph{r2}) / (2 \emph{d} + \emph{s} + \emph{r1} + \emph{r2})
 }
 
-The maximum number of quartets or partitions that could have been resolved, given the
-number of tips (Smith 2019):
+The maximum number of quartets or partitions that could have been resolved,
+given the number of tips (Smith 2019):
 \itemize{
 \item Symmetric Divergence: (\emph{d} + \emph{d} + \emph{r1} + \emph{r2}) / \emph{N}
+}
+
+Finally, in cases where a reconstructed tree is being compared to a
+reference tree taken to represent 'true' relationships,
+a symmetric difference is not desired.
+In such settings, the desired score is the expectation that a given
+quartet's resolution in the reconstructed tree is 'correct', given by
+(Asher & Smith forthcoming):
+\itemize{
+\item SimilarityToReference (STR): (\emph{s} + (\emph{r1} + \emph{r2} + \emph{u}) / 3)
+/ (\emph{s} + \emph{d} + \emph{r2} + \emph{r1} + \emph{u})
 }
 }
 \examples{
@@ -118,9 +142,25 @@ sq_status <- QuartetStatus(sq_trees)
 SimilarityMetrics(sq_status)
 QuartetDivergence(sq_status, similarity = FALSE)
 
+library('TreeTools', quietly = TRUE)
+set.seed(0)
+reference <- CollapseNode(as.phylo(101, 10), 16:18)
+trees <- c(
+  reference = reference,
+  binaryRef = MakeTreeBinary(reference),
+  balanced = BalancedTree(reference),
+  pectinate = PectinateTree(reference),
+  star = StarTree(reference),
+  random = RandomTree(reference),
+  random2 = RandomTree(reference)
+)
+elementStatus <- QuartetStatus(trees, reference)
+SimilarityToReference(elementStatus)
+SimilarityToReference(elementStatus, normalize = TRUE)
 }
 \references{
 \itemize{
+\item \insertRef{Asher2020}{Quartet}
 \item \insertRef{Day1986}{Quartet}
 \item \insertRef{Estabrook1985}{Quartet}
 \item \insertRef{Marczewski1958}{Quartet}
@@ -131,9 +171,10 @@ QuartetDivergence(sq_status, similarity = FALSE)
 }
 \seealso{
 \itemize{
-\item \code{\link[=QuartetStatus]{QuartetStatus()}}: Calculate status of each quartet: the raw material
-from which the Estabrook \emph{et al.} metrics are calculated.
-\item \code{\link[=SplitStatus]{SplitStatus()}}, \code{\link[=CompareSplits]{CompareSplits()}}: equivalent metrics for bipartition splits.
+\item Calculate status of each quartet -- the raw material from which the
+Estabrook \emph{et al.} metrics are calculated -- with \code{\link[=QuartetStatus]{QuartetStatus()}}:
+\item Equivalent metrics for bipartition splits: \code{\link[=SplitStatus]{SplitStatus()}},
+\code{\link[=CompareSplits]{CompareSplits()}}
 }
 }
 \author{

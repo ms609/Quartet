@@ -44,8 +44,9 @@ i.e. 2 \emph{Q}.}
 \item{u}{The number of quartets that are unresolved in both trees.}
 }
 
-\code{ManyToManyQuartetAgreement()} returns a three-dimensional array listing,
-for each pair of trees in turn, the number of quartets in each category.
+\code{ManyToManyQuartetAgreement()} returns a three-dimensional array
+listing, for each pair of trees in turn, the number of quartets in each
+category.
 
 \code{TwoListQuartetAgreement()} returns a three-dimensional array listing,
 for each pair of trees in turn, the number of quartets in each category.
@@ -81,14 +82,14 @@ tqdist C library (Sand \emph{et al}. 2014).
 \item \code{SharedQuartetStatus}: Reports split statistics obtained after removing all
 tips that do not occur in both trees being compared.
 
-\item \code{ManyToManyQuartetAgreement}: Agreement of each quartet, comparing each pair of trees
-in a list.
+\item \code{ManyToManyQuartetAgreement}: Agreement of each quartet, comparing each pair of
+trees in a list.
 
 \item \code{TwoListQuartetAgreement}: Agreement of each quartet in trees in one list with
 each quartet in trees in a second list.
 
-\item \code{SingleTreeQuartetAgreement}: Agreement of each quartet in trees in a list with the
-quartets in a comparison tree.
+\item \code{SingleTreeQuartetAgreement}: Agreement of each quartet in trees in a list with
+the quartets in a comparison tree.
 }}
 
 \examples{
@@ -104,12 +105,12 @@ sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
 # Calculate Estabrook et al's similarity measures:
 SimilarityMetrics(sq_status)
  
- # Calculate Quartet Divergence between each tree and each other tree in a 
- # list
- QuartetDivergence(ManyToManyQuartetAgreement(two_moved))
-  # Calculate Quartet Divergence between each tree in one list and each 
-  # tree in another
-  QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
+# Calculate Quartet Divergence between each tree and each other tree in a 
+# list
+QuartetDivergence(ManyToManyQuartetAgreement(two_moved))
+# Calculate Quartet Divergence between each tree in one list and each 
+# tree in another
+QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
 }
 \references{
 \itemize{

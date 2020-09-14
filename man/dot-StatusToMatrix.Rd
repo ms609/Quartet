@@ -11,8 +11,8 @@
 }
 \arguments{
 \item{statusVector}{Either (i) a named vector of integers, with
-names \code{N}, \code{s}, \code{r1}, \code{r2}, either \code{d} or \code{d1} and \code{d2}, and optionally \code{u}; or
-(ii) a matrix whose named rows correspond to the same quantities.}
+names \code{N}, \code{s}, \code{r1}, \code{r2}, either \code{d} or \code{d1} and \code{d2}, and optionally \code{u};
+or (ii) a matrix whose named rows correspond to the same quantities.}
 
 \item{status}{A named three-dimensional array of integers, with slices
 named \code{s}, \code{r1}, \code{r2}, either \code{d} or \code{d1} and \code{d2}, and either \code{N} or \code{u}.}
@@ -28,7 +28,7 @@ A three-dimensional array containing a slice labelled \verb{2d},
 equivalent to either \code{d + d} or \code{d1 + d2} as appropriate.
 }
 \description{
-Converts a vector to a matrix that can be analysed by the \link{DoNotConflict}
+Converts a vector to a matrix that can be analysed by the \code{\link[=DoNotConflict]{DoNotConflict()}}
 function family.
 }
 \examples{
