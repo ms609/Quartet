@@ -30,8 +30,13 @@ the number of splits that are present in tree A (but not tree B)
 to the number of splits present in tree B (but not tree A).
 
 It is most useful when the trees to be compared are very similar; it has
-a low range of integer values, limiting its ability to distinguish between
-trees [@Steel1993].
+a low range of integer values, and a low maximum value, limiting its ability 
+to distinguish between trees [@Steel1993].
+It also encounters artefacts and biases in a range of situations,
+limiting its performance against a suite of real-world benchmarks 
+[@Smith2020;@Smith2021]; generalizations of the Robinson-Foulds distance
+go some way to mitigating these shortcomings (see R package 
+'[TreeDist](https://ms609.github.io/TreeDist/)').
 
 ## Quartet metric
 Instead of partitions, symmetric differences can be measured by counting the 
