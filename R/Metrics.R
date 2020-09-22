@@ -205,10 +205,17 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
   } else if ('d' %in% colnames(statusVector)) {
     statusVector <- cbind(statusVector, '2d' = 2L * unname(statusVector[, 'd']))
   } else {
-    statusVector <- cbind(statusVector,
-                          '2d' = unname(statusVector[, 'd1'] +
-                                        statusVector[, 'd2']))
+    twoD <- unname(statusVector[, 'd1'] + statusVector[, 'd2'])
+    statusVector <- cbind(statusVector, '2d' = twoD, 'd' = twoD / 2L)
+    
+    if (!'u' %in% colnames(statusVector)) {
+      statusVector <- cbind(statusVector,
+                          'u' = unname(statusVector[, 'd1'] * 0))
+    }
   }
+  
+  # Return:
+  statusVector
 }
 
 #' @rdname dot-StatusToMatrix
@@ -351,11 +358,11 @@ SimilarityToReference <- function(elementStatus, similarity = TRUE,
                                   normalize = FALSE) {
   rawSimilarity <- .NormalizeStatus(elementStatus, 
                                     c(rep('s', 3), 'r1', 'r2', 'u'), 
-                                    'Q', FALSE) / 3L
+                                    rep('N', 2), FALSE) / 3L
   if (normalize) {
     refBestScore <- .NormalizeStatus(elementStatus,
                                      c(rep(c('s', 'd', 'r2'), 3L), 'r1', 'u'),
-                                     rep('Q', 3L), FALSE)
+                                     rep('N', 6L), FALSE)
     ret <- (rawSimilarity - (1/3)) / (refBestScore - (1/3))
   } else {
     ret <- rawSimilarity
