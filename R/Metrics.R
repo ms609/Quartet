@@ -67,8 +67,14 @@
 #' quartet's resolution in the reconstructed tree is 'correct', given by
 #' (Asher & Smith forthcoming):
 #' 
-#' * SimilarityToReference (STR): (_s_ + (_r1_ + _r2_ + _u_) / 3)
-#' / (_s_ + _d_ + _r2_ + _r1_ + _u_)
+#' * SimilarityToReference (STR): (_s_ + (_r1_ + _r2_ + _u_) / 3) / _Q_
+#' 
+#' This may optionally be normalized with reference to the maximum possible
+#' similarity, (_s_ + _d_ + _r2_ + (_r1_ + _u_) / 3) / _Q_, subtracting 
+#' 1/3 (the probability of matching at random) from both the STR score and 
+#' maxmium possible score before dividing; then, a tree scores zero if it
+#' is as different from the true tree as a random or fully unresolved tree,
+#' and one if it is as 'true' as can be known.
 #'
 #' @template elementStatusParam
 #' @param similarity Logical specifying whether to calculate the similarity

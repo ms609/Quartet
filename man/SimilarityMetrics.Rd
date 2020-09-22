@@ -131,9 +131,15 @@ In such settings, the desired score is the expectation that a given
 quartet's resolution in the reconstructed tree is 'correct', given by
 (Asher & Smith forthcoming):
 \itemize{
-\item SimilarityToReference (STR): (\emph{s} + (\emph{r1} + \emph{r2} + \emph{u}) / 3)
-/ (\emph{s} + \emph{d} + \emph{r2} + \emph{r1} + \emph{u})
+\item SimilarityToReference (STR): (\emph{s} + (\emph{r1} + \emph{r2} + \emph{u}) / 3) / \emph{Q}
 }
+
+This may optionally be normalized with reference to the maximum possible
+similarity, (\emph{s} + \emph{d} + \emph{r2} + (\emph{r1} + \emph{u}) / 3) / \emph{Q}, subtracting
+1/3 (the probability of matching at random) from both the STR score and
+maxmium possible score before dividing; then, a tree scores zero if it
+is as different from the true tree as a random or fully unresolved tree,
+and one if it is as 'true' as can be known.
 }
 \examples{
 data('sq_trees')
