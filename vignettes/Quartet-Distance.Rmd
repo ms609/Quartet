@@ -22,7 +22,7 @@ require('ape') # for plot.phylo
 ```
 
 
-## Partition metric
+## Partition metrics
 
 The Robinson-Foulds (RF or 'partition') metric [@Robinson1981; @Steel1993]
 measures the symmetric difference between two trees by adding
@@ -88,6 +88,7 @@ As quartet distances of 1 can only be accomplished for small trees (five or fewe
 leaves), it is perhaps more appropriate to consider whether or not trees are more
 dissimilar than a pair of random trees, whose distance will be, on average, 
 $\frac{2}{3}$.
+
 
 ## Minimum quartet distance
 
