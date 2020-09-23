@@ -5,7 +5,7 @@ all_quartets <- function(nTips) {
     .Call(`_Quartet_all_quartets`, nTips)
 }
 
-#' Triplet and quartet distances with tqDist
+#' Direct entry points to 'tqDist' functions
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.
 #' Input is not checked for sanity.
