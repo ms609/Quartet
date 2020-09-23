@@ -259,9 +259,10 @@ TQFile <- function (treeList) {
   fileName
 }
 
-#' Triplet and quartet distances with tqDist
+#' Direct entry points to 'tqDist' functions
 #' 
-#' Functions to calculate triplet and quartet distances between pairs of trees.
+#' Wrappers for functions in 'tqDist', which calculate triplet and quartet
+#' distances between pairs of trees.
 #' 
 #' @param file,file1,file2 Paths to files containing a tree or trees in Newick
 #'  format, possibly created using [`TQFile()`].
