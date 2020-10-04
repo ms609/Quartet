@@ -22,7 +22,7 @@
 #' 
 #' @template treesParam
 #' @template treesCfParam
-#' @param nTips Integer specifying number of tips that could have occurred
+#' @param nTip Integer specifying number of tips that could have occurred
 #' in `trees`.  Useful if comparing trees from different data sources that
 #' contain non-overlapping tips.
 #' If `NULL`, the default, then trees are assumed to contain the same tips.
@@ -73,12 +73,12 @@
 #' @importFrom TreeTools AllTipLabels
 #' @name QuartetStatus
 #' @export
-QuartetStatus <- function (trees, cf = trees[[1]], nTips = NULL) {
-  if (is.null(nTips)) {
+QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
+  if (is.null(nTip)) {
     SingleTreeQuartetAgreement(trees, comparison = cf)
   } else {
-    if (isTRUE(nTips)) nTips <- length(AllTipLabels(c(list(cf), c(trees))))
-    Q <- choose(nTips, 4)
+    if (isTRUE(nTip)) nTip <- length(AllTipLabels(c(list(cf), c(trees))))
+    Q <- choose(nTip, 4)
     status <- vapply(c(trees), function (x) {
       commonLabels <- intersect(TipLabels(x), TipLabels(cf))
       resolvedX <- ResolvedQuartets(x)
@@ -162,7 +162,7 @@ TQAE <- function (trees) {
   result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreementEdge',
                   .TreeToEdge(trees))
   nTrees <- nrow(result)
-  array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
+  array(result, c(nTrees, nTrees, 2), dimnames = list(NULL, NULL, c('A', 'E')))
 }
 
 #' Check tree size

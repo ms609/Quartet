@@ -10,9 +10,9 @@
 \usage{
 SharedQuartetStatus(trees, cf = trees[[1]])
 
-QuartetStatus(trees, cf = trees[[1]], nTips = NULL)
+QuartetStatus(trees, cf = trees[[1]], nTip = NULL)
 
-ManyToManyQuartetAgreement(trees)
+ManyToManyQuartetAgreement(trees, nTip = NULL)
 
 TwoListQuartetAgreement(trees1, trees2)
 
@@ -25,7 +25,7 @@ with identically labelled tips.}
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
 each tree is compared to the first tree in \code{trees}.}
 
-\item{nTips}{Integer specifying number of tips that could have occurred
+\item{nTip}{Integer specifying number of tips that could have occurred
 in \code{trees}.  Useful if comparing trees from different data sources that
 contain non-overlapping tips.
 If \code{NULL}, the default, then trees are assumed to contain the same tips.
