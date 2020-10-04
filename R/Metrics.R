@@ -356,13 +356,13 @@ QuartetDivergence <- function (elementStatus, similarity = TRUE) {
 #' @export
 SimilarityToReference <- function(elementStatus, similarity = TRUE,
                                   normalize = FALSE) {
-  rawSimilarity <- .NormalizeStatus(elementStatus, 
-                                    c(rep('s', 3), 'r1', 'r2', 'u'), 
-                                    rep('N', 2), FALSE) / 3L
+  rawSimilarity <- .NormalizeStatus(elementStatus,
+                                    c(rep('s', 3L), 'r1', 'r2', 'u'), 
+                                    rep('N', 1), FALSE) * 2L / 3L
   if (normalize) {
     refBestScore <- .NormalizeStatus(elementStatus,
                                      c(rep(c('s', 'd', 'r2'), 3L), 'r1', 'u'),
-                                     rep('N', 6L), FALSE)
+                                     rep('N', 3L), FALSE) * 2L # N = 2Q, but is defined for splits
     ret <- (rawSimilarity - (1/3)) / (refBestScore - (1/3))
   } else {
     ret <- rawSimilarity
