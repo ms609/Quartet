@@ -1,4 +1,4 @@
-#' Tree Similarity Measures
+#' Tree similarity measures
 #' 
 #' Measure tree similarity or difference.
 #' 
@@ -108,7 +108,7 @@
 #' QuartetDivergence(sq_status, similarity = FALSE)
 #'
 #' @references 
-#' - \insertRef{Asher2020}{Quartet}
+#' - \insertRef{Asher2020}{TreeTools}
 #' 
 #' - \insertRef{Day1986}{Quartet}
 #' 
