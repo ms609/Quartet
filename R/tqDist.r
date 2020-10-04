@@ -83,7 +83,7 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTips = NULL) {
       commonLabels <- intersect(TipLabels(x), TipLabels(cf))
       resolvedX <- ResolvedQuartets(x)
       resolvedCf <- ResolvedQuartets(cf)
-      if (length(commonLabels)) {
+      if (length(commonLabels) > 3L) {
         reducedX <- keep.tip(x, commonLabels)
         reducedCf <- keep.tip(cf, commonLabels)
         resolvedReducedX <- ResolvedQuartets(reducedX)
