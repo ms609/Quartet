@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Triplet and quartet distances with tqDist — tqdist_QuartetDistance • Quartet</title>
+<title>Direct entry points to 'tqDist' functions — tqdist_QuartetDistance • Quartet</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Triplet and quartet distances with tqDist — tqdist_QuartetDistance" />
+<meta property="og:title" content="Direct entry points to 'tqDist' functions — tqdist_QuartetDistance" />
 <meta property="og:description" content="Functions to calculate triplet and quartet distances between pairs of trees.
 Input is not checked for sanity." />
 
@@ -83,7 +83,7 @@ Input is not checked for sanity." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@ Input is not checked for sanity." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Triplet and quartet distances with tqDist</h1>
+    <h1>Direct entry points to 'tqDist' functions</h1>
     <small class="dont-index">Source: <a href='https://github.com/ms609/Quartet/blob/master/R/RcppExports.R'><code>R/RcppExports.R</code></a></small>
     <div class="hidden name"><code>tqdist_QuartetDistance.Rd</code></div>
     </div>
@@ -147,39 +147,39 @@ Input is not checked for sanity." />
 Input is not checked for sanity.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tqdist_QuartetDistance</span>(<span class='no'>file1</span>, <span class='no'>file2</span>)
+    <pre class="usage"><span class='fu'>tqdist_QuartetDistance</span><span class='op'>(</span><span class='va'>file1</span>, <span class='va'>file2</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_QuartetAgreement</span>(<span class='no'>file1</span>, <span class='no'>file2</span>)
+<span class='fu'>tqdist_QuartetAgreement</span><span class='op'>(</span><span class='va'>file1</span>, <span class='va'>file2</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_QuartetAgreementEdge</span>(<span class='no'>edge1</span>, <span class='no'>edge2</span>)
+<span class='fu'>tqdist_QuartetAgreementEdge</span><span class='op'>(</span><span class='va'>edge1</span>, <span class='va'>edge2</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_QuartetAgreementChar</span>(<span class='no'>string1</span>, <span class='no'>string2</span>)
+<span class='fu'>tqdist_QuartetAgreementChar</span><span class='op'>(</span><span class='va'>string1</span>, <span class='va'>string2</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_PairsQuartetDistance</span>(<span class='no'>file1</span>, <span class='no'>file2</span>)
+<span class='fu'>tqdist_PairsQuartetDistance</span><span class='op'>(</span><span class='va'>file1</span>, <span class='va'>file2</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_OneToManyQuartetAgreement</span>(<span class='no'>file1</span>, <span class='no'>fileMany</span>)
+<span class='fu'>tqdist_OneToManyQuartetAgreement</span><span class='op'>(</span><span class='va'>file1</span>, <span class='va'>fileMany</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_OneToManyQuartetAgreementChar</span>(<span class='no'>tree</span>, <span class='no'>trees</span>)
+<span class='fu'>tqdist_OneToManyQuartetAgreementChar</span><span class='op'>(</span><span class='va'>tree</span>, <span class='va'>trees</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_OneToManyQuartetAgreementEdge</span>(<span class='no'>edge</span>, <span class='no'>edges</span>)
+<span class='fu'>tqdist_OneToManyQuartetAgreementEdge</span><span class='op'>(</span><span class='va'>edge</span>, <span class='va'>edges</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_AllPairsQuartetDistance</span>(<span class='no'>file</span>)
+<span class='fu'>tqdist_AllPairsQuartetDistance</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_AllPairsQuartetDistanceChar</span>(<span class='no'>string</span>)
+<span class='fu'>tqdist_AllPairsQuartetDistanceChar</span><span class='op'>(</span><span class='va'>string</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_AllPairsQuartetDistanceEdge</span>(<span class='no'>edges</span>)
+<span class='fu'>tqdist_AllPairsQuartetDistanceEdge</span><span class='op'>(</span><span class='va'>edges</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_AllPairsQuartetAgreement</span>(<span class='no'>file</span>)
+<span class='fu'>tqdist_AllPairsQuartetAgreement</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_AllPairsQuartetAgreementChar</span>(<span class='no'>string</span>)
+<span class='fu'>tqdist_AllPairsQuartetAgreementChar</span><span class='op'>(</span><span class='va'>string</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_AllPairsQuartetAgreementEdge</span>(<span class='no'>edges</span>)
+<span class='fu'>tqdist_AllPairsQuartetAgreementEdge</span><span class='op'>(</span><span class='va'>edges</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_TripletDistance</span>(<span class='no'>file1</span>, <span class='no'>file2</span>)
+<span class='fu'>tqdist_TripletDistance</span><span class='op'>(</span><span class='va'>file1</span>, <span class='va'>file2</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_PairsTripletDistance</span>(<span class='no'>file1</span>, <span class='no'>file2</span>)
+<span class='fu'>tqdist_PairsTripletDistance</span><span class='op'>(</span><span class='va'>file1</span>, <span class='va'>file2</span><span class='op'>)</span>
 
-<span class='fu'>tqdist_AllPairsTripletDistance</span>(<span class='no'>file</span>)</pre>
+<span class='fu'>tqdist_AllPairsTripletDistance</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -225,6 +225,9 @@ Input is not checked for sanity.</p>
 <em>Bioinformatics</em>, <b>30</b>(14), 2079--2080.
 ISSN 1460-2059, doi: <a href='https://doi.org/10.1093/bioinformatics/btu157'>10.1093/bioinformatics/btu157</a>
 .</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Martin R. Smith, after Andreas Sand</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -241,7 +244,7 @@ ISSN 1460-2059, doi: <a href='https://doi.org/10.1093/bioinformatics/btu157'>10.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

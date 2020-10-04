@@ -83,7 +83,7 @@ splits." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
       </span>
     </div>
 
@@ -147,9 +147,9 @@ splits." />
 splits.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>QuartetState</span>(<span class='no'>tips</span>, <span class='no'>bips</span>, <span class='kw'>splits</span> <span class='kw'>=</span> <span class='no'>bips</span>, <span class='kw'>asRaw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>QuartetState</span><span class='op'>(</span><span class='va'>tips</span>, <span class='va'>bips</span>, splits <span class='op'>=</span> <span class='va'>bips</span>, asRaw <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>QuartetStates</span>(<span class='no'>splits</span>, <span class='kw'>asRaw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>QuartetStates</span><span class='op'>(</span><span class='va'>splits</span>, asRaw <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,19 +213,30 @@ doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
 <code><a href='CompareQuartets.html'>CompareQuartets</a>()</code>,
 <code><a href='CompareSplits.html'>CompareSplits</a>()</code>,
 <code><a href='PairSharedQuartetStatus.html'>PairSharedQuartetStatus</a>()</code>,
-<code><a href='QuartetStatus.html'>SharedQuartetStatus</a>()</code>,
+<code><a href='SharedQuartetStatus.html'>SharedQuartetStatus</a>()</code>,
 <code><a href='SplitStatus.html'>SplitStatus</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p><a href='https://orcid.org/0000-0001-5660-1727'>Martin R. Smith</a>
+(<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>trees</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw pkg'>TreeTools</span><span class='kw ns'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span>(<span class='fl'>6</span>),
-              <span class='kw pkg'>TreeTools</span><span class='kw ns'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span>(<span class='fl'>6</span>))
+    <pre class="examples"><div class='input'><span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>,
+              <span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='kw pkg'>TreeTools</span><span class='kw ns'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/CollapseNode.html'>CollapseNode</a></span>(<span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='fl'>9</span>:<span class='fl'>10</span>)
+<span class='va'>trees</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/CollapseNode.html'>CollapseNode</a></span><span class='op'>(</span><span class='va'>trees</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, <span class='fl'>9</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
 
-<span class='fu'>QuartetState</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>6</span>), <span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>2</span>]])</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>QuartetState</span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>==</span> <span class='fu'>QuartetState</span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>2</span>]])</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>QuartetState</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>6</span>), <span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>3</span>]])</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
-<span class='fu'>QuartetStates</span>(<span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>2</span>]])</div><div class='output co'>#&gt;  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</div><div class='input'><span class='fu'>QuartetStates</span>(<span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>3</span>]])</div><div class='output co'>#&gt;  [1] 0 0 0 0 0 2 0 0 2 2 0 0 2 2 2</div><div class='input'>
-<span class='fu'><a href='CompareQuartets.html'>CompareQuartets</a></span>(<span class='fu'>QuartetStates</span>(<span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>2</span>]]), <span class='fu'>QuartetStates</span>(<span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>3</span>]]))</div><div class='output co'>#&gt;  N  Q  s  d r1 r2  u 
-#&gt; 30 15  6  0  9  0  0 </div><div class='input'><span class='fu'><a href='CompareQuartetsMulti.html'>CompareQuartetsMulti</a></span>(<span class='no'>trees</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>trees</span>[<span class='fl'>2</span>:<span class='fl'>3</span>])</div><div class='output co'>#&gt;      N      Q  s_all  s_any  d_all  d_any r1_all r1_any r2_all r2_any  u_all 
+<span class='fu'>QuartetState</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>6</span><span class='op'>)</span>, <span class='va'>trees</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>  
+</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>QuartetState</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='va'>trees</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>==</span> <span class='fu'>QuartetState</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='va'>trees</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>QuartetState</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>6</span><span class='op'>)</span>, <span class='va'>trees</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>  
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='fu'>QuartetStates</span><span class='op'>(</span><span class='va'>trees</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</div><div class='input'><span class='fu'>QuartetStates</span><span class='op'>(</span><span class='va'>trees</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 0 0 0 0 0 2 0 0 2 2 0 0 2 2 2</div><div class='input'>
+<span class='fu'><a href='CompareQuartets.html'>CompareQuartets</a></span><span class='op'>(</span><span class='fu'>QuartetStates</span><span class='op'>(</span><span class='va'>trees</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>, <span class='fu'>QuartetStates</span><span class='op'>(</span><span class='va'>trees</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  N  Q  s  d r1 r2  u 
+#&gt; 30 15  6  0  9  0  0 </div><div class='input'><span class='fu'><a href='CompareQuartetsMulti.html'>CompareQuartetsMulti</a></span><span class='op'>(</span><span class='va'>trees</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>trees</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      N      Q  s_all  s_any  d_all  d_any r1_all r1_any r2_all r2_any  u_all 
 #&gt;     45     15      3     12      3      3      0      9      0      0      0 
 #&gt;  u_any x_only 
 #&gt;      0      3 </div><div class='input'>
@@ -245,7 +256,7 @@ doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

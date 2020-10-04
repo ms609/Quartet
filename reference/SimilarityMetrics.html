@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
       </span>
     </div>
 
@@ -145,25 +145,27 @@
     <p>Measure tree similarity or difference.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>SimilarityMetrics</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>SimilarityMetrics</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>DoNotConflict</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>DoNotConflict</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>ExplicitlyAgree</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>ExplicitlyAgree</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>StrictJointAssertions</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>StrictJointAssertions</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>SemiStrictJointAssertions</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>SemiStrictJointAssertions</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>SymmetricDifference</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>SymmetricDifference</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>RobinsonFoulds</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>RobinsonFoulds</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>MarczewskiSteinhaus</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>MarczewskiSteinhaus</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>SteelPenny</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>SteelPenny</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>QuartetDivergence</span>(<span class='no'>elementStatus</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>QuartetDivergence</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='fu'>SimilarityToReference</span><span class='op'>(</span><span class='va'>elementStatus</span>, similarity <span class='op'>=</span> <span class='cn'>TRUE</span>, normalize <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,13 +174,21 @@
       <th>elementStatus</th>
       <td><p>Two-dimensional integer array, with rows corresponding to
 counts of matching quartets or partitions for each tree, and columns named
-according to the output of <code><a href='QuartetStatus.html'>QuartetStatus()</a></code> or
+according to the output of <code><a href='SharedQuartetStatus.html'>QuartetStatus()</a></code> or
 <code><a href='SplitStatus.html'>SplitStatus()</a></code>.</p></td>
     </tr>
     <tr>
       <th>similarity</th>
       <td><p>Logical specifying whether to calculate the similarity
 or dissimilarity.</p></td>
+    </tr>
+    <tr>
+      <th>normalize</th>
+      <td><p>Logical; if <code>TRUE</code>, a random or star tree has expected
+similarity 0 (or difference 1), and the maximum possible score is one.
+If <code>FALSE</code>, zero similarity corresponds to all quartets contradicted,
+whereas one corresponds to all quartets correctly resolved -- which will be
+unattainable if the reference tree contains polytomies.</p></td>
     </tr>
     </table>
 
@@ -191,41 +201,45 @@ listed measures.</p>
 similarity (or difference) between the trees.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Estabrook <em>et al.</em> (1985, table 2) define four similarity metrics in terms of the
-total number of quartets (<em>N</em>, their <em>Q</em>), the number of quartets resolved in the same
-manner in two trees (<em>s</em>), the number resolved differently in both trees
-(<em>d</em>), the number resolved in tree 1 or 2 but unresolved in the other tree
-(<em>r1</em>, <em>r2</em>), and the number that are unresolved in both trees (<em>u</em>).</p>
+    <p>Estabrook <em>et al.</em> (1985, table 2) define four similarity metrics in terms
+of the total number of quartets (<em>N</em>, their <em>Q</em>), the number of quartets
+resolved in the same manner in two trees (<em>s</em>), the number resolved
+differently in both trees (<em>d</em>), the number resolved in tree 1 or 2 but
+unresolved in the other tree (<em>r1</em>, <em>r2</em>), and the number that are
+unresolved in both trees (<em>u</em>).</p>
 <p>The similarity metrics are then given as below.  The dissimilarity metrics
 are their complement (i.e. 1 - <em>similarity</em>), and can be calculated
 algebraically using the identity <em>N</em> = <em>s</em> + <em>d</em> + <em>r1</em> + <em>r2</em> + <em>u</em>.</p>
-<p>Although defined using quartets, analogous values can be calculated using partitions
--- though for a number of reasons, quartets may offer a more meaningful
-measure of the amount of information shared by two trees.</p><ul>
+<p>Although defined using quartets, analogous values can be calculated using
+partitions -- though for a number of reasons, quartets may offer a more
+meaningful measure of the amount of information shared by two trees.</p><ul>
 <li><p>Do Not Conflict (DC): (<em>s</em> + <em>r1</em> + <em>r2</em> + <em>u</em>) / <em>N</em></p></li>
 <li><p>Explicitly Agree (EA): <em>s</em> / <em>N</em></p></li>
 <li><p>Strict Joint Assertions (SJA): <em>s</em> / (<em>s</em> + <em>d</em>)</p></li>
 <li><p>SemiStrict Joint Assertions (SSJA): <em>s</em> / (<em>s</em> + <em>d</em> + <em>u</em>)</p></li>
 </ul>
 
-<p>(The numerator of the SemiStrict Joint Assertions similarity metric is given in
-Estabrook <em>et al</em>. (1985)'s table 2 as <em>s</em> + <em>d</em>, but this is understood, with
-reference to the text, to be a typographic error.)</p>
+<p>(The numerator of the SemiStrict Joint Assertions similarity metric is
+given in Estabrook <em>et al</em>. (1985) table 2 as <em>s</em> + <em>d</em>, but this is
+understood, with reference to the text, to be a typographic error.)</p>
 <p>Steel &amp; Penny (1993) propose a further metric, which they denote d_Q_,
 which this package calculates using the function <code>SteelPenny()</code>:</p><ul>
 <li><p>Steel &amp; Penny's Quartet Metric (dQ): (<em>s</em> + <em>u</em>) / <em>N</em></p></li>
 </ul>
 
-<p>Another take on tree similarity is to consider the symmetric difference: that is,
-the number of partitions or quartets present in one tree that do not appear in the
-other, originally used to measure tree similarity by Robinson &amp; Foulds (1981).
-(Note that, given the familiarity of the Robinson Foulds distance metric, this
-quantity is be default expressed as a difference rather than a similarity.)</p><ul>
+<p>Another take on tree similarity is to consider the symmetric difference:
+that is, the number of partitions or quartets present in one tree that do
+not appear in the other, originally used to measure tree similarity by
+Robinson &amp; Foulds (1981).
+(Note that, given the familiarity of the Robinson Foulds distance metric,
+this quantity is be default expressed as a difference rather than a
+similarity.)</p><ul>
 <li><p>Robinson Foulds (RF): <em>d1</em> + <em>d2</em> + <em>r1</em> + <em>r2</em></p></li>
 </ul>
 
 <p>To contextualize the symmetric difference, it may be normalized against:</p>
-<p>The total number of resolved quartets or partitions present in both trees (Day 1986):</p><ul>
+<p>The total number of resolved quartets or partitions present in both trees
+(Day 1986):</p><ul>
 <li><p>Symmetric Difference (SD): (2 <em>d</em> + <em>r1</em> + <em>r2</em>) / (2 <em>d</em> + 2 <em>s</em> + <em>r1</em> + <em>r2</em>)</p></li>
 </ul>
 
@@ -233,15 +247,33 @@ quantity is be default expressed as a difference rather than a similarity.)</p><
 <li><p>Marczewski-Steinhaus (MS): (2 <em>d</em> + <em>r1</em> + <em>r2</em>) / (2 <em>d</em> + <em>s</em> + <em>r1</em> + <em>r2</em>)</p></li>
 </ul>
 
-<p>The maximum number of quartets or partitions that could have been resolved, given the
-number of tips (Smith 2019):</p><ul>
+<p>The maximum number of quartets or partitions that could have been resolved,
+given the number of tips (Smith 2019):</p><ul>
 <li><p>Symmetric Divergence: (<em>d</em> + <em>d</em> + <em>r1</em> + <em>r2</em>) / <em>N</em></p></li>
 </ul>
 
+<p>Finally, in cases where a reconstructed tree is being compared to a
+reference tree taken to represent 'true' relationships,
+a symmetric difference is not desired.
+In such settings, the desired score is the expectation that a given
+quartet's resolution in the reconstructed tree is 'correct', given by
+(Asher &amp; Smith forthcoming):</p><ul>
+<li><p>SimilarityToReference (STR): (<em>s</em> + (<em>r1</em> + <em>r2</em> + <em>u</em>) / 3) / <em>Q</em></p></li>
+</ul>
+
+<p>This may optionally be normalized with reference to the maximum possible
+similarity, (<em>s</em> + <em>d</em> + <em>r2</em> + (<em>r1</em> + <em>u</em>) / 3) / <em>Q</em>, subtracting
+1/3 (the probability of matching at random) from both the STR score and
+maxmium possible score before dividing; then, a tree scores zero if it
+is as different from the true tree as a random or fully unresolved tree,
+and one if it is as 'true' as can be known.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
 <ul>
+<li><p>Asher R, Smith MR (2020).
+&#8220;Phylogenetic Signal and Bias in Vertebrate Paleontology.&#8221;
+<em>forthcoming</em>.</p></li>
 <li><p>Day WH (1986).
 &#8220;Analysis of quartet dissimilarity measures between undirected phylogenetic trees.&#8221;
 <em>Systematic Biology</em>, <b>35</b>(3), 325--333.
@@ -277,17 +309,23 @@ doi: <a href='https://doi.org/10.1093/sysbio/42.2.126'>10.1093/sysbio/42.2.126</
 
     <div class='dont-index'>
 <ul>
-<li><p><code><a href='QuartetStatus.html'>QuartetStatus()</a></code>: Calculate status of each quartet: the raw material
-from which the Estabrook <em>et al.</em> metrics are calculated.</p></li>
-<li><p><code><a href='SplitStatus.html'>SplitStatus()</a></code>, <code><a href='CompareSplits.html'>CompareSplits()</a></code>: equivalent metrics for bipartition splits.</p></li>
+<li><p>Calculate status of each quartet -- the raw material from which the
+Estabrook <em>et al.</em> metrics are calculated -- with <code><a href='SharedQuartetStatus.html'>QuartetStatus()</a></code>:</p></li>
+<li><p>Equivalent metrics for bipartition splits: <code><a href='SplitStatus.html'>SplitStatus()</a></code>,
+<code><a href='CompareSplits.html'>CompareSplits()</a></code></p></li>
 </ul>
 </div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p><a href='https://orcid.org/0000-0001-5660-1727'>Martin R. Smith</a>
+(<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'sq_trees'</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'sq_trees'</span><span class='op'>)</span>
 
-<span class='no'>sq_status</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='QuartetStatus.html'>QuartetStatus</a></span>(<span class='no'>sq_trees</span>)
-<span class='fu'>SimilarityMetrics</span>(<span class='no'>sq_status</span>)</div><div class='output co'>#&gt;                DoNotConflict ExplicitlyAgree StrictJointAssertions
+<span class='va'>sq_status</span> <span class='op'>&lt;-</span> <span class='fu'><a href='SharedQuartetStatus.html'>QuartetStatus</a></span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>)</span>
+<span class='fu'>SimilarityMetrics</span><span class='op'>(</span><span class='va'>sq_status</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                DoNotConflict ExplicitlyAgree StrictJointAssertions
 #&gt; ref_tree           1.0000000       1.0000000             1.0000000
 #&gt; move_one_near      0.9757576       0.9757576             0.9757576
 #&gt; move_one_mid       0.8424242       0.8424242             0.8424242
@@ -343,7 +381,27 @@ from which the Estabrook <em>et al.</em> metrics are calculated.</p></li>
 #&gt; caterpillar              0.5865385  0.7393939         0.7393939
 #&gt; top_and_tail             0.2267658  0.3696970         0.3696970
 #&gt; anti_pectinate           0.1478261  0.2575758         0.2575758
-#&gt; random_tree              0.1870504  0.3151515         0.3151515</div><div class='input'><span class='fu'>QuartetDivergence</span>(<span class='no'>sq_status</span>, <span class='kw'>similarity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;       ref_tree  move_one_near   move_one_mid   move_one_far  move_two_near 
+#&gt; random_tree              0.1870504  0.3151515         0.3151515
+#&gt;                SimilarityToReference
+#&gt; ref_tree                   1.0000000
+#&gt; move_one_near              0.9757576
+#&gt; move_one_mid               0.8424242
+#&gt; move_one_far               0.7696970
+#&gt; move_two_near              0.9272727
+#&gt; move_two_mid               0.7636364
+#&gt; move_two_far               0.7212121
+#&gt; collapse_one               0.9838384
+#&gt; collapse_some              0.7515152
+#&gt; m1mid_col1                 0.8262626
+#&gt; m1mid_colsome              0.7111111
+#&gt; m2mid_col1                 0.7474747
+#&gt; m2mid_colsome              0.5858586
+#&gt; opposite_tree              0.2606061
+#&gt; caterpillar                0.7393939
+#&gt; top_and_tail               0.3696970
+#&gt; anti_pectinate             0.2575758
+#&gt; random_tree                0.3151515</div><div class='input'><span class='fu'>QuartetDivergence</span><span class='op'>(</span><span class='va'>sq_status</span>, similarity <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       ref_tree  move_one_near   move_one_mid   move_one_far  move_two_near 
 #&gt;     0.00000000     0.02424242     0.15757576     0.23030303     0.07272727 
 #&gt;   move_two_mid   move_two_far   collapse_one  collapse_some     m1mid_col1 
 #&gt;     0.23636364     0.27878788     0.01212121     0.18636364     0.16969697 
@@ -351,7 +409,26 @@ from which the Estabrook <em>et al.</em> metrics are calculated.</p></li>
 #&gt;     0.25606061     0.24848485     0.31060606     0.73939394     0.26060606 
 #&gt;   top_and_tail anti_pectinate    random_tree 
 #&gt;     0.63030303     0.74242424     0.68484848 </div><div class='input'>
-</div></pre>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>'TreeTools'</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>
+<span class='va'>reference</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/CollapseNode.html'>CollapseNode</a></span><span class='op'>(</span><span class='fu'>as.phylo</span><span class='op'>(</span><span class='fl'>101</span>, <span class='fl'>10</span><span class='op'>)</span>, <span class='fl'>16</span><span class='op'>:</span><span class='fl'>18</span><span class='op'>)</span>
+<span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+  reference <span class='op'>=</span> <span class='va'>reference</span>,
+  binaryRef <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/MakeTreeBinary.html'>MakeTreeBinary</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
+  balanced <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
+  pectinate <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
+  star <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>StarTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
+  random <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>RandomTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
+  random2 <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>RandomTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='va'>elementStatus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='SharedQuartetStatus.html'>QuartetStatus</a></span><span class='op'>(</span><span class='va'>trees</span>, <span class='va'>reference</span><span class='op'>)</span>
+<span class='fu'>SimilarityToReference</span><span class='op'>(</span><span class='va'>elementStatus</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; reference binaryRef  balanced pectinate      star    random   random2 
+#&gt; 0.7682540 0.7682540 0.3015873 0.3444444 0.3333333 0.2349206 0.3253968 </div><div class='input'><span class='fu'>SimilarityToReference</span><span class='op'>(</span><span class='va'>elementStatus</span>, normalize <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   reference   binaryRef    balanced   pectinate        star      random 
+#&gt;  1.00000000  1.00000000 -0.07299270  0.02554745  0.00000000 -0.22627737 
+#&gt;     random2 
+#&gt; -0.01824818 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -367,7 +444,7 @@ from which the Estabrook <em>et al.</em> metrics are calculated.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

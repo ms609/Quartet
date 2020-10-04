@@ -83,7 +83,7 @@ following Brodal et al. (2013)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
       </span>
     </div>
 
@@ -147,9 +147,9 @@ following Brodal et al. (2013)." />
 following Brodal <em>et al.</em> (2013).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ResolvedQuartets</span>(<span class='no'>tree</span>, <span class='kw'>countTriplets</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>ResolvedQuartets</span><span class='op'>(</span><span class='va'>tree</span>, countTriplets <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>ResolvedTriplets</span>(<span class='no'>tree</span>)</pre>
+<span class='fu'>ResolvedTriplets</span><span class='op'>(</span><span class='va'>tree</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,13 +200,20 @@ doi: <a href='https://doi.org/10.1137/1.9781611973105.130'>10.1137/1.97816119731
 <code><a href='AllQuartets.html'>AllQuartets</a>()</code>,
 <code><a href='CompareQuartetsMulti.html'>CompareQuartetsMulti</a>()</code>,
 <code><a href='CompareQuartets.html'>CompareQuartets</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p><a href='https://orcid.org/0000-0001-5660-1727'>Martin R. Smith</a>
+(<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>sq_trees</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>)</span>
 
-<span class='fu'>ResolvedTriplets</span>(<span class='no'>sq_trees</span>$<span class='no'>collapse_some</span>)</div><div class='output co'>#&gt; [1] 144  21</div><div class='input'><span class='co'># Equivalent to:</span>
-<span class='fu'>ResolvedQuartets</span>(<span class='no'>sq_trees</span>$<span class='no'>collapse_some</span>, <span class='kw'>countTriplets</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 144  21</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>vapply</a></span>(<span class='no'>sq_trees</span>, <span class='no'>ResolvedQuartets</span>, <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>(<span class='fl'>2</span>))</div><div class='output co'>#&gt;      ref_tree move_one_near move_one_mid move_one_far move_two_near
+<span class='fu'>ResolvedTriplets</span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>$</span><span class='va'>collapse_some</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 144  21</div><div class='input'><span class='co'># Equivalent to:</span>
+<span class='fu'>ResolvedQuartets</span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>$</span><span class='va'>collapse_some</span>, countTriplets <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 144  21</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>vapply</a></span><span class='op'>(</span><span class='va'>sq_trees</span>, <span class='va'>ResolvedQuartets</span>, <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      ref_tree move_one_near move_one_mid move_one_far move_two_near
 #&gt; [1,]      330           330          330          330           330
 #&gt; [2,]        0             0            0            0             0
 #&gt;      move_two_mid move_two_far collapse_one collapse_some m1mid_col1
@@ -235,7 +242,7 @@ doi: <a href='https://doi.org/10.1137/1.9781611973105.130'>10.1137/1.97816119731
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

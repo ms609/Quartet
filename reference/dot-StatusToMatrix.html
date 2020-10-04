@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Status vector to matrix — .StatusToMatrix" />
-<meta property="og:description" content="Converts a vector to a matrix that can be analysed by the DoNotConflict
+<meta property="og:description" content="Converts a vector to a matrix that can be analysed by the DoNotConflict()
 function family." />
 
 
@@ -83,7 +83,7 @@ function family." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
       </span>
     </div>
 
@@ -143,13 +143,13 @@ function family." />
     </div>
 
     <div class="ref-description">
-    <p>Converts a vector to a matrix that can be analysed by the <a href='SimilarityMetrics.html'>DoNotConflict</a>
+    <p>Converts a vector to a matrix that can be analysed by the <code><a href='SimilarityMetrics.html'>DoNotConflict()</a></code>
 function family.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>.StatusToMatrix</span>(<span class='no'>statusVector</span>)
+    <pre class="usage"><span class='fu'>.StatusToMatrix</span><span class='op'>(</span><span class='va'>statusVector</span><span class='op'>)</span>
 
-<span class='fu'>.StatusToArray</span>(<span class='no'>status</span>)</pre>
+<span class='fu'>.StatusToArray</span><span class='op'>(</span><span class='va'>status</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,8 +157,8 @@ function family.</p>
     <tr>
       <th>statusVector</th>
       <td><p>Either (i) a named vector of integers, with
-names <code>N</code>, <code>s</code>, <code>r1</code>, <code>r2</code>, either <code>d</code> or <code>d1</code> and <code>d2</code>, and optionally <code>u</code>; or
-(ii) a matrix whose named rows correspond to the same quantities.</p></td>
+names <code>N</code>, <code>s</code>, <code>r1</code>, <code>r2</code>, either <code>d</code> or <code>d1</code> and <code>d2</code>, and optionally <code>u</code>;
+or (ii) a matrix whose named rows correspond to the same quantities.</p></td>
     </tr>
     <tr>
       <th>status</th>
@@ -175,11 +175,16 @@ either <code>2 * d</code> or <code>d1 + d2</code>, and row names.</p>
 the output of <code>DoNotConflict</code> etc.</p>
 <p>A three-dimensional array containing a slice labelled <code>2d</code>,
 equivalent to either <code>d + d</code> or <code>d1 + d2</code> as appropriate.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p><a href='https://orcid.org/0000-0001-5660-1727'>Martin R. Smith</a>
+(<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'sq_trees'</span>)
+    <pre class="examples"><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'sq_trees'</span><span class='op'>)</span>
 
-  <span class='fu'>.StatusToArray</span>(<span class='fu'><a href='QuartetStatus.html'>ManyToManyQuartetAgreement</a></span>(<span class='no'>sq_trees</span>[<span class='fl'>5</span>:<span class='fl'>7</span>]))</div><div class='output co'>#&gt; , , s
+  <span class='fu'>.StatusToArray</span><span class='op'>(</span><span class='fu'><a href='SharedQuartetStatus.html'>ManyToManyQuartetAgreement</a></span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>[</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; , , s
 #&gt; 
 #&gt;               move_two_near move_two_mid move_two_far
 #&gt; move_two_near           330          228          214
@@ -251,7 +256,7 @@ equivalent to either <code>d + d</code> or <code>d1 + d2</code> as appropriate.<
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

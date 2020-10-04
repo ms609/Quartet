@@ -84,7 +84,7 @@ For most purposes, the faster function QuartetStatus() will be preferable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
       </span>
     </div>
 
@@ -146,10 +146,10 @@ For most purposes, the faster function QuartetStatus() will be preferable." />
     <div class="ref-description">
     <p><code>CompareQuartets()</code> uses explicit enumeration to compare two lists of
 quartet states, detailing how many are identical and how many are unresolved.
-For most purposes, the faster function <code><a href='QuartetStatus.html'>QuartetStatus()</a></code> will be preferable.</p>
+For most purposes, the faster function <code><a href='SharedQuartetStatus.html'>QuartetStatus()</a></code> will be preferable.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>CompareQuartets</span>(<span class='no'>x</span>, <span class='no'>cf</span>)</pre>
+    <pre class="usage"><span class='fu'>CompareQuartets</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>cf</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,7 +162,7 @@ For most purposes, the faster function <code><a href='QuartetStatus.html'>Quarte
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns an array of seven numeric elements, corresponding</p><dl'>
+    <p>Returns an array of seven numeric elements, corresponding</p><dl>
 <dt>N</dt><dd><p>The total number of quartet <em>statements</em> for two trees of <em>n</em> leaves,
 i.e. 2 <em>Q</em>.</p></dd>
 <dt>Q</dt><dd><p>The total number of quartets for <em>n</em> leaves.</p></dd>
@@ -185,7 +185,7 @@ doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
 
     <div class='dont-index'>
 <ul>
-<li><p><code><a href='QuartetStatus.html'>QuartetStatus()</a></code> generates the same output from a list of trees.</p></li>
+<li><p><code><a href='SharedQuartetStatus.html'>QuartetStatus()</a></code> generates the same output from a list of trees.</p></li>
 </ul>
 
 <p>Other element-by-element comparisons: 
@@ -193,18 +193,23 @@ doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
 <code><a href='CompareSplits.html'>CompareSplits</a>()</code>,
 <code><a href='PairSharedQuartetStatus.html'>PairSharedQuartetStatus</a>()</code>,
 <code><a href='QuartetState.html'>QuartetState</a>()</code>,
-<code><a href='QuartetStatus.html'>SharedQuartetStatus</a>()</code>,
+<code><a href='SharedQuartetStatus.html'>SharedQuartetStatus</a>()</code>,
 <code><a href='SplitStatus.html'>SplitStatus</a>()</code></p>
 <p>Other quartet counting functions: 
 <code><a href='AllQuartets.html'>AllQuartets</a>()</code>,
 <code><a href='CompareQuartetsMulti.html'>CompareQuartetsMulti</a>()</code>,
 <code><a href='ResolvedQuartets.html'>ResolvedQuartets</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p><a href='https://orcid.org/0000-0001-5660-1727'>Martin R. Smith</a>
+(<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='no'>trees</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw pkg'>TreeTools</span><span class='kw ns'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span>(<span class='fl'>6</span>),
-                <span class='kw pkg'>TreeTools</span><span class='kw ns'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span>(<span class='fl'>6</span>))
-  <span class='no'>quartets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='QuartetState.html'>QuartetStates</a></span>(<span class='no'>trees</span>)
-  <span class='fu'>CompareQuartets</span>(<span class='no'>quartets</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>quartets</span><span class='kw'>[[</span><span class='fl'>2</span>]])</div><div class='output co'>#&gt;  N  Q  s  d r1 r2  u 
+    <pre class="examples"><div class='input'>  <span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>,
+                <span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>quartets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='QuartetState.html'>QuartetStates</a></span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span>
+  <span class='fu'>CompareQuartets</span><span class='op'>(</span><span class='va'>quartets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>quartets</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  N  Q  s  d r1 r2  u 
 #&gt;  2  1  1  0  0  0  0 </div><div class='input'>
 </div></pre>
   </div>
@@ -222,7 +227,7 @@ doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

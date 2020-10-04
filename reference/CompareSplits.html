@@ -83,7 +83,7 @@ splits." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
       </span>
     </div>
 
@@ -147,9 +147,9 @@ splits." />
 splits.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>CompareSplits</span>(<span class='no'>splits</span>, <span class='no'>splits2</span>)
+    <pre class="usage"><span class='fu'>CompareSplits</span><span class='op'>(</span><span class='va'>splits</span>, <span class='va'>splits2</span><span class='op'>)</span>
 
-<span class='fu'>CompareBipartitions</span>(<span class='no'>splits</span>, <span class='no'>splits2</span>)</pre>
+<span class='fu'>CompareBipartitions</span><span class='op'>(</span><span class='va'>splits</span>, <span class='va'>splits2</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,14 +207,19 @@ doi: <a href='https://doi.org/10.1016/0025-5564(81)90043-2'>10.1016/0025-5564(81
 <code><a href='CompareQuartets.html'>CompareQuartets</a>()</code>,
 <code><a href='PairSharedQuartetStatus.html'>PairSharedQuartetStatus</a>()</code>,
 <code><a href='QuartetState.html'>QuartetState</a>()</code>,
-<code><a href='QuartetStatus.html'>SharedQuartetStatus</a>()</code>,
+<code><a href='SharedQuartetStatus.html'>SharedQuartetStatus</a>()</code>,
 <code><a href='SplitStatus.html'>SplitStatus</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p><a href='https://orcid.org/0000-0001-5660-1727'>Martin R. Smith</a>
+(<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>splits1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>TreeTools</span><span class='kw ns'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span>(<span class='fl'>8</span>)
-<span class='no'>splits2</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>TreeTools</span><span class='kw ns'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span>(<span class='fl'>8</span>)
+    <pre class="examples"><div class='input'><span class='va'>splits1</span> <span class='op'>&lt;-</span> <span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span>
+<span class='va'>splits2</span> <span class='op'>&lt;-</span> <span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span>
 
-<span class='fu'>CompareSplits</span>(<span class='no'>splits1</span>, <span class='no'>splits2</span>)</div><div class='output co'>#&gt;  N P1 P2  s d1 d2 r1 r2 
+<span class='fu'>CompareSplits</span><span class='op'>(</span><span class='va'>splits1</span>, <span class='va'>splits2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  N P1 P2  s d1 d2 r1 r2 
 #&gt; 10  5  5  3  2  2  0  0 </div><div class='input'>        
 </div></pre>
   </div>
@@ -232,7 +237,7 @@ doi: <a href='https://doi.org/10.1016/0025-5564(81)90043-2'>10.1016/0025-5564(81
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
