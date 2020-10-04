@@ -77,26 +77,30 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTips = NULL) {
   if (is.null(nTips)) {
     SingleTreeQuartetAgreement(trees, comparison = cf)
   } else {
-    if (isTRUE(nTips)) nTips <- length(AllTipLabels(c(list(cf), trees)))
+    if (isTRUE(nTips)) nTips <- length(AllTipLabels(c(list(cf), c(trees))))
     Q <- choose(nTips, 4)
     status <- vapply(c(trees), function (x) {
       commonLabels <- intersect(TipLabels(x), TipLabels(cf))
-      reducedX <- keep.tip(x, commonLabels)
-      reducedCf <- keep.tip(cf, commonLabels)
       resolvedX <- ResolvedQuartets(x)
       resolvedCf <- ResolvedQuartets(cf)
-      resolvedReducedX <- ResolvedQuartets(reducedX)
-      resolvedReducedCf <- ResolvedQuartets(reducedCf)
-      commonStatus <- SingleTreeQuartetAgreement(reducedX, reducedCf)
-      quartetsIn1Only <- resolvedX - c(sum(commonStatus[, c('s', 'd', 'r1')]),
-                                       sum(commonStatus[, c('r2', 'u')]))
-      quartetsIn2Only <- resolvedCf - c(sum(commonStatus[, c('s', 'd', 'r2')]),
-                                        sum(commonStatus[, c('r1', 'u')]))
-      
-      commonStatus[, c('r1', 'u')] <- commonStatus[, c('r1', 'u')] + quartetsIn1Only
-      commonStatus[, c('r2', 'u')] <- commonStatus[, c('r2', 'u')] + quartetsIn2Only
-      commonStatus[, 'u'] <- commonStatus[, 'u'] + Q - sum(resolvedX, resolvedCf, -resolvedReducedX)
-      commonStatus
+      if (length(commonLabels)) {
+        reducedX <- keep.tip(x, commonLabels)
+        reducedCf <- keep.tip(cf, commonLabels)
+        resolvedReducedX <- ResolvedQuartets(reducedX)
+        resolvedReducedCf <- ResolvedQuartets(reducedCf)
+        commonStatus <- SingleTreeQuartetAgreement(reducedX, reducedCf)
+        quartetsIn1Only <- resolvedX - c(sum(commonStatus[, c('s', 'd', 'r1')]),
+                                         sum(commonStatus[, c('r2', 'u')]))
+        quartetsIn2Only <- resolvedCf - c(sum(commonStatus[, c('s', 'd', 'r2')]),
+                                          sum(commonStatus[, c('r1', 'u')]))
+        
+        commonStatus[, c('r1', 'u')] <- commonStatus[, c('r1', 'u')] + quartetsIn1Only
+        commonStatus[, c('r2', 'u')] <- commonStatus[, c('r2', 'u')] + quartetsIn2Only
+        commonStatus[, 'u'] <- commonStatus[, 'u'] + Q - sum(resolvedX, resolvedCf, -resolvedReducedX)
+        commonStatus
+      } else {
+        c(0, 0, 0, 0, resolvedX[1], resolvedCf[1], Q - resolvedX[1] - resolvedCf[1])
+      }
     }, c('N' = 0, 'Q' = 0, 's' = 0, 'd' = 0, 'r1' = 0, 'r2' = 0, 'u' = 0))
     status[c('N', 'Q'), ] <- c(Q + Q, Q)
     

@@ -148,6 +148,11 @@ test_that("QuartetStatus() with differently-tipped trees", {
       QuartetStatus(trees, trees[[i]], nTips = TRUE))
   })
   
+  expect_equal(c(N = 70, Q = 35, s = 0, d = 0, r1 = 1, r2 = 1, u = 35 - 2),
+               QuartetStatus(BalancedTree(1:4), BalancedTree(4:7), nTips = TRUE)[1, ])
+  expect_equal(c(N = 140, Q = 70, s = 0, d = 0, r1 = 1, r2 = 1, u = 70 - 2),
+               QuartetStatus(BalancedTree(1:4), BalancedTree(5:8), nTips = TRUE)[1, ])
+  
   expect_equivalent(c(140, 70, 5, 0, 0, 0, 65),
                     QuartetStatus(BalancedTree(5), BalancedTree(5), nTips = 8))
 })
