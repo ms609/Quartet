@@ -178,7 +178,7 @@ TQAE <- function (trees) {
 #' @export
 .CheckSize <- function (tree) UseMethod('.CheckSize')
 
-#' @rdname .CheckSize
+#' @rdname dot-CheckSize
 #' @keywords internal
 #' @export
 .CheckSize.phylo <- function (tree) {
@@ -187,14 +187,14 @@ TQAE <- function (trees) {
   }
 }
 
-#' @rdname .CheckSize
+#' @rdname dot-CheckSize
 #' @export
 #' @keywords internal
 .CheckSize.list <- function (tree) {
   lapply(tree, .CheckSize)
 }
 
-#' @rdname .CheckSize
+#' @rdname dot-CheckSize
 #' @export
 #' @keywords internal
 .CheckSize.multiPhylo  <- .CheckSize.list
