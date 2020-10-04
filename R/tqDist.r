@@ -208,23 +208,45 @@ TQAE <- function (trees) {
 #' # Calculate Quartet Divergence between each tree and each other tree in a 
 #' # list
 #' QuartetDivergence(ManyToManyQuartetAgreement(two_moved))
+#' @importFrom TreeTools PairwiseDistances
 #' @export 
-ManyToManyQuartetAgreement <- function (trees) {
+ManyToManyQuartetAgreement <- function (trees, nTip = NULL) {
   treeNames <- names(trees)
-  AE <- TQAE(trees)
-  nTree <- dim(AE)[1]
-  A   <- AE[, , 1]
-  E   <- AE[, , 2]
-  ABD <- matrix(diag(A), nTree, nTree)
-  CE  <- matrix(diag(E), nTree, nTree)
-  DE  <- t(CE)
-  C   <- CE - E
-  D   <- DE - E
-  B   <- ABD - A - D
-  
-  # Return:
-  array(c(A, B, C, D, E), dim = c(nTree, nTree, 5),
-        dimnames = list(treeNames, treeNames, c('s', 'd', 'r1', 'r2', 'u')))
+  dimNames <- list(treeNames, treeNames, c('s', 'd', 'r1', 'r2', 'u'))
+  if (is.null(nTip)) {
+    AE <- TQAE(trees)
+    nTree <- dim(AE)[1]
+    A   <- AE[, , 1]
+    E   <- AE[, , 2]
+    ABD <- matrix(diag(A), nTree, nTree)
+    CE  <- matrix(diag(E), nTree, nTree)
+    DE  <- t(CE)
+    C   <- CE - E
+    D   <- DE - E
+    B   <- ABD - A - D
+    
+    # Return:
+    array(c(A, B, C, D, E), dim = c(nTree, nTree, 5),
+          dimnames = dimNames)
+  } else {
+    if (isTRUE(nTip)) nTip <- length(AllTipLabels(trees))
+    treeNames <- names(trees)
+    ret <- vapply(PairwiseDistances(trees, QuartetStatus, 7, nTip = nTip),
+                  as.matrix, matrix(0, length(trees), length(trees), 
+                                    dimnames = dimNames[1:2]))
+    ret <- ret[, , 3:7]
+    dimnames(ret)[[3]] <- c('s', 'd', 'r1', 'r2', 'u')
+    resolved <- vapply(trees, ResolvedQuartets, double(2))
+    diag(ret[, , 's']) <- resolved[1, ]
+    diag(ret[, , 'u']) <- choose(nTip, 4) - resolved[1, ]
+    swapTri <- lower.tri(ret[, , 'r1'])
+    tmp <- ret[, , 'r1'][swapTri]
+    ret[, , 'r1'][swapTri] <- ret[, , 'r2'][swapTri]
+    ret[, , 'r2'][swapTri] <- tmp
+
+    # Return:
+    ret
+  }
 }
 
 #' @describeIn QuartetStatus Agreement of each quartet in trees in one list with

@@ -123,11 +123,11 @@ test_that("QuartetStatus() with equally-sized trees", {
 
 test_that("QuartetStatus() with differently-tipped trees", {
   TextToTree <- function (x) ape::read.tree(text = x)
-  trees <- lapply(c("(a, (b, (c, d, e)));",
-                    "(a, (b, ((c, d), e)));",
-                    "(b, (a, (c, d, e)));",
-                  "((b, f), (c, d, e));",
-                  "((b, c), (d, e), g, a);"),
+  trees <- lapply(c(a.b.cde = "(a, (b, (c, d, e)));",
+                    a.b.cd.e = "(a, (b, ((c, d), e)));",
+                    b.a.cde = "(b, (a, (c, d, e)));",
+                    bf.cde = "((b, f), (c, d, e));",
+                    bc.de.ga = "((b, c), (d, e), g, a);"),
                   TextToTree)
   trees <- lapply(trees, function (x) RenumberTips(x, sort(x$tip.label)))
   states <- lapply(trees, QuartetStates)
@@ -140,12 +140,14 @@ test_that("QuartetStatus() with differently-tipped trees", {
     ret[treeQNames[[i]]] <- states[[i]]
     ret
   }, integer(choose(length(AllTipLabels(trees)), 4)))
+  many <- ManyToManyQuartetAgreement(trees, nTip = TRUE)
   lapply(seq_along(trees), function (i) {
-    expect_equal(t(
+    qi <- QuartetStatus(trees, trees[[i]], nTip = TRUE)
+    expect_equivalent(t(
       vapply(seq_along(trees),
            function (j) CompareQuartets(qState[, j], qState[, i]),
-           double(7))),
-      QuartetStatus(trees, trees[[i]], nTips = TRUE))
+           double(7))), qi)
+    expect_equal(many[, i, ], qi[, -(1:2)])
   })
   
   expect_equal(c(N = 70, Q = 35, s = 0, d = 0, r1 = 1, r2 = 1, u = 35 - 2),
