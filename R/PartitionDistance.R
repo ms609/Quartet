@@ -163,7 +163,7 @@ SplitStatus <- function (trees, cf = trees[[1]]) {
   }
   
   splits <- as.Splits(trees)
-  ret <- vapply(splits, CompareSplits, splits2=splits[[1]], double(8))
+  ret <- vapply(splits, CompareSplits, splits2 = splits[[1]], double(8))
   rownames(ret) <- c('N', 'P1', 'P2', 's', 'd1', 'd2', 'r1', 'r2')
   
   # Return:
