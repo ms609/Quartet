@@ -1,4 +1,3 @@
-
 #' Status of quartets
 #' 
 #' Determines the number of quartets that are consistent within pairs of trees.
@@ -6,7 +5,7 @@
 #' Given a list of trees, returns the number of quartet statements present in the
 #' reference tree (the first entry in `trees`, if `cf` is not specified)
 #' that are also present in each other tree.  A random pair of fully resolved 
-#' trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
+#' trees is expected to share `choose(n_tip, 4) / 3` quartets.
 #' 
 #' 
 #' If trees do not bear the same number of tips, `SharedQuartetStatus()` will 
@@ -44,10 +43,10 @@
 #'  
 #' @family element-by-element comparisons
 #' @seealso 
-#' - [`SplitStatus()`]: Uses splits (groups/clades defined by
-#'  nodes or edges of the tree) instead of quartets as the unit of comparison.
+#' - Use splits (groups/clades defined by nodes or edges of the tree) instead
+#'   of quartets as the unit of comparison: [`SplitStatus()`].
 #'  
-#' - [`SimilarityMetrics()`]: Generates distance metrics from quartet statuses.
+#' - Generate distance metrics from quartet statuses: [`SimilarityMetrics()`].
 #' 
 #' @references 
 #' - \insertRef{Brodal2013}{Quartet}
@@ -58,7 +57,7 @@
 #'
 #' - \insertRef{Sand2014}{Quartet}
 #'
-#' @importFrom Rdpack reprompt 
+#' @importFrom Rdpack reprompt
 #' @name QuartetStatus
 #' @export
 QuartetStatus <- function (trees, cf = trees[[1]]) {

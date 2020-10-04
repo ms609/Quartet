@@ -15,7 +15,7 @@
 }
 \value{
 Raw vector specifying the closest relative of \code{tips[1]} in each
-split
+split.
 }
 \description{
 Closest to tip 1 in each split

@@ -140,7 +140,7 @@ QuartetStates <- function (splits, asRaw = FALSE) {
 #' @param splits Splits object.
 #' @param nTip Integer specifying number of splits in `splits`.
 #' @return Raw vector specifying the closest relative of `tips[1]` in each 
-#' split
+#' split.
 #' @importFrom TreeTools NTip
 #' @keywords internal
 .Subsplit4 <- function (tips, splits, nTip = NTip(splits)[1]) {

@@ -18,7 +18,7 @@
 \alias{tqdist_TripletDistance}
 \alias{tqdist_PairsTripletDistance}
 \alias{tqdist_AllPairsTripletDistance}
-\title{Triplet and quartet distances with tqDist}
+\title{Direct entry points to 'tqDist' functions}
 \usage{
 tqdist_QuartetDistance(file1, file2)
 

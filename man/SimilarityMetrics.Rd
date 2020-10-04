@@ -12,7 +12,7 @@
 \alias{SteelPenny}
 \alias{QuartetDivergence}
 \alias{SimilarityToReference}
-\title{Tree Similarity Measures}
+\title{Tree similarity measures}
 \usage{
 SimilarityMetrics(elementStatus, similarity = TRUE)
 
