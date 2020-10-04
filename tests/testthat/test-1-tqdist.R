@@ -145,6 +145,9 @@ test_that("QuartetStatus() with differently-tipped trees", {
       vapply(seq_along(trees),
            function (j) CompareQuartets(qState[, j], qState[, i]),
            double(7))),
-      QuartetStatus(trees, trees[[i]], allTips = TRUE))
+      QuartetStatus(trees, trees[[i]], nTips = TRUE))
   })
+  
+  expect_equivalent(c(140, 70, 5, 0, 0, 0, 65),
+                    QuartetStatus(BalancedTree(5), BalancedTree(5), nTips = 8))
 })

@@ -22,6 +22,12 @@
 #' 
 #' @template treesParam
 #' @template treesCfParam
+#' @param nTips Integer specifying number of tips that could have occurred
+#' in `trees`.  Useful if comparing trees from different data sources that
+#' contain non-overlapping tips.
+#' If `NULL`, the default, then trees are assumed to contain the same tips.
+#' If `TRUE`, then a vector is generated automatically by counting all unique
+#' tip labels found in `trees` or `cf`.
 #' 
 #' @templateVar intro `QuartetStatus()` returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if `cf` is not specified).  Columns list the status of each quartet:
 #' @template returnEstabrook
@@ -40,6 +46,12 @@
 #' 
 #' # Calculate Estabrook et al's similarity measures:
 #' SimilarityMetrics(sq_status)
+#' 
+#' # Compare trees that include a subset of the taxa 1..10
+#' QuartetStatus(BalancedTree(1:5), BalancedTree(3:8), allTips = 1:10)
+#' 
+#' # If all taxa studied occur in `trees` or `cf`, set `allTips = TRUE`
+#' QuartetStatus(BalancedTree(1:5), BalancedTree(3:10), allTips = TRUE)
 #'  
 #' @family element-by-element comparisons
 #' @seealso 
@@ -58,10 +70,39 @@
 #' - \insertRef{Sand2014}{Quartet}
 #'
 #' @importFrom Rdpack reprompt
+#' @importFrom TreeTools AllTipLabels
 #' @name QuartetStatus
 #' @export
-QuartetStatus <- function (trees, cf = trees[[1]]) {
-  SingleTreeQuartetAgreement(trees, comparison = cf)
+QuartetStatus <- function (trees, cf = trees[[1]], nTips = NULL) {
+  if (is.null(nTips)) {
+    SingleTreeQuartetAgreement(trees, comparison = cf)
+  } else {
+    if (isTRUE(nTips)) nTips <- length(AllTipLabels(c(list(cf), trees)))
+    Q <- choose(nTips, 4)
+    status <- vapply(c(trees), function (x) {
+      commonLabels <- intersect(TipLabels(x), TipLabels(cf))
+      reducedX <- keep.tip(x, commonLabels)
+      reducedCf <- keep.tip(cf, commonLabels)
+      resolvedX <- ResolvedQuartets(x)
+      resolvedCf <- ResolvedQuartets(cf)
+      resolvedReducedX <- ResolvedQuartets(reducedX)
+      resolvedReducedCf <- ResolvedQuartets(reducedCf)
+      commonStatus <- SingleTreeQuartetAgreement(reducedX, reducedCf)
+      quartetsIn1Only <- resolvedX - c(sum(commonStatus[, c('s', 'd', 'r1')]),
+                                       sum(commonStatus[, c('r2', 'u')]))
+      quartetsIn2Only <- resolvedCf - c(sum(commonStatus[, c('s', 'd', 'r2')]),
+                                        sum(commonStatus[, c('r1', 'u')]))
+      
+      commonStatus[, c('r1', 'u')] <- commonStatus[, c('r1', 'u')] + quartetsIn1Only
+      commonStatus[, c('r2', 'u')] <- commonStatus[, c('r2', 'u')] + quartetsIn2Only
+      commonStatus[, 'u'] <- commonStatus[, 'u'] + Q - sum(resolvedX, resolvedCf, -resolvedReducedX)
+      commonStatus
+    }, c('N' = 0, 'Q' = 0, 's' = 0, 'd' = 0, 'r1' = 0, 'r2' = 0, 'u' = 0))
+    status[c('N', 'Q'), ] <- c(Q + Q, Q)
+    
+    # Return:
+    t(status)
+  }
 }
 
 #' Wrapper for tqDist
@@ -130,20 +171,27 @@ TQAE <- function (trees) {
 #' from C.
 #' 
 #' @keywords internal
+#' @export
 .CheckSize <- function (tree) UseMethod('.CheckSize')
 
+#' @rdname .CheckSize
 #' @keywords internal
+#' @export
 .CheckSize.phylo <- function (tree) {
   if (length(tree$tip.label) > 477L) {
     warning("Trees with > 477 tips may produce integer overflow errors.")
   }
 }
 
+#' @rdname .CheckSize
+#' @export
 #' @keywords internal
 .CheckSize.list <- function (tree) {
-  .CheckSize(tree[[1]])
+  lapply(tree, .CheckSize)
 }
 
+#' @rdname .CheckSize
+#' @export
 #' @keywords internal
 .CheckSize.multiPhylo  <- .CheckSize.list
 
