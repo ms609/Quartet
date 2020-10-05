@@ -12,7 +12,7 @@
 \alias{SteelPenny}
 \alias{QuartetDivergence}
 \alias{SimilarityToReference}
-\title{Tree Similarity Measures}
+\title{Tree similarity measures}
 \usage{
 SimilarityMetrics(elementStatus, similarity = TRUE)
 
@@ -148,7 +148,7 @@ sq_status <- QuartetStatus(sq_trees)
 SimilarityMetrics(sq_status)
 QuartetDivergence(sq_status, similarity = FALSE)
 
-library('TreeTools', quietly = TRUE)
+library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
 set.seed(0)
 reference <- CollapseNode(as.phylo(101, 10), 16:18)
 trees <- c(
@@ -166,7 +166,7 @@ SimilarityToReference(elementStatus, normalize = TRUE)
 }
 \references{
 \itemize{
-\item \insertRef{Asher2020}{Quartet}
+\item \insertRef{Asher2020}{TreeTools}
 \item \insertRef{Day1986}{Quartet}
 \item \insertRef{Estabrook1985}{Quartet}
 \item \insertRef{Marczewski1958}{Quartet}

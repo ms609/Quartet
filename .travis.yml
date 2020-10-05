@@ -20,7 +20,7 @@ before_script:
 
 jobs:
   include:
-    - r: 3.4.0
+    - r: 3.4.2 # For isFALSE in RandomTree
     - r: release
       before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
       #r_binary_packages:

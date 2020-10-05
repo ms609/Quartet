@@ -2,9 +2,18 @@
 % Please edit documentation in R/tqDist.r
 \name{.CheckSize}
 \alias{.CheckSize}
+\alias{.CheckSize.phylo}
+\alias{.CheckSize.list}
+\alias{.CheckSize.multiPhylo}
 \title{Check tree size}
 \usage{
 .CheckSize(tree)
+
+\method{.CheckSize}{phylo}(tree)
+
+\method{.CheckSize}{list}(tree)
+
+\method{.CheckSize}{multiPhylo}(tree)
 }
 \description{
 Trees with > 477 leaves may have counts > .Machine$integer.max so cannot
