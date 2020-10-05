@@ -70,7 +70,8 @@
 #' - \insertRef{Sand2014}{Quartet}
 #'
 #' @importFrom Rdpack reprompt
-#' @importFrom TreeTools AllTipLabels
+#' @importFrom ape keep.tip
+#' @importFrom TreeTools AllTipLabels TipLabels
 #' @name QuartetStatus
 #' @export
 QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
