@@ -1,3 +1,7 @@
+# Quartet v1.1.0.9005 (development) 
+
+ - Support for non-identical leaf samples in `QuartetStatus()`.
+
 # Quartet v1.1.0.9004 (development) 
 
  - Remove errant name when comparing unnamed tree pairs.

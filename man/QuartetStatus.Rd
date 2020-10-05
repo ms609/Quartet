@@ -10,9 +10,9 @@
 \usage{
 SharedQuartetStatus(trees, cf = trees[[1]])
 
-QuartetStatus(trees, cf = trees[[1]])
+QuartetStatus(trees, cf = trees[[1]], nTip = NULL)
 
-ManyToManyQuartetAgreement(trees)
+ManyToManyQuartetAgreement(trees, nTip = NULL)
 
 TwoListQuartetAgreement(trees1, trees2)
 
@@ -24,6 +24,13 @@ with identically labelled tips.}
 
 \item{cf}{Comparison tree of class \code{\link[ape:read.tree]{phylo}}.  If unspecified,
 each tree is compared to the first tree in \code{trees}.}
+
+\item{nTip}{Integer specifying number of tips that could have occurred
+in \code{trees}.  Useful if comparing trees from different data sources that
+contain non-overlapping tips.
+If \code{NULL}, the default, then trees are assumed to contain the same tips.
+If \code{TRUE}, then a vector is generated automatically by counting all unique
+tip labels found in \code{trees} or \code{cf}.}
 
 \item{trees1, trees2}{List or \code{multiPhylo} objects containing
 trees of class \code{phylo}.}
@@ -104,6 +111,13 @@ sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
 
 # Calculate Estabrook et al's similarity measures:
 SimilarityMetrics(sq_status)
+
+# Compare trees that include a subset of the taxa 1..10
+library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
+QuartetStatus(BalancedTree(1:5), BalancedTree(3:8), nTip = 10)
+
+# If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`
+QuartetStatus(BalancedTree(1:5), BalancedTree(3:10), nTip = TRUE)
  
 # Calculate Quartet Divergence between each tree and each other tree in a 
 # list
@@ -122,9 +136,9 @@ QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
 }
 \seealso{
 \itemize{
-\item \code{\link[=SplitStatus]{SplitStatus()}}: Uses splits (groups/clades defined by
-nodes or edges of the tree) instead of quartets as the unit of comparison.
-\item \code{\link[=SimilarityMetrics]{SimilarityMetrics()}}: Generates distance metrics from quartet statuses.
+\item Use splits (groups/clades defined by nodes or edges of the tree) instead
+of quartets as the unit of comparison: \code{\link[=SplitStatus]{SplitStatus()}}.
+\item Generate distance metrics from quartet statuses: \code{\link[=SimilarityMetrics]{SimilarityMetrics()}}.
 }
 
 Other element-by-element comparisons: 
