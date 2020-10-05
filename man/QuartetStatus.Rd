@@ -113,10 +113,11 @@ sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
 SimilarityMetrics(sq_status)
 
 # Compare trees that include a subset of the taxa 1..10
-QuartetStatus(BalancedTree(1:5), BalancedTree(3:8), allTips = 1:10)
+library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
+QuartetStatus(BalancedTree(1:5), BalancedTree(3:8), nTip = 10)
 
-# If all taxa studied occur in `trees` or `cf`, set `allTips = TRUE`
-QuartetStatus(BalancedTree(1:5), BalancedTree(3:10), allTips = TRUE)
+# If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`
+QuartetStatus(BalancedTree(1:5), BalancedTree(3:10), nTip = TRUE)
  
 # Calculate Quartet Divergence between each tree and each other tree in a 
 # list

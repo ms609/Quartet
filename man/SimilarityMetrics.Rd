@@ -148,7 +148,7 @@ sq_status <- QuartetStatus(sq_trees)
 SimilarityMetrics(sq_status)
 QuartetDivergence(sq_status, similarity = FALSE)
 
-library('TreeTools', quietly = TRUE)
+library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
 set.seed(0)
 reference <- CollapseNode(as.phylo(101, 10), 16:18)
 trees <- c(
