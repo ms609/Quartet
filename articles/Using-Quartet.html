@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9005</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@
       <h1 data-toc-skip>Getting started with Quartet</h1>
                         <h4 class="author">Martin R. Smith</h4>
             
-            <h4 class="date">2020-10-04</h4>
+            <h4 class="date">2020-10-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/master/vignettes/Using-Quartet.Rmd"><code>vignettes/Using-Quartet.Rmd</code></a></small>
       <div class="hidden name"><code>Using-Quartet.Rmd</code></div>
@@ -202,7 +202,7 @@
 <div id="other-calculations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-calculations" class="anchor"></a>Other calculations</h2>
-<p>To calculate how many quartets are unique to a certain tree (akin to the partitionwise equivalent [<code><a href="https://rdrr.io/pkg/ape/man/boot.phylo.html">ape::prop.clades</a></code>]), use:</p>
+<p>To calculate how many quartets are unique to a certain tree (akin to the partitionwise equivalent <code><a href="https://rdrr.io/pkg/ape/man/boot.phylo.html">ape::prop.clades</a></code>), use:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit">
 <span class="va">interestingTree</span> <span class="op">&lt;-</span> <span class="fu">as.phylo</span><span class="op">(</span><span class="fl">42</span>, <span class="fl">7</span><span class="op">)</span>
 <span class="va">referenceTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html">BalancedTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html">PectinateTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>

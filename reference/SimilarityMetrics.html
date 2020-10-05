@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tree Similarity Measures — SimilarityMetrics • Quartet</title>
+<title>Tree similarity measures — SimilarityMetrics • Quartet</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Tree Similarity Measures — SimilarityMetrics" />
+<meta property="og:title" content="Tree similarity measures — SimilarityMetrics" />
 <meta property="og:description" content="Measure tree similarity or difference." />
 
 
@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9005</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tree Similarity Measures</h1>
+    <h1>Tree similarity measures</h1>
     <small class="dont-index">Source: <a href='https://github.com/ms609/Quartet/blob/master/R/Metrics.R'><code>R/Metrics.R</code></a></small>
     <div class="hidden name"><code>SimilarityMetrics.Rd</code></div>
     </div>
@@ -272,8 +272,8 @@ and one if it is as 'true' as can be known.</p>
     
 <ul>
 <li><p>Asher R, Smith MR (2020).
-&#8220;Phylogenetic Signal and Bias in Vertebrate Paleontology.&#8221;
-<em>forthcoming</em>.</p></li>
+&#8220;Forthcoming manuscript.&#8221;
+<em>TBC</em>.</p></li>
 <li><p>Day WH (1986).
 &#8220;Analysis of quartet dissimilarity measures between undirected phylogenetic trees.&#8221;
 <em>Systematic Biology</em>, <b>35</b>(3), 325--333.
@@ -409,7 +409,7 @@ Estabrook <em>et al.</em> metrics are calculated -- with <code><a href='SharedQu
 #&gt;     0.25606061     0.24848485     0.31060606     0.73939394     0.26060606 
 #&gt;   top_and_tail anti_pectinate    random_tree 
 #&gt;     0.63030303     0.74242424     0.68484848 </div><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>'TreeTools'</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>'TreeTools'</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span>, warn.conflict <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>
 <span class='va'>reference</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/CollapseNode.html'>CollapseNode</a></span><span class='op'>(</span><span class='fu'>as.phylo</span><span class='op'>(</span><span class='fl'>101</span>, <span class='fl'>10</span><span class='op'>)</span>, <span class='fl'>16</span><span class='op'>:</span><span class='fl'>18</span><span class='op'>)</span>
 <span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
