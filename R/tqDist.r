@@ -48,6 +48,7 @@
 #' SimilarityMetrics(sq_status)
 #' 
 #' # Compare trees that include a subset of the taxa 1..10
+#' library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
 #' QuartetStatus(BalancedTree(1:5), BalancedTree(3:8), nTip = 10)
 #' 
 #' # If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`
