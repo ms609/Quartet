@@ -1,3 +1,7 @@
+# Quartet v1.1.0.9006 (development) 
+
+ - `ManyToManyQuartetAgreement()` now returns entries for `N` and `Q`. 
+
 # Quartet v1.1.0.9005 (development) 
 
  - Support for non-identical leaf samples in `QuartetStatus()`.

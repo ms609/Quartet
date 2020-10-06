@@ -147,7 +147,7 @@ test_that("QuartetStatus() with differently-tipped trees", {
       vapply(seq_along(trees),
            function (j) CompareQuartets(qState[, j], qState[, i]),
            double(7))), qi)
-    expect_equal(many[, i, ], qi[, -(1:2)])
+    expect_equal(many[, i, ], qi)
   })
   
   expect_equal(c(N = 70, Q = 35, s = 0, d = 0, r1 = 1, r2 = 1, u = 35 - 2),

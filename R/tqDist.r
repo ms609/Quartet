@@ -214,7 +214,7 @@ TQAE <- function (trees) {
 #' @export 
 ManyToManyQuartetAgreement <- function (trees, nTip = NULL) {
   treeNames <- names(trees)
-  dimNames <- list(treeNames, treeNames, c('s', 'd', 'r1', 'r2', 'u'))
+  dimNames <- list(treeNames, treeNames, c('N', 'Q', 's', 'd', 'r1', 'r2', 'u'))
   if (is.null(nTip)) {
     AE <- TQAE(trees)
     nTree <- dim(AE)[1]
@@ -226,9 +226,11 @@ ManyToManyQuartetAgreement <- function (trees, nTip = NULL) {
     C   <- CE - E
     D   <- DE - E
     B   <- ABD - A - D
+    Q   <- ABD + CE
+    N   <- Q + Q
     
     # Return:
-    array(c(A, B, C, D, E), dim = c(nTree, nTree, 5),
+    array(c(N, Q, A, B, C, D, E), dim = c(nTree, nTree, 7),
           dimnames = dimNames)
   } else {
     if (isTRUE(nTip)) nTip <- length(AllTipLabels(trees))
@@ -236,11 +238,15 @@ ManyToManyQuartetAgreement <- function (trees, nTip = NULL) {
     ret <- vapply(PairwiseDistances(trees, QuartetStatus, 7, nTip = nTip),
                   as.matrix, matrix(0, length(trees), length(trees), 
                                     dimnames = dimNames[1:2]))
-    ret <- ret[, , 3:7]
-    dimnames(ret)[[3]] <- c('s', 'd', 'r1', 'r2', 'u')
+    dimnames(ret)[[3]] <- c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')
+    
+    diag(ret[, , 'N']) <- 2L * choose(nTip, 4)
+    diag(ret[, , 'Q']) <- choose(nTip, 4)
+    
     resolved <- vapply(trees, ResolvedQuartets, double(2))
     diag(ret[, , 's']) <- resolved[1, ]
     diag(ret[, , 'u']) <- choose(nTip, 4) - resolved[1, ]
+    
     swapTri <- lower.tri(ret[, , 'r1'])
     tmp <- ret[, , 'r1'][swapTri]
     ret[, , 'r1'][swapTri] <- ret[, , 'r2'][swapTri]
