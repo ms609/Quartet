@@ -3,11 +3,20 @@
 \name{QuartetState}
 \alias{QuartetState}
 \alias{QuartetStates}
+\alias{QuartetStates.Splits}
+\alias{QuartetStates.list}
+\alias{QuartetStates.multiPhylo}
 \title{Quartet State(s)}
 \usage{
 QuartetState(tips, bips, splits = bips, asRaw = FALSE)
 
 QuartetStates(splits, asRaw = FALSE)
+
+\method{QuartetStates}{Splits}(splits, asRaw = FALSE)
+
+\method{QuartetStates}{list}(splits, asRaw = FALSE)
+
+\method{QuartetStates}{multiPhylo}(splits, asRaw = FALSE)
 }
 \arguments{
 \item{tips}{A four-element array listing a quartet of leaves, either by their
