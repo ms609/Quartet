@@ -9,8 +9,8 @@ which_index <- function(indices, m) {
     .Call(`_Quartet_which_index`, indices, m)
 }
 
-quartet_states <- function(splits, nTip) {
-    .Call(`_Quartet_quartet_states`, splits, nTip)
+quartet_states <- function(splits) {
+    .Call(`_Quartet_quartet_states`, splits)
 }
 
 #' Triplet and quartet distances with tqDist

@@ -79,8 +79,8 @@ int32 n_quartets(int16 n_tips) {
 }
 
 // [[Rcpp::export]]
-RawVector quartet_states(RawMatrix splits, IntegerVector nTip) {
-  const int16 n_tip = nTip[0];
+RawVector quartet_states(RawMatrix splits) {
+  const int16 n_tip = splits.attr("nTip");
   if (n_tip > QD_MAX_TIPS) throw std::range_error("Too many leaves for quartet_states()");
   if (n_tip < 4) throw std::range_error("Need four leaves to define quartets");
   

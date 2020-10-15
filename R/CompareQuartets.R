@@ -110,7 +110,9 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
 #' @rdname QuartetState
 #' @importFrom TreeTools as.Splits NTip
 #' @return `QuartetStates()` returns a vector listing the status of each 
-#' quartet of leaves (in the order listed by [`AllQuartets()`]) in turn.
+#' quartet of leaves (in the order listed by [`AllQuartets()`]) in turn,
+#' or if multiple trees are provided, a matrix in which each row corresponds
+#' to such a vector.
 #' @export
 QuartetStates <- function (splits, asRaw = FALSE) UseMethod('QuartetStates')
 
@@ -118,8 +120,8 @@ QuartetStates <- function (splits, asRaw = FALSE) UseMethod('QuartetStates')
 QuartetStates.phylo <- function (splits, asRaw = FALSE) {
   splits <- as.Splits(splits)
   # Treating most balanced splits first saves 20% of runtime compared to 
-  # least balanced first.  BUT calculating split balance takes 30% of runtime!
-  ret <- quartet_states(splits, NTip(splits))
+  # least balanced first.  BUT ordering by split balance takes 30% of runtime!
+  ret <- quartet_states(splits)
   
   # Return:
   if (asRaw) {
