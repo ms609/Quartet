@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9007</span>
       </span>
     </div>
 
@@ -102,15 +102,16 @@
 <div id="quartet" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#quartet" class="anchor"></a>Quartet</h1></div>
-<p>‘<a href="https://ms609.github.io/Quartet/">Quartet</a>’ is an R package that calculates the Quartet distance between two trees: a measure of their similarity based on the number of shared four-taxon subtrees.</p>
-<p>The package uses the <code>tqDist</code> algorithm. Unlike many other implementations, it distinguishes between quartets that are contradicted by one tree, and quartets that are simply absent due to a lack of resolution ( i.e. the presence of polytomies). ‘Quartet’ makes this distinction in both the quartet metric (function <code><a href="reference/SharedQuartetStatus.html">QuartetStatus()</a></code>) and the partition metric (i.e. Robinson-Foulds distance; function <code><a href="reference/SplitStatus.html">SplitStatus()</a></code>).</p>
+<p>‘<a href="https://ms609.github.io/Quartet/">Quartet</a>’ is an R package that calculates the quartet distance between two trees, a measure of their similarity based on the number of shared four-taxon subtrees.</p>
+<p>The quartet distance outperforms a number of widely used tree distances (e.g. the Robinson–Foulds, path, and rearrangement distances) against a number theoretical and practical measures (Smith 2020), and is particularly valuable in the construction of tree spaces (Smith 2021).</p>
+<p>‘Quartet’ uses the ‘tqDist’ algorithm. Unlike many other implementations, it distinguishes between quartets that are contradicted by one tree, and quartets that are simply absent due to a lack of resolution ( i.e. the presence of polytomies). ‘Quartet’ makes this distinction in both the quartet metric (function <code><a href="reference/SharedQuartetStatus.html">QuartetStatus()</a></code>) and the partition metric (i.e. Robinson-Foulds distance; function <code><a href="reference/SplitStatus.html">SplitStatus()</a></code>).</p>
 <div id="using-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-the-package" class="anchor"></a>Using the package</h2>
 <p>Install and load the library from CRAN as follows:</p>
 <pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('Quartet')
 library('Quartet')</a></code></pre>
-<p>If you’re feeling brave, you can install the development version thus:</p>
+<p>For the latest features, install the development version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">'ms609/Quartet'</span><span class="op">)</span></pre></div>
@@ -120,20 +121,21 @@ library('Quartet')</a></code></pre>
 <div id="known-limitations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#known-limitations" class="anchor"></a>Known limitations</h2>
-<p>Quartet supports trees with up to 477 leaves. Larger trees contain more quartets than can be represented by R’s signed 32-bit integers.</p>
-<p>The underlying ‘tqDist’ library may handle trees with up to 568 leaves, and 64-bit integer representations could increase this number further.<br>
+<p>Quartet supports trees with up to 477 leaves. Larger trees contain more quartets than can be represented by R’s signed 32-bit integers. The underlying ‘tqDist’ library may handle trees with up to 568 leaves, and 64-bit integer representations could increase this number further.<br>
 Making either of these improvements within the R package would require substantial additional work, but could be implemented – do <a href="http://github.com/ms609/Quartet/issues/new/">file an issue</a> if this would be useful to you.</p>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <ul>
-<li><p>Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet distance between evolutionary trees in time O(<em>n</em> log <em>n</em>). Algorithmica. 38:377–395.</p></li>
+<li><p>Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet distance between evolutionary trees in time O(<em>n</em> log <em>n</em>). Algorithmica 38:377–395.</p></li>
 <li><p>Estabrook G.F., McMorris F.R., Meacham C.A. 1985. Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units. Syst. Zool. 34:193–200.</p></li>
 <li><p>Robinson D.F., Foulds L.R. 1981. Comparison of phylogenetic trees. Math. Biosci. 53:131–147.</p></li>
-<li><p>Sand A., Holt M.K., Johansen J., Brodal G.S., Mailund T., Pedersen C.N.S. 2014. tqDist: a library for computing the quartet and triplet distances between binary or general trees. Bioinformatics. 30:2079–2080. <a href="https://doi.org/10.1093/bioinformatics/btu157" class="uri">https://doi.org/10.1093/bioinformatics/btu157</a></p></li>
-<li><p>Smith, M.R. (2019) Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets. Biol. Lett. 15:20180632. <a href="https://doi.org/10.1098/rsbl.2018.0632" class="uri">https://doi.org/10.1098/rsbl.2018.0632</a></p></li>
-<li><p>Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results. Syst. Biol. (1993) 42 (2): 126-141. <a href="https://doi.org/10.1093/sysbio/42.2.126" class="uri">https://doi.org/10.1093/sysbio/42.2.126</a></p></li>
+<li><p>Sand A., Holt M.K., Johansen J., Brodal G.S., Mailund T., Pedersen C.N.S. 2014. tqDist: a library for computing the quartet and triplet distances between binary or general trees. Bioinformatics 30:2079–2080. <a href="https://doi.org/10.1093/bioinformatics/btu157" class="uri">https://doi.org/10.1093/bioinformatics/btu157</a></p></li>
+<li><p>Smith, M.R. 2019. Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets. Biol. Lett. 15:20180632. <a href="https://doi.org/10.1098/rsbl.2018.0632" class="uri">https://doi.org/10.1098/rsbl.2018.0632</a></p></li>
+<li><p>Smith, M.R. 2020. Information theoretic generalized Robinson–Foulds metrics for comparing phylogenetic trees. Bioinformatics, in production. <a href="https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976" class="uri">https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976</a></p></li>
+<li><p>Smith, M.R. 2021. The importance of methodology when analyzing landscapes of phylogenetic trees. Forthcoming.</p></li>
+<li><p>Steel, M. and Penny, D. 1993. Distributions of tree comparison metrics: some new results. Syst. Biol. 42: 126-141. <a href="https://doi.org/10.1093/sysbio/42.2.126" class="uri">https://doi.org/10.1093/sysbio/42.2.126</a></p></li>
 </ul>
 <p>Please note that the ‘Quartet’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
