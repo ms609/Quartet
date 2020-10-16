@@ -235,15 +235,21 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
     if ('d' %in% sliceNames) {
       status <- .AddSlice(status, status[, , 'd'] + status[, , 'd'], '2d')
     } else {
-      status <- .AddSlice(status, status[, 'd1'] + status[, 'd2'], '2d')
+      status <- .AddSlice(status, status[, , 'd1'] + status[, , 'd2'], '2d')
     }
-    if (!('Q' %in% sliceNames)) {
+    if (!('Q' %in% sliceNames) && 
+        'u' %in% sliceNames # No 'u' in Splits, which have no Q
+        ) {
       status <- .AddSlice(status, 
                           rowSums(status[, , c('s', 'd', 'r1', 'r2', 'u')], 
                                   dims = 2L), 'Q')
     }
     if (!('N' %in% sliceNames)) {
-      status <- .AddSlice(status, status[, , 'Q'] + status[, , 'Q'], 'N')
+      if ('Q' %in% dimnames(status)[[3]]) {
+        status <- .AddSlice(status, status[, , 'Q'] + status[, , 'Q'], 'N')
+      } else {
+        status <- .AddSlice(status, status[, , 'P1'] + status[, , 'P2'], 'N')
+      }
     }
   } # else already passed through .StatusToArray
   status

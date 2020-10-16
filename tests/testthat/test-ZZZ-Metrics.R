@@ -166,3 +166,23 @@ test_that("Incomparable trees fail gracefully", {
   # Must have same number of tips
   expect_error(SplitStatus(list(ref_tree, ape::rtree(6)))) 
 })
+
+test_that(".StatusToArray()", {
+  mqa <- ManyToManyQuartetAgreement(sq_trees[5:6])
+  mqaNQ <- mqa[, , -c(1, 2)]
+  qNames <- dimnames(.StatusToArray(mqa))
+  status <- aperm(vapply(sq_trees[5:6],
+                         function (x) SplitStatus(sq_trees[5:6], x),
+                         SplitStatus(sq_trees[5:6], sq_trees[[1]])),
+                  c(1, 3, 2))
+  sNames <- dimnames(.StatusToArray(status))
+  expect_true(all(c("N", "Q", "s", "d", "r1", "r2", "u", "2d") %in%
+                    qNames[[3]]))
+  expect_true(all(c("N", "Q", "s", "d", "r1", "r2", "u", "2d") %in%
+                    dimnames(.StatusToArray(mqaNQ))[[3]]))
+  expect_true(all(c("N", "P1", "P2", "s", "d1", "d2", "r1", "r2", "2d") %in%
+                    sNames[[3]]))
+  expect_true(all(c("N", "P1", "P2", "s", "d1", "d2", "r1", "r2", "2d") %in%
+                    dimnames(.StatusToArray(status[, , -1]))[[3]]))
+})
+  
