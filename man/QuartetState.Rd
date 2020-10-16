@@ -35,9 +35,9 @@ overriding to \code{TRUE}.}
 \value{
 \code{QuartetState()} returns \code{0} if the relationships of the four leaves
 are not constrained by the provided splits, or the index of the closest
-relative to \code{tips[1]}, otherwise.
+relative to \code{tips[4]}, otherwise.
 
-\code{QuartetStates()} returns a vector listing the status of each
+\code{QuartetStates()} returns a raw vector listing the status of each
 quartet of leaves (in the order listed by \code{\link[=AllQuartets]{AllQuartets()}}) in turn,
 or if multiple trees are provided, a matrix in which each row corresponds
 to such a vector.
@@ -50,7 +50,7 @@ splits.
 One of the three possible four-leaf trees will be consistent with any set of
 splits generated from a fully resolved tree.  If the leaves are numbered
 1 to 4, this tree can be identified by naming the leaf most closely related
-to leaf 1.
+to leaf 4.
 If a set of splits is generated from a tree that contains polytomies,
 it is possible that all three four-leaf trees are consistent with the set
 of splits.
