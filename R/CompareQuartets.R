@@ -44,7 +44,7 @@ AllQuartets.phylo <- function (nTips) AllQuartets(NTip(nTips))
 #' One of the three possible four-leaf trees will be consistent with any set of
 #' splits generated from a fully resolved tree.  If the leaves are numbered 
 #' 1 to 4, this tree can be identified by naming the leaf most closely related 
-#' to leaf 1.
+#' to leaf 4.
 #' If a set of splits is generated from a tree that contains polytomies, 
 #' it is possible that all three four-leaf trees are consistent with the set
 #' of splits.
@@ -61,7 +61,7 @@ AllQuartets.phylo <- function (nTips) AllQuartets(NTip(nTips))
 #'
 #' @return `QuartetState()` returns `0` if the relationships of the four leaves
 #' are not constrained by the provided splits, or the index of the closest
-#' relative to `tips[1]`, otherwise.
+#' relative to `tips[4]`, otherwise.
 #'
 #' @template MRS
 #' 
@@ -96,11 +96,11 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
   ret <- if (statement == 0L) {
     0L
   } else if (statement == 3L || statement == 12L) {
-    2L
-  } else if (statement == 5L || statement == 10L) {
     3L
+  } else if (statement == 5L || statement == 10L) {
+    2L
   } else {
-    4L
+    1L
   }
   
   # Return:
@@ -109,22 +109,19 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
 
 #' @rdname QuartetState
 #' @importFrom TreeTools as.Splits NTip
-#' @return `QuartetStates()` returns a vector listing the status of each 
-#' quartet of leaves (in the order listed by [`AllQuartets()`]) in turn.
+#' @return `QuartetStates()` returns a raw vector listing the status of each 
+#' quartet of leaves (in the order listed by [`AllQuartets()`]) in turn,
+#' or if multiple trees are provided, a matrix in which each row corresponds
+#' to such a vector.
 #' @export
-QuartetStates <- function (splits, asRaw = FALSE) {
+QuartetStates <- function (splits, asRaw = FALSE) UseMethod('QuartetStates')
+
+#' @export
+QuartetStates.phylo <- function (splits, asRaw = FALSE) {
   splits <- as.Splits(splits)
-  nTip <- NTip(splits)[1]
-  allQuartets <- AllQuartets(nTip)
-  
-  if (is.list(splits)) {
-    nQuartets <- ncol(allQuartets)
-    return(t(vapply(splits, QuartetStates, 
-                  if (asRaw) raw(nQuartets) else integer(nQuartets),
-                  asRaw = asRaw)))
-  }
-  
-  ret <- apply(allQuartets, 2, .Subsplit4, unname(splits), nTip)
+  # Treating most balanced splits first saves 20% of runtime compared to 
+  # least balanced first.  BUT ordering by split balance takes 30% of runtime!
+  ret <- quartet_states(splits)
   
   # Return:
   if (asRaw) {
@@ -134,56 +131,25 @@ QuartetStates <- function (splits, asRaw = FALSE) {
   }
 }
 
-#' Closest to tip 1 in each split
-#' 
-#' @param tips Vector of length four specifying index of tips to consider.
-#' @param splits Splits object.
-#' @param nTip Integer specifying number of splits in `splits`.
-#' @return Raw vector specifying the closest relative of `tips[1]` in each 
-#' split.
-#' @importFrom TreeTools NTip
-#' @keywords internal
-.Subsplit4 <- function (tips, splits, nTip = NTip(splits)[1]) {
+#' @rdname QuartetState
+#' @export
+QuartetStates.Splits <- QuartetStates.phylo
 
-  blankMask <- raw((nTip - 1L) %/% 8L + 1L)
-  masks <- as.raw(c(1, 2, 4, 8, 16, 32, 64, 128))
-  tipMask <- vapply(tips, function (tip) {
-    mask <- blankMask
-    element <- (tip - 1L) %/% 8L + 1L
-    mask[element] <- masks[(tip - 1L) %% 8L + 1L]
-    mask
-  }, blankMask)
-  if (is.null(dim(tipMask))) tipMask <- matrix(tipMask, 1L)
+#' @rdname QuartetState
+#' @export
+QuartetStates.list <- function (splits, asRaw = FALSE) {
+  splits <- as.Splits(splits)
+  nTip <- NTip(splits)[1]
   
-  mask12 <- tipMask[, 1] | tipMask[, 2]
-  mask13 <- tipMask[, 1] | tipMask[, 3]
-  mask14 <- tipMask[, 1] | tipMask[, 4]
-  mask23 <- tipMask[, 2] | tipMask[, 3]
-  mask24 <- tipMask[, 2] | tipMask[, 4]
-  mask34 <- tipMask[, 3] | tipMask[, 4]
-  mask <- mask12 | mask34
-  
-  subSplits <- splits & mask
-  
-  ret <- as.raw(0L)
-  for (i in seq_len(nrow(subSplits))) {
-    # Up to twice as fast if we don't remove duplicates
-    split <- subSplits[i, ]
-    if (identical(split, mask12) || identical(split, mask34)) {
-      ret <- as.raw(2L)
-      break
-    } else if (identical(split, mask13) || identical(split, mask24))  {
-      ret <- as.raw(3L)
-      break
-    } else if (identical(split, mask14) || identical(split, mask23))  {
-      ret <- as.raw(4L)
-      break
-    }
-  }
-  
-  # Return:
-  ret
+  nQuartets <- choose(nTip, 4)
+  return(t(vapply(splits, QuartetStates, 
+                  if (asRaw) raw(nQuartets) else integer(nQuartets),
+                  asRaw = asRaw)))
 }
+
+#' @rdname QuartetState
+#' @export
+QuartetStates.multiPhylo <- QuartetStates.list
 
 
 #' Compare quartet states by explicit enumeration

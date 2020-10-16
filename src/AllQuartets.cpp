@@ -3,6 +3,28 @@ using namespace Rcpp;
 typedef int_fast16_t int16;
 typedef int_fast32_t int32;
 
+const int16 QD_MAX_TIPS = 100;
+const int16 SPLIT_CHUNK = 8;
+
+int32 tri_num[QD_MAX_TIPS + 1];
+int32 tet_num[QD_MAX_TIPS + 1];
+int32 hyp_num[QD_MAX_TIPS + 1];
+
+__attribute__((constructor)) // Construction avoids floating point worries
+  void initialize_triangles() {
+    tri_num[0] = 0;
+    tet_num[0] = 0;
+    hyp_num[0] = 0;
+    for (int16 i = 0; i != QD_MAX_TIPS; ++i) {
+      const int16 nxt = i + 1;
+      tri_num[nxt] = tri_num[i] + nxt;
+      tet_num[nxt] = tet_num[i] + tri_num[nxt];
+      hyp_num[nxt] = hyp_num[i] + tet_num[nxt];
+    }
+  }
+
+
+
 // [[Rcpp::export]]
 IntegerMatrix all_quartets(IntegerVector nTips) {
   int16 n = nTips[0];
@@ -19,6 +41,121 @@ IntegerMatrix all_quartets(IntegerVector nTips) {
     ret(2, q) = k;
     ret(3, q) = l;
     q--;
+  }
+  return ret;
+}
+
+
+// [[Rcpp::export]]
+int which_index(IntegerVector indices, IntegerVector m) {
+  if (indices.length() != 4) throw std::length_error("4 indices needed");
+  const int16
+    n_tips = m[0],
+    a = indices[0],
+    b = indices[1],
+    c = indices[2],
+    d = indices[3],
+    choices1 = n_tips - 3,
+    choices2 = n_tips - a - 3,
+    choices3 = n_tips - b - 2,
+    chosen1 = a,
+    chosen2 = b - a - 1,
+    chosen3 = c - b - 1,
+    chosen4 = d - c - 1
+  ;
+  if (n_tips > QD_MAX_TIPS) throw std::range_error("Too many tips for which_index()");
+  if (a < 0) throw std::range_error("indices[0] must be positive");
+  if (d >= n_tips) throw std::range_error("indices[4] must be less than m");
+  if (a < b && b < c && c < d) {
+    return (hyp_num[choices1] - hyp_num[choices1 - chosen1])
+         + (tet_num[choices2] - tet_num[choices2 - chosen2])
+         + (tri_num[choices3] - tri_num[choices3 - chosen3])
+         + chosen4;
+  } else throw std::range_error("a < b < c < d not satisfied");
+}
+
+int32 n_quartets(int16 n_tips) {
+  return hyp_num[n_tips - 3];
+}
+
+// [[Rcpp::export]]
+RawVector quartet_states(RawMatrix splits) {
+  const int16 n_tip = splits.attr("nTip");
+  if (n_tip > QD_MAX_TIPS) throw std::range_error("Too many leaves for quartet_states()");
+  if (n_tip < 4) throw std::range_error("Need four leaves to define quartets");
+  
+  const unsigned char bitmask[8] = {1U, 2U, 4U, 8U, 16U, 32U, 64U, 128U};
+  RawVector ret(n_quartets(n_tip));
+  int32 q = 0;
+  for (int16 a = 0; a != n_tip - 3; a++) {
+    const int16 
+      a_mask = bitmask[a % SPLIT_CHUNK],
+      a_chunk = a / SPLIT_CHUNK
+    ;
+    for (int16 b = a + 1; b != n_tip - 2; b++) {
+      const int16 
+        b_mask = bitmask[b % SPLIT_CHUNK],
+        b_chunk = b / SPLIT_CHUNK
+      ;
+      for (int16 c = b + 1; c != n_tip - 1; c++) {
+        const int16 
+          c_mask = bitmask[c % SPLIT_CHUNK],
+          c_chunk = c / SPLIT_CHUNK
+        ;
+        for (int16 d = c + 1; d != n_tip; d++) {
+          const int16 
+            d_mask = bitmask[d % SPLIT_CHUNK],
+            d_chunk = d / SPLIT_CHUNK
+          ;
+          for (int16 split = 0; split != splits.nrow(); split++) {
+            const bool 
+              a_state = (unsigned char) (splits(split, a_chunk)) & a_mask,
+              b_state = (unsigned char) (splits(split, b_chunk)) & b_mask,
+              c_state = (unsigned char) (splits(split, c_chunk)) & c_mask,
+              d_state = (unsigned char) (splits(split, d_chunk)) & d_mask
+            ;
+            if (a_state) {
+              if (b_state) {
+                if (!c_state & !d_state) {
+                  ret[q] = 3;
+                  break;
+                }
+              } else { // a & !b
+                if (c_state) {
+                  if (!d_state) {
+                    ret[q] = 2;
+                    break;
+                  }
+                } else { // a & !b & !c
+                  if (d_state) {
+                    ret[q] = 1;
+                    break;
+                  }
+                }
+              }
+            } else { // !a
+              if (b_state) { // !a & b
+                if (c_state) {
+                  if (!d_state) {
+                    ret[q] = 1;
+                    break;
+                  }
+                } else if (d_state) {
+                  ret[q] = 2;
+                  break;
+                }
+              } else { // !a, !b
+                if (c_state & d_state) { // !a, !b, c, d
+                  ret[q] = 3;
+                  break;
+                }
+              }
+            }
+          }
+          q++;
+        }
+      }
+    }
   }
   return ret;
 }
