@@ -103,15 +103,15 @@
 
     
     
-<div id="partition-metrics" class="section level2">
+<div id="partition-distances" class="section level2">
 <h2 class="hasAnchor">
-<a href="#partition-metrics" class="anchor"></a>Partition metrics</h2>
+<a href="#partition-distances" class="anchor"></a>Partition distances</h2>
 <p>The Robinson-Foulds (RF or ‘partition’) metric <span class="citation">(Robinson &amp; Foulds, 1981; Steel &amp; Penny, 1993)</span> measures the symmetric difference between two trees by adding the number of splits that are present in tree A (but not tree B) to the number of splits present in tree B (but not tree A).</p>
 <p>It is most useful when the trees to be compared are very similar; it has a low range of integer values, and a low maximum value, limiting its ability to distinguish between trees <span class="citation">(Steel &amp; Penny, 1993)</span>. It also encounters artefacts and biases in a range of situations, limiting its performance against a suite of real-world benchmarks <span class="citation">(Smith, 2020, 2021)</span>; generalizations of the Robinson-Foulds distance (see R package ‘<a href="https://ms609.github.io/TreeDist/">TreeDist</a>’) go some way to mitigating these shortcomings.</p>
 </div>
-<div id="quartet-metric" class="section level2">
+<div id="quartet-distances" class="section level2">
 <h2 class="hasAnchor">
-<a href="#quartet-metric" class="anchor"></a>Quartet metric</h2>
+<a href="#quartet-distances" class="anchor"></a>Quartet distances</h2>
 <p>Instead of partitions, symmetric differences can be measured by counting the number of four-taxon statements (quartets) that differ between two trees <span class="citation">(Day, 1986; Estabrook, McMorris, &amp; Meacham, 1985)</span>.</p>
 <p>For any four tips A, B, C and D, a split on a bifurcating tree will separate tip A and either B, C or D from the other two tips. That is to say, removing all other tips from the tree will leave one of these three trees:</p>
 <p><img src="Quartet-Distance_files/figure-html/Three-four-taxon-trees-1.png" width="66%" style="display: block; margin: auto;"></p>
@@ -119,6 +119,17 @@
 <p><img src="Quartet-Distance_files/figure-html/Plot-a-quartet-1.png" width="80%" style="display: block; margin: auto;"></p>
 <p>There are <span class="math inline">\(\binom{n}{4}\)</span> groups of four taxa in a tree with <span class="math inline">\(n\)</span> tips; for each of these groups, one of the three trees above will be consistent with a given tree. As such, two identical trees will have a quartet distance of 0, and a random pair of trees will have an expected <span class="math inline">\(\binom{n}{4} / 3\)</span> quartets in common. Because quartets are not independent of one another, no pair of trees with six or more tips can have all <span class="math inline">\(\binom{n}{4}\)</span> quartets in common <span class="citation">(Steel &amp; Penny, 1993)</span>.</p>
 <p>Properties of the quartet distance are explored fully in Steel &amp; Penny <span class="citation">(1993)</span>. As quartet distances of 1 can only be accomplished for small trees (five or fewer leaves; see below), it is perhaps more appropriate to consider whether or not trees are more dissimilar than a pair of random trees, whose distance will be, on average, <span class="math inline">\(\frac{2}{3}\)</span>. (Data from real trees, and comparisons with expected values of other metrics, are available (here)[<a href="https://ms609.github.io/TreeDistData/articles/09-expected-similarity.html" class="uri">https://ms609.github.io/TreeDistData/articles/09-expected-similarity.html</a>].)</p>
+</div>
+<div id="normalization" class="section level2">
+<h2 class="hasAnchor">
+<a href="#normalization" class="anchor"></a>Normalization</h2>
+<p>Whereas counting quartets is simple, accounting for resolution is not. Two trees will have few quartet statements in common if they are well resolved and differ in many details; or if they are poorly resolved but in perfect agreement. As such, it is important to normalize quartet distances in a meaningful fashion. A number of normalizations have been proposed <span class="citation">(Day, 1986; Estabrook et al., 1985)</span>; arguably the most appropriate is the Symmetric Quartet Divergence <span class="citation">(Smith, 2019)</span>, which represents the total number of quartets unique to each tree normalized against the total number of quartets that could have been resolved. The <code><a href="../reference/SimilarityMetrics.html">SimilarityMetrics()</a></code> documentation page gives further details.</p>
+</div>
+<div id="asymmetric-differences" class="section level2">
+<h2 class="hasAnchor">
+<a href="#asymmetric-differences" class="anchor"></a>Asymmetric differences</h2>
+<p>Metric distances are necessarily symmetric – that is, the distance from tree A to tree B equals the distance from B to A. This behaviour is not necessarily desirable when one tree represents a known ‘reference’. Examples might include a tree validated by independent data, or a tree used to generate data from which further trees have been reconstructed.</p>
+<p>In such cases, a tree might be evaluated according to the likelihood that a randomly chosen quartet is resolved correctly by the tree, where an uncertain resolution in either the reference or comparison tree is taken as having a 1/3 chance of being correct (Asher &amp; Smith forthcoming). More details are given at the <code><a href="../reference/SimilarityMetrics.html">SimilarityMetrics()</a></code> documentation page.</p>
 </div>
 <div id="quartet-distance-in-a-pair-of-random-trees" class="section level2">
 <h2 class="hasAnchor">
@@ -174,6 +185,9 @@
 </div>
 <div id="ref-Robinson1981">
 <p>Robinson, D. F., &amp; Foulds, L. R. (1981). Comparison of phylogenetic trees. <em>Mathematical Biosciences</em>, <em>53</em>(1-2), 131–147. doi: <a href="https://doi.org/10.1016/0025-5564(81)90043-2">10.1016/0025-5564(81)90043-2</a></p>
+</div>
+<div id="ref-Smith2019">
+<p>Smith, M. R. (2019). Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets. <em>Biology Letters</em>, <em>15</em>(2), 20180632. doi: <a href="https://doi.org/10.1098/rsbl.2018.0632">10.1098/rsbl.2018.0632</a></p>
 </div>
 <div id="ref-Smith2020">
 <p>Smith, M. R. (2020). Information theoretic Generalized Robinson-Foulds metrics for comparing phylogenetic trees. <em>Bioinformatics</em>, online ahead of print. doi: <a href="https://doi.org/10.1093/bioinformatics/btaa614">10.1093/bioinformatics/btaa614</a></p>
