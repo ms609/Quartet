@@ -7,7 +7,8 @@
 #' abbrevation of:
 #'  - `label`: Label stating proportion of resolved quartets in agreement,
 #'  coloured accordingly;
-#'  - `pie`: Pie chart showing proportion of quartets in agreement;
+#'  - `pie`: Pie chart showing proportion of quartets in agreement, sized
+#'     according to number of quartets influenced by each split;
 #'  - `bar`: Bar showing propotion of quartets in agreement, labelled;
 #'  - `size`: Circle coloured according to proportion of quartets in agreement,
 #'  with area corrsponding to number of quartet statements associated with
@@ -55,8 +56,17 @@ VisualizeQuartets <- function (tree1, tree2, style = 'pie',
   .VQPanel(tree1, tree2, style = style, scale = scale,
            precision = precision, spectrum = spectrum)
   if (isTRUE(legend)) {
-    legend('topleft', c('Same', '50:50', 'Different'), bty = 'n',
-           pch = 15, col = spectrum[c(101, 51, 1)])
+    Legend2 <- function() {
+      legend('topleft', c('Same', 'Different'), bty = 'n',
+             pch = 15, col = spectrum[c(101, 1)])
+    }
+    Legend5 <- function() {
+      legend('topleft', c('100% same', '75%', '50%', '25%', '100% differ'),
+             bty = 'n', pch = 15, 
+             col = spectrum[c(101, 76, 51, 26, 1)])
+    }
+    switch(pmatch(style, c('label', 'bar', 'pie', 'size')),
+           Legend5(), Legend2(), Legend2(), Legend5())
   }
   Plot(tree2, ...)
   .VQPanel(tree2, tree1, style = style, scale = scale, 
@@ -88,7 +98,8 @@ VisualizeQuartets <- function (tree1, tree2, style = 'pie',
                     frame = 'n', adj = -0.1,
                     thermo = sames, piecol = spectrum[c(101, 1)]),
          ## Pie charts
-         nodelabels('', splits, cex = 2L * scale, frame = 'n',
+         nodelabels('', splits, frame = 'n',
+                    cex = sqrt(resolved / qs[1, 'N']) * 5L * scale,
                     pie = sames, piecol = spectrum[c(101, 1)]),
          ## Size according to total number of quartet statements
          nodelabels('', splits, pch = 16, frame = 'none',
