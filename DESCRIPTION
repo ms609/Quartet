@@ -34,7 +34,8 @@ Imports:
   ape,
   Rdpack,
   Ternary (>= 1.0),
-  TreeTools (>= 1.3.1.9000)
+  TreeTools (>= 1.3.1.9000),
+  viridisLite
 Suggests:
   bookdown,
   knitr,

@@ -4,6 +4,8 @@
    to give values within [0, 3].
  - Small improvements to `PlotQuartet()`.
  - Deprecate `RobinsonFoulds()`: renamed to `RawSymmetricDifference()`.
+ - New function `VisualizeQuartets()` shows contribution of splits to quartet
+   score.
 
 # Quartet v1.1.0.9006 (development) 
 
