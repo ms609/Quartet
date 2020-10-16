@@ -32,19 +32,24 @@
 #' Steel & Penny (1993) propose a further metric, which they denote d_Q_,
 #' which this package calculates using the function `SteelPenny()`:
 #' 
-#' * Steel & Penny's Quartet Metric (dQ): (_s_ + _u_) / _N_
+#' * Steel & Penny's quartet metric (dQ): (_s_ + _u_) / _N_
 #' 
 #' Another take on tree similarity is to consider the symmetric difference: 
 #' that is, the number of partitions or quartets present in one tree that do
 #' not appear in the other, originally used to measure tree similarity by
 #' Robinson & Foulds (1981).
-#' (Note that, given the familiarity of the Robinson Foulds distance metric,
+#' (Note that, given the familiarity of the Robinson–Foulds distance metric,
 #' this quantity is be default expressed as a difference rather than a
 #' similarity.)
 #' 
-#' * Robinson Foulds (RF): _d1_ + _d2_ + _r1_ + _r2_
+#' * Raw symmetric difference (RF): _d1_ + _d2_ + _r1_ + _r2_
 #' 
-#' To contextualize the symmetric difference, it may be normalized against:
+#' A pair of trees will have a high symmetric difference if they are
+#' well-resolved but disagree on many relationships; or if they agree on 
+#' most relationships but are poorly resolved.
+#' As such, it is essential to contextualize the symmetric difference by
+#' appropriate normalization (Smith 2019).
+#' Mutliple approaches to normalization have been proposed:
 #'
 #' The total number of resolved quartets or partitions present in both trees
 #' (Day 1986):
@@ -124,6 +129,7 @@
 #' 
 #' @template MRS
 #' 
+#' @encoding UTF-8
 #' @name SimilarityMetrics
 #' @export
 SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
