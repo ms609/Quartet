@@ -1,41 +1,29 @@
-# Quartet v1.1.0.9007 (development) 
+# Quartet v1.2.0
 
+## New features
+ - `CompareQuartetsMulti()` compares quartet status in one tree with status in
+   multiple others.
+ - `VisualizeQuartets()` depicts contribution of splits to quartet score.
+ - `SimilarityToReference()` allows comparison against specified reference
+   topology.
+
+## Changes
+ - Deprecate `RobinsonFoulds()`: renamed to `RawSymmetricDifference()`.
  - `QuartetState[s]()` now uses sister-of-4 notation, rather than sister-of-1,
    to give values within [0, 3].
- - Small improvements to `PlotQuartet()`.
- - Deprecate `RobinsonFoulds()`: renamed to `RawSymmetricDifference()`.
- - New function `VisualizeQuartets()` shows contribution of splits to quartet
-   score.
-
-# Quartet v1.1.0.9006 (development) 
-
  - `ManyToManyQuartetAgreement()` now returns entries for `N` and `Q`. 
-
-# Quartet v1.1.0.9005 (development) 
-
- - Support for non-identical leaf samples in `QuartetStatus()`.
-
-# Quartet v1.1.0.9004 (development) 
-
- - Remove errant name when comparing unnamed tree pairs.
- - New function `SimilarityToReference()` to compare against reference topology.
-
-# Quartet v1.1.0.9003 (development) 
  
- - C++ implementation of `AllQuartets()` and `QuartetStates()`.
-
-# Quartet v1.1.0.9002 (development) 
-
+## Improvements
+ - Faster C++ implementation of `AllQuartets()` and `QuartetStates()`.
+ -  `QuartetStatus()` now supports non-identical leaf samples.
+ - `SimilarityMetrics()` now handles single tree comparisons.
  - Correctly calculate resolution of unrooted trees with unconventional node
    numbering conventions.
+ - Remove errant name when comparing unnamed tree pairs.
+ - Small improvements to `PlotQuartet()`.
  - Minor efficiency improvements.
-
-# Quartet v1.1.0.9001 (development)
-
- - New function `CompareQuartetsMulti()` compares quartet status in one tree
- with status in multiple others.
- - `SimilarityMetrics()` now handles single tree comparisons.
  - Documentation improvements.
+
 
 # Quartet v1.1.0
 
