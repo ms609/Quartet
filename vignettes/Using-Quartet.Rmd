@@ -27,13 +27,13 @@ Instructions for loading phylogenetic trees into R can be found in a [separate v
 For these examples, we'll enter two simple trees by hand:
 
 ```{r set-up}
-tree1 <- ape::read.tree(text='(A, ((B, (C, (D, E))), ((F, G), (H, I))));')
-tree2 <- ape::read.tree(text='(A, ((B, (C, (D, (H, I)))), ((F, G), E)));')
+tree1 <- ape::read.tree(text = '(A, ((B, (C, (D, E))), ((F, G), (H, I))));')
+tree2 <- ape::read.tree(text = '(A, ((B, (C, (D, (H, I)))), ((F, G), E)));')
 ```
 
 ## Calculating distances
 
-We can calculate distances between pairs of trees using the `Quartet` package.
+We can calculate distances between pairs of trees using the 'Quartet' package.
 
 First we'll install the package.
 We can either install the stable version from the CRAN repository:
@@ -49,7 +49,7 @@ features but may not be as extensively tested:
 devtools::install_github('ms609/Quartet')
 ```
 
-Then we'll load the package in to R's working environment:
+Then we'll load the package into R's working environment:
 
 ```{r load-package, message=FALSE}
 library('Quartet')
