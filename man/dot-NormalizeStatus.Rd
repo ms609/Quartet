@@ -13,7 +13,7 @@ according to the output of \code{\link[=QuartetStatus]{QuartetStatus()}} or
 \code{\link[=SplitStatus]{SplitStatus()}}.}
 
 \item{numerator, denominator}{Character vector listing elements to sum in
-numerator / denominator}
+numerator / denominator.}
 
 \item{takeFromOne}{Logical specifying whether to deduct value from one.}
 }
