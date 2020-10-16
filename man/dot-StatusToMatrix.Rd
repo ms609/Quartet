@@ -32,10 +32,9 @@ Converts a vector to a matrix that can be analysed by the \code{\link[=DoNotConf
 function family.
 }
 \examples{
-  data('sq_trees')
+data('sq_trees')
 
-  .StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7]))
-  
+.StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7]))
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

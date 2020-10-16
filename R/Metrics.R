@@ -316,7 +316,7 @@ RawSymmetricDifference <- function (elementStatus, similarity = FALSE) {
 
 #' @rdname SimilarityMetrics
 #' @export
-RobinsonFoulds <- function(...) {
+RobinsonFoulds <- function(elementStatus, similarity = FALSE) {
   .Deprecated('RawSymmetricDifference')
   RawSymmetricDifference(...)
 }

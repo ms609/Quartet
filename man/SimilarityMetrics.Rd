@@ -29,7 +29,7 @@ SymmetricDifference(elementStatus, similarity = TRUE)
 
 RawSymmetricDifference(elementStatus, similarity = FALSE)
 
-RobinsonFoulds(...)
+RobinsonFoulds(elementStatus, similarity = FALSE)
 
 MarczewskiSteinhaus(elementStatus, similarity = TRUE)
 
