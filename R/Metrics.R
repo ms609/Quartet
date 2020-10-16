@@ -189,7 +189,7 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' the output of `DoNotConflict` etc.
 #' 
 #' @examples 
-#'   data('sq_trees')
+#' data('sq_trees')
 #' 
 #' @template MRS
 #' @export
@@ -226,8 +226,7 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' equivalent to either `d + d` or `d1 + d2` as appropriate.
 #' 
 #' @examples 
-#'   .StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7]))
-#'   
+#' .StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7]))
 #' @keywords internal
 #' @export
 .StatusToArray <- function (status) {
