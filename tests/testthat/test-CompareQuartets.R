@@ -134,5 +134,6 @@ test_that('CompareQuartetsMulti() insensitive to label order', {
 context("AllQuartets.cpp")
 
 test_that("quartets are correctly indexed", {
+  expect_error(which_index(c(4,3,2,0), 1))
   expect_equal(seq_len(15) - 1L, apply(all_quartets(6) - 1L, 2, which_index, 6))
 })
