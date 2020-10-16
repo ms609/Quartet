@@ -36,7 +36,7 @@ jobs:
       # - rmarkdown
       # - roxygen2
       # - testthat
-      r_packages: pkgdown
+      r_github_packages: r-lib/pkgdown
       deploy:
         provider: script
         script: Rscript -e 'pkgdown::deploy_site_github()'
