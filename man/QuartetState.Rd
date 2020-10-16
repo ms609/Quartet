@@ -38,7 +38,9 @@ are not constrained by the provided splits, or the index of the closest
 relative to \code{tips[1]}, otherwise.
 
 \code{QuartetStates()} returns a vector listing the status of each
-quartet of leaves (in the order listed by \code{\link[=AllQuartets]{AllQuartets()}}) in turn.
+quartet of leaves (in the order listed by \code{\link[=AllQuartets]{AllQuartets()}}) in turn,
+or if multiple trees are provided, a matrix in which each row corresponds
+to such a vector.
 }
 \description{
 Report the status of the specified quartet(s) in given trees or lists of

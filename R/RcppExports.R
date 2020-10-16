@@ -13,7 +13,7 @@ quartet_states <- function(splits) {
     .Call(`_Quartet_quartet_states`, splits)
 }
 
-#' Triplet and quartet distances with tqDist
+#' Direct entry points to 'tqDist' functions
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.
 #' Input is not checked for sanity.
