@@ -7,16 +7,22 @@
 \title{Quartet}
 \description{
 '\href{https://ms609.github.io/Quartet/}{Quartet}' is an R package that calculates
-the Quartet distance between two trees: a measure of their similarity based
-on the number of shared four-taxon subtrees.
+the quartet distance between two trees,
+a measure of their similarity based on the number of shared four-taxon subtrees.
 }
 \details{
-The package uses the \code{tqDist} algorithm.  Unlike many other implementations,
+The quartet distance outperforms a number of widely used tree distances
+(e.g. the Robinson–Foulds, path, and rearrangement distances) against a number
+theoretical and practical measures (Smith 2020), and is particularly
+valuable in the construction of tree spaces (Smith 2021).
+
+'Quartet' uses the 'tqDist' algorithm.  Unlike many other implementations,
 it distinguishes between quartets that are contradicted by one tree,
-and quartets that are simply absent due to a lack of resolution (i.e. the presence
-of polytomies).  'Quartet' makes this distinction in both the quartet metric
-(function \code{\link[=QuartetStatus]{QuartetStatus()}}) and the partition metric (i.e. Robinson-Foulds
-distance; function \code{\link[=SplitStatus]{SplitStatus()}}).
+and quartets that are simply absent due to a lack of resolution (i.e.
+the presence of polytomies).
+'Quartet' makes this distinction in both the quartet metric (function
+\code{QuartetStatus()}) and the partition metric (i.e. Robinson-Foulds distance;
+function \code{SplitStatus()}).
 \subsection{Using Quartet}{
 
 View the \href{https://ms609.github.io/Quartet/reference/}{function reference}
@@ -50,11 +56,17 @@ Math. Biosci. 53:131–147.
 tqDist: a library for computing the quartet and triplet distances between
 binary or general trees.
 Bioinformatics. 30:2079–2080. https://doi.org/10.1093/bioinformatics/btu157
-\item Smith, M.R. (2019) Bayesian and parsimony approaches reconstruct
+\item Smith, M.R. 2019. Bayesian and parsimony approaches reconstruct
 informative trees from simulated morphological datasets. Biol. Lett.
 15:20180632. https://doi.org/10.1098/rsbl.2018.0632
-\item Steel, M. and Penny, D. Distributions of tree comparison metrics: some new results.
-Syst. Biol. (1993) 42 (2): 126-141. https://doi.org/10.1093/sysbio/42.2.126
+\item Smith, M.R. 2020. Information theoretic generalized Robinson–Foulds metrics
+for comparing phylogenetic trees. Bioinformatics, in production.
+https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976
+\item Smith, M.R. 2021. The importance of methodology when analyzing landscapes of
+phylogenetic trees. Forthcoming.
+\item Steel, M. and Penny, D. 1993. Distributions of tree comparison metrics:
+some new results. Syst. Biol. 42: 126-141.
+https://doi.org/10.1093/sysbio/42.2.126
 }
 }
 \seealso{
