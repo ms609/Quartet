@@ -20,7 +20,8 @@ before_script:
 
 jobs:
   include:
-    - r: 3.4.3 # For isFALSE in RandomTree()
+    - r: 3.4.0
+      r_github_packages: ms609/TreeTools # to avoid isFALSE
     - r: release
       #before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
       #r_binary_packages:
