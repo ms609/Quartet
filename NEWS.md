@@ -1,3 +1,16 @@
+# Quartet v1.1.0.9006 (development) 
+
+ - `ManyToManyQuartetAgreement()` now returns entries for `N` and `Q`. 
+
+# Quartet v1.1.0.9005 (development) 
+
+ - Support for non-identical leaf samples in `QuartetStatus()`.
+
+# Quartet v1.1.0.9004 (development) 
+
+ - Remove errant name when comparing unnamed tree pairs.
+ - New function `SimilarityToReference()` to compare against reference topology.
+
 # Quartet v1.1.0.9003 (development) 
  
  - C++ implementation of `AllQuartets()` and `QuartetStates()`.

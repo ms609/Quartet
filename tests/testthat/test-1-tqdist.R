@@ -113,9 +113,49 @@ test_that("tqDist returns correct triplet distances", {
   expect_equal(allPairs[2 + 1L, 1 + 1L],  26L)
 })
 
-test_that("QuartetStatus works", {
+test_that("QuartetStatus() with equally-sized trees", {
   randomTreeIds <- c(30899669, 9149275, 12823175, 19740197, 31296318,
                      6949843, 30957991, 32552966, 22770711, 21678908)
   randomTrees <- ape::as.phylo(randomTreeIds, 11L)
-  expect_false(any(is.na(QuartetStatus(randomTrees, cf=TreeTools::PectinateTree(11)))))
+  expect_false(any(is.na(QuartetStatus(randomTrees,
+                                       cf = TreeTools::PectinateTree(11)))))
+})
+
+test_that("QuartetStatus() with differently-tipped trees", {
+  TextToTree <- function (x) ape::read.tree(text = x)
+  trees <- lapply(c(a.b.cde = "(a, (b, (c, d, e)));",
+                    a.b.cd.e = "(a, (b, ((c, d), e)));",
+                    b.a.cde = "(b, (a, (c, d, e)));",
+                    bf.cde = "((b, f), (c, d, e));",
+                    bc.de.ga = "((b, c), (d, e), g, a);"),
+                  TextToTree)
+  trees <- lapply(trees, function (x) RenumberTips(x, sort(x$tip.label)))
+  states <- lapply(trees, QuartetStates)
+  QuartetNames <- function (labels) apply(matrix(labels[AllQuartets(length(labels))], 4), 2, paste0, collapse = '')
+  allNames <- QuartetNames(letters[1:7])
+  treeQNames <- lapply(TipLabels(trees), QuartetNames)
+  qState <- vapply(seq_along(trees), function (i) {
+    ret <- rep(0L, length(allNames))
+    names(ret) <- allNames
+    ret[treeQNames[[i]]] <- states[[i]]
+    ret
+  }, integer(choose(length(AllTipLabels(trees)), 4)))
+  many <- ManyToManyQuartetAgreement(trees, nTip = TRUE)
+  lapply(seq_along(trees), function (i) {
+    qi <- QuartetStatus(trees, trees[[i]], nTip = TRUE)
+    expect_equivalent(t(
+      vapply(seq_along(trees),
+           function (j) CompareQuartets(qState[, j], qState[, i]),
+           double(7))), qi)
+    expect_equal(many[, i, ], qi)
+  })
+  
+  expect_equal(c(N = 70, Q = 35, s = 0, d = 0, r1 = 1, r2 = 1, u = 35 - 2),
+               QuartetStatus(BalancedTree(1:4), BalancedTree(4:7), nTip = TRUE)[1, ])
+  expect_equal(c(N = 140, Q = 70, s = 0, d = 0, r1 = 1, r2 = 1, u = 70 - 2),
+               QuartetStatus(BalancedTree(1:4), BalancedTree(5:8), nTip = TRUE)[1, ])
+  
+  expect_equivalent(c(140, 70, 5, 0, 0, 0, 65),
+                    QuartetStatus(BalancedTree(5), BalancedTree(5), nTip = 8))
+  
 })

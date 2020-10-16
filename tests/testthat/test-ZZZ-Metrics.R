@@ -4,7 +4,8 @@ data('sq_trees')
 ref_tree <- sq_trees$ref_tree
 Metrics <- list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions,
                 SemiStrictJointAssertions, SymmetricDifference,
-                MarczewskiSteinhaus, SteelPenny, QuartetDivergence)
+                MarczewskiSteinhaus, SteelPenny, QuartetDivergence,
+                SimilarityToReference)
 
 test_that("Quartets are counted correctly", {
   easyTreesy <- list(
@@ -35,14 +36,15 @@ test_that("Quartet metrics are sane", {
   expect_true(all(sims + dists == 1)[-4]) # SSJA doesn't sum to 1
   expect_true(all(dists['ref_tree', ] == 0))
   
-  expect_equal(sims[, 'DoNotConflict'], as.double(DoNotConflict(sq_status)))
-  expect_equal(sims[, 'ExplicitlyAgree'], as.double(ExplicitlyAgree(sq_status)))
-  expect_equal(sims[, 'StrictJointAssertions'], as.double(StrictJointAssertions(sq_status)))
-  expect_equal(sims[, 'SemiStrictJointAssertions'], as.double(SemiStrictJointAssertions(sq_status)))
-  expect_equal(sims[, 'SymmetricDifference'], as.double(SymmetricDifference(sq_status)))
-  expect_equal(sims[, 'MarczewskiSteinhaus'], as.double(MarczewskiSteinhaus(sq_status)))
-  expect_equal(sims[, 'SteelPenny'], as.double(SteelPenny(sq_status)))
-  expect_equal(sims[, 'QuartetDivergence'], as.double(QuartetDivergence(sq_status)))
+  expect_equivalent(sims[, 'DoNotConflict'], DoNotConflict(sq_status))
+  expect_equivalent(sims[, 'ExplicitlyAgree'], ExplicitlyAgree(sq_status))
+  expect_equivalent(sims[, 'StrictJointAssertions'], StrictJointAssertions(sq_status))
+  expect_equivalent(sims[, 'SemiStrictJointAssertions'], SemiStrictJointAssertions(sq_status))
+  expect_equivalent(sims[, 'SymmetricDifference'], SymmetricDifference(sq_status))
+  expect_equivalent(sims[, 'MarczewskiSteinhaus'], MarczewskiSteinhaus(sq_status))
+  expect_equivalent(sims[, 'SteelPenny'], SteelPenny(sq_status))
+  expect_equivalent(sims[, 'QuartetDivergence'], QuartetDivergence(sq_status))
+  expect_equivalent(sims[, 'SimilarityToReference'], SimilarityToReference(sq_status))
   
   sim6 <- SimilarityMetrics(sq_status[6, ])
   expect_equivalent(sims[6, ], sim6)
@@ -56,6 +58,8 @@ test_that("Quartet metrics are sane", {
   expect_equal(c(tree = 6/7), MarczewskiSteinhaus(testData, FALSE))
   expect_equal(c(tree = 4/8), SteelPenny(testData, FALSE))
   expect_equal(c(tree = 6/16), QuartetDivergence(testData, FALSE))
+  expect_equal(c(tree = 1), SimilarityToReference(testData, FALSE, TRUE))
+  expect_equal(c(tree = 0), SimilarityToReference(testData, TRUE, TRUE)) # rounding?
   
   # Metrics should be identical with bifurcating trees.
   treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
