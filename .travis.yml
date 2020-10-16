@@ -23,7 +23,7 @@ jobs:
     - r: 3.4.0
       r_github_packages: ms609/TreeTools # to avoid isFALSE
     - r: release
-      before_deploy: 
+      before_install: 
         - sudo apt-get -y install libharfbuzz-dev libfribidi-dev
       #- Rscript -e 'remotes::install_cran("pkgdown")'
       #r_binary_packages:
@@ -41,10 +41,9 @@ jobs:
       # - testthat
       r_packages: 
         - freetypeharfbuzz
-        - pkgdown
       deploy:
         provider: script
-        script: Rscript -e 'pkgdown::deploy_site_github()'
+        script: Rscript -e 'remotes::install_cran("pkgdown"); pkgdown::deploy_site_github()'
         cleanup: false
         skip_cleanup: true
         local_dir: "docs"
