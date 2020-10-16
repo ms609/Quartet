@@ -285,7 +285,7 @@ TwoListQuartetAgreement <- function (trees1, trees2) {
 #' @export 
 SingleTreeQuartetAgreement <- function (trees, comparison) {
   .CheckSize(trees)
-  if (inherits(trees, 'phylo')) trees <- list(trees)	
+  if (inherits(trees, 'phylo')) trees <- list(trees)
   
   comparison <- Preorder(comparison)
   trees <- lapply(trees, Preorder)
@@ -446,19 +446,6 @@ OneToManyQuartetAgreement <- function(file1, file2) {
 AllPairsQuartetDistance <- function(file) {
   ValidateQuartetFile(file)
   .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
-}
-
-#' @importFrom ape write.tree
-#' @keywords internal
-#' @export
-.TreeToString <- function (trees) {
-  # TODO Improve
-  # TODO Ultimately: avoid this step entirely, and feed trees directly in to C++
-  if(class(trees) == 'list') {
-    lapply(trees, write.tree, digits = 0, character(1))
-  } else {
-    write.tree(trees, digits = 0)
-  }
 }
 
 #' @keywords internal

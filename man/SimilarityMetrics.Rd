@@ -7,6 +7,7 @@
 \alias{StrictJointAssertions}
 \alias{SemiStrictJointAssertions}
 \alias{SymmetricDifference}
+\alias{RawSymmetricDifference}
 \alias{RobinsonFoulds}
 \alias{MarczewskiSteinhaus}
 \alias{SteelPenny}
@@ -26,7 +27,9 @@ SemiStrictJointAssertions(elementStatus, similarity = TRUE)
 
 SymmetricDifference(elementStatus, similarity = TRUE)
 
-RobinsonFoulds(elementStatus, similarity = FALSE)
+RawSymmetricDifference(elementStatus, similarity = FALSE)
+
+RobinsonFoulds(...)
 
 MarczewskiSteinhaus(elementStatus, similarity = TRUE)
 

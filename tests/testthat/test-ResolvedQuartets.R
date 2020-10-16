@@ -4,6 +4,10 @@ TreePath <- function (fileName) {
   paste0(system.file(package='Quartet'), '/trees/', fileName, '.new')
 }
 
+test_that("ResolvedQuartets() warns", {
+  expect_warning(ResolvedQuartets(CollapseNode(BalancedTree(478), 500:600)))
+})
+
 test_that("Resolution is counted correctly", {
   unresolvers <- ape::read.tree(TreePath('unresolved_list'))
   quartets <- vapply(unresolvers, ResolvedQuartets, integer(2))

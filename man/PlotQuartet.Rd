@@ -8,7 +8,8 @@ PlotQuartet(tree, quartet, overwritePar = TRUE, caption = TRUE, ...)
 }
 \arguments{
 \item{tree}{A tree of class \code{\link[ape:read.tree]{phylo}},
-or a list of such trees.}
+or a list of such trees.  The first member of \code{tree} will be considered
+the 'reference' tree.}
 
 \item{quartet}{A vector of four integers, corresponding to numbered leaves on
 the tree; or a character vector specifying the labels of four leaves.}

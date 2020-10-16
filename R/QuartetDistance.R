@@ -6,7 +6,8 @@ WHICH_OTHER_NODE <- 2:4
 #' 
 #' 
 #' @param tree A tree of class \code{\link[ape:read.tree]{phylo}},
-#'   or a list of such trees.
+#'   or a list of such trees.  The first member of `tree` will be considered
+#'   the 'reference' tree.
 #' @param quartet A vector of four integers, corresponding to numbered leaves on
 #'  the tree; or a character vector specifying the labels of four leaves.
 #' @param overwritePar Logical specifying whether to use existing `mfrow` and 
@@ -55,10 +56,12 @@ PlotQuartet <- function (tree, quartet, overwritePar = TRUE,
   tip_colours <- integer(n_tip) + 1L
   names(tip_colours) <- tree1$tip.label
   tip_colours[quartet] <- 2L
-  tip_colours[quartet[c(state1, 4L)]] <- 3L
-  for (tr in tree) {
+  if (state1) tip_colours[quartet[c(state1, 4L)]] <- 3L
+  plot(tree1, tip.color = cbPalette[tip_colours], ...)
+  if (caption) legend('bottomleft', bty = 'n', cex = 0.9, 'Reference')
+  for (tr in tree[-1]) {
     tr <- RenumberTips(tr, labelOrder)
-    plot(tr, tip.color=cbPalette[tip_colours], ...)
+    plot(tr, tip.color = cbPalette[tip_colours], ...)
     if (caption) {
       trState <- QuartetState(quartet, tr)
       legend('bottomleft', bty = 'n', cex = 0.9,

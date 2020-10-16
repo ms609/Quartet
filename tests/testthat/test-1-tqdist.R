@@ -1,7 +1,7 @@
 context("tqDist tests")
 
 TreePath <- function (fileName) {
-  system.file(paste0('/trees/', fileName, '.new'), package = 'Quartet')
+  system.file('trees', paste0(fileName, '.new'), package = 'Quartet')
 }
 
 test_that("Out-of-range errors are detected", {
@@ -158,4 +158,12 @@ test_that("QuartetStatus() with differently-tipped trees", {
   expect_equivalent(c(140, 70, 5, 0, 0, 0, 65),
                     QuartetStatus(BalancedTree(5), BalancedTree(5), nTip = 8))
   
+})
+
+test_that('.TreeToEdge()', {
+  # Not called by any function, so test here
+  expect_equal(
+    .TreeToEdge.phylo(RenumberTips(BalancedTree(5), paste0('t', 5:1))),
+    .TreeToEdge.phylo(BalancedTree(5), paste0('t', 5:1))
+  )
 })
