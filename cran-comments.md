@@ -1,6 +1,6 @@
 ## Test environments
-* local Windows 10 install, R 3.6.1
-* Ubuntu 16.04.6 LTS, R 3.4.2, release and devel, via [Travis CI](https://travis-ci.org/ms609/Quartet)
+* local Windows 10 install, R 4.0.2
+* Ubuntu 16.04.6 LTS, R 3.4.0, release and devel, via [Travis CI](https://travis-ci.org/ms609/Quartet/)
 * Mac OS X 10.13.6, R release, via Travis
 * win-builder, with `check_win_devel()`
 * R-hub, with `check_rhub(platforms = rhub::platforms()[[1]])`
