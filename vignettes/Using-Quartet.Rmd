@@ -80,6 +80,13 @@ We can calculate all similarity metrics at once using:
 SimilarityMetrics(statuses, similarity = TRUE)
 ```
 
+It can be instructive to visualize how each split in the tree is contributing
+to the quartet similarity:
+
+```{r visualize-quartets}
+VisualizeQuartets(tree1, tree2)
+```
+
 Rather than using quartets, we might want to use partitions as the basis of our
 comparison:
 
