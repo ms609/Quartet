@@ -1,4 +1,4 @@
-**/ReleaseQuestions.R
+**/zzz.R
 src/AbstractDistanceCalculator.cpp
 src/HDT.cpp
 src/HDTCountingCCToC.cpp
