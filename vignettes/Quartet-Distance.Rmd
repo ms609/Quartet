@@ -22,7 +22,7 @@ require('ape') # for plot.phylo
 ```
 
 
-## Partition metrics
+## Partition distances
 
 The Robinson-Foulds (RF or 'partition') metric [@Robinson1981; @Steel1993]
 measures the symmetric difference between two trees by adding
@@ -39,7 +39,7 @@ limiting its performance against a suite of real-world benchmarks
 go some way to mitigating these shortcomings.
 
 
-## Quartet metric
+## Quartet distances
 
 Instead of partitions, symmetric differences can be measured by counting the 
 number of four-taxon statements (quartets) that differ between two trees
@@ -91,6 +91,35 @@ not trees are more dissimilar than a pair of random trees, whose distance will
 be, on average, $\frac{2}{3}$.  (Data from real trees, and comparisons with 
 expected values of other metrics, are available 
 (here)[https://ms609.github.io/TreeDistData/articles/09-expected-similarity.html].)
+
+## Normalization
+
+Whereas counting quartets is simple, accounting for resolution is not.
+Two trees will have few quartet statements in common if they are well resolved
+and differ in many details; or if they are poorly resolved but in perfect
+agreement.
+As such, it is important to normalize quartet distances in a meaningful fashion.
+A number of normalizations have been proposed [@Estabrook1985;@Day1986];
+arguably the most appropriate is the Symmetric Quartet Divergence [@Smith2019],
+which represents the total number of quartets unique to each tree normalized
+against the total number of quartets that could have been resolved.
+The `SimilarityMetrics()` documentation page gives further details.
+
+## Asymmetric differences
+
+Metric distances are necessarily symmetric -- that is, the distance from tree A
+to tree B equals the distance from B to A.
+This behaviour is not necessarily desirable when one tree represents a known
+'reference'.
+Examples might include a tree validated by independent data, or a tree used 
+to generate data from which further trees have been reconstructed.
+
+In such cases, a tree might be evaluated according to the likelihood that a 
+randomly chosen quartet is resolved correctly by the tree, where an uncertain
+resolution in either the reference or comparison tree is taken as having a 
+1/3 chance of being correct (Asher & Smith forthcoming).
+More details are given at the `SimilarityMetrics()` documentation page.
+
 
 ## Quartet distance in a pair of random trees
 
