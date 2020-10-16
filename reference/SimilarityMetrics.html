@@ -226,20 +226,25 @@ given in Estabrook <em>et al</em>. (1985) table 2 as <em>s</em> + <em>d</em>, bu
 understood, with reference to the text, to be a typographic error.)</p>
 <p>Steel &amp; Penny (1993) propose a further metric, which they denote d_Q_,
 which this package calculates using the function <code>SteelPenny()</code>:</p><ul>
-<li><p>Steel &amp; Penny's Quartet Metric (dQ): (<em>s</em> + <em>u</em>) / <em>N</em></p></li>
+<li><p>Steel &amp; Penny's quartet metric (dQ): (<em>s</em> + <em>u</em>) / <em>N</em></p></li>
 </ul>
 
 <p>Another take on tree similarity is to consider the symmetric difference:
 that is, the number of partitions or quartets present in one tree that do
 not appear in the other, originally used to measure tree similarity by
 Robinson &amp; Foulds (1981).
-(Note that, given the familiarity of the Robinson Foulds distance metric,
+(Note that, given the familiarity of the Robinson–Foulds distance metric,
 this quantity is be default expressed as a difference rather than a
 similarity.)</p><ul>
-<li><p>Robinson Foulds (RF): <em>d1</em> + <em>d2</em> + <em>r1</em> + <em>r2</em></p></li>
+<li><p>Raw symmetric difference (RF): <em>d1</em> + <em>d2</em> + <em>r1</em> + <em>r2</em></p></li>
 </ul>
 
-<p>To contextualize the symmetric difference, it may be normalized against:</p>
+<p>A pair of trees will have a high symmetric difference if they are
+well-resolved but disagree on many relationships; or if they agree on
+most relationships but are poorly resolved.
+As such, it is essential to contextualize the symmetric difference by
+appropriate normalization (Smith 2019).
+Mutliple approaches to normalization have been proposed:</p>
 <p>The total number of resolved quartets or partitions present in both trees
 (Day 1986):</p><ul>
 <li><p>Symmetric Difference (SD): (2 <em>d</em> + <em>r1</em> + <em>r2</em>) / (2 <em>d</em> + 2 <em>s</em> + <em>r1</em> + <em>r2</em>)</p></li>
