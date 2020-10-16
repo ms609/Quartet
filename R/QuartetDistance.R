@@ -32,7 +32,7 @@ WHICH_OTHER_NODE <- 2:4
 #' par(oPar)
 #' 
 #' @importFrom graphics par plot legend
-#' @importFrom TreeTools RenumberTips
+#' @importFrom TreeTools NTip RenumberTips
 #' @export
 PlotQuartet <- function (tree, quartet, overwritePar = TRUE, 
                          caption = TRUE, ...) {
@@ -40,27 +40,28 @@ PlotQuartet <- function (tree, quartet, overwritePar = TRUE,
                  "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
   
   if (inherits(tree, 'phylo')) {
-    tree <- structure(list(tree), class = 'multiPhylo')
+    tree <- c(tree)
   }
-  n_tip <- length(tree[[1]]$tip.label)
+  tree1 <- tree[[1]]
+  n_tip <- NTip(tree1)
   
   if (overwritePar) {
     originalPar <- par(mfrow = c(1, length(tree)), mar = rep(1, 4))
     on.exit(par(originalPar))
   }
   
-  labelOrder <- tree[[1]]$tip.label
-  state1 <- QuartetState(quartet, tree[[1]])
+  labelOrder <- tree1$tip.label
+  state1 <- QuartetState(quartet, tree1)
   tip_colours <- integer(n_tip) + 1L
-  names(tip_colours) <- tree[[1]]$tip.label
-  tip_colours[quartet] <- 3L
-  tip_colours[c(quartet[1], quartet[state1])] <- 2L
+  names(tip_colours) <- tree1$tip.label
+  tip_colours[quartet] <- 2L
+  tip_colours[quartet[c(state1, 4L)]] <- 3L
   for (tr in tree) {
     tr <- RenumberTips(tr, labelOrder)
     plot(tr, tip.color=cbPalette[tip_colours], ...)
     if (caption) {
       trState <- QuartetState(quartet, tr)
-      legend('bottomleft', bty='n', cex=0.9,
+      legend('bottomleft', bty = 'n', cex = 0.9,
          if (trState == state1) {
            "Same"
          } else if (trState == 0L) {

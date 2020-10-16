@@ -1,3 +1,8 @@
+# Quartet v1.1.0.9007 (development) 
+
+ - `QuartetState[s]()` now uses sister-of-4 notation, rather than sister-of-1,
+   to give values within [0, 3].
+
 # Quartet v1.1.0.9006 (development) 
 
  - `ManyToManyQuartetAgreement()` now returns entries for `N` and `Q`. 
@@ -13,7 +18,7 @@
 
 # Quartet v1.1.0.9003 (development) 
  
- - C++ implementation of `AllQuartets()`.
+ - C++ implementation of `AllQuartets()` and `QuartetStates()`.
 
 # Quartet v1.1.0.9002 (development) 
 
