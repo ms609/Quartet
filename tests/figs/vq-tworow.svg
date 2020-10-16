@@ -71,8 +71,8 @@
 <circle cx='276.52' cy='64.76' r='6.39pt' style='stroke-width: 0.75; fill: #FDE725;' clip-path='url(#cpNDkuMDB8MzM0LjkwfDIyNy4wNHw0OS4wMA==)' />
 <polygon points='55.73,63.20 60.21,63.20 60.21,58.71 55.73,58.71 ' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' clip-path='url(#cpNDkuMDB8MzM0LjkwfDIyNy4wNHw0OS4wMA==)' />
 <polygon points='55.73,75.15 60.21,75.15 60.21,70.67 55.73,70.67 ' style='stroke-width: 0.75; stroke: none; fill: #440154;' clip-path='url(#cpNDkuMDB8MzM0LjkwfDIyNy4wNHw0OS4wMA==)' />
-<g clip-path='url(#cpNDkuMDB8MzM0LjkwfDIyNy4wNHw0OS4wMA==)'><text x='66.93' y='64.38' style='font-size: 9.96px; font-family: Liberation Sans;' textLength='26.00px' lengthAdjust='spacingAndGlyphs'>Same</text></g>
-<g clip-path='url(#cpNDkuMDB8MzM0LjkwfDIyNy4wNHw0OS4wMA==)'><text x='66.93' y='76.33' style='font-size: 9.96px; font-family: Liberation Sans;' textLength='37.42px' lengthAdjust='spacingAndGlyphs'>Different</text></g>
+<g clip-path='url(#cpNDkuMDB8MzM0LjkwfDIyNy4wNHw0OS4wMA==)'><text x='66.93' y='64.38' style='font-size: 9.96px; font-family: Liberation Sans;' textLength='68.03px' lengthAdjust='spacingAndGlyphs'>Quartets match</text></g>
+<g clip-path='url(#cpNDkuMDB8MzM0LjkwfDIyNy4wNHw0OS4wMA==)'><text x='66.93' y='76.33' style='font-size: 9.96px; font-family: Liberation Sans;' textLength='62.86px' lengthAdjust='spacingAndGlyphs'>Quartets differ</text></g>
 <defs>
   <clipPath id='cpNDA5LjAwfDY5NC45MHwyMjcuMDR8NDkuMDA='>
     <rect x='409.00' y='49.00' width='285.90' height='178.04' />

@@ -57,11 +57,12 @@ VisualizeQuartets <- function (tree1, tree2, style = 'pie',
            precision = precision, spectrum = spectrum)
   if (isTRUE(legend)) {
     Legend2 <- function() {
-      legend('topleft', c('Same', 'Different'), bty = 'n',
+      legend('topleft', c('Quartets match', 'Quartets differ'), bty = 'n',
              pch = 15, col = spectrum[c(101, 1)])
     }
     Legend5 <- function() {
-      legend('topleft', c('100% same', '75%', '50%', '25%', '100% differ'),
+      legend('topleft',
+             c('100% quartets match', '75%', '50%', '25%', '100% differ'),
              bty = 'n', pch = 15, 
              col = spectrum[c(101, 76, 51, 26, 1)])
     }
