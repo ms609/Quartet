@@ -35,13 +35,13 @@ context("CompareQuartets.R: QuartetStates()")
     # Up to twice as fast if we don't remove duplicates
     split <- subSplits[, i]
     if (identical(split, mask12) || identical(split, mask34)) {
-      ret <- as.raw(2L)
-      break
-    } else if (identical(split, mask13) || identical(split, mask24))  {
       ret <- as.raw(3L)
       break
+    } else if (identical(split, mask13) || identical(split, mask24))  {
+      ret <- as.raw(2L)
+      break
     } else if (identical(split, mask14) || identical(split, mask23))  {
-      ret <- as.raw(4L)
+      ret <- as.raw(1L)
       break
     }
   }

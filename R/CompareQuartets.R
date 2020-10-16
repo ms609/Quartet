@@ -44,7 +44,7 @@ AllQuartets.phylo <- function (nTips) AllQuartets(NTip(nTips))
 #' One of the three possible four-leaf trees will be consistent with any set of
 #' splits generated from a fully resolved tree.  If the leaves are numbered 
 #' 1 to 4, this tree can be identified by naming the leaf most closely related 
-#' to leaf 1.
+#' to leaf 4.
 #' If a set of splits is generated from a tree that contains polytomies, 
 #' it is possible that all three four-leaf trees are consistent with the set
 #' of splits.
@@ -61,7 +61,7 @@ AllQuartets.phylo <- function (nTips) AllQuartets(NTip(nTips))
 #'
 #' @return `QuartetState()` returns `0` if the relationships of the four leaves
 #' are not constrained by the provided splits, or the index of the closest
-#' relative to `tips[1]`, otherwise.
+#' relative to `tips[4]`, otherwise.
 #'
 #' @template MRS
 #' 
@@ -96,11 +96,11 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
   ret <- if (statement == 0L) {
     0L
   } else if (statement == 3L || statement == 12L) {
-    2L
-  } else if (statement == 5L || statement == 10L) {
     3L
+  } else if (statement == 5L || statement == 10L) {
+    2L
   } else {
-    4L
+    1L
   }
   
   # Return:
@@ -109,7 +109,7 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
 
 #' @rdname QuartetState
 #' @importFrom TreeTools as.Splits NTip
-#' @return `QuartetStates()` returns a vector listing the status of each 
+#' @return `QuartetStates()` returns a raw vector listing the status of each 
 #' quartet of leaves (in the order listed by [`AllQuartets()`]) in turn,
 #' or if multiple trees are provided, a matrix in which each row corresponds
 #' to such a vector.

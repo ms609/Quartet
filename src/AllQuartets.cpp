@@ -117,18 +117,18 @@ RawVector quartet_states(RawMatrix splits) {
             if (a_state) {
               if (b_state) {
                 if (!c_state & !d_state) {
-                  ret[q] = 2;
+                  ret[q] = 3;
                   break;
                 }
               } else { // a & !b
                 if (c_state) {
                   if (!d_state) {
-                    ret[q] = 3;
+                    ret[q] = 2;
                     break;
                   }
                 } else { // a & !b & !c
                   if (d_state) {
-                    ret[q] = 4;
+                    ret[q] = 1;
                     break;
                   }
                 }
@@ -137,16 +137,16 @@ RawVector quartet_states(RawMatrix splits) {
               if (b_state) { // !a & b
                 if (c_state) {
                   if (!d_state) {
-                    ret[q] = 4;
+                    ret[q] = 1;
                     break;
                   }
                 } else if (d_state) {
-                  ret[q] = 3;
+                  ret[q] = 2;
                   break;
                 }
               } else { // !a, !b
                 if (c_state & d_state) { // !a, !b, c, d
-                  ret[q] = 2;
+                  ret[q] = 3;
                   break;
                 }
               }
