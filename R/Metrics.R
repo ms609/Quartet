@@ -155,7 +155,7 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' 
 #' @inheritParams SimilarityMetrics 
 #' @param numerator,denominator Character vector listing elements to sum in 
-#' numerator / denominator
+#' numerator / denominator.
 #' @param takeFromOne Logical specifying whether to deduct value from one.
 #' 
 #' @keywords internal
@@ -308,10 +308,18 @@ SymmetricDifference <- function (elementStatus, similarity = TRUE) {
 
 #' @rdname SimilarityMetrics
 #' @export
-RobinsonFoulds <- function (elementStatus, similarity = FALSE) {
+RawSymmetricDifference <- function (elementStatus, similarity = FALSE) {
   elementStatus <- .StatusToMatrix(elementStatus)
   rFDist <- rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop = FALSE])
   if (similarity) elementStatus[, 'N'] - rFDist else rFDist
+}
+
+
+#' @rdname SimilarityMetrics
+#' @export
+RobinsonFoulds <- function(...) {
+  .Deprecated('RawSymmetricDifference')
+  RawSymmetricDifference(...)
 }
 
 #' @rdname SimilarityMetrics

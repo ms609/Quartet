@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    line, polyline, polygon, path, rect, circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA=='>
+    <rect x='14.40' y='14.40' width='691.20' height='547.20' />
+  </clipPath>
+</defs>
+<line x1='40.00' y1='541.33' x2='670.74' y2='541.33' style='stroke-width: 0.75;' clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)' />
+<line x1='40.00' y1='372.44' x2='670.74' y2='372.44' style='stroke-width: 0.75;' clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)' />
+<line x1='40.00' y1='203.56' x2='670.74' y2='203.56' style='stroke-width: 0.75;' clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)' />
+<line x1='40.00' y1='34.67' x2='670.74' y2='34.67' style='stroke-width: 0.75;' clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)' />
+<line x1='40.00' y1='541.33' x2='40.00' y2='34.67' style='stroke-width: 0.75;' clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)' />
+<g clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)'><text x='670.74' y='545.40' style='font-size: 12.00px; font-style: italic; fill: #E69F00; font-family: Liberation Sans;' textLength='10.00px' lengthAdjust='spacingAndGlyphs'>t1</text></g>
+<g clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)'><text x='670.74' y='376.57' style='font-size: 12.00px; font-style: italic; fill: #E69F00; font-family: Liberation Sans;' textLength='10.00px' lengthAdjust='spacingAndGlyphs'>t2</text></g>
+<g clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)'><text x='670.74' y='207.68' style='font-size: 12.00px; font-style: italic; fill: #E69F00; font-family: Liberation Sans;' textLength='10.00px' lengthAdjust='spacingAndGlyphs'>t3</text></g>
+<g clip-path='url(#cpMTQuNDB8NzA1LjYwfDU2MS42MHwxNC40MA==)'><text x='670.74' y='38.73' style='font-size: 12.00px; font-style: italic; fill: #E69F00; font-family: Liberation Sans;' textLength='10.00px' lengthAdjust='spacingAndGlyphs'>t4</text></g>
+</svg>
