@@ -35,8 +35,8 @@ to distinguish between trees [@Steel1993].
 It also encounters artefacts and biases in a range of situations,
 limiting its performance against a suite of real-world benchmarks 
 [@Smith2020;@Smith2021]; generalizations of the Robinson-Foulds distance
-go some way to mitigating these shortcomings (see R package 
-'[TreeDist](https://ms609.github.io/TreeDist/)').
+(see R package '[TreeDist](https://ms609.github.io/TreeDist/)')
+go some way to mitigating these shortcomings.
 
 
 ## Quartet metric
@@ -161,5 +161,14 @@ round(vapply(4:20, function (n_tip) {
  c(mean(results[-1]), sd(results[-1]))
 }, double(2)), 3)
 ```
+
+## Independence
+
+One possible criticism of the quartet distance is that not all individual
+quartet statements are independent.  For example, the quartet statements
+`AB | CD` and `AB | CE` together imply `AB | DE`.
+A count of identical quartets therefore includes some redundant information.
+This prevents a straightforward information theoretic interpretation of the 
+quartet distance.
 
 ## References
