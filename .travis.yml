@@ -39,6 +39,8 @@ jobs:
       # - rmarkdown
       # - roxygen2
       # - testthat
+      r_packages:
+        - freetypeharfbuzz
       deploy:
         provider: script
         script: Rscript -e 'remotes::install_cran("pkgdown"); pkgdown::deploy_site_github()'
