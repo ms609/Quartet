@@ -83,28 +83,31 @@ quartets in common. Because quartets are not independent of one another,
 no pair of trees with six or more tips can have all $\binom{n}{4}$ quartets in
 common [@Steel1993].
 
-Properties of the quartet distance are explored fully in Steel [-@Steel1993].  
-As quartet distances of 1 can only be accomplished for small trees (five or fewer
-leaves), it is perhaps more appropriate to consider whether or not trees are more
-dissimilar than a pair of random trees, whose distance will be, on average, 
-$\frac{2}{3}$.
+Properties of the quartet distance are explored fully in Steel & Penny
+[-@Steel1993].
+As quartet distances of 1 can only be accomplished for small trees (five or 
+fewer leaves; see below), it is perhaps more appropriate to consider whether or 
+not trees are more dissimilar than a pair of random trees, whose distance will
+be, on average, $\frac{2}{3}$.  (Data from real trees, and comparisons with 
+expected values of other metrics, are available 
+(here)[https://ms609.github.io/TreeDistData/articles/09-expected-similarity.html].)
 
 ## Quartet distance in a pair of random trees
 
-On average, $\frac{1}{3}$ of the quartets resolved in a pair of random trees will match. This is because there are
-three quartets involving any set of four tips, each of which is equally likely to 
-occur on a truly random tree.
+On average, $\frac{1}{3}$ of the quartets resolved in a pair of random trees 
+will match. This is because there are
+three quartets involving any set of four tips, each of which is equally likely
+to occur on a truly random tree.
 
-The below code calculates the mean proportion of matching quartets for random 
-trees with 4 to 20 tips, and the corresponding standard deviation.
+The below code calculates the mean proportion of matching quartets for 20 random 
+trees with 4 to 20 leaves, and the corresponding standard deviation.
 
 ```{r mean-proportion}
-round(vapply(4:20, function (n_tip) {
- trees <- lapply(logical(56), function (X) 
-   ape::rtree(n_tip, tip.label = seq_len(n_tip), br = NULL))
- results <- QuartetStatus(trees)[1, ] / choose(n_tip, 4)
+round(vapply(4:20, function (nTip) {
+ trees <- lapply(rep(nTip, 21), TreeTools::RandomTree)
+ results <- QuartetStatus(trees)[1, ] / choose(nTip, 4)
  c(mean(results[-1]), sd(results[-1]))
-}, double(2)), 3)
+}, c(mean = 0, sd = 0)), 3)
 ```
 
 ## Independence
@@ -112,7 +115,8 @@ round(vapply(4:20, function (n_tip) {
 One possible criticism of the quartet distance is that not all individual
 quartet statements are independent.  For example, the quartet statements
 `AB | CD` and `AB | CE` together imply `AB | DE`.
-A count of identical quartets therefore includes some redundant information.
+A simple count of identical quartets therefore includes some redundant
+information.
 This prevents a straightforward information theoretic interpretation of the 
 quartet distance.
 

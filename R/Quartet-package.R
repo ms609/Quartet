@@ -1,18 +1,19 @@
 #' Quartet
 #' 
 #' '[Quartet](https://ms609.github.io/Quartet/)' is an R package that calculates 
-#' the quartet distance between two trees,
+#' the quartet distance between two trees (Estabrook _et al._ 1985),
 #' a measure of their similarity based on the number of shared four-taxon subtrees.
 #' 
 #' The quartet distance outperforms a number of widely used tree distances 
 #' (e.g. the Robinson–Foulds, path, and rearrangement distances) against a number
-#' theoretical and practical measures (Smith 2020), and is particularly 
-#' valuable in the construction of tree spaces (Smith 2021).
+#' theoretical and practical measures (Steel & Penny 1993; Smith 2020),
+#' and is particularly valuable in the construction of tree spaces (Smith 2021).
 #' 
-#' 'Quartet' uses the 'tqDist' algorithm.  Unlike many other implementations,
-#' it distinguishes between quartets that are contradicted by one tree,
+#' 'Quartet' uses the 'tqDist' algorithm (Brodal _et al._ 2004; Sand _et al._ 2014).
+#' Unlike many other implementations, it distinguishes between quartets that are
+#' contradicted by one tree,
 #' and quartets that are simply absent due to a lack of resolution (i.e.
-#' the presence of polytomies).
+#' the presence of polytomies; see Smith 2019).
 #' 'Quartet' makes this distinction in both the quartet metric (function
 #' `QuartetStatus()`) and the partition metric (i.e. Robinson-Foulds distance;
 #' function `SplitStatus()`).
@@ -42,9 +43,6 @@
 #' - Estabrook G.F., McMorris F.R., Meacham C.A. 1985. Comparison of undirected 
 #'   phylogenetic trees based on subtrees of four evolutionary units. 
 #'   Syst. Zool. 34:193–200.
-#' 
-#' - Robinson D.F., Foulds L.R. 1981. Comparison of phylogenetic trees. 
-#'   Math. Biosci. 53:131–147.
 #' 
 #' - Sand A., Holt M.K., Johansen J., Brodal G.S., Mailund T., Pedersen C.N.S. 2014.
 #'   tqDist: a library for computing the quartet and triplet distances between 
