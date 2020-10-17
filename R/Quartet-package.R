@@ -32,8 +32,8 @@
 #' and 64-bit integer representations could increase this number further.  
 #' Making either of these improvements within the R package 
 #' would require substantial additional work, but could be implemented -- do
-#' [file an issue](https://ms609.github.io/Quartet/issues) if this would be
-#' useful to you.
+#' [file an issue](https://github.com/ms609/Quartet/issues/new/) if this would
+#' be useful to you.
 #' 
 #' @references
 #' - Brodal G.S., Fagerberg R., Pedersen C.N.S. 2004. Computing the quartet 
