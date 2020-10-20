@@ -150,22 +150,21 @@ CompareBipartitions <- CompareSplits
 #' 
 #' 
 #' @template MRS
-#' @importFrom TreeTools RenumberTips as.Splits UnshiftTree
+#' @importFrom TreeTools RenumberTips as.Splits NTip UnshiftTree
 #' @aliases BipartitionStatus
 #' @export
 SplitStatus <- function (trees, cf = trees[[1]]) {
   compareWithFirst <- identical(cf, trees[[1]])
   if (!compareWithFirst) trees <- UnshiftTree(cf, trees)
   
-  treeStats <- vapply(trees, function (tr) length(tr$tip.label), double(1))
+  treeStats <- NTip(trees)
   if (length(unique(treeStats)) > 1) {
     stop("All trees must have the same number of tips")
   }
   
   splits <- as.Splits(trees)
   ret <- vapply(splits, CompareSplits, splits2 = splits[[1]], double(8))
-  rownames(ret) <- c('N', 'P1', 'P2', 's', 'd1', 'd2', 'r1', 'r2')
-  
+
   # Return:
   if (compareWithFirst) t(ret) else t(ret[, -1])
 }
