@@ -94,7 +94,7 @@
       <h1 data-toc-skip>About the quartet distance</h1>
                         <h4 class="author">Martin R. Smith</h4>
             
-            <h4 class="date">2020-10-17</h4>
+            <h4 class="date">2020-10-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/master/vignettes/Quartet-Distance.Rmd"><code>vignettes/Quartet-Distance.Rmd</code></a></small>
       <div class="hidden name"><code>Quartet-Distance.Rmd</code></div>
@@ -103,15 +103,15 @@
 
     
     
-<div id="partition-distances" class="section level2">
-<h2 class="hasAnchor">
-<a href="#partition-distances" class="anchor"></a>Partition distances</h2>
-<p>The Robinson-Foulds (RF or ‘partition’) metric <span class="citation">(Robinson &amp; Foulds, 1981; Steel &amp; Penny, 1993)</span> measures the symmetric difference between two trees by adding the number of splits that are present in tree A (but not tree B) to the number of splits present in tree B (but not tree A).</p>
-<p>It is most useful when the trees to be compared are very similar; it has a low range of integer values, and a low maximum value, limiting its ability to distinguish between trees <span class="citation">(Steel &amp; Penny, 1993)</span>. It also encounters artefacts and biases in a range of situations, limiting its performance against a suite of real-world benchmarks <span class="citation">(Smith, 2020, 2021)</span>; generalizations of the Robinson-Foulds distance (see R package ‘<a href="https://ms609.github.io/TreeDist/">TreeDist</a>’) go some way to mitigating these shortcomings.</p>
+<div id="partition-distances" class="section level1">
+<h1 class="hasAnchor">
+<a href="#partition-distances" class="anchor"></a>Partition distances</h1>
+<p>The Robinson-Foulds (RF or ‘partition’) metric <span class="citation">(Robinson &amp; Foulds, 1981; Steel &amp; Penny, 1993)</span> measures the symmetric difference between two trees by adding the number of splits (i.e. groupings) that are present in tree A (but not tree B) to the number of splits present in tree B (but not tree A).</p>
+<p>It is most useful when the trees to be compared are very similar; it has a low range of integer values, and a low maximum value, limiting its ability to distinguish between trees <span class="citation">(Steel &amp; Penny, 1993)</span>; and it treats all splits as equivalent, even though some are more informative than others. Various other artefacts and biases limit its performance against a suite of real-world benchmarks <span class="citation">(Smith, 2020, 2021)</span>. These shortcomings can largely be mitigated through generalizations of the Robinson-Foulds distance (see R package ‘<a href="https://ms609.github.io/TreeDist/">TreeDist</a>’), but the complementary perspective on tree similarity offered by a quartet-centred approach can be illuminating.</p>
 </div>
-<div id="quartet-distances" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quartet-distances" class="anchor"></a>Quartet distances</h2>
+<div id="quartet-distances" class="section level1">
+<h1 class="hasAnchor">
+<a href="#quartet-distances" class="anchor"></a>Quartet distances</h1>
 <p>Instead of partitions, symmetric differences can be measured by counting the number of four-taxon statements (quartets) that differ between two trees <span class="citation">(Day, 1986; Estabrook, McMorris, &amp; Meacham, 1985)</span>.</p>
 <p>For any four tips A, B, C and D, a split on a bifurcating tree will separate tip A and either B, C or D from the other two tips. That is to say, removing all other tips from the tree will leave one of these three trees:</p>
 <p><img src="Quartet-Distance_files/figure-html/Three-four-taxon-trees-1.png" width="66%" style="display: block; margin: auto;"></p>
@@ -120,43 +120,44 @@
 <p>There are <span class="math inline">\(\binom{n}{4}\)</span> groups of four taxa in a tree with <span class="math inline">\(n\)</span> tips; for each of these groups, one of the three trees above will be consistent with a given tree. As such, two identical trees will have a quartet distance of 0, and a random pair of trees will have an expected <span class="math inline">\(\binom{n}{4} / 3\)</span> quartets in common. Because quartets are not independent of one another, no pair of trees with six or more tips can have all <span class="math inline">\(\binom{n}{4}\)</span> quartets in common <span class="citation">(Steel &amp; Penny, 1993)</span>.</p>
 <p>Properties of the quartet distance are explored fully in Steel &amp; Penny <span class="citation">(1993)</span>. As quartet distances of 1 can only be accomplished for small trees (five or fewer leaves; see below), it is perhaps more appropriate to consider whether or not trees are more dissimilar than a pair of random trees, whose distance will be, on average, <span class="math inline">\(\frac{2}{3}\)</span>. (Data from real trees, and comparisons with expected values of other metrics, are available (here)[<a href="https://ms609.github.io/TreeDistData/articles/09-expected-similarity.html" class="uri">https://ms609.github.io/TreeDistData/articles/09-expected-similarity.html</a>].)</p>
 </div>
-<div id="normalization" class="section level2">
-<h2 class="hasAnchor">
-<a href="#normalization" class="anchor"></a>Normalization</h2>
+<div id="normalization" class="section level1">
+<h1 class="hasAnchor">
+<a href="#normalization" class="anchor"></a>Normalization</h1>
 <p>Whereas counting quartets is simple, accounting for resolution is not. Two trees will have few quartet statements in common if they are well resolved and differ in many details; or if they are poorly resolved but in perfect agreement. As such, it is important to normalize quartet distances in a meaningful fashion. A number of normalizations have been proposed <span class="citation">(Day, 1986; Estabrook et al., 1985)</span>; arguably the most appropriate is the Symmetric Quartet Divergence <span class="citation">(Smith, 2019)</span>, which represents the total number of quartets unique to each tree normalized against the total number of quartets that could have been resolved. The <code><a href="../reference/SimilarityMetrics.html">SimilarityMetrics()</a></code> documentation page gives further details.</p>
 </div>
-<div id="asymmetric-differences" class="section level2">
-<h2 class="hasAnchor">
-<a href="#asymmetric-differences" class="anchor"></a>Asymmetric differences</h2>
-<p>Metric distances are necessarily symmetric – that is, the distance from tree A to tree B equals the distance from B to A. This behaviour is not necessarily desirable when one tree represents a known ‘reference’. Examples might include a tree validated by independent data, or a tree used to generate data from which further trees have been reconstructed.</p>
+<div id="asymmetric-differences" class="section level1">
+<h1 class="hasAnchor">
+<a href="#asymmetric-differences" class="anchor"></a>Asymmetric differences</h1>
+<p>Metric distances are necessarily symmetric – that is, the distance from tree A to tree B equals the distance from B to A. This behaviour is not necessarily desirable when one tree represents a known ‘reference’ – such as a tree validated by independent data, or a tree used to simulate data in order to test phylogenetic reconstruction techniques.</p>
 <p>In such cases, a tree might be evaluated according to the likelihood that a randomly chosen quartet is resolved correctly by the tree, where an uncertain resolution in either the reference or comparison tree is taken as having a 1/3 chance of being correct (Asher &amp; Smith forthcoming). More details are given at the <code><a href="../reference/SimilarityMetrics.html">SimilarityMetrics()</a></code> documentation page.</p>
-</div>
-<div id="quartet-distance-in-a-pair-of-random-trees" class="section level2">
+<div id="quartet-similarity-in-a-pair-of-random-trees" class="section level2">
 <h2 class="hasAnchor">
-<a href="#quartet-distance-in-a-pair-of-random-trees" class="anchor"></a>Quartet distance in a pair of random trees</h2>
+<a href="#quartet-similarity-in-a-pair-of-random-trees" class="anchor"></a>Quartet similarity in a pair of random trees</h2>
 <p>On average, <span class="math inline">\(\frac{1}{3}\)</span> of the quartets resolved in a pair of random trees will match. This is because there are three quartets involving any set of four tips, each of which is equally likely to occur on a truly random tree.</p>
-<p>The below code calculates the mean proportion of matching quartets for 20 random trees with 4 to 20 leaves, and the corresponding standard deviation.</p>
+<p>The below code calculates the mean proportion of matching quartets between 10 random trees (90 pairs) with 4 to 20 leaves, and the corresponding standard deviation.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">20</span>, <span class="kw">function</span> <span class="op">(</span><span class="va">nTip</span><span class="op">)</span> <span class="op">{</span>
- <span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">nTip</span>, <span class="fl">21</span><span class="op">)</span>, <span class="fu">TreeTools</span><span class="fu">::</span><span class="va"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html">RandomTree</a></span><span class="op">)</span>
- <span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SharedQuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html">choose</a></span><span class="op">(</span><span class="va">nTip</span>, <span class="fl">4</span><span class="op">)</span>
- <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">results</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">results</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
+ <span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">nTip</span>, <span class="fl">10</span><span class="op">)</span>, <span class="fu">TreeTools</span><span class="fu">::</span><span class="va"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html">RandomTree</a></span><span class="op">)</span>
+ <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SharedQuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span><span class="op">[</span>, , <span class="st">'s'</span><span class="op">]</span>
+ <span class="va">results</span> <span class="op">&lt;-</span> <span class="va">s</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lower.tri.html">lower.tri</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">]</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html">choose</a></span><span class="op">(</span><span class="va">nTip</span>, <span class="fl">4</span><span class="op">)</span>
+ <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></pre></div>
 <pre><code>##       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10] [,11] [,12]
-## mean 0.333 0.333 0.333 0.333 0.333 0.333 0.333 0.333 0.333 0.333 0.333 0.333
-## sd   0.516 0.516 0.516 0.516 0.516 0.516 0.516 0.516 0.516 0.516 0.516 0.516
+## mean 0.267 0.320 0.321 0.314 0.342 0.351 0.355 0.327 0.332 0.334 0.324 0.322
+## sd   0.447 0.264 0.174 0.144 0.107 0.102 0.086 0.081 0.069 0.054 0.054 0.041
 ##      [,13] [,14] [,15] [,16] [,17]
-## mean 0.333 0.333 0.333 0.333 0.333
-## sd   0.516 0.516 0.516 0.516 0.516</code></pre>
+## mean 0.323 0.325 0.336 0.332 0.332
+## sd   0.047 0.035 0.055 0.034 0.036</code></pre>
 </div>
-<div id="independence" class="section level2">
-<h2 class="hasAnchor">
-<a href="#independence" class="anchor"></a>Independence</h2>
+</div>
+<div id="independence" class="section level1">
+<h1 class="hasAnchor">
+<a href="#independence" class="anchor"></a>Independence</h1>
 <p>One possible criticism of the quartet distance is that not all individual quartet statements are independent. For example, the quartet statements <code>AB | CD</code> and <code>AB | CE</code> together imply <code>AB | DE</code>. A simple count of identical quartets therefore includes some redundant information. This prevents a straightforward information theoretic interpretation of the quartet distance.</p>
 </div>
-<div id="minimum-quartet-distance" class="section level2">
-<h2 class="hasAnchor">
-<a href="#minimum-quartet-distance" class="anchor"></a>Minimum quartet distance</h2>
+<div id="minimum-quartet-similarity" class="section level1">
+<h1 class="hasAnchor">
+<a href="#minimum-quartet-similarity" class="anchor"></a>Minimum quartet similarity</h1>
 <p>As a related phenomenon, when there are six or more tips in a bifurcating tree, some quartets are necessarily shared between trees.</p>
 <p>Consider the tree:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
@@ -172,10 +173,11 @@
 <p><img src="Quartet-Distance_files/figure-html/Add-tip-6-to-Tree-C-1.png" width="192"></p>
 <p>There’s nowhere to add tip <code>6</code> to Tree B without creating a quartet that exists in Tree C.</p>
 <p><img src="Quartet-Distance_files/figure-html/Adding-tip-6-to-Tree-B-duplicates-a-quartet-1.png" width="240"></p>
+<p>As such, the minimum possible quartet similarity is non-zero, and becomes increasingly difficult to compute as the number of leaves rises. This fact increases the value of comparing low quartet similarity scores to the expected similarity of a pair of random trees (i.e. <span class="math inline">\(\frac{1}{3}\)</span>), rather than to zero.</p>
 </div>
-<div id="references" class="section level2 unnumbered">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-Day1986">
 <p>Day, W. H. (1986). Analysis of quartet dissimilarity measures between undirected phylogenetic trees. <em>Systematic Biology</em>, <em>35</em>(3), 325–333. doi: <a href="https://doi.org/10.1093/sysbio/35.3.325">10.1093/sysbio/35.3.325</a></p>
