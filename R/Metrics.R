@@ -137,7 +137,7 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
   rows <- nrow(elementStatus)
   RS <- function (x) .rowSums(elementStatus[, x], rows, length(x))
   ddr1r2 <- RS(c('2d', 'r1', 'r2'))
-  result <- data.frame(
+  result <- cbind(
     DoNotConflict = elementStatus[, '2d'] / elementStatus[, 'N'],
     ExplicitlyAgree = 1 - (2L * elementStatus[, 's']) / elementStatus[, 'N'],
     StrictJointAssertions = elementStatus[, '2d'] / RS(c('2d', 's', 's')),
@@ -151,6 +151,7 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
                                                   similarity = FALSE,
                                                   normalize = FALSE)
   )
+  rownames(result) <- rownames(elementStatus)
   if (similarity) 1 - result else result
 }
 

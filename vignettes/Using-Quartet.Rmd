@@ -68,7 +68,7 @@ statuses <- QuartetStatus(tree1, tree2)
 ```
 
 Then we convert these counts into a distance metric (or similarity measure)
-that suits our needs:
+that suits our needs -- perhaps the Quartet Divergence:
 
 ```{r measure-distance}
 QuartetDivergence(statuses, similarity = FALSE)
