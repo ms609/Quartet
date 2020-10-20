@@ -132,19 +132,19 @@
 <p>Calculating the distance between two trees is a two stage process. For a quartet distance, we first have to calculate the status of each quartet:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="va">statuses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SharedQuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span></pre></div>
-<p>Then we convert these counts into a distance metric (or similarity measure) that suits our needs:</p>
+<p>Then we convert these counts into a distance metric (or similarity measure) that suits our needs – perhaps the Quartet Divergence:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">statuses</span>, similarity <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
 <pre><code>## [1] 0.6031746</code></pre>
 <p>We can calculate all similarity metrics at once using:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="fu"><a href="../reference/SimilarityMetrics.html">SimilarityMetrics</a></span><span class="op">(</span><span class="va">statuses</span>, similarity <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
-<pre><code>##    DoNotConflict ExplicitlyAgree StrictJointAssertions
-## 2d     0.3968254       0.3968254             0.3968254
-##    SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus SteelPenny
-## 2d                 0.3968254           0.3968254           0.2475248  0.3968254
-##    QuartetDivergence SimilarityToReference
-## 2d         0.3968254             0.3968254</code></pre>
+<pre><code>##      DoNotConflict ExplicitlyAgree StrictJointAssertions
+## [1,]     0.3968254       0.3968254             0.3968254
+##      SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus
+## [1,]                 0.3968254           0.3968254           0.2475248
+##      SteelPenny QuartetDivergence SimilarityToReference
+## [1,]  0.3968254         0.3968254             0.3968254</code></pre>
 <p>It can be instructive to visualize how each split in the tree is contributing to the quartet similarity:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="../reference/VisualizeQuartets.html">VisualizeQuartets</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span></pre></div>
@@ -152,12 +152,12 @@
 <p>Rather than using quartets, we might want to use partitions as the basis of our comparison:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="../reference/SimilarityMetrics.html">SimilarityMetrics</a></span><span class="op">(</span><span class="fu"><a href="../reference/SplitStatus.html">SplitStatus</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span><span class="op">)</span></pre></div>
-<pre><code>##    DoNotConflict ExplicitlyAgree StrictJointAssertions
-## 2d     0.3333333       0.3333333             0.3333333
-##    SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus SteelPenny
-## 2d                 0.3333333           0.3333333                 0.2  0.3333333
-##    QuartetDivergence SimilarityToReference
-## 2d         0.3333333             0.3333333</code></pre>
+<pre><code>##      DoNotConflict ExplicitlyAgree StrictJointAssertions
+## [1,]     0.3333333       0.3333333             0.3333333
+##      SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus
+## [1,]                 0.3333333           0.3333333                 0.2
+##      SteelPenny QuartetDivergence SimilarityToReference
+## [1,]  0.3333333         0.3333333             0.3333333</code></pre>
 </div>
 <div id="multiple-comparisons" class="section level3">
 <h3 class="hasAnchor">
@@ -195,12 +195,13 @@
 ## f 0.06666667 0.06666667 0.04242424 0.04242424 0.04242424 0.00000000</code></pre>
 <p>Or between one list of trees and a second:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SharedQuartetStatus.html">TwoListQuartetAgreement</a></span><span class="op">(</span><span class="va">forest</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="va">forest</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span>
+<span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SharedQuartetStatus.html">TwoListQuartetAgreement</a></span><span class="op">(</span><span class="va">forest</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">forest</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span>, similarity <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
-<pre><code>##            d          e          f
-## a 0.06666667 0.08787879 0.06666667
-## b 0.08787879 0.06666667 0.06666667
-## c 0.08484848 0.08484848 0.04242424</code></pre>
+<pre><code>##            e          f
+## a 0.08787879 0.06666667
+## b 0.06666667 0.06666667
+## c 0.08484848 0.04242424
+## d 0.04242424 0.04242424</code></pre>
 </div>
 </div>
 <div id="other-calculations" class="section level2">
@@ -218,10 +219,9 @@
 <a href="#what-next" class="anchor"></a>What next?</h2>
 <p>You may wish to:</p>
 <ul>
-<li><p><a href="Critical-distances.html">Read more</a> about Quartet distances</p></li>
-<li><p><a href="https://ms609.github.io/TreeDist/using-distances.html">Provide context</a> for tree distances</p></li>
+<li><p><a href="Quartet-Distance.html">Read more</a> about Quartet distances</p></li>
 <li><p>Review <a href="https://ms609.github.io/TreeDist/index.html">alternative distance measures</a> and corresponding <a href="https://ms609.github.io/TreeDist/reference/index.html#section-tree-distance-measures">functions</a></p></li>
-<li><p><a href="https://ms609.github.io/TreeDist/Tree-distance-metric-evaluation.html">Evaluate tree distance metrics</a></p></li>
+<li><p><a href="https://ms609.github.io/TreeDist/articles/Tree-distance-interpretation.html">Interpret</a> or <a href="https://ms609.github.io/TreeDist/articles/using-distances.html">contextualize</a> tree distance metrics</p></li>
 </ul>
 </div>
   </div>
