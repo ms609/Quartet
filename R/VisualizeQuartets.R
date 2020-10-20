@@ -4,14 +4,14 @@
 #' @param setPar Logical specifying whether graphical parameters should be set
 #'  to display trees side by side.
 #' @param style Character string specifying split labels with an unambiguous 
-#' abbrevation of:
+#' abbreviation of:
 #'  - `label`: Label stating proportion of resolved quartets in agreement,
 #'  coloured accordingly;
 #'  - `pie`: Pie chart showing proportion of quartets in agreement, sized
 #'     according to number of quartets influenced by each split;
-#'  - `bar`: Bar showing propotion of quartets in agreement, labelled;
+#'  - `bar`: Bar showing proportion of quartets in agreement, labelled;
 #'  - `size`: Circle coloured according to proportion of quartets in agreement,
-#'  with area corrsponding to number of quartet statements associated with
+#'  with area corresponding to number of quartet statements associated with
 #'  split.
 #' @param precision Integer specifying number of significant figures to display
 #' when reporting matching scores.

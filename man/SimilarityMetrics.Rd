@@ -114,7 +114,7 @@ well-resolved but disagree on many relationships; or if they agree on
 most relationships but are poorly resolved.
 As such, it is essential to contextualize the symmetric difference by
 appropriate normalization (Smith 2019).
-Mutliple approaches to normalization have been proposed:
+Multiple approaches to normalization have been proposed:
 
 The total number of resolved quartets or partitions present in both trees
 (Day 1986):
@@ -140,13 +140,13 @@ In such settings, the desired score is the expectation that a given
 quartet's resolution in the reconstructed tree is 'correct', given by
 (Asher & Smith forthcoming):
 \itemize{
-\item SimilarityToReference (STR): (\emph{s} + (\emph{r1} + \emph{r2} + \emph{u}) / 3) / \emph{Q}
+\item Similarity to Reference (S2R): (\emph{s} + (\emph{r1} + \emph{r2} + \emph{u}) / 3) / \emph{Q}
 }
 
 This may optionally be normalized with reference to the maximum possible
 similarity, (\emph{s} + \emph{d} + \emph{r2} + (\emph{r1} + \emph{u}) / 3) / \emph{Q}, subtracting
-1/3 (the probability of matching at random) from both the STR score and
-maxmium possible score before dividing; then, a tree scores zero if it
+1/3 (the probability of matching at random) from both the S2R score and
+maximum possible score before dividing; then, a tree scores zero if it
 is as different from the true tree as a random or fully unresolved tree,
 and one if it is as 'true' as can be known.
 }

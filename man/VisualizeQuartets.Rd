@@ -21,15 +21,15 @@ VisualizeQuartets(
 \item{tree1, tree2}{Trees of class \code{phylo}, with identical leaf labels.}
 
 \item{style}{Character string specifying split labels with an unambiguous
-abbrevation of:
+abbreviation of:
 \itemize{
 \item \code{label}: Label stating proportion of resolved quartets in agreement,
 coloured accordingly;
 \item \code{pie}: Pie chart showing proportion of quartets in agreement, sized
 according to number of quartets influenced by each split;
-\item \code{bar}: Bar showing propotion of quartets in agreement, labelled;
+\item \code{bar}: Bar showing proportion of quartets in agreement, labelled;
 \item \code{size}: Circle coloured according to proportion of quartets in agreement,
-with area corrsponding to number of quartet statements associated with
+with area corresponding to number of quartet statements associated with
 split.
 }}
 

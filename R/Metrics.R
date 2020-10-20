@@ -49,7 +49,7 @@
 #' most relationships but are poorly resolved.
 #' As such, it is essential to contextualize the symmetric difference by
 #' appropriate normalization (Smith 2019).
-#' Mutliple approaches to normalization have been proposed:
+#' Multiple approaches to normalization have been proposed:
 #'
 #' The total number of resolved quartets or partitions present in both trees
 #' (Day 1986):
@@ -72,12 +72,12 @@
 #' quartet's resolution in the reconstructed tree is 'correct', given by
 #' (Asher & Smith forthcoming):
 #' 
-#' * SimilarityToReference (STR): (_s_ + (_r1_ + _r2_ + _u_) / 3) / _Q_
+#' * Similarity to Reference (S2R): (_s_ + (_r1_ + _r2_ + _u_) / 3) / _Q_
 #' 
 #' This may optionally be normalized with reference to the maximum possible
 #' similarity, (_s_ + _d_ + _r2_ + (_r1_ + _u_) / 3) / _Q_, subtracting 
-#' 1/3 (the probability of matching at random) from both the STR score and 
-#' maxmium possible score before dividing; then, a tree scores zero if it
+#' 1/3 (the probability of matching at random) from both the S2R score and 
+#' maximum possible score before dividing; then, a tree scores zero if it
 #' is as different from the true tree as a random or fully unresolved tree,
 #' and one if it is as 'true' as can be known.
 #'
