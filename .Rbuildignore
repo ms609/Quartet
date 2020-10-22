@@ -22,4 +22,4 @@ revdep
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
 ^codemeta\.json$
-CRAN-RELEASE
+^CRAN-RELEASE$
