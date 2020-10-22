@@ -78,7 +78,7 @@ useful to you.
   for comparing phylogenetic trees. Bioinformatics, in production.
   https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976
 
-- Smith, M.R. 2021. The importance of methodology when analyzing landscapes of
+- Smith, M.R. 2021. The importance of methodology when analysing landscapes of
   phylogenetic trees. Forthcoming.
 
 - Steel, M. and Penny, D. 1993. Distributions of tree comparison metrics:
@@ -86,5 +86,5 @@ useful to you.
   https://doi.org/10.1093/sysbio/42.2.126
 
 Please note that the 'Quartet' project is released with a
-[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+[Contributor Code of Conduct](https://ms609.github.io/Quartet/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.

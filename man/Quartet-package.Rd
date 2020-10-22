@@ -39,8 +39,8 @@ The underlying 'tqDist' library may handle trees with up to 568 leaves,
 and 64-bit integer representations could increase this number further.
 Making either of these improvements within the R package
 would require substantial additional work, but could be implemented -- do
-\href{https://ms609.github.io/Quartet/issues}{file an issue} if this would be
-useful to you.
+\href{https://github.com/ms609/Quartet/issues/new/}{file an issue} if this would
+be useful to you.
 }
 }
 \references{
@@ -61,7 +61,7 @@ informative trees from simulated morphological datasets. Biol. Lett.
 \item Smith, M.R. 2020. Information theoretic generalized Robinson–Foulds metrics
 for comparing phylogenetic trees. Bioinformatics, in production.
 https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976
-\item Smith, M.R. 2021. The importance of methodology when analyzing landscapes of
+\item Smith, M.R. 2021. The importance of methodology when analysing landscapes of
 phylogenetic trees. Forthcoming.
 \item Steel, M. and Penny, D. 1993. Distributions of tree comparison metrics:
 some new results. Syst. Biol. 42: 126-141.

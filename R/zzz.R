@@ -11,7 +11,6 @@ release_questions <- function() {
 #
 # codemetar::write_codemeta()
 # check_win_devel(); rhub::check_for_cran()
-# list_my_checks() # list_package_checks
 # revdepcheck::revdep_check()
 # build_vignettes()
 # tools::resaveRdaFiles('data', compress='auto') - is default of bzip2 the optimal?

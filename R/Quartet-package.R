@@ -57,7 +57,7 @@
 #'   for comparing phylogenetic trees. Bioinformatics, in production.
 #'   https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976
 #' 
-#' - Smith, M.R. 2021. The importance of methodology when analyzing landscapes of
+#' - Smith, M.R. 2021. The importance of methodology when analysing landscapes of
 #'   phylogenetic trees. Forthcoming.
 #' 
 #' - Steel, M. and Penny, D. 1993. Distributions of tree comparison metrics:
