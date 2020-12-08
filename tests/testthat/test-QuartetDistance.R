@@ -26,7 +26,8 @@ test_that("Splits are compared", {
                SharedQuartetStatus(trees)[2, ])
 })
 
-test_that("PlotQuartet works", {
+test_that("PlotQuartet() works", {
+  skip_if_not_installed('vdiffr')
   library('vdiffr')
   expect_doppelganger('PlotQuartet', function() {
     data('sq_trees')
