@@ -14,6 +14,7 @@ cran-comments.md
 /^\.git/
 ^.*\.Rproj$
 ^vignettes/.*_cache/.*$
+.github
 data-raw
 man-roxygen
 revdep
