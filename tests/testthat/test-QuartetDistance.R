@@ -28,17 +28,16 @@ test_that("Splits are compared", {
 
 test_that("PlotQuartet() works", {
   skip_if_not_installed('vdiffr')
-  library('vdiffr')
-  expect_doppelganger('PlotQuartet', function() {
+  vdiffr::expect_doppelganger('PlotQuartet', function() {
     data('sq_trees')
     
     par(mfrow = c(3, 2), mar = rep(0.5, 4), cex = 1.1)
     PlotQuartet(sq_trees[c(1, 9, 13:16)], c(2, 5, 3, 8), overwritePar = FALSE)
   })
-  expect_doppelganger('PlotQuartet-one-star', function() {
+  vdiffr::expect_doppelganger('PlotQuartet-one-star', function() {
     PlotQuartet(StarTree(4), 1:4, caption = FALSE)
   })
-  expect_doppelganger('PlotQuartet-gain', function() {
+  vdiffr::expect_doppelganger('PlotQuartet-gain', function() {
     par(mfrow = c(3, 2), mar = rep(0.5, 4), cex = 1.1)
     PlotQuartet(c(StarTree(4), BalancedTree(4)), 1:4, overwritePar = TRUE)
   })
