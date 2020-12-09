@@ -75,8 +75,8 @@ useful to you.
   15:20180632. https://doi.org/10.1098/rsbl.2018.0632
 
 - Smith, M.R. 2020. Information theoretic generalized Robinson–Foulds metrics 
-  for comparing phylogenetic trees. Bioinformatics, in production.
-  https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976
+  for comparing phylogenetic trees. Bioinformatics, online ahead of print.
+  https://dx.doi.org/10.1093/bioinformatics/btaa614
 
 - Smith, M.R. 2021. The importance of methodology when analysing landscapes of
   phylogenetic trees. Forthcoming.
