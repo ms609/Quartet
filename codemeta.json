@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ms609/Quartet/",
   "issueTracker": "https://github.com/ms609/Quartet/issues/",
   "license": "https://spdx.org/licenses/GPL-2.0",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -339,5 +339,5 @@
     "https://ms609.github.io/Quartet",
     "https://ms609.github.io/Quartet/"
   ],
-  "fileSize": "1344.28KB"
+  "fileSize": "1344.352KB"
 }

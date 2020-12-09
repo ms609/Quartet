@@ -1,4 +1,4 @@
-# Quartet v1.2.1
+# Quartet v1.2.2
 
  - Package 'vdiffr' now used conditionally.
 
