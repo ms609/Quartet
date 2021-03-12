@@ -104,7 +104,8 @@ IntegerVector tqdist_QuartetAgreementChar(CharacterVector string1,
 //' @describeIn tqdist_QuartetDistance Distance between pairs
 //' @export
 // [[Rcpp::export]]
-IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1, CharacterVector file2) {
+IntegerVector tqdist_PairsQuartetDistance(CharacterVector file1,
+                                          CharacterVector file2) {
   int n1 = file1.size(), n2 = file2.size();
   if (n1 != 1 || n2 != 1) {
     Rcpp::stop("file1 and file2 must be character vectors of length 1");
