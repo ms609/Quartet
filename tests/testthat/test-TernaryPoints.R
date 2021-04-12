@@ -4,7 +4,6 @@ data('sq_trees')
 
 test_that("Splits comparisons are correct", {
   
-  
   expect_equal(c(length(sq_trees), 3), dim(BipartitionPoints(sq_trees)))
   expect_identical(8, unique(rowSums(BipartitionPoints(sq_trees))))
   expect_equal(c(length(sq_trees), 3), dim(BipartitionPoints(sq_trees, cf=sq_trees$collapse_some)))
