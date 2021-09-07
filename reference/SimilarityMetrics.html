@@ -203,18 +203,21 @@ listed measures.</p>
 similarity (or difference) between the trees.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Estabrook <em>et al.</em> (1985, table 2) define four similarity metrics in terms
-of the total number of quartets (<em>N</em>, their <em>Q</em>), the number of quartets
-resolved in the same manner in two trees (<em>s</em>), the number resolved
-differently in both trees (<em>d</em>), the number resolved in tree 1 or 2 but
-unresolved in the other tree (<em>r1</em>, <em>r2</em>), and the number that are
-unresolved in both trees (<em>u</em>).</p>
+    <p>Estabrook et al. (1985)
+ (table 2) define four similarity
+metrics in terms  of the total number of quartets (<em>N</em>, their <em>Q</em>),
+the number of quartets resolved in the same manner in two trees (<em>s</em>),
+the number resolved differently in both trees (<em>d</em>),
+the number resolved in tree 1 or 2 but unresolved in the other tree
+(<em>r1</em>, <em>r2</em>), and the number that are unresolved in both trees (<em>u</em>).</p>
 <p>The similarity metrics are then given as below.  The dissimilarity metrics
 are their complement (i.e. 1 - <em>similarity</em>), and can be calculated
 algebraically using the identity <em>N</em> = <em>s</em> + <em>d</em> + <em>r1</em> + <em>r2</em> + <em>u</em>.</p>
 <p>Although defined using quartets, analogous values can be calculated using
 partitions -- though for a number of reasons, quartets may offer a more
-meaningful measure of the amount of information shared by two trees.</p><ul>
+meaningful measure of the amount of information shared by two trees
+(Smith 2020)
+.</p><ul>
 <li><p>Do Not Conflict (DC): (<em>s</em> + <em>r1</em> + <em>r2</em> + <em>u</em>) / <em>N</em></p></li>
 <li><p>Explicitly Agree (EA): <em>s</em> / <em>N</em></p></li>
 <li><p>Strict Joint Assertions (SJA): <em>s</em> / (<em>s</em> + <em>d</em>)</p></li>
@@ -222,9 +225,13 @@ meaningful measure of the amount of information shared by two trees.</p><ul>
 </ul>
 
 <p>(The numerator of the SemiStrict Joint Assertions similarity metric is
-given in Estabrook <em>et al</em>. (1985) table 2 as <em>s</em> + <em>d</em>, but this is
-understood, with reference to the text, to be a typographic error.)</p>
-<p>Steel &amp; Penny (1993) propose a further metric, which they denote d_Q_,
+given in Estabrook et al. (1985)
+ table 2 as <em>s</em> + <em>d</em>,
+but this is understood, with reference to their text, to be a typographic
+error.)</p>
+<p>Steel and Penny (1993)
+ propose a further metric,
+which they denote d_Q_,
 which this package calculates using the function <code>SteelPenny()</code>:</p><ul>
 <li><p>Steel &amp; Penny's quartet metric (dQ): (<em>s</em> + <em>u</em>) / <em>N</em></p></li>
 </ul>
@@ -232,7 +239,8 @@ which this package calculates using the function <code>SteelPenny()</code>:</p><
 <p>Another take on tree similarity is to consider the symmetric difference:
 that is, the number of partitions or quartets present in one tree that do
 not appear in the other, originally used to measure tree similarity by
-Robinson &amp; Foulds (1981).
+Robinson and Foulds (1981)
+.
 (Note that, given the familiarity of the Robinson–Foulds distance metric,
 this quantity is be default expressed as a difference rather than a
 similarity.)</p><ul>
@@ -243,19 +251,24 @@ similarity.)</p><ul>
 well-resolved but disagree on many relationships; or if they agree on
 most relationships but are poorly resolved.
 As such, it is essential to contextualize the symmetric difference by
-appropriate normalization (Smith 2019).
+appropriate normalization (Smith 2019)
+.
 Multiple approaches to normalization have been proposed:</p>
 <p>The total number of resolved quartets or partitions present in both trees
-(Day 1986):</p><ul>
+(Day 1986)
+:</p><ul>
 <li><p>Symmetric Difference (SD): (2 <em>d</em> + <em>r1</em> + <em>r2</em>) / (2 <em>d</em> + 2 <em>s</em> + <em>r1</em> + <em>r2</em>)</p></li>
 </ul>
 
-<p>The total distinctly resolved quartets or partitions (Day 1986):</p><ul>
+<p>The total distinctly resolved quartets or partitions
+(Marczewski and Steinhaus 1958; Day 1986)
+:</p><ul>
 <li><p>Marczewski-Steinhaus (MS): (2 <em>d</em> + <em>r1</em> + <em>r2</em>) / (2 <em>d</em> + <em>s</em> + <em>r1</em> + <em>r2</em>)</p></li>
 </ul>
 
 <p>The maximum number of quartets or partitions that could have been resolved,
-given the number of tips (Smith 2019):</p><ul>
+given the number of tips (Smith 2019)
+:</p><ul>
 <li><p>Symmetric Divergence: (<em>d</em> + <em>d</em> + <em>r1</em> + <em>r2</em>) / <em>N</em></p></li>
 </ul>
 
@@ -264,7 +277,8 @@ reference tree taken to represent 'true' relationships,
 a symmetric difference is not desired.
 In such settings, the desired score is the expectation that a given
 quartet's resolution in the reconstructed tree is 'correct', given by
-(Asher &amp; Smith forthcoming):</p><ul>
+Asher and Smith (2020)
+:</p><ul>
 <li><p>Similarity to Reference (S2R): (<em>s</em> + (<em>r1</em> + <em>r2</em> + <em>u</em>) / 3) / <em>Q</em></p></li>
 </ul>
 
@@ -276,42 +290,36 @@ is as different from the true tree as a random or fully unresolved tree,
 and one if it is as 'true' as can be known.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    
-<ul>
-<li><p>Asher R, Smith MR (2020).
+    <p>Asher R, Smith MR (2020).
 &#8220;Forthcoming manuscript.&#8221;
-<em>TBC</em>.</p></li>
-<li><p>Day WH (1986).
+<em>TBC</em>.<br /><br /> Day WH (1986).
 &#8220;Analysis of quartet dissimilarity measures between undirected phylogenetic trees.&#8221;
 <em>Systematic Biology</em>, <b>35</b>(3), 325--333.
 doi: <a href='https://doi.org/10.1093/sysbio/35.3.325'>10.1093/sysbio/35.3.325</a>
-.</p></li>
-<li><p>Estabrook GF, McMorris FR, Meacham CA (1985).
+.<br /><br /> Estabrook GF, McMorris FR, Meacham CA (1985).
 &#8220;Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units.&#8221;
 <em>Systematic Zoology</em>, <b>34</b>(2), 193--200.
 doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
-.</p></li>
-<li><p>Marczewski E, Steinhaus H (1958).
+.<br /><br /> Marczewski E, Steinhaus H (1958).
 &#8220;On a certain distance of sets and the corresponding distance of functions.&#8221;
 <em>Colloquium Mathematicae</em>, <b>6</b>(1), 319--327.
-<a href='https://eudml.org/doc/210378'>https://eudml.org/doc/210378</a>.</p></li>
-<li><p>Robinson DF, Foulds LR (1981).
+<a href='https://eudml.org/doc/210378'>https://eudml.org/doc/210378</a>.<br /><br /> Robinson DF, Foulds LR (1981).
 &#8220;Comparison of phylogenetic trees.&#8221;
 <em>Mathematical Biosciences</em>, <b>53</b>(1-2), 131--147.
 doi: <a href='https://doi.org/10.1016/0025-5564(81)90043-2'>10.1016/0025-5564(81)90043-2</a>
-, <a href='https://doi.org/10.1016/0025-5564(81)90043-2'>https://doi.org/10.1016/0025-5564(81)90043-2</a>.</p></li>
-<li><p>Smith MR (2019).
+, <a href='https://doi.org/10.1016/0025-5564(81)90043-2'>https://doi.org/10.1016/0025-5564(81)90043-2</a>.<br /><br /> Smith MR (2019).
 &#8220;Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets.&#8221;
 <em>Biology Letters</em>, <b>15</b>(2), 20180632.
 doi: <a href='https://doi.org/10.1098/rsbl.2018.0632'>10.1098/rsbl.2018.0632</a>
-.</p></li>
-<li><p>Steel MA, Penny D (1993).
+.<br /><br /> Smith MR (2020).
+&#8220;Information theoretic Generalized Robinson-Foulds metrics for comparing phylogenetic trees.&#8221;
+<em>Bioinformatics</em>, <b>36</b>(20), 5007–5013.
+doi: <a href='https://doi.org/10.1093/bioinformatics/btaa614'>10.1093/bioinformatics/btaa614</a>
+.<br /><br /> Steel MA, Penny D (1993).
 &#8220;Distributions of tree comparison metrics---some new results.&#8221;
 <em>Systematic Biology</em>, <b>42</b>(2), 126--141.
 doi: <a href='https://doi.org/10.1093/sysbio/42.2.126'>10.1093/sysbio/42.2.126</a>
-, <a href='http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf'>http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf</a>.</p></li>
-</ul>
-
+, <a href='http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf'>http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'>
