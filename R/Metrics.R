@@ -2,12 +2,12 @@
 #' 
 #' Measure tree similarity or difference.
 #' 
-#' Estabrook _et al._ (1985, table 2) define four similarity metrics in terms 
-#' of the total number of quartets (_N_, their _Q_), the number of quartets 
-#' resolved in the same manner in two trees (_s_), the number resolved 
-#' differently in both trees (_d_), the number resolved in tree 1 or 2 but
-#' unresolved in the other tree (_r1_, _r2_), and the number that are
-#' unresolved in both trees (_u_).
+#' \insertCite{Estabrook1985;textual}{Quartet} (table 2) define four similarity
+#' metrics in terms  of the total number of quartets (_N_, their _Q_),
+#' the number of quartets resolved in the same manner in two trees (_s_),
+#' the number resolved differently in both trees (_d_),
+#' the number resolved in tree 1 or 2 but unresolved in the other tree 
+#' (_r1_, _r2_), and the number that are unresolved in both trees (_u_).
 #' 
 #' The similarity metrics are then given as below.  The dissimilarity metrics 
 #' are their complement (i.e. 1 - _similarity_), and can be calculated 
@@ -15,7 +15,8 @@
 #' 
 #' Although defined using quartets, analogous values can be calculated using
 #' partitions -- though for a number of reasons, quartets may offer a more
-#' meaningful measure of the amount of information shared by two trees.
+#' meaningful measure of the amount of information shared by two trees
+#' \insertCite{Smith2020}{Quartet}.
 #' 
 #' * Do Not Conflict (DC): (_s_ + _r1_ + _r2_ + _u_) / _N_
 #' 
@@ -26,10 +27,12 @@
 #' * SemiStrict Joint Assertions (SSJA): _s_ / (_s_ + _d_ + _u_)
 #' 
 #' (The numerator of the SemiStrict Joint Assertions similarity metric is 
-#' given in Estabrook _et al_. (1985) table 2 as _s_ + _d_, but this is
-#' understood, with reference to the text, to be a typographic error.)
+#' given in \insertCite{Estabrook1985;textual}{Quartet} table 2 as _s_ + _d_,
+#' but this is understood, with reference to their text, to be a typographic
+#' error.)
 #' 
-#' Steel & Penny (1993) propose a further metric, which they denote d_Q_,
+#' \insertCite{Steel1993;textual}{Quartet} propose a further metric,
+#' which they denote d_Q_,
 #' which this package calculates using the function `SteelPenny()`:
 #' 
 #' * Steel & Penny's quartet metric (dQ): (_s_ + _u_) / _N_
@@ -37,7 +40,7 @@
 #' Another take on tree similarity is to consider the symmetric difference: 
 #' that is, the number of partitions or quartets present in one tree that do
 #' not appear in the other, originally used to measure tree similarity by
-#' Robinson & Foulds (1981).
+#' \insertCite{Robinson1981;textual}{Quartet}.
 #' (Note that, given the familiarity of the Robinson–Foulds distance metric,
 #' this quantity is be default expressed as a difference rather than a
 #' similarity.)
@@ -48,20 +51,21 @@
 #' well-resolved but disagree on many relationships; or if they agree on 
 #' most relationships but are poorly resolved.
 #' As such, it is essential to contextualize the symmetric difference by
-#' appropriate normalization (Smith 2019).
+#' appropriate normalization \insertCite{Smith2019}{Quartet}.
 #' Multiple approaches to normalization have been proposed:
 #'
 #' The total number of resolved quartets or partitions present in both trees
-#' (Day 1986):
+#' \insertCite{Day1986}{Quartet}:
 #' 
 #' * Symmetric Difference (SD): (2 _d_ + _r1_ + _r2_) / (2 _d_ + 2 _s_ + _r1_ + _r2_)
 #' 
-#' The total distinctly resolved quartets or partitions (Day 1986):
+#' The total distinctly resolved quartets or partitions 
+#' \insertCite{Marczewski1958,Day1986}{Quartet}:
 #' 
 #' * Marczewski-Steinhaus (MS): (2 _d_ + _r1_ + _r2_) / (2 _d_ + _s_ + _r1_ + _r2_)
 #' 
 #' The maximum number of quartets or partitions that could have been resolved,
-#' given the number of tips (Smith 2019):
+#' given the number of tips \insertCite{Smith2019}{Quartet}:
 #' 
 #' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / _N_
 #' 
@@ -70,7 +74,7 @@
 #' a symmetric difference is not desired.
 #' In such settings, the desired score is the expectation that a given 
 #' quartet's resolution in the reconstructed tree is 'correct', given by
-#' (Asher & Smith forthcoming):
+#' \insertCite{Asher2020;textual}{TreeTools}:
 #' 
 #' * Similarity to Reference (S2R): (_s_ + (_r1_ + _r2_ + _u_) / 3) / _Q_
 #' 
@@ -113,19 +117,7 @@
 #' QuartetDivergence(sq_status, similarity = FALSE)
 #'
 #' @references 
-#' - \insertRef{Asher2020}{TreeTools}
-#' 
-#' - \insertRef{Day1986}{Quartet}
-#' 
-#' - \insertRef{Estabrook1985}{Quartet}
-#' 
-#' - \insertRef{Marczewski1958}{Quartet}
-#'
-#' - \insertRef{Robinson1981}{Quartet}
-#'
-#' - \insertRef{Smith2019}{Quartet}
-#'
-#' - \insertRef{Steel1993}{Quartet}
+#' \insertAllCited{}
 #' 
 #' @template MRS
 #' 

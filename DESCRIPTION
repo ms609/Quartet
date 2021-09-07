@@ -32,7 +32,7 @@ Language: en-GB
 Depends: R (>= 3.4.0)
 Imports:
   ape,
-  Rdpack,
+  Rdpack (>= 0.7),
   Ternary (>= 1.0),
   TreeTools (>= 1.4.0),
   viridisLite

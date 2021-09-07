@@ -67,12 +67,12 @@ similarity (or difference) between the trees.
 Measure tree similarity or difference.
 }
 \details{
-Estabrook \emph{et al.} (1985, table 2) define four similarity metrics in terms
-of the total number of quartets (\emph{N}, their \emph{Q}), the number of quartets
-resolved in the same manner in two trees (\emph{s}), the number resolved
-differently in both trees (\emph{d}), the number resolved in tree 1 or 2 but
-unresolved in the other tree (\emph{r1}, \emph{r2}), and the number that are
-unresolved in both trees (\emph{u}).
+\insertCite{Estabrook1985;textual}{Quartet} (table 2) define four similarity
+metrics in terms  of the total number of quartets (\emph{N}, their \emph{Q}),
+the number of quartets resolved in the same manner in two trees (\emph{s}),
+the number resolved differently in both trees (\emph{d}),
+the number resolved in tree 1 or 2 but unresolved in the other tree
+(\emph{r1}, \emph{r2}), and the number that are unresolved in both trees (\emph{u}).
 
 The similarity metrics are then given as below.  The dissimilarity metrics
 are their complement (i.e. 1 - \emph{similarity}), and can be calculated
@@ -80,7 +80,8 @@ algebraically using the identity \emph{N} = \emph{s} + \emph{d} + \emph{r1} + \e
 
 Although defined using quartets, analogous values can be calculated using
 partitions -- though for a number of reasons, quartets may offer a more
-meaningful measure of the amount of information shared by two trees.
+meaningful measure of the amount of information shared by two trees
+\insertCite{Smith2020}{Quartet}.
 \itemize{
 \item Do Not Conflict (DC): (\emph{s} + \emph{r1} + \emph{r2} + \emph{u}) / \emph{N}
 \item Explicitly Agree (EA): \emph{s} / \emph{N}
@@ -89,10 +90,12 @@ meaningful measure of the amount of information shared by two trees.
 }
 
 (The numerator of the SemiStrict Joint Assertions similarity metric is
-given in Estabrook \emph{et al}. (1985) table 2 as \emph{s} + \emph{d}, but this is
-understood, with reference to the text, to be a typographic error.)
+given in \insertCite{Estabrook1985;textual}{Quartet} table 2 as \emph{s} + \emph{d},
+but this is understood, with reference to their text, to be a typographic
+error.)
 
-Steel & Penny (1993) propose a further metric, which they denote d_Q_,
+\insertCite{Steel1993;textual}{Quartet} propose a further metric,
+which they denote d_Q_,
 which this package calculates using the function \code{SteelPenny()}:
 \itemize{
 \item Steel & Penny's quartet metric (dQ): (\emph{s} + \emph{u}) / \emph{N}
@@ -101,7 +104,7 @@ which this package calculates using the function \code{SteelPenny()}:
 Another take on tree similarity is to consider the symmetric difference:
 that is, the number of partitions or quartets present in one tree that do
 not appear in the other, originally used to measure tree similarity by
-Robinson & Foulds (1981).
+\insertCite{Robinson1981;textual}{Quartet}.
 (Note that, given the familiarity of the Robinson–Foulds distance metric,
 this quantity is be default expressed as a difference rather than a
 similarity.)
@@ -113,22 +116,23 @@ A pair of trees will have a high symmetric difference if they are
 well-resolved but disagree on many relationships; or if they agree on
 most relationships but are poorly resolved.
 As such, it is essential to contextualize the symmetric difference by
-appropriate normalization (Smith 2019).
+appropriate normalization \insertCite{Smith2019}{Quartet}.
 Multiple approaches to normalization have been proposed:
 
 The total number of resolved quartets or partitions present in both trees
-(Day 1986):
+\insertCite{Day1986}{Quartet}:
 \itemize{
 \item Symmetric Difference (SD): (2 \emph{d} + \emph{r1} + \emph{r2}) / (2 \emph{d} + 2 \emph{s} + \emph{r1} + \emph{r2})
 }
 
-The total distinctly resolved quartets or partitions (Day 1986):
+The total distinctly resolved quartets or partitions
+\insertCite{Marczewski1958,Day1986}{Quartet}:
 \itemize{
 \item Marczewski-Steinhaus (MS): (2 \emph{d} + \emph{r1} + \emph{r2}) / (2 \emph{d} + \emph{s} + \emph{r1} + \emph{r2})
 }
 
 The maximum number of quartets or partitions that could have been resolved,
-given the number of tips (Smith 2019):
+given the number of tips \insertCite{Smith2019}{Quartet}:
 \itemize{
 \item Symmetric Divergence: (\emph{d} + \emph{d} + \emph{r1} + \emph{r2}) / \emph{N}
 }
@@ -138,7 +142,7 @@ reference tree taken to represent 'true' relationships,
 a symmetric difference is not desired.
 In such settings, the desired score is the expectation that a given
 quartet's resolution in the reconstructed tree is 'correct', given by
-(Asher & Smith forthcoming):
+\insertCite{Asher2020;textual}{TreeTools}:
 \itemize{
 \item Similarity to Reference (S2R): (\emph{s} + (\emph{r1} + \emph{r2} + \emph{u}) / 3) / \emph{Q}
 }
@@ -174,15 +178,7 @@ SimilarityToReference(elementStatus)
 SimilarityToReference(elementStatus, normalize = TRUE)
 }
 \references{
-\itemize{
-\item \insertRef{Asher2020}{TreeTools}
-\item \insertRef{Day1986}{Quartet}
-\item \insertRef{Estabrook1985}{Quartet}
-\item \insertRef{Marczewski1958}{Quartet}
-\item \insertRef{Robinson1981}{Quartet}
-\item \insertRef{Smith2019}{Quartet}
-\item \insertRef{Steel1993}{Quartet}
-}
+\insertAllCited{}
 }
 \seealso{
 \itemize{
