@@ -63,6 +63,27 @@ test_that("tqDist returns correct quartet distances", {
   expect_equal(c(0L, 6L), as.integer(allPairsAgreement[3, 4, ]))
 })
 
+test_that("tqDist handles four-leaf trees", {
+  library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
+  data('congreveLamsdellMatrices', package = 'TreeSearch')
+  data('referenceTree', package = 'TreeSearch')
+  
+  dataset <- congreveLamsdellMatrices[[1]][, 1:20]
+  tree <- referenceTree
+  
+  splits <- as.multiPhylo(as.Splits(tree))
+  characters <- as.multiPhylo(dataset)
+  
+  status <- rowSums(vapply(characters, function (char) {
+    trimmed <- lapply(splits, keep.tip, TipLabels(char))
+    status <- SingleTreeQuartetAgreement(trimmed, char)
+    s <- status[, 's']
+    cbind(concordant = s, decisive = s + status[, 'd'])
+  }, matrix(NA_real_, length(splits), 2)), dims = 2)
+  # Check only that output is valid; this test is for mem-check
+  expect_true(length(status) > 0) # TODO use non-dummy check
+})
+
 test_that("tqDist runs from temporary files", {
   allQuartets <- ape::read.tree(TreePath("all_quartets"))
   tqae <- TQAE(allQuartets)
