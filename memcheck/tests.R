@@ -1,0 +1,2 @@
+library('Quartet')
+devtools::test()

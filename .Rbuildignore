@@ -17,6 +17,7 @@ cran-comments.md
 .github
 data-raw
 man-roxygen
+memcheck
 revdep
 /^src\-/
 ^vignettes/.*_cache$
