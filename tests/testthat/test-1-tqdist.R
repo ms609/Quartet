@@ -65,11 +65,12 @@ test_that("tqDist returns correct quartet distances", {
 
 test_that("tqDist handles four-leaf trees", {
   library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
-  data('congreveLamsdellMatrices', package = 'TreeSearch')
-  data('referenceTree', package = 'TreeSearch')
   
-  dataset <- congreveLamsdellMatrices[[1]][, 1:20]
-  tree <- referenceTree
+  dataset <- MatrixToPhyDat(structure(c("1", "2", "2", "2", "2", "2",
+                                        "1", "2", "1", "1", "2", "1"),
+                                      .Dim = c(6L, 2L),
+                                      .Dimnames = list(1:6, NULL)))
+  tree <- BalancedTree(dataset)
   
   splits <- as.multiPhylo(as.Splits(tree))
   characters <- as.multiPhylo(dataset)
