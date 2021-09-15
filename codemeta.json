@@ -16,7 +16,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -173,6 +173,7 @@
       "@type": "SoftwareApplication",
       "identifier": "Rdpack",
       "name": "Rdpack",
+      "version": ">= 0.7",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -339,5 +340,5 @@
     "https://ms609.github.io/Quartet",
     "https://ms609.github.io/Quartet/"
   ],
-  "fileSize": "1344.352KB"
+  "fileSize": "559.369KB"
 }
