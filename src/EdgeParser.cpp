@@ -15,7 +15,7 @@ std::vector<UnrootedTree *> EdgeParser::parseEdges(ListOf<IntegerMatrix> edges) 
   std::vector<UnrootedTree *> trees;
   
   for (int i = 0; i < edges.size(); i++) {
-    edg = edges[i];
+    edg = clone(edges[i]);
     trees.push_back(parse());
   }
   
