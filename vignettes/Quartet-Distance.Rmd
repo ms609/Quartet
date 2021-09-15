@@ -9,7 +9,6 @@ output:
   rmarkdown::html_document:
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
-
 vignette: >
   %\VignetteIndexEntry{About the quartet distance}
   %\VignetteEngine{knitr::rmarkdown}
