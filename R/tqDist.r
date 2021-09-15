@@ -288,7 +288,7 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
   if (inherits(trees, 'phylo')) trees <- list(trees)
   
   comparison <- Preorder(comparison)
-  trees <- lapply(trees, Preorder)
+  trees[] <- lapply(trees, Preorder)
   
   rq <- ResolvedQuartets(comparison)
   DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
@@ -452,13 +452,16 @@ AllPairsQuartetDistance <- function(file) {
 #' @export
 .TreeToEdge <- function (trees, tipOrder) UseMethod('.TreeToEdge')
 
+#' @export
 #' @keywords internal
 .TreeToEdge.list <- function (trees, tipOrder = trees[[1]]$tip.label) {
   lapply(trees, .SortTree, tipOrder)
 }
+#' @export
 #' @keywords internal
 .TreeToEdge.multiPhylo <- .TreeToEdge.list
 
+#' @export
 #' @keywords internal
 #' @importFrom TreeTools RenumberTips RenumberTree
 .TreeToEdge.phylo <- function (trees, tipOrder = NULL) {
