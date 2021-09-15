@@ -23,7 +23,6 @@ test_that("tqDist handles four-leaf trees", {
   rq <- ResolvedQuartets(comparison)
   DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
   
-  trees[] <- lapply(trees, RootTree, 1)
   edges <- .TreeToEdge(trees, comparison$tip.label)[-1]
   compEdge <- .TreeToEdge(RootTree(comparison, 1))
   

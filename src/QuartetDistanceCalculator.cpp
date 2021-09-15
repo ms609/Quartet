@@ -59,7 +59,7 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (CharacterVector tree, CharacterVector trees) {
   NewickParser parser;
   
-  UnrootedTree *unrootedSingle = parser.parseStr(tree); 
+  UnrootedTree *unrootedSingle = parser.parseStr(tree);
   
   if (unrootedSingle == NULL || parser.isError()) {
     Rcpp::stop("Error parsing tree in oneToManyQuartets -> parser.parseFile");
@@ -79,7 +79,7 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (IntegerMatrix edge, ListOf<IntegerMatrix> edges) {
   EdgeParser parser;
   
-  UnrootedTree *unrootedSingle = parser.parseEdge(edge); 
+  UnrootedTree *unrootedSingle = parser.parseEdge(edge);
   
   if (unrootedSingle == NULL) {
     Rcpp::stop("Error parsing tree in oneToManyQuartets -> parser.parseFile");
