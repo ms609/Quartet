@@ -1,4 +1,41 @@
-context("tqDist tests")
+test_that("tqDist handles four-leaf trees", {
+  library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
+  
+  dataset <- MatrixToPhyDat(structure(c("1", "2", "2", "2", "2", "2"),
+                                      .Dim = c(6L, 1L),
+                                      .Dimnames = list(1:6, NULL)))
+  tree <- BalancedTree(dataset)
+  
+  splits <- as.multiPhylo(as.Splits(tree))
+  characters <- as.multiPhylo(dataset)
+  char <- characters[[1]]
+  
+  trimmed <- lapply(splits, keep.tip, TipLabels(char))
+  
+  trees <- trimmed
+  comparison <- char
+  .CheckSize(trees)
+  if (inherits(trees, 'phylo')) trees <- list(trees)
+  
+  comparison <- Preorder(comparison)
+  trees[] <- lapply(trees, Preorder)
+  
+  rq <- ResolvedQuartets(comparison)
+  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
+  
+  trees[] <- lapply(trees, RootTree, 1)
+  edges <- .TreeToEdge(trees, comparison$tip.label)[-1]
+  compEdge <- .TreeToEdge(RootTree(comparison, 1))
+  
+  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge',
+                     compEdge, edges),
+               ncol = 2L, dimnames = list(NULL, c('A', 'E')))
+  
+  
+
+  # Check only that output is valid; this test is for mem-check
+  expect_true(length(status) > 0) # TODO use non-dummy check
+})
 
 TreePath <- function (fileName) {
   system.file('trees', paste0(fileName, '.new'), package = 'Quartet')
@@ -63,27 +100,6 @@ test_that("tqDist returns correct quartet distances", {
   expect_equal(c(0L, 6L), as.integer(allPairsAgreement[3, 4, ]))
 })
 
-test_that("tqDist handles four-leaf trees", {
-  library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
-  
-  dataset <- MatrixToPhyDat(structure(c("1", "2", "2", "2", "2", "2",
-                                        "1", "2", "1", "1", "2", "1"),
-                                      .Dim = c(6L, 2L),
-                                      .Dimnames = list(1:6, NULL)))
-  tree <- BalancedTree(dataset)
-  
-  splits <- as.multiPhylo(as.Splits(tree))
-  characters <- as.multiPhylo(dataset)
-  
-  status <- rowSums(vapply(characters, function (char) {
-    trimmed <- lapply(splits, keep.tip, TipLabels(char))
-    status <- SingleTreeQuartetAgreement(trimmed, char)
-    s <- status[, 's']
-    cbind(concordant = s, decisive = s + status[, 'd'])
-  }, matrix(NA_real_, length(splits), 2)), dims = 2)
-  # Check only that output is valid; this test is for mem-check
-  expect_true(length(status) > 0) # TODO use non-dummy check
-})
 
 test_that("tqDist runs from temporary files", {
   allQuartets <- ape::read.tree(TreePath("all_quartets"))
