@@ -45,8 +45,8 @@ typedef struct UnrootedTree
 
 		void addEdgeTo(UnrootedTree *t)
 		{
-			edges.push_back(t);
-			t->edges.push_back(this);
+			edges.emplace_back(t);
+			t->edges.emplace_back(this);
 		}
 
 		void toDot()
