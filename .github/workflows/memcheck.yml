@@ -70,7 +70,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt-get install valgrind texlive-latex-base latex-xcolor
+          sudo apt-get install valgrind texlive-latex-base texlive-latex-recommended
           while read -r cmd
           do
             eval sudo $cmd
