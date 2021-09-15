@@ -6,6 +6,8 @@ on:
       - main
       - master
     paths:
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
       - '.github/workflows/memcheck.yml'
       - 'src/**'
       - 'inst/include/**'
@@ -17,6 +19,8 @@ on:
       - main
       - master
     paths:
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
       - '.github/workflows/memcheck.yml'
       - 'src/**'
       - 'inst/include/**'
