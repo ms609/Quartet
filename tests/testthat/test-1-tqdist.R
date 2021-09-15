@@ -33,7 +33,7 @@ test_that("tqDist handles four-leaf trees", {
   
 
   # Check only that output is valid; this test is for mem-check
-  expect_true(length(status) > 0) # TODO use non-dummy check
+  expect_true(length(AE) > 0) # TODO use non-dummy check
 })
 
 TreePath <- function (fileName) {
