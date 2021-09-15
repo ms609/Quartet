@@ -70,7 +70,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt-get install valgrind texlive-latex-base texlive-latex-recommended
+          sudo apt-get install valgrind texlive-latex-base texlive-latex-recommended texlive-latex-extra
           while read -r cmd
           do
             eval sudo $cmd
