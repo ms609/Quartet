@@ -36,7 +36,7 @@ void EdgeParser::ParseBranchSet(UnrootedTree *parent) {
   int subtreeRoot = edg(it + 1, 0);
   int largestDegreeBelow = 0;
   
-  while(++it < edg.nrow()) {
+  while(++it != edg.nrow()) {
     degreeHere++;
     UnrootedTree *child = parseSubTree();
     largestDegreeBelow = max(largestDegreeBelow, child->maxDegree);
