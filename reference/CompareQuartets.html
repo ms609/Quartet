@@ -205,13 +205,14 @@ doi: <a href='https://doi.org/10.2307/2413326'>10.2307/2413326</a>
 (<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>,
-                <span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='va'>quartets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='QuartetState.html'>QuartetStates</a></span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span>
-  <span class='fu'>CompareQuartets</span><span class='op'>(</span><span class='va'>quartets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>quartets</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  N  Q  s  d r1 r2  u 
-#&gt;  2  1  1  0  0  0  0 </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>,</span>
+<span class='r-in'>                <span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>quartets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='QuartetState.html'>QuartetStates</a></span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'>CompareQuartets</span><span class='op'>(</span><span class='va'>quartets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>quartets</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  N  Q  s  d r1 r2  u </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  2  1  1  0  0  0  0 </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

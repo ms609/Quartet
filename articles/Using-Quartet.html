@@ -94,7 +94,7 @@
       <h1 data-toc-skip>Getting started with Quartet</h1>
                         <h4 class="author">Martin R. Smith</h4>
             
-            <h4 class="date">2021-09-15</h4>
+            <h4 class="date">2021-11-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/master/vignettes/Using-Quartet.Rmd"><code>vignettes/Using-Quartet.Rmd</code></a></small>
       <div class="hidden name"><code>Using-Quartet.Rmd</code></div>
@@ -166,7 +166,7 @@
 <p>You can calculate the similarity between one tree and a forest of other trees:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/">'TreeTools'</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">oneTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html">CollapseNode</a></span><span class="op">(</span><span class="fu">as.phylo</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">11</span><span class="op">)</span>, <span class="fl">14</span><span class="op">)</span>
+<span class="va">oneTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">11</span><span class="op">)</span>, <span class="fl">14</span><span class="op">)</span>
 <span class="va">twoTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>bal <span class="op">=</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html">BalancedTree</a></span><span class="op">(</span><span class="fl">11</span><span class="op">)</span>, pec <span class="op">=</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html">PectinateTree</a></span><span class="op">(</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span>,
                       class <span class="op">=</span> <span class="st">'multiPhylo'</span><span class="op">)</span>
 
@@ -176,7 +176,7 @@
 ## 0.4939394 0.6272727</code></pre>
 <p>Or between one tree and (itself and) all other trees in the forest:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu">as.phylo</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">11</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">11</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>
 <span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SharedQuartetStatus.html">SharedQuartetStatus</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span>
 <span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span><span class="op">)</span></code></pre></div>
@@ -209,7 +209,7 @@
 <a href="#other-calculations" class="anchor"></a>Other calculations</h2>
 <p>To calculate how many quartets are unique to a certain tree (akin to the partitionwise equivalent <code><a href="https://rdrr.io/pkg/ape/man/boot.phylo.html">ape::prop.clades</a></code>), use:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">interestingTree</span> <span class="op">&lt;-</span> <span class="fu">as.phylo</span><span class="op">(</span><span class="fl">42</span>, <span class="fl">7</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">interestingTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="fl">42</span>, <span class="fl">7</span><span class="op">)</span>
 <span class="va">referenceTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html">BalancedTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html">PectinateTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>
 <span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompareQuartetsMulti.html">CompareQuartetsMulti</a></span><span class="op">(</span><span class="va">interestingTree</span>, <span class="va">referenceTrees</span><span class="op">)</span></code></pre></div>
 <p><code>status['x_only']</code> = 23 quartets are resolved in a certain way in <code>interestingTree</code>, but not resolved that way in any <code>referenceTrees</code>.</p>

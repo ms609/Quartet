@@ -286,51 +286,56 @@ of quartets as the unit of comparison: <code><a href='SplitStatus.html'>SplitSta
 (<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'sq_trees'</span><span class='op'>)</span>
-<span class='co'># Calculate the status of each quartet relative to the first entry in </span>
-<span class='co'># sq_trees</span>
-<span class='va'>sq_status</span> <span class='op'>&lt;-</span> <span class='fu'>QuartetStatus</span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>)</span>
-
-<span class='co'># Calculate the status of each quartet relative to a given tree</span>
-<span class='va'>two_moved</span> <span class='op'>&lt;-</span> <span class='va'>sq_trees</span><span class='op'>[</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>
-<span class='va'>sq_status</span> <span class='op'>&lt;-</span> <span class='fu'>QuartetStatus</span><span class='op'>(</span><span class='va'>two_moved</span>, <span class='va'>sq_trees</span><span class='op'>$</span><span class='va'>ref_tree</span><span class='op'>)</span>
-
-<span class='co'># Calculate Estabrook et al's similarity measures:</span>
-<span class='fu'><a href='SimilarityMetrics.html'>SimilarityMetrics</a></span><span class='op'>(</span><span class='va'>sq_status</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;               DoNotConflict ExplicitlyAgree StrictJointAssertions
-#&gt; move_two_near     0.9272727       0.9272727             0.9272727
-#&gt; move_two_mid      0.7636364       0.7636364             0.7636364
-#&gt; move_two_far      0.7212121       0.7212121             0.7212121
-#&gt;               SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus
-#&gt; move_two_near                 0.9272727           0.9272727           0.8644068
-#&gt; move_two_mid                  0.7636364           0.7636364           0.6176471
-#&gt; move_two_far                  0.7212121           0.7212121           0.5639810
-#&gt;               SteelPenny QuartetDivergence SimilarityToReference
-#&gt; move_two_near  0.9272727         0.9272727             0.9272727
-#&gt; move_two_mid   0.7636364         0.7636364             0.7636364
-#&gt; move_two_far   0.7212121         0.7212121             0.7212121</div><div class='input'>
-<span class='co'># Compare trees that include a subset of the taxa 1..10</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>'TreeTools'</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span>, warn.conflict <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'>QuartetStatus</span><span class='op'>(</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>, <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>:</span><span class='fl'>8</span><span class='op'>)</span>, nTip <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        N   Q s d r1 r2   u
-#&gt; [1,] 420 210 0 0  5 15 190</div><div class='input'>
-<span class='co'># If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`</span>
-<span class='fu'>QuartetStatus</span><span class='op'>(</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>, <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>, nTip <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        N   Q s d r1 r2   u
-#&gt; [1,] 420 210 0 0  5 70 135</div><div class='input'> 
-<span class='co'># Calculate Quartet Divergence between each tree and each other tree in a </span>
-<span class='co'># list</span>
-<span class='fu'><a href='SimilarityMetrics.html'>QuartetDivergence</a></span><span class='op'>(</span><span class='fu'>ManyToManyQuartetAgreement</span><span class='op'>(</span><span class='va'>two_moved</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;               move_two_near move_two_mid move_two_far
-#&gt; move_two_near     1.0000000    0.6909091    0.6484848
-#&gt; move_two_mid      0.6909091    1.0000000    0.6484848
-#&gt; move_two_far      0.6484848    0.6484848    1.0000000</div><div class='input'><span class='co'># Calculate Quartet Divergence between each tree in one list and each </span>
-<span class='co'># tree in another</span>
-<span class='fu'><a href='SimilarityMetrics.html'>QuartetDivergence</a></span><span class='op'>(</span><span class='fu'>TwoListQuartetAgreement</span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span>, <span class='va'>sq_trees</span><span class='op'>[</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>13</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;               m1mid_col1 m1mid_colsome m2mid_col1 m2mid_colsome
-#&gt; ref_tree       0.8303030     0.7439394  0.7515152     0.6893939
-#&gt; move_one_near  0.8545455     0.7681818  0.7272727     0.6651515
-#&gt; move_one_mid   0.9878788     0.9015152  0.6060606     0.5621212</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'sq_trees'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># Calculate the status of each quartet relative to the first entry in </span></span>
+<span class='r-in'><span class='co'># sq_trees</span></span>
+<span class='r-in'><span class='va'>sq_status</span> <span class='op'>&lt;-</span> <span class='fu'>QuartetStatus</span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Calculate the status of each quartet relative to a given tree</span></span>
+<span class='r-in'><span class='va'>two_moved</span> <span class='op'>&lt;-</span> <span class='va'>sq_trees</span><span class='op'>[</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>sq_status</span> <span class='op'>&lt;-</span> <span class='fu'>QuartetStatus</span><span class='op'>(</span><span class='va'>two_moved</span>, <span class='va'>sq_trees</span><span class='op'>$</span><span class='va'>ref_tree</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Calculate Estabrook et al's similarity measures:</span></span>
+<span class='r-in'><span class='fu'><a href='SimilarityMetrics.html'>SimilarityMetrics</a></span><span class='op'>(</span><span class='va'>sq_status</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               DoNotConflict ExplicitlyAgree StrictJointAssertions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_near     0.9272727       0.9272727             0.9272727</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_mid      0.7636364       0.7636364             0.7636364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_far      0.7212121       0.7212121             0.7212121</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_near                 0.9272727           0.9272727           0.8644068</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_mid                  0.7636364           0.7636364           0.6176471</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_far                  0.7212121           0.7212121           0.5639810</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               SteelPenny QuartetDivergence SimilarityToReference</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_near  0.9272727         0.9272727             0.9272727</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_mid   0.7636364         0.7636364             0.7636364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_far   0.7212121         0.7212121             0.7212121</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Compare trees that include a subset of the taxa 1..10</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>'TreeTools'</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span>, warn.conflict <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>QuartetStatus</span><span class='op'>(</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>, <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>:</span><span class='fl'>8</span><span class='op'>)</span>, nTip <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        N   Q s d r1 r2   u</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 420 210 0 0  5 15 190</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`</span></span>
+<span class='r-in'><span class='fu'>QuartetStatus</span><span class='op'>(</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>, <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>, nTip <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        N   Q s d r1 r2   u</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 420 210 0 0  5 70 135</span>
+<span class='r-in'> </span>
+<span class='r-in'><span class='co'># Calculate Quartet Divergence between each tree and each other tree in a </span></span>
+<span class='r-in'><span class='co'># list</span></span>
+<span class='r-in'><span class='fu'><a href='SimilarityMetrics.html'>QuartetDivergence</a></span><span class='op'>(</span><span class='fu'>ManyToManyQuartetAgreement</span><span class='op'>(</span><span class='va'>two_moved</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               move_two_near move_two_mid move_two_far</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_near     1.0000000    0.6909091    0.6484848</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_mid      0.6909091    1.0000000    0.6484848</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_far      0.6484848    0.6484848    1.0000000</span>
+<span class='r-in'><span class='co'># Calculate Quartet Divergence between each tree in one list and each </span></span>
+<span class='r-in'><span class='co'># tree in another</span></span>
+<span class='r-in'><span class='fu'><a href='SimilarityMetrics.html'>QuartetDivergence</a></span><span class='op'>(</span><span class='fu'>TwoListQuartetAgreement</span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span>, <span class='va'>sq_trees</span><span class='op'>[</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>13</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               m1mid_col1 m1mid_colsome m2mid_col1 m2mid_colsome</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ref_tree       0.8303030     0.7439394  0.7515152     0.6893939</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_near  0.8545455     0.7681818  0.7272727     0.6651515</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_mid   0.9878788     0.9015152  0.6060606     0.5621212</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

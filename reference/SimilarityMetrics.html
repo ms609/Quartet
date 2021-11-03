@@ -272,8 +272,8 @@ given the number of tips (Smith 2019)
 <li><p>Symmetric Divergence: (<em>d</em> + <em>d</em> + <em>r1</em> + <em>r2</em>) / <em>N</em></p></li>
 </ul>
 
-<p>Finally, in cases where a reconstructed tree is being compared to a
-reference tree taken to represent 'true' relationships,
+<p>Finally, in cases where a reconstructed tree <code>r1</code> is being compared to a
+reference tree <code>r2</code> taken to represent 'true' relationships,
 a symmetric difference is not desired.
 In such settings, the desired score is the expectation that a given
 quartet's resolution in the reconstructed tree is 'correct', given by
@@ -338,114 +338,118 @@ Estabrook <em>et al.</em> metrics are calculated -- with <code><a href='SharedQu
 (<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'sq_trees'</span><span class='op'>)</span>
-
-<span class='va'>sq_status</span> <span class='op'>&lt;-</span> <span class='fu'><a href='SharedQuartetStatus.html'>QuartetStatus</a></span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>)</span>
-<span class='fu'>SimilarityMetrics</span><span class='op'>(</span><span class='va'>sq_status</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                DoNotConflict ExplicitlyAgree StrictJointAssertions
-#&gt; ref_tree           1.0000000       1.0000000             1.0000000
-#&gt; move_one_near      0.9757576       0.9757576             0.9757576
-#&gt; move_one_mid       0.8424242       0.8424242             0.8424242
-#&gt; move_one_far       0.7696970       0.7696970             0.7696970
-#&gt; move_two_near      0.9272727       0.9272727             0.9272727
-#&gt; move_two_mid       0.7636364       0.7636364             0.7636364
-#&gt; move_two_far       0.7212121       0.7212121             0.7212121
-#&gt; collapse_one       1.0000000       0.9757576             1.0000000
-#&gt; collapse_some      1.0000000       0.6272727             1.0000000
-#&gt; m1mid_col1         0.8424242       0.8181818             0.8385093
-#&gt; m1mid_colsome      0.8424242       0.6454545             0.8037736
-#&gt; m2mid_col1         0.7636364       0.7393939             0.7577640
-#&gt; m2mid_colsome      1.0000000       0.3787879             1.0000000
-#&gt; opposite_tree      0.2606061       0.2606061             0.2606061
-#&gt; caterpillar        0.7393939       0.7393939             0.7393939
-#&gt; top_and_tail       0.3696970       0.3696970             0.3696970
-#&gt; anti_pectinate     0.2575758       0.2575758             0.2575758
-#&gt; random_tree        0.3151515       0.3151515             0.3151515
-#&gt;                SemiStrictJointAssertions SymmetricDifference
-#&gt; ref_tree                       1.0000000           1.0000000
-#&gt; move_one_near                  0.9757576           0.9757576
-#&gt; move_one_mid                   0.8424242           0.8424242
-#&gt; move_one_far                   0.7696970           0.7696970
-#&gt; move_two_near                  0.9272727           0.9272727
-#&gt; move_two_mid                   0.7636364           0.7636364
-#&gt; move_two_far                   0.7212121           0.7212121
-#&gt; collapse_one                   1.0000000           0.9877301
-#&gt; collapse_some                  1.0000000           0.7709497
-#&gt; m1mid_col1                     0.8385093           0.8282209
-#&gt; m1mid_colsome                  0.8037736           0.7159664
-#&gt; m2mid_col1                     0.7577640           0.7484663
-#&gt; m2mid_colsome                  1.0000000           0.5494505
-#&gt; opposite_tree                  0.2606061           0.2606061
-#&gt; caterpillar                    0.7393939           0.7393939
-#&gt; top_and_tail                   0.3696970           0.3696970
-#&gt; anti_pectinate                 0.2575758           0.2575758
-#&gt; random_tree                    0.3151515           0.3151515
-#&gt;                MarczewskiSteinhaus SteelPenny QuartetDivergence
-#&gt; ref_tree                 1.0000000  1.0000000         1.0000000
-#&gt; move_one_near            0.9526627  0.9757576         0.9757576
-#&gt; move_one_mid             0.7277487  0.8424242         0.8424242
-#&gt; move_one_far             0.6256158  0.7696970         0.7696970
-#&gt; move_two_near            0.8644068  0.9272727         0.9272727
-#&gt; move_two_mid             0.6176471  0.7636364         0.7636364
-#&gt; move_two_far             0.5639810  0.7212121         0.7212121
-#&gt; collapse_one             0.9757576  0.9757576         0.9878788
-#&gt; collapse_some            0.6272727  0.6272727         0.8136364
-#&gt; m1mid_col1               0.7068063  0.8181818         0.8303030
-#&gt; m1mid_colsome            0.5575916  0.6454545         0.7439394
-#&gt; m2mid_col1               0.5980392  0.7393939         0.7515152
-#&gt; m2mid_colsome            0.3787879  0.3787879         0.6893939
-#&gt; opposite_tree            0.1498258  0.2606061         0.2606061
-#&gt; caterpillar              0.5865385  0.7393939         0.7393939
-#&gt; top_and_tail             0.2267658  0.3696970         0.3696970
-#&gt; anti_pectinate           0.1478261  0.2575758         0.2575758
-#&gt; random_tree              0.1870504  0.3151515         0.3151515
-#&gt;                SimilarityToReference
-#&gt; ref_tree                   1.0000000
-#&gt; move_one_near              0.9757576
-#&gt; move_one_mid               0.8424242
-#&gt; move_one_far               0.7696970
-#&gt; move_two_near              0.9272727
-#&gt; move_two_mid               0.7636364
-#&gt; move_two_far               0.7212121
-#&gt; collapse_one               0.9838384
-#&gt; collapse_some              0.7515152
-#&gt; m1mid_col1                 0.8262626
-#&gt; m1mid_colsome              0.7111111
-#&gt; m2mid_col1                 0.7474747
-#&gt; m2mid_colsome              0.5858586
-#&gt; opposite_tree              0.2606061
-#&gt; caterpillar                0.7393939
-#&gt; top_and_tail               0.3696970
-#&gt; anti_pectinate             0.2575758
-#&gt; random_tree                0.3151515</div><div class='input'><span class='fu'>QuartetDivergence</span><span class='op'>(</span><span class='va'>sq_status</span>, similarity <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       ref_tree  move_one_near   move_one_mid   move_one_far  move_two_near 
-#&gt;     0.00000000     0.02424242     0.15757576     0.23030303     0.07272727 
-#&gt;   move_two_mid   move_two_far   collapse_one  collapse_some     m1mid_col1 
-#&gt;     0.23636364     0.27878788     0.01212121     0.18636364     0.16969697 
-#&gt;  m1mid_colsome     m2mid_col1  m2mid_colsome  opposite_tree    caterpillar 
-#&gt;     0.25606061     0.24848485     0.31060606     0.73939394     0.26060606 
-#&gt;   top_and_tail anti_pectinate    random_tree 
-#&gt;     0.63030303     0.74242424     0.68484848 </div><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>'TreeTools'</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span>, warn.conflict <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>
-<span class='va'>reference</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/CollapseNode.html'>CollapseNode</a></span><span class='op'>(</span><span class='fu'>as.phylo</span><span class='op'>(</span><span class='fl'>101</span>, <span class='fl'>10</span><span class='op'>)</span>, <span class='fl'>16</span><span class='op'>:</span><span class='fl'>18</span><span class='op'>)</span>
-<span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-  reference <span class='op'>=</span> <span class='va'>reference</span>,
-  binaryRef <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/MakeTreeBinary.html'>MakeTreeBinary</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
-  balanced <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
-  pectinate <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
-  star <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>StarTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
-  random <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>RandomTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,
-  random2 <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>RandomTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='va'>elementStatus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='SharedQuartetStatus.html'>QuartetStatus</a></span><span class='op'>(</span><span class='va'>trees</span>, <span class='va'>reference</span><span class='op'>)</span>
-<span class='fu'>SimilarityToReference</span><span class='op'>(</span><span class='va'>elementStatus</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; reference binaryRef  balanced pectinate      star    random   random2 
-#&gt; 0.7682540 0.7682540 0.3015873 0.3444444 0.3333333 0.3492063 0.4301587 </div><div class='input'><span class='fu'>SimilarityToReference</span><span class='op'>(</span><span class='va'>elementStatus</span>, normalize <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   reference   binaryRef    balanced   pectinate        star      random 
-#&gt;  1.00000000  1.00000000 -0.07299270  0.02554745  0.00000000  0.03649635 
-#&gt;     random2 
-#&gt;  0.22262774 </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'sq_trees'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>sq_status</span> <span class='op'>&lt;-</span> <span class='fu'><a href='SharedQuartetStatus.html'>QuartetStatus</a></span><span class='op'>(</span><span class='va'>sq_trees</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>SimilarityMetrics</span><span class='op'>(</span><span class='va'>sq_status</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                DoNotConflict ExplicitlyAgree StrictJointAssertions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ref_tree           1.0000000       1.0000000             1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_near      0.9757576       0.9757576             0.9757576</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_mid       0.8424242       0.8424242             0.8424242</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_far       0.7696970       0.7696970             0.7696970</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_near      0.9272727       0.9272727             0.9272727</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_mid       0.7636364       0.7636364             0.7636364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_far       0.7212121       0.7212121             0.7212121</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> collapse_one       1.0000000       0.9757576             1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> collapse_some      1.0000000       0.6272727             1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m1mid_col1         0.8424242       0.8181818             0.8385093</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m1mid_colsome      0.8424242       0.6454545             0.8037736</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m2mid_col1         0.7636364       0.7393939             0.7577640</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m2mid_colsome      1.0000000       0.3787879             1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> opposite_tree      0.2606061       0.2606061             0.2606061</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> caterpillar        0.7393939       0.7393939             0.7393939</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> top_and_tail       0.3696970       0.3696970             0.3696970</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> anti_pectinate     0.2575758       0.2575758             0.2575758</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> random_tree        0.3151515       0.3151515             0.3151515</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                SemiStrictJointAssertions SymmetricDifference</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ref_tree                       1.0000000           1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_near                  0.9757576           0.9757576</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_mid                   0.8424242           0.8424242</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_far                   0.7696970           0.7696970</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_near                  0.9272727           0.9272727</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_mid                   0.7636364           0.7636364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_far                   0.7212121           0.7212121</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> collapse_one                   1.0000000           0.9877301</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> collapse_some                  1.0000000           0.7709497</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m1mid_col1                     0.8385093           0.8282209</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m1mid_colsome                  0.8037736           0.7159664</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m2mid_col1                     0.7577640           0.7484663</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m2mid_colsome                  1.0000000           0.5494505</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> opposite_tree                  0.2606061           0.2606061</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> caterpillar                    0.7393939           0.7393939</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> top_and_tail                   0.3696970           0.3696970</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> anti_pectinate                 0.2575758           0.2575758</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> random_tree                    0.3151515           0.3151515</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                MarczewskiSteinhaus SteelPenny QuartetDivergence</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ref_tree                 1.0000000  1.0000000         1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_near            0.9526627  0.9757576         0.9757576</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_mid             0.7277487  0.8424242         0.8424242</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_far             0.6256158  0.7696970         0.7696970</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_near            0.8644068  0.9272727         0.9272727</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_mid             0.6176471  0.7636364         0.7636364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_far             0.5639810  0.7212121         0.7212121</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> collapse_one             0.9757576  0.9757576         0.9878788</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> collapse_some            0.6272727  0.6272727         0.8136364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m1mid_col1               0.7068063  0.8181818         0.8303030</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m1mid_colsome            0.5575916  0.6454545         0.7439394</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m2mid_col1               0.5980392  0.7393939         0.7515152</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m2mid_colsome            0.3787879  0.3787879         0.6893939</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> opposite_tree            0.1498258  0.2606061         0.2606061</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> caterpillar              0.5865385  0.7393939         0.7393939</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> top_and_tail             0.2267658  0.3696970         0.3696970</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> anti_pectinate           0.1478261  0.2575758         0.2575758</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> random_tree              0.1870504  0.3151515         0.3151515</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                SimilarityToReference</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ref_tree                   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_near              0.9757576</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_mid               0.8424242</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_one_far               0.7696970</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_near              0.9272727</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_mid               0.7636364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> move_two_far               0.7212121</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> collapse_one               0.9838384</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> collapse_some              0.7515152</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m1mid_col1                 0.8262626</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m1mid_colsome              0.7111111</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m2mid_col1                 0.7474747</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> m2mid_colsome              0.5858586</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> opposite_tree              0.2606061</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> caterpillar                0.7393939</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> top_and_tail               0.3696970</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> anti_pectinate             0.2575758</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> random_tree                0.3151515</span>
+<span class='r-in'><span class='fu'>QuartetDivergence</span><span class='op'>(</span><span class='va'>sq_status</span>, similarity <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ref_tree  move_one_near   move_one_mid   move_one_far  move_two_near </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0.00000000     0.02424242     0.15757576     0.23030303     0.07272727 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   move_two_mid   move_two_far   collapse_one  collapse_some     m1mid_col1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0.23636364     0.27878788     0.01212121     0.18636364     0.16969697 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  m1mid_colsome     m2mid_col1  m2mid_colsome  opposite_tree    caterpillar </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0.25606061     0.24848485     0.31060606     0.73939394     0.26060606 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   top_and_tail anti_pectinate    random_tree </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0.63030303     0.74242424     0.68484848 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>'TreeTools'</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span>, warn.conflict <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>reference</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/CollapseNode.html'>CollapseNode</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/ape/man/as.phylo.html'>as.phylo</a></span><span class='op'>(</span><span class='fl'>101</span>, <span class='fl'>10</span><span class='op'>)</span>, <span class='fl'>16</span><span class='op'>:</span><span class='fl'>18</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span class='r-in'>  reference <span class='op'>=</span> <span class='va'>reference</span>,</span>
+<span class='r-in'>  binaryRef <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/MakeTreeBinary.html'>MakeTreeBinary</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,</span>
+<span class='r-in'>  balanced <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,</span>
+<span class='r-in'>  pectinate <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>PectinateTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,</span>
+<span class='r-in'>  star <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>StarTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,</span>
+<span class='r-in'>  random <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>RandomTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span>,</span>
+<span class='r-in'>  random2 <span class='op'>=</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>RandomTree</a></span><span class='op'>(</span><span class='va'>reference</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>elementStatus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='SharedQuartetStatus.html'>QuartetStatus</a></span><span class='op'>(</span><span class='va'>trees</span>, <span class='va'>reference</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>SimilarityToReference</span><span class='op'>(</span><span class='va'>elementStatus</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> reference binaryRef  balanced pectinate      star    random   random2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0.7682540 0.7682540 0.3015873 0.3444444 0.3333333 0.3492063 0.4301587 </span>
+<span class='r-in'><span class='fu'>SimilarityToReference</span><span class='op'>(</span><span class='va'>elementStatus</span>, normalize <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   reference   binaryRef    balanced   pectinate        star      random </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1.00000000  1.00000000 -0.07299270  0.02554745  0.00000000  0.03649635 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     random2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  0.22262774 </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
