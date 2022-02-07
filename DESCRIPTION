@@ -1,9 +1,9 @@
 Package: Quartet
-Version: 1.2.2
+Version: 1.2.2.9000
 Title: Comparison of Phylogenetic Trees Using Quartet and Split Measures
 Description: Calculates the number of four-taxon subtrees consistent with a pair
-  of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),
-  Reconstructing the shape of a tree from observed dissimilarity data,
+  of cladograms, calculating the symmetric quartet distance of Bandelt & Dress
+  (1986), Reconstructing the shape of a tree from observed dissimilarity data,
   Advances in Applied Mathematics, 7, 309-343 <doi:10.1016/0196-8858(86)90038-2>, 
   and using the tqDist algorithm of Sand et al. (2014), tqDist: a library for
   computing the quartet and triplet distances between binary or general trees,
@@ -12,7 +12,7 @@ Description: Calculates the number of four-taxon subtrees consistent with a pair
 URL: https://ms609.github.io/Quartet/, https://github.com/ms609/Quartet/
 BugReports: https://github.com/ms609/Quartet/issues/
 Authors@R: c(person("Martin R.", 'Smith',
-                  email='martin.smith@durham.ac.uk',
+                  email="martin.smith@durham.ac.uk",
                   role=c("aut", "cre", "cph"), 
                   comment=c(ORCID = "0000-0001-5660-1727")),
                person('Andreas', 'Sand', role=c('ant')),
@@ -29,13 +29,13 @@ Copyright: Incorporates code modified from tqDist
 License: GPL (>= 2)
 Encoding: UTF-8
 Language: en-GB
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.4.0),
+  TreeTools (>= 1.4.0),
 Imports:
   ape,
   Rdpack (>= 0.7),
   Ternary (>= 1.0),
-  TreeTools (>= 1.4.0),
-  viridisLite
+  viridisLite,
 Suggests:
   bookdown,
   knitr,
@@ -44,7 +44,7 @@ Suggests:
   rmarkdown,
   testthat,
   usethis,
-  vdiffr
+  vdiffr,
 Config/Needs/memcheck: devtools
 SystemRequirements: C++11
 RdMacros: Rdpack

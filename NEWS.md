@@ -1,3 +1,7 @@
+# Quartet v1.2.2.9000
+
+ - Replace deprecated function `TreeTools::in.Splits()`.
+ 
 # Quartet v1.2.2
 
  - Package 'vdiffr' now used conditionally.

@@ -1,4 +1,6 @@
 test_that("tqDist handles four-leaf trees", {
+  skip_on_cran()
+  
   library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
   
   dataset <- MatrixToPhyDat(structure(c("1", "2", "2", "2", "2", "2"),
@@ -30,7 +32,15 @@ test_that("tqDist handles four-leaf trees", {
                      compEdge, edges),
                ncol = 2L, dimnames = list(NULL, c('A', 'E')))
   
-  
+  expect_true(length(AE) > 0) # TODO use non-dummy check
+
+  # Original issue:
+  status <- rowSums(vapply(characters, function(char) {
+    trimmed <- lapply(splits, keep.tip, TipLabels(char))
+    status <- SingleTreeQuartetAgreement(trimmed, char)
+    s <- status[, 's']
+    cbind(concordant = s, decisive = s + status[, 'd'])
+  }, matrix(NA_real_, length(splits), 2)), dims = 2)
 
   # Check only that output is valid; this test is for mem-check
   expect_true(length(status) > 0) # TODO use non-dummy check
