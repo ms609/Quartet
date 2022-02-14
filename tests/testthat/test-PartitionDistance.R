@@ -1,7 +1,7 @@
 context("PartitionDistance.R")
-library('TreeTools')
+library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
 
-data('sq_trees')
+data("sq_trees")
 
 test_that("SplitStatus works", {
   expect_equal(c(length(sq_trees), 8), dim(SplitStatus(sq_trees)))

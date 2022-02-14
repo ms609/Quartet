@@ -1,5 +1,6 @@
 test_that("VizualiseQuartets()", {
-  skip_if_not_installed('vdiffr')
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("TreeTools", "1.7.0")
   vdiffr::expect_doppelganger("VQ-label", function() {
     VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
                      style = 'label', precision = 1)

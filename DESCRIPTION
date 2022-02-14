@@ -11,18 +11,18 @@ Description: Calculates the number of four-taxon subtrees consistent with a pair
   for pairs of binary trees.
 URL: https://ms609.github.io/Quartet/, https://github.com/ms609/Quartet/
 BugReports: https://github.com/ms609/Quartet/issues/
-Authors@R: c(person("Martin R.", 'Smith',
+Authors@R: c(person("Martin R.", "Smith",
                   email="martin.smith@durham.ac.uk",
                   role=c("aut", "cre", "cph"), 
                   comment=c(ORCID = "0000-0001-5660-1727")),
-               person('Andreas', 'Sand', role=c('ant')),
-               person('Gerth', 'Stølting Brodal', role=c('ant')),
-               person('Rolf', 'Fagerberg', role=c('ant')),
-               person('Thomas', 'Mailund', role=c('ant')),
-               person('Christian N. S.', 'Pedersen', email='cstorm@birc.au.dk',
-                      role=c('ant')),
-               person('Jens', 'Johansen', role=c('ant')),
-               person('Morten K.', 'Holt', role=c('ant'))
+               person("Andreas", "Sand", role=c("ant")),
+               person("Gerth", "Stølting Brodal", role=c("ant")),
+               person("Rolf", "Fagerberg", role=c("ant")),
+               person("Thomas", "Mailund", role=c("ant")),
+               person("Christian N. S.", "Pedersen", email="cstorm@birc.au.dk",
+                      role=c("ant")),
+               person("Jens", "Johansen", role=c("ant")),
+               person("Morten K.", "Holt", role=c("ant"))
             )
 Copyright: Incorporates code modified from tqDist
   <doi:10.1093/bioinformatics/btu157>.
