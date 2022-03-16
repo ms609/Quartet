@@ -5,7 +5,7 @@
 
 * [GitHub Actions](https://github.com/ms609/Quartet/actions)
   - Ubuntu 20.04
-    - R 3.4.0
+    - R 3.4
     - R release (tests, examples & vignettes run with valgrind)
     - R devel
   - Mac OS X 10.15.7, R release

@@ -34,8 +34,8 @@ second two highlighted in blue.
 Draws a tree, highlighting the members of a specified quartet in colour.
 }
 \examples{
-data('sq_trees')
-  
+data("sq_trees")
+
 oPar <- par(mfrow = c(3, 6), mar = rep(0.5, 4))
 PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
 par(oPar)
