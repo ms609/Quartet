@@ -1,4 +1,4 @@
-# Quartet v1.2.2.9000
+# Quartet v1.2.3
 
  - Replace deprecated function `TreeTools::in.Splits()`.
  - Update testcases in readiness for TreeTools v1.7.0.

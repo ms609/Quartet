@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ms609/Quartet/",
   "issueTracker": "https://github.com/ms609/Quartet/issues/",
   "license": "https://spdx.org/licenses/GPL-2.0",
-  "version": "1.2.2.9000",
+  "version": "1.2.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -218,7 +218,7 @@
     },
     "SystemRequirements": "C++11"
   },
-  "fileSize": "677.997KB",
+  "fileSize": "598.029KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -232,7 +232,7 @@
       ],
       "name": "Quartet: comparison of phylogenetic trees using quartet and split measures",
       "identifier": "10.5281/zenodo.2536318",
-      "description": "R package version 1.2.2.9000",
+      "description": "R package version 1.2.3",
       "@id": "https://doi.org/10.5281/zenodo.2536318",
       "sameAs": "https://doi.org/10.5281/zenodo.2536318"
     },

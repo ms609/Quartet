@@ -53,7 +53,7 @@ CompareSplits <- function (splits, splits2) {
   splits <- as.Splits(splits)
   splits2 <- as.Splits(splits2, splits)
   
-  nTip <- attr(splits, 'nTip')
+  nTip <- attr(splits, "nTip")
   
   splits <- unique(WithoutTrivialSplits(splits, nTip))
   splits2 <- unique(WithoutTrivialSplits(splits2, nTip))

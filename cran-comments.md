@@ -1,31 +1,33 @@
 ## Test environments
-* local Windows 10 install, R 4.0.3
-* Ubuntu 16.04.6 LTS, R 3.4.0, release and devel, via [Travis CI](https://travis-ci.org/ms609/Quartet/)
-* Mac OS X 10.13.6, R release, via Travis
-* win-builder, with `check_win_devel()`
-* R-hub, with `check_rhub(platforms = rhub::platforms()[[1]])`
+
+* Local PC:
+  - Windows 10, R 4.1.2
+
+* [GitHub Actions](https://github.com/ms609/Quartet/actions)
+  - Ubuntu 20.04
+    - R 3.4.0
+    - R release (tests, examples & vignettes run with valgrind)
+    - R devel
+  - Mac OS X 10.15.7, R release
+  - Microsoft Windows Server 2019 10.0.17763, R release
+  
+* R-hub, with `rhub::check_for_cran()` and `devtools::check_win_devel()`
+
 
 ## R CMD check results
-There were no ERRORs or WARNINGs:
 
+There were no ERRORs or WARNINGs.
 There was one NOTE:
 
-> Found the following (possibly) invalid URLs:
->   URL: http://doi.org/10.2307/2413326
->     From: man/CompareQuartets.Rd
->           man/CompareSplits.Rd
->           man/QuartetState.Rd
->           man/QuartetStatus.Rd
->           man/SimilarityMetrics.Rd
->           man/TQDist.Rd
->     Status: 403
->     Message: Forbidden
->   URL: http://doi.org/10.2307/2413347
->     From: man/SplitStatus.Rd
->     Status: 403
->     Message: Forbidden
+> Found the following URLs which should use \doi (with the DOI name only):
+  File 'CompareQuartets.Rd':
+    https://doi.org/10.2307/2413326
+  [...]
 
-These URLs are generated from DOIs in citations, and are valid.
+The DOI links are generated automatically using "Rdpack" macros, so cannot
+be manually replaced in the .Rd files.  This should be addressed in a future
+release of the Rdpack package.
+
 
 ## Downstream dependencies
 

@@ -26,8 +26,8 @@ WHICH_OTHER_NODE <- 2:4
 #' second two highlighted in blue.
 #' 
 #' @examples 
-#' data('sq_trees')
-#'   
+#' data("sq_trees")
+#'
 #' oPar <- par(mfrow = c(3, 6), mar = rep(0.5, 4))
 #' PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
 #' par(oPar)

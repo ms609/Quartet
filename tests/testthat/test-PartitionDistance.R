@@ -1,5 +1,5 @@
 context("PartitionDistance.R")
-library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
+library("TreeTools", quietly = TRUE)
 
 data("sq_trees")
 
@@ -22,7 +22,7 @@ test_that("Splits are compared", {
                SharedSplitStatus(c(BalancedTree(9)), PectinateTree(9)))
 })
 
-test_that("CompareSplits works", {
+test_that("CompareSplits() works", {
   splits9 <- as.Splits(BalancedTree(9))
   splits9Fewer <- splits9[[-(4:6)]]
   
