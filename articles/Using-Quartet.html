@@ -201,10 +201,54 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="trees-with-different-tip-labels">Trees with different tip labels<a class="anchor" aria-label="anchor" href="#trees-with-different-tip-labels"></a>
+</h2>
+<p>“Quartet” can compare trees of different sizes or with non-identical sets of taxa. Quartets pertaining to a leaf that does not occur in one tree are treated as unresolved.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">treeAG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span>
+<span class="va">treeBI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>
+<span class="va">treeEJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">4</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeAG</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeBI</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeEJ</span><span class="op">)</span></code></pre></div>
+<p><img src="Using-Quartet_files/figure-html/different-tips-1.png" width="384" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/QuartetState.html">QuartetState</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">treeAG</span><span class="op">)</span> <span class="co"># 3: C is closest to D</span></code></pre></div>
+<pre><code><span class="co">## [1] 3</span></code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/QuartetState.html">QuartetState</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">treeBI</span><span class="op">)</span> <span class="co"># 0: unresolved in this tree</span></code></pre></div>
+<pre><code><span class="co">## [1] 0</span></code></pre>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Calculate status for all leaves observed in trees: here, A..I</span>
+<span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##        N   Q  s d r1 r2  u</span>
+<span class="co">## [1,] 252 126 15 0 20 55 36</span></code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Calculate status for specified number of leaves</span>
+<span class="co"># Here, we have ten taxa A..J, but J does not occur in either of these trees</span>
+<span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, nTip <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##        N   Q  s d r1 r2   u</span>
+<span class="co">## [1,] 420 210 15 0 20 55 120</span></code></pre>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Compare a list of trees with different numbers of leaves to a reference</span>
+<span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, <span class="va">treeEJ</span><span class="op">)</span>, cf <span class="op">=</span> <span class="va">treeAG</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##        N   Q  s d r1 r2   u</span>
+<span class="co">## [1,] 420 210 35 0  0  0 175</span>
+<span class="co">## [2,] 420 210 15 0 55 20 120</span>
+<span class="co">## [3,] 420 210  0 0 15 35 160</span></code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Compare all pairs of trees in a list.</span>
+<span class="co"># "u" shows how many possible quartets are unresolved in both trees</span>
+<span class="fu"><a href="../reference/QuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, <span class="va">treeEJ</span><span class="op">)</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, , <span class="st">"u"</span><span class="op">]</span></code></pre></div>
+<pre><code><span class="co">##      [,1] [,2] [,3]</span>
+<span class="co">## [1,]  175  120  160</span>
+<span class="co">## [2,]  120  140  130</span>
+<span class="co">## [3,]  160  130  195</span></code></pre>
+</div>
+<div class="section level2">
 <h2 id="other-calculations">Other calculations<a class="anchor" aria-label="anchor" href="#other-calculations"></a>
 </h2>
 <p>To calculate how many quartets are unique to a certain tree (akin to the partitionwise equivalent <code><a href="https://rdrr.io/pkg/ape/man/boot.phylo.html" class="external-link">ape::prop.clades</a></code>), use:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">interestingTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">42</span>, <span class="fl">7</span><span class="op">)</span>
 <span class="va">referenceTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>
 <span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompareQuartetsMulti.html">CompareQuartetsMulti</a></span><span class="op">(</span><span class="va">interestingTree</span>, <span class="va">referenceTrees</span><span class="op">)</span></code></pre></div>
