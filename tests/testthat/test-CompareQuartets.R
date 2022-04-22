@@ -31,7 +31,7 @@ test_that("QuartetStates() works", {
 
 test_that("QuartetState() works", {
   expect_equal(QuartetState(letters[1:4], as.Splits(quartets[[1]]), asRaw = TRUE),
-               as.raw(1L))
+               as.raw(3L))
   expect_equal(QuartetState(letters[1:4], as.Splits(quartets[[2]]), asRaw = TRUE),
                as.raw(2L))
   expect_equal(QuartetState(letters[1:4], as.Splits(quartets[[3]]), asRaw = TRUE),
@@ -119,22 +119,18 @@ test_that("CompareQuartetsMulti() insensitive to label order", {
   all_same <- c(Q = 70, s_all = 70, s_any = 70, d_all = 0, d_any = 0,
                 r1_all = 0, r1_any = 0, r2_all = 0, r2_any = 0, u_all = 0,
                 u_any = 0, x_only = 0)
-  expect_equal(all_same, 
-               CompareQuartetsMulti(PectinateTree(1:8), PectinateTree(8:1))[-1])
-  expect_equal(all_same,
-               CompareQuartetsMulti(BalancedTree(1:8), 
-                                    list(BalancedTree(8:1), 
-                                         BalancedTree(c(1, 2, 4, 3, 8:5))))[-1])
+  expect_equal(CompareQuartetsMulti(PectinateTree(1:8), PectinateTree(8:1))[-1],
+               all_same)
+  expect_equal(
+    CompareQuartetsMulti(BalancedTree(1:8), 
+                         list(BalancedTree(8:1), 
+                              BalancedTree(c(1, 2, 4, 3, 8:5))))[-1],
+    all_same)
   
   # Same representation, different labels
-  expect_equivalent(c(210, 70, 53, 53, 17, 17, rep(0, 6), 17),
-               CompareQuartetsMulti(BalancedTree(1:8), 
-                                    list(BalancedTree(c(1, 3, 2, 4, 5:8)),
-                                         BalancedTree(c(1, 3, 2, 4, 8:5)))))
-})
-
-test_that("quartets are correctly indexed", {
-  expect_error(which_index(c(4,3,2,0), 1))
-  expect_equal(seq_len(15) - 1L, apply(all_quartets(6) - 1L, 2, which_index, 6))
-  expect_equal(AllQuartets(6), AllQuartets(BalancedTree(6)))
+  expect_equal(
+    unname(CompareQuartetsMulti(BalancedTree(1:8),
+                         list(BalancedTree(c(1, 3, 2, 4, 5:8)),
+                              BalancedTree(c(1, 3, 2, 4, 8:5))))),
+    c(210, 70, 53, 53, 17, 17, rep(0, 6), 17))
 })
