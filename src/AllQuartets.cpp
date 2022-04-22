@@ -71,13 +71,17 @@ int which_index(IntegerVector indices, IntegerVector m) {
   if (a < 0) {
     throw std::range_error("indices[0] must be positive");
   }
-  if (d >= n_tips) throw std::range_error("indices[4] must be less than m");
+  if (d >= n_tips) {
+    throw std::range_error("indices[3] must be less than m");
+  }
   if (a < b && b < c && c < d) {
     return (hyp_num[choices1] - hyp_num[choices1 - chosen1])
          + (tet_num[choices2] - tet_num[choices2 - chosen2])
          + (tri_num[choices3] - tri_num[choices3 - chosen3])
          + chosen4;
-  } else throw std::range_error("a < b < c < d not satisfied");
+  } else {
+    throw std::range_error("a < b < c < d not satisfied");
+  }
 }
 
 int32 n_quartets(int16 n_tips) {
