@@ -51,6 +51,9 @@ int which_index(IntegerVector indices, IntegerVector m) {
   if (indices.length() != 4) {
     throw std::length_error("4 indices needed");
   }
+  if (m[0] > int(QD_MAX_TIPS)) {
+    throw std::range_error("Too many tips for which_index()");
+  }
   const int16
     n_tips = m[0],
     a = indices[0],
@@ -65,9 +68,6 @@ int which_index(IntegerVector indices, IntegerVector m) {
     chosen3 = c - b - 1,
     chosen4 = d - c - 1
   ;
-  if (n_tips > QD_MAX_TIPS) {
-    throw std::range_error("Too many tips for which_index()");
-  }
   if (a < 0) {
     throw std::range_error("indices[0] must be positive");
   }
