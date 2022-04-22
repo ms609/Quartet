@@ -1,6 +1,7 @@
 # Quartet v1.2.3.9000
 
- - Copy-edit documentation
+ - `QuartetStates()` handles absent leaves gracefully.
+ - Copy-edit documentation.
 
 # Quartet v1.2.3
 

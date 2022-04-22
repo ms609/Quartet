@@ -79,7 +79,9 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
   if (is.null(nTip)) {
     SingleTreeQuartetAgreement(trees, comparison = cf)
   } else {
-    if (isTRUE(nTip)) nTip <- length(AllTipLabels(c(list(cf), c(trees))))
+    if (isTRUE(nTip)) {
+      nTip <- length(AllTipLabels(c(list(cf), c(trees))))
+    }
     Q <- choose(nTip, 4)
     status <- vapply(c(trees), function (x) {
       commonLabels <- intersect(TipLabels(x), TipLabels(cf))
