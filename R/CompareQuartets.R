@@ -51,9 +51,9 @@ AllQuartets.phylo <- function (nTips) AllQuartets(NTip(nTips))
 #'
 #' @param tips A four-element array listing a quartet of leaves, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
-#' @param splits An object that can be induced to a `Splits` object using
-#'   \code{\link[TreeTools]{as.Splits}}.
-#' @param bips Depreciated; included for compatibility with v1.0.2 and below.
+#' @param splits An object, such as a tree of class `phylo`, that can be
+#'  induced to a `Splits` object using \code{\link[TreeTools]{as.Splits}}.
+#' @param bips Deprecated; included for compatibility with v1.0.2 and below.
 #' @param asRaw Logical specifying whether return format should be `raw`,
 #' which uses less memory and can be processed faster than `integer` type.
 #' Default is currently set to `FALSE` for backwards compatibility; suggest
