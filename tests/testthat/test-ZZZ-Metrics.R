@@ -1,6 +1,4 @@
-context("Distances: Quartet distances")
-
-data('sq_trees')
+data("sq_trees")
 ref_tree <- sq_trees$ref_tree
 Metrics <- list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions,
                 SemiStrictJointAssertions, SymmetricDifference,
@@ -129,7 +127,6 @@ test_that("Cleanup was successful", {
   expect_identical(character(0), list.files(pattern='~temp.*'))
 })
 
-context("Distances: Partition distances")
 test_that ("Partitions are counted correctly", {
   p_dist <- SplitStatus(sq_trees)
   unrooted_trees <- lapply(sq_trees, ape::unroot)

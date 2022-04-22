@@ -1,4 +1,3 @@
-context("PartitionDistance.R")
 library("TreeTools", quietly = TRUE)
 
 data("sq_trees")
