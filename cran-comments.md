@@ -1,7 +1,7 @@
 ## Test environments
 
 * Local PC:
-  - Windows 10, R 4.1.2
+  - Windows 10, R 4.2.0
 
 * [GitHub Actions](https://github.com/ms609/Quartet/actions)
   - Ubuntu 20.04
@@ -16,18 +16,7 @@
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs.
-There was one NOTE:
-
-> Found the following URLs which should use \doi (with the DOI name only):
-  File 'CompareQuartets.Rd':
-    https://doi.org/10.2307/2413326
-  [...]
-
-The DOI links are generated automatically using "Rdpack" macros, so cannot
-be manually replaced in the .Rd files.  This should be addressed in a future
-release of the Rdpack package.
-
+There were no ERRORs or WARNINGs or NOTEs.
 
 ## Downstream dependencies
 
