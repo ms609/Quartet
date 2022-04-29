@@ -186,6 +186,5 @@ You may wish to:
 - Review [alternative distance measures](https://ms609.github.io/TreeDist/index.html)
   and corresponding [functions](https://ms609.github.io/TreeDist/reference/index.html#section-tree-distance-measures)
 
-- [Interpret](https://ms609.github.io/TreeDist/articles/Tree-distance-interpretation.html)
-  or [contextualize](https://ms609.github.io/TreeDist/articles/using-distances.html) 
+- [Interpret or contextualize](https://ms609.github.io/TreeDist/articles/using-distances.html) 
   tree distance metrics
