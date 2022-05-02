@@ -181,7 +181,7 @@ in `interestingTree`, but not resolved that way in any `referenceTrees`.
 
 You may wish to:
 
-- [Read more](Quartet-Distance.html) about Quartet distances
+- [Read more](https://ms609.github.io/Quartet/articles/Quartet-Distance.html) about Quartet distances
 
 - Review [alternative distance measures](https://ms609.github.io/TreeDist/index.html)
   and corresponding [functions](https://ms609.github.io/TreeDist/reference/index.html#section-tree-distance-measures)
