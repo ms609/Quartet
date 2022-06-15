@@ -1,3 +1,13 @@
+# Quartet v1.2.4
+
+ - `QuartetStates()` handles absent leaves gracefully.
+ - Copy-edit documentation.
+
+# Quartet v1.2.3
+
+ - Replace deprecated function `TreeTools::in.Splits()`.
+ - Update test cases in readiness for TreeTools v1.7.0.
+ 
 # Quartet v1.2.2
 
  - Package 'vdiffr' now used conditionally.

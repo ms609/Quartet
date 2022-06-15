@@ -137,8 +137,8 @@ given the number of tips \insertCite{Smith2019}{Quartet}:
 \item Symmetric Divergence: (\emph{d} + \emph{d} + \emph{r1} + \emph{r2}) / \emph{N}
 }
 
-Finally, in cases where a reconstructed tree is being compared to a
-reference tree taken to represent 'true' relationships,
+Finally, in cases where a reconstructed tree \code{r1} is being compared to a
+reference tree \code{r2} taken to represent 'true' relationships,
 a symmetric difference is not desired.
 In such settings, the desired score is the expectation that a given
 quartet's resolution in the reconstructed tree is 'correct', given by

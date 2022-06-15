@@ -64,7 +64,7 @@ data('sq_trees')
 # Calculate the status of each quartet
 splitStatuses <- SplitStatus(sq_trees)
 
-# Calculate the raw symmetric difference (i.e. Robinsonâ€“Foulds distance)
+# Calculate the raw symmetric difference (i.e. Robinson–Foulds distance)
 RawSymmetricDifference(splitStatuses)
 
 # Normalize the Robinson Foulds distance by dividing by the number of 

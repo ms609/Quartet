@@ -1,11 +1,10 @@
-context('CompareQuartets.R')
 # See also: test-QuartetStates.R
-library('TreeTools')
+library("TreeTools")
 
 TreePath <- function (fileName) {
-  paste0(system.file(package='Quartet'), '/trees/', fileName, '.new')
+  paste0(system.file(package = "Quartet"), "/trees/", fileName, ".new")
 }
-quartets <- ape::read.tree(TreePath('all_quartets'))
+quartets <- ape::read.tree(TreePath("all_quartets"))
 
 test_that("QuartetStates() works", {
   expect_equal(3L, QuartetStates(quartets[[1]]))
@@ -25,20 +24,23 @@ test_that("QuartetStates() works", {
   funnyNodes5 <- structure(list(
     edge = matrix(c(6, 6, 6, 8, 8, 7, 7,
                     1, 2, 8, 3, 7, 4, 5), 7L, 2L),
-    tip.label = paste0('t', 1:5),
-    Nnode = 3L), class = 'phylo')
+    tip.label = paste0("t", 1:5),
+    Nnode = 3L), class = "phylo")
   expect_equal(rep(3L, 5), QuartetStates(funnyNodes5))
 })
 
 test_that("QuartetState() works", {
-  expect_equal(as.raw(3L),
-               QuartetState(letters[1:4], as.Splits(quartets[[1]]), asRaw = TRUE))
-  expect_equal(as.raw(2L),
-               QuartetState(letters[1:4], as.Splits(quartets[[2]]), asRaw = TRUE))
-  expect_equal(as.raw(1L),
-               QuartetState(letters[1:4], as.Splits(quartets[[3]]), asRaw = TRUE))
-  expect_equal(as.raw(0L),
-               QuartetState(letters[1:4], as.Splits(quartets[[4]]), asRaw = TRUE))
+  expect_equal(QuartetState(letters[1:4], as.Splits(quartets[[1]]), asRaw = TRUE),
+               as.raw(3L))
+  expect_equal(QuartetState(letters[1:4], as.Splits(quartets[[2]]), asRaw = TRUE),
+               as.raw(2L))
+  expect_equal(QuartetState(letters[1:4], as.Splits(quartets[[3]]), asRaw = TRUE),
+               as.raw(1L))
+  expect_equal(QuartetState(letters[1:4], as.Splits(quartets[[4]]), asRaw = TRUE),
+               as.raw(0L))
+  expect_equal(QuartetState(letters[2:5], as.Splits(quartets[[2]])), 0L)
+  expect_warning(expect_equal(QuartetState(2:5, as.Splits(quartets[[2]])), 0L),
+                 "`splits` contains 4 leaves but `tips` includes \"5\"")
 })
 
 
@@ -64,7 +66,7 @@ test_that("CompareQuartetsMulti() fails if leaves don't match", {
 })
 
 
-test_that('CompareQuartetsMulti() gets values correct', {
+test_that("CompareQuartetsMulti() gets values correct", {
   bal <- BalancedTree(6L)
   pec <- PectinateTree(6L)
   rnd <- CollapseNode(as.phylo(1337, 6L), 8:9)
@@ -76,21 +78,21 @@ test_that('CompareQuartetsMulti() gets values correct', {
     pec = QuartetStates(RenumberTips(pec, bal), T),
     prt = QuartetStates(RenumberTips(part, bal), T)
   )
-  rownames(index) <- apply(AllQuartets(6), 2, paste0, collapse = '')
+  rownames(index) <- apply(AllQuartets(6), 2, paste0, collapse = "")
   
   expect_equivalent(as.raw(c(1, 2, 1, 2, 0, 1, 2, 0, 1, 0, 1, 3, 2, 2, 2)), 
-                    index[, 'rnd'])
+                    index[, "rnd"])
   expect_equivalent(as.raw(c(3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 1)), 
-                    index[, 'bal'])
+                    index[, "bal"])
   expect_equivalent(as.raw(rep(3, 15)),
-                    index[, 'pec'])
+                    index[, "pec"])
   expect_equivalent(as.raw(c(0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 0, 0, 3, 3, 3)), 
-                    index[, 'prt'])
+                    index[, "prt"])
   index
   
   # par (mfrow = c(2, 2), mar = rep(0.1, 4))
-  # plot(rnd, main='rnd'); plot(bal, main='bal')
-  # plot(pec, main = 'pec'); plot(part, main = 'part')
+  # plot(rnd, main="rnd"); plot(bal, main="bal")
+  # plot(pec, main = "pec"); plot(part, main = "part")
   
   expect_equal(c(N = 15 * 4, Q = 15, s_all = 0, s_any = 6, #1..4
                  d_all = 0, d_any = 6, r1_all = 0, r1_any = 1, # 5..8
@@ -113,28 +115,22 @@ test_that('CompareQuartetsMulti() gets values correct', {
                CompareQuartetsMulti(star, part))
 })
 
-test_that('CompareQuartetsMulti() insensitive to label order', {
+test_that("CompareQuartetsMulti() insensitive to label order", {
   all_same <- c(Q = 70, s_all = 70, s_any = 70, d_all = 0, d_any = 0,
                 r1_all = 0, r1_any = 0, r2_all = 0, r2_any = 0, u_all = 0,
                 u_any = 0, x_only = 0)
-  expect_equal(all_same, 
-               CompareQuartetsMulti(PectinateTree(1:8), PectinateTree(8:1))[-1])
-  expect_equal(all_same,
-               CompareQuartetsMulti(BalancedTree(1:8), 
-                                    list(BalancedTree(8:1), 
-                                         BalancedTree(c(1, 2, 4, 3, 8:5))))[-1])
+  expect_equal(CompareQuartetsMulti(PectinateTree(1:8), PectinateTree(8:1))[-1],
+               all_same)
+  expect_equal(
+    CompareQuartetsMulti(BalancedTree(1:8), 
+                         list(BalancedTree(8:1), 
+                              BalancedTree(c(1, 2, 4, 3, 8:5))))[-1],
+    all_same)
   
   # Same representation, different labels
-  expect_equivalent(c(210, 70, 53, 53, 17, 17, rep(0, 6), 17),
-               CompareQuartetsMulti(BalancedTree(1:8), 
-                                    list(BalancedTree(c(1, 3, 2, 4, 5:8)),
-                                         BalancedTree(c(1, 3, 2, 4, 8:5)))))
-})
-
-context("AllQuartets.cpp")
-
-test_that("quartets are correctly indexed", {
-  expect_error(which_index(c(4,3,2,0), 1))
-  expect_equal(seq_len(15) - 1L, apply(all_quartets(6) - 1L, 2, which_index, 6))
-  expect_equal(AllQuartets(6), AllQuartets(BalancedTree(6)))
+  expect_equal(
+    unname(CompareQuartetsMulti(BalancedTree(1:8),
+                         list(BalancedTree(c(1, 3, 2, 4, 5:8)),
+                              BalancedTree(c(1, 3, 2, 4, 8:5))))),
+    c(210, 70, 53, 53, 17, 17, rep(0, 6), 17))
 })

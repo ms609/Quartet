@@ -51,9 +51,9 @@ AllQuartets.phylo <- function (nTips) AllQuartets(NTip(nTips))
 #'
 #' @param tips A four-element array listing a quartet of leaves, either by their
 #'             number (if class `numeric`) or their name (if class `character`).
-#' @param splits An object that can be induced to a `Splits` object using
-#'   \code{\link[TreeTools]{as.Splits}}.
-#' @param bips Depreciated; included for compatibility with v1.0.2 and below.
+#' @param splits An object, such as a tree of class `phylo`, that can be
+#'  induced to a `Splits` object using \code{\link[TreeTools]{as.Splits}}.
+#' @param bips Deprecated; included for compatibility with v1.0.2 and below.
 #' @param asRaw Logical specifying whether return format should be `raw`,
 #' which uses less memory and can be processed faster than `integer` type.
 #' Default is currently set to `FALSE` for backwards compatibility; suggest
@@ -91,16 +91,24 @@ AllQuartets.phylo <- function (nTips) AllQuartets(NTip(nTips))
 #' @importFrom TreeTools Subsplit as.Splits
 #' @export
 QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
-  statement <- Subsplit(as.Splits(splits), tips, keepAll = FALSE, 
-                        unique = TRUE)[1]
-  ret <- if (statement == 0L) {
-    0L
-  } else if (statement == 3L || statement == 12L) {
-    3L
-  } else if (statement == 5L || statement == 10L) {
-    2L
+  if ((is.character(tips) && !all(tips %in% TipLabels(splits)))) {
+    ret <- 0L
+  } else if (is.numeric(tips) && max(tips) > NTip(splits)) {
+    warning("`splits` contains ", NTip(splits), " leaves but `tips` includes \"",
+            max(tips), "\"")
+    ret <- 0L
   } else {
-    1L
+    statement <- Subsplit(as.Splits(splits), tips, keepAll = FALSE, 
+                          unique = TRUE)[1]
+    ret <- if (statement == 0L) {
+      0L
+    } else if (statement == 3L || statement == 12L) {
+      3L
+    } else if (statement == 5L || statement == 10L) {
+      2L
+    } else {
+      1L
+    }
   }
   
   # Return:

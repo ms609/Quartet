@@ -1,5 +1,3 @@
-context("Counting unresolved quartets in a single tree")
-
 TreePath <- function (fileName) {
   paste0(system.file(package='Quartet'), '/trees/', fileName, '.new')
 }

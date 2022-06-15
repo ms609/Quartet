@@ -3,17 +3,17 @@ title: "Getting started with Quartet"
 author: "Martin R. Smith"
 date: "`r Sys.Date()`"
 output: 
+  rmarkdown::html_document:
   bookdown::pdf_document2:
     includes:
       in_header: ../inst/preamble.tex
     number_sections: false
-  rmarkdown::html_document:
 bibliography: ../inst/REFERENCES.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa-old-doi-prefix.csl
 vignette: >
   %\VignetteIndexEntry{Getting started with Quartet}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 This document should contain all you need to get started measuring tree 
@@ -132,6 +132,38 @@ status <- TwoListQuartetAgreement(forest[1:4], forest[5:6])
 QuartetDivergence(status, similarity = FALSE)
 ```
 
+## Trees with different tip labels
+
+"Quartet" can compare trees of different sizes or with non-identical sets of
+taxa.  Quartets pertaining to a leaf that does not occur in one tree are treated
+as unresolved.
+
+```{r different-tips, fig.height = 1.5, fig.width = 4, fig.align = "center"}
+treeAG <- PectinateTree(letters[1:7])
+treeBI <- PectinateTree(letters[2:9])
+treeEJ <- PectinateTree(letters[5:10])
+par(mfrow = c(1, 3), mar = rep(0.3, 4), cex = 1)
+plot(treeAG); plot(treeBI); plot(treeEJ)
+
+QuartetState(letters[1:4], treeAG) # 3: C is closest to D
+QuartetState(letters[1:4], treeBI) # 0: unresolved in this tree
+
+# Calculate status for all leaves observed in trees: here, A..I
+QuartetStatus(treeAG, treeBI, nTip = TRUE)
+
+# Calculate status for specified number of leaves
+# Here, we have ten taxa A..J, but J does not occur in either of these trees
+QuartetStatus(treeAG, treeBI, nTip = 10)
+
+# Compare a list of trees with different numbers of leaves to a reference
+QuartetStatus(c(treeAG, treeBI, treeEJ), cf = treeAG, nTip = TRUE)
+
+# Compare all pairs of trees in a list.
+# "u" shows how many possible quartets are unresolved in both trees
+ManyToManyQuartetAgreement(c(treeAG, treeBI, treeEJ), nTip = TRUE)[, , "u"]
+```
+
+
 ## Other calculations
 
 To calculate how many quartets are unique to a certain tree (akin to
@@ -149,11 +181,10 @@ in `interestingTree`, but not resolved that way in any `referenceTrees`.
 
 You may wish to:
 
-- [Read more](Quartet-Distance.html) about Quartet distances
+- [Read more](https://ms609.github.io/Quartet/articles/Quartet-Distance.html) about Quartet distances
 
 - Review [alternative distance measures](https://ms609.github.io/TreeDist/index.html)
   and corresponding [functions](https://ms609.github.io/TreeDist/reference/index.html#section-tree-distance-measures)
 
-- [Interpret](https://ms609.github.io/TreeDist/articles/Tree-distance-interpretation.html)
-  or [contextualize](https://ms609.github.io/TreeDist/articles/using-distances.html) 
+- [Interpret or contextualize](https://ms609.github.io/TreeDist/articles/using-distances.html) 
   tree distance metrics

@@ -22,10 +22,10 @@ QuartetStates(splits, asRaw = FALSE)
 \item{tips}{A four-element array listing a quartet of leaves, either by their
 number (if class \code{numeric}) or their name (if class \code{character}).}
 
-\item{bips}{Depreciated; included for compatibility with v1.0.2 and below.}
+\item{bips}{Deprecated; included for compatibility with v1.0.2 and below.}
 
-\item{splits}{An object that can be induced to a \code{Splits} object using
-\code{\link[TreeTools]{as.Splits}}.}
+\item{splits}{An object, such as a tree of class \code{phylo}, that can be
+induced to a \code{Splits} object using \code{\link[TreeTools]{as.Splits}}.}
 
 \item{asRaw}{Logical specifying whether return format should be \code{raw},
 which uses less memory and can be processed faster than \code{integer} type.

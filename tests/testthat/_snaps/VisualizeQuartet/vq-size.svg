@@ -109,6 +109,7 @@
 <text x='326.21' y='80.96' style='font-size: 7.68px; font-style: italic; font-family: sans;' textLength='10.68px' lengthAdjust='spacingAndGlyphs'>t18</text>
 <text x='326.21' y='53.00' style='font-size: 7.68px; font-style: italic; font-family: sans;' textLength='10.68px' lengthAdjust='spacingAndGlyphs'>t19</text>
 <text x='326.21' y='25.04' style='font-size: 7.68px; font-style: italic; font-family: sans;' textLength='10.68px' lengthAdjust='spacingAndGlyphs'>t20</text>
+<circle cx='178.51' cy='417.31' r='16.71' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' />
 <circle cx='260.56' cy='487.20' r='14.22' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' />
 <circle cx='293.38' cy='518.65' r='8.86' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' />
 <circle cx='309.80' cy='539.62' r='5.43' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' />
@@ -117,7 +118,6 @@
 <circle cx='293.38' cy='378.86' r='7.83' style='stroke-width: 0.75; stroke: none; fill: #26828E;' />
 <circle cx='309.80' cy='399.83' r='5.43' style='stroke-width: 0.75; stroke: none; fill: #20A386;' />
 <circle cx='309.80' cy='315.96' r='2.84' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' />
-<circle cx='178.51' cy='137.73' r='16.71' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' />
 <circle cx='260.56' cy='207.62' r='11.48' style='stroke-width: 0.75; stroke: none; fill: #218E8D;' />
 <circle cx='293.38' cy='239.07' r='4.93' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' />
 <circle cx='309.80' cy='260.04' r='2.84' style='stroke-width: 0.75; stroke: none; fill: #FDE725;' />

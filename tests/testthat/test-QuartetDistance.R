@@ -1,5 +1,4 @@
-context("QuartetDistance.R")
-data('sq_trees')
+data("sq_trees")
 
 test_that("Distances are calculated from strings", {
   set.seed(0)

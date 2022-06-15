@@ -1,22 +1,20 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "Quartet",
-  "description": "Calculates the number of four-taxon subtrees consistent with a pair\n  of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986),\n  Reconstructing the shape of a tree from observed dissimilarity data,\n  Advances in Applied Mathematics, 7, 309-343 <doi:10.1016/0196-8858(86)90038-2>, \n  and using the tqDist algorithm of Sand et al. (2014), tqDist: a library for\n  computing the quartet and triplet distances between binary or general trees,\n  Bioinformatics, 30, 2079–2080 <doi:10.1093/bioinformatics/btu157>\n  for pairs of binary trees.",
+  "description": "Calculates the number of four-taxon subtrees consistent with a pair of cladograms, calculating the symmetric quartet distance of Bandelt & Dress (1986), Reconstructing the shape of a tree from observed dissimilarity data, Advances in Applied Mathematics, 7, 309-343 <doi:10.1016/0196-8858(86)90038-2>, and using the tqDist algorithm of Sand et al. (2014), tqDist: a library for computing the quartet and triplet distances between binary or general trees, Bioinformatics, 30, 2079–2080 <doi:10.1093/bioinformatics/btu157> for pairs of binary trees.",
   "name": "Quartet: Comparison of Phylogenetic Trees Using Quartet and Split Measures",
+  "relatedLink": "https://ms609.github.io/Quartet/",
   "codeRepository": "https://github.com/ms609/Quartet/",
   "issueTracker": "https://github.com/ms609/Quartet/issues/",
   "license": "https://spdx.org/licenses/GPL-2.0",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
+  "runtimePlatform": "R version 4.2.0 (2022-04-22)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -32,7 +30,6 @@
       "@id": "https://orcid.org/0000-0001-5660-1727"
     }
   ],
-  "contributor": {},
   "copyrightHolder": [
     {
       "@type": "Person",
@@ -42,7 +39,6 @@
       "@id": "https://orcid.org/0000-0001-5660-1727"
     }
   ],
-  "funder": {},
   "maintainer": [
     {
       "@type": "Person",
@@ -150,52 +146,14 @@
       "sameAs": "https://CRAN.R-project.org/package=vdiffr"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.4.0"
     },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "ape",
-      "name": "ape",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=ape"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "Rdpack",
-      "name": "Rdpack",
-      "version": ">= 0.7",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=Rdpack"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "Ternary",
-      "name": "Ternary",
-      "version": ">= 1.0",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=Ternary"
-    },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
@@ -208,7 +166,45 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=TreeTools"
     },
-    {
+    "3": {
+      "@type": "SoftwareApplication",
+      "identifier": "ape",
+      "name": "ape",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ape"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
+      "identifier": "Rdpack",
+      "name": "Rdpack",
+      "version": ">= 0.7",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Rdpack"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
+      "identifier": "Ternary",
+      "name": "Ternary",
+      "version": ">= 1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Ternary"
+    },
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "viridisLite",
       "name": "viridisLite",
@@ -220,26 +216,9 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=viridisLite"
     },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "https://sysreqs.r-hub.io/get/cxx11"
-    }
-  ],
-  "releaseNotes": "https://github.com/ms609/Quartet/blob/master/NEWS.md",
-  "readme": "https://github.com/ms609/Quartet/blob/master/README.md",
-  "contIntegration": ["https://travis-ci.org/ms609/Quartet", "https://codecov.io/gh/ms609/Quartet"],
-  "developmentStatus": "https://www.repostatus.org/#inactive",
-  "keywords": [
-    "phylogenetics",
-    "bioinformatics",
-    "research-tool",
-    "quartet",
-    "tree",
-    "cran",
-    "phylogenetic-trees",
-    "quartet-distance",
-    "comparison"
-  ],
+    "SystemRequirements": "C++11"
+  },
+  "fileSize": "666.415KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -253,7 +232,7 @@
       ],
       "name": "Quartet: comparison of phylogenetic trees using quartet and split measures",
       "identifier": "10.5281/zenodo.2536318",
-      "description": "R package version ",
+      "description": "R package version 1.2.4",
       "@id": "https://doi.org/10.5281/zenodo.2536318",
       "sameAs": "https://doi.org/10.5281/zenodo.2536318"
     },
@@ -334,11 +313,5 @@
         }
       }
     }
-  ],
-  "relatedLink": [
-    "https://CRAN.R-project.org/package=Quartet",
-    "https://ms609.github.io/Quartet",
-    "https://ms609.github.io/Quartet/"
-  ],
-  "fileSize": "559.369KB"
+  ]
 }

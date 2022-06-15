@@ -1,4 +1,3 @@
-context("CompareQuartets.R: QuartetStates()")
 #' Closest to tip 1 in each split
 #' 
 #' @param tips Vector of length four specifying index of tips to consider.

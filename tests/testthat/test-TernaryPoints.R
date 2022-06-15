@@ -1,6 +1,4 @@
-context("Plotting functions")
-
-data('sq_trees')
+data("sq_trees")
 
 test_that("Splits comparisons are correct", {
   

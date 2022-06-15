@@ -48,7 +48,12 @@ IntegerMatrix all_quartets(IntegerVector nTips) {
 
 // [[Rcpp::export]]
 int which_index(IntegerVector indices, IntegerVector m) {
-  if (indices.length() != 4) throw std::length_error("4 indices needed");
+  if (indices.length() != 4) {
+    Rcpp::stop("4 indices needed");
+  }
+  if (m[0] > int(QD_MAX_TIPS)) {
+    Rcpp::stop("Too many tips for which_index()");
+  }
   const int16
     n_tips = m[0],
     a = indices[0],
@@ -63,15 +68,20 @@ int which_index(IntegerVector indices, IntegerVector m) {
     chosen3 = c - b - 1,
     chosen4 = d - c - 1
   ;
-  if (n_tips > QD_MAX_TIPS) throw std::range_error("Too many tips for which_index()");
-  if (a < 0) throw std::range_error("indices[0] must be positive");
-  if (d >= n_tips) throw std::range_error("indices[4] must be less than m");
+  if (a < 0) {
+    Rcpp::stop("indices[0] must be positive");
+  }
+  if (d >= n_tips) {
+    Rcpp::stop("indices[3] must be less than m");
+  }
   if (a < b && b < c && c < d) {
     return (hyp_num[choices1] - hyp_num[choices1 - chosen1])
          + (tet_num[choices2] - tet_num[choices2 - chosen2])
          + (tri_num[choices3] - tri_num[choices3 - chosen3])
          + chosen4;
-  } else throw std::range_error("a < b < c < d not satisfied");
+  } else {
+    Rcpp::stop("a < b < c < d not satisfied");
+  }
 }
 
 int32 n_quartets(int16 n_tips) {
@@ -81,8 +91,12 @@ int32 n_quartets(int16 n_tips) {
 // [[Rcpp::export]]
 RawVector quartet_states(RawMatrix splits) {
   const int16 n_tip = splits.attr("nTip");
-  if (n_tip > QD_MAX_TIPS) throw std::range_error("Too many leaves for quartet_states()");
-  if (n_tip < 4) throw std::range_error("Need four leaves to define quartets");
+  if (n_tip > QD_MAX_TIPS) {
+    Rcpp::stop("Too many leaves for quartet_states()");
+  }
+  if (n_tip < 4) {
+    Rcpp::stop("Need four leaves to define quartets");
+  }
   
   const unsigned char bitmask[8] = {1U, 2U, 4U, 8U, 16U, 32U, 64U, 128U};
   RawVector ret(n_quartets(n_tip));

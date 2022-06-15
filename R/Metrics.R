@@ -69,8 +69,8 @@
 #' 
 #' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / _N_
 #' 
-#' Finally, in cases where a reconstructed tree is being compared to a
-#' reference tree taken to represent 'true' relationships,
+#' Finally, in cases where a reconstructed tree `r1` is being compared to a
+#' reference tree `r2` taken to represent 'true' relationships,
 #' a symmetric difference is not desired.
 #' In such settings, the desired score is the expectation that a given 
 #' quartet's resolution in the reconstructed tree is 'correct', given by

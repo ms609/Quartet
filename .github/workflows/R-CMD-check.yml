@@ -5,10 +5,32 @@ on:
     branches:
       - main
       - master
+    paths-ignore:
+      - "Meta**"
+      - "memcheck**"
+      - "docs**"
+      - "**.git"
+      - "**.json"
+      - "**.md"
+      - "**.yml"
+      - "!**R-cmd-check.yml"
+      - "**.R[dD]ata"
+      - "**.Rpro*"
   pull_request:
     branches:
       - main
       - master
+    paths-ignore:
+      - "Meta**"
+      - "memcheck**"
+      - "docs**"
+      - "**.git"
+      - "**.json"
+      - "**.md"
+      - "**.yml"
+      - "!**R-cmd-check.yml"
+      - "**.R[dD]ata"
+      - "**.Rpro*"
 
 name: R-CMD-check
 
@@ -24,11 +46,12 @@ jobs:
         config:
           - {os: windows-latest, r: 'release'}
           - {os: macOS-latest, r: 'release'}
-          - {os: ubuntu-20.04, r: '3.4.0', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-20.04, r: '3.4', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
           - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
+      _R_CHECK_FORCE_SUGGESTS_: false
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -36,11 +59,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
 
-      - uses: r-lib/actions/setup-pandoc@v1
+      - uses: r-lib/actions/setup-pandoc@v2
 
       - name: Query dependencies
         run: |
