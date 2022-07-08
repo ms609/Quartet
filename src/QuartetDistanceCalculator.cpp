@@ -220,10 +220,6 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   if (unrootedTrees.size() == 0) {
     Rcpp::stop("Error: Failed to parse input edges");
   }
-  if (parser.isError()) {
-    DELETE_TREES(unrootedTrees);
-    Rcpp::stop("Error: Failed to parse input edges");
-  }
 
   const std::vector<std::vector<INTTYPE_N4> > results = 
     calculateAllPairsQuartetDistance(unrootedTrees);
@@ -256,16 +252,14 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   
   std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiFile(filename);
   if (unrootedTrees.size() == 0 || parser.isError()) {
+    DELETE_TREES(unrootedTrees);
     Rcpp::stop("Error: Failed to parse filename");
   }
   
   const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
     calculateAllPairsQuartetAgreement(unrootedTrees);
   
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
+  DELETE_TREES(unrootedTrees);
   
   return results;
 }
@@ -277,16 +271,14 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   
   std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiStr(string);
   if (unrootedTrees.size() == 0 || parser.isError()) {
+    DELETE_TREES(unrootedTrees);
     Rcpp::stop("Error: Failed to parse input string");
   }
   
   const std::vector<std::vector<std::vector<INTTYPE_N4> > > results = 
     calculateAllPairsQuartetAgreement(unrootedTrees);
   
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
+  DELETE_TREES(unrootedTrees);
   
   return results;
 }
