@@ -95,7 +95,7 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
     oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
   delete unrootedSingle;
   for(size_t i = unrootedMultiple.size(); i--; ) {
-    UnrootedTree * tmp = unrootedTrees[i];
+    UnrootedTree * tmp = unrootedMultiple[i];
     delete tmp;
   }
   
