@@ -200,16 +200,14 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   
   std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiStr(string); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
+    DELETE_TREES(unrootedTrees);
     Rcpp::stop("Error: Failed to parse input string");
   }
 
   const std::vector<std::vector<INTTYPE_N4> > results = 
     calculateAllPairsQuartetDistance(unrootedTrees);
 
-  for(size_t i = unrootedTrees.size(); i--; ) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
+  DELETE_TREES(unrootedTrees);
 
   return results;
 }
@@ -222,14 +220,15 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   if (unrootedTrees.size() == 0) {
     Rcpp::stop("Error: Failed to parse input edges");
   }
+  if (parser.isError()) {
+    DELETE_TREES(unrootedTrees);
+    Rcpp::stop("Error: Failed to parse input edges");
+  }
 
   const std::vector<std::vector<INTTYPE_N4> > results = 
     calculateAllPairsQuartetDistance(unrootedTrees);
-
-  for(size_t i = unrootedTrees.size(); i--; ) {
-    UnrootedTree * tmp = unrootedTrees[i];
-    delete tmp;
-  }
+  
+  DELETE_TREES(unrootedTrees);
 
   return results;
 }
@@ -238,7 +237,7 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees) {
   std::vector<std::vector<INTTYPE_N4> > results(trees.size());
 
-  for(size_t r = 0; r < trees.size(); ++r) {
+  for(size_t r = 0; r != trees.size(); ++r) {
     for(size_t c = 0; c < r; ++c) {
       INTTYPE_N4 distance = calculateQuartetDistance(trees[r], trees[c]);
       results[r].push_back(distance);
