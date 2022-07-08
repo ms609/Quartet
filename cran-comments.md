@@ -1,7 +1,7 @@
 ## Test environments
 
 * Local PC:
-  - Windows 10, R 4.2.0
+  - Windows 10, R Under development (unstable) (2022-05-15 r82362 ucrt)
 
 * [GitHub Actions](https://github.com/ms609/Quartet/actions)
   - Ubuntu 20.04
