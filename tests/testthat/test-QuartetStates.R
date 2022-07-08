@@ -71,7 +71,7 @@ QuartetStatesTest <- function (splits, asRaw = FALSE) {
   }
 }
 
-test_that('QuartetStates() works', {
-  library(TreeTools)
-  expect_equal(QuartetStatesTest(BalancedTree(9)), QuartetStates(BalancedTree(9)))
+test_that("QuartetStates() works", {
+  expect_equal(QuartetStatesTest(TreeTools::BalancedTree(9)),
+               QuartetStates(TreeTools::BalancedTree(9)))
 })

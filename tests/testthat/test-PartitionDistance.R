@@ -60,8 +60,8 @@ test_that("CompareSplits() works", {
   funnyNodes5 <- structure(list(
     edge = matrix(c(6, 6, 6, 8, 8, 7, 7,
                     1, 2, 8, 3, 7, 4, 5), 7L, 2L),
-    tip.label = paste0('t', 1:5),
-    Nnode = 3L), class = 'phylo')
+    tip.label = paste0("t", 1:5),
+    Nnode = 3L), class = "phylo")
   expect_equivalent(c(4, 2, 2, 2, 0, 0, 0, 0),
                     CompareSplits(funnyNodes5, unroot(PectinateTree(5))))
 })

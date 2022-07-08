@@ -17,7 +17,7 @@ test_that("tqDist handles four-leaf trees", {
   trees <- trimmed
   comparison <- char
   .CheckSize(trees)
-  if (inherits(trees, 'phylo')) trees <- list(trees)
+  if (inherits(trees, "phylo")) trees <- list(trees)
   
   comparison <- Preorder(comparison)
   trees[] <- lapply(trees, Preorder)
@@ -28,9 +28,9 @@ test_that("tqDist handles four-leaf trees", {
   edges <- .TreeToEdge(trees, comparison$tip.label)[-1]
   compEdge <- .TreeToEdge(RootTree(comparison, 1))
   
-  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge',
+  AE <- matrix(.Call("_Quartet_tqdist_OneToManyQuartetAgreementEdge",
                      compEdge, edges),
-               ncol = 2L, dimnames = list(NULL, c('A', 'E')))
+               ncol = 2L, dimnames = list(NULL, c("A", "E")))
   
   expect_true(length(AE) > 0) # TODO use non-dummy check
 
@@ -38,8 +38,8 @@ test_that("tqDist handles four-leaf trees", {
   status <- rowSums(vapply(characters, function(char) {
     trimmed <- lapply(splits, keep.tip, TipLabels(char))
     status <- SingleTreeQuartetAgreement(trimmed, char)
-    s <- status[, 's']
-    cbind(concordant = s, decisive = s + status[, 'd'])
+    s <- status[, "s"]
+    cbind(concordant = s, decisive = s + status[, "d"])
   }, matrix(NA_real_, length(splits), 2)), dims = 2)
 
   # Check only that output is valid; this test is for mem-check
@@ -47,11 +47,11 @@ test_that("tqDist handles four-leaf trees", {
 })
 
 TreePath <- function (fileName) {
-  system.file('trees', paste0(fileName, '.new'), package = 'Quartet')
+  system.file("trees", paste0(fileName, ".new"), package = "Quartet")
 }
 
 test_that("Out-of-range errors are detected", {
-  library('TreeTools')
+  library("TreeTools")
   b478 <- BalancedTree(478)
   p478 <- PectinateTree(478)
   c478 <- CollapseNode(PectinateTree(478), 480:585)
@@ -86,11 +86,11 @@ test_that("tqDist returns correct quartet distances", {
   
   expect_equal(OneToManyQuartetAgreement(TreePath("quartet_unresolved"),
                                          TreePath("all_quartets")),
-               matrix(c(rep(0, 7), 1), ncol=2, dimnames=list(NULL, c('A', 'E'))))
+               matrix(c(rep(0, 7), 1), ncol=2, dimnames=list(NULL, c("A", "E"))))
   
   expect_equal(OneToManyQuartetAgreement(TreePath("quartet1"),
                                          TreePath("all_quartets")),
-               matrix(c(1, rep(0, 7)), ncol=2, dimnames=list(NULL, c('A', 'E'))))
+               matrix(c(1, rep(0, 7)), ncol=2, dimnames=list(NULL, c("A", "E"))))
   
   allPairs <- AllPairsQuartetDistance(TreePath("five_trees"))
   
@@ -113,17 +113,17 @@ test_that("tqDist returns correct quartet distances", {
 test_that("tqDist runs from temporary files", {
   allQuartets <- ape::read.tree(TreePath("all_quartets"))
   tqae <- TQAE(allQuartets)
-  expect_equal(dimnames(tqae), list(NULL, NULL, c('A', 'E')))
+  expect_equal(dimnames(tqae), list(NULL, NULL, c("A", "E")))
   expect_equal(dim(tqae), c(4, 4, 2))
-  expect_equal(diag(4), tqae[, , 'A'] + tqae[, , 'E'])
-  expect_equal(c('E' = 1L), tqae[4, 4, 'E'])
+  expect_equal(diag(4), tqae[, , "A"] + tqae[, , "E"])
+  expect_equal(c("E" = 1L), tqae[4, 4, "E"])
   
   mmqa <- ManyToManyQuartetAgreement(allQuartets)
-  expect_equal(tqae[, , 'A'], mmqa[, , 's'])
-  expect_equal(0L, unique(mmqa[, , 'r1'][-c(4, 8, 12)]))
-  expect_equal(1L, unique(mmqa[, , 'r1'][c(4, 8, 12)]))
-  expect_equal(mmqa[, , 'r1'], t(mmqa[, , 'r2']))  
-  expect_equal(tqae[, , 'E'], mmqa[, , 'u'])
+  expect_equal(tqae[, , "A"], mmqa[, , "s"])
+  expect_equal(0L, unique(mmqa[, , "r1"][-c(4, 8, 12)]))
+  expect_equal(1L, unique(mmqa[, , "r1"][c(4, 8, 12)]))
+  expect_equal(mmqa[, , "r1"], t(mmqa[, , "r2"]))  
+  expect_equal(tqae[, , "E"], mmqa[, , "u"])
   
   expect_equal(c(N = 2L, Q = 1L, s = 0, d = 1, r1 = 0, r2 = 0, u = 0),
                SingleTreeQuartetAgreement(allQuartets[[1]], allQuartets[[2]])[1, ])
@@ -178,7 +178,7 @@ test_that("QuartetStatus() with differently-tipped trees", {
                   TextToTree)
   trees <- lapply(trees, function (x) RenumberTips(x, sort(x$tip.label)))
   states <- lapply(trees, QuartetStates)
-  QuartetNames <- function (labels) apply(matrix(labels[AllQuartets(length(labels))], 4), 2, paste0, collapse = '')
+  QuartetNames <- function (labels) apply(matrix(labels[AllQuartets(length(labels))], 4), 2, paste0, collapse = "")
   allNames <- QuartetNames(letters[1:7])
   treeQNames <- lapply(TipLabels(trees), QuartetNames)
   qState <- vapply(seq_along(trees), function (i) {
@@ -207,10 +207,10 @@ test_that("QuartetStatus() with differently-tipped trees", {
   
 })
 
-test_that('.TreeToEdge()', {
+test_that(".TreeToEdge()", {
   # Not called by any function, so test here
   expect_equal(
-    .TreeToEdge.phylo(RenumberTips(BalancedTree(5), paste0('t', 5:1))),
-    .TreeToEdge.phylo(BalancedTree(5), paste0('t', 5:1))
+    .TreeToEdge.phylo(RenumberTips(BalancedTree(5), paste0("t", 5:1))),
+    .TreeToEdge.phylo(BalancedTree(5), paste0("t", 5:1))
   )
 })
