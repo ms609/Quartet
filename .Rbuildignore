@@ -25,3 +25,4 @@ revdep
 ^CONTRIBUTING\.md$
 ^codemeta\.json$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
