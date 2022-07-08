@@ -24,7 +24,7 @@ Input is not checked for sanity."><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -74,49 +74,52 @@ Input is not checked for sanity.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tqdist_QuartetDistance</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span>
-
-<span class="fu">tqdist_QuartetAgreement</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span>
-
-<span class="fu">tqdist_QuartetAgreementEdge</span><span class="op">(</span><span class="va">edge1</span>, <span class="va">edge2</span><span class="op">)</span>
-
-<span class="fu">tqdist_QuartetAgreementChar</span><span class="op">(</span><span class="va">string1</span>, <span class="va">string2</span><span class="op">)</span>
-
-<span class="fu">tqdist_PairsQuartetDistance</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span>
-
-<span class="fu">tqdist_OneToManyQuartetAgreement</span><span class="op">(</span><span class="va">file1</span>, <span class="va">fileMany</span><span class="op">)</span>
-
-<span class="fu">tqdist_OneToManyQuartetAgreementChar</span><span class="op">(</span><span class="va">tree</span>, <span class="va">trees</span><span class="op">)</span>
-
-<span class="fu">tqdist_OneToManyQuartetAgreementEdge</span><span class="op">(</span><span class="va">edge</span>, <span class="va">edges</span><span class="op">)</span>
-
-<span class="fu">tqdist_AllPairsQuartetDistance</span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
-
-<span class="fu">tqdist_AllPairsQuartetDistanceChar</span><span class="op">(</span><span class="va">string</span><span class="op">)</span>
-
-<span class="fu">tqdist_AllPairsQuartetDistanceEdge</span><span class="op">(</span><span class="va">edges</span><span class="op">)</span>
-
-<span class="fu">tqdist_AllPairsQuartetAgreement</span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
-
-<span class="fu">tqdist_AllPairsQuartetAgreementChar</span><span class="op">(</span><span class="va">string</span><span class="op">)</span>
-
-<span class="fu">tqdist_AllPairsQuartetAgreementEdge</span><span class="op">(</span><span class="va">edges</span><span class="op">)</span>
-
-<span class="fu">tqdist_TripletDistance</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span>
-
-<span class="fu">tqdist_PairsTripletDistance</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span>
-
-<span class="fu">tqdist_AllPairsTripletDistance</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tqdist_QuartetDistance</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_QuartetAgreement</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_QuartetAgreementEdge</span><span class="op">(</span><span class="va">edge1</span>, <span class="va">edge2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_QuartetAgreementChar</span><span class="op">(</span><span class="va">string1</span>, <span class="va">string2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_PairsQuartetDistance</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_OneToManyQuartetAgreement</span><span class="op">(</span><span class="va">file1</span>, <span class="va">fileMany</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_OneToManyQuartetAgreementChar</span><span class="op">(</span><span class="va">tree</span>, <span class="va">trees</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_OneToManyQuartetAgreementEdge</span><span class="op">(</span><span class="va">edge</span>, <span class="va">edges</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_AllPairsQuartetDistance</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_AllPairsQuartetDistanceChar</span><span class="op">(</span><span class="va">string</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_AllPairsQuartetDistanceEdge</span><span class="op">(</span><span class="va">edges</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_AllPairsQuartetAgreement</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_AllPairsQuartetAgreementChar</span><span class="op">(</span><span class="va">string</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_AllPairsQuartetAgreementEdge</span><span class="op">(</span><span class="va">edges</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_TripletDistance</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_PairsTripletDistance</span><span class="op">(</span><span class="va">file1</span>, <span class="va">file2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tqdist_AllPairsTripletDistance</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file, file1, file2</dt>
 <dd><p>Paths to files containing a tree or trees in Newick format.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The distance between the requested trees.</p>
+    
+
+<p>The distance between the requested trees.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -168,7 +171,7 @@ ISSN 1460-2059, <a href="https://doi.org/10.1093/bioinformatics/btu157" class="e
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -24,7 +24,7 @@ A more computationally efficient alternative to combn."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -74,13 +74,13 @@ A more computationally efficient alternative to combn."><!-- mathjax --><script 
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">AllQuartets</span><span class="op">(</span><span class="va">nTips</span><span class="op">)</span>
-
-<span class="co"># S3 method for numeric</span>
-<span class="fu">AllQuartets</span><span class="op">(</span><span class="va">nTips</span><span class="op">)</span>
-
-<span class="co"># S3 method for phylo</span>
-<span class="fu">AllQuartets</span><span class="op">(</span><span class="va">nTips</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">AllQuartets</span><span class="op">(</span><span class="va">nTips</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for numeric</span></span>
+<span><span class="fu">AllQuartets</span><span class="op">(</span><span class="va">nTips</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for phylo</span></span>
+<span><span class="fu">AllQuartets</span><span class="op">(</span><span class="va">nTips</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -88,10 +88,13 @@ A more computationally efficient alternative to combn."><!-- mathjax --><script 
     <dl><dt>nTips</dt>
 <dd><p>Integer, specifying the number of tips in a tree; or a tree,
 whose tips will be counted.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>AllQuartets()</code> returns a matrix with four rows and
+    
+
+<p><code>AllQuartets()</code> returns a matrix with four rows and
 <code>choose(n_tips, 4)</code> columns, with each column corresponding to a unique
 selection of four different integers less than or equal to <code>nTips</code>.</p>
     </div>
@@ -111,21 +114,21 @@ selection of four different integers less than or equal to <code>nTips</code>.</
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">AllQuartets</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">AllQuartets</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    1    1    1    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2    2    2    3    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    3    3    4    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    4    5    5    5    5</span>
-<span class="r-in"> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/combn.html" class="external-link">combn</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">4</span><span class="op">)</span> <span class="co"># Provides the same information, but for large </span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/combn.html" class="external-link">combn</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">4</span><span class="op">)</span> <span class="co"># Provides the same information, but for large </span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    1    1    1    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2    2    2    3    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    3    3    4    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    4    5    5    5    5</span>
-<span class="r-in">            <span class="co"># values of n_tips is significantly slower.</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span>            <span class="co"># values of n_tips is significantly slower.</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -140,7 +143,7 @@ selection of four different integers less than or equal to <code>nTips</code>.</
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

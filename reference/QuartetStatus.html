@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -72,15 +72,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">SharedQuartetStatus</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-
-<span class="fu">QuartetStatus</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, nTip <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">ManyToManyQuartetAgreement</span><span class="op">(</span><span class="va">trees</span>, nTip <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">TwoListQuartetAgreement</span><span class="op">(</span><span class="va">trees1</span>, <span class="va">trees2</span><span class="op">)</span>
-
-<span class="fu">SingleTreeQuartetAgreement</span><span class="op">(</span><span class="va">trees</span>, <span class="va">comparison</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">SharedQuartetStatus</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">QuartetStatus</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, nTip <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ManyToManyQuartetAgreement</span><span class="op">(</span><span class="va">trees</span>, nTip <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">TwoListQuartetAgreement</span><span class="op">(</span><span class="va">trees1</span>, <span class="va">trees2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">SingleTreeQuartetAgreement</span><span class="op">(</span><span class="va">trees</span>, <span class="va">comparison</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -88,9 +88,13 @@
     <dl><dt>trees</dt>
 <dd><p>A list of trees of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code>,
 with identically labelled tips.</p></dd>
+
+
 <dt>cf</dt>
 <dd><p>Comparison tree of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code>.  If unspecified,
 each tree is compared to the first tree in <code>trees</code>.</p></dd>
+
+
 <dt>nTip</dt>
 <dd><p>Integer specifying number of tips that could have occurred
 in <code>trees</code>.  Useful if comparing trees from different data sources that
@@ -98,16 +102,23 @@ contain non-overlapping tips.
 If <code>NULL</code>, the default, then trees are assumed to contain the same tips.
 If <code>TRUE</code>, then a vector is generated automatically by counting all unique
 tip labels found in <code>trees</code> or <code>cf</code>.</p></dd>
+
+
 <dt>trees1, trees2</dt>
 <dd><p>List or <code>multiPhylo</code> objects containing
 trees of class <code>phylo</code>.</p></dd>
+
+
 <dt>comparison</dt>
 <dd><p>A tree of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code> against
 which to compare <code>trees</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>QuartetStatus()</code> returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if <code>cf</code> is not specified).  Columns list the status of each quartet:</p><dl><dt>N</dt>
+    
+
+<p><code>QuartetStatus()</code> returns a two dimensional array. Rows correspond to the input trees; the first row will report a perfect match if the first tree is specified as the comparison tree (or if <code>cf</code> is not specified).  Columns list the status of each quartet:</p><dl><dt>N</dt>
 <dd><p>The total number of quartet <em>statements</em> for two trees of <em>n</em> leaves,
 i.e. 2 <em>Q</em>.</p></dd>
 
@@ -132,10 +143,14 @@ i.e. 2 <em>Q</em>.</p></dd>
 
 </dl><p><code>ManyToManyQuartetAgreement()</code> returns a three-dimensional array
 listing, for each pair of trees in turn, the number of quartets in each
-category.
-<code>TwoListQuartetAgreement()</code> returns a three-dimensional array listing,
-for each pair of trees in turn, the number of quartets in each category.
-<code>SingleTreeQuartetAgreement()</code> returns a two-dimensional array listing,
+category.</p>
+
+
+<p><code>TwoListQuartetAgreement()</code> returns a three-dimensional array listing,
+for each pair of trees in turn, the number of quartets in each category.</p>
+
+
+<p><code>SingleTreeQuartetAgreement()</code> returns a two-dimensional array listing,
 for tree in <code>trees</code>, the total number of quartets and the
 number of quartets in each category.
 The <code>comparison</code> tree is treated as <code>tree2</code>.</p>
@@ -212,17 +227,17 @@ of quartets as the unit of comparison: <code><a href="SplitStatus.html">SplitSta
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sq_trees'</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Calculate the status of each quartet relative to the first entry in </span></span>
-<span class="r-in"><span class="co"># sq_trees</span></span>
-<span class="r-in"><span class="va">sq_status</span> <span class="op">&lt;-</span> <span class="fu">QuartetStatus</span><span class="op">(</span><span class="va">sq_trees</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Calculate the status of each quartet relative to a given tree</span></span>
-<span class="r-in"><span class="va">two_moved</span> <span class="op">&lt;-</span> <span class="va">sq_trees</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">sq_status</span> <span class="op">&lt;-</span> <span class="fu">QuartetStatus</span><span class="op">(</span><span class="va">two_moved</span>, <span class="va">sq_trees</span><span class="op">$</span><span class="va">ref_tree</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Calculate Estabrook et al's similarity measures:</span></span>
-<span class="r-in"><span class="fu"><a href="SimilarityMetrics.html">SimilarityMetrics</a></span><span class="op">(</span><span class="va">sq_status</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sq_trees'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Calculate the status of each quartet relative to the first entry in </span></span></span>
+<span class="r-in"><span><span class="co"># sq_trees</span></span></span>
+<span class="r-in"><span><span class="va">sq_status</span> <span class="op">&lt;-</span> <span class="fu">QuartetStatus</span><span class="op">(</span><span class="va">sq_trees</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate the status of each quartet relative to a given tree</span></span></span>
+<span class="r-in"><span><span class="va">two_moved</span> <span class="op">&lt;-</span> <span class="va">sq_trees</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">sq_status</span> <span class="op">&lt;-</span> <span class="fu">QuartetStatus</span><span class="op">(</span><span class="va">two_moved</span>, <span class="va">sq_trees</span><span class="op">$</span><span class="va">ref_tree</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate Estabrook et al's similarity measures:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="SimilarityMetrics.html">SimilarityMetrics</a></span><span class="op">(</span><span class="va">sq_status</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               DoNotConflict ExplicitlyAgree StrictJointAssertions</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_two_near     0.9272727       0.9272727             0.9272727</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_two_mid      0.7636364       0.7636364             0.7636364</span>
@@ -235,28 +250,28 @@ of quartets as the unit of comparison: <code><a href="SplitStatus.html">SplitSta
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_two_near  0.9272727         0.9272727             0.9272727</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_two_mid   0.7636364         0.7636364             0.7636364</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_two_far   0.7212121         0.7212121             0.7212121</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Compare trees that include a subset of the taxa 1..10</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">'TreeTools'</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">QuartetStatus</span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>, nTip <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Compare trees that include a subset of the taxa 1..10</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">'TreeTools'</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">QuartetStatus</span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>, nTip <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        N   Q s d r1 r2   u</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 420 210 0 0  5 15 190</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`</span></span>
-<span class="r-in"><span class="fu">QuartetStatus</span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`</span></span></span>
+<span class="r-in"><span><span class="fu">QuartetStatus</span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        N   Q s d r1 r2   u</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 420 210 0 0  5 70 135</span>
-<span class="r-in"> </span>
-<span class="r-in"><span class="co"># Calculate Quartet Divergence between each tree and each other tree in a </span></span>
-<span class="r-in"><span class="co"># list</span></span>
-<span class="r-in"><span class="fu"><a href="SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="fu">ManyToManyQuartetAgreement</span><span class="op">(</span><span class="va">two_moved</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span><span class="co"># Calculate Quartet Divergence between each tree and each other tree in a </span></span></span>
+<span class="r-in"><span><span class="co"># list</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="fu">ManyToManyQuartetAgreement</span><span class="op">(</span><span class="va">two_moved</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               move_two_near move_two_mid move_two_far</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_two_near     1.0000000    0.6909091    0.6484848</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_two_mid      0.6909091    1.0000000    0.6484848</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_two_far      0.6484848    0.6484848    1.0000000</span>
-<span class="r-in"><span class="co"># Calculate Quartet Divergence between each tree in one list and each </span></span>
-<span class="r-in"><span class="co"># tree in another</span></span>
-<span class="r-in"><span class="fu"><a href="SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="fu">TwoListQuartetAgreement</span><span class="op">(</span><span class="va">sq_trees</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="va">sq_trees</span><span class="op">[</span><span class="fl">10</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Calculate Quartet Divergence between each tree in one list and each </span></span></span>
+<span class="r-in"><span><span class="co"># tree in another</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="fu">TwoListQuartetAgreement</span><span class="op">(</span><span class="va">sq_trees</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="va">sq_trees</span><span class="op">[</span><span class="fl">10</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               m1mid_col1 m1mid_colsome m2mid_col1 m2mid_colsome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ref_tree       0.8303030     0.7439394  0.7515152     0.6893939</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> move_one_near  0.8545455     0.7681818  0.7272727     0.6651515</span>
@@ -275,7 +290,7 @@ of quartets as the unit of comparison: <code><a href="SplitStatus.html">SplitSta
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

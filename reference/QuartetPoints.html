@@ -24,7 +24,7 @@ and accuracy) on a ternary plot."><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -74,11 +74,11 @@ and accuracy) on a ternary plot.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">QuartetPoints</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-
-<span class="fu">SplitPoints</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-
-<span class="fu">BipartitionPoints</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">QuartetPoints</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">SplitPoints</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">BipartitionPoints</span><span class="op">(</span><span class="va">trees</span>, cf <span class="op">=</span> <span class="va">trees</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -86,13 +86,18 @@ and accuracy) on a ternary plot.</p>
     <dl><dt>trees</dt>
 <dd><p>A list of trees of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code>,
 with identically labelled tips.</p></dd>
+
+
 <dt>cf</dt>
 <dd><p>Comparison tree of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code>.  If unspecified,
 each tree is compared to the first tree in <code>trees</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame listing the ternary coordinates of trees, based on the
+    
+
+<p>A data frame listing the ternary coordinates of trees, based on the
 amount of information that they have in common with the comparison
 tree (which defaults to the first member of the list, if unspecified).</p>
     </div>
@@ -126,20 +131,20 @@ in <code>trees</code> that is neither corroborated nor contradicted by <code>cf<
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/Ternary/" class="external-link">'Ternary'</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sq_trees'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://ms609.github.io/Ternary/reference/TernaryPlot.html" class="external-link">TernaryPlot</a></span><span class="op">(</span>alab <span class="op">=</span> <span class="st">'Unresolved'</span>, blab <span class="op">=</span> <span class="st">'Contradicted'</span>, clab <span class="op">=</span> <span class="st">'Consistent'</span>,</span>
-<span class="r-in">            point <span class="op">=</span> <span class="st">'right'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ms609.github.io/Ternary/reference/AddToTernary.html" class="external-link">TernaryLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">'red'</span>, lty <span class="op">=</span> <span class="st">'dotted'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ms609.github.io/Ternary/reference/AddToTernary.html" class="external-link">TernaryText</a></span><span class="op">(</span><span class="fu">QuartetPoints</span><span class="op">(</span><span class="va">sq_trees</span>, cf <span class="op">=</span> <span class="va">sq_trees</span><span class="op">$</span><span class="va">collapse_one</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, </span>
-<span class="r-in">            col <span class="op">=</span> <span class="fu">Ternary</span><span class="fu">::</span><span class="va"><a href="https://ms609.github.io/Ternary/reference/cbPalettes.html" class="external-link">cbPalette8</a></span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ms609.github.io/Ternary/reference/AddToTernary.html" class="external-link">TernaryText</a></span><span class="op">(</span><span class="fu">SplitPoints</span><span class="op">(</span><span class="va">sq_trees</span>, cf <span class="op">=</span> <span class="va">sq_trees</span><span class="op">$</span><span class="va">collapse_one</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, </span>
-<span class="r-in">            col <span class="op">=</span> <span class="fu">Ternary</span><span class="fu">::</span><span class="va"><a href="https://ms609.github.io/Ternary/reference/cbPalettes.html" class="external-link">cbPalette8</a></span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">'bottomright'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Quartets"</span>, <span class="st">"Splits"</span><span class="op">)</span>, bty <span class="op">=</span> <span class="st">'n'</span>, pch <span class="op">=</span> <span class="fl">1</span>, cex <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span class="r-in">       col <span class="op">=</span> <span class="fu">Ternary</span><span class="fu">::</span><span class="va"><a href="https://ms609.github.io/Ternary/reference/cbPalettes.html" class="external-link">cbPalette8</a></span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/Ternary/" class="external-link">'Ternary'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sq_trees'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ms609.github.io/Ternary/reference/TernaryPlot.html" class="external-link">TernaryPlot</a></span><span class="op">(</span>alab <span class="op">=</span> <span class="st">'Unresolved'</span>, blab <span class="op">=</span> <span class="st">'Contradicted'</span>, clab <span class="op">=</span> <span class="st">'Consistent'</span>,</span></span>
+<span class="r-in"><span>            point <span class="op">=</span> <span class="st">'right'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ms609.github.io/Ternary/reference/AddToTernary.html" class="external-link">TernaryLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">'red'</span>, lty <span class="op">=</span> <span class="st">'dotted'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ms609.github.io/Ternary/reference/AddToTernary.html" class="external-link">TernaryText</a></span><span class="op">(</span><span class="fu">QuartetPoints</span><span class="op">(</span><span class="va">sq_trees</span>, cf <span class="op">=</span> <span class="va">sq_trees</span><span class="op">$</span><span class="va">collapse_one</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, </span></span>
+<span class="r-in"><span>            col <span class="op">=</span> <span class="fu">Ternary</span><span class="fu">::</span><span class="va"><a href="https://ms609.github.io/Ternary/reference/cbPalettes.html" class="external-link">cbPalette8</a></span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ms609.github.io/Ternary/reference/AddToTernary.html" class="external-link">TernaryText</a></span><span class="op">(</span><span class="fu">SplitPoints</span><span class="op">(</span><span class="va">sq_trees</span>, cf <span class="op">=</span> <span class="va">sq_trees</span><span class="op">$</span><span class="va">collapse_one</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, </span></span>
+<span class="r-in"><span>            col <span class="op">=</span> <span class="fu">Ternary</span><span class="fu">::</span><span class="va"><a href="https://ms609.github.io/Ternary/reference/cbPalettes.html" class="external-link">cbPalette8</a></span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">'bottomright'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Quartets"</span>, <span class="st">"Splits"</span><span class="op">)</span>, bty <span class="op">=</span> <span class="st">'n'</span>, pch <span class="op">=</span> <span class="fl">1</span>, cex <span class="op">=</span> <span class="fl">0.8</span>,</span></span>
+<span class="r-in"><span>       col <span class="op">=</span> <span class="fu">Ternary</span><span class="fu">::</span><span class="va"><a href="https://ms609.github.io/Ternary/reference/cbPalettes.html" class="external-link">cbPalette8</a></span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="QuartetPoints-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -154,7 +159,7 @@ in <code>trees</code> that is neither corroborated nor contradicted by <code>cf<
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

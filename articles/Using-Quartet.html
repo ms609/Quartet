@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@
       <h1 data-toc-skip>Getting started with Quartet</h1>
                         <h4 data-toc-skip class="author">Martin R. Smith</h4>
             
-            <h4 data-toc-skip class="date">2022-05-02</h4>
+            <h4 data-toc-skip class="date">2022-07-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/HEAD/vignettes/Using-Quartet.Rmd" class="external-link"><code>vignettes/Using-Quartet.Rmd</code></a></small>
       <div class="hidden name"><code>Using-Quartet.Rmd</code></div>
@@ -105,8 +105,8 @@
 </h2>
 <p>Instructions for loading phylogenetic trees into R can be found in a <a href="https://ms609.github.io/TreeTools/articles/load-trees.html" class="external-link">separate vignette</a>. For these examples, we’ll enter two simple trees by hand:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tree1</span> <span class="op">&lt;-</span> <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">read.tree</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">'(A, ((B, (C, (D, E))), ((F, G), (H, I))));'</span><span class="op">)</span>
-<span class="va">tree2</span> <span class="op">&lt;-</span> <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">read.tree</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">'(A, ((B, (C, (D, (H, I)))), ((F, G), E)));'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tree1</span> <span class="op">&lt;-</span> <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">read.tree</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">'(A, ((B, (C, (D, E))), ((F, G), (H, I))));'</span><span class="op">)</span></span>
+<span><span class="va">tree2</span> <span class="op">&lt;-</span> <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">read.tree</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">'(A, ((B, (C, (D, (H, I)))), ((F, G), E)));'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="calculating-distances">Calculating distances<a class="anchor" aria-label="anchor" href="#calculating-distances"></a>
@@ -114,46 +114,46 @@
 <p>We can calculate distances between pairs of trees using the ‘Quartet’ package.</p>
 <p>First we’ll install the package. We can either install the stable version from the CRAN repository:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'Quartet'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'Quartet'</span><span class="op">)</span></span></code></pre></div>
 <p>or the development version, from GitHub – which will contain the latest features but may not be as extensively tested:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'ms609/Quartet'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'ms609/Quartet'</span><span class="op">)</span></span></code></pre></div>
 <p>Then we’ll load the package into R’s working environment:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/Quartet/" class="external-link">'Quartet'</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/Quartet/" class="external-link">'Quartet'</a></span><span class="op">)</span></span></code></pre></div>
 <p>Now the package’s functions are available within R. Let’s proceed to calculate some tree distances.</p>
 <div class="section level3">
 <h3 id="pairs-of-trees">Pairs of trees<a class="anchor" aria-label="anchor" href="#pairs-of-trees"></a>
 </h3>
 <p>Calculating the distance between two trees is a two stage process. For a quartet distance, we first have to calculate the status of each quartet:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">statuses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">statuses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span></span></code></pre></div>
 <p>Then we convert these counts into a distance metric (or similarity measure) that suits our needs – perhaps the Quartet Divergence:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">statuses</span>, similarity <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.6031746</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">statuses</span>, similarity <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 0.6031746</span></span></code></pre>
 <p>We can calculate all similarity metrics at once using:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/SimilarityMetrics.html">SimilarityMetrics</a></span><span class="op">(</span><span class="va">statuses</span>, similarity <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##      DoNotConflict ExplicitlyAgree StrictJointAssertions</span>
-<span class="co">## [1,]     0.3968254       0.3968254             0.3968254</span>
-<span class="co">##      SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus</span>
-<span class="co">## [1,]                 0.3968254           0.3968254           0.2475248</span>
-<span class="co">##      SteelPenny QuartetDivergence SimilarityToReference</span>
-<span class="co">## [1,]  0.3968254         0.3968254             0.3968254</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/SimilarityMetrics.html">SimilarityMetrics</a></span><span class="op">(</span><span class="va">statuses</span>, similarity <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##      DoNotConflict ExplicitlyAgree StrictJointAssertions</span></span>
+<span><span class="co">## [1,]     0.3968254       0.3968254             0.3968254</span></span>
+<span><span class="co">##      SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus</span></span>
+<span><span class="co">## [1,]                 0.3968254           0.3968254           0.2475248</span></span>
+<span><span class="co">##      SteelPenny QuartetDivergence SimilarityToReference</span></span>
+<span><span class="co">## [1,]  0.3968254         0.3968254             0.3968254</span></span></code></pre>
 <p>It can be instructive to visualize how each split in the tree is contributing to the quartet similarity:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/VisualizeQuartets.html">VisualizeQuartets</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/VisualizeQuartets.html">VisualizeQuartets</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Using-Quartet_files/figure-html/visualize-quartets-1.png" width="700"></p>
 <p>Rather than using quartets, we might want to use partitions as the basis of our comparison:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/SimilarityMetrics.html">SimilarityMetrics</a></span><span class="op">(</span><span class="fu"><a href="../reference/SplitStatus.html">SplitStatus</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##      DoNotConflict ExplicitlyAgree StrictJointAssertions</span>
-<span class="co">## [1,]     0.3333333       0.3333333             0.3333333</span>
-<span class="co">##      SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus</span>
-<span class="co">## [1,]                 0.3333333           0.3333333                 0.2</span>
-<span class="co">##      SteelPenny QuartetDivergence SimilarityToReference</span>
-<span class="co">## [1,]  0.3333333         0.3333333             0.3333333</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/SimilarityMetrics.html">SimilarityMetrics</a></span><span class="op">(</span><span class="fu"><a href="../reference/SplitStatus.html">SplitStatus</a></span><span class="op">(</span><span class="va">tree1</span>, <span class="va">tree2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##      DoNotConflict ExplicitlyAgree StrictJointAssertions</span></span>
+<span><span class="co">## [1,]     0.3333333       0.3333333             0.3333333</span></span>
+<span><span class="co">##      SemiStrictJointAssertions SymmetricDifference MarczewskiSteinhaus</span></span>
+<span><span class="co">## [1,]                 0.3333333           0.3333333                 0.2</span></span>
+<span><span class="co">##      SteelPenny QuartetDivergence SimilarityToReference</span></span>
+<span><span class="co">## [1,]  0.3333333         0.3333333             0.3333333</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="multiple-comparisons">Multiple comparisons<a class="anchor" aria-label="anchor" href="#multiple-comparisons"></a>
@@ -161,43 +161,43 @@
 <p>If you have more than two trees to compare, you can send a list of trees (class: <code>list</code> or <code>multiPhylo</code>) to the distance comparison function.</p>
 <p>You can calculate the similarity between one tree and a forest of other trees:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">'TreeTools'</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">oneTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html" class="external-link">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">11</span><span class="op">)</span>, <span class="fl">14</span><span class="op">)</span>
-<span class="va">twoTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bal <span class="op">=</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">11</span><span class="op">)</span>, pec <span class="op">=</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span>,
-                      class <span class="op">=</span> <span class="st">'multiPhylo'</span><span class="op">)</span>
-
-<span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">SharedQuartetStatus</a></span><span class="op">(</span><span class="va">twoTrees</span>, cf <span class="op">=</span> <span class="va">oneTree</span><span class="op">)</span>
-<span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##       bal       pec </span>
-<span class="co">## 0.4939394 0.6272727</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">'TreeTools'</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">oneTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html" class="external-link">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">11</span><span class="op">)</span>, <span class="fl">14</span><span class="op">)</span></span>
+<span><span class="va">twoTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bal <span class="op">=</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">11</span><span class="op">)</span>, pec <span class="op">=</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                      class <span class="op">=</span> <span class="st">'multiPhylo'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">SharedQuartetStatus</a></span><span class="op">(</span><span class="va">twoTrees</span>, cf <span class="op">=</span> <span class="va">oneTree</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##       bal       pec </span></span>
+<span><span class="co">## 0.4939394 0.6272727</span></span></code></pre>
 <p>Or between one tree and (itself and) all other trees in the forest:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">11</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>
-<span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">SharedQuartetStatus</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span>
-<span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##         a         b         c         d         e         f </span>
-<span class="co">## 1.0000000 0.9757576 0.9757576 0.9333333 0.9121212 0.9333333</span></code></pre>
+<code class="sourceCode R"><span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">11</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span>
+<span><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">SharedQuartetStatus</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##         a         b         c         d         e         f </span></span>
+<span><span class="co">## 1.0000000 0.9757576 0.9757576 0.9333333 0.9121212 0.9333333</span></span></code></pre>
 <p>Or between each pair of trees in a forest:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span>
-<span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span>, similarity <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##            a          b          c          d          e          f</span>
-<span class="co">## a 0.00000000 0.02424242 0.02424242 0.06666667 0.08787879 0.06666667</span>
-<span class="co">## b 0.02424242 0.00000000 0.02424242 0.08787879 0.06666667 0.06666667</span>
-<span class="co">## c 0.02424242 0.02424242 0.00000000 0.08484848 0.08484848 0.04242424</span>
-<span class="co">## d 0.06666667 0.08787879 0.08484848 0.00000000 0.04242424 0.04242424</span>
-<span class="co">## e 0.08787879 0.06666667 0.08484848 0.04242424 0.00000000 0.04242424</span>
-<span class="co">## f 0.06666667 0.06666667 0.04242424 0.04242424 0.04242424 0.00000000</span></code></pre>
+<code class="sourceCode R"><span><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span>, similarity <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##            a          b          c          d          e          f</span></span>
+<span><span class="co">## a 0.00000000 0.02424242 0.02424242 0.06666667 0.08787879 0.06666667</span></span>
+<span><span class="co">## b 0.02424242 0.00000000 0.02424242 0.08787879 0.06666667 0.06666667</span></span>
+<span><span class="co">## c 0.02424242 0.02424242 0.00000000 0.08484848 0.08484848 0.04242424</span></span>
+<span><span class="co">## d 0.06666667 0.08787879 0.08484848 0.00000000 0.04242424 0.04242424</span></span>
+<span><span class="co">## e 0.08787879 0.06666667 0.08484848 0.04242424 0.00000000 0.04242424</span></span>
+<span><span class="co">## f 0.06666667 0.06666667 0.04242424 0.04242424 0.04242424 0.00000000</span></span></code></pre>
 <p>Or between one list of trees and a second:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">TwoListQuartetAgreement</a></span><span class="op">(</span><span class="va">forest</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">forest</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span>
-<span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span>, similarity <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##            e          f</span>
-<span class="co">## a 0.08787879 0.06666667</span>
-<span class="co">## b 0.06666667 0.06666667</span>
-<span class="co">## c 0.08484848 0.04242424</span>
-<span class="co">## d 0.04242424 0.04242424</span></code></pre>
+<code class="sourceCode R"><span><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QuartetStatus.html">TwoListQuartetAgreement</a></span><span class="op">(</span><span class="va">forest</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">forest</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/SimilarityMetrics.html">QuartetDivergence</a></span><span class="op">(</span><span class="va">status</span>, similarity <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##            e          f</span></span>
+<span><span class="co">## a 0.08787879 0.06666667</span></span>
+<span><span class="co">## b 0.06666667 0.06666667</span></span>
+<span><span class="co">## c 0.08484848 0.04242424</span></span>
+<span><span class="co">## d 0.04242424 0.04242424</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -205,53 +205,53 @@
 </h2>
 <p>“Quartet” can compare trees of different sizes or with non-identical sets of taxa. Quartets pertaining to a leaf that does not occur in one tree are treated as unresolved.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">treeAG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span>
-<span class="va">treeBI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span>
-<span class="va">treeEJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">4</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeAG</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeBI</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeEJ</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">treeAG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">treeBI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">treeEJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">4</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeAG</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeBI</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeEJ</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Using-Quartet_files/figure-html/different-tips-1.png" width="384" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/QuartetState.html">QuartetState</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">treeAG</span><span class="op">)</span> <span class="co"># 3: C is closest to D</span></code></pre></div>
-<pre><code><span class="co">## [1] 3</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/QuartetState.html">QuartetState</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">treeAG</span><span class="op">)</span> <span class="co"># 3: C is closest to D</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 3</span></span></code></pre>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/QuartetState.html">QuartetState</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">treeBI</span><span class="op">)</span> <span class="co"># 0: unresolved in this tree</span></code></pre></div>
-<pre><code><span class="co">## [1] 0</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/QuartetState.html">QuartetState</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">treeBI</span><span class="op">)</span> <span class="co"># 0: unresolved in this tree</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 0</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Calculate status for all leaves observed in trees: here, A..I</span>
-<span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##        N   Q  s d r1 r2  u</span>
-<span class="co">## [1,] 252 126 15 0 20 55 36</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># Calculate status for all leaves observed in trees: here, A..I</span></span>
+<span><span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        N   Q  s d r1 r2  u</span></span>
+<span><span class="co">## [1,] 252 126 15 0 20 55 36</span></span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Calculate status for specified number of leaves</span>
-<span class="co"># Here, we have ten taxa A..J, but J does not occur in either of these trees</span>
-<span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, nTip <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##        N   Q  s d r1 r2   u</span>
-<span class="co">## [1,] 420 210 15 0 20 55 120</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># Calculate status for specified number of leaves</span></span>
+<span><span class="co"># Here, we have ten taxa A..J, but J does not occur in either of these trees</span></span>
+<span><span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, nTip <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        N   Q  s d r1 r2   u</span></span>
+<span><span class="co">## [1,] 420 210 15 0 20 55 120</span></span></code></pre>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Compare a list of trees with different numbers of leaves to a reference</span>
-<span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, <span class="va">treeEJ</span><span class="op">)</span>, cf <span class="op">=</span> <span class="va">treeAG</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##        N   Q  s d r1 r2   u</span>
-<span class="co">## [1,] 420 210 35 0  0  0 175</span>
-<span class="co">## [2,] 420 210 15 0 55 20 120</span>
-<span class="co">## [3,] 420 210  0 0 15 35 160</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># Compare a list of trees with different numbers of leaves to a reference</span></span>
+<span><span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, <span class="va">treeEJ</span><span class="op">)</span>, cf <span class="op">=</span> <span class="va">treeAG</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        N   Q  s d r1 r2   u</span></span>
+<span><span class="co">## [1,] 420 210 35 0  0  0 175</span></span>
+<span><span class="co">## [2,] 420 210 15 0 55 20 120</span></span>
+<span><span class="co">## [3,] 420 210  0 0 15 35 160</span></span></code></pre>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Compare all pairs of trees in a list.</span>
-<span class="co"># "u" shows how many possible quartets are unresolved in both trees</span>
-<span class="fu"><a href="../reference/QuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, <span class="va">treeEJ</span><span class="op">)</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, , <span class="st">"u"</span><span class="op">]</span></code></pre></div>
-<pre><code><span class="co">##      [,1] [,2] [,3]</span>
-<span class="co">## [1,]  175  120  160</span>
-<span class="co">## [2,]  120  140  130</span>
-<span class="co">## [3,]  160  130  195</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># Compare all pairs of trees in a list.</span></span>
+<span><span class="co"># "u" shows how many possible quartets are unresolved in both trees</span></span>
+<span><span class="fu"><a href="../reference/QuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, <span class="va">treeEJ</span><span class="op">)</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, , <span class="st">"u"</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">##      [,1] [,2] [,3]</span></span>
+<span><span class="co">## [1,]  175  120  160</span></span>
+<span><span class="co">## [2,]  120  140  130</span></span>
+<span><span class="co">## [3,]  160  130  195</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="other-calculations">Other calculations<a class="anchor" aria-label="anchor" href="#other-calculations"></a>
 </h2>
 <p>To calculate how many quartets are unique to a certain tree (akin to the partitionwise equivalent <code><a href="https://rdrr.io/pkg/ape/man/boot.phylo.html" class="external-link">ape::prop.clades</a></code>), use:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">interestingTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">42</span>, <span class="fl">7</span><span class="op">)</span>
-<span class="va">referenceTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>
-<span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompareQuartetsMulti.html">CompareQuartetsMulti</a></span><span class="op">(</span><span class="va">interestingTree</span>, <span class="va">referenceTrees</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">interestingTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">42</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">referenceTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompareQuartetsMulti.html">CompareQuartetsMulti</a></span><span class="op">(</span><span class="va">interestingTree</span>, <span class="va">referenceTrees</span><span class="op">)</span></span></code></pre></div>
 <p><code>status['x_only']</code> = 23 quartets are resolved in a certain way in <code>interestingTree</code>, but not resolved that way in any <code>referenceTrees</code>.</p>
 </div>
 <div class="section level2">
@@ -283,7 +283,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

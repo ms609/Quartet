@@ -24,7 +24,7 @@ function family."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -74,9 +74,9 @@ function family.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">.StatusToMatrix</span><span class="op">(</span><span class="va">statusVector</span><span class="op">)</span>
-
-<span class="fu">.StatusToArray</span><span class="op">(</span><span class="va">status</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.StatusToMatrix</span><span class="op">(</span><span class="va">statusVector</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">.StatusToArray</span><span class="op">(</span><span class="va">status</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -85,17 +85,26 @@ function family.</p>
 <dd><p>Either (i) a named vector of integers, with
 names <code>N</code>, <code>s</code>, <code>r1</code>, <code>r2</code>, either <code>d</code> or <code>d1</code> and <code>d2</code>, and optionally <code>u</code>;
 or (ii) a matrix whose named rows correspond to the same quantities.</p></dd>
+
+
 <dt>status</dt>
 <dd><p>A named three-dimensional array of integers, with slices
 named <code>s</code>, <code>r1</code>, <code>r2</code>, either <code>d</code> or <code>d1</code> and <code>d2</code>, and either <code>N</code> or <code>u</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A matrix, containing the input columns plus <code>2d</code>, representing
-either <code>2 * d</code> or <code>d1 + d2</code>, and row names.
-The row name means that column names are dropped in
-the output of <code>DoNotConflict</code> etc.
-A three-dimensional array containing a slice labelled <code>2d</code>,
+    
+
+<p>A matrix, containing the input columns plus <code>2d</code>, representing
+either <code>2 * d</code> or <code>d1 + d2</code>, and row names.</p>
+
+
+<p>The row name means that column names are dropped in
+the output of <code>DoNotConflict</code> etc.</p>
+
+
+<p>A three-dimensional array containing a slice labelled <code>2d</code>,
 equivalent to either <code>d + d</code> or <code>d1 + d2</code> as appropriate.</p>
     </div>
     <div id="author">
@@ -106,9 +115,9 @@ equivalent to either <code>d + d</code> or <code>d1 + d2</code> as appropriate.<
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sq_trees'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">.StatusToArray</span><span class="op">(</span><span class="fu"><a href="QuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="va">sq_trees</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sq_trees'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">.StatusToArray</span><span class="op">(</span><span class="fu"><a href="QuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="va">sq_trees</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> , , N</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               move_two_near move_two_mid move_two_far</span>
@@ -179,7 +188,7 @@ equivalent to either <code>d + d</code> or <code>d1 + d2</code> as appropriate.<
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

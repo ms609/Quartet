@@ -24,7 +24,7 @@ following Brodal et al. (2013)."><!-- mathjax --><script src="https://cdnjs.clou
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -74,22 +74,27 @@ following Brodal <em>et al.</em> (2013).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ResolvedQuartets</span><span class="op">(</span><span class="va">tree</span>, countTriplets <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">ResolvedTriplets</span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ResolvedQuartets</span><span class="op">(</span><span class="va">tree</span>, countTriplets <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ResolvedTriplets</span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>tree</dt>
 <dd><p>A tree of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code>.</p></dd>
+
+
 <dt>countTriplets</dt>
 <dd><p>Logical; if <code>TRUE</code>, the function will return the number
 of triplets instead of the number of quartets.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>ResolvedQuartets()</code> returns a vector of length two, listing the
+    
+
+<p><code>ResolvedQuartets()</code> returns a vector of length two, listing the
 number of quartets (or triplets)
 that are [1] resolved; [2] unresolved in the specified tree.</p>
     </div>
@@ -130,15 +135,15 @@ resolved/unresolved triplets.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sq_trees</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">ResolvedTriplets</span><span class="op">(</span><span class="va">sq_trees</span><span class="op">$</span><span class="va">collapse_some</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sq_trees</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">ResolvedTriplets</span><span class="op">(</span><span class="va">sq_trees</span><span class="op">$</span><span class="va">collapse_some</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 144  21</span>
-<span class="r-in"><span class="co"># Equivalent to:</span></span>
-<span class="r-in"><span class="fu">ResolvedQuartets</span><span class="op">(</span><span class="va">sq_trees</span><span class="op">$</span><span class="va">collapse_some</span>, countTriplets <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Equivalent to:</span></span></span>
+<span class="r-in"><span><span class="fu">ResolvedQuartets</span><span class="op">(</span><span class="va">sq_trees</span><span class="op">$</span><span class="va">collapse_some</span>, countTriplets <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 144  21</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply</a></span><span class="op">(</span><span class="va">sq_trees</span>, <span class="va">ResolvedQuartets</span>, <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply</a></span><span class="op">(</span><span class="va">sq_trees</span>, <span class="va">ResolvedQuartets</span>, <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      ref_tree move_one_near move_one_mid move_one_far move_two_near</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]      330           330          330          330           330</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]        0             0            0            0             0</span>
@@ -151,8 +156,8 @@ resolved/unresolved triplets.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      top_and_tail anti_pectinate random_tree</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]          330            330         330</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]            0              0           0</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -167,7 +172,7 @@ resolved/unresolved triplets.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

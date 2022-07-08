@@ -1,8 +1,8 @@
 pandoc: 2.14.2
-pkgdown: 2.0.3
+pkgdown: 2.0.5
 pkgdown_sha: ~
 articles:
   Quartet-Distance: Quartet-Distance.html
   Using-Quartet: Using-Quartet.html
-last_built: 2022-05-02T09:55Z
+last_built: 2022-07-08T09:42Z
 

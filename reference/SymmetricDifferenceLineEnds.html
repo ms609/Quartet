@@ -24,7 +24,7 @@ of tree 2 can vary."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/a
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -74,22 +74,27 @@ of tree 2 can vary.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">SymmetricDifferenceLineEnds</span><span class="op">(</span><span class="va">nsd</span><span class="op">)</span>
-
-<span class="fu">SymmetricDifferenceLines</span><span class="op">(</span><span class="va">nsd</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">SymmetricDifferenceLineEnds</span><span class="op">(</span><span class="va">nsd</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">SymmetricDifferenceLines</span><span class="op">(</span><span class="va">nsd</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>nsd</dt>
 <dd><p>Vector specifying normalized symmetric differences to plot.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further parameters to pass to
 <code><a href="https://ms609.github.io/Ternary/reference/AddToTernary.html" class="external-link">TernaryLines</a>()</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns a matrix of dim <code>(length(nsd), 6)</code>, with columns named
+    
+
+<p>Returns a matrix of dim <code>(length(nsd), 6)</code>, with columns named
 <code>r2a</code>, <code>da</code>, <code>sa</code>, <code>r2b</code>, <code>db</code> and <code>sb</code>.
 Lines from <code>a</code> to <code>b</code> in each row connect points of equal symmetric difference.</p>
     </div>
@@ -116,7 +121,7 @@ Lines from <code>a</code> to <code>b</code> in each row connect points of equal 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

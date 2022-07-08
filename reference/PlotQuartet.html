@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.5</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">PlotQuartet</span><span class="op">(</span><span class="va">tree</span>, <span class="va">quartet</span>, overwritePar <span class="op">=</span> <span class="cn">TRUE</span>, caption <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PlotQuartet</span><span class="op">(</span><span class="va">tree</span>, <span class="va">quartet</span>, overwritePar <span class="op">=</span> <span class="cn">TRUE</span>, caption <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -81,24 +81,35 @@
 <dd><p>A tree of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code>,
 or a list of such trees.  The first member of <code>tree</code> will be considered
 the 'reference' tree.</p></dd>
+
+
 <dt>quartet</dt>
 <dd><p>A vector of four integers, corresponding to numbered leaves on
 the tree; or a character vector specifying the labels of four leaves.</p></dd>
+
+
 <dt>overwritePar</dt>
 <dd><p>Logical specifying whether to use existing <code>mfrow</code> and
 <code>mar</code> parameters from <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a>()</code> (<code>FALSE</code>),
 or to plot trees side-by-side in a new graphical device (<code>TRUE</code>).</p></dd>
+
+
 <dt>caption</dt>
 <dd><p>Logical specifying whether to annotate each plot to specify
 whether the quartet selected is in the same or a different state to the
 reference tree.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters to send to
 <code><a href="https://rdrr.io/pkg/ape/man/plot.phylo.html" class="external-link">plot</a>()</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>PlotQuartet()</code> returns <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>, having plotted a tree in
+    
+
+<p><code>PlotQuartet()</code> returns <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>, having plotted a tree in
 which the first two members of <code>quartet</code> are highlighted in orange, and the
 second two highlighted in blue.</p>
     </div>
@@ -110,13 +121,13 @@ second two highlighted in blue.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sq_trees"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">oPar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">PlotQuartet</span><span class="op">(</span><span class="va">sq_trees</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">3</span>, <span class="fl">8</span><span class="op">)</span>, overwritePar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sq_trees"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">oPar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">PlotQuartet</span><span class="op">(</span><span class="va">sq_trees</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">3</span>, <span class="fl">8</span><span class="op">)</span>, overwritePar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="PlotQuartet-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oPar</span><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oPar</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -131,7 +142,7 @@ second two highlighted in blue.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
