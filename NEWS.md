@@ -1,3 +1,7 @@
+# Quartet v1.2.4.9000 (development)
+
+- Fix memory leak in when comparing one tree to many.
+
 # Quartet v1.2.4
 
  - `QuartetStates()` handles absent leaves gracefully.
