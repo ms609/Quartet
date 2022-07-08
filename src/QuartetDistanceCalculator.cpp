@@ -94,6 +94,11 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   Rcpp::IntegerVector ret = 
     oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
   delete unrootedSingle;
+  for(size_t i = unrootedMultiple.size(); i--; ) {
+    UnrootedTree * tmp = unrootedTrees[i];
+    delete tmp;
+  }
+  
   return ret;
 }
 
@@ -146,7 +151,7 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   const std::vector<std::vector<INTTYPE_N4> > results =
     calculateAllPairsQuartetDistance(unrootedTrees);
 
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
+  for(size_t i = unrootedTrees.size(); i--; ) {
     UnrootedTree * tmp = unrootedTrees[i];
     delete tmp;
   }
@@ -166,7 +171,7 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   const std::vector<std::vector<INTTYPE_N4> > results = 
     calculateAllPairsQuartetDistance(unrootedTrees);
 
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
+  for(size_t i = unrootedTrees.size(); i--; ) {
     UnrootedTree * tmp = unrootedTrees[i];
     delete tmp;
   }
@@ -186,7 +191,7 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   const std::vector<std::vector<INTTYPE_N4> > results = 
     calculateAllPairsQuartetDistance(unrootedTrees);
 
-  for(size_t i = 0; i < unrootedTrees.size(); ++i) {
+  for(size_t i = unrootedTrees.size(); i--; ) {
     UnrootedTree * tmp = unrootedTrees[i];
     delete tmp;
   }
