@@ -20,5 +20,9 @@ There were no ERRORs or WARNINGs or NOTEs.
 
 ## Downstream dependencies
 
-The modifications do not impact the reverse dependencies `CongreveLamsdell2016`
-or `TreeDist` (which I maintain).  
+Reverse dependencies were tested using
+[RevDepCheck](https://github.com/ms609/Quartet/actions/workflows/revdepcheck.yml)
+
+The modifications do not impact the reverse dependencies `CongreveLamsdell2016`,
+`TreeDist` or `TreeSearch` (all of which which I maintain).
+
