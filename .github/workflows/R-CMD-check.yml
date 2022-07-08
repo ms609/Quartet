@@ -114,6 +114,8 @@ jobs:
         with:
           needs: |
             check
+          extra-packages: |
+            phangorn=?ignore-before-r=4.1.0
 
       - name: Install tinytex
         run: |
