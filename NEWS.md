@@ -1,6 +1,6 @@
-# Quartet v1.2.4.9000 (development)
+# Quartet v1.2.5
 
-- Fix memory leak in when comparing one tree to many.
+- Fix memory leaks.
 
 # Quartet v1.2.4
 
