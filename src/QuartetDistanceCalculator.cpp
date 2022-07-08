@@ -13,6 +13,11 @@ using namespace Rcpp;
 
 #include <cstdlib>
 
+#define DELETE_TREES(x) for(size_t xi = x.size(); xi--; ) {    \
+  UnrootedTree * tmp = x[xi];                                  \
+  delete tmp;                                                  \
+}                                                              \
+
 QuartetDistanceCalculator::QuartetDistanceCalculator() {
   dummyHDTFactory = new HDTFactory(0);
 }
@@ -42,17 +47,28 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   UnrootedTree *unrootedSingle = parser.parseFile(fileSingle); 
   
   if (unrootedSingle == NULL || parser.isError()) {
+    delete unrootedSingle;
     Rcpp::stop("Error parsing fileSingle in oneToManyQuartets -> parser.parseFile");
   }
 
-  std::vector<UnrootedTree *> unrootedMultiple = parser.parseMultiFile(fileMultiple); 
+  std::vector<UnrootedTree *> unrootedMultiple = 
+    parser.parseMultiFile(fileMultiple); 
   if (unrootedMultiple.size() == 0) {
+    delete unrootedSingle;
     Rcpp::stop("No trees found in fileMultiple; does file end with blank line?");
   } else if (parser.isError()) {
+    delete unrootedSingle;
+    DELETE_TREES(unrootedMultiple);
     Rcpp::stop("Error parsing fileMultiple in oneToManyQuartetAgreement -> parser.parseFile");
   }
 
-  return oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+  Rcpp::IntegerVector ret =
+    oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+  
+  delete unrootedSingle;
+  DELETE_TREES(unrootedMultiple);
+  
+  return ret;
 }
 
 Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
@@ -62,17 +78,27 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   UnrootedTree *unrootedSingle = parser.parseStr(tree);
   
   if (unrootedSingle == NULL || parser.isError()) {
+    delete unrootedSingle;
     Rcpp::stop("Error parsing tree in oneToManyQuartets -> parser.parseFile");
   }
 
   std::vector<UnrootedTree *> unrootedMultiple = parser.parseMultiStr(trees); 
   if (unrootedMultiple.size() == 0) {
+    delete unrootedSingle;
     Rcpp::stop("No trees found in trees");
   } else if (parser.isError()) {
+    delete unrootedSingle;
+    DELETE_TREES(unrootedMultiple);
     Rcpp::stop("Error parsing trees in oneToManyQuartetAgreement -> parser.parseFile");
   }
 
-  return oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+  Rcpp::IntegerVector ret =
+    oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+  
+  delete unrootedSingle;
+  DELETE_TREES(unrootedMultiple);
+  
+  return ret;
 }
 
 Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
@@ -88,16 +114,15 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
 
   std::vector<UnrootedTree *> unrootedMultiple = parser.parseEdges(edges); 
   if (unrootedMultiple.size() == 0) {
+    delete unrootedSingle;
     Rcpp::stop("No trees found in trees");
   }
 
   Rcpp::IntegerVector ret = 
     oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+  
   delete unrootedSingle;
-  for(size_t i = unrootedMultiple.size(); i--; ) {
-    UnrootedTree * tmp = unrootedMultiple[i];
-    delete tmp;
-  }
+  DELETE_TREES(unrootedMultiple);
   
   return ret;
 }
