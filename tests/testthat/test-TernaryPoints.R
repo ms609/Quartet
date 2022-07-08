@@ -17,7 +17,7 @@ test_that("Splits comparisons are correct", {
   # Numbers lazily copied from output, rather than calculated;
   # independent verification could be valuable.
   expect_equal(splitsVsOne$Unresolved, c(rep(0, 8), 4, 0, 2, 0, 4, rep(0, 5)))
-  expect_equal(splitsVsOne$Contradicted, c(0,1,3,4,1,2,3,0,0,3,3,2,0,7,3,7,7,7),)
+  expect_equal(splitsVsOne$Contradicted, c(0,1,3,4,1,2,3,0,0,3,3,2,0,7,3,7,7,7))
   expect_equal(splitsVsOne$Consistent, c(7,6,4,3,6,5,4,7,3,4,2,5,3,0,4,0,0,0))
   expect_equal(
     as.integer(SplitPoints(sq_trees$collapse_one, cf=sq_trees$collapse_some)),
