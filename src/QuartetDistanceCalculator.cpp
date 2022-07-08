@@ -130,12 +130,14 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
 std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
   pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1,
                          std::vector<UnrootedTree *> &unrootedTrees2) {
+  size_t nTrees = unrootedTrees1.size();
   std::vector<INTTYPE_N4> res;
+  res.reserve(nTrees);
 
-  for(size_t i = 0; i != unrootedTrees1.size(); i++) {
-    INTTYPE_N4 dist = calculateQuartetDistance(unrootedTrees1[i], unrootedTrees2[i]);
-    
-    res.push_back(dist);
+  for(size_t i = 0; i != nTrees; i++) {
+    res.push_back(INTTYPE_N4(
+        calculateQuartetDistance(unrootedTrees1[i], unrootedTrees2[i])
+    ));
   }
 
   return res;
