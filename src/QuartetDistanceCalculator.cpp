@@ -82,6 +82,7 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   UnrootedTree *unrootedSingle = parser.parseEdge(edge);
   
   if (unrootedSingle == NULL) {
+    delete unrootedSingle;
     Rcpp::stop("Error parsing tree in oneToManyQuartets -> parser.parseFile");
   }
 
@@ -90,7 +91,10 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
     Rcpp::stop("No trees found in trees");
   }
 
-  return oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+  Rcpp::IntegerVector ret = 
+    oneToManyQuartetAgreement(unrootedSingle, unrootedMultiple);
+  delete unrootedSingle;
+  return ret;
 }
 
 std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
