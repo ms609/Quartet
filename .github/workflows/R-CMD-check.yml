@@ -115,6 +115,11 @@ jobs:
           needs: |
             check
 
+      - name: Install tinytex
+        run: |
+          tinytex::install_tinytex()
+        shell: Rscript {0}
+
       - name: Set up pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
