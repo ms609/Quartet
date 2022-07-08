@@ -13,6 +13,7 @@ using namespace Rcpp;
 
 #include <cstdlib>
 
+// Also defined (identically) in TripletDistanceCalculator.cpp
 #define DELETE_TREES(x) for(size_t xi = x.size(); xi--; ) {    \
   UnrootedTree * tmp = x[xi];                                  \
   delete tmp;                                                  \

@@ -11,6 +11,12 @@ using namespace Rcpp;
 #include <cstdlib>
 #include <vector>
 
+// Also defined (identically) in QuartetDistanceCalculator.cpp
+#define DELETE_TREES(x) for(size_t xi = x.size(); xi--; ) {    \
+  UnrootedTree * tmp = x[xi];                                  \
+  delete tmp;                                                  \
+}                                                              
+
 TripletDistanceCalculator::TripletDistanceCalculator() {
   dummyHDTFactory = new HDTFactory(0);
 }
@@ -19,64 +25,94 @@ TripletDistanceCalculator::~TripletDistanceCalculator() {
   delete dummyHDTFactory;
 }
 
-std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(const char *filename1, const char *filename2) {
+std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(
+    const char *filename1,
+    const char *filename2
+  ) {
+  
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
+  std::vector<UnrootedTree *> unrootedTrees1 = parser.parseMultiFile(filename1); 
   if (unrootedTrees1.size() == 0 || parser.isError()) {
+    DELETE_TREES(unrootedTrees1);
     stop("Error: Parsing of filename1 failed.");
   }
 
-  std::vector<UnrootedTree *> unrootedTrees2  = parser.parseMultiFile(filename2); 
+  std::vector<UnrootedTree *> unrootedTrees2 = parser.parseMultiFile(filename2); 
   if (unrootedTrees2.size() == 0 || parser.isError()) {
+    DELETE_TREES(unrootedTrees1);
+    DELETE_TREES(unrootedTrees2);
     stop("Error: Parsing of filename2 failed.");
   }
 
-  return pairs_triplet_distance(unrootedTrees1, unrootedTrees2);
+  std::vector<INTTYPE_REST> result =
+    pairs_triplet_distance(unrootedTrees1, unrootedTrees2);
+  
+  DELETE_TREES(unrootedTrees1);
+  DELETE_TREES(unrootedTrees2);
+  
+  return result;
 }
 
 
-std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(std::vector<UnrootedTree *> &unrootedTrees1, std::vector<UnrootedTree *> &unrootedTrees2) {
+std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(
+    std::vector<UnrootedTree *> &unrootedTrees1,
+    std::vector<UnrootedTree *> &unrootedTrees2
+  ) {
+  
   std::vector<INTTYPE_REST> res;
 
   RootedTree *rt1;
   RootedTree *rt2;
   
-  for(size_t i = 0; i < unrootedTrees1.size(); i++) {
+  for(size_t i = 0; i != unrootedTrees1.size(); i++) {
     rt1 = unrootedTrees1[i]->convertToRootedTree(NULL);
     rt2 = unrootedTrees2[i]->convertToRootedTree(rt1->factory);
     
     INTTYPE_REST dist = calculateTripletDistance(rt1, rt2);
+    
+    delete rt1->factory;
+    delete rt2->factory;
+    
     res.push_back(dist);
   }
-
+  
   return res;
 }
 
-std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::calculateAllPairsTripletDistance(const char *filename) {
+std::vector<std::vector<INTTYPE_REST> > \
+  TripletDistanceCalculator::calculateAllPairsTripletDistance(
+    const char *filename
+  ) {
+    
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees  = parser.parseMultiFile(filename); 
+  std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiFile(filename); 
   if (unrootedTrees.size() == 0 || parser.isError()) {
+    DELETE_TREES(unrootedTrees);
     stop("Error: Parsing of filename failed.");
   }
 
-  std::vector<std::vector<INTTYPE_REST> > results = calculateAllPairsTripletDistance(unrootedTrees);
+  std::vector<std::vector<INTTYPE_REST> > results =
+    calculateAllPairsTripletDistance(unrootedTrees);
 
-  for(std::vector<UnrootedTree *>::iterator it = unrootedTrees.begin(); it != unrootedTrees.end(); ++it)
-    delete (*it);
-
+  DELETE_TREES(unrootedTrees);
+  
   return results;
 }
 
-std::vector<std::vector<INTTYPE_REST> > TripletDistanceCalculator::calculateAllPairsTripletDistance(std::vector<UnrootedTree *> trees) {
+std::vector<std::vector<INTTYPE_REST> > 
+  TripletDistanceCalculator::calculateAllPairsTripletDistance(
+    std::vector<UnrootedTree *> trees
+  ) {
+    
   std::vector<std::vector<INTTYPE_REST> > results(trees.size());
   
   RootedTree *rt1;
   RootedTree *rt2;
 
-  for(size_t r = 0; r < trees.size(); ++r) {
-    for(size_t c = 0; c < r; ++c) {
+  for(size_t r = 0; r != trees.size(); ++r) {
+    for(size_t c = 0; c != r; ++c) {
       rt1 = trees[r]->convertToRootedTree(NULL);
       rt2 = trees[c]->convertToRootedTree(rt1->factory);
  
@@ -102,12 +138,20 @@ INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(const char *fil
 
   ut1 = parser.parseFile(filename1);
   if (ut1 == NULL || parser.isError()) {
-    stop("Failed to parse filename1");
+    if (ut1 != NULL) delete ut1;
+    if (ut2 != NULL) delete ut2;
+    if (rt1 != NULL) delete rt1->factory;
+    if (rt2 != NULL) delete rt2->factory;
+    Rcpp::stop("Failed to parse filename1");
   }
 
   ut2 = parser.parseFile(filename2);
   if(ut2 == NULL || parser.isError()) {
-    stop("Failed to parse filename2");
+    if (ut1 != NULL) delete ut1;
+    if (ut2 != NULL) delete ut2;
+    if (rt1 != NULL) delete rt1->factory;
+    if (rt2 != NULL) delete rt2->factory;
+    Rcpp::stop("Failed to parse filename2");
   }
 
   rt1 = ut1->convertToRootedTree(NULL);
