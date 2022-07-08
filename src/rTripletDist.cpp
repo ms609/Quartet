@@ -9,7 +9,8 @@ using namespace Rcpp;
 //' @describeIn tqdist_QuartetDistance Triplet distance between two trees
 //' @export
 // [[Rcpp::export]]
-IntegerVector tqdist_TripletDistance(CharacterVector file1, CharacterVector file2) {
+IntegerVector tqdist_TripletDistance(CharacterVector file1,
+                                     CharacterVector file2) {
   int n1 = file1.size(), n2 = file2.size();
   if (n1 != 1 || n2 != 1) {
     Rcpp::stop("file1 and file2 must be character vectors of length 1");
@@ -33,7 +34,8 @@ IntegerVector tqdist_TripletDistance(CharacterVector file1, CharacterVector file
 //' @describeIn tqdist_QuartetDistance Triplet distance between pairs
 //' @export
 // [[Rcpp::export]]
-IntegerVector tqdist_PairsTripletDistance(CharacterVector file1, CharacterVector file2) {
+IntegerVector tqdist_PairsTripletDistance(CharacterVector file1,
+                                          CharacterVector file2) {
   int n1 = file1.size(), n2 = file2.size();
   if (n1 != 1 || n2 != 1) {
     Rcpp::stop("file1 and file2 must be character vectors of length 1");
@@ -47,10 +49,11 @@ IntegerVector tqdist_PairsTripletDistance(CharacterVector file1, CharacterVector
   
   TripletDistanceCalculator tripletCalc;
   
-  std::vector<INTTYPE_REST> res = tripletCalc.pairs_triplet_distance(filename1, filename2);
+  std::vector<INTTYPE_REST> res = tripletCalc.pairs_triplet_distance(filename1,
+                                                                     filename2);
   
   IntegerVector IV_res(res.size());
-  for (size_t i = 0; i < res.size(); ++i) {
+  for (size_t i = res.size(); i--; ) {
     IV_res[i] = res[i];
   }
   return IV_res;
@@ -69,12 +72,13 @@ IntegerMatrix tqdist_AllPairsTripletDistance(CharacterVector file) {
   filename = CHAR(STRING_ELT(file, 0));
   TripletDistanceCalculator tripletCalc;
 
-  std::vector<std::vector<INTTYPE_REST> > res = tripletCalc.calculateAllPairsTripletDistance(filename);
+  std::vector<std::vector<INTTYPE_REST> > res = 
+    tripletCalc.calculateAllPairsTripletDistance(filename);
 
   IntegerMatrix IM_res(res.size(), res.size());
   
-  for (size_t r = 0; r < res.size(); ++r) {
-    for (size_t c = 0; c < r; ++c) {
+  for (size_t r = res.size(); r--; ) {
+    for (size_t c = r; c--; ) {
       int current_res = int(res[r][c]);
       IM_res[r + res.size() * c] = current_res;
       IM_res[c + res.size() * r] = current_res;
