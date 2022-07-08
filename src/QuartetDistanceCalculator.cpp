@@ -102,7 +102,7 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
                          std::vector<UnrootedTree *> &unrootedTrees2) {
   std::vector<INTTYPE_N4> res;
 
-  for(size_t i = 0; i < unrootedTrees1.size(); i++) {
+  for(size_t i = 0; i != unrootedTrees1.size(); i++) {
     INTTYPE_N4 dist = calculateQuartetDistance(unrootedTrees1[i], unrootedTrees2[i]);
     
     res.push_back(dist);
@@ -115,14 +115,14 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
   pairs_quartet_distance(const char *filename1, const char *filename2) {
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees1  = parser.parseMultiFile(filename1); 
+  std::vector<UnrootedTree *> unrootedTrees1 = parser.parseMultiFile(filename1); 
   if (unrootedTrees1.size() == 0) {
     Rcpp::stop("No trees found in filename1; does file end with blank line?");
   } else if (parser.isError()) {
     Rcpp::stop("Error parsing filename1 in pairs_quartet_distance -> parser.parseMultiFile");
   }
 
-  std::vector<UnrootedTree *> unrootedTrees2  = parser.parseMultiFile(filename2); 
+  std::vector<UnrootedTree *> unrootedTrees2 = parser.parseMultiFile(filename2); 
   if (unrootedTrees2.size() == 0) {
     Rcpp::stop("No trees found in filename2; does file end with blank line?");
   } else if (parser.isError()) {
