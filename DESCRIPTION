@@ -57,5 +57,5 @@ LinkingTo: Rcpp
 LazyData: true
 ByteCompile: true
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
