@@ -7,7 +7,7 @@ using namespace std;
 using namespace Rcpp;
 
 UnrootedTree* EdgeParser::parseEdge(IntegerMatrix edge) {
-  edg = edge;  
+  edg = edge;
   return parse();
 }
 

@@ -1,3 +1,7 @@
+# Quartet v1.2.5
+
+- Fix memory leaks.
+
 # Quartet v1.2.4
 
  - `QuartetStates()` handles absent leaves gracefully.
