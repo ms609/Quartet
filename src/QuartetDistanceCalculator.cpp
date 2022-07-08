@@ -25,7 +25,7 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (UnrootedTree *unrootedSingle, std::vector<UnrootedTree *> &unrootedMultiple) {
   Rcpp::IntegerVector res(unrootedMultiple.size() * 2);
   
-  for(size_t i = 0; i != unrootedMultiple.size(); i++) {
+  for(size_t i = unrootedMultiple.size(); i--; ) {
     AE status = calculateQuartetAgreement(unrootedSingle, unrootedMultiple[i]);
     res[i] = status.a;
     res[i + unrootedMultiple.size()] = status.e;
