@@ -34,7 +34,8 @@ library('Quartet')
 
 For the latest features, install the development version:
 ```r
-if(!require(devtools)) install.packages("devtools")
+if(!require("curl")) install.packages("curl")
+if(!require("devtools")) install.packages("devtools")
 devtools::install_github('ms609/Quartet')
 ```
 
