@@ -35,8 +35,8 @@ library('Quartet')
 For the latest features, install the development version:
 ```r
 if(!require("curl")) install.packages("curl")
-if(!require("devtools")) install.packages("devtools")
-devtools::install_github('ms609/Quartet')
+if(!require("remotes")) install.packages("remotes")
+remotes::install_github("ms609/Quartet")
 ```
 
 You will need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed 
