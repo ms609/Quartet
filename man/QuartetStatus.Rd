@@ -86,19 +86,19 @@ tqdist C library (Sand \emph{et al}. 2014).
 }
 \section{Functions}{
 \itemize{
-\item \code{SharedQuartetStatus}: Reports split statistics obtained after removing all
+\item \code{SharedQuartetStatus()}: Reports split statistics obtained after removing all
 tips that do not occur in both trees being compared.
 
-\item \code{ManyToManyQuartetAgreement}: Agreement of each quartet, comparing each pair of
+\item \code{ManyToManyQuartetAgreement()}: Agreement of each quartet, comparing each pair of
 trees in a list.
 
-\item \code{TwoListQuartetAgreement}: Agreement of each quartet in trees in one list with
+\item \code{TwoListQuartetAgreement()}: Agreement of each quartet in trees in one list with
 each quartet in trees in a second list.
 
-\item \code{SingleTreeQuartetAgreement}: Agreement of each quartet in trees in a list with
+\item \code{SingleTreeQuartetAgreement()}: Agreement of each quartet in trees in a list with
 the quartets in a comparison tree.
-}}
 
+}}
 \examples{
 data('sq_trees')
 # Calculate the status of each quartet relative to the first entry in 

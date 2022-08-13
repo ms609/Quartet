@@ -54,10 +54,10 @@ latter two quantities, i.e. \code{d1} + \code{d2}.
 }
 \section{Functions}{
 \itemize{
-\item \code{SharedSplitStatus}: Reports split statistics obtained after removing all
+\item \code{SharedSplitStatus()}: Reports split statistics obtained after removing all
 tips that do not occur in both trees being compared.
-}}
 
+}}
 \examples{
 data('sq_trees')
 

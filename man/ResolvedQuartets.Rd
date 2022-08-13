@@ -32,10 +32,10 @@ calculations for errors.
 }
 \section{Functions}{
 \itemize{
-\item \code{ResolvedTriplets}: Convenience function to calculate the number of
+\item \code{ResolvedTriplets()}: Convenience function to calculate the number of
 resolved/unresolved triplets.
-}}
 
+}}
 \examples{
 data(sq_trees)
 

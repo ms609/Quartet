@@ -70,39 +70,39 @@ Functions are called from R with user-friendly functions such as
 }
 \section{Functions}{
 \itemize{
-\item \code{tqdist_QuartetAgreement}: Agreement of each quartet
+\item \code{tqdist_QuartetAgreement()}: Agreement of each quartet
 
-\item \code{tqdist_QuartetAgreementEdge}: Agreement of each quartet
+\item \code{tqdist_QuartetAgreementEdge()}: Agreement of each quartet
 
-\item \code{tqdist_QuartetAgreementChar}: Agreement of each quartet
+\item \code{tqdist_QuartetAgreementChar()}: Agreement of each quartet
 
-\item \code{tqdist_PairsQuartetDistance}: Distance between pairs
+\item \code{tqdist_PairsQuartetDistance()}: Distance between pairs
 
-\item \code{tqdist_OneToManyQuartetAgreement}: Distance between pairs
+\item \code{tqdist_OneToManyQuartetAgreement()}: Distance between pairs
 
-\item \code{tqdist_OneToManyQuartetAgreementChar}: Distance between pairs
+\item \code{tqdist_OneToManyQuartetAgreementChar()}: Distance between pairs
 
-\item \code{tqdist_OneToManyQuartetAgreementEdge}: Distance between pairs
+\item \code{tqdist_OneToManyQuartetAgreementEdge()}: Distance between pairs
 
-\item \code{tqdist_AllPairsQuartetDistance}: Distance between all pairs
+\item \code{tqdist_AllPairsQuartetDistance()}: Distance between all pairs
 
-\item \code{tqdist_AllPairsQuartetDistanceChar}: Distance between all pairs
+\item \code{tqdist_AllPairsQuartetDistanceChar()}: Distance between all pairs
 
-\item \code{tqdist_AllPairsQuartetDistanceEdge}: Distance between all pairs
+\item \code{tqdist_AllPairsQuartetDistanceEdge()}: Distance between all pairs
 
-\item \code{tqdist_AllPairsQuartetAgreement}: Agreement between all pairs of trees
+\item \code{tqdist_AllPairsQuartetAgreement()}: Agreement between all pairs of trees
 
-\item \code{tqdist_AllPairsQuartetAgreementChar}: Agreement between all pairs of trees
+\item \code{tqdist_AllPairsQuartetAgreementChar()}: Agreement between all pairs of trees
 
-\item \code{tqdist_AllPairsQuartetAgreementEdge}: Agreement between all pairs of trees
+\item \code{tqdist_AllPairsQuartetAgreementEdge()}: Agreement between all pairs of trees
 
-\item \code{tqdist_TripletDistance}: Triplet distance between two trees
+\item \code{tqdist_TripletDistance()}: Triplet distance between two trees
 
-\item \code{tqdist_PairsTripletDistance}: Triplet distance between pairs
+\item \code{tqdist_PairsTripletDistance()}: Triplet distance between pairs
 
-\item \code{tqdist_AllPairsTripletDistance}: Triplet distance between all pairs
+\item \code{tqdist_AllPairsTripletDistance()}: Triplet distance between all pairs
+
 }}
-
 \references{
 \insertRef{Sand2014}{Quartet}
 }

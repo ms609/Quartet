@@ -58,7 +58,7 @@
 #'   https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976
 #' 
 #' - Smith, M.R. 2022. Robust analysis of phylogenetic tree space. 
-#'   Systematic Biology, syab100.
+#'   Syst. Biol. 71: 1255-1270.
 #'   https://dx.doi.org/10.1093/sysbio/syab100
 #' 
 #' - Steel, M. and Penny, D. 1993. Distributions of tree comparison metrics:

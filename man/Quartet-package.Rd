@@ -62,7 +62,7 @@ informative trees from simulated morphological datasets. Biol. Lett.
 for comparing phylogenetic trees. Bioinformatics 36:5007–5013.
 https://dx.doi.org/10.1093/bioinformatics/btaa614/5866976
 \item Smith, M.R. 2022. Robust analysis of phylogenetic tree space.
-Systematic Biology, syab100.
+Syst. Biol. 71: 1255-1270.
 https://dx.doi.org/10.1093/sysbio/syab100
 \item Steel, M. and Penny, D. 1993. Distributions of tree comparison metrics:
 some new results. Syst. Biol. 42: 126-141.

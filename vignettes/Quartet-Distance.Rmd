@@ -32,7 +32,7 @@ a low range of integer values, and a low maximum value, limiting its ability
 to distinguish between trees [@Steel1993]; and it treats all splits as 
 equivalent, even though some are more informative than others.
 Various other artefacts and biases limit its performance against a suite of
-real-world benchmarks [@Smith2020;@Smith2021].
+real-world benchmarks [@Smith2020;@Smith2022].
 These shortcomings can largely be mitigated through generalizations of the
 Robinson-Foulds distance (see R package 
 '[TreeDist](https://ms609.github.io/TreeDist/)'), but the complementary

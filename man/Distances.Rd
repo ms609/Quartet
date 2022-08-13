@@ -53,35 +53,35 @@ distances between pairs of trees.
 }
 \section{Functions}{
 \itemize{
-\item \code{QuartetDistance}: Returns the quartet distance between the tree.
+\item \code{QuartetDistance()}: Returns the quartet distance between the tree.
 in \code{file1} and the tree in \code{file2}.
 
-\item \code{QuartetAgreement}: Returns a vector of length two, listing [1]
+\item \code{QuartetAgreement()}: Returns a vector of length two, listing [1]
 the number of resolved quartets that agree (\code{A});
 [2] the number of quartets that are unresolved in both trees (\code{E}).
 See Brodal et al. (2013).
 
-\item \code{PairsQuartetDistance}: Quartet distance between the tree on each line of \code{file1}
+\item \code{PairsQuartetDistance()}: Quartet distance between the tree on each line of \code{file1}
 and the tree on the corresponding line of \code{file2}.
 
-\item \code{OneToManyQuartetAgreement}: Quartet distance between the tree in
+\item \code{OneToManyQuartetAgreement()}: Quartet distance between the tree in
 \code{file1} and the tree on each line of \code{file2}.
 
-\item \code{AllPairsQuartetDistance}: Quartet distance between each tree listed in \code{file} and
+\item \code{AllPairsQuartetDistance()}: Quartet distance between each tree listed in \code{file} and
 each other tree therein.
 
-\item \code{AllPairsQuartetAgreement}: Quartet status for each pair of trees in \code{file}.
+\item \code{AllPairsQuartetAgreement()}: Quartet status for each pair of trees in \code{file}.
 
-\item \code{TripletDistance}: Triplet distance between the single tree given
+\item \code{TripletDistance()}: Triplet distance between the single tree given
 in each file.
 
-\item \code{PairsTripletDistance}: Triplet distance between the tree on each line of \code{file1}
+\item \code{PairsTripletDistance()}: Triplet distance between the tree on each line of \code{file1}
 and the tree on the corresponding line of \code{file2}.
 
-\item \code{AllPairsTripletDistance}: Triplet distance between each tree listed in \code{file} and
+\item \code{AllPairsTripletDistance()}: Triplet distance between each tree listed in \code{file} and
 each other tree therein.
-}}
 
+}}
 \references{
 \itemize{
 \item \insertRef{Brodal2013}{Quartet}
