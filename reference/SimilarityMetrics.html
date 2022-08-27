@@ -185,10 +185,10 @@ Multiple approaches to normalization have been proposed:</p>
 given the number of tips (Smith 2019)
 :</p><ul><li><p>Symmetric Divergence: (<em>d</em> + <em>d</em> + <em>r1</em> + <em>r2</em>) / <em>N</em></p></li>
 </ul><p>Finally, in cases where a reconstructed tree <code>r1</code> is being compared to a
-reference tree <code>r2</code> taken to represent 'true' relationships,
+reference tree <code>r2</code> taken to represent "true" relationships,
 a symmetric difference is not desired.
 In such settings, the desired score is the expectation that a given
-quartet's resolution in the reconstructed tree is 'correct', given by
+quartet's resolution in the reconstructed tree is "correct", given by
 Asher and Smith (2022)
 :</p><ul><li><p>Similarity to Reference (S2R): (<em>s</em> + (<em>r1</em> + <em>r2</em> + <em>u</em>) / 3) / <em>Q</em></p></li>
 </ul><p>This may optionally be normalized with reference to the maximum possible
@@ -196,7 +196,7 @@ similarity, (<em>s</em> + <em>d</em> + <em>r2</em> + (<em>r1</em> + <em>u</em>) 
 1/3 (the probability of matching at random) from both the S2R score and
 maximum possible score before dividing; then, a tree scores zero if it
 is as different from the true tree as a random or fully unresolved tree,
-and one if it is as 'true' as can be known.</p>
+and one if it is as "true" as can be known.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -250,7 +250,7 @@ Estabrook <em>et al.</em> metrics are calculated -- with <code><a href="QuartetS
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sq_trees'</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sq_trees"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">sq_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">sq_trees</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">SimilarityMetrics</span><span class="op">(</span><span class="va">sq_status</span><span class="op">)</span></span></span>
@@ -340,7 +340,7 @@ Estabrook <em>et al.</em> metrics are calculated -- with <code><a href="QuartetS
 <span class="r-out co"><span class="r-pr">#&gt;</span>   top_and_tail anti_pectinate    random_tree </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     0.63030303     0.74242424     0.68484848 </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">'TreeTools'</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">"TreeTools"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html" class="external-link">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">101</span>, <span class="fl">10</span><span class="op">)</span>, <span class="fl">16</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
