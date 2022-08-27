@@ -17,8 +17,8 @@ TQAE(trees)
 \code{TQDist()} returns the quartet distance between each pair of trees.
 
 \code{TQAE()} returns the number of resolved quartets in agreement between
-each pair of trees ('A' in Brodal \emph{et al}. 2013) and the number of quartets
-that are unresolved in both trees ('E' in Brodal \emph{et al}. 2013).
+each pair of trees ("A" in Brodal \emph{et al}. 2013) and the number of quartets
+that are unresolved in both trees ("E" in Brodal \emph{et al}. 2013).
 }
 \description{
 Convenience function that takes a list of trees, writes them to the text

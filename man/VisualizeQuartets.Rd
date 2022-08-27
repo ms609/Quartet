@@ -54,18 +54,18 @@ to colour matches.}
 Visualize quartet difference on trees, by split
 }
 \examples{
-library('TreeTools', quietly = TRUE, warn.conflicts = FALSE)
+library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
 VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
-                  style = 'label')
+                  style = "label")
 # Keep original plotting parameters:
 origPar <- par(mfrow = c(2, 2))
 VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
                   setPar = FALSE)
 VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
-                  style = 'bar', legend = FALSE, setPar = FALSE)
+                  style = "bar", legend = FALSE, setPar = FALSE)
 par(origPar)
 VisualizeQuartets(BalancedTree(20), CollapseNode(PectinateTree(20), 29:33),
-                  style = 'size', scale = 2)
+                  style = "size", scale = 2)
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

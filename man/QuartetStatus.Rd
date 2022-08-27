@@ -100,7 +100,7 @@ the quartets in a comparison tree.
 
 }}
 \examples{
-data('sq_trees')
+data("sq_trees")
 # Calculate the status of each quartet relative to the first entry in 
 # sq_trees
 sq_status <- QuartetStatus(sq_trees)
@@ -113,7 +113,7 @@ sq_status <- QuartetStatus(two_moved, sq_trees$ref_tree)
 SimilarityMetrics(sq_status)
 
 # Compare trees that include a subset of the taxa 1..10
-library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
+library("TreeTools", quietly = TRUE, warn.conflict = FALSE)
 QuartetStatus(BalancedTree(1:5), BalancedTree(3:8), nTip = 10)
 
 # If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`

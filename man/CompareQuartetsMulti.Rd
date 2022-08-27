@@ -57,7 +57,7 @@ leaves in trees being compared.  30 leaves will take around 5 seconds;
 40 closer to 20 s, and 50 around a minute.
 }
 \examples{
-library('TreeTools')
+library("TreeTools")
 CompareQuartetsMulti(x  = CollapseNode(as.phylo(42, 6), 8:9),
                      cf = list(BalancedTree(6), PectinateTree(6), 
                                CollapseNode(as.phylo(1337, 6), 9:10)))

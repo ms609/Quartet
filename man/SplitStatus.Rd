@@ -59,7 +59,7 @@ tips that do not occur in both trees being compared.
 
 }}
 \examples{
-data('sq_trees')
+data("sq_trees")
 
 # Calculate the status of each quartet
 splitStatuses <- SplitStatus(sq_trees)
@@ -69,7 +69,7 @@ RawSymmetricDifference(splitStatuses)
 
 # Normalize the Robinson Foulds distance by dividing by the number of 
 # splits present in the two trees:
-RawSymmetricDifference(splitStatuses) / splitStatuses[, 'N']
+RawSymmetricDifference(splitStatuses) / splitStatuses[, "N"]
 
 # Normalize the Robinson Foulds distance by dividing by the total number of 
 # splits that it is possible to resolve for `n` tips:

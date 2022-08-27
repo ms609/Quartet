@@ -11,7 +11,7 @@
 \alias{TripletDistance}
 \alias{PairsTripletDistance}
 \alias{AllPairsTripletDistance}
-\title{Direct entry points to 'tqDist' functions}
+\title{Direct entry points to "tqDist" functions}
 \usage{
 QuartetDistance(file1, file2)
 
@@ -48,7 +48,7 @@ Comparing a tree against itself yields the totals (\code{A+B+C}) and (\code{D+E}
 referred to by Brodal \emph{et al}. (2013) and Holt \emph{et al}. (2014).
 }
 \description{
-Wrappers for functions in 'tqDist', which calculate triplet and quartet
+Wrappers for functions in "tqDist", which calculate triplet and quartet
 distances between pairs of trees.
 }
 \section{Functions}{

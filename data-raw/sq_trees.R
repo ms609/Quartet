@@ -20,5 +20,5 @@ sq_trees <- structure(list(
   top_and_tail  = ape::read.tree(text = "((((((11, 2), 3), 4), 5), 6), (7, (8, (9, (10, 1)))));"),
   anti_pectinate = ape::read.tree(text = "(9,((4,(6,((3,(1,10)),8))),(((2,11),5),7)));"),
   random_tree   = ape::rtree(n_tip, tip.label = seq_len(n_tip), br = NULL)
-), class = 'multiPhylo')
-usethis::use_data(sq_trees, overwrite = TRUE, compress='xz')
+), class = "multiPhylo")
+usethis::use_data(sq_trees, overwrite = TRUE, compress="xz")

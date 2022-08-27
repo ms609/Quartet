@@ -7,9 +7,9 @@ Metrics <- list(DoNotConflict, ExplicitlyAgree, StrictJointAssertions,
 
 test_that("Quartets are counted correctly", {
   easyTreesy <- list(
-    ape::read.tree(text='((1, 2), ((3, 4), (6, 5)));'),
-    ape::read.tree(text='((1, 5), (3, (4, (2, 6))));'))
-  expect_identical(c(15L, 2L), QuartetStatus(easyTreesy)[, 's'])
+    ape::read.tree(text="((1, 2), ((3, 4), (6, 5)));"),
+    ape::read.tree(text="((1, 5), (3, (4, (2, 6))));"))
+  expect_identical(c(15L, 2L), QuartetStatus(easyTreesy)[, "s"])
   
   quartet_matches <- QuartetStatus(sq_trees)
 
@@ -20,8 +20,8 @@ test_that("Quartets are counted correctly", {
   expected_ambiguous <- c(rep(0L, 7), 8L, 123L, 8L, 65L, 8L, 205L, rep(0L, 5L))
   names(expected_identical) <- names(expected_ambiguous) <- names(sq_trees)
   
-  expect_identical(expected_identical, quartet_matches[, 's'])
-  expect_identical(expected_ambiguous, quartet_matches[, 'r2'])
+  expect_identical(expected_identical, quartet_matches[, "s"])
+  expect_identical(expected_ambiguous, quartet_matches[, "r2"])
   
 })
 
@@ -32,17 +32,17 @@ test_that("Quartet metrics are sane", {
 
   expect_true(all(sims <= 1))
   expect_true(all(sims + dists == 1)[-4]) # SSJA doesn't sum to 1
-  expect_true(all(dists['ref_tree', ] == 0))
+  expect_true(all(dists["ref_tree", ] == 0))
   
-  expect_equivalent(sims[, 'DoNotConflict'], DoNotConflict(sq_status))
-  expect_equivalent(sims[, 'ExplicitlyAgree'], ExplicitlyAgree(sq_status))
-  expect_equivalent(sims[, 'StrictJointAssertions'], StrictJointAssertions(sq_status))
-  expect_equivalent(sims[, 'SemiStrictJointAssertions'], SemiStrictJointAssertions(sq_status))
-  expect_equivalent(sims[, 'SymmetricDifference'], SymmetricDifference(sq_status))
-  expect_equivalent(sims[, 'MarczewskiSteinhaus'], MarczewskiSteinhaus(sq_status))
-  expect_equivalent(sims[, 'SteelPenny'], SteelPenny(sq_status))
-  expect_equivalent(sims[, 'QuartetDivergence'], QuartetDivergence(sq_status))
-  expect_equivalent(sims[, 'SimilarityToReference'], SimilarityToReference(sq_status))
+  expect_equivalent(sims[, "DoNotConflict"], DoNotConflict(sq_status))
+  expect_equivalent(sims[, "ExplicitlyAgree"], ExplicitlyAgree(sq_status))
+  expect_equivalent(sims[, "StrictJointAssertions"], StrictJointAssertions(sq_status))
+  expect_equivalent(sims[, "SemiStrictJointAssertions"], SemiStrictJointAssertions(sq_status))
+  expect_equivalent(sims[, "SymmetricDifference"], SymmetricDifference(sq_status))
+  expect_equivalent(sims[, "MarczewskiSteinhaus"], MarczewskiSteinhaus(sq_status))
+  expect_equivalent(sims[, "SteelPenny"], SteelPenny(sq_status))
+  expect_equivalent(sims[, "QuartetDivergence"], QuartetDivergence(sq_status))
+  expect_equivalent(sims[, "SimilarityToReference"], SimilarityToReference(sq_status))
   
   sim6 <- SimilarityMetrics(sq_status[6, ])
   expect_equivalent(sims[6, ], sim6)
@@ -63,14 +63,14 @@ test_that("Quartet metrics are sane", {
   treeNodes <- vapply(sq_trees, function (tr) tr$Nnode, double(1))
   n_tip <- 11L
   bifurcators <- treeNodes == n_tip - 1L
-  expect_true(all(apply(sims[bifurcators, colnames(sims) != 'MarczewskiSteinhaus'],
+  expect_true(all(apply(sims[bifurcators, colnames(sims) != "MarczewskiSteinhaus"],
                         1, var) < 1e-08))
   
   fncs <- vapply(Metrics, function (X) X(sq_status), double(length(sq_trees)))
   expect_true(all(fncs - sims < 1e-08))
 })
 
-test_that('Three-dimensional calculation is correct', {
+test_that("Three-dimensional calculation is correct", {
   testTrees <- sq_trees[11:18]
   test2 <- sq_trees[5:6]
   lapply(Metrics, function (Func) {
@@ -83,8 +83,8 @@ test_that('Three-dimensional calculation is correct', {
 
 test_that("Quartet metrics handle polytomous pairs", {
   polytomous <- list(
-    ape::read.tree(text='(A, (B, (C, (D, (E, F, G)))));'),
-    ape::read.tree(text='(A, (B, (G, (C, E, F, D))));'),
+    ape::read.tree(text="(A, (B, (C, (D, (E, F, G)))));"),
+    ape::read.tree(text="(A, (B, (G, (C, E, F, D))));"),
     ape::read.tree(text='(A, (B, (C, (D, (E, (F, G))))));'),
     ape::read.tree(text='(A, (B, (C, ((D, E), (F, G)))));')
   )

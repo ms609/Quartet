@@ -23,23 +23,23 @@
 #' @param \dots Additional parameters to send to `Plot()`.
 #' 
 #' @examples
-#' library('TreeTools', quietly = TRUE, warn.conflicts = FALSE)
+#' library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
 #' VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
-#'                   style = 'label')
+#'                   style = "label")
 #' # Keep original plotting parameters:
 #' origPar <- par(mfrow = c(2, 2))
 #' VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
 #'                   setPar = FALSE)
 #' VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
-#'                   style = 'bar', legend = FALSE, setPar = FALSE)
+#'                   style = "bar", legend = FALSE, setPar = FALSE)
 #' par(origPar)
 #' VisualizeQuartets(BalancedTree(20), CollapseNode(PectinateTree(20), 29:33),
-#'                   style = 'size', scale = 2)
+#'                   style = "size", scale = 2)
 #' @template MRS
 #' @importFrom ape plot.phylo
 #' @importFrom viridisLite viridis
 #' @export
-VisualizeQuartets <- function (tree1, tree2, style = 'pie',
+VisualizeQuartets <- function (tree1, tree2, style = "pie",
                                setPar = TRUE,
                                precision = 3L,
                                Plot = plot.phylo,
@@ -57,16 +57,16 @@ VisualizeQuartets <- function (tree1, tree2, style = 'pie',
            precision = precision, spectrum = spectrum)
   if (isTRUE(legend)) {
     Legend2 <- function() {
-      legend('topleft', c('Quartets match', 'Quartets differ'), bty = 'n',
+      legend("topleft", c("Quartets match", "Quartets differ"), bty = "n",
              pch = 15, col = spectrum[c(101, 1)])
     }
     Legend5 <- function() {
-      legend('topleft',
-             c('100% quartets match', '75%', '50%', '25%', '100% differ'),
-             bty = 'n', pch = 15, 
+      legend("topleft",
+             c("100% quartets match", "75%", "50%", "25%", "100% differ"),
+             bty = "n", pch = 15, 
              col = spectrum[c(101, 76, 51, 26, 1)])
     }
-    switch(pmatch(style, c('label', 'bar', 'pie', 'size')),
+    switch(pmatch(style, c("label", "bar", "pie", "size")),
            Legend5(), Legend2(), Legend2(), Legend5())
   }
   Plot(tree2, ...)
@@ -87,25 +87,25 @@ VisualizeQuartets <- function (tree1, tree2, style = 'pie',
     CollapseNode(tr1, allNodes[allNodes != keep])
   })
   qs <- QuartetStatus(oneNode, tr2)
-  resolved <- qs[, 's'] + qs[, 'd']
-  sames <- qs[, 's'] / (qs[, 's'] + qs[, 'd'])
+  resolved <- qs[, "s"] + qs[, "d"]
+  sames <- qs[, "s"] / (qs[, "s"] + qs[, "d"])
   
-  switch(pmatch(style, c('label', 'bar', 'pie', 'size')),
+  switch(pmatch(style, c("label", "bar", "pie", "size")),
          ## Coloured according to % same
          nodelabels(signif(sames, precision), splits, cex = scale,
                     bg = spectrum[1 + ceiling(100 * sames)]),
          ## Thermo bars
          nodelabels(signif(sames, precision), splits, cex = scale,
-                    frame = 'n', adj = -0.1,
+                    frame = "n", adj = -0.1,
                     thermo = sames, piecol = spectrum[c(101, 1)]),
          ## Pie charts
-         nodelabels('', splits, frame = 'n',
-                    cex = sqrt(resolved / qs[1, 'N']) * 5L * scale,
+         nodelabels("", splits, frame = "n",
+                    cex = sqrt(resolved / qs[1, "N"]) * 5L * scale,
                     pie = sames, piecol = spectrum[c(101, 1)]),
          ## Size according to total number of quartet statements
-         nodelabels('', splits, pch = 16, frame = 'none',
+         nodelabels("", splits, pch = 16, frame = "none",
                     col = spectrum[1 + ceiling(100 * sames)],
-                    cex = sqrt(resolved / qs[1, 'N']) * 10L * scale)
+                    cex = sqrt(resolved / qs[1, "N"]) * 10L * scale)
   )
   
 }

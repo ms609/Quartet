@@ -24,7 +24,7 @@
 #'             # values of n_tips is significantly slower.
 #' 
 #' @export
-AllQuartets <- function (nTips) UseMethod('AllQuartets')
+AllQuartets <- function (nTips) UseMethod("AllQuartets")
 
 #' @rdname AllQuartets
 #' @export
@@ -122,7 +122,7 @@ QuartetState <- function (tips, bips, splits = bips, asRaw = FALSE) {
 #' or if multiple trees are provided, a matrix in which each row corresponds
 #' to such a vector.
 #' @export
-QuartetStates <- function (splits, asRaw = FALSE) UseMethod('QuartetStates')
+QuartetStates <- function (splits, asRaw = FALSE) UseMethod("QuartetStates")
 
 #' @export
 QuartetStates.phylo <- function (splits, asRaw = FALSE) {
@@ -259,7 +259,7 @@ CompareQuartets <- function (x, cf) {
 #' @family quartet counting functions
 #' 
 #' @examples 
-#' library('TreeTools')
+#' library("TreeTools")
 #' CompareQuartetsMulti(x  = CollapseNode(as.phylo(42, 6), 8:9),
 #'                      cf = list(BalancedTree(6), PectinateTree(6), 
 #'                                CollapseNode(as.phylo(1337, 6), 9:10)))
@@ -270,7 +270,7 @@ CompareQuartetsMulti <- function (x, cf) {
   
   input <- QuartetStates(x, asRaw = TRUE)
   nIn <- length(input)
-  if (inherits(cf, 'phylo')) {
+  if (inherits(cf, "phylo")) {
     cf <- list(cf)
   }
   xLabels <- x$tip.label
@@ -279,7 +279,7 @@ CompareQuartetsMulti <- function (x, cf) {
   if (!all(cfTips == length(xLabels))) {
     stop("All trees must contain the same number of leaves.")
   }
-  if (!all(apply(sapply(cf, getElement, 'tip.label'), 2L, function (lab)
+  if (!all(apply(sapply(cf, getElement, "tip.label"), 2L, function (lab)
     identical(sort(lab), xSorted)))) {
     stop("All trees must contain the same tip labels.")
   }

@@ -122,7 +122,7 @@ CompareBipartitions <- CompareSplits
 #' @family element-by-element comparisons
 #'         
 #' @examples
-#' data('sq_trees')
+#' data("sq_trees")
 #' 
 #' # Calculate the status of each quartet
 #' splitStatuses <- SplitStatus(sq_trees)
@@ -132,7 +132,7 @@ CompareBipartitions <- CompareSplits
 #' 
 #' # Normalize the Robinson Foulds distance by dividing by the number of 
 #' # splits present in the two trees:
-#' RawSymmetricDifference(splitStatuses) / splitStatuses[, 'N']
+#' RawSymmetricDifference(splitStatuses) / splitStatuses[, "N"]
 #' 
 #' # Normalize the Robinson Foulds distance by dividing by the total number of 
 #' # splits that it is possible to resolve for `n` tips:
@@ -177,7 +177,7 @@ BipartitionStatus <- SplitStatus
 #'   tips that do not occur in both trees being compared.
 #' @aliases SharedBipartitionStatus
 #' @export
-SharedSplitStatus <- function (trees, cf) UseMethod('SharedSplitStatus')
+SharedSplitStatus <- function (trees, cf) UseMethod("SharedSplitStatus")
 
 #' @export
 SharedSplitStatus.list <-  function (trees, cf = trees[[1]]) {
@@ -209,7 +209,7 @@ SharedBipartitionStatus <- SharedSplitStatus
 #' 
 #' @examples
 #' 
-#' library('TreeTools')
+#' library("TreeTools")
 #' ref <- BalancedTree(letters[1:9])
 #' cf <- BalancedTree(letters[3:13])
 #' 

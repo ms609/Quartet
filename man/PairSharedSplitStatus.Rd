@@ -18,7 +18,7 @@ the status of the remaining splits.
 }
 \examples{
 
-library('TreeTools')
+library("TreeTools")
 ref <- BalancedTree(letters[1:9])
 cf <- BalancedTree(letters[3:13])
 

@@ -70,10 +70,10 @@
 #' * Symmetric Divergence: (_d_ + _d_ + _r1_ + _r2_) / _N_
 #' 
 #' Finally, in cases where a reconstructed tree `r1` is being compared to a
-#' reference tree `r2` taken to represent 'true' relationships,
+#' reference tree `r2` taken to represent "true" relationships,
 #' a symmetric difference is not desired.
 #' In such settings, the desired score is the expectation that a given 
-#' quartet's resolution in the reconstructed tree is 'correct', given by
+#' quartet's resolution in the reconstructed tree is "correct", given by
 #' \insertCite{Asher2020;textual}{TreeTools}:
 #' 
 #' * Similarity to Reference (S2R): (_s_ + (_r1_ + _r2_ + _u_) / 3) / _Q_
@@ -83,7 +83,7 @@
 #' 1/3 (the probability of matching at random) from both the S2R score and 
 #' maximum possible score before dividing; then, a tree scores zero if it
 #' is as different from the true tree as a random or fully unresolved tree,
-#' and one if it is as 'true' as can be known.
+#' and one if it is as "true" as can be known.
 #'
 #' @template elementStatusParam
 #' @param similarity Logical specifying whether to calculate the similarity
@@ -110,7 +110,7 @@
 #'   [`CompareSplits()`]
 #'
 #' @examples 
-#' data('sq_trees')
+#' data("sq_trees")
 #' 
 #' sq_status <- QuartetStatus(sq_trees)
 #' SimilarityMetrics(sq_status)
@@ -128,17 +128,17 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
   elementStatus <- .StatusToMatrix(elementStatus)
   rows <- nrow(elementStatus)
   RS <- function (x) .rowSums(elementStatus[, x], rows, length(x))
-  ddr1r2 <- RS(c('2d', 'r1', 'r2'))
+  ddr1r2 <- RS(c("2d", "r1", "r2"))
   result <- cbind(
-    DoNotConflict = elementStatus[, '2d'] / elementStatus[, 'N'],
-    ExplicitlyAgree = 1 - (2L * elementStatus[, 's']) / elementStatus[, 'N'],
-    StrictJointAssertions = elementStatus[, '2d'] / RS(c('2d', 's', 's')),
+    DoNotConflict = elementStatus[, "2d"] / elementStatus[, "N"],
+    ExplicitlyAgree = 1 - (2L * elementStatus[, "s"]) / elementStatus[, "N"],
+    StrictJointAssertions = elementStatus[, "2d"] / RS(c("2d", "s", "s")),
     SemiStrictJointAssertions = SemiStrictJointAssertions(elementStatus, 
                                                           similarity = FALSE),
-    SymmetricDifference = ddr1r2 / RS(c('2d', 's', 's', 'r1', 'r2')),
-    MarczewskiSteinhaus = ddr1r2 / RS(c('2d', 's', 'r1', 'r2')),
+    SymmetricDifference = ddr1r2 / RS(c("2d", "s", "s", "r1", "r2")),
+    MarczewskiSteinhaus = ddr1r2 / RS(c("2d", "s", "r1", "r2")),
     SteelPenny = SteelPenny(elementStatus, similarity = FALSE),
-    QuartetDivergence = ddr1r2 / elementStatus[, 'N'],
+    QuartetDivergence = ddr1r2 / elementStatus[, "N"],
     SimilarityToReference = SimilarityToReference(elementStatus,
                                                   similarity = FALSE,
                                                   normalize = FALSE)
@@ -188,7 +188,7 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' the output of `DoNotConflict` etc.
 #' 
 #' @examples 
-#' data('sq_trees')
+#' data("sq_trees")
 #' 
 #' @template MRS
 #' @export
@@ -196,20 +196,20 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 .StatusToMatrix <- function (statusVector) {
   if (is.null(dim(statusVector))) {
     statusVector <- matrix(statusVector, 1L,
-                           dimnames = list('tree', names(statusVector)))
+                           dimnames = list("tree", names(statusVector)))
   }
-  if ('2d' %in% colnames(statusVector)) {
+  if ("2d" %in% colnames(statusVector)) {
     # Repeat visitor; return unadulterated
     statusVector
-  } else if ('d' %in% colnames(statusVector)) {
-    statusVector <- cbind(statusVector, '2d' = 2L * unname(statusVector[, 'd']))
+  } else if ("d" %in% colnames(statusVector)) {
+    statusVector <- cbind(statusVector, "2d" = 2L * unname(statusVector[, "d"]))
   } else {
-    twoD <- unname(statusVector[, 'd1'] + statusVector[, 'd2'])
-    statusVector <- cbind(statusVector, '2d' = twoD, 'd' = twoD / 2L)
+    twoD <- unname(statusVector[, "d1"] + statusVector[, "d2"])
+    statusVector <- cbind(statusVector, "2d" = twoD, "d" = twoD / 2L)
     
-    if (!'u' %in% colnames(statusVector)) {
+    if (!"u" %in% colnames(statusVector)) {
       statusVector <- cbind(statusVector,
-                          'u' = unname(statusVector[, 'd1'] * 0))
+                          "u" = unname(statusVector[, "d1"] * 0))
     }
   }
   
@@ -230,24 +230,24 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' @export
 .StatusToArray <- function (status) {
   sliceNames <- dimnames(status)[[3]]
-  if (!('2d' %in% sliceNames)) {
-    if ('d' %in% sliceNames) {
-      status <- .AddSlice(status, status[, , 'd'] + status[, , 'd'], '2d')
+  if (!("2d" %in% sliceNames)) {
+    if ("d" %in% sliceNames) {
+      status <- .AddSlice(status, status[, , "d"] + status[, , "d"], "2d")
     } else {
-      status <- .AddSlice(status, status[, , 'd1'] + status[, , 'd2'], '2d')
+      status <- .AddSlice(status, status[, , "d1"] + status[, , "d2"], "2d")
     }
-    if (!('Q' %in% sliceNames) && 
-        'u' %in% sliceNames # No 'u' in Splits, which have no Q
+    if (!("Q" %in% sliceNames) && 
+        "u" %in% sliceNames # No "u" in Splits, which have no Q
         ) {
       status <- .AddSlice(status, 
-                          rowSums(status[, , c('s', 'd', 'r1', 'r2', 'u')], 
-                                  dims = 2L), 'Q')
+                          rowSums(status[, , c("s", "d", "r1", "r2", "u")], 
+                                  dims = 2L), "Q")
     }
-    if (!('N' %in% sliceNames)) {
-      if ('Q' %in% dimnames(status)[[3]]) {
-        status <- .AddSlice(status, status[, , 'Q'] + status[, , 'Q'], 'N')
+    if (!("N" %in% sliceNames)) {
+      if ("Q" %in% dimnames(status)[[3]]) {
+        status <- .AddSlice(status, status[, , "Q"] + status[, , "Q"], "N")
       } else {
-        status <- .AddSlice(status, status[, , 'P1'] + status[, , 'P2'], 'N')
+        status <- .AddSlice(status, status[, , "P1"] + status[, , "P2"], "N")
       }
     }
   } # else already passed through .StatusToArray
@@ -276,28 +276,28 @@ SimilarityMetrics <- function (elementStatus, similarity = TRUE) {
 #' @rdname SimilarityMetrics
 #' @export
 DoNotConflict <- function (elementStatus, similarity = TRUE) {
-  .NormalizeStatus(elementStatus, '2d', 'N', similarity)
+  .NormalizeStatus(elementStatus, "2d", "N", similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @export
 ExplicitlyAgree <- function (elementStatus, similarity = TRUE) {
-  .NormalizeStatus(elementStatus, c('s', 's'), 'N', !similarity)
+  .NormalizeStatus(elementStatus, c("s", "s"), "N", !similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @export
 StrictJointAssertions <- function (elementStatus, similarity = TRUE) {
-  .NormalizeStatus(elementStatus, '2d', c('2d', 's', 's'), similarity)
+  .NormalizeStatus(elementStatus, "2d", c("2d", "s", "s"), similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @export
 SemiStrictJointAssertions <- function (elementStatus, similarity = TRUE) {
-  if (all(c('s', 'd', 'u') %in% c(names(elementStatus), 
+  if (all(c("s", "d", "u") %in% c(names(elementStatus), 
                                   unlist(dimnames(elementStatus))))) {
-    .NormalizeStatus(elementStatus, if (similarity) 's' else 'd',
-                     c('s', 'd', 'u'), FALSE)
+    .NormalizeStatus(elementStatus, if (similarity) "s" else "d",
+                     c("s", "d", "u"), FALSE)
   } else {
     NA
   }
@@ -306,30 +306,30 @@ SemiStrictJointAssertions <- function (elementStatus, similarity = TRUE) {
 #' @rdname SimilarityMetrics
 #' @export
 SymmetricDifference <- function (elementStatus, similarity = TRUE) {
-  .NormalizeStatus(elementStatus, c('2d', 'r1', 'r2'), 
-                     c('2d', 's', 's', 'r1', 'r2'), similarity)
+  .NormalizeStatus(elementStatus, c("2d", "r1", "r2"), 
+                     c("2d", "s", "s", "r1", "r2"), similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @export
 RawSymmetricDifference <- function (elementStatus, similarity = FALSE) {
   elementStatus <- .StatusToMatrix(elementStatus)
-  rFDist <- rowSums(elementStatus[, c('2d', 'r1', 'r2'), drop = FALSE])
-  if (similarity) elementStatus[, 'N'] - rFDist else rFDist
+  rFDist <- rowSums(elementStatus[, c("2d", "r1", "r2"), drop = FALSE])
+  if (similarity) elementStatus[, "N"] - rFDist else rFDist
 }
 
 
 #' @rdname SimilarityMetrics
 #' @export
 RobinsonFoulds <- function(elementStatus, similarity = FALSE) {
-  .Deprecated('RawSymmetricDifference')
+  .Deprecated("RawSymmetricDifference")
   RawSymmetricDifference(elementStatus, similarity = similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @export
 MarczewskiSteinhaus <- function (elementStatus, similarity = TRUE) {
-  .NormalizeStatus(elementStatus, c('2d', 'r1', 'r2'), c('2d', 's', 'r1', 'r2'),
+  .NormalizeStatus(elementStatus, c("2d", "r1", "r2"), c("2d", "s", "r1", "r2"),
                    similarity)
 }
 
@@ -338,19 +338,19 @@ MarczewskiSteinhaus <- function (elementStatus, similarity = TRUE) {
 SteelPenny <- function (elementStatus, similarity = TRUE) {
   # Defined in Steel & Penny, p. 133; "dq would be written as "D + R".
   # dq = D + R in Day's (1986) terminology, where D = d/Q, R = (r1 + r2)/Q
-  .NormalizeStatus(elementStatus, c('2d', 'r1', 'r1', 'r2', 'r2'), 'N', 
+  .NormalizeStatus(elementStatus, c("2d", "r1", "r1", "r2", "r2"), "N", 
                    similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @export
 QuartetDivergence <- function (elementStatus, similarity = TRUE) {
-  .NormalizeStatus(elementStatus, c('2d', 'r1', 'r2'), 'N', similarity)
+  .NormalizeStatus(elementStatus, c("2d", "r1", "r2"), "N", similarity)
 }
 
 #' @rdname SimilarityMetrics
 #' @examples 
-#' library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
+#' library("TreeTools", quietly = TRUE, warn.conflict = FALSE)
 #' set.seed(0)
 #' reference <- CollapseNode(as.phylo(101, 10), 16:18)
 #' trees <- c(
@@ -369,12 +369,12 @@ QuartetDivergence <- function (elementStatus, similarity = TRUE) {
 SimilarityToReference <- function(elementStatus, similarity = TRUE,
                                   normalize = FALSE) {
   rawSimilarity <- .NormalizeStatus(elementStatus,
-                                    c(rep('s', 3L), 'r1', 'r2', 'u'), 
-                                    rep('N', 1), FALSE) * 2L / 3L
+                                    c(rep("s", 3L), "r1", "r2", "u"), 
+                                    rep("N", 1), FALSE) * 2L / 3L
   if (normalize) {
     refBestScore <- .NormalizeStatus(elementStatus,
-                                     c(rep(c('s', 'd', 'r2'), 3L), 'r1', 'u'),
-                                     rep('N', 3L), FALSE) * 2L # N = 2Q, but is defined for splits
+                                     c(rep(c("s", "d", "r2"), 3L), "r1", "u"),
+                                     rep("N", 3L), FALSE) * 2L # N = 2Q, but is defined for splits
     ret <- (rawSimilarity - (1/3)) / (refBestScore - (1/3))
   } else {
     ret <- rawSimilarity

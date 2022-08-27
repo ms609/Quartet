@@ -35,7 +35,7 @@
 #' @template MRS
 #' 
 #' @examples
-#' data('sq_trees')
+#' data("sq_trees")
 #' # Calculate the status of each quartet relative to the first entry in 
 #' # sq_trees
 #' sq_status <- QuartetStatus(sq_trees)
@@ -48,7 +48,7 @@
 #' SimilarityMetrics(sq_status)
 #' 
 #' # Compare trees that include a subset of the taxa 1..10
-#' library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
+#' library("TreeTools", quietly = TRUE, warn.conflict = FALSE)
 #' QuartetStatus(BalancedTree(1:5), BalancedTree(3:8), nTip = 10)
 #' 
 #' # If all taxa studied occur in `trees` or `cf`, set `nTip = TRUE`
@@ -93,20 +93,20 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
         resolvedReducedX <- ResolvedQuartets(reducedX)
         resolvedReducedCf <- ResolvedQuartets(reducedCf)
         commonStatus <- SingleTreeQuartetAgreement(reducedX, reducedCf)
-        quartetsIn1Only <- resolvedX - c(sum(commonStatus[, c('s', 'd', 'r1')]),
-                                         sum(commonStatus[, c('r2', 'u')]))
-        quartetsIn2Only <- resolvedCf - c(sum(commonStatus[, c('s', 'd', 'r2')]),
-                                          sum(commonStatus[, c('r1', 'u')]))
+        quartetsIn1Only <- resolvedX - c(sum(commonStatus[, c("s", "d", "r1")]),
+                                         sum(commonStatus[, c("r2", "u")]))
+        quartetsIn2Only <- resolvedCf - c(sum(commonStatus[, c("s", "d", "r2")]),
+                                          sum(commonStatus[, c("r1", "u")]))
         
-        commonStatus[, c('r1', 'u')] <- commonStatus[, c('r1', 'u')] + quartetsIn1Only
-        commonStatus[, c('r2', 'u')] <- commonStatus[, c('r2', 'u')] + quartetsIn2Only
-        commonStatus[, 'u'] <- commonStatus[, 'u'] + Q - sum(resolvedX, resolvedCf, -resolvedReducedX)
+        commonStatus[, c("r1", "u")] <- commonStatus[, c("r1", "u")] + quartetsIn1Only
+        commonStatus[, c("r2", "u")] <- commonStatus[, c("r2", "u")] + quartetsIn2Only
+        commonStatus[, "u"] <- commonStatus[, "u"] + Q - sum(resolvedX, resolvedCf, -resolvedReducedX)
         commonStatus
       } else {
         c(0, 0, 0, 0, resolvedX[1], resolvedCf[1], Q - resolvedX[1] - resolvedCf[1])
       }
-    }, c('N' = 0, 'Q' = 0, 's' = 0, 'd' = 0, 'r1' = 0, 'r2' = 0, 'u' = 0))
-    status[c('N', 'Q'), ] <- c(Q + Q, Q)
+    }, c("N" = 0, "Q" = 0, "s" = 0, "d" = 0, "r1" = 0, "r2" = 0, "u" = 0))
+    status[c("N", "Q"), ] <- c(Q + Q, Q)
     
     # Return:
     t(status)
@@ -153,20 +153,20 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
 #' @export
 TQDist <- function (trees) {
   .CheckSize(trees)
-  .Call('_Quartet_tqdist_AllPairsQuartetDistanceEdge', .TreeToEdge(trees))
+  .Call("_Quartet_tqdist_AllPairsQuartetDistanceEdge", .TreeToEdge(trees))
 }
 
 #' @rdname TQDist
 #' @return `TQAE()` returns the number of resolved quartets in agreement between 
-#'   each pair of trees ('A' in Brodal _et al_. 2013) and the number of quartets 
-#'   that are unresolved in both trees ('E' in Brodal _et al_. 2013).
+#'   each pair of trees ("A" in Brodal _et al_. 2013) and the number of quartets 
+#'   that are unresolved in both trees ("E" in Brodal _et al_. 2013).
 #' @export 
 TQAE <- function (trees) {
   .CheckSize(trees)
-  result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreementEdge',
+  result <- .Call("_Quartet_tqdist_AllPairsQuartetAgreementEdge",
                   .TreeToEdge(trees))
   nTrees <- nrow(result)
-  array(result, c(nTrees, nTrees, 2), dimnames = list(NULL, NULL, c('A', 'E')))
+  array(result, c(nTrees, nTrees, 2), dimnames = list(NULL, NULL, c("A", "E")))
 }
 
 #' Check tree size
@@ -180,7 +180,7 @@ TQAE <- function (trees) {
 #' 
 #' @keywords internal
 #' @export
-.CheckSize <- function (tree) UseMethod('.CheckSize')
+.CheckSize <- function (tree) UseMethod(".CheckSize")
 
 #' @rdname dot-CheckSize
 #' @keywords internal
@@ -216,7 +216,7 @@ TQAE <- function (trees) {
 #' @export 
 ManyToManyQuartetAgreement <- function (trees, nTip = NULL) {
   treeNames <- names(trees)
-  dimNames <- list(treeNames, treeNames, c('N', 'Q', 's', 'd', 'r1', 'r2', 'u'))
+  dimNames <- list(treeNames, treeNames, c("N", "Q", "s", "d", "r1", "r2", "u"))
   if (is.null(nTip)) {
     AE <- TQAE(trees)
     nTree <- dim(AE)[1]
@@ -240,19 +240,19 @@ ManyToManyQuartetAgreement <- function (trees, nTip = NULL) {
     ret <- vapply(PairwiseDistances(trees, QuartetStatus, 7, nTip = nTip),
                   as.matrix, matrix(0, length(trees), length(trees), 
                                     dimnames = dimNames[1:2]))
-    dimnames(ret)[[3]] <- c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')
+    dimnames(ret)[[3]] <- c("N", "Q", "s", "d", "r1", "r2", "u")
     
-    diag(ret[, , 'N']) <- 2L * choose(nTip, 4)
-    diag(ret[, , 'Q']) <- choose(nTip, 4)
+    diag(ret[, , "N"]) <- 2L * choose(nTip, 4)
+    diag(ret[, , "Q"]) <- choose(nTip, 4)
     
     resolved <- vapply(trees, ResolvedQuartets, double(2))
-    diag(ret[, , 's']) <- resolved[1, ]
-    diag(ret[, , 'u']) <- choose(nTip, 4) - resolved[1, ]
+    diag(ret[, , "s"]) <- resolved[1, ]
+    diag(ret[, , "u"]) <- choose(nTip, 4) - resolved[1, ]
     
-    swapTri <- lower.tri(ret[, , 'r1'])
-    tmp <- ret[, , 'r1'][swapTri]
-    ret[, , 'r1'][swapTri] <- ret[, , 'r2'][swapTri]
-    ret[, , 'r2'][swapTri] <- tmp
+    swapTri <- lower.tri(ret[, , "r1"])
+    tmp <- ret[, , "r1"][swapTri]
+    ret[, , "r1"][swapTri] <- ret[, , "r2"][swapTri]
+    ret[, , "r2"][swapTri] <- tmp
 
     # Return:
     ret
@@ -287,7 +287,7 @@ TwoListQuartetAgreement <- function (trees1, trees2) {
 #' @export 
 SingleTreeQuartetAgreement <- function (trees, comparison) {
   .CheckSize(trees)
-  if (inherits(trees, 'phylo')) trees <- list(trees)
+  if (inherits(trees, "phylo")) trees <- list(trees)
   
   comparison <- Preorder(comparison)
   trees[] <- lapply(trees, Preorder)
@@ -295,10 +295,10 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
   rq <- ResolvedQuartets(comparison)
   DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
   
-  AE <- matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreementEdge',
+  AE <- matrix(.Call("_Quartet_tqdist_OneToManyQuartetAgreementEdge",
                      .TreeToEdge(comparison),
                      .TreeToEdge(trees, comparison$tip.label)),
-               ncol = 2L, dimnames = list(NULL, c('A', 'E')))
+               ncol = 2L, dimnames = list(NULL, c("A", "E")))
   
   A   <- AE[, 1]
   E   <- AE[, 2]
@@ -314,7 +314,7 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
   
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
-        dimnames = list(names(trees), c('N', 'Q', 's', 'd', 'r1', 'r2', 'u')))
+        dimnames = list(names(trees), c("N", "Q", "s", "d", "r1", "r2", "u")))
 }
 
 #' tqDist file generator
@@ -329,10 +329,10 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
 #' @keywords internal
 #' @export
 TQFile <- function (treeList) {
-  if (inherits(treeList, 'list')){
-    class(treeList) <- 'multiPhylo'
+  if (inherits(treeList, "list")){
+    class(treeList) <- "multiPhylo"
   }
-  if (!inherits(treeList, c('phylo', 'multiPhylo'))) {
+  if (!inherits(treeList, c("phylo", "multiPhylo"))) {
     stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
   }
   fileName <- tempfile()
@@ -342,9 +342,9 @@ TQFile <- function (treeList) {
   fileName
 }
 
-#' Direct entry points to 'tqDist' functions
+#' Direct entry points to "tqDist" functions
 #' 
-#' Wrappers for functions in 'tqDist', which calculate triplet and quartet
+#' Wrappers for functions in "tqDist", which calculate triplet and quartet
 #' distances between pairs of trees.
 #' 
 #' @param file,file1,file2 Paths to files containing a tree or trees in Newick
@@ -389,7 +389,7 @@ NULL
 QuartetDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
-  .Call('_Quartet_tqdist_QuartetDistance',
+  .Call("_Quartet_tqdist_QuartetDistance",
         as.character(file1), as.character(file2));
 }
 
@@ -402,7 +402,7 @@ QuartetDistance <- function(file1, file2) {
 QuartetAgreement <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
-  .Call('_Quartet_tqdist_QuartetAgreement',
+  .Call("_Quartet_tqdist_QuartetAgreement",
         as.character(file1), as.character(file2));
 }
 
@@ -418,7 +418,7 @@ PairsQuartetDistance <- function(file1, file2) {
   if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
-  .Call('_Quartet_tqdist_PairsQuartetDistance', 
+  .Call("_Quartet_tqdist_PairsQuartetDistance", 
         as.character(file1), as.character(file2));
 }
 
@@ -437,9 +437,9 @@ OneToManyQuartetAgreement <- function(file1, file2) {
   if (length(trees2) < 1) {
     stop("file2 must contain at least one tree")
   }
-  matrix(.Call('_Quartet_tqdist_OneToManyQuartetAgreement', 
+  matrix(.Call("_Quartet_tqdist_OneToManyQuartetAgreement", 
                as.character(file1), as.character(file2)),
-         ncol = 2, dimnames = list(NULL, c('A', 'E')))
+         ncol = 2, dimnames = list(NULL, c("A", "E")))
 }
 
 #' @export
@@ -447,12 +447,12 @@ OneToManyQuartetAgreement <- function(file1, file2) {
 #'   each other tree therein.
 AllPairsQuartetDistance <- function(file) {
   ValidateQuartetFile(file)
-  .Call('_Quartet_tqdist_AllPairsQuartetDistance', as.character(file));
+  .Call("_Quartet_tqdist_AllPairsQuartetDistance", as.character(file));
 }
 
 #' @keywords internal
 #' @export
-.TreeToEdge <- function (trees, tipOrder) UseMethod('.TreeToEdge')
+.TreeToEdge <- function (trees, tipOrder) UseMethod(".TreeToEdge")
 
 #' @export
 #' @keywords internal
@@ -487,9 +487,9 @@ AllPairsQuartetDistance <- function(file) {
 #' @describeIn Distances Quartet status for each pair of trees in `file`.
 AllPairsQuartetAgreement <- function(file) {
   ValidateQuartetFile(file)
-  result <- .Call('_Quartet_tqdist_AllPairsQuartetAgreement', as.character(file));
+  result <- .Call("_Quartet_tqdist_AllPairsQuartetAgreement", as.character(file));
   nTrees <- nrow(result)
-  array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c('A', 'E')))
+  array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c("A", "E")))
 }
 
 #' @export
@@ -498,7 +498,7 @@ AllPairsQuartetAgreement <- function(file) {
 TripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
-  .Call('_Quartet_tqdist_TripletDistance', as.character(file1), as.character(file2));
+  .Call("_Quartet_tqdist_TripletDistance", as.character(file1), as.character(file2));
 }
 
 #' @export
@@ -512,7 +512,7 @@ PairsTripletDistance <- function(file1, file2) {
   if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
     stop("file1 and file2 must contain the same number of trees")
   }
-  .Call('_Quartet_tqdist_PairsTripletDistance', as.character(file1), as.character(file2));
+  .Call("_Quartet_tqdist_PairsTripletDistance", as.character(file1), as.character(file2));
 }
 
 #' @export
@@ -520,7 +520,7 @@ PairsTripletDistance <- function(file1, file2) {
 #'   each other tree therein.
 AllPairsTripletDistance <- function(file) {
   ValidateQuartetFile(file)
-  .Call('_Quartet_tqdist_AllPairsTripletDistance', as.character(file));
+  .Call("_Quartet_tqdist_AllPairsTripletDistance", as.character(file));
 }
 
 #' Validate filenames

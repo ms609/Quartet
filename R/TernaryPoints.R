@@ -10,7 +10,7 @@
 #' - resolved in the same manner in the reference and comparison trees. 
 #' 
 #' If the reference tree (`cf`) is taken to represent the best possible knowledge
-#' of the 'true' topology, then polytomies in the reference tree represent
+#' of the "true" topology, then polytomies in the reference tree represent
 #' uncertainty.  If a tree in `trees` resolves relationships within this 
 #' polytomy, it is not possible to establish (based only on the reference tree)
 #' whether this resolution is correct or erroneous.  As such, extra resolution
@@ -23,17 +23,17 @@
 #' tree (which defaults to the first member of the list, if unspecified).
 #' 
 #' @examples
-#' library('Ternary')
-#' data('sq_trees')
+#' library("Ternary")
+#' data("sq_trees")
 #' 
-#' TernaryPlot(alab = 'Unresolved', blab = 'Contradicted', clab = 'Consistent',
-#'             point = 'right')
-#' TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col = 'red', lty = 'dotted')
+#' TernaryPlot(alab = "Unresolved", blab = "Contradicted", clab = "Consistent",
+#'             point = "right")
+#' TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col = "red", lty = "dotted")
 #' TernaryText(QuartetPoints(sq_trees, cf = sq_trees$collapse_one), 1:15, 
 #'             col = Ternary::cbPalette8[2], cex = 0.8)
 #' TernaryText(SplitPoints(sq_trees, cf = sq_trees$collapse_one), 1:15, 
 #'             col = Ternary::cbPalette8[3], cex = 0.8)
-#' legend('bottomright', c("Quartets", "Splits"), bty = 'n', pch = 1, cex = 0.8,
+#' legend("bottomright", c("Quartets", "Splits"), bty = "n", pch = 1, cex = 0.8,
 #'        col = Ternary::cbPalette8[2:3])
 #' 
 #' @references 
@@ -46,9 +46,9 @@ QuartetPoints <- function (trees, cf = trees[[1]]) {
   status <- QuartetStatus(trees, cf)
   
   # Return: 
-  data.frame(Unresolved   = status[, 'r2'], 
-             Contradicted = status[, 'd'],
-             Consistent   = status[, 's'])
+  data.frame(Unresolved   = status[, "r2"], 
+             Contradicted = status[, "d"],
+             Consistent   = status[, "s"])
 }
 
 #' @rdname QuartetPoints
@@ -57,9 +57,9 @@ SplitPoints <- function (trees, cf = trees[[1]]) {
   status <- SplitStatus(trees, cf)
 
   # Return: 
-  data.frame(Unresolved   = status[, 'r2'],
-             Contradicted = status[, 'd2'],
-             Consistent   = status[, 's'])
+  data.frame(Unresolved   = status[, "r2"],
+             Contradicted = status[, "d2"],
+             Consistent   = status[, "s"])
 }
 #' @rdname QuartetPoints
 #' @export

@@ -138,10 +138,10 @@ given the number of tips \insertCite{Smith2019}{Quartet}:
 }
 
 Finally, in cases where a reconstructed tree \code{r1} is being compared to a
-reference tree \code{r2} taken to represent 'true' relationships,
+reference tree \code{r2} taken to represent "true" relationships,
 a symmetric difference is not desired.
 In such settings, the desired score is the expectation that a given
-quartet's resolution in the reconstructed tree is 'correct', given by
+quartet's resolution in the reconstructed tree is "correct", given by
 \insertCite{Asher2020;textual}{TreeTools}:
 \itemize{
 \item Similarity to Reference (S2R): (\emph{s} + (\emph{r1} + \emph{r2} + \emph{u}) / 3) / \emph{Q}
@@ -152,16 +152,16 @@ similarity, (\emph{s} + \emph{d} + \emph{r2} + (\emph{r1} + \emph{u}) / 3) / \em
 1/3 (the probability of matching at random) from both the S2R score and
 maximum possible score before dividing; then, a tree scores zero if it
 is as different from the true tree as a random or fully unresolved tree,
-and one if it is as 'true' as can be known.
+and one if it is as "true" as can be known.
 }
 \examples{
-data('sq_trees')
+data("sq_trees")
 
 sq_status <- QuartetStatus(sq_trees)
 SimilarityMetrics(sq_status)
 QuartetDivergence(sq_status, similarity = FALSE)
 
-library('TreeTools', quietly = TRUE, warn.conflict = FALSE)
+library("TreeTools", quietly = TRUE, warn.conflict = FALSE)
 set.seed(0)
 reference <- CollapseNode(as.phylo(101, 10), 16:18)
 trees <- c(
