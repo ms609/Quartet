@@ -1,3 +1,10 @@
+test_that("all_quartets() handles dud input", {
+  expect_error(all_quartets(integer(0)),
+               "nTips must contain a single integer value")
+  expect_error(all_quartets(0), "nTips must be positive")
+  expect_error(all_quartets(32768 * 32768), "nTips must be <")
+})
+
 test_that("All quartets are generated", {
   expect_equal(combn(8, 4), all_quartets(8))
 })
