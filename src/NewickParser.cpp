@@ -74,12 +74,15 @@ UnrootedTree* NewickParser::parseFile(const char* filename) {
 }
 
 UnrootedTree* NewickParser::parseStr(Rcpp::CharacterVector string_in) {
+  if (!string_in.length()) {
+    Rcpp::stop("string_in has length 0");
+  }
+  
   str = as<std::string>(string_in);
   eraseWhitespace(str);
   
   UnrootedTree *t = parse();
   return t;
-
 }
 
 std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
