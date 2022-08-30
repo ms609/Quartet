@@ -324,17 +324,16 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
 
 AE QuartetDistanceCalculator::\
   calculateQuartetAgreement(const char *filename1, const char *filename2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
   NewickParser parser;
+  UnrootedTree *ut1 = NULL;
 
   ut1 = parser.parseFile(filename1);
   if (ut1 == NULL || parser.isError()) {
     delete ut1;
-    delete ut2;
     Rcpp::stop("calculateQuartetDistance failed to parse filename1");
   }
 
+  UnrootedTree *ut2 = NULL;
   ut2 = parser.parseFile(filename2);
   if(ut2 == NULL || parser.isError()) {
     delete ut1;
@@ -352,17 +351,16 @@ AE QuartetDistanceCalculator::\
 
 AE QuartetDistanceCalculator::\
   calculateQuartetAgreement(CharacterVector t1, CharacterVector t2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
   NewickParser parser;
-    
+  
+  UnrootedTree *ut1 = NULL;
   ut1 = parser.parseStr(t1);
   if (ut1 == NULL || parser.isError()) {
     delete ut1;
-    delete ut2;
     Rcpp::stop("calculateQuartetDistance failed to parse filename1");
   }
 
+  UnrootedTree *ut2 = NULL;
   ut2 = parser.parseStr(t2);
   if(ut2 == NULL || parser.isError()) {
     delete ut1;
@@ -380,17 +378,16 @@ AE QuartetDistanceCalculator::\
 
 AE QuartetDistanceCalculator::\
   calculateQuartetAgreement(IntegerMatrix edge1, IntegerMatrix edge2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
   EdgeParser parser;
+  UnrootedTree *ut1 = NULL;
 
   ut1 = parser.parseEdge(edge1);
   if (ut1 == NULL) {
     delete ut1;
-    delete ut2;
     Rcpp::stop("calculateQuartetDistance failed to parse edge1");
   }
 
+  UnrootedTree *ut2 = NULL;
   ut2 = parser.parseEdge(edge2);
   if(ut2 == NULL) {
     delete ut1;
@@ -463,17 +460,16 @@ AE QuartetDistanceCalculator::\
 
 INTTYPE_N4 QuartetDistanceCalculator::\
   calculateQuartetDistance(const char *filename1, const char *filename2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
   NewickParser parser;
+  UnrootedTree *ut1 = NULL;
   
   ut1 = parser.parseFile(filename1);
   if (ut1 == NULL || parser.isError()) {
     delete ut1;
-    delete ut2;
     Rcpp::stop("calculateQuartetDistance failed to parse filename1");
   }
   
+  UnrootedTree *ut2 = NULL;
   ut2 = parser.parseFile(filename2);
   if(ut2 == NULL || parser.isError()) {
     delete ut1;
@@ -491,17 +487,20 @@ INTTYPE_N4 QuartetDistanceCalculator::\
 
 INTTYPE_N4 QuartetDistanceCalculator::\
   calculateQuartetDistance(CharacterVector t1, CharacterVector t2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
   NewickParser parser;
+  UnrootedTree *ut1 = NULL;
   
   ut1 = parser.parseStr(t1);
   if (ut1 == NULL || parser.isError()) {
+    delete ut1;
     Rcpp::stop("calculateQuartetDistance failed to parse filename1");
   }
   
+  UnrootedTree *ut2 = NULL;
   ut2 = parser.parseStr(t2);
   if(ut2 == NULL || parser.isError()) {
+    delete ut1;
+    delete ut2;
     Rcpp::stop("calculateQuartetDistance failed to parse filename2");
   }
   
