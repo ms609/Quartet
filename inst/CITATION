@@ -1,58 +1,78 @@
-citHeader(paste0("Please acknowledge your use of Quartet ",
- "and cite the tqDist algorithm. For example, 'Quartet divergence (Smith 2019a)", 
- " was calculated using the tqDist algorithm (Sand et al. 2014) implemented ",
- "in the R package Quartet v", meta$Version, " (Smith 2019b)."))
+mrs <- person(c("Martin", "R."), "Smith", email = "martin.smith@durham.ac.uk")
 
-citEntry(entry = "manual",
-        key = "Quartet",
-        title = paste0("Quartet: comparison of phylogenetic trees using ",
-        "quartet and split measures"),
-        author = personList(as.person("Martin R. Smith")),
-        note = paste0("R package version ", meta$Version),
-        year = 2019,
-        doi = "10.5281/zenodo.2536318",
+bibentry(
+  mheader = paste(
+    "Please acknowledge your use of Quartet and cite the tqDist algorithm.",
+    "For example, 'Quartet divergence (Smith 2019a) was calculated using the",
+    "tqDist algorithm (Sand et al. 2014) implemented in the R package Quartet v",
+    meta$Version, " (Smith 2019b)."
+  ),
+  bibtype = "manual",
+  key = "Quartet",
+  title = paste(
+    "Quartet: comparison of phylogenetic trees using quartet and split",
+    "measures"
+  ),
+  author = mrs,
+  note = paste0("R package version ", meta$Version),
+  year = 2019,
+  doi = "10.5281/zenodo.2536318",
 
-        textVersion =
-        paste0("Smith, MR (2019). ",
-               "Quartet: comparison of phylogenetic trees using quartet and ",
-               "split measures. R package version ", meta$Version, 
-               ". doi:10.5281/zenodo.2536318")
-       )
-               
-
-citEntry (entry = 'article',
-          key = "Sand2014",
-          author = personList(as.person("Andreas Sand"),
-                  as.person("Morten K. Holt"),
-                  as.person("Jens Johansen"),
-                  as.person("Gerth S. Brodal"),
-                  as.person("Thomas Mailund"),
-                  as.person("Christian N. S. Pedersen")),
-           doi = "10.1093/bioinformatics/btu157",
-           journal = "Bioinformatics",
-           number = 14,
-           pages = "2079--2080",
-           title = "tqDist: a library for computing the quartet and triplet distances between binary or general trees",
-           volume = 30,
-           year = 2014,
-          
-          textVersion = paste0("Sand et al. (2014). ",
-                              "tqDist: a library for computing the quartet and triplet distances between binary or general trees. ",
-                              "Bioinformatics 30(14): 2079-2080. ",
-                              "doi:10.1093/bioinformatics/btu157")
+  textVersion = paste0(
+    "Smith, MR (2019a). Quartet: comparison of phylogenetic trees using",
+    " quartet and split measures. R package version ", meta$Version, 
+    ". doi:10.5281/zenodo.2536318"
+  )
 )
 
-citEntry(entry = 'article',
-key = "Smith2019",
-  author = as.person("Martin R. Smith"),
+bibentry(
+  bibtype = "article",
+  key = "Sand2014",
+  author = c(
+    person("Andreas", "Sand"),
+    person(c("Morten", "K."), "Holt"),
+    person("Jens", "Johansen"),
+    person(c("Gerth", "S."), "Brodal"),
+    person("Thomas", "Mailund"),
+    person(c("Christian", "N.", "S."), "Pedersen")
+  ),
+  doi = "10.1093/bioinformatics/btu157",
+  journal = "Bioinformatics",
+  number = 14,
+  pages = "2079--2080",
+  title = paste(
+    "tqDist: a library for computing the quartet and triplet distances",
+    "between binary or general trees"
+  ),
+  volume = 30,
+  year = 2014,
+
+  textVersion = paste(
+    "Sand et al. (2014).",
+    "tqDist: a library for computing the quartet and triplet distances",
+    "between binary or general trees.",
+    "Bioinformatics 30(14): 2079-2080.",
+    "doi:10.1093/bioinformatics/btu157"
+  )
+)
+
+bibentry(
+  bibtype = "article",
+  key = "Smith2019",
+  author = mrs,
   doi = "10.1098/rsbl.2018.0632",
   journal = "Biology Letters",
-  title = "Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets",
+  title = paste(
+    "Bayesian and parsimony approaches reconstruct informative trees from",
+    "simulated morphological datasets"
+  ),
   volume = 15,
   number = 2,
   pages = "20180632",
   year = "2019",
-  textVersion = paste0("Smith, MR (2019). Bayesian and parsimony approaches ",
-  "reconstruct informative trees from simulated morphological datasets. ",
-  "Biology Letters 15:20180632. doi:10.1098/rsbl.2018.0632")
+  textVersion = paste(
+    "Smith, MR (2019b). Bayesian and parsimony approaches reconstruct",
+    "informative trees from simulated morphological datasets.",
+    "Biology Letters 15:20180632. doi:10.1098/rsbl.2018.0632"
+  )
 )
