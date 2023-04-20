@@ -34,3 +34,4 @@ vignettes/*_files
 vignettes/*.log
 vignettes/*.md
 docs/
+*.bak
