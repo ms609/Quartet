@@ -57,7 +57,7 @@ jobs:
         with:
           r-version: release # CRAN uses devel, but takes ages to load deps.
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v2
 
       - name: Query dependencies
         run: |
