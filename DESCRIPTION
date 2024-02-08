@@ -1,5 +1,5 @@
 Package: Quartet
-Version: 1.2.5
+Version: 1.2.5.9000
 Title: Comparison of Phylogenetic Trees Using Quartet and Split Measures
 Description: Calculates the number of four-taxon subtrees consistent with a pair
   of cladograms, calculating the symmetric quartet distance of Bandelt & Dress
@@ -53,7 +53,6 @@ Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
 Config/Needs/revdeps: revdepcheck
 Config/Needs/website: pkgdown
-SystemRequirements: C++11
 RdMacros: Rdpack
 LinkingTo: Rcpp
 LazyData: true

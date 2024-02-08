@@ -1,3 +1,7 @@
+# Quartet v1.2.5.9000
+
+- Drop C++11 specification.
+
 # Quartet v1.2.5
 
 - Fix memory leaks.
