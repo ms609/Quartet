@@ -1,13 +1,14 @@
-# Quartet v1.2.5.9000
+# Quartet v1.2.6 (2024-02-08)
 
-- Drop C++11 specification.
-- R <3.6 no longer formally supported.
+- Drop obsolete C++11 specification.
+- Update minimum R version to 3.5 (for Ternary).
+- R <3.6 is no longer formally supported.
 
-# Quartet v1.2.5
+# Quartet v1.2.5 (2022-07-08)
 
 - Fix memory leaks.
 
-# Quartet v1.2.4
+# Quartet v1.2.4 (2022-05-02)
 
  - `QuartetStates()` handles absent leaves gracefully.
  - Copy-edit documentation.
@@ -17,11 +18,11 @@
  - Replace deprecated function `TreeTools::in.Splits()`.
  - Update test cases in readiness for TreeTools v1.7.0.
  
-# Quartet v1.2.2
+# Quartet v1.2.2 (2020-12-09)
 
  - Package 'vdiffr' now used conditionally.
 
-# Quartet v1.2.0
+# Quartet v1.2.0 (2020-10-22)
 
 ## New features
  - `CompareQuartetsMulti()` compares quartet status in one tree with status in
@@ -48,7 +49,7 @@
  - Documentation improvements.
 
 
-# Quartet v1.1.0
+# Quartet v1.1.0 (2020-01-29)
 
  - Pass trees directly to C, without writing to temporary intermediate file.
  - Use `TreeTools` in place of `TreeSearch`, supporting new `Splits` class.
@@ -71,7 +72,7 @@
 
  - Improved portability of C++ code.
 
-# Quartet v1.0.0
+# Quartet v1.0.0 (2019-01-09)
 
 ## New features
  - Add functions to generate ternary plots from tree similarity measures.
@@ -93,7 +94,7 @@
    - `MatchingQuartets` → `QuartetStatus`
    - `Choices` → `AllQuartets`
 
-# SlowQuartet v0.2.0
+# SlowQuartet v0.2.0 (2017-11-22)
 ## Modifications
  - Add `MatchingSplits` function to calculate number of splits contradicted / unresolved.
  - Add vignettes to document when the quartet metric may be preferable to other tree distance metrics.

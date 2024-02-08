@@ -29,7 +29,7 @@ Copyright: Incorporates code modified from tqDist
 License: GPL (>= 2)
 Encoding: UTF-8
 Language: en-GB
-Depends: R (>= 3.4.0),
+Depends: R (>= 3.5.0),
   TreeTools (>= 1.4.0),
 Imports:
   ape,
