@@ -451,17 +451,16 @@ AllPairsQuartetDistance <- function(file) {
 }
 
 #' @keywords internal
-#' @export
 .TreeToEdge <- function (trees, tipOrder) UseMethod(".TreeToEdge")
 
-#' @rdname .TreeToEdge
+#' @keywords internal
 .TreeToEdge.list <- function (trees, tipOrder = trees[[1]]$tip.label) {
   lapply(trees, .SortTree, tipOrder)
 }
-#' @rdname .TreeToEdge
+#' @keywords internal
 .TreeToEdge.multiPhylo <- .TreeToEdge.list
 
-#' @rdname .TreeToEdge
+#' @keywords internal
 #' @importFrom TreeTools RenumberTips RenumberTree
 .TreeToEdge.phylo <- function (trees, tipOrder = NULL) {
   if (is.null(tipOrder)) {
