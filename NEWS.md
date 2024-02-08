@@ -1,6 +1,7 @@
 # Quartet v1.2.5.9000
 
 - Drop C++11 specification.
+- R <3.6 no longer formally supported.
 
 # Quartet v1.2.5
 
