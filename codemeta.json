@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ms609/Quartet/",
   "issueTracker": "https://github.com/ms609/Quartet/issues/",
   "license": "https://spdx.org/licenses/GPL-2.0",
-  "version": "1.2.5",
+  "version": "1.2.5.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
+  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -151,7 +151,7 @@
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
-      "version": ">= 3.4.0"
+      "version": ">= 3.5.0"
     },
     "2": {
       "@type": "SoftwareApplication",
@@ -216,9 +216,9 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=viridisLite"
     },
-    "SystemRequirements": "C++11"
+    "SystemRequirements": null
   },
-  "fileSize": "668.403KB",
+  "fileSize": "669.837KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -227,12 +227,13 @@
         {
           "@type": "Person",
           "givenName": ["Martin", "R."],
-          "familyName": "Smith"
+          "familyName": "Smith",
+          "email": "martin.smith@durham.ac.uk"
         }
       ],
       "name": "Quartet: comparison of phylogenetic trees using quartet and split measures",
       "identifier": "10.5281/zenodo.2536318",
-      "description": "R package version 1.2.5",
+      "description": "R package version 1.2.5.9000",
       "@id": "https://doi.org/10.5281/zenodo.2536318",
       "sameAs": "https://doi.org/10.5281/zenodo.2536318"
     },
@@ -294,7 +295,8 @@
         {
           "@type": "Person",
           "givenName": ["Martin", "R."],
-          "familyName": "Smith"
+          "familyName": "Smith",
+          "email": "martin.smith@durham.ac.uk"
         }
       ],
       "name": "Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets",
