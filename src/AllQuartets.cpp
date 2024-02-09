@@ -31,7 +31,8 @@ IntegerMatrix all_quartets(IntegerVector nTips) {
   if (!nTips.length()) {
     Rcpp::stop("nTips must contain a single integer value");
   }
-  if (nTips[0] >= int32(INT_FAST16_MAX)) {
+  if (INT_FAST16_MAX < INT_MAX && // Supress warning of tautological comparison
+      nTips[0] >= int32(INT_FAST16_MAX)) {
     Rcpp::stop("nTips must be < 32768");
   }
   if (nTips[0] < 4) {
