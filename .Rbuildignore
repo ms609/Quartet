@@ -15,6 +15,7 @@ cran-comments.md
 ^.*\.Rproj$
 ^vignettes/.*_cache/.*$
 .github
+benchmark
 data-raw
 man-roxygen
 memcheck
