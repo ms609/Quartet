@@ -20,7 +20,7 @@ quartet_states <- function(splits) {
 #' 
 #' Functions are called from R with functions such as [`CPDTDist`].
 #' 
-#' @param t1,t2 Newick format representations of phylogenetic trees.
+#' @param file1,file2 Paths to files containing a tree or trees in Newick format.
 #' 
 #' @return The distance between the requested trees.
 #' 
@@ -30,8 +30,8 @@ quartet_states <- function(splits) {
 #' 
 #' @keywords internal
 #' @export
-cpdt_dist_pair <- function(t1, t2) {
-    .Call(`_Quartet_cpdt_dist_pair`, t1, t2)
+cpdt_dist_file <- function(file1, file2) {
+    .Call(`_Quartet_cpdt_dist_file`, file1, file2)
 }
 
 #' Direct entry points to 'tqDist' functions
