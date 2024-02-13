@@ -74,7 +74,7 @@
 #' a symmetric difference is not desired.
 #' In such settings, the desired score is the expectation that a given 
 #' quartet's resolution in the reconstructed tree is "correct", given by
-#' \insertCite{Asher2020;textual}{TreeTools}:
+#' \insertCite{Asher2022;textual}{Quartet}:
 #' 
 #' * Similarity to Reference (S2R): (_s_ + (_r1_ + _r2_ + _u_) / 3) / _Q_
 #' 

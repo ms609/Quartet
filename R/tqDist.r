@@ -143,7 +143,7 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
 #'   
 #' - \insertRef{Holt2014}{Quartet}
 #'   
-#'- \insertRef{Sand2014}{Quartet}
+#' - \insertRef{Sand2014}{Quartet}
 #' 
 #' @seealso [`CompareQuartets()`], [`QuartetStatus()`]
 #' 

@@ -83,11 +83,13 @@ Useful links:
 
 Other contributors:
 \itemize{
+  \item Jesper Jansson \email{jj@i.kyoto-u.ac.jp} (\href{https://orcid.org/0000-0001-6859-8932}{ORCID}) [bibliographic antecedent]
+  \item Ramesh Rajaby [bibliographic antecedent]
   \item Andreas Sand [bibliographic antecedent]
   \item Gerth Stølting Brodal [bibliographic antecedent]
   \item Rolf Fagerberg [bibliographic antecedent]
   \item Thomas Mailund [bibliographic antecedent]
-  \item Christian N. S. Pedersen \email{cstorm@birc.au.dk} [bibliographic antecedent]
+  \item Christian N. S. Pedersen \email{cstorm@birc.au.dk} (\href{https://orcid.org/0000-0002-8947-6771}{ORCID}) [bibliographic antecedent]
   \item Jens Johansen [bibliographic antecedent]
   \item Morten K. Holt [bibliographic antecedent]
 }

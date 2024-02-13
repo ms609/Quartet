@@ -142,7 +142,7 @@ reference tree \code{r2} taken to represent "true" relationships,
 a symmetric difference is not desired.
 In such settings, the desired score is the expectation that a given
 quartet's resolution in the reconstructed tree is "correct", given by
-\insertCite{Asher2020;textual}{TreeTools}:
+\insertCite{Asher2022;textual}{Quartet}:
 \itemize{
 \item Similarity to Reference (S2R): (\emph{s} + (\emph{r1} + \emph{r2} + \emph{u}) / 3) / \emph{Q}
 }
