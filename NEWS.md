@@ -1,3 +1,7 @@
+# Quartet v1.2.6.9000 (development)
+
+- Add CPDT distance calculation from Jansson & Rajaby (2017).
+
 # Quartet v1.2.6 (2024-02-08)
 
 - Drop obsolete C++11 specification.

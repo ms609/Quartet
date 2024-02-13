@@ -1,9 +1,31 @@
 mrs <- person(c("Martin", "R."), "Smith", email = "martin.smith@durham.ac.uk")
 
 bibentry(
-  mheader = paste(
-    "Please acknowledge your use of Quartet and cite the tqDist algorithm.",
-    "For example, 'Quartet divergence (Smith 2019a) was calculated using the",
+  bibtype = "article",
+  key = "Smith2019",
+  author = mrs,
+  doi = "10.1098/rsbl.2018.0632",
+  journal = "Biology Letters",
+  title = paste(
+    "Bayesian and parsimony approaches reconstruct informative trees from",
+    "simulated morphological datasets"
+  ),
+  volume = 15,
+  number = 2,
+  pages = "20180632",
+  year = "2019",
+  textVersion = paste(
+    "Smith, MR (2019a). Bayesian and parsimony approaches reconstruct",
+    "informative trees from simulated morphological datasets.",
+    "Biology Letters 15:20180632. doi:10.1098/rsbl.2018.0632"
+  )
+)
+
+bibentry(
+  mheader = paste0(
+    "Please acknowledge your use of Quartet and cite algorithms used to ",
+    "compute distances. ",
+    "For example, 'Quartet divergence (Smith 2019a) was calculated using the ",
     "tqDist algorithm (Sand et al. 2014) implemented in the R package Quartet v",
     meta$Version, " (Smith 2019b)."
   ),
@@ -19,7 +41,7 @@ bibentry(
   doi = "10.5281/zenodo.2536318",
 
   textVersion = paste0(
-    "Smith, MR (2019a). Quartet: comparison of phylogenetic trees using",
+    "Smith, MR (2019b). Quartet: comparison of phylogenetic trees using",
     " quartet and split measures. R package version ", meta$Version, 
     ". doi:10.5281/zenodo.2536318"
   )
@@ -58,21 +80,19 @@ bibentry(
 
 bibentry(
   bibtype = "article",
-  key = "Smith2019",
-  author = mrs,
-  doi = "10.1098/rsbl.2018.0632",
-  journal = "Biology Letters",
-  title = paste(
-    "Bayesian and parsimony approaches reconstruct informative trees from",
-    "simulated morphological datasets"
-  ),
-  volume = 15,
+  key = "Jansson2017",
+  title = "A more practical algorithm for the rooted triplet distance",
+  author = c(person("Jesper", "Jansson"), person("Ramesh", "Rajaby")),
+  doi = "10.1089/cmb.2016.0185",
+  year = 2017,
+  journal = "Journal of Computational Biology",
+  volume = 24,
   number = 2,
-  pages = "20180632",
-  year = "2019",
+  pages = c(106, 126),
   textVersion = paste(
-    "Smith, MR (2019b). Bayesian and parsimony approaches reconstruct",
-    "informative trees from simulated morphological datasets.",
-    "Biology Letters 15:20180632. doi:10.1098/rsbl.2018.0632"
+    "Jansson & Rajaby (2017).",
+    "A more practical algorithm for the rooted triplet distance.",
+    "Journal of Computational Biology 24(2): 106-126",
+    "doi:10.1089/cmb.2016.0185"
   )
 )
