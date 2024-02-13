@@ -13,6 +13,27 @@ quartet_states <- function(splits) {
     .Call(`_Quartet_quartet_states`, splits)
 }
 
+#' Direct entry points to 'cpdt' functions
+#' 
+#' Functions to calculate rooted triplet distances between pairs of trees.
+#' Input is not checked for sanity.
+#' 
+#' Functions are called from R with functions such as [`CPDTDist`].
+#' 
+#' @param t1,t2 Newick format representations of phylogenetic trees.
+#' 
+#' @return The distance between the requested trees.
+#' 
+#' @author Martin R. Smith, after Ramesh Rajaby
+#' 
+#' @references \insertRef{Janssen2017jcb}{Quartet}
+#' 
+#' @keywords internal
+#' @export
+cpdt_dist <- function(t1, t2) {
+    .Call(`_Quartet_cpdt_dist`, t1, t2)
+}
+
 #' Direct entry points to 'tqDist' functions
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.

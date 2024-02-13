@@ -128,7 +128,9 @@ std::vector<std::vector<INTTYPE_REST> >
   return results;
 } 
  
-INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(const char *filename1, const char *filename2) {
+INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(
+    const char *filename1, const char *filename2
+) {
   UnrootedTree *ut1 = NULL;
   UnrootedTree *ut2 = NULL;
   RootedTree *rt1 = NULL;
