@@ -57,5 +57,5 @@ IntegerVector cpdt_dist_file(CharacterVector file1,
         result = cpdt_dist::triplet_distance(tree1, tree2);
     }
 
-    return IntegerVector(result);
+    return IntegerVector::create(result);
 }
