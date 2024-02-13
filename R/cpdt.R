@@ -12,7 +12,7 @@
 #' \insertAllCited{}
 #' 
 #' @examples
-#' tree1 <- TreeTools::BalancedTree(8)
+#' tree1 <- TreeTools::RootTree(TreeTools::BalancedTree(8), 1)
 #' tree2 <- TreeTools::PectinateTree(8)
 #' CPDTDist(tree1, tree2)
 #' 
