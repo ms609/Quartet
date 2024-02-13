@@ -34,10 +34,10 @@ using namespace std;
 //' @keywords internal
 //' @export
 // [[Rcpp::export]]
-IntegerVector cpdt_dist(CharacterVector t1, CharacterVector t2) {
+IntegerVector cpdt_dist_pair(CharacterVector t1, CharacterVector t2) {
 
-    tree* tree1 = parse_nex(t1[0]);
-    tree* tree2 = parse_nex(t2[0]);
+    tree* tree1 = parse_nex(Rcpp::as<std::string>(t1[0]));
+    tree* tree2 = parse_nex(Rcpp::as<std::string>(t2[0]));
     unsigned long long result = 0;
 
     if (tree1->is_binary() && tree2->is_binary()) {

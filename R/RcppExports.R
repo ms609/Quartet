@@ -30,8 +30,8 @@ quartet_states <- function(splits) {
 #' 
 #' @keywords internal
 #' @export
-cpdt_dist <- function(t1, t2) {
-    .Call(`_Quartet_cpdt_dist`, t1, t2)
+cpdt_dist_pair <- function(t1, t2) {
+    .Call(`_Quartet_cpdt_dist_pair`, t1, t2)
 }
 
 #' Direct entry points to 'tqDist' functions
