@@ -1,6 +1,7 @@
 # Quartet v1.2.6.9000 (development)
 
-- Add CPDT distance calculation from Jansson & Rajaby (2017).
+- Add centroid path decomposition tree algorithm from Jansson & Rajaby (2017),
+  using code supplied by the authors.
 
 # Quartet v1.2.6 (2024-02-08)
 

@@ -9,7 +9,7 @@ Description: Calculates the number of four-taxon subtrees consistent with a pair
   tqDist: a library for computing the quartet and triplet distances between
   binary or general trees, Bioinformatics, 30, 2079–2080
   <doi:10.1093/bioinformatics/btu157>; and the
-  CPDT algorithm of Jansson and Rajaby (2017), A more practical algorithm for
+  algorithm of Jansson and Rajaby (2017), A more practical algorithm for
   the rooted triplet distance, Journal of Computation Biology, 23, 106-126
   <doi:10.1089/cmb.2016.0185>.
 URL: https://ms609.github.io/Quartet/, https://github.com/ms609/Quartet/
