@@ -104,8 +104,13 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           pandoc --version
+          sudo spctl --master-disable
           brew install basictex xquartz ghostscript
+          sudo spctl --master-enable
           eval "$(/usr/libexec/path_helper)"
+          xquartz --version
+          basictex --version
+          pdflatex --version
           
       - name: Install system dependencies (Windows)
         if: runner.os == 'Windows'
