@@ -115,8 +115,6 @@ jobs:
       - name: Check versions (macOS)
         if: runner.os == 'macOS'
         run: |
-          xquartz --version
-          basictex --version
           pdflatex --version
           
       - name: Install pdflatex (Windows)
