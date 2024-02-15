@@ -101,15 +101,13 @@ jobs:
       - name: Seek pandoc (Linux)
         if: runner.os == 'Linux'
         run: |
-          which pdflatex
-          which pandoc
+          pdflatex --version
           
       - uses: r-lib/actions/setup-pandoc@v2
       - name: Seek pandoc (Linux) (again)
         if: runner.os == 'Linux'
         run: |
-          which pandoc
-          which pdflatex
+          pdflatex --version
           
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
@@ -120,7 +118,7 @@ jobs:
       - name: Was pdflatex already installed? (Windows. NO)
         if: runner.os == 'Windows'
         run: |
-          where pdflatex
+          pdflatex --version
           
       - name: Install system dependencies (Windows)
         if: runner.os == 'Windows'
@@ -130,21 +128,21 @@ jobs:
       - name: Check pdflatex installed (Windows)
         if: runner.os == 'Windows'
         run: |
-          cmd.exe /c where pslatex
-          cmd.exe /c where pdflatex
+          pslatex --version
+          pdflatex --version
       
       - name: Check pdflatex installed (Mac)
         if: runner.os == 'macOS'
         run: |
-          which xquartz
-          which basictex
-          which pdflatex
+          xquartz --version
+          basictex --version
+          pdflatex --version
           
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       
       - name: Check pdflatex installed
         if: runner.os == 'macOS'
-        run: which pdflatex
+        run: pdflatex --version
           
           
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
