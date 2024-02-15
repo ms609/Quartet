@@ -86,6 +86,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install basictex xquartz ghostscript
+          eval "$(/usr/libexec/path_helper)"
           
       - name: Install system dependencies (Windows)
         if: runner.os == 'Windows'
