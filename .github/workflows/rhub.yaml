@@ -81,6 +81,15 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
+      - name: Install system dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install xquartz ghostscript
+      - name: Install system dependencies (Windows)
+        if: runner.os == 'windows'
+        run: |
+          choco install texlive
+          
       - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
