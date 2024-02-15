@@ -86,26 +86,57 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install basictex xquartz ghostscript
+          
       - name: Install system dependencies (Windows)
         if: runner.os == 'Windows'
         run: |
           choco install texlive
           where pdflatex
+      
+      - name: Check pdflatex installed
+        if: runner.os == 'macOS'
+        run: which pdflatex
           
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
+      
+      - name: Check pdflatex installed
+        if: runner.os == 'macOS'
+        run: which pdflatex
+          
+          
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+          
+      - name: Check pdflatex installed
+        if: runner.os == 'macOS'
+        run: which pdflatex
+          
       - uses: r-hub/rhub2/actions/rhub-platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+          
+      - name: Check pdflatex installed
+        if: runner.os == 'macOS'
+        run: which pdflatex
+          
       - uses: r-hub/rhub2/actions/rhub-setup-deps@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+          
+      - name: Check pdflatex installed
+        if: runner.os == 'macOS'
+        run: which pdflatex
+          
       - uses: r-hub/rhub2/actions/rhub-run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+          
+      - name: Check pdflatex installed
+        if: runner.os == 'macOS'
+        run: which pdflatex
+          
