@@ -124,7 +124,6 @@ jobs:
           Get-ChildItem -Path "${env:ProgramFiles}\MiKTeX" -Directory
           $newPath = "$env:ProgramFiles\MiKTeX\miktex\bin;$env:PATH"
           [System.Environment]::SetEnvironmentVariable("PATH", $newPath, [System.EnvironmentVariableTarget]::Machine)
-          C:\ProgramFiles\MiKTeX\miktex\bin\pdflatex --version
           pdflatex --version
 
       - name: Check pdflatex version (Windows)
