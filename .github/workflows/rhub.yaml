@@ -52,10 +52,21 @@ jobs:
 
     steps:
       - uses: r-lib/actions/setup-pandoc@v2
+      - name: Seek pandoc
+        run: |
+          which pandoc
+          which pdflatex
+          
       - name: Install apt packages
         run: |
           sudo apt-get install \
             texlive-latex-base texlive-fonts-recommended libcurl4-openssl-dev
+          
+      - name: Seek pandoc (again)
+        run: |
+          which pandoc
+          which pdflatex
+          
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       - uses: r-hub/rhub2/actions/rhub-platform-info@v1
         with:
