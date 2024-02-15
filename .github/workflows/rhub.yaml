@@ -98,20 +98,12 @@ jobs:
           sudo apt-get install \
             texlive-latex-base texlive-fonts-recommended libcurl4-openssl-dev
           
-      - name: Seek pandoc (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          pdflatex --version
-          
       - uses: r-lib/actions/setup-pandoc@v2
-      - name: Seek pandoc (Linux) (again)
-        if: runner.os == 'Linux'
-        run: |
-          pdflatex --version
-          
+      
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
+          pandoc --version
           brew install basictex xquartz ghostscript
           eval "$(/usr/libexec/path_helper)"
           
@@ -155,8 +147,7 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
           
       - name: Check pdflatex installed
-        if: runner.os == 'macOS'
-        run: which pdflatex
+        run: pdflatex --version
           
       - uses: r-hub/rhub2/actions/rhub-setup-deps@v1
         with:
@@ -164,8 +155,7 @@ jobs:
           token: ${{ secrets.RHUB_TOKEN }}
           
       - name: Check pdflatex installed
-        if: runner.os == 'macOS'
-        run: which pdflatex
+        run: pdflatex --version
           
       - uses: r-hub/rhub2/actions/rhub-run-check@v1
         with:
@@ -173,6 +163,4 @@ jobs:
           token: ${{ secrets.RHUB_TOKEN }}
           
       - name: Check pdflatex installed
-        if: runner.os == 'macOS'
-        run: which pdflatex
-          
+        run: pdflatex --version
