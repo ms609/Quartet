@@ -112,6 +112,7 @@ jobs:
       - name: Check pdflatex installed (Windows)
         if: runner.os == 'Windows'
         run: |
+          where pslatex
           where pdflatex
       
       - name: Check pdflatex installed (Mac)
