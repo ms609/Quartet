@@ -103,11 +103,18 @@ jobs:
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          gs --version
           sudo spctl --master-disable
           brew install basictex xquartz
           sudo spctl --master-enable
+          
+      - name: Update PATH (macOS)
+        if: runner.os == 'macOS'
+        run: |
           eval "$(/usr/libexec/path_helper)"
+          
+      - name: Check versions (macOS)
+        if: runner.os == 'macOS'
+        run: |
           xquartz --version
           basictex --version
           pdflatex --version
