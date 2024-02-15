@@ -104,7 +104,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           sudo spctl --master-disable
-          brew install basictex xquartz
+          brew install --cask basictex xquartz
           sudo spctl --master-enable
           
       - name: Update PATH (macOS)
@@ -115,7 +115,16 @@ jobs:
       - name: Check versions (macOS)
         if: runner.os == 'macOS'
         run: |
+          export BINARIES_PATH=$(find /usr/local/texlive -type d -name 'bin' | grep -m 1 'x86_64-darwin')
+          echo "::set-output name=binaries-path::$BINARIES_PATH"
+  
+      - name: Add BasicTeX binaries directory to PATH
+        if: runner.os == 'macOS'
+        run: |
+          echo "export PATH=${{ steps.find-binaries.outputs.binaries-path }}:\$PATH" >> $HOME/.bash_profile
+          source $HOME/.bash_profile
           pdflatex --version
+          
           
       - name: Install pdflatex (Windows)
         if: runner.os == 'Windows'
@@ -134,29 +143,15 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           choco install texlive --no-progress
-      
-      - name: Check pdflatex installed (Mac)
-        if: runner.os == 'macOS'
-        run: |
-          xquartz --version
-          basictex --version
-          pdflatex --version
-          
+
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       
-      - name: Check pdflatex installed
-        if: runner.os == 'macOS'
-        run: pdflatex --version
-          
           
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-          
-      - name: Check pdflatex installed
-        if: runner.os == 'macOS'
-        run: which pdflatex
+
           
       - uses: r-hub/rhub2/actions/rhub-platform-info@v1
         with:
