@@ -102,7 +102,7 @@ jobs:
       - name: Was pdflatex already installed? (Windows)
         if: runner.os == 'Windows'
         run: |
-          where pdflatex
+          cmd.exe /c where pdflatex
           
       - name: Install system dependencies (Windows)
         if: runner.os == 'Windows'
@@ -112,8 +112,8 @@ jobs:
       - name: Check pdflatex installed (Windows)
         if: runner.os == 'Windows'
         run: |
-          where pslatex
-          where pdflatex
+          cmd.exe /c where pslatex
+          cmd.exe /c where pdflatex
       
       - name: Check pdflatex installed (Mac)
         if: runner.os == 'macOS'
