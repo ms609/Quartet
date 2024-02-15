@@ -10,6 +10,10 @@ test_that("CPDT produces sane results", {
   # "Unrooted"
   # )
   expect_equal(CPDTDist(rtree1, rtree1), 0)
+  f1 <- TQFile(rtree1)
+  f2 <- TQFile(rtree2)
+  on.exit(unlink(c(f1, f2)))
+  TripletDistance(f1, f2)
   #expect_equal(CPDTDist(tree2, tree2), 0)
   #expect_equal(CPDTDist(rtree1, tree2), 28)
 })

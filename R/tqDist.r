@@ -321,11 +321,12 @@ SingleTreeQuartetAgreement <- function (trees, comparison) {
 #' 
 #' Creates a temporary file corresponding to a list of trees,
 #' to be processed with tqDist.  Files should be destroyed using
-#' `on.exit(file.remove(fileName))` by the calling function.
+#' `on.exit(unlink(fileName))` by the calling function.
 #' 
-#' Should now only be necessary for testing purposes.
+#' Used for testing purposes.
 #' 
-#' @return Name of the created file
+#' @return `TQDist()` returns a character specifying the name of the
+#' created file.
 #' @keywords internal
 #' @export
 TQFile <- function (treeList) {
@@ -333,9 +334,10 @@ TQFile <- function (treeList) {
     class(treeList) <- "multiPhylo"
   }
   if (!inherits(treeList, c("phylo", "multiPhylo"))) {
-    stop("treeList must be a tree of class phylo, or a list of phylogenetic trees")
+    stop("treeList must be a tree of class phylo, ",
+         "or a list of phylogenetic trees")
   }
-  fileName <- tempfile()
+  fileName <- tempfile(pattern = "tqTree-", fileext = ".nwk")
   write.tree(treeList, file = fileName)
   
   # Return:
