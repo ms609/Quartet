@@ -89,6 +89,8 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           choco install texlive
+          refreshenv
+          where pdflatex
           
       - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
