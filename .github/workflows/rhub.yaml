@@ -90,7 +90,11 @@ jobs:
       - name: Install system dependencies (Windows)
         if: runner.os == 'Windows'
         run: |
-          choco install texlive
+          choco install texlive --no-progress
+          
+      - name: Check pdflatex installed (Windows)
+        if: runner.os == 'Windows'
+        run: |
           where pdflatex
       
       - name: Check pdflatex installed
