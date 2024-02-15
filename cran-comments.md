@@ -4,7 +4,7 @@
   - Windows 10, R Under development (unstable) (2023-08-17 r84984 ucrt)
 
 * [GitHub Actions](https://github.com/ms609/Quartet/actions)
-  - Ubuntu 20.04
+  - Ubuntu 22.04
     - R 3.6
     - R release (tests, examples & vignettes run with valgrind)
     - R devel
