@@ -112,16 +112,15 @@ jobs:
           basictex --version
           pdflatex --version
           
-          
-      - name: Install Chocolatey (Windwows)
-        if: runner.os == 'Windows'
-        run: |
-          choco --version
-          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-  
       - name: Install pdflatex (Windows)
         if: runner.os == 'Windows'
-        run: choco install miktex -y
+        run: |
+          choco install miktex --no-progress -y
+          Get-ChildItem -Path "${env:ProgramFiles}\MiKTeX" -Directory
+          $newPath = "$env:ProgramFiles\MiKTeX\miktex\bin;$env:PATH"
+          [System.Environment]::SetEnvironmentVariable("PATH", $newPath, [System.EnvironmentVariableTarget]::Machine)
+          C:\ProgramFiles\MiKTeX\miktex\bin\pdflatex --version
+          pdflatex --version
 
       - name: Check pdflatex version (Windows)
         if: runner.os == 'Windows'
