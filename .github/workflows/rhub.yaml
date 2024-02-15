@@ -32,13 +32,11 @@ jobs:
       platforms: ${{ steps.rhub-setup.outputs.platforms }}
 
     steps:
-    - uses: r-lib/actions/setup-pandoc@v2
-    
-    # NO NEED TO CHECKOUT HERE
-    - uses: r-hub/rhub2/actions/rhub-setup@v1
-      with:
-        config: ${{ github.event.inputs.config }}
-      id: rhub-setup
+      # NO NEED TO CHECKOUT HERE
+      - uses: r-hub/rhub2/actions/rhub-setup@v1
+        with:
+          config: ${{ github.event.inputs.config }}
+        id: rhub-setup
       
   linux-containers:
     needs: setup
@@ -53,6 +51,7 @@ jobs:
       image: ${{ matrix.config.container }}
 
     steps:
+      - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       - uses: r-hub/rhub2/actions/rhub-platform-info@v1
         with:
@@ -78,6 +77,7 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
+      - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
         with:
