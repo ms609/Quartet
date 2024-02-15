@@ -112,16 +112,25 @@ jobs:
           basictex --version
           pdflatex --version
           
+          
+      - name: Install Chocolatey (Windwows)
+        if: runner.os == 'Windows'
+        run: |
+          choco --version
+          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+  
+      - name: Install pdflatex (Windows)
+        if: runner.os == 'Windows'
+        run: choco install miktex -y
+
+      - name: Check pdflatex version (Windows)
+        if: runner.os == 'Windows'
+        run: pdflatex --version
+      
       - name: Install TeX Live (Windows)
         if: runner.os == 'Windows'
         run: |
           choco install texlive --no-progress
-          
-      - name: Check pdflatex installed (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          pslatex --version
-          pdflatex --version
       
       - name: Check pdflatex installed (Mac)
         if: runner.os == 'macOS'
