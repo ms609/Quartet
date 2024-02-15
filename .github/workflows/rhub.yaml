@@ -32,12 +32,14 @@ jobs:
       platforms: ${{ steps.rhub-setup.outputs.platforms }}
 
     steps:
+    - uses: r-lib/actions/setup-pandoc@v2
+    
     # NO NEED TO CHECKOUT HERE
     - uses: r-hub/rhub2/actions/rhub-setup@v1
       with:
         config: ${{ github.event.inputs.config }}
       id: rhub-setup
-
+      
   linux-containers:
     needs: setup
     if: ${{ needs.setup.outputs.containers != '[]' }}
