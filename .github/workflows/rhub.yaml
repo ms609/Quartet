@@ -88,6 +88,11 @@ jobs:
           brew install basictex xquartz ghostscript
           eval "$(/usr/libexec/path_helper)"
           
+      - name: Was pdflatex already installed? (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          where pdflatex
+          
       - name: Install system dependencies (Windows)
         if: runner.os == 'Windows'
         run: |
