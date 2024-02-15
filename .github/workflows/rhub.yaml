@@ -17,10 +17,10 @@ on:
         type: string
         default: 'linux,windows,macos'
       name:
-        description: 'Run name. You can leave this empty now.'
+        description: 'Run name (optional)'
         type: string
       id:
-        description: 'Unique ID. You can leave this empty now.'
+        description: 'Unique ID (optional)'
         type: string
 
 jobs:
