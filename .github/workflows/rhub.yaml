@@ -103,7 +103,7 @@ jobs:
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          ghostscript --version
+          gs --version
           sudo spctl --master-disable
           brew install basictex xquartz
           sudo spctl --master-enable
