@@ -51,17 +51,17 @@ jobs:
       image: ${{ matrix.config.container }}
 
     steps:
-      - uses: r-lib/actions/setup-pandoc@v2
-      - name: Seek pandoc
-        run: |
-          which pandoc
-          which pdflatex
-          
       - name: Install apt packages
         run: |
           sudo apt-get install \
             texlive-latex-base texlive-fonts-recommended libcurl4-openssl-dev
           
+      - name: Seek pandoc
+        run: |
+          which pdflatex
+          which pandoc
+          
+      - uses: r-lib/actions/setup-pandoc@v2
       - name: Seek pandoc (again)
         run: |
           which pandoc
@@ -92,7 +92,25 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
+      - name: Install apt packages (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install \
+            texlive-latex-base texlive-fonts-recommended libcurl4-openssl-dev
+          
+      - name: Seek pandoc (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          which pdflatex
+          which pandoc
+          
       - uses: r-lib/actions/setup-pandoc@v2
+      - name: Seek pandoc (Linux) (again)
+        if: runner.os == 'Linux'
+        run: |
+          which pandoc
+          which pdflatex
+          
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
