@@ -51,8 +51,6 @@ jobs:
       image: ${{ matrix.config.container }}
 
     steps:
-      - uses: r-lib/actions/setup-pandoc@v2
-          
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       - uses: r-hub/rhub2/actions/rhub-platform-info@v1
         with:
@@ -78,33 +76,23 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
-    
       - uses: teatimeguest/setup-texlive-action@v3
         with:
           packages: scheme-basic
-        
       - uses: r-lib/actions/setup-pandoc@v2
-      
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
-          
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-          
       - uses: r-hub/rhub2/actions/rhub-platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-          
       - uses: r-hub/rhub2/actions/rhub-setup-deps@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-          
-      - name: Check pdflatex installed
-        run: pdflatex --version
-          
       - uses: r-hub/rhub2/actions/rhub-run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}
