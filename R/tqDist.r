@@ -16,9 +16,11 @@
 #' calculating this; [let us know](https://github.com/ms609/Quartet/issues/new)
 #' if you would appreciate this functionality.
 #' 
-#' The status of each quartet is calculated using the algorithms of
-#' Brodal _et al_. (2013) and Holt _et al_. (2014), implemented in the
-#' tqdist C library (Sand _et al_. 2014).
+#' The status of each quartet \insertCite{Estabrook1985}{Quartet}
+#' is calculated using the algorithms of
+#' \insertCite{Brodal2013;textual}{Quartet} and
+#' \insertCite{Hold2014;textual}{Quartet}, implemented in the tqdist C library
+#' \insertCite{Sand2014}{Quartet}.
 #' 
 #' @template treesParam
 #' @template treesCfParam
@@ -61,15 +63,8 @@
 #'  
 #' - Generate distance metrics from quartet statuses: [`SimilarityMetrics()`].
 #' 
-#' @references 
-#' - \insertRef{Brodal2013}{Quartet}
-#' 
-#' - \insertRef{Estabrook1985}{Quartet}
-#'
-#' - \insertRef{Holt2014}{Quartet}
-#'
-#' - \insertRef{Sand2014}{Quartet}
-#'
+#' @references
+#' \insertAllCited{}
 #' @importFrom Rdpack reprompt
 #' @importFrom ape keep.tip
 #' @importFrom TreeTools AllTipLabels TipLabels

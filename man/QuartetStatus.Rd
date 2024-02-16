@@ -80,9 +80,11 @@ quartets occur in one tree or the other, though there is not yet a function
 calculating this; \href{https://github.com/ms609/Quartet/issues/new}{let us know}
 if you would appreciate this functionality.
 
-The status of each quartet is calculated using the algorithms of
-Brodal \emph{et al}. (2013) and Holt \emph{et al}. (2014), implemented in the
-tqdist C library (Sand \emph{et al}. 2014).
+The status of each quartet \insertCite{Estabrook1985}{Quartet}
+is calculated using the algorithms of
+\insertCite{Brodal2013;textual}{Quartet} and
+\insertCite{Hold2014;textual}{Quartet}, implemented in the tqdist C library
+\insertCite{Sand2014}{Quartet}.
 }
 \section{Functions}{
 \itemize{
@@ -127,12 +129,7 @@ QuartetDivergence(ManyToManyQuartetAgreement(two_moved))
 QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
 }
 \references{
-\itemize{
-\item \insertRef{Brodal2013}{Quartet}
-\item \insertRef{Estabrook1985}{Quartet}
-\item \insertRef{Holt2014}{Quartet}
-\item \insertRef{Sand2014}{Quartet}
-}
+\insertAllCited{}
 }
 \seealso{
 \itemize{
