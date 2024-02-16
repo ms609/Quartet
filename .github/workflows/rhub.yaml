@@ -87,6 +87,9 @@ jobs:
       - name: Check `tlmgr` version
         run: tlmgr --version
         
+      - name: Check `pdflatex` version
+        run: pdflatex --version
+        
       - name: Install apt packages (Linux)
         run: |
           sudo apt-get install \
@@ -194,6 +197,3 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-          
-      - name: Check pdflatex installed
-        run: pdflatex --version
