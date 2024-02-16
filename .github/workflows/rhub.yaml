@@ -54,7 +54,8 @@ jobs:
       - name: Install apt packages
         run: |
           sudo apt-get install \
-            texlive-latex-base texlive-fonts-recommended libcurl4-openssl-dev
+            texlive-latex-base texlive-fonts-recommended texlive-latex-extra \
+            libcurl4-openssl-dev
           
       - name: Seek pandoc
         run: |
