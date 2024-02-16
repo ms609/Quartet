@@ -51,22 +51,7 @@ jobs:
       image: ${{ matrix.config.container }}
 
     steps:
-      - name: Install apt packages
-        run: |
-          sudo apt-get install \
-            texlive-latex-base texlive-fonts-recommended texlive-latex-extra \
-            libcurl4-openssl-dev
-          
-      - name: Seek pandoc
-        run: |
-          which pdflatex
-          which pandoc
-          
       - uses: r-lib/actions/setup-pandoc@v2
-      - name: Seek pandoc (again)
-        run: |
-          which pandoc
-          which pdflatex
           
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       - uses: r-hub/rhub2/actions/rhub-platform-info@v1
@@ -103,11 +88,10 @@ jobs:
         run: tlmgr --version
         
       - name: Install apt packages (Linux)
-        if: runner.os == 'Linux'
         run: |
           sudo apt-get install \
-            texlive-latex-base texlive-fonts-recommended libcurl4-openssl-dev
-          
+            texlive-latex-base texlive-fonts-recommended texlive-latex-extra \
+            libcurl4-openssl-dev
       
       - name: Install System dependencies and LaTeX (Windows)
         if: runner.os == 'Windows'
