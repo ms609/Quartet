@@ -85,11 +85,6 @@ jobs:
         
       - uses: r-lib/actions/setup-pandoc@v2
       
-      - name: Install system dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          brew install xquartz
-      
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
           
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
