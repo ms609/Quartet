@@ -93,6 +93,15 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
+    
+      - name: Setup TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: scheme-basic
+      
+      - name: Check `tlmgr` version
+        run: tlmgr --version
+        
       - name: Install apt packages (Linux)
         if: runner.os == 'Linux'
         run: |
@@ -101,6 +110,7 @@ jobs:
           
       
       - name: Install System dependencies and LaTeX (Windows)
+        if: runner.os == 'Windows'
         shell: bash
         run: |
           set -x
@@ -136,8 +146,10 @@ jobs:
           # mpm --admin --set-repository=C:/MiKTeX-Repo
           # mpm --verbose --admin --repository=C:\MiKTeX-Repo --require=@C:\MiKTeX-Repo\energyplus_packages.lst
           # Avoid annoying warning: "xelatex: major issue: So far, you have not checked for updates as a MiKTeX user."
-          mpm --find-updates
-          mpm --admin --find-updates
+          miktex packages update
+          miktex --admin packages update
+          mpm --find-updates # TODO remove
+          mpm --admin --find-updates # TODO remove
           # initexmf --enable-installer --update-fndb
           # initexmf --admin --enable-installer --update-fndb
           # initexmf --enable-installer --dump-by-name=xelatex --engine=xetex
@@ -147,8 +159,7 @@ jobs:
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          brew install basictex xquartz
-          which pdflatex
+          brew install xquartz basictex
           
       - name: Update PATH (macOS)
         if: runner.os == 'macOS'
