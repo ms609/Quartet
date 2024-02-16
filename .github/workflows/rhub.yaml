@@ -104,9 +104,8 @@ jobs:
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          sudo spctl --master-disable
-          brew install --cask basictex xquartz
-          sudo spctl --master-enable
+          brew install basictex xquartz
+          which pdflatex
           
       - name: Update PATH (macOS)
         if: runner.os == 'macOS'
@@ -117,6 +116,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           export BINARIES_PATH=$(find /usr/local/texlive -type d -name 'bin' | grep -m 1 'x86_64-darwin')
+          echo "set-output name=binaries-path:$BINARIES_PATH"
           echo "::set-output name=binaries-path::$BINARIES_PATH"
   
       - name: Add BasicTeX binaries directory to PATH
