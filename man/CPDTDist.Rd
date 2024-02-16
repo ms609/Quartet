@@ -7,8 +7,7 @@
 CPDTDist(tree1, tree2)
 }
 \arguments{
-\item{tree1, tree2}{Phylogenetic tree, either as a \code{phylo} object or
-a nexus string.}
+\item{tree1, tree2}{Phylogenetic tree of class \code{phylo}.}
 }
 \value{
 \code{CPDTDist()} returns the quartet distance between \code{tree1} and
@@ -18,6 +17,12 @@ a nexus string.}
 Convenience function that passes a pair of trees to a C++ implementation
 of the centroid path decomposition tree distance algorithm
 \insertCite{Janssen2017jcb}{Quartet}.
+}
+\examples{
+tree1 <- TreeTools::RootTree(TreeTools::BalancedTree(8), 1)
+tree2 <- TreeTools::PectinateTree(8)
+CPDTDist(tree1, tree2)
+
 }
 \references{
 \insertAllCited{}

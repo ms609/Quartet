@@ -7,14 +7,15 @@
 TQFile(treeList)
 }
 \value{
-Name of the created file
+\code{TQDist()} returns a character specifying the name of the
+created file.
 }
 \description{
 Creates a temporary file corresponding to a list of trees,
 to be processed with tqDist.  Files should be destroyed using
-\code{on.exit(file.remove(fileName))} by the calling function.
+\code{on.exit(unlink(fileName))} by the calling function.
 }
 \details{
-Should now only be necessary for testing purposes.
+Used for testing purposes.
 }
 \keyword{internal}
