@@ -79,16 +79,10 @@ jobs:
 
     steps:
     
-      - name: Setup TeX Live
-        uses: teatimeguest/setup-texlive-action@v3
+      - uses: teatimeguest/setup-texlive-action@v3
         with:
-          packages: >-
-            scheme-basic
-            xcolor
-      
-      - name: Check `pdflatex` version
-        run: pdflatex --version
-          
+          packages: scheme-basic
+        
       - uses: r-lib/actions/setup-pandoc@v2
       
       - name: Install system dependencies (macOS)
