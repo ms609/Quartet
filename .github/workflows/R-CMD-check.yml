@@ -13,6 +13,7 @@ on:
       - "**.git"
       - "**.json"
       - "**.md"
+      - "**.yaml"
       - "**.yml"
       - "!**R-CMD-check.yml"
       - "**.R[dD]ata"
@@ -29,6 +30,7 @@ on:
       - "**.json"
       - "**.md"
       - "**.yml"
+      - "**.yaml"
       - "!**R-CMD-check.yml"
       - "**.R[dD]ata"
       - "**.Rpro*"
@@ -47,9 +49,9 @@ jobs:
         config:
           - {os: windows-latest, r: 'release'}
           - {os: macOS-latest, r: 'release'}
-          - {os: ubuntu-20.04, r: '3.6', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-22.04, r: '3.6', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-22.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-22.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
       _R_CHECK_FORCE_SUGGESTS_: false
