@@ -82,19 +82,12 @@ jobs:
       - name: Setup TeX Live
         uses: teatimeguest/setup-texlive-action@v3
         with:
-          packages: scheme-basic
+          packages: >-
+            scheme-basic
+            xcolor
       
-      - name: Check `tlmgr` version
-        run: tlmgr --version
-        
       - name: Check `pdflatex` version
         run: pdflatex --version
-        
-      - name: Install apt packages (Linux)
-        run: |
-          sudo apt-get install \
-            texlive-latex-base texlive-fonts-recommended texlive-latex-extra \
-            libcurl4-openssl-dev
           
       - uses: r-lib/actions/setup-pandoc@v2
       
