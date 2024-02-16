@@ -20,7 +20,7 @@ on:
         description: 'Run name (optional)'
         type: string
       id:
-        description: 'Unique ID (optional)'
+        description: 'Identifier (optional)'
         type: string
 
 jobs:
