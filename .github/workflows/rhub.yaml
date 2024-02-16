@@ -181,26 +181,11 @@ jobs:
           pdflatex --version
           
           
-      - name: Install pdflatex (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          choco install miktex --no-progress -y
-          Get-ChildItem -Path "${env:ProgramFiles}\MiKTeX" -Directory
-          $newPath = "$env:ProgramFiles\MiKTeX\miktex\bin;$env:PATH"
-          [System.Environment]::SetEnvironmentVariable("PATH", $newPath, [System.EnvironmentVariableTarget]::Machine)
-          pdflatex --version
-
       - name: Check pdflatex version (Windows)
         if: runner.os == 'Windows'
         run: pdflatex --version
       
-      - name: Install TeX Live (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          choco install texlive --no-progress
-
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
-      
           
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
         with:
@@ -212,9 +197,6 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-          
-      - name: Check pdflatex installed
-        run: pdflatex --version
           
       - uses: r-hub/rhub2/actions/rhub-setup-deps@v1
         with:
