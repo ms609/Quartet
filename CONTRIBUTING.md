@@ -26,11 +26,15 @@ bug, create an associated issue and illustrate the bug with a minimal
 *  We use [roxygen2](https://cran.r-project.org/package=roxygen2).  
 *  We use [testthat](https://cran.r-project.org/package=testthat). Contributions
 with test cases included are easier to accept.  
+*  We use [semantic versioning](https://semver.org/).
 *  For user-facing changes, add a bullet to the top of `NEWS.md` below the
 current development version header describing the changes made followed by your
 GitHub username, and links to relevant issue(s)/PR(s).
-*  We seek to recognize all contributions, however small; contributors are 
-   invited to add their details in `DESCRIPTION` with `role = 'ctb'`.
+
+### Contributor license agreement
+
+Contributors agree to reassign the copyright of their contributions to the
+maintainers of the package.
 
 ### Code of Conduct
 
