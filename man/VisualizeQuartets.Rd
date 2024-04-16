@@ -50,11 +50,15 @@ to colour matches.}
 
 \item{\dots}{Additional parameters to send to \code{Plot()}.}
 }
+\value{
+\code{VisualizeQuartets()} invisibly returns a numeric vector specifying
+the XXXXSTATUS? of quartets at each node of \code{treeX}.
+}
 \description{
 Visualize quartet difference on trees, by split
 }
 \examples{
-library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
+library("TreeTools", quietly = TRUE)
 VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
                   style = "label")
 # Keep original plotting parameters:
@@ -64,8 +68,15 @@ VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
 VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
                   style = "bar", legend = FALSE, setPar = FALSE)
 par(origPar)
-VisualizeQuartets(BalancedTree(20), CollapseNode(PectinateTree(20), 29:33),
-                  style = "size", scale = 2)
+
+# Use sized pies; label nodes manually
+vq <- VisualizeQuartets(
+  tree1 = BalancedTree(20),
+  tree2 = CollapseNode(PectinateTree(20), 29:33),
+  style = "size", scale = 2
+)
+percentSame <- paste(round(vq[["tree2"]][, "same"] * 100, 1), "\%")
+nodelabels(percentSame, frame = "n", bg = NA, adj = 0)
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

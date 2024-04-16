@@ -23,7 +23,7 @@
 #' @param \dots Additional parameters to send to `Plot()`.
 #' 
 #' @examples
-#' library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
+#' library("TreeTools", quietly = TRUE)
 #' VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
 #'                   style = "label")
 #' # Keep original plotting parameters:
@@ -37,6 +37,7 @@
 #'                   style = "size", scale = 2)
 #' @template MRS
 #' @importFrom ape plot.phylo
+#' @importFrom PlotTools SpectrumLegend
 #' @importFrom viridisLite viridis
 #' @export
 VisualizeQuartets <- function (tree1, tree2, style = "pie",
@@ -61,10 +62,11 @@ VisualizeQuartets <- function (tree1, tree2, style = "pie",
              pch = 15, col = spectrum[c(101, 1)])
     }
     Legend5 <- function() {
-      legend("topleft",
-             c("100% quartets match", "75%", "50%", "25%", "100% differ"),
-             bty = "n", pch = 15, 
-             col = spectrum[c(101, 76, 51, 26, 1)])
+      SpectrumLegend(
+        "topleft",
+        palette = spectrum,
+        legend = c("100% quartets match", "75%", "50%", "25%", "100% differ"),
+        bty = "n")
     }
     switch(pmatch(style, c("label", "bar", "pie", "size")),
            Legend5(), Legend2(), Legend2(), Legend5())

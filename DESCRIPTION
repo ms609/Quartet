@@ -35,6 +35,7 @@ Depends: R (>= 3.5.0),
   TreeTools (>= 1.4.0),
 Imports:
   ape,
+  PlotTools,
   Rdpack (>= 0.7),
   Ternary (>= 1.0),
   viridisLite,
