@@ -87,7 +87,7 @@ Other contributors:
   \item Gerth Stølting Brodal [bibliographic antecedent]
   \item Rolf Fagerberg [bibliographic antecedent]
   \item Thomas Mailund [bibliographic antecedent]
-  \item Christian N. S. Pedersen \email{cstorm@birc.au.dk} [bibliographic antecedent]
+  \item Christian N. S. Pedersen \email{cstorm@birc.au.dk} (\href{https://orcid.org/0000-0002-8947-6771}{ORCID}) [bibliographic antecedent]
   \item Jens Johansen [bibliographic antecedent]
   \item Morten K. Holt [bibliographic antecedent]
 }
