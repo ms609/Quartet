@@ -22,19 +22,49 @@
 #' @param Plot Function to use to plot trees.
 #' @param \dots Additional parameters to send to `Plot()`.
 #' 
+#' @returns `VisualizeQuartets()` invisibly returns a list with two elements, 
+#' named `tree1` and `tree2`, containing a matrix.
+#' Each row corresponds to a split within that tree; columns correspond to:
+#' \describe{
+#'   \item{node}{note}
+#'   \item{N\dots{}u}{The status of each quartet relative to that split,
+#'   as documented in [`QuartetStatus()`]}
+#'   \item{res}{The number of quartets resolved by that split, i.e. `s` + `d`}
+#'   \item{same}{The proportion of quartets resolved by that node that are 
+#'   resolved in the same manner in the other tree; i.e. `s / s + d`}
+#'   }
+#' 
 #' @examples
 #' library("TreeTools", quietly = TRUE)
+#' # Simple plot
 #' VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
 #'                   style = "label")
-#' # Keep original plotting parameters:
+#'
+#' # Plot with custom graphical parameters
 #' origPar <- par(mfrow = c(2, 2))
 #' VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
 #'                   setPar = FALSE)
 #' VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
 #'                   style = "bar", legend = FALSE, setPar = FALSE)
+#' 
+#' # Circle size denotes similarity
+#' par(mfrow = c(2, 1), mar = rep(0.1, 4))
+#' vq <- VisualizeQuartets(
+#'   tree1 = BalancedTree(20),
+#'   tree2 = CollapseNode(PectinateTree(20), 29:33),
+#'   style = "size", scale = 2,
+#'   setPar = FALSE # necessary for node labels to align
+#' )
+#' # Manually add custom node labels
+#' percentSame <- paste(round(vq[["tree2"]][, "same"] * 100, 1), "%")
+#' nodelabels(percentSame, vq[["tree2"]][, "node"],
+#'            frame = "n", bg = NA, # No frame or background
+#             cex = 0.8, # character expansion / font size
+#'            adj = 0.5 # align label
+#'            )
+#'            
+#' # restore original graphical parameters
 #' par(origPar)
-#' VisualizeQuartets(BalancedTree(20), CollapseNode(PectinateTree(20), 29:33),
-#'                   style = "size", scale = 2)
 #' @template MRS
 #' @importFrom ape plot.phylo
 #' @importFrom PlotTools SpectrumLegend
@@ -54,15 +84,15 @@ VisualizeQuartets <- function (tree1, tree2, style = "pie",
   }
   
   Plot(tree1, ...)
-  .VQPanel(tree1, tree2, style = style, scale = scale,
-           precision = precision, spectrum = spectrum)
+  vq1 <- .VQPanel(tree1, tree2, style = style, scale = scale,
+                  precision = precision, spectrum = spectrum)
   if (isTRUE(legend)) {
     Legend2 <- function() {
       legend("topleft", c("Quartets match", "Quartets differ"), bty = "n",
              pch = 15, col = spectrum[c(101, 1)])
     }
     Legend5 <- function() {
-      SpectrumLegend(
+      PlotTools::SpectrumLegend(
         "topleft",
         palette = spectrum,
         legend = c("100% quartets match", "75%", "50%", "25%", "100% differ"),
@@ -72,11 +102,11 @@ VisualizeQuartets <- function (tree1, tree2, style = "pie",
            Legend5(), Legend2(), Legend2(), Legend5())
   }
   Plot(tree2, ...)
-  .VQPanel(tree2, tree1, style = style, scale = scale, 
-           precision = precision, spectrum = spectrum)
+  vq2 <- .VQPanel(tree2, tree1, style = style, scale = scale,
+                  precision = precision, spectrum = spectrum)
   
   # Return:
-  invisible()
+  invisible(list(tree1 = vq1, tree2 = vq2))
 }
 
 #' @importFrom TreeTools as.Splits CollapseNode
@@ -92,7 +122,7 @@ VisualizeQuartets <- function (tree1, tree2, style = "pie",
   resolved <- qs[, "s"] + qs[, "d"]
   sames <- qs[, "s"] / (qs[, "s"] + qs[, "d"])
   
-  switch(pmatch(style, c("label", "bar", "pie", "size")),
+  switch(pmatch(tolower(style), c("label", "bar", "pie", "size")),
          ## Coloured according to % same
          nodelabels(signif(sames, precision), splits, cex = scale,
                     bg = spectrum[1 + ceiling(100 * sames)]),
@@ -110,4 +140,6 @@ VisualizeQuartets <- function (tree1, tree2, style = "pie",
                     cex = sqrt(resolved / qs[1, "N"]) * 10L * scale)
   )
   
+  # Return:
+  invisible(cbind(node = splits, qs, res = resolved, same = sames))
 }
