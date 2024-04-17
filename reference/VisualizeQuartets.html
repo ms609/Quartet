@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Quartet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.6.9001</span>
       </span>
     </div>
 
@@ -136,6 +136,29 @@ to colour matches.</p></dd>
 <dd><p>Additional parameters to send to <code>Plot()</code>.</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p><code>VisualizeQuartets()</code> invisibly returns a list with two elements,
+named <code>tree1</code> and <code>tree2</code>, containing a matrix.
+Each row corresponds to a split within that tree; columns correspond to:</p><dl><dt>node</dt>
+<dd><p>The internal numbering of the node corresponding to each split,
+as displayed by <code><a href="https://rdrr.io/pkg/ape/man/nodelabels.html" class="external-link">ape::nodelabels()</a></code></p></dd>
+
+<dt>N...u</dt>
+<dd><p>The status of each quartet relative to that split,
+as documented in <code><a href="QuartetStatus.html">QuartetStatus()</a></code></p></dd>
+
+<dt>res</dt>
+<dd><p>The number of quartets resolved by that split, i.e. <code>s</code> + <code>d</code></p></dd>
+
+<dt>same</dt>
+<dd><p>The proportion of quartets resolved by that node that are
+resolved in the same manner in the other tree; i.e. <code>s / s + d</code></p></dd>
+
+
+</dl></div>
     <div id="author">
     <h2>Author</h2>
     <p><a href="https://orcid.org/0000-0001-5660-1727" class="external-link">Martin R. Smith</a>
@@ -144,21 +167,38 @@ to colour matches.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">"TreeTools"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">"TreeTools"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Simple plot</span></span></span>
 <span class="r-in"><span><span class="fu">VisualizeQuartets</span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html" class="external-link">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fl">19</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                  style <span class="op">=</span> <span class="st">"label"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="VisualizeQuartets-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># Keep original plotting parameters:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot with custom graphical parameters</span></span></span>
 <span class="r-in"><span><span class="va">origPar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">VisualizeQuartets</span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html" class="external-link">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fl">19</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                  setPar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">VisualizeQuartets</span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html" class="external-link">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fl">19</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                  style <span class="op">=</span> <span class="st">"bar"</span>, legend <span class="op">=</span> <span class="cn">FALSE</span>, setPar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="VisualizeQuartets-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">origPar</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">VisualizeQuartets</span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html" class="external-link">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, <span class="fl">29</span><span class="op">:</span><span class="fl">33</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                  style <span class="op">=</span> <span class="st">"size"</span>, scale <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Circle size denotes similarity</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">vq</span> <span class="op">&lt;-</span> <span class="fu">VisualizeQuartets</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  tree1 <span class="op">=</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  tree2 <span class="op">=</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/CollapseNode.html" class="external-link">CollapseNode</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, <span class="fl">29</span><span class="op">:</span><span class="fl">33</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  style <span class="op">=</span> <span class="st">"size"</span>, scale <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  setPar <span class="op">=</span> <span class="cn">FALSE</span> <span class="co"># necessary for node labels to align</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Manually add custom node labels</span></span></span>
+<span class="r-in"><span><span class="va">percentSame</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">vq</span><span class="op">[[</span><span class="st">"tree2"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>, <span class="st">"same"</span><span class="op">]</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"%"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/nodelabels.html" class="external-link">nodelabels</a></span><span class="op">(</span><span class="va">percentSame</span>, <span class="va">vq</span><span class="op">[[</span><span class="st">"tree2"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>, <span class="st">"node"</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>           frame <span class="op">=</span> <span class="st">"n"</span>, bg <span class="op">=</span> <span class="cn">NA</span>, <span class="co"># No frame or background</span></span></span>
+<span class="r-in"><span>           adj <span class="op">=</span> <span class="fl">0.5</span> <span class="co"># align label</span></span></span>
+<span class="r-in"><span>           <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="VisualizeQuartets-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span>           </span></span>
+<span class="r-in"><span><span class="co"># restore original graphical parameters</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">origPar</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
