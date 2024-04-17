@@ -1,3 +1,8 @@
+# Quartet v1.2.6.9001 (development, 2024-04-16)
+
+- `VizualizeQuartet()` now returns calculation results.
+- Use spectrum legend in `VisualizeQuartet()`.
+
 # Quartet v1.2.6 (2024-02-08)
 
 - Drop obsolete C++11 specification.
