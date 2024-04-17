@@ -13,8 +13,8 @@
 #' of triplets instead of the number of quartets.
 #' 
 #' @return `ResolvedQuartets()` returns a vector of length two, listing the
-#' number of quartets (or triplets)
-#'  that are \[1\] resolved; \[2\] unresolved in the specified tree.
+#' number of quartets (or triplets) that are `[1]` resolved; `[2]` unresolved 
+#' in the specified tree.
 #'         
 #' @template MRS
 #' 
