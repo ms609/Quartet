@@ -4,7 +4,7 @@
 #' and accuracy) on a ternary plot, per \insertCite{Smith2019;textual}{Quartet}.
 #' 
 #' The ternary plot (produced using the \pkg{Ternary} package,
-#' \insertCite{Ternary}{Quartet})
+#' \insertCite{Ternary;nobrackets}{Quartet})
 #' will depict the number of quartets or splits that are:
 #' - resolved in the reference tree (`cf`), but neither present nor contradicted
 #'   in each comparison tree (`trees`);

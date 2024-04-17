@@ -21,8 +21,8 @@ each pair of trees ("A" in Brodal \emph{et al}. 2013) and the number of quartets
 that are unresolved in both trees ("E" in Brodal \emph{et al}. 2013).
 }
 \description{
-Convenience function that takes a list of trees, writes them to the text
-file expected by the C implementation of tqDist
+\code{TQDist()} and \code{TQAE()} are convenience functions that writes a list of
+trees to text files that can be processed by the C implementation of tqDist
 \insertCite{Sand2014}{Quartet}.
 tqDist is then called, and the temporary file is deleted when analysis is
 complete.
@@ -30,14 +30,15 @@ complete.
 \details{
 Quartets can be resolved in one of five ways, which
 \insertCite{Brodal2013;textual}{Quartet} and
-\insertCite{Holt2014;textual}{Quartet} distinguish using the letters A--E,
-and \insertCite{Estabrook1985}{Quartet} refer to as:
-\itemize{
-\item A: \emph{s} = resolved the \strong{s}ame in both trees;
-\item B: \emph{d} = resolved \strong{d}ifferently in both trees;
-\item C: \emph{r1} = \strong{r}esolved only in tree \strong{1};
-\item D: \emph{r2} = \strong{r}esolved only in tree \strong{2} (the comparison tree);
-\item E: \emph{u} = \strong{u}nresolved in both trees.
+\insertCite{Holt2014;textual}{Quartet} distinguish using the letters A-E,
+and \insertCite{Estabrook1985;textual}{Quartet} refer to as:
+
+\describe{
+\item{A}{\emph{s} = resolved the \strong{s}ame in both trees;}
+\item{B}{\emph{d} = resolved \strong{d}ifferently in both trees;}
+\item{C}{\emph{r1} = \strong{r}esolved only in tree \strong{1};}
+\item{D}{\emph{r2} = \strong{r}esolved only in tree \strong{2} (the comparison tree);}
+\item{E}{\emph{u} = \strong{u}nresolved in both trees.}
 }
 }
 \references{

@@ -109,23 +109,24 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
 
 #' Wrapper for tqDist
 #' 
-#' Convenience function that takes a list of trees, writes them to the text
-#' file expected by the C implementation of tqDist 
+#' `TQDist()` and `TQAE()` are convenience functions that writes a list of
+#' trees to text files that can be processed by the C implementation of tqDist 
 #' \insertCite{Sand2014}{Quartet}.
 #' tqDist is then called, and the temporary file is deleted when analysis is
 #' complete.
 #' 
 #' Quartets can be resolved in one of five ways, which
 #' \insertCite{Brodal2013;textual}{Quartet} and
-#' \insertCite{Holt2014;textual}{Quartet} distinguish using the letters A--E,
-#' and \insertCite{Estabrook1985}{Quartet} refer to as:
+#' \insertCite{Holt2014;textual}{Quartet} distinguish using the letters A-E,
+#' and \insertCite{Estabrook1985;textual}{Quartet} refer to as:
 #'  
-#'  - A: _s_ = resolved the **s**ame in both trees;
-#'  
-#'  - B: _d_ = resolved **d**ifferently in both trees;
-#'  - C: _r1_ = **r**esolved only in tree **1**;
-#'  - D: _r2_ = **r**esolved only in tree **2** (the comparison tree);
-#'  - E: _u_ = **u**nresolved in both trees.
+#' \describe{
+#'  \item{A}{_s_ = resolved the **s**ame in both trees;}
+#'  \item{B}{_d_ = resolved **d**ifferently in both trees;}
+#'  \item{C}{_r1_ = **r**esolved only in tree **1**;}
+#'  \item{D}{_r2_ = **r**esolved only in tree **2** (the comparison tree);}
+#'  \item{E}{_u_ = **u**nresolved in both trees.}
+#' }
 #'  
 #' 
 #' @param trees List of phylogenetic trees, of class \code{list} or

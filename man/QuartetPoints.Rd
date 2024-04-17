@@ -30,7 +30,7 @@ and accuracy) on a ternary plot, per \insertCite{Smith2019;textual}{Quartet}.
 }
 \details{
 The ternary plot (produced using the \pkg{Ternary} package,
-\insertCite{Ternary}{Quartet})
+\insertCite{Ternary;nobrackets}{Quartet})
 will depict the number of quartets or splits that are:
 \itemize{
 \item resolved in the reference tree (\code{cf}), but neither present nor contradicted
