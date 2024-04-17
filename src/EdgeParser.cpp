@@ -7,6 +7,10 @@ using namespace std;
 using namespace Rcpp;
 
 UnrootedTree* EdgeParser::parseEdge(IntegerMatrix edge) {
+  IntegerVector dims = edge.attr("dim");
+  if (dims[1] != 2) {
+    Rcpp::stop("`edge` must comprise two columns");
+  }
   edg = edge;
   return parse();
 }
