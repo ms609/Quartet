@@ -157,7 +157,9 @@ The <code>comparison</code> tree is treated as <code>tree2</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>Given a list of trees, returns the number of quartet statements present in the
+    <p>Given a list of trees, returns the number of quartet statements
+(Estabrook et al. 1985)
+ present in the
 reference tree (the first entry in <code>trees</code>, if <code>cf</code> is not specified)
 that are also present in each other tree.  A random pair of fully resolved
 trees is expected to share <code>choose(n_tip, 4) / 3</code> quartets.</p>
@@ -168,8 +170,12 @@ quartets occur in one tree or the other, though there is not yet a function
 calculating this; <a href="https://github.com/ms609/Quartet/issues/new" class="external-link">let us know</a>
 if you would appreciate this functionality.</p>
 <p>The status of each quartet is calculated using the algorithms of
-Brodal <em>et al</em>. (2013) and Holt <em>et al</em>. (2014), implemented in the
-tqdist C library (Sand <em>et al</em>. 2014).</p>
+Brodal et al. (2013)
+ and
+Holt et al. (2014)
+, implemented in the
+tqdist C library (Sand et al. 2014)
+.</p>
     </div>
     <div id="functions">
     <h2>Functions</h2>
@@ -185,26 +191,22 @@ the quartets in a comparison tree.</p></li>
 </ul></div>
     <div id="references">
     <h2>References</h2>
-    
-<ul><li><p>Brodal GS, Fagerberg R, Mailund T, Pedersen CNS, Sand A (2013).
+    <p>Brodal GS, Fagerberg R, Mailund T, Pedersen CNS, Sand A (2013).
 “Efficient algorithms for computing the triplet and quartet distance between trees of arbitrary degree.”
 <em>SODA '13 Proceedings of the Twenty-Fourth Annual ACM-SIAM Symposium on Discrete Algorithms</em>, 1814--1832.
 <a href="https://doi.org/10.1137/1.9781611973105.130" class="external-link">doi:10.1137/1.9781611973105.130</a>
-.</p></li>
-<li><p>Estabrook GF, McMorris FR, Meacham CA (1985).
+.<br><br> Estabrook GF, McMorris FR, Meacham CA (1985).
 “Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units.”
 <em>Systematic Zoology</em>, <b>34</b>(2), 193--200.
 <a href="https://doi.org/10.2307/2413326" class="external-link">doi:10.2307/2413326</a>
-.</p></li>
-<li><p>Holt MK, Johansen J, Brodal GS (2014).
+.<br><br> Holt MK, Johansen J, Brodal GS (2014).
 “On the scalability of computing triplet and quartet distances.”
-In <em>Proceedings of 16th Workshop on Algorithm Engineering and Experiments (ALENEX) Portland, Oregon, USA</em>.</p></li>
-<li><p>Sand A, Holt MK, Johansen J, Brodal GS, Mailund T, Pedersen CNS (2014).
+In <em>Proceedings of 16th Workshop on Algorithm Engineering and Experiments (ALENEX) Portland, Oregon, USA</em>.<br><br> Sand A, Holt MK, Johansen J, Brodal GS, Mailund T, Pedersen CNS (2014).
 “tqDist: a library for computing the quartet and triplet distances between binary or general trees.”
 <em>Bioinformatics</em>, <b>30</b>(14), 2079--2080.
 ISSN 1460-2059, <a href="https://doi.org/10.1093/bioinformatics/btu157" class="external-link">doi:10.1093/bioinformatics/btu157</a>
-.</p></li>
-</ul></div>
+.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index">
