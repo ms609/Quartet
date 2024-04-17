@@ -22,7 +22,7 @@ that are [1] resolved; [2] unresolved in the specified tree.
 }
 \description{
 Counts how many quartets are resolved or unresolved in a given tree,
-following Brodal \emph{et al.} (2013).
+following \insertCite{Brodal2013;textual}{Quartet}.
 }
 \details{
 Trees with more than 477 leaves risk encountering integer overflow errors,
@@ -48,9 +48,7 @@ vapply(sq_trees, ResolvedQuartets, integer(2))
 
 }
 \references{
-\itemize{
-\item \insertRef{Brodal2013}{Quartet}
-}
+\insertAllCited{}
 }
 \seealso{
 Other quartet counting functions: 

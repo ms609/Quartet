@@ -22,14 +22,16 @@ that are unresolved in both trees ("E" in Brodal \emph{et al}. 2013).
 }
 \description{
 Convenience function that takes a list of trees, writes them to the text
-file expected by the C implementation of tqDist (Sand \emph{et al.} 2014).
+file expected by the C implementation of tqDist
+\insertCite{Sand2014}{Quartet}.
 tqDist is then called, and the temporary file is deleted when analysis is
 complete.
 }
 \details{
-Quartets can be resolved in one of five ways, which Brodal \emph{et al}. (2013)
-and Holt \emph{et al}. (2014) distinguish using the letters A--E, and
-Estabrook \emph{et al.} (1985) refers to as:
+Quartets can be resolved in one of five ways, which
+\insertCite{Brodal2013;textual}{Quartet} and
+\insertCite{Holt2014;textual}{Quartet} distinguish using the letters A--E,
+and \insertCite{Estabrook1985}{Quartet} refer to as:
 \itemize{
 \item A: \emph{s} = resolved the \strong{s}ame in both trees;
 \item B: \emph{d} = resolved \strong{d}ifferently in both trees;
@@ -39,12 +41,7 @@ Estabrook \emph{et al.} (1985) refers to as:
 }
 }
 \references{
-\itemize{
-\item \insertRef{Brodal2013}{Quartet}
-\item \insertRef{Estabrook1985}{Quartet}
-\item \insertRef{Holt2014}{Quartet}
-\item \insertRef{Sand2014}{Quartet}
-}
+\insertAllCited{}
 }
 \seealso{
 \code{\link[=CompareQuartets]{CompareQuartets()}}, \code{\link[=QuartetStatus]{QuartetStatus()}}

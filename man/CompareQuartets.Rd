@@ -24,8 +24,10 @@ i.e. 2 \emph{Q}.}
 }
 \description{
 \code{CompareQuartets()} uses explicit enumeration to compare two lists of
-quartet states, detailing how many are identical and how many are unresolved.
-For most purposes, the faster function \code{\link[=QuartetStatus]{QuartetStatus()}} will be preferable.
+quartet states  \insertCite{Estabrook1985}{Quartet},
+detailing how many are identical and how many are unresolved.
+For most purposes, the faster function \code{\link[=QuartetStatus]{QuartetStatus()}} will be
+preferable.
 }
 \examples{
   trees <- list(TreeTools::BalancedTree(6),
@@ -35,7 +37,7 @@ For most purposes, the faster function \code{\link[=QuartetStatus]{QuartetStatus
 
 }
 \references{
-\insertRef{Estabrook1985}{Quartet}
+\insertAllCited{}
 }
 \seealso{
 \itemize{

@@ -45,7 +45,8 @@ format, possibly created using \code{\link[=TQFile]{TQFile()}}.}
 }
 
 Comparing a tree against itself yields the totals (\code{A+B+C}) and (\code{D+E})
-referred to by Brodal \emph{et al}. (2013) and Holt \emph{et al}. (2014).
+referred to by \insertCite{Brodal2013;textual}{Quartet} and
+\insertCite{Holt2014;textual}{Quartet}.
 }
 \description{
 Wrappers for functions in "tqDist", which calculate triplet and quartet
@@ -59,7 +60,7 @@ in \code{file1} and the tree in \code{file2}.
 \item \code{QuartetAgreement()}: Returns a vector of length two, listing [1]
 the number of resolved quartets that agree (\code{A});
 [2] the number of quartets that are unresolved in both trees (\code{E}).
-See Brodal et al. (2013).
+See \insertCite{Brodal2013;textual}{Quartet}.
 
 \item \code{PairsQuartetDistance()}: Quartet distance between the tree on each line of \code{file1}
 and the tree on the corresponding line of \code{file2}.
@@ -83,11 +84,7 @@ each other tree therein.
 
 }}
 \references{
-\itemize{
-\item \insertRef{Brodal2013}{Quartet}
-\item \insertRef{Holt2014}{Quartet}
-\item \insertRef{Sand2014}{Quartet}
-}
+\insertAllCited{}
 }
 \seealso{
 \itemize{
@@ -97,8 +94,9 @@ each other tree therein.
 }
 \author{
 \itemize{
-\item Algorithms: Brodal \emph{et al.} (2013); Holt \emph{et al.} (2014).
-\item C implementation: Sand \emph{et al.} (2014);
+\item Algorithms: \insertCite{Brodal2013;textual}{Quartet};
+\insertCite{Holt2014;textual}{Quartet}.
+\item C implementation: \insertCite{Sand2014;textual}{Quartet};
 modified for portability by Martin R. Smith.
 \item R interface: Martin R. Smith.
 }

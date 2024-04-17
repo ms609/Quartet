@@ -2,11 +2,11 @@
 #' 
 #' Determines the number of quartets that are consistent within pairs of trees.
 #' 
-#' Given a list of trees, returns the number of quartet statements present in the
+#' Given a list of trees, returns the number of quartet statements 
+#' \insertCite{Estabrook1985}{Quartet} present in the
 #' reference tree (the first entry in `trees`, if `cf` is not specified)
 #' that are also present in each other tree.  A random pair of fully resolved 
 #' trees is expected to share `choose(n_tip, 4) / 3` quartets.
-#' 
 #' 
 #' If trees do not bear the same number of tips, `SharedQuartetStatus()` will 
 #' consider only the quartets that include taxa common to both trees.
@@ -17,8 +17,9 @@
 #' if you would appreciate this functionality.
 #' 
 #' The status of each quartet is calculated using the algorithms of
-#' Brodal _et al_. (2013) and Holt _et al_. (2014), implemented in the
-#' tqdist C library (Sand _et al_. 2014).
+#' \insertCite{Brodal2013;textual}{Quartet} and 
+#' \insertCite{Holt2014;textual}{Quartet}, implemented in the
+#' tqdist C library \insertCite{Sand2014}{Quartet}.
 #' 
 #' @template treesParam
 #' @template treesCfParam
@@ -61,14 +62,7 @@
 #'  
 #' - Generate distance metrics from quartet statuses: [`SimilarityMetrics()`].
 #' 
-#' @references 
-#' - \insertRef{Brodal2013}{Quartet}
-#' 
-#' - \insertRef{Estabrook1985}{Quartet}
-#'
-#' - \insertRef{Holt2014}{Quartet}
-#'
-#' - \insertRef{Sand2014}{Quartet}
+#' @references \insertAllCited{}
 #'
 #' @importFrom Rdpack reprompt
 #' @importFrom ape keep.tip
@@ -116,13 +110,15 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
 #' Wrapper for tqDist
 #' 
 #' Convenience function that takes a list of trees, writes them to the text
-#' file expected by the C implementation of tqDist (Sand _et al._ 2014).
+#' file expected by the C implementation of tqDist 
+#' \insertCite{Sand2014}{Quartet}.
 #' tqDist is then called, and the temporary file is deleted when analysis is
 #' complete.
 #' 
-#' Quartets can be resolved in one of five ways, which Brodal _et al_. (2013)
-#' and Holt _et al_. (2014) distinguish using the letters A--E, and
-#' Estabrook _et al._ (1985) refers to as:
+#' Quartets can be resolved in one of five ways, which
+#' \insertCite{Brodal2013;textual}{Quartet} and
+#' \insertCite{Holt2014;textual}{Quartet} distinguish using the letters A--E,
+#' and \insertCite{Estabrook1985}{Quartet} refer to as:
 #'  
 #'  - A: _s_ = resolved the **s**ame in both trees;
 #'  
@@ -136,14 +132,7 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
 #'                 \code{\link[ape:read.tree]{multiPhylo}}.
 #' @return `TQDist()` returns the quartet distance between each pair of trees.
 #' 
-#' @references
-#' - \insertRef{Brodal2013}{Quartet}
-#'   
-#' - \insertRef{Estabrook1985}{Quartet}
-#'   
-#' - \insertRef{Holt2014}{Quartet}
-#'   
-#'- \insertRef{Sand2014}{Quartet}
+#' @references \insertAllCited{}
 #' 
 #' @seealso [`CompareQuartets()`], [`QuartetStatus()`]
 #' 
@@ -157,9 +146,9 @@ TQDist <- function (trees) {
 }
 
 #' @rdname TQDist
-#' @return `TQAE()` returns the number of resolved quartets in agreement between 
-#'   each pair of trees ("A" in Brodal _et al_. 2013) and the number of quartets 
-#'   that are unresolved in both trees ("E" in Brodal _et al_. 2013).
+#' @return `TQAE()` returns the number of resolved quartets in agreement between
+#' each pair of trees ("A" in Brodal _et al_. 2013) and the number of quartets
+#' that are unresolved in both trees ("E" in Brodal _et al_. 2013).
 #' @export 
 TQAE <- function (trees) {
   .CheckSize(trees)
@@ -356,13 +345,15 @@ TQFile <- function (treeList) {
 #'  * `A`, resolved in the same fashion in both trees;
 #'  * `E`, unresolved in both trees.
 #'  
-#'  Comparing a tree against itself yields the totals (`A+B+C`) and (`D+E`) 
-#'  referred to by Brodal _et al_. (2013) and Holt _et al_. (2014).
+#' Comparing a tree against itself yields the totals (`A+B+C`) and (`D+E`) 
+#' referred to by \insertCite{Brodal2013;textual}{Quartet} and 
+#' \insertCite{Holt2014;textual}{Quartet}.
 #' 
 #' @author 
-#'   * Algorithms: Brodal _et al._ (2013); Holt _et al._ (2014).
+#'   * Algorithms: \insertCite{Brodal2013;textual}{Quartet}; 
+#' \insertCite{Holt2014;textual}{Quartet}.
 #' 
-#'   * C implementation: Sand _et al._ (2014); 
+#'   * C implementation: \insertCite{Sand2014;textual}{Quartet}; 
 #'   modified for portability by Martin R. Smith.
 #'   
 #'   * R interface: Martin R. Smith.
@@ -372,12 +363,7 @@ TQFile <- function (treeList) {
 #' * [`TQFile()`] creates a temporary file containing specified trees.
 #' 
 #' 
-#' @references 
-#' -  \insertRef{Brodal2013}{Quartet}
-#'   
-#' -  \insertRef{Holt2014}{Quartet}
-#'   
-#' -  \insertRef{Sand2014}{Quartet}
+#' @references \insertAllCited{}
 #' 
 #' @concept Tree distances
 #' @name Distances
@@ -396,7 +382,7 @@ QuartetDistance <- function(file1, file2) {
 #' @describeIn Distances Returns a vector of length two, listing \[1\]
 #' the number of resolved quartets that agree (`A`);
 #' \[2\] the number of quartets that are unresolved in both trees (`E`).
-#' See Brodal et al. (2013).
+#' See \insertCite{Brodal2013;textual}{Quartet}.
 #'  
 #' @export
 QuartetAgreement <- function(file1, file2) {
