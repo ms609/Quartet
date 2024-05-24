@@ -70,7 +70,7 @@ tree_node* parse_tree_support(const IntegerMatrix& edge,
     int vecpos = nodes.size();
     nodes.push_back(new tree_node(vecpos));
     
-    if (*row < edge.nrow()) {
+    while (*row < edge.nrow()) {
         tree_node* subtree;
         const int child = edge(*row, 1);
         ++(*row);
@@ -105,5 +105,5 @@ tree* parse_edge(const IntegerVector& parent, const IntegerVector& child) {
 // [[Rcpp::export]]
 IntegerVector cpdt_tree(const IntegerVector parent, const IntegerVector child) {
     tree* mytree = parse_edge(parent, child);
-    return IntegerVector(mytree->get_leaves_num());
+    return IntegerVector::create(mytree->get_leaves_num());
 }
