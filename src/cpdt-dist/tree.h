@@ -67,7 +67,7 @@ public:
     void make_biggest_subtree_first() {
         std::vector<int> leaves_count = get_leaves_count();
         
-        for (unsigned int i = 0; i < get_nodes_num(); i++) {
+        for (size_t i = 0; i < get_nodes_num(); i++) {
             tree_node* node = get_node(i);
             if (node->is_leaf()) continue;
             
@@ -84,7 +84,7 @@ public:
     
     std::string to_string() {
         std::stringstream ss;
-        for (unsigned int i = 0; i < get_nodes_num(); i++) {
+        for (size_t i = 0; i < get_nodes_num(); i++) {
             ss << i << " " << nodes[i]->to_string() << std::endl;
         }
         return ss.str();
