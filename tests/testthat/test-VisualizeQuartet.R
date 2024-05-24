@@ -2,8 +2,12 @@ test_that("VizualiseQuartets()", {
   skip_if_not_installed("vdiffr")
   skip_if_not_installed("TreeTools", "1.7.0")
   vdiffr::expect_doppelganger("VQ-label", function() {
-    VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
-                     style = "label", precision = 1)
+    vq <- VisualizeQuartets(
+      BalancedTree(10), CollapseNode(PectinateTree(10), 19),
+      style = "label", precision = 1)
+    expect_equal(colnames(vq[["tree2"]]),
+                 c("node", "N", "Q", "s", "d", "r1", "r2", "u", "res", "same"))
+    expect_equal(dim(vq[["tree1"]]), c(NSplits(BalancedTree(10)), 10))
   })
   vdiffr::expect_doppelganger("VQ-tworow", function() {
     # Keep original plotting parameters:

@@ -1,7 +1,7 @@
 #' Count resolved quartets
 #' 
 #' Counts how many quartets are resolved or unresolved in a given tree, 
-#' following Brodal _et al._ (2013).
+#' following \insertCite{Brodal2013;textual}{Quartet}.
 #' 
 #' Trees with more than 477 leaves risk encountering integer overflow errors,
 #' as the number of quartets is larger than can be stored in R's signed 
@@ -13,8 +13,8 @@
 #' of triplets instead of the number of quartets.
 #' 
 #' @return `ResolvedQuartets()` returns a vector of length two, listing the
-#' number of quartets (or triplets)
-#'  that are \[1\] resolved; \[2\] unresolved in the specified tree.
+#' number of quartets (or triplets) that are `[1]` resolved; `[2]` unresolved 
+#' in the specified tree.
 #'         
 #' @template MRS
 #' 
@@ -30,8 +30,7 @@
 #' vapply(sq_trees, ResolvedQuartets, integer(2))
 #'
 #' 
-#' @references
-#' - \insertRef{Brodal2013}{Quartet}
+#' @references \insertAllCited{}
 #' 
 #' @importFrom TreeTools Preorder
 #' @export 

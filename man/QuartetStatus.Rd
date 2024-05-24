@@ -67,7 +67,8 @@ The \code{comparison} tree is treated as \code{tree2}.
 Determines the number of quartets that are consistent within pairs of trees.
 }
 \details{
-Given a list of trees, returns the number of quartet statements present in the
+Given a list of trees, returns the number of quartet statements
+\insertCite{Estabrook1985}{Quartet} present in the
 reference tree (the first entry in \code{trees}, if \code{cf} is not specified)
 that are also present in each other tree.  A random pair of fully resolved
 trees is expected to share \code{choose(n_tip, 4) / 3} quartets.
@@ -80,11 +81,10 @@ quartets occur in one tree or the other, though there is not yet a function
 calculating this; \href{https://github.com/ms609/Quartet/issues/new}{let us know}
 if you would appreciate this functionality.
 
-The status of each quartet \insertCite{Estabrook1985}{Quartet}
-is calculated using the algorithms of
+The status of each quartet is calculated using the algorithms of
 \insertCite{Brodal2013;textual}{Quartet} and
-\insertCite{Hold2014;textual}{Quartet}, implemented in the tqdist C library
-\insertCite{Sand2014}{Quartet}.
+\insertCite{Holt2014;textual}{Quartet}, implemented in the
+tqdist C library \insertCite{Sand2014}{Quartet}.
 }
 \section{Functions}{
 \itemize{
@@ -139,8 +139,8 @@ of quartets as the unit of comparison: \code{\link[=SplitStatus]{SplitStatus()}}
 }
 
 Other element-by-element comparisons: 
-\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareQuartets}()},
+\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},
 \code{\link{QuartetState}()},

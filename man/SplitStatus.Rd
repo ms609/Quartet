@@ -88,8 +88,8 @@ RawSymmetricDifference(splitStatuses) / nPartitions
 }
 \seealso{
 Other element-by-element comparisons: 
-\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareQuartets}()},
+\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},
 \code{\link{QuartetState}()},

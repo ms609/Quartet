@@ -1,20 +1,24 @@
 #' Plot tree differences on ternary plots
 #' 
 #' Generate points to depict tree difference (in terms of resolution
-#' and accuracy) on a ternary plot.
+#' and accuracy) on a ternary plot, per \insertCite{Smith2019;textual}{Quartet}.
 #' 
-#' The ternary plot will depict the number of quartets or splits that are:
+#' The ternary plot (produced using the \pkg{Ternary} package,
+#' \insertCite{Ternary;nobrackets}{Quartet})
+#' will depict the number of quartets or splits that are:
 #' - resolved in the reference tree (`cf`), but neither present nor contradicted
 #'   in each comparison tree (`trees`);
 #' - resolved differently in the reference and the comparison tree;
 #' - resolved in the same manner in the reference and comparison trees. 
 #' 
-#' If the reference tree (`cf`) is taken to represent the best possible knowledge
-#' of the "true" topology, then polytomies in the reference tree represent
-#' uncertainty.  If a tree in `trees` resolves relationships within this 
-#' polytomy, it is not possible to establish (based only on the reference tree)
-#' whether this resolution is correct or erroneous.  As such, extra resolution
-#' in `trees` that is neither corroborated nor contradicted by `cf` is ignored.
+#' If the reference tree (`cf`) is taken to represent the best possible
+#' knowledge of the "true" topology, then polytomies in the reference tree
+#' represent uncertainty.
+#' If a tree in `trees` resolves relationships within this polytomy, it is not
+#' possible to establish (based only on the reference tree) whether this
+#' resolution is correct or erroneous.
+#' As such, extra resolution in `trees` that is neither corroborated nor
+#' contradicted by `cf` is ignored.
 #'
 #' @template treesParam
 #' @template treesCfParam
@@ -36,8 +40,7 @@
 #' legend("bottomright", c("Quartets", "Splits"), bty = "n", pch = 1, cex = 0.8,
 #'        col = Ternary::cbPalette8[2:3])
 #' 
-#' @references 
-#' - \insertRef{Smith2019}{Quartet}
+#' @references \insertAllCited{}
 #' 
 #' @template MRS
 #' 

@@ -44,7 +44,7 @@ to such a vector.
 }
 \description{
 Report the status of the specified quartet(s) in given trees or lists of
-splits.
+splits \insertCite{Estabrook1985}{Quartet}.
 }
 \details{
 One of the three possible four-leaf trees will be consistent with any set of
@@ -73,17 +73,15 @@ CompareQuartetsMulti(trees[[1]], trees[2:3])
 
 }
 \references{
-\itemize{
-\item \insertRef{Estabrook1985}{Quartet}
-}
+\insertAllCited{}
 }
 \seealso{
 Compare quartet states between trees (slowly) using
 \code{\link[=CompareQuartets]{CompareQuartets()}} and \code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}}.
 
 Other element-by-element comparisons: 
-\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareQuartets}()},
+\code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},
 \code{\link{SharedQuartetStatus}()},

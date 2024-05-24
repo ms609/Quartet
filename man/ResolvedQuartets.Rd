@@ -17,12 +17,12 @@ of triplets instead of the number of quartets.}
 }
 \value{
 \code{ResolvedQuartets()} returns a vector of length two, listing the
-number of quartets (or triplets)
-that are [1] resolved; [2] unresolved in the specified tree.
+number of quartets (or triplets) that are \verb{[1]} resolved; \verb{[2]} unresolved
+in the specified tree.
 }
 \description{
 Counts how many quartets are resolved or unresolved in a given tree,
-following Brodal \emph{et al.} (2013).
+following \insertCite{Brodal2013;textual}{Quartet}.
 }
 \details{
 Trees with more than 477 leaves risk encountering integer overflow errors,
@@ -48,15 +48,13 @@ vapply(sq_trees, ResolvedQuartets, integer(2))
 
 }
 \references{
-\itemize{
-\item \insertRef{Brodal2013}{Quartet}
-}
+\insertAllCited{}
 }
 \seealso{
 Other quartet counting functions: 
 \code{\link{AllQuartets}()},
-\code{\link{CompareQuartetsMulti}()},
-\code{\link{CompareQuartets}()}
+\code{\link{CompareQuartets}()},
+\code{\link{CompareQuartetsMulti}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

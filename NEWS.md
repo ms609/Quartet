@@ -1,7 +1,14 @@
-# Quartet v1.2.6.9000 (development)
+# Quartet v1.2.6.9010 (centroid path decomposition tree)
 
 - Add centroid path decomposition tree algorithm from Jansson & Rajaby (2017),
   using code supplied by the authors.
+
+
+# Quartet v1.2.6.9001 (development, 2024-04-16)
+
+- `VizualizeQuartet()` now returns calculation results.
+- Use spectrum legend in `VisualizeQuartet()`.
+
 
 # Quartet v1.2.6 (2024-02-08)
 

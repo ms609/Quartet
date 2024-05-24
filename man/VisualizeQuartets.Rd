@@ -50,22 +50,53 @@ to colour matches.}
 
 \item{\dots}{Additional parameters to send to \code{Plot()}.}
 }
+\value{
+\code{VisualizeQuartets()} invisibly returns a list with two elements,
+named \code{tree1} and \code{tree2}, containing a matrix.
+Each row corresponds to a split within that tree; columns correspond to:
+\describe{
+\item{node}{The internal numbering of the node corresponding to each split,
+as displayed by \code{ape::nodelabels()}}
+\item{N\dots{}u}{The status of each quartet relative to that split,
+as documented in \code{\link[=QuartetStatus]{QuartetStatus()}}}
+\item{res}{The number of quartets resolved by that split, i.e. \code{s} + \code{d}}
+\item{same}{The proportion of quartets resolved by that node that are
+resolved in the same manner in the other tree; i.e. \code{s / s + d}}
+}
+}
 \description{
 Visualize quartet difference on trees, by split
 }
 \examples{
-library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
+library("TreeTools", quietly = TRUE)
+# Simple plot
 VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
                   style = "label")
-# Keep original plotting parameters:
+
+# Plot with custom graphical parameters
 origPar <- par(mfrow = c(2, 2))
 VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
                   setPar = FALSE)
 VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
                   style = "bar", legend = FALSE, setPar = FALSE)
+
+# Circle size denotes similarity
+par(mfrow = c(2, 1), mar = rep(0.1, 4))
+vq <- VisualizeQuartets(
+  tree1 = BalancedTree(20),
+  tree2 = CollapseNode(PectinateTree(20), 29:33),
+  style = "size", scale = 2,
+  setPar = FALSE # necessary for node labels to align
+)
+# Manually add custom node labels
+percentSame <- paste(round(vq[["tree2"]][, "same"] * 100, 1), "\%")
+nodelabels(percentSame, vq[["tree2"]][, "node"],
+           frame = "n", bg = NA, # No frame or background
+           adj = 0.5 # align label
+           )
+           
+# restore original graphical parameters
 par(origPar)
-VisualizeQuartets(BalancedTree(20), CollapseNode(PectinateTree(20), 29:33),
-                  style = "size", scale = 2)
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

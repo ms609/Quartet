@@ -26,10 +26,12 @@ tree (which defaults to the first member of the list, if unspecified).
 }
 \description{
 Generate points to depict tree difference (in terms of resolution
-and accuracy) on a ternary plot.
+and accuracy) on a ternary plot, per \insertCite{Smith2019;textual}{Quartet}.
 }
 \details{
-The ternary plot will depict the number of quartets or splits that are:
+The ternary plot (produced using the \pkg{Ternary} package,
+\insertCite{Ternary;nobrackets}{Quartet})
+will depict the number of quartets or splits that are:
 \itemize{
 \item resolved in the reference tree (\code{cf}), but neither present nor contradicted
 in each comparison tree (\code{trees});
@@ -37,12 +39,14 @@ in each comparison tree (\code{trees});
 \item resolved in the same manner in the reference and comparison trees.
 }
 
-If the reference tree (\code{cf}) is taken to represent the best possible knowledge
-of the "true" topology, then polytomies in the reference tree represent
-uncertainty.  If a tree in \code{trees} resolves relationships within this
-polytomy, it is not possible to establish (based only on the reference tree)
-whether this resolution is correct or erroneous.  As such, extra resolution
-in \code{trees} that is neither corroborated nor contradicted by \code{cf} is ignored.
+If the reference tree (\code{cf}) is taken to represent the best possible
+knowledge of the "true" topology, then polytomies in the reference tree
+represent uncertainty.
+If a tree in \code{trees} resolves relationships within this polytomy, it is not
+possible to establish (based only on the reference tree) whether this
+resolution is correct or erroneous.
+As such, extra resolution in \code{trees} that is neither corroborated nor
+contradicted by \code{cf} is ignored.
 }
 \examples{
 library("Ternary")
@@ -60,9 +64,7 @@ legend("bottomright", c("Quartets", "Splits"), bty = "n", pch = 1, cex = 0.8,
 
 }
 \references{
-\itemize{
-\item \insertRef{Smith2019}{Quartet}
-}
+\insertAllCited{}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
