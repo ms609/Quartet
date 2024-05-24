@@ -56,6 +56,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cpdt_tree
+List cpdt_tree(const List r_tree);
+RcppExport SEXP _Quartet_cpdt_tree(SEXP r_treeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List >::type r_tree(r_treeSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpdt_tree(r_tree));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_QuartetDistance
 IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_QuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {

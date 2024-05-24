@@ -2,17 +2,56 @@ test_that("CPDT reads tree", {
   tree4.1 <- ape::read.tree(text="(1, (2, (3, 4)));")
   tree4.2 <- ape::read.tree(text="(1, (4, (3, 2)));")
   
-  e1 <- tree4.1[["edge"]]
-  parsed1 <- cpdt_tree(e1[, 1], e1[, 2])
-  expect_equal(parsed1[-4],
-               list(ntip = NTip(tree4.1),
-                    nnode = tree4.1$Nnode + NTip(tree4.1),
-                    binary = TRUE))
-  e2 <- RenumberTips(tree4.2, tree4.1)[["edge"]]
-  parsed2 <- cpdt_tree(e2[, 1], e2[, 2])
-  expect_equal(parsed2[-4],
-               list(ntip = NTip(tree4.1), nnode = tree4.1$Nnode + NTip(tree4.1)))
+  expect_parse_size <- function(tr, binary = TRUE) {
+    expect_equal(cpdt_tree(tr)[-4],
+                 list(ntip = NTip(tr), nnode = tr$Nnode + NTip(tr), 
+                      binary = binary))
+  }
+  expect_parse_size(tree4.1)
+  expect_parse_size(tree4.2)
   
+  Node <- function(id, children = "", parent = -1, taxa = -1) {
+    sprintf("%i id=%i children = (%s), parent = %i, taxa = %i",
+            id, id, paste(children, collapse = ", "), parent, taxa)
+  }
+  expect_equal(
+    strsplit(cpdt_tree(RenumberTips(tree4.2, tree4.1))$string, "\\n")[[1]],
+    c(Node(0, 1:2),
+      Node(1, p = 0, t = 0),
+      Node(2, c = c(3, 6), p = 0),
+      Node(3, c = c(4, 5), p = 2),
+      Node(4, p = 3, t = 1),
+      Node(5, p = 3, t = 2),
+      Node(6, p = 2, t = 3)
+    )
+  )
+  
+  bal7 <- BalancedTree(7)
+  expect_parse_size(bal7)
+  
+  cl7 <- CollapseNode(bal7, 13)
+  expect_parse_size(cl7, FALSE)
+  if (interactive()) {
+    plot(cl7)
+    nodelabels(c(0, 1, 2, 5, 8))
+    tiplabels(c(3, 4, 6, 7, 9, 10, 11))
+  }
+  expect_equal(
+    strsplit(cpdt_tree(cl7)$string, "\\n")[[1]],
+    c(Node(0, c(1, 8)),
+      Node(1, p = 0, c = c(2, 5)),
+      Node(2, p = 1, c = 3:4),
+      Node(3, p = 2, t = 0),
+      Node(4, p = 2, t = 1),
+      Node(5, p = 1, c = c(6, 7)),
+      Node(6, p = 5, t = 2),
+      Node(7, p = 5, t = 3),
+      Node(8, p = 0, c = 9:11),
+      Node(9, p = 8, t = 4),
+      Node(10, p = 8, t = 5),
+      Node(11, p = 8, t = 6)
+    )
+  )
 })
 
 test_that("CPDT produces correct results with four leaves", {

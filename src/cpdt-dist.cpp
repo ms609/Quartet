@@ -115,11 +115,13 @@ IntegerVector cpdt_pair(const IntegerVector parent1, const IntegerVector child1,
         result = cpdt_dist::triplet_distance(tree1, tree2);
     }
     
+    return IntegerVector::create(result);
 }
 
 // [[Rcpp::export]]
-List cpdt_tree(const IntegerVector parent, const IntegerVector child) {
-    tree* mytree = parse_edge(parent, child);
+List cpdt_tree(const List r_tree) {
+    const IntegerMatrix edge = r_tree["edge"];
+    tree* mytree = parse_edge(edge(_, 0), edge(_, 1));
     return List::create(Named("ntip") = mytree->get_leaves_num(),
                         _["nnode"] = mytree->get_nodes_num(),
                         _["binary"] = mytree->is_binary(),
