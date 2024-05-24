@@ -226,7 +226,7 @@ void color_node_red(cdp_node_t* cdp_node, int reds) {
 	cdp_node_t* cdp_child = cdp_node;
 	cdp_node = cdp_child->parent;
 	if (cdp_node != NULL) {
-		if (cdp_child->pos_in_parent < cdp_node->size-1) {
+		if (ull(cdp_child->pos_in_parent) < cdp_node->size-1) {
 			update_bit(cdp_node->reds, cdp_node->size, cdp_child->pos_in_parent, reds);
 		}
 
@@ -284,7 +284,7 @@ void color_cpnode_blue(cdp_node_t* vj) {
 
 	ull reds_down = read_prefix_bit(v->reds, vi->pos_in_parent-1);
 	ull redsj_down = read_prefix_bit(vi->reds, vj->pos_in_parent-1);
-	ull reds2p_up = vi->pos_in_parent < v->size-1 ? read_bit(v->reds2p, vi->pos_in_parent+1, v->size-1) : 0;
+	ull reds2p_up = ull(vi->pos_in_parent) < v->size-1 ? read_bit(v->reds2p, vi->pos_in_parent+1, v->size-1) : 0;
 
 	for (size_t i = 0; i < vj->Cnum; i++) {
 		ull Ca = vj->C[i];
@@ -316,7 +316,7 @@ void color_cptocp_node_blue(cdp_node_t* vj) {
 
 	ull reds_down = read_prefix_bit(v->reds, vj->pos_in_parent-1);
 	// note that in this case (cp -> cp), reds2p is used as reds2
-	ull reds2p_up = vj->pos_in_parent < v->size-1 ? read_bit(v->reds2p, vj->pos_in_parent+1, v->size-1) : 0;
+	ull reds2p_up = ull(vj->pos_in_parent) < v->size-1 ? read_bit(v->reds2p, vj->pos_in_parent+1, v->size-1) : 0;
 
 	for (size_t i = 0; i < vj->Cnum; i++) {
 		ull Ca = vj->C[i];
@@ -408,7 +408,7 @@ void color_blue_marked_nodes(cdp_node_t* cdp_node) {
 	if (cdp_node->marked_size > 1) {
 		std::sort(cdp_node->marked, cdp_node->marked+cdp_node->marked_size, cdp_node_cmp);
 	}
-	for (int i = 0; i < cdp_node->marked_size; i++) {
+	for (ull i = 0; i < cdp_node->marked_size; i++) {
 		color_blue_marked_nodes(cdp_node->marked[i]);
 	}
 
@@ -444,7 +444,7 @@ int color_red_marked_nodes(cdp_node_t* cdp_node) {
 
 	std::sort(cdp_node->marked, cdp_node->marked+cdp_node->marked_size, cdp_node_cmp);
 	int tot = 0;
-	for (int i = 0; i < cdp_node->marked_size; i++) {
+	for (ull i = 0; i < cdp_node->marked_size; i++) {
 		tot += color_red_marked_nodes(cdp_node->marked[i]);
 	}
 
@@ -458,7 +458,7 @@ void decolor_node_red(cdp_node_t* cdp_node, int reds) {
 	cdp_node_t* cdp_child = cdp_node;
 	cdp_node = cdp_child->parent;
 	if (cdp_node != NULL) {
-		if (cdp_child->pos_in_parent < cdp_node->size-1) {
+		if (ull(cdp_child->pos_in_parent) < cdp_node->size-1) {
 			update_bit(cdp_node->reds, cdp_node->size, cdp_child->pos_in_parent, -reds);
 		}
 
@@ -478,7 +478,7 @@ void decolor_red_leaf(int leaf) {
 	cdp_node_t* cdp_node = cdp_child->parent;
 	while (cdp_node != NULL) {
 		ull prev_red = cdp_child->tot_reds--;
-		if (cdp_child->pos_in_parent < cdp_node->size-1) {
+		if (ull(cdp_child->pos_in_parent) < cdp_node->size-1) {
 			update_bit(cdp_node->reds, cdp_node->size, cdp_child->pos_in_parent, -1);
 		}
 
@@ -504,7 +504,7 @@ int decolor_red_marked_nodes(cdp_node_t* cdp_node) {
 
 	std::sort(cdp_node->marked, cdp_node->marked+cdp_node->marked_size, cdp_node_cmp);
 	int tot = 0;
-	for (int i = 0; i < cdp_node->marked_size; i++) {
+	for (ull i = 0; i < cdp_node->marked_size; i++) {
 		tot += decolor_red_marked_nodes(cdp_node->marked[i]);
 	}
 
@@ -547,7 +547,7 @@ void leaves_coloring(tree_node* v, bool decolor) {
 
 ull triplet_distance(tree* t1, tree* t2) {
 	// the number of colors is the highest degree in T1
-	for (int i = 0; i < t1->get_nodes_num(); i++) {
+	for (ull i = 0; i < t1->get_nodes_num(); i++) {
 		nonred_colors = std::max(nonred_colors, t1->get_node(i)->get_num_children()-1);
 	}
 	std::cout << "COLORS: " << nonred_colors << std::endl;
