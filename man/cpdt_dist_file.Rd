@@ -20,7 +20,7 @@ Input is not checked for sanity.
 Functions are called from R with functions such as \code{\link{CPDTDist}}.
 }
 \references{
-\insertRef{Janssen2017jcb}{Quartet}
+\insertRef{Jansson2017jcb}{Quartet}
 }
 \author{
 Martin R. Smith, after Ramesh Rajaby

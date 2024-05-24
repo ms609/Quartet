@@ -26,7 +26,7 @@ quartet_states <- function(splits) {
 #' 
 #' @author Martin R. Smith, after Ramesh Rajaby
 #' 
-#' @references \insertRef{Janssen2017jcb}{Quartet}
+#' @references \insertRef{Jansson2017jcb}{Quartet}
 #' 
 #' @keywords internal
 #' @export

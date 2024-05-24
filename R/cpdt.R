@@ -2,7 +2,7 @@
 #' 
 #' Convenience function that passes a pair of trees to a C++ implementation
 #' of the centroid path decomposition tree distance algorithm
-#' \insertCite{Janssen2017jcb}{Quartet}.
+#' \insertCite{Jansson2017jcb}{Quartet}.
 #' 
 #' @param tree1,tree2 Phylogenetic tree of class \code{phylo}.
 #' @return `CPDTDist()` returns the quartet distance between `tree1` and

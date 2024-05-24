@@ -16,7 +16,7 @@ CPDTDist(tree1, tree2)
 \description{
 Convenience function that passes a pair of trees to a C++ implementation
 of the centroid path decomposition tree distance algorithm
-\insertCite{Janssen2017jcb}{Quartet}.
+\insertCite{Jansson2017jcb}{Quartet}.
 }
 \examples{
 tree1 <- TreeTools::RootTree(TreeTools::BalancedTree(8), 1)
