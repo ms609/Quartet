@@ -1,3 +1,20 @@
+test_that("CPDT reads tree", {
+  tree4.1 <- ape::read.tree(text="(1, (2, (3, 4)));")
+  tree4.2 <- ape::read.tree(text="(1, (4, (3, 2)));")
+  
+  e1 <- tree4.1[["edge"]]
+  parsed1 <- cpdt_tree(e1[, 1], e1[, 2])
+  expect_equal(parsed1[-4],
+               list(ntip = NTip(tree4.1),
+                    nnode = tree4.1$Nnode + NTip(tree4.1),
+                    binary = TRUE))
+  e2 <- RenumberTips(tree4.2, tree4.1)[["edge"]]
+  parsed2 <- cpdt_tree(e2[, 1], e2[, 2])
+  expect_equal(parsed2[-4],
+               list(ntip = NTip(tree4.1), nnode = tree4.1$Nnode + NTip(tree4.1)))
+  
+})
+
 test_that("CPDT produces correct results with four leaves", {
   tree4.1 <- ape::read.tree(text="(1, (2, (3, 4)));")
   tree4.2 <- ape::read.tree(text="(1, (4, (3, 2)));")

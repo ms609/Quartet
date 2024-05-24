@@ -102,7 +102,26 @@ tree* parse_edge(const IntegerVector& parent, const IntegerVector& child) {
 }
 
 // [[Rcpp::export]]
-IntegerVector cpdt_tree(const IntegerVector parent, const IntegerVector child) {
+IntegerVector cpdt_pair(const IntegerVector parent1, const IntegerVector child1,
+                        const IntegerVector parent2, const IntegerVector child2) {
+    
+    tree* tree1 = parse_edge(parent1, child1);
+    tree* tree2 = parse_edge(parent2, child2);
+    unsigned long long result = 0;
+    
+    if (tree1->is_binary() && tree2->is_binary()) {
+        result = cpdt_dist_bin::triplet_distance(tree1, tree2);
+    } else {
+        result = cpdt_dist::triplet_distance(tree1, tree2);
+    }
+    
+}
+
+// [[Rcpp::export]]
+List cpdt_tree(const IntegerVector parent, const IntegerVector child) {
     tree* mytree = parse_edge(parent, child);
-    return IntegerVector::create(mytree->get_leaves_num());
+    return List::create(Named("ntip") = mytree->get_leaves_num(),
+                        _["nnode"] = mytree->get_nodes_num(),
+                        _["binary"] = mytree->is_binary(),
+                        _["string"] = mytree->to_string());
 }
