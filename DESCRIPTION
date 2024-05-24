@@ -64,7 +64,9 @@ Config/Needs/metadata: codemetar
 Config/Needs/revdeps: revdepcheck
 Config/Needs/website: pkgdown
 RdMacros: Rdpack
-LinkingTo: Rcpp
+LinkingTo:
+  Rcpp,
+  TreeTools,
 LazyData: true
 ByteCompile: true
 VignetteBuilder: knitr
