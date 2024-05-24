@@ -61,16 +61,15 @@ IntegerVector cpdt_dist_file(CharacterVector file1,
     return IntegerVector::create(result);
 }
 
-
-
 tree_node* parse_tree_support(const IntegerMatrix& edge, 
                               const int n_tip, int* row,
                               std::vector<tree_node*>& nodes) {
     
-    int vecpos = nodes.size();
+    const int vecpos = nodes.size();
     nodes.push_back(new tree_node(vecpos));
+    const int starting_node = edge(*row, 0);
     
-    while (*row < edge.nrow()) {
+    while (*row < edge.nrow() && edge(*row, 0) >= starting_node) {
         tree_node* subtree;
         const int child = edge(*row, 1);
         ++(*row);
