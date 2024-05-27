@@ -115,6 +115,9 @@ IntegerVector cpdt_pair(const IntegerVector parent1, const IntegerVector child1,
         result = cpdt_dist::triplet_distance(tree1, tree2);
     }
     
+    delete tree1;
+    delete tree2;
+    
     return IntegerVector::create(result);
 }
 
