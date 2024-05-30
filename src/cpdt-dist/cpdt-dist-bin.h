@@ -35,6 +35,12 @@ struct cdp_node_t {
 		marked = NULL;
 		marked_size = 0;
 	}
+	
+	~cdp_node_t() {
+	  delete[] reds;
+	  delete[] reds2;
+	  delete[] marked;
+	}
 };
 bool cdp_node_cmp(const cdp_node_t* n1, const cdp_node_t* n2) {
 	return n1->id > n2->id;
@@ -299,6 +305,12 @@ ull triplet_distance(tree* t1, tree* t2) {
 	mark_subtree(t1->get_root()->get_left());
 	color_red_marked_nodes(cdp[0]);
 	leaves_coloring(t1->get_root(), false);
+	delete[] cdp;
+	delete[] leaf_to_cdp;
+	delete[] leaves;
+	delete[] leaves_count;
+	delete[] node_range_begin;
+	delete[] node_range_end;
 
 	return comb3(t1->get_leaves_num()) - sol;
 }
