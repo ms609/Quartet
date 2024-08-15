@@ -14,7 +14,7 @@ latter two quantities, i.e. d1 + d2."><!-- mathjax --><script src="https://cdnjs
 
   gtag('config', 'G-QEEBN9CF2V');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -39,7 +39,7 @@ latter two quantities, i.e. d1 + d2."><!-- mathjax --><script src="https://cdnjs
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -55,20 +55,20 @@ latter two quantities, i.e. d1 + d2."><!-- mathjax --><script src="https://cdnjs
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/ms609/Quartet/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Matching partitions</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/HEAD/R/PartitionDistance.R" class="external-link"><code>R/PartitionDistance.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/master/R/PartitionDistance.R" class="external-link"><code>R/PartitionDistance.R</code></a></small>
     <div class="hidden name"><code>SplitStatus.Rd</code></div>
     </div>
 
@@ -89,76 +89,60 @@ latter two quantities, i.e. <code>d1</code> + <code>d2</code>.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>trees</dt>
+
+
+<dl><dt id="arg-trees">trees<a class="anchor" aria-label="anchor" href="#arg-trees"></a></dt>
 <dd><p>A list of trees of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code>,
 with identically labelled tips.</p></dd>
 
 
-<dt>cf</dt>
+<dt id="arg-cf">cf<a class="anchor" aria-label="anchor" href="#arg-cf"></a></dt>
 <dd><p>Comparison tree of class <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">phylo</a></code>.  If unspecified,
 each tree is compared to the first tree in <code>trees</code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Returns a two dimensional array.
+    <p>Returns a two dimensional array.
 Rows correspond to the input trees, and are named if names were present.
 Columns report:</p>
-
-
 <p><strong>N</strong>: The total number of partitions present in the two trees,
 i.e. <em>P1</em> + <em>P2</em>.</p>
-
-
 <p><strong>P1</strong>: The number of partitions present in tree 1.</p>
-
-
 <p><strong>P2</strong>: The number of partitions present in tree 2.</p>
-
-
 <p><strong>s</strong>: The number of partitions present in both trees.</p>
-
-
 <p><strong>d1</strong>: The number of partitions present in tree 1,
 but contradicted by tree 2.</p>
-
-
 <p><strong>d2</strong>: The number of partitions present in tree 2,
 but contradicted by tree 1.</p>
-
-
 <p><strong>r1</strong>: The number of partitions present in tree 1, and neither
 present nor contradicted in tree 2.</p>
-
-
 <p><strong>r2</strong>: The number of partitions present in tree 2, and neither
 present nor contradicted in tree 1.</p>
     </div>
     <div id="functions">
     <h2>Functions</h2>
-    
+
 <ul><li><p><code>SharedSplitStatus()</code>: Reports split statistics obtained after removing all
 tips that do not occur in both trees being compared.</p></li>
 </ul></div>
     <div id="references">
     <h2>References</h2>
-    
+
 <ul><li><p>Robinson DF, Foulds LR (1981).
 “Comparison of phylogenetic trees.”
-<em>Mathematical Biosciences</em>, <b>53</b>(1-2), 131--147.
+<em>Mathematical Biosciences</em>, <b>53</b>(1-2), 131–147.
 <a href="https://doi.org/10.1016/0025-5564%2881%2990043-2" class="external-link">doi:10.1016/0025-5564(81)90043-2</a>
 .</p></li>
 <li><p>Penny D, Hendy MD (1985).
 “The use of tree comparison metrics.”
-<em>Systematic Zoology</em>, <b>34</b>(1), 75--82.
+<em>Systematic Zoology</em>, <b>34</b>(1), 75–82.
 <a href="https://doi.org/10.2307/2413347" class="external-link">doi:10.2307/2413347</a>
 .</p></li>
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>Other element-by-element comparisons: 
+    <div class="dont-index"><p>Other element-by-element comparisons:
 <code><a href="CompareQuartets.html">CompareQuartets</a>()</code>,
 <code><a href="CompareQuartetsMulti.html">CompareQuartetsMulti</a>()</code>,
 <code><a href="CompareSplits.html">CompareSplits</a>()</code>,
@@ -232,15 +216,15 @@ tips that do not occur in both trees being compared.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

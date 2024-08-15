@@ -10,7 +10,7 @@ function family."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax
 
   gtag('config', 'G-QEEBN9CF2V');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -35,7 +35,7 @@ function family."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -51,20 +51,20 @@ function family."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/ms609/Quartet/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Status vector to matrix</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/HEAD/R/Metrics.R" class="external-link"><code>R/Metrics.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/master/R/Metrics.R" class="external-link"><code>R/Metrics.R</code></a></small>
     <div class="hidden name"><code>dot-StatusToMatrix.Rd</code></div>
     </div>
 
@@ -81,29 +81,25 @@ function family.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>statusVector</dt>
+
+
+<dl><dt id="arg-statusvector">statusVector<a class="anchor" aria-label="anchor" href="#arg-statusvector"></a></dt>
 <dd><p>Either (i) a named vector of integers, with
 names <code>N</code>, <code>s</code>, <code>r1</code>, <code>r2</code>, either <code>d</code> or <code>d1</code> and <code>d2</code>, and optionally <code>u</code>;
 or (ii) a matrix whose named rows correspond to the same quantities.</p></dd>
 
 
-<dt>status</dt>
+<dt id="arg-status">status<a class="anchor" aria-label="anchor" href="#arg-status"></a></dt>
 <dd><p>A named three-dimensional array of integers, with slices
 named <code>s</code>, <code>r1</code>, <code>r2</code>, either <code>d</code> or <code>d1</code> and <code>d2</code>, and either <code>N</code> or <code>u</code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A matrix, containing the input columns plus <code>2d</code>, representing
+    <p>A matrix, containing the input columns plus <code>2d</code>, representing
 either <code>2 * d</code> or <code>d1 + d2</code>, and row names.</p>
-
-
 <p>The row name means that column names are dropped in
 the output of <code>DoNotConflict</code> etc.</p>
-
-
 <p>A three-dimensional array containing a slice labelled <code>2d</code>,
 equivalent to either <code>d + d</code> or <code>d1 + d2</code> as appropriate.</p>
     </div>
@@ -188,15 +184,15 @@ equivalent to either <code>d + d</code> or <code>d1 + d2</code> as appropriate.<
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

@@ -9,7 +9,7 @@
 
   gtag('config', 'G-QEEBN9CF2V');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -34,7 +34,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -50,20 +50,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/ms609/Quartet/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Tree similarity measures</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/HEAD/R/Metrics.R" class="external-link"><code>R/Metrics.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/master/R/Metrics.R" class="external-link"><code>R/Metrics.R</code></a></small>
     <div class="hidden name"><code>SimilarityMetrics.Rd</code></div>
     </div>
 
@@ -99,35 +99,33 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>elementStatus</dt>
+
+
+<dl><dt id="arg-elementstatus">elementStatus<a class="anchor" aria-label="anchor" href="#arg-elementstatus"></a></dt>
 <dd><p>Two-dimensional integer array, with rows corresponding to
 counts of matching quartets or partitions for each tree, and columns named
 according to the output of <code><a href="QuartetStatus.html">QuartetStatus()</a></code> or
 <code><a href="SplitStatus.html">SplitStatus()</a></code>.</p></dd>
 
 
-<dt>similarity</dt>
+<dt id="arg-similarity">similarity<a class="anchor" aria-label="anchor" href="#arg-similarity"></a></dt>
 <dd><p>Logical specifying whether to calculate the similarity
 or dissimilarity.</p></dd>
 
 
-<dt>normalize</dt>
+<dt id="arg-normalize">normalize<a class="anchor" aria-label="anchor" href="#arg-normalize"></a></dt>
 <dd><p>Logical; if <code>TRUE</code>, a random or star tree has expected
 similarity 0 (or difference 1), and the maximum possible score is one.
 If <code>FALSE</code>, zero similarity corresponds to all quartets contradicted,
-whereas one corresponds to all quartets correctly resolved -- which will be
+whereas one corresponds to all quartets correctly resolved – which will be
 unattainable if the reference tree contains polytomies.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p><code>SimilarityMetrics()</code> returns a named two-dimensional array in which each row
+    <p><code>SimilarityMetrics()</code> returns a named two-dimensional array in which each row
 corresponds to an input tree, and each column corresponds to one of the
 listed measures.</p>
-
-
 <p><code>DoNotConflict()</code> and others return a named vector describing the requested
 similarity (or difference) between the trees.</p>
     </div>
@@ -144,7 +142,7 @@ the number resolved in tree 1 or 2 but unresolved in the other tree
 are their complement (i.e. 1 - <em>similarity</em>), and can be calculated
 algebraically using the identity <em>N</em> = <em>s</em> + <em>d</em> + <em>r1</em> + <em>r2</em> + <em>u</em>.</p>
 <p>Although defined using quartets, analogous values can be calculated using
-partitions -- though for a number of reasons, quartets may offer a more
+partitions – though for a number of reasons, quartets may offer a more
 meaningful measure of the amount of information shared by two trees
 (Smith 2020)
 .</p><ul><li><p>Do Not Conflict (DC): (<em>s</em> + <em>r1</em> + <em>r2</em> + <em>u</em>) / <em>N</em></p></li>
@@ -202,22 +200,22 @@ and one if it is as "true" as can be known.</p>
     <h2>References</h2>
     <p>Asher R, Smith MR (2022).
 “Phylogenetic signal and bias in paleontology.”
-<em>Systematic Biology</em>, <b>71</b>(4), 986--1008.
+<em>Systematic Biology</em>, <b>71</b>(4), 986–1008.
 <a href="https://doi.org/10.1093/sysbio/syab072" class="external-link">doi:10.1093/sysbio/syab072</a>
 .<br><br> Day WH (1986).
 “Analysis of quartet dissimilarity measures between undirected phylogenetic trees.”
-<em>Systematic Biology</em>, <b>35</b>(3), 325--333.
+<em>Systematic Biology</em>, <b>35</b>(3), 325–333.
 <a href="https://doi.org/10.1093/sysbio/35.3.325" class="external-link">doi:10.1093/sysbio/35.3.325</a>
 .<br><br> Estabrook GF, McMorris FR, Meacham CA (1985).
 “Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units.”
-<em>Systematic Zoology</em>, <b>34</b>(2), 193--200.
+<em>Systematic Zoology</em>, <b>34</b>(2), 193–200.
 <a href="https://doi.org/10.2307/2413326" class="external-link">doi:10.2307/2413326</a>
 .<br><br> Marczewski E, Steinhaus H (1958).
 “On a certain distance of sets and the corresponding distance of functions.”
-<em>Colloquium Mathematicae</em>, <b>6</b>(1), 319--327.
+<em>Colloquium Mathematicae</em>, <b>6</b>(1), 319–327.
 <a href="https://eudml.org/doc/210378" class="external-link">https://eudml.org/doc/210378</a>.<br><br> Robinson DF, Foulds LR (1981).
 “Comparison of phylogenetic trees.”
-<em>Mathematical Biosciences</em>, <b>53</b>(1-2), 131--147.
+<em>Mathematical Biosciences</em>, <b>53</b>(1-2), 131–147.
 <a href="https://doi.org/10.1016/0025-5564%2881%2990043-2" class="external-link">doi:10.1016/0025-5564(81)90043-2</a>
 .<br><br> Smith MR (2019).
 “Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets.”
@@ -228,16 +226,16 @@ and one if it is as "true" as can be known.</p>
 <em>Bioinformatics</em>, <b>36</b>(20), 5007–5013.
 <a href="https://doi.org/10.1093/bioinformatics/btaa614" class="external-link">doi:10.1093/bioinformatics/btaa614</a>
 .<br><br> Steel MA, Penny D (1993).
-“Distributions of tree comparison metrics---some new results.”
-<em>Systematic Biology</em>, <b>42</b>(2), 126--141.
+“Distributions of tree comparison metrics—some new results.”
+<em>Systematic Biology</em>, <b>42</b>(2), 126–141.
 <a href="https://doi.org/10.1093/sysbio/42.2.126" class="external-link">doi:10.1093/sysbio/42.2.126</a>
 , <a href="http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf" class="external-link">http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf</a>.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index">
-<ul><li><p>Calculate status of each quartet -- the raw material from which the
-Estabrook <em>et al.</em> metrics are calculated -- with <code><a href="QuartetStatus.html">QuartetStatus()</a></code>:</p></li>
+<ul><li><p>Calculate status of each quartet – the raw material from which the
+Estabrook <em>et al.</em> metrics are calculated – with <code><a href="QuartetStatus.html">QuartetStatus()</a></code>:</p></li>
 <li><p>Equivalent metrics for bipartition splits: <code><a href="SplitStatus.html">SplitStatus()</a></code>,
 <code><a href="CompareSplits.html">CompareSplits()</a></code></p></li>
 </ul></div>
@@ -375,15 +373,15 @@ Estabrook <em>et al.</em> metrics are calculated -- with <code><a href="QuartetS
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
