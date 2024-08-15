@@ -34,6 +34,10 @@ cpdt_dist_file <- function(file1, file2) {
     .Call(`_Quartet_cpdt_dist_file`, file1, file2)
 }
 
+cpdt_pair <- function(parent1, child1, parent2, child2) {
+    .Call(`_Quartet_cpdt_pair`, parent1, child1, parent2, child2)
+}
+
 cpdt_tree <- function(r_tree) {
     .Call(`_Quartet_cpdt_tree`, r_tree)
 }

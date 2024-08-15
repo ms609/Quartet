@@ -30,7 +30,7 @@ CPDTDist <- function (tree1, tree2) {
     stop("`tree2` must be of class phylo")
   }
   
-  .Call("_Quartet_cpdt_pair", tree1[["edge"]],
-        RenumberTips(tree2, tree1)[["edge"]])
+  .Call("_Quartet_cpdt_pair", tree1[["edge"]][, 1],tree1[["edge"]][, 2],
+        RenumberTips(tree2, tree1)[["edge"]][, 1], RenumberTips(tree2, tree1)[["edge"]][, 2])
 }
 
