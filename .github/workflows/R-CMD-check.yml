@@ -82,6 +82,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          install.packages("remotes")
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("tinytex")
           tinytex::install_tinytex()
