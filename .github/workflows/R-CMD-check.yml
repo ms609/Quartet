@@ -81,7 +81,7 @@ jobs:
           brew install xquartz ghostscript
 
       - name: Install dependencies
-        if: runner.os != 'Linux'
+        if: runner.os == 'Windows'
         run: |
           install.packages("remotes")
           remotes::install_cran("rcmdcheck")
