@@ -48,7 +48,7 @@ Suggests:
   testthat,
   usethis,
   vdiffr,
-Config/Needs/check: 
+Config/Needs/check:
   rcmdcheck,
   tinytex,
 Config/Needs/coverage: covr

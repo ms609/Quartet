@@ -29,11 +29,10 @@ on:
       - "**.git"
       - "**.json"
       - "**.md"
-      - "**.yml"
-      - "**.yaml"
-      - "!**R-CMD-check.yml"
       - "**.R[dD]ata"
       - "**.Rpro*"
+      - "**.yml"
+      - "!**R-CMD-check.yml"
 
 name: R-CMD-check
 
@@ -54,7 +53,7 @@ jobs:
           - {os: ubuntu-22.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
-      _R_CHECK_FORCE_SUGGESTS_: false
+      _R_CHECK_FORCE_SUGGESTS_: false # CRAN settings
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -68,58 +67,51 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-
-      - name: Install system dependencies (Linux)
+      - name: Install apt packages
         if: runner.os == 'Linux'
         run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-
-      - name: Install system dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          brew install xquartz ghostscript
-          
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
-          remotes::install_cran("tinytex")
-          tinytex::install_tinytex()
-        shell: Rscript {0}
-
-      - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
-        shell: Rscript {0}
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@main
+          sudo apt-get install texlive-latex-base \
+            texlive-fonts-recommended libcurl4-openssl-dev \
+            aspell libcurl4-openssl-dev texlive-latex-base \
+            texlive-fonts-extra
+        
+      - name: Set up R dependencies (Windows)
+        if: runner.os == 'Windows'
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check
-          
+          needs: |
+            check
+            coverage
+            
+      - name: Set up R dependencies (R 3.6)
+        if: matrix.config.r == '3.6'
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            evaluate@0.23
+            knitr@1.45
+            rjson@0.2.20
+            XML@3.99-0.3
+          needs: |
+            check
+            
+      - name: Set up R dependencies (Non-Windows)
+        if: runner.os != 'Windows' && matrix.config.r != '3.6'
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            knitr=?ignore-before-r=4.0.0
+            rmarkdown=?ignore-before-r=4.0.0
+            testthat=?ignore-before-r=4.0.0
+          needs: |
+            check
+
+      - name: Check package
+        uses: r-lib/actions/check-r-package@v2
+
       - name: Code coverage
         if: runner.os == 'Windows'
         run: |
-          remotes::install_cran("covr")
           covr::codecov()
         shell: Rscript {0}
