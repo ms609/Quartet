@@ -67,7 +67,6 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-
       - name: Install apt packages
         if: runner.os == 'Linux'
         run: |
@@ -75,6 +74,18 @@ jobs:
             texlive-fonts-recommended libcurl4-openssl-dev \
             aspell libcurl4-openssl-dev texlive-latex-base \
             texlive-fonts-extra
+            
+      - name: Install brew casks (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install xquartz ghostscript
+
+      - name: Install dependencies
+        run: |
+          remotes::install_cran("rcmdcheck")
+          remotes::install_cran("tinytex")
+          tinytex::install_tinytex()
+        shell: Rscript {0}
         
       - name: Set up R dependencies (Windows)
         if: runner.os == 'Windows'
@@ -91,6 +102,7 @@ jobs:
           extra-packages: |
             evaluate@0.23
             knitr@1.45
+            phangorn@2.7.1
             rjson@0.2.20
             XML@3.99-0.3
           needs: |
