@@ -103,6 +103,7 @@ jobs:
         with:
           extra-packages: |
             evaluate@0.23
+            httr2@1.0.1
             knitr@1.45
             phangorn@2.7.1
             rjson@0.2.20
