@@ -85,6 +85,7 @@ jobs:
         with:
           packages: |
             booktabs
+            doi
             etoolbox
             fancyvrb
             footnote
