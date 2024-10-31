@@ -10,6 +10,15 @@ name: R-hub
 run-name: "${{ github.event.inputs.id }}: ${{ github.event.inputs.name || format('Manually run by {0}', github.triggering_actor) }}"
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'rhub.yaml'
+    inputs:
+      config: 'linux,windows'
+      name: 'rhub-run'
+      id: 'push'
   workflow_dispatch:
     inputs:
       config:
@@ -82,6 +91,7 @@ jobs:
             booktabs
             etoolbox
             fancyvrb
+            footnote
             framed
             scheme-basic
             xcolor
