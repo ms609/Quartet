@@ -15,10 +15,6 @@ on:
       - main
     paths:
       - 'rhub.yaml'
-    inputs:
-      config: 'linux,windows'
-      name: 'rhub-run'
-      id: 'push'
   workflow_dispatch:
     inputs:
       config:
