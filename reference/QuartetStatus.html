@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Quartet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.6.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,8 +132,7 @@ The <code>comparison</code> tree is treated as <code>tree2</code>.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Given a list of trees, returns the number of quartet statements
-(Estabrook et al. 1985)
- present in the
+Estabrook1985Quartet present in the
 reference tree (the first entry in <code>trees</code>, if <code>cf</code> is not specified)
 that are also present in each other tree.  A random pair of fully resolved
 trees is expected to share <code>choose(n_tip, 4) / 3</code> quartets.</p>
@@ -144,12 +143,9 @@ quartets occur in one tree or the other, though there is not yet a function
 calculating this; <a href="https://github.com/ms609/Quartet/issues/new" class="external-link">let us know</a>
 if you would appreciate this functionality.</p>
 <p>The status of each quartet is calculated using the algorithms of
-Brodal et al. (2013)
- and
-Holt et al. (2014)
-, implemented in the
-tqdist C library (Sand et al. 2014)
-.</p>
+Brodal2013;textualQuartet and
+Holt2014;textualQuartet, implemented in the
+tqdist C library Sand2014Quartet.</p>
     </div>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
@@ -165,21 +161,7 @@ the quartets in a comparison tree.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Brodal GS, Fagerberg R, Mailund T, Pedersen CNS, Sand A (2013).
-“Efficient algorithms for computing the triplet and quartet distance between trees of arbitrary degree.”
-<em>SODA '13 Proceedings of the Twenty-Fourth Annual ACM-SIAM Symposium on Discrete Algorithms</em>, 1814–1832.
-<a href="https://doi.org/10.1137/1.9781611973105.130" class="external-link">doi:10.1137/1.9781611973105.130</a>
-.<br><br> Estabrook GF, McMorris FR, Meacham CA (1985).
-“Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units.”
-<em>Systematic Zoology</em>, <b>34</b>(2), 193–200.
-<a href="https://doi.org/10.2307/2413326" class="external-link">doi:10.2307/2413326</a>
-.<br><br> Holt MK, Johansen J, Brodal GS (2014).
-“On the scalability of computing triplet and quartet distances.”
-In <em>Proceedings of 16th Workshop on Algorithm Engineering and Experiments (ALENEX) Portland, Oregon, USA</em>.<br><br> Sand A, Holt MK, Johansen J, Brodal GS, Mailund T, Pedersen CNS (2014).
-“tqDist: a library for computing the quartet and triplet distances between binary or general trees.”
-<em>Bioinformatics</em>, <b>30</b>(14), 2079–2080.
-ISSN 1460-2059, <a href="https://doi.org/10.1093/bioinformatics/btu157" class="external-link">doi:10.1093/bioinformatics/btu157</a>
-.</p>
+    <p></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -263,7 +245,7 @@ of quartets as the unit of comparison: <code><a href="SplitStatus.html">SplitSta
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

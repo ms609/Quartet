@@ -15,7 +15,7 @@ distances between pairs of trees.'><!-- Global site tag (gtag.js) - Google Analy
 
     <a class="navbar-brand me-2" href="../index.html">Quartet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.6.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,10 +87,8 @@ format, possibly created using <code><a href="TQFile.html">TQFile()</a></code>.<
 <p><code>...Agreement()</code> functions return the number of triplets or quartets that are:</p><ul><li><p><code>A</code>, resolved in the same fashion in both trees;</p></li>
 <li><p><code>E</code>, unresolved in both trees.</p></li>
 </ul><p>Comparing a tree against itself yields the totals (<code>A+B+C</code>) and (<code>D+E</code>)
-referred to by Brodal et al. (2013)
- and
-Holt et al. (2014)
-.</p>
+referred to by Brodal2013;textualQuartet and
+Holt2014;textualQuartet.</p>
     </div>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
@@ -100,8 +98,7 @@ in <code>file1</code> and the tree in <code>file2</code>.</p></li>
 <li><p><code>QuartetAgreement()</code>: Returns a vector of length two, listing [1]
 the number of resolved quartets that agree (<code>A</code>);
 [2] the number of quartets that are unresolved in both trees (<code>E</code>).
-See Brodal et al. (2013)
-.</p></li>
+See Brodal2013;textualQuartet.</p></li>
 <li><p><code>PairsQuartetDistance()</code>: Quartet distance between the tree on each line of <code>file1</code>
 and the tree on the corresponding line of <code>file2</code>.</p></li>
 <li><p><code>OneToManyQuartetAgreement()</code>: Quartet distance between the tree in
@@ -118,17 +115,7 @@ each other tree therein.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Brodal GS, Fagerberg R, Mailund T, Pedersen CNS, Sand A (2013).
-“Efficient algorithms for computing the triplet and quartet distance between trees of arbitrary degree.”
-<em>SODA '13 Proceedings of the Twenty-Fourth Annual ACM-SIAM Symposium on Discrete Algorithms</em>, 1814–1832.
-<a href="https://doi.org/10.1137/1.9781611973105.130" class="external-link">doi:10.1137/1.9781611973105.130</a>
-.<br><br> Holt MK, Johansen J, Brodal GS (2014).
-“On the scalability of computing triplet and quartet distances.”
-In <em>Proceedings of 16th Workshop on Algorithm Engineering and Experiments (ALENEX) Portland, Oregon, USA</em>.<br><br> Sand A, Holt MK, Johansen J, Brodal GS, Mailund T, Pedersen CNS (2014).
-“tqDist: a library for computing the quartet and triplet distances between binary or general trees.”
-<em>Bioinformatics</em>, <b>30</b>(14), 2079–2080.
-ISSN 1460-2059, <a href="https://doi.org/10.1093/bioinformatics/btu157" class="external-link">doi:10.1093/bioinformatics/btu157</a>
-.</p>
+    <p></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -140,12 +127,9 @@ ISSN 1460-2059, <a href="https://doi.org/10.1093/bioinformatics/btu157" class="e
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
 
-<ul><li><p>Algorithms: Brodal et al. (2013)
-;
-Holt et al. (2014)
-.</p></li>
-<li><p>C implementation: Sand et al. (2014)
-;
+<ul><li><p>Algorithms: Brodal2013;textualQuartet;
+Holt2014;textualQuartet.</p></li>
+<li><p>C implementation: Sand2014;textualQuartet;
 modified for portability by Martin R. Smith.</p></li>
 <li><p>R interface: Martin R. Smith.</p></li>
 </ul></div>
@@ -159,7 +143,7 @@ modified for portability by Martin R. Smith.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
