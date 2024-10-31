@@ -1,7 +1,8 @@
-# Quartet v1.2.6.9001 (development, 2024-04-16)
+# Quartet v1.2.7 (2024-10-31)
 
 - `VizualizeQuartet()` now returns calculation results.
 - Use spectrum legend in `VisualizeQuartet()`.
+- Include CSL file within package to remove external dependency.
 
 # Quartet v1.2.6 (2024-02-08)
 
