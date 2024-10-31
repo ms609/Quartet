@@ -80,6 +80,7 @@ jobs:
         with:
           packages: |
             fancyvrb
+            framed
             scheme-basic
             xcolor
       - uses: r-lib/actions/setup-pandoc@v2
