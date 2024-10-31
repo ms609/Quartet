@@ -78,7 +78,9 @@ jobs:
     steps:
       - uses: teatimeguest/setup-texlive-action@v3
         with:
-          packages: scheme-basic, xcolor
+          packages: 
+            - scheme-basic
+            - texlive-latex-recommended
       - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-hub/rhub2/actions/rhub-checkout@v1
       - uses: r-hub/rhub2/actions/rhub-setup-r@v1
