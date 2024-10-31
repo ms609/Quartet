@@ -57,8 +57,8 @@ Each row corresponds to a split within that tree; columns correspond to:
 \describe{
 \item{node}{The internal numbering of the node corresponding to each split,
 as displayed by \code{ape::nodelabels()}}
-\item{N\dots{}u}{The status of each quartet relative to that split,
-as documented in \code{\link[=QuartetStatus]{QuartetStatus()}}}
+\item{N, Q, s, d, r1, r2, u}{The status of each quartet relative to that
+split, as documented in \code{\link[=QuartetStatus]{QuartetStatus()}}}
 \item{res}{The number of quartets resolved by that split, i.e. \code{s} + \code{d}}
 \item{same}{The proportion of quartets resolved by that node that are
 resolved in the same manner in the other tree; i.e. \code{s / s + d}}

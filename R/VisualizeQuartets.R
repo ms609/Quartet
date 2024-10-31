@@ -28,8 +28,8 @@
 #' \describe{
 #'   \item{node}{The internal numbering of the node corresponding to each split,
 #'   as displayed by `ape::nodelabels()`}
-#'   \item{N\dots{}u}{The status of each quartet relative to that split,
-#'   as documented in [`QuartetStatus()`]}
+#'   \item{N, Q, s, d, r1, r2, u}{The status of each quartet relative to that
+#'    split, as documented in [`QuartetStatus()`]}
 #'   \item{res}{The number of quartets resolved by that split, i.e. `s` + `d`}
 #'   \item{same}{The proportion of quartets resolved by that node that are 
 #'   resolved in the same manner in the other tree; i.e. `s / s + d`}
