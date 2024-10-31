@@ -10,9 +10,8 @@
     - R devel
   - Mac OS X, R release
   - Microsoft Windows Server, R release
-  
-* R-hub, with `rhub::check_for_cran()` and `devtools::check_win_devel()`
-
+* [R-hub](https://github.com/ms609/Quartet/actions/workflows/rhub.yaml)
+  - Windows, Mac & Linux
 
 ## R CMD check results
 
