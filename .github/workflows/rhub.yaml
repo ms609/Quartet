@@ -79,6 +79,7 @@ jobs:
       - uses: teatimeguest/setup-texlive-action@v3
         with:
           packages: |
+            booktabs
             fancyvrb
             framed
             scheme-basic
