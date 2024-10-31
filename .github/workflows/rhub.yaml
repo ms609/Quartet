@@ -80,6 +80,7 @@ jobs:
         with:
           packages: |
             booktabs
+            etoolbox
             fancyvrb
             framed
             scheme-basic
