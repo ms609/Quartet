@@ -68,6 +68,7 @@ Other element-by-element comparisons:
 \code{\link{CompareQuartets}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},
+\code{\link{PairwiseQuartets}()},
 \code{\link{QuartetState}()},
 \code{\link{SharedQuartetStatus}()},
 \code{\link{SplitStatus}()}

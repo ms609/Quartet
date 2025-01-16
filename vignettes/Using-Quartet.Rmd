@@ -131,6 +131,33 @@ status <- TwoListQuartetAgreement(forest[1:4], forest[5:6])
 QuartetDivergence(status, similarity = FALSE)
 ```
 
+## Pairwise comparison
+
+To compute distances between all pairs of trees in a list, use the `PairwiseQuartets()` function:
+
+```{r allpairs}
+PairwiseQuartets(forest)
+# equivalent to QuartetDivergence(ManyToManyQuartetAgreement(forest))
+```
+
+This function can help to summarise sets of trees:
+
+```{r treedist}
+# Map distances between trees
+forestDist <- PairwiseQuartets(forest)
+mapping <- cmdscale(as.dist(forestDist))
+plot(mapping, asp = 1, axes = FALSE, frame.plot = FALSE,
+     xlab = "", ylab = "", col = seq_along(forest), type = "n")
+text(mapping, names(forest))
+
+# The TreeDist library is used to compute the median tree
+if (requireNamespace("TreeDist", quietly = TRUE)) {
+  library("TreeDist")
+  # Plot the median tree:
+  plot(median(forest, distance = PairwiseQuartets))
+}
+```
+
 ## Trees with different tip labels
 
 "Quartet" can compare trees of different sizes or with non-identical sets of
