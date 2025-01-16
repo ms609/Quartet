@@ -13,7 +13,7 @@
 #' 
 #' @template MRS
 #'
-#' @family quartet counting functions
+#' @family enumeration
 #' @seealso 
 #' States of quartets in given trees: [`QuartetStates()`]
 #' 
@@ -176,7 +176,7 @@ QuartetStates.multiPhylo <- QuartetStates.list
 #' @template MRS
 #'
 #' @family element-by-element comparisons
-#' @family quartet counting functions
+#' @family enumeration
 #' 
 #' @seealso
 #' - [`QuartetStatus()`] generates the same output from a list of trees.
@@ -256,7 +256,7 @@ CompareQuartets <- function (x, cf) {
 #' 
 #' @template MRS
 #' @family element-by-element comparisons
-#' @family quartet counting functions
+#' @family enumeration
 #' 
 #' @examples 
 #' library("TreeTools")
