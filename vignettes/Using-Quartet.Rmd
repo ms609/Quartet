@@ -27,8 +27,8 @@ Instructions for loading phylogenetic trees into R can be found in a [separate v
 For these examples, we'll enter two simple trees by hand:
 
 ```{r set-up}
-tree1 <- ape::read.tree(text = '(A, ((B, (C, (D, E))), ((F, G), (H, I))));')
-tree2 <- ape::read.tree(text = '(A, ((B, (C, (D, (H, I)))), ((F, G), E)));')
+tree1 <- ape::read.tree(text = "(A, ((B, (C, (D, E))), ((F, G), (H, I))));")
+tree2 <- ape::read.tree(text = "(A, ((B, (C, (D, (H, I)))), ((F, G), E)));")
 ```
 
 ## Calculating distances
@@ -39,20 +39,19 @@ First we'll install the package.
 We can either install the stable version from the CRAN repository:
 
 ```r
-install.packages('Quartet')
+install.packages("Quartet")
 ```
 
-or the development version, from GitHub -- which will contain the latest
-features but may not be as extensively tested:
+or the development version, from GitHub:
 
 ```r 
-devtools::install_github('ms609/Quartet')
+devtools::install_github("ms609/Quartet")
 ```
 
-Then we'll load the package into R's working environment:
+Then we'll load the package into the R working environment:
 
 ```{r load-package, message=FALSE}
-library('Quartet')
+library("Quartet")
 ```
 
 Now the package's functions are available within R.
@@ -103,10 +102,10 @@ If you have more than two trees to compare, you can send a list of trees
 You can calculate the similarity between one tree and a forest of other trees:
 
 ```{r multi-trees}
-library('TreeTools', quietly = TRUE, warn.conflicts = FALSE)
+library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
 oneTree <- CollapseNode(as.phylo(0, 11), 14)
 twoTrees <- structure(list(bal = BalancedTree(11), pec = PectinateTree(11)),
-                      class = 'multiPhylo')
+                      class = "multiPhylo")
 
 status <- SharedQuartetStatus(twoTrees, cf = oneTree)
 QuartetDivergence(status)
@@ -174,7 +173,7 @@ referenceTrees <- list(BalancedTree(7), PectinateTree(7))
 status <- CompareQuartetsMulti(interestingTree, referenceTrees)
 ```
 
-`status['x_only']` = `r status['x_only']` quartets are resolved in a certain way
+`status["x_only"]` = `r status["x_only"]` quartets are resolved in a certain way
 in `interestingTree`, but not resolved that way in any `referenceTrees`.
 
 ## What next?
