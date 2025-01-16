@@ -36,7 +36,7 @@ combn(5, 4) # Provides the same information, but for large
 \seealso{
 States of quartets in given trees: \code{\link[=QuartetStates]{QuartetStates()}}
 
-Other quartet counting functions: 
+Other enumeration: 
 \code{\link{CompareQuartets}()},
 \code{\link{CompareQuartetsMulti}()},
 \code{\link{ResolvedQuartets}()}
@@ -45,4 +45,4 @@ Other quartet counting functions:
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
-\concept{quartet counting functions}
+\concept{enumeration}

@@ -98,7 +98,14 @@ nodelabels(percentSame, vq[["tree2"]][, "node"],
 # restore original graphical parameters
 par(origPar)
 }
+\seealso{
+Other visualization: 
+\code{\link{PlotQuartet}()},
+\code{\link{QuartetPoints}()},
+\code{\link{SymmetricDifferenceLineEnds}()}
+}
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
+\concept{visualization}

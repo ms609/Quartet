@@ -141,6 +141,7 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
 #' @importFrom ape write.tree
 #' @template MRS
 #' @useDynLib Quartet, .registration = TRUE
+#' @family TQDist functions
 #' @export
 TQDist <- function (trees) {
   .CheckSize(trees)
@@ -368,6 +369,7 @@ TQFile <- function (treeList) {
 #' @references \insertAllCited{}
 #' 
 #' @concept Tree distances
+#' @family TQDist functions
 #' @name Distances
 NULL
 
