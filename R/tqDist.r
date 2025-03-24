@@ -60,7 +60,8 @@
 #' - Use splits (groups/clades defined by nodes or edges of the tree) instead
 #'   of quartets as the unit of comparison: [`SplitStatus()`].
 #'  
-#' - Generate distance metrics from quartet statuses: [`SimilarityMetrics()`].
+#' - Generate distance metrics from quartet statuses: [`SimilarityMetrics()`],
+#' `[PairwiseQuartets()]`.
 #' 
 #' @references \insertAllCited{}
 #'
@@ -140,6 +141,7 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
 #' @importFrom ape write.tree
 #' @template MRS
 #' @useDynLib Quartet, .registration = TRUE
+#' @family TQDist functions
 #' @export
 TQDist <- function (trees) {
   .CheckSize(trees)
@@ -249,8 +251,8 @@ ManyToManyQuartetAgreement <- function (trees, nTip = NULL) {
   }
 }
 
-#' @describeIn QuartetStatus Agreement of each quartet in trees in one list with
-#' each quartet in trees in a second list.
+#' @describeIn QuartetStatus Agreement of each quartet in trees in `trees1` with
+#' each quartet in trees in `trees2`.
 #' @param trees1,trees2 List or `multiPhylo` objects containing
 #'   trees of class `phylo`.
 #' @return `TwoListQuartetAgreement()` returns a three-dimensional array listing,
@@ -367,6 +369,7 @@ TQFile <- function (treeList) {
 #' @references \insertAllCited{}
 #' 
 #' @concept Tree distances
+#' @family TQDist functions
 #' @name Distances
 NULL
 

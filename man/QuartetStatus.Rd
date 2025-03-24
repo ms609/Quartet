@@ -94,8 +94,8 @@ tips that do not occur in both trees being compared.
 \item \code{ManyToManyQuartetAgreement()}: Agreement of each quartet, comparing each pair of
 trees in a list.
 
-\item \code{TwoListQuartetAgreement()}: Agreement of each quartet in trees in one list with
-each quartet in trees in a second list.
+\item \code{TwoListQuartetAgreement()}: Agreement of each quartet in trees in \code{trees1} with
+each quartet in trees in \code{trees2}.
 
 \item \code{SingleTreeQuartetAgreement()}: Agreement of each quartet in trees in a list with
 the quartets in a comparison tree.
@@ -135,7 +135,8 @@ QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
 \itemize{
 \item Use splits (groups/clades defined by nodes or edges of the tree) instead
 of quartets as the unit of comparison: \code{\link[=SplitStatus]{SplitStatus()}}.
-\item Generate distance metrics from quartet statuses: \code{\link[=SimilarityMetrics]{SimilarityMetrics()}}.
+\item Generate distance metrics from quartet statuses: \code{\link[=SimilarityMetrics]{SimilarityMetrics()}},
+\verb{[PairwiseQuartets()]}.
 }
 
 Other element-by-element comparisons: 
@@ -143,6 +144,7 @@ Other element-by-element comparisons:
 \code{\link{CompareQuartetsMulti}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},
+\code{\link{PairwiseQuartets}()},
 \code{\link{QuartetState}()},
 \code{\link{SplitStatus}()}
 }
