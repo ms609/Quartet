@@ -46,8 +46,12 @@ and \insertCite{Estabrook1985;textual}{Quartet} refer to as:
 }
 \seealso{
 \code{\link[=CompareQuartets]{CompareQuartets()}}, \code{\link[=QuartetStatus]{QuartetStatus()}}
+
+Other TQDist functions: 
+\code{\link{Distances}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
+\concept{TQDist functions}

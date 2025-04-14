@@ -1,3 +1,46 @@
+url: https://ms609.github.io/Quartet
+
+authors:
+  Martin R. Smith:
+    href: https://smithlabdurham.github.io/
+
+development:
+  mode: auto
+
+reference:
+  - title: "Enumeration"
+    desc: >
+      Count quartets within trees
+    contents:
+      - has_concept("enumeration")
+      
+  - title: "Comparison"
+    desc: >
+      Compare trees and quartet states
+    contents:
+      - has_concept("element-by-element comparisons")
+      - has_concept("tree comparison")
+      
+  - title: "Visualization"
+    desc: >
+      Plot and display quartet statuses and differences
+    contents:
+      - has_concept("visualization")
+
+  - title: "Datasets"
+    desc: >
+      Example datasets for use with Quartet
+    contents:
+      - sq_trees
+      - has_concept("datasets")
+
+  - title: "TQDist wrappers"
+    desc: >
+      Direct access to TQDist functions
+    contents:
+      - has_concept("TQDist functions")
+
+
 template:
   bootstrap: 5
   bslib:
