@@ -120,6 +120,7 @@
 #' \insertAllCited{}
 #' 
 #' @template MRS
+#' @family tree comparison
 #' 
 #' @encoding UTF-8
 #' @name SimilarityMetrics

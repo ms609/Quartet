@@ -41,7 +41,14 @@ PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
 par(oPar)
 
 }
+\seealso{
+Other visualization: 
+\code{\link{QuartetPoints}()},
+\code{\link{SymmetricDifferenceLineEnds}()},
+\code{\link{VisualizeQuartets}()}
+}
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
+\concept{visualization}
