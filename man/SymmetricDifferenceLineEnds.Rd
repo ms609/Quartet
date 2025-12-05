@@ -29,7 +29,14 @@ of tree 2 can vary.
 \item \code{SymmetricDifferenceLines()}: Plot the lines onto the active ternary plot.
 
 }}
+\seealso{
+Other visualization: 
+\code{\link{PlotQuartet}()},
+\code{\link{QuartetPoints}()},
+\code{\link{VisualizeQuartets}()}
+}
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
+\concept{visualization}

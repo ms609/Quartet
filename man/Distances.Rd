@@ -91,6 +91,9 @@ each other tree therein.
 \item \code{\link[=QuartetStatus]{QuartetStatus()}} takes trees, rather than files, as input.
 \item \code{\link[=TQFile]{TQFile()}} creates a temporary file containing specified trees.
 }
+
+Other TQDist functions: 
+\code{\link{TQDist}()}
 }
 \author{
 \itemize{
@@ -101,4 +104,5 @@ modified for portability by Martin R. Smith.
 \item R interface: Martin R. Smith.
 }
 }
+\concept{TQDist functions}
 \concept{Tree distances}

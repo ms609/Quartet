@@ -1,3 +1,7 @@
+# Quartet v1.3.0 (2025-01-16)
+
+- `PairwiseQuartets()` compares quartet statuses between all pairs of trees.
+
 # Quartet v1.2.7 (2024-10-31)
 
 - `VizualizeQuartet()` now returns calculation results.

@@ -18,7 +18,7 @@
 #'         
 #' @template MRS
 #' 
-#' @family quartet counting functions
+#' @family enumeration
 #' 
 #' @examples
 #' data(sq_trees)

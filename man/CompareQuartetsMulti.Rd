@@ -68,11 +68,12 @@ Other element-by-element comparisons:
 \code{\link{CompareQuartets}()},
 \code{\link{CompareSplits}()},
 \code{\link{PairSharedQuartetStatus}()},
+\code{\link{PairwiseQuartets}()},
 \code{\link{QuartetState}()},
 \code{\link{SharedQuartetStatus}()},
 \code{\link{SplitStatus}()}
 
-Other quartet counting functions: 
+Other enumeration: 
 \code{\link{AllQuartets}()},
 \code{\link{CompareQuartets}()},
 \code{\link{ResolvedQuartets}()}
@@ -82,4 +83,4 @@ Other quartet counting functions:
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
 \concept{element-by-element comparisons}
-\concept{quartet counting functions}
+\concept{enumeration}

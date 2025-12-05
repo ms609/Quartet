@@ -42,6 +42,7 @@
 #' 
 #' @references \insertAllCited{}
 #' 
+#' @family visualization
 #' @template MRS
 #' 
 #' @export
@@ -98,6 +99,7 @@ SymmetricDifferenceLineEnds <- function (nsd) {
 #' @describeIn SymmetricDifferenceLineEnds Plot the lines onto the active ternary plot.
 #' @param \dots Further parameters to pass to 
 #' \code{\link[Ternary:AddToTernary]{TernaryLines}()}.
+#' @family visualization
 #' @importFrom Ternary TernaryLines
 #' @export
 SymmetricDifferenceLines <- function (nsd, ...) { #nocov start

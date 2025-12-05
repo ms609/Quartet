@@ -95,6 +95,13 @@ jobs:
         run: |
           brew install xquartz ghostscript
 
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      
       - name: Install dependencies
         if: runner.os != 'Linux'
         run: |
@@ -117,12 +124,16 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
+            waldo@0.5.3
+            testthat@3.2.1
+            vdiffr@1.0.7
+            cpp11@0.5.0
+            httr2@1.0.1
             downlit@0.4.3
             pkgdown@2.0.9
             profvis@0.3.8
             gtable@0.3.5
             evaluate@0.23
-            httr2@1.0.1
             knitr@1.45
             phangorn@2.7.1
             rjson@0.2.20
