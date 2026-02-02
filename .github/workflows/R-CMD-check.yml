@@ -49,7 +49,7 @@ jobs:
           - {os: windows-latest, r: 'release'}
           - {os: macOS-latest, r: 'release'}
           - {os: macos-15-intel, r: 'release'} # Until Intel architecture retired 2027-11
-          - {os: ubuntu-22.04, r: '3.6', rspm: "https://packagemanager.rstudio.com/cran/__linux__/jammy/latest"}
+          - {os: ubuntu-22.04, r: '4.1', rspm: "https://packagemanager.rstudio.com/cran/__linux__/jammy/latest"}
           - {os: ubuntu-24.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/noble/latest"}
           - {os: ubuntu-24.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/noble/latest"}
 
@@ -60,7 +60,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Temporarily bump package version
         run: |
@@ -110,32 +110,10 @@ jobs:
             check
             coverage
             
-      - name: Set up R dependencies (R 3.6)
-        if: matrix.config.r == '3.6'
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: |
-            downlit@0.4.3
-            pkgdown@2.0.9
-            profvis@0.3.8
-            gtable@0.3.5
-            evaluate@0.23
-            httr2@1.0.1
-            knitr@1.45
-            phangorn@2.7.1
-            rjson@0.2.20
-            XML@3.99-0.3
-          needs: |
-            check
-            
       - name: Set up R dependencies (Non-Windows)
-        if: runner.os != 'Windows' && matrix.config.r != '3.6'
+        if: runner.os != 'Windows'
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: |
-            knitr=?ignore-before-r=4.0.0
-            rmarkdown=?ignore-before-r=4.0.0
-            testthat=?ignore-before-r=4.0.0
           needs: |
             check
 

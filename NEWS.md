@@ -1,3 +1,7 @@
+# Quartet v1.2.7.9000 (2026-02-02)
+
+- R <4.1 is no longer formally supported.
+
 # Quartet v1.2.7 (2024-10-31)
 
 - `VizualizeQuartet()` now returns calculation results.
