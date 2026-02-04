@@ -3,4 +3,5 @@ template:
   bslib:
     danger: "#A6081A" # Accessibility suggestion
   params:
+    bootswatch: simplex
     ganalytics: G-QEEBN9CF2V
