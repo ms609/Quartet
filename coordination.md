@@ -2,10 +2,10 @@
 
 ## Agent Status
 
-| Agent | Status | Current Task                 |
-|-------|--------|------------------------------|
-| A     | IDLE   | T-001, T-004, T-005 complete |
-| B     | IDLE   | T-002, T-003, T-006 complete |
+| Agent | Status | Current Task                               |
+|-------|--------|--------------------------------------------|
+| A     | IDLE   | T-001, T-004, T-005, T-008, T-009 complete |
+| B     | IDLE   | T-002, T-003, T-006 complete               |
 
 ## Strategic Objectives
 

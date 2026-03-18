@@ -94,8 +94,25 @@
 <td>A</td>
 <td>Correctness regression corpus</td>
 <td>Hand-verified known-value tests; <strong>required before any optimisation begins</strong>. See plan.</td>
-</tr></tbody></table><div class="line-block">T-005 | P2 | COMPLETE | A | OpenMP parallelism: one-to-many and pairs loops | Parallelised <code>oneToManyQuartetAgreement</code> and <code>pairs_quartet_distance</code>. C++ speedup: 4.6× at 400 tips. |</div>
-<hr></div>
+</tr><tr class="even"><td>T-005</td>
+<td>P2</td>
+<td>COMPLETE</td>
+<td>A</td>
+<td>OpenMP parallelism: one-to-many and pairs loops</td>
+<td>Parallelised <code>oneToManyQuartetAgreement</code> and <code>pairs_quartet_distance</code>. C++ speedup: 4.6× at 400 tips.</td>
+</tr><tr class="odd"><td>T-008</td>
+<td>P2</td>
+<td>COMPLETE</td>
+<td>A</td>
+<td>All-pairs loop: per-thread localCalc + flatten triangle</td>
+<td>+14–35% across all tree sizes. Post-opt benchmark: <code>inst/benchmarks/post-opt-T008-2026-03-18.rds</code>.</td>
+</tr><tr class="even"><td>T-009</td>
+<td>P2</td>
+<td>COMPLETE</td>
+<td>A</td>
+<td>Pool size + prefetch (was: CountingLinkedList → flat array)</td>
+<td>Low-risk alternative: increased HDTFactorySize 30→256, added <code>__builtin_prefetch</code> to getIteratorValue. +6–33% across tip sizes. Full flat-array conversion deferred — diminishing returns after pool fix.</td>
+</tr></tbody></table><hr></div>
 <div class="section level2">
 <h2 id="completed-tasks">Completed Tasks<a class="anchor" aria-label="anchor" href="#completed-tasks"></a></h2>
 <table class="table"><colgroup><col width="10%"><col width="26%"><col width="18%"><col width="15%"><col width="28%"></colgroup><thead><tr class="header"><th>ID</th>
@@ -132,6 +149,16 @@
 <td>P2</td>
 <td>A</td>
 <td>OpenMP one-to-many + pairs parallelism</td>
+<td>2026-03-18</td>
+</tr><tr class="odd"><td>T-008</td>
+<td>P2</td>
+<td>A</td>
+<td>All-pairs loop: per-thread localCalc + flatten triangle</td>
+<td>2026-03-18</td>
+</tr><tr class="even"><td>T-009</td>
+<td>P2</td>
+<td>A</td>
+<td>Pool size increase + prefetch hints</td>
 <td>2026-03-18</td>
 </tr><tr class="odd"><td>T-007</td>
 <td>P3</td>

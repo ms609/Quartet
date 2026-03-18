@@ -257,4 +257,21 @@ one-to-many (Rcpp vectors not thread-safe). C++ one-to-many speedup at
 400 tips: **4.6×** (0.64s → 0.14s, 199 pairs). R-wrapper improvement
 ~15% because 70% of wall time is R-level preprocessing (Preorder,
 .TreeToEdge). 100/100 correctness tests pass (FAIL 0). Post-opt
-benchmark: `inst/benchmarks/post-opt-T005-2026-03-18.rds`.
+benchmark: `inst/benchmarks/post-opt-T005-2026-03-18.rds`. 2026-03-18 \|
+A \| T-008 All-pairs per-thread + flatten \| Switched
+`calculateAllPairsQuartetAgreement` and
+`calculateAllPairsQuartetDistance` from per-row `localCalc` to
+per-thread (split `parallel`/`for`). Flattened triangular loop to linear
+index k with analytic `(r,c)` unpack via `std::sqrt`. Guard against
+float rounding. **+14–35% across all tree sizes** vs T-004+T-006
+baseline (biggest gain at small tips). FAIL 0. Benchmark:
+`inst/benchmarks/post-opt-T008-2026-03-18.rds`. 2026-03-18 \| A \| T-009
+Pool size + prefetch \| Increased `HDTFactorySize` from 30 to 256 in
+`HDTFactory.cpp` — larger contiguous pool chunks reduce inter-chunk
+pointer jumps during linked-list traversal. Added `__builtin_prefetch`
+hints (guarded by `__GNUC__`) to `getIteratorValue` in both
+`counting_linked_list.h` and `counting_linked_list_num_only.h`. **+6–33%
+across 50–400-tip trees** (default threads); +20% serial at 400 tips.
+Full flat-array conversion deferred — the pool fix captures most of the
+cache benefit with 3 files touched instead of 8. FAIL 0. Benchmark:
+`inst/benchmarks/post-opt-T009-2026-03-18.rds`.
