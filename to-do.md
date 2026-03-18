@@ -24,7 +24,7 @@
 | T-001 | P0 | COMPLETE | A | Correctness regression corpus | Hand-verified known-value tests; **required before any optimisation begins**. See plan. |
 
 
-| T-005 | P2 | OPEN | — | OpenMP parallelism: one-to-many and pairs loops | T-004 now complete. Parallelise `oneToManyQuartetAgreement` and `pairs_quartet_distance` in `QuartetDistanceCalculator.cpp`. |
+| T-005 | P2 | COMPLETE | A | OpenMP parallelism: one-to-many and pairs loops | Parallelised `oneToManyQuartetAgreement` and `pairs_quartet_distance`. C++ speedup: 4.6× at 400 tips. |
 
 ---
 
@@ -37,4 +37,5 @@
 | T-003 | P1 | B | VTune profiling and hotspot documentation | 2026-03-18 |
 | T-004 | P1 | A+B | OpenMP all-pairs parallelism | 2026-03-18 (A wrote code; B fixed compile error, added Makevars) |
 | T-006 | P2 | B | Profile-guided micro-optimisations (dummyRTFactory) | 2026-03-18 |
+| T-005 | P2 | A | OpenMP one-to-many + pairs parallelism | 2026-03-18 |
 | T-007 | P3 | B | VTune expertise file | 2026-03-18 (folded into T-003) |

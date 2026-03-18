@@ -35,14 +35,51 @@ QuartetDistanceCalculator::~QuartetDistanceCalculator() {
 
 Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   (UnrootedTree *unrootedSingle, std::vector<UnrootedTree *> &unrootedMultiple) {
-  Rcpp::IntegerVector res(unrootedMultiple.size() * 2);
-  
-  for(size_t i = unrootedMultiple.size(); i--; ) {
-    AE status = calculateQuartetAgreement(unrootedSingle, unrootedMultiple[i]);
-    res[i] = status.a;
-    res[i + unrootedMultiple.size()] = status.e;
+  const int n = (int)unrootedMultiple.size();
+  // Plain vectors for thread-safe parallel writes (Rcpp vectors are not safe).
+  std::vector<INTTYPE_N4> resA(n, 0);
+  std::vector<INTTYPE_N4> resE(n, 0);
+
+  volatile bool hasError = false;
+  std::string errorMsg;
+
+#ifdef _OPENMP
+  #pragma omp parallel
+#endif
+  {
+    // One calculator per thread — member state is not re-entrant.
+    QuartetDistanceCalculator localCalc;
+#ifdef _OPENMP
+    #pragma omp for schedule(dynamic, 1)
+#endif
+    for (int i = 0; i < n; ++i) {
+      if (hasError) continue;
+      try {
+        AE status = localCalc.calculateQuartetAgreement(
+          unrootedSingle, unrootedMultiple[i]);
+        resA[i] = status.a;
+        resE[i] = status.e;
+      } catch (const std::exception& e) {
+#ifdef _OPENMP
+        #pragma omp critical
+#endif
+        {
+          if (!hasError) {
+            hasError = true;
+            errorMsg = e.what();
+          }
+        }
+      }
+    }
   }
-  
+
+  if (hasError) Rcpp::stop("%s", errorMsg.c_str());
+
+  Rcpp::IntegerVector res(n * 2);
+  for (int i = 0; i < n; ++i) {
+    res[i] = (int)resA[i];
+    res[i + n] = (int)resE[i];
+  }
   return res;
 }
 
@@ -137,15 +174,40 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
 std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
   pairs_quartet_distance(std::vector<UnrootedTree *> &unrootedTrees1,
                          std::vector<UnrootedTree *> &unrootedTrees2) {
-  size_t nTrees = unrootedTrees1.size();
-  std::vector<INTTYPE_N4> res;
-  res.reserve(nTrees);
+  const int nTrees = (int)unrootedTrees1.size();
+  std::vector<INTTYPE_N4> res(nTrees, INTTYPE_N4(0));
 
-  for(size_t i = 0; i != nTrees; i++) {
-    res.push_back(INTTYPE_N4(
-        calculateQuartetDistance(unrootedTrees1[i], unrootedTrees2[i])
-    ));
+  volatile bool hasError = false;
+  std::string errorMsg;
+
+#ifdef _OPENMP
+  #pragma omp parallel
+#endif
+  {
+    QuartetDistanceCalculator localCalc;
+#ifdef _OPENMP
+    #pragma omp for schedule(dynamic, 1)
+#endif
+    for (int i = 0; i < nTrees; ++i) {
+      if (hasError) continue;
+      try {
+        res[i] = localCalc.calculateQuartetDistance(
+          unrootedTrees1[i], unrootedTrees2[i]);
+      } catch (const std::exception& e) {
+#ifdef _OPENMP
+        #pragma omp critical
+#endif
+        {
+          if (!hasError) {
+            hasError = true;
+            errorMsg = e.what();
+          }
+        }
+      }
+    }
   }
+
+  if (hasError) Rcpp::stop("%s", errorMsg.c_str());
 
   return res;
 }
