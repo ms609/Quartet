@@ -102,6 +102,21 @@ via C++ and provides a suite of R-level similarity/distance metrics.
 Supports trees with up to **477 leaves** (32-bit integer constraint in the
 underlying C library).
 
+### R-level API
+
+| Function | Purpose |
+|----------|---------|
+| `QuartetStates()` / `QuartetStatus()` | Quartet states for all four-taxon subsets |
+| `CompareQuartets()` / `CompareQuartetsMulti()` | Element-wise quartet comparison |
+| `QuartetAgreement()` / `QuartetDistance()` | Summary agreement / distance |
+| `AllPairsQuartetAgreement()` / `AllPairsQuartetDistance()` | All-pairs matrix |
+| `OneToManyQuartetAgreement()` / `TwoListQuartetAgreement()` | Batch comparisons |
+| `SimilarityMetrics()` / `SimilarityToReference()` | Multi-metric table |
+| `SplitStatus()` / `SymmetricDifference()` | Robinson-Foulds / partition metrics |
+| `DoNotConflict()`, `ExplicitlyAgree()`, `SteelPenny()`, etc. | Individual metrics |
+| `PlotQuartet()` / `VisualizeQuartets()` | Quartet visualizations |
+| `QuartetPoints()` / `BipartitionPoints()` / `SplitPoints()` | Ternary plot helpers |
+
 ### C++ layer
 
 The tqDist C++ code lives in `src/`. The main Rcpp bridge is
