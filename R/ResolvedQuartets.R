@@ -42,8 +42,12 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
 
 # Core computation for ResolvedQuartets; assumes tree is already Preorder and
 # validated via .CheckSize.  Called directly from hot loops that have already
-# done both steps.
+# done both steps.  Delegates to C++ for quartets, falls back to R for triplets.
 .resolvedQuartetsCounts <- function (tree, countTriplets = FALSE) {
+  if (!countTriplets) {
+    return(resolved_quartets(tree$edge, length(tree$tip.label)))
+  }
+  # Triplet path: R-only (not performance-critical)
   nTip <- length(tree$tip.label)
   nNode <- tree$Nnode
 
@@ -51,35 +55,25 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
   parent <- edge[, 1]
   child  <- edge[, 2]
 
-  # O(n) children list via split (replaces O(n*nNode) lapply approach)
   children <- unname(split(child, parent - nTip))
 
-  # Algebraic terms follow Brodal et al. (2013)
-
-  n <- rep(1, nTip + nNode) # Will be overwritten
-  unresolvedTripletsRootedHere <-
-    unresolvedQuartetsRootedHere <- integer(nNode)
+  n <- rep(1, nTip + nNode)
+  unresolvedTripletsRootedHere <- integer(nNode)
   for (node in rev(seq_len(nNode)) + nTip) {
     nodeChildren <- children[[node - nTip]]
     n[node] <- sum(n[nodeChildren])
-    # s = subtree size
     s_vi <- n[nodeChildren[1L]]
-    # p = pairs; t = triplets; q = quartets
-    p_vi <- t_vi <- q_vi <- 0L
+    p_vi <- t_vi <- 0L
     for (i in seq_along(nodeChildren)[-1]) {
       n_vi <- n[nodeChildren[i]]
-      # Order is important: we need to use previous values in each sum
-      q_vi <- q_vi + (n_vi * t_vi)
       t_vi <- t_vi + (n_vi * p_vi)
       p_vi <- p_vi + (n_vi * s_vi)
       s_vi <- s_vi + n_vi
     }
     unresolvedTripletsRootedHere[node - nTip] <- t_vi
-    unresolvedQuartetsRootedHere[node - nTip] <- q_vi + t_vi * (nTip - s_vi)
   }
-  unresolved <- ifelse(countTriplets, sum(unresolvedTripletsRootedHere),
-                           sum(unresolvedQuartetsRootedHere))
-  resolved <- choose(nTip, ifelse(countTriplets, 3, 4)) - unresolved
+  unresolved <- sum(unresolvedTripletsRootedHere)
+  resolved <- choose(nTip, 3) - unresolved
 
   if (any(c(resolved, unresolved) > .Machine$integer.max)) {
     stop("Sorry: trees too large for integer representation")
@@ -87,9 +81,7 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
     warning("Large numbers: integer overflow likely")
   }
 
-  # Return:
   as.integer(c(resolved, unresolved))
-
 }
 
 
