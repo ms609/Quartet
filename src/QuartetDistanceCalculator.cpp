@@ -11,6 +11,7 @@ using namespace Rcpp;
 #include "rooted_tree.h"
 #include "int_stuff.h"
 
+#include <cmath>
 #include <cstdlib>
 #include <string>
 #ifdef _OPENMP
@@ -309,30 +310,40 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
     results[r].assign(r + 1, INTTYPE_N4(0));
   }
 
-  // Error flag: written under omp critical, read as early-exit hint.
+  // Flatten the strict lower triangle to a single linear index
+  // k = r*(r-1)/2 + c  where  0 <= c < r < nTrees.
+  // Inversion: r = floor((1 + sqrt(1 + 8k)) / 2),  c = k - r*(r-1)/2.
+  const int nPairs = nTrees * (nTrees - 1) / 2;
+
   volatile bool hasError = false;
   std::string errorMsg;
 
 #ifdef _OPENMP
-  #pragma omp parallel for schedule(dynamic, 1)
+  #pragma omp parallel
 #endif
-  for (int r = 1; r < nTrees; ++r) {
-    if (hasError) continue;
-    // Each thread owns its own calculator (member state not re-entrant).
+  {
+    // One calculator per thread — member state is not re-entrant.
     QuartetDistanceCalculator localCalc;
-    try {
-      for (int c = 0; c < r; ++c) {
-        results[r][c] = localCalc.calculateQuartetDistance(trees[r], trees[c]);
-      }
-      // results[r][r] already 0 from assign() above.
-    } catch (const std::exception& e) {
 #ifdef _OPENMP
-      #pragma omp critical
+    #pragma omp for schedule(dynamic, 1)
 #endif
-      {
-        if (!hasError) {
-          hasError = true;
-          errorMsg = e.what();
+    for (int k = 0; k < nPairs; ++k) {
+      if (hasError) continue;
+      try {
+        int r = (int)((1.0 + std::sqrt(1.0 + 8.0 * k)) / 2.0);
+        if (r * (r - 1) / 2 > k) --r;  // guard against float rounding
+        const int c = k - r * (r - 1) / 2;
+        results[r][c] = localCalc.calculateQuartetDistance(trees[r], trees[c]);
+        // results[r][r] remains 0 from assign() above.
+      } catch (const std::exception& e) {
+#ifdef _OPENMP
+        #pragma omp critical
+#endif
+        {
+          if (!hasError) {
+            hasError = true;
+            errorMsg = e.what();
+          }
         }
       }
     }
@@ -410,30 +421,42 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
     results[r].assign(r + 1, std::vector<INTTYPE_N4>(2, INTTYPE_N4(0)));
   }
 
+  // Flatten the lower triangle (including diagonal) to a single linear index
+  // k = r*(r+1)/2 + c  where  0 <= c <= r < nTrees.
+  // Inversion: r = floor((-1 + sqrt(1 + 8k)) / 2),  c = k - r*(r+1)/2.
+  const int nPairs = nTrees * (nTrees + 1) / 2;
+
   volatile bool hasError = false;
   std::string errorMsg;
 
 #ifdef _OPENMP
-  #pragma omp parallel for schedule(dynamic, 1)
+  #pragma omp parallel
 #endif
-  for (int r = 0; r < nTrees; ++r) {
-    if (hasError) continue;
+  {
+    // One calculator per thread — member state is not re-entrant.
     QuartetDistanceCalculator localCalc;
-    try {
-      for (int c = 0; c <= r; ++c) {
+#ifdef _OPENMP
+    #pragma omp for schedule(dynamic, 1)
+#endif
+    for (int k = 0; k < nPairs; ++k) {
+      if (hasError) continue;
+      try {
+        int r = (int)((-1.0 + std::sqrt(1.0 + 8.0 * k)) / 2.0);
+        if (r * (r + 1) / 2 > k) --r;  // guard against float rounding
+        const int c = k - r * (r + 1) / 2;
         // Self-comparison (c==r) gives total quartet count split.
         AE counts = localCalc.calculateQuartetAgreement(trees[r], trees[c]);
         results[r][c][0] = counts.a;
         results[r][c][1] = counts.e;
-      }
-    } catch (const std::exception& e) {
+      } catch (const std::exception& e) {
 #ifdef _OPENMP
-      #pragma omp critical
+        #pragma omp critical
 #endif
-      {
-        if (!hasError) {
-          hasError = true;
-          errorMsg = e.what();
+        {
+          if (!hasError) {
+            hasError = true;
+            errorMsg = e.what();
+          }
         }
       }
     }
