@@ -12,6 +12,10 @@ using namespace Rcpp;
 #include "int_stuff.h"
 
 #include <cstdlib>
+#include <string>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 // Also defined (identically) in TripletDistanceCalculator.cpp
 #define DELETE_TREES(x) for(size_t xi = x.size(); xi--; ) {    \
@@ -21,10 +25,12 @@ using namespace Rcpp;
 
 QuartetDistanceCalculator::QuartetDistanceCalculator() {
   dummyHDTFactory = new HDTFactory(0);
+  dummyRTFactory  = new RootedTreeFactory();
 }
 
 QuartetDistanceCalculator::~QuartetDistanceCalculator() {
   delete dummyHDTFactory;
+  delete dummyRTFactory;
 }
 
 Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
@@ -232,15 +238,45 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
 
 std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   calculateAllPairsQuartetDistance(std::vector<UnrootedTree *> trees) {
-  std::vector<std::vector<INTTYPE_N4> > results(trees.size());
+  const int nTrees = (int)trees.size();
+  std::vector<std::vector<INTTYPE_N4> > results(nTrees);
 
-  for(size_t r = 0; r != trees.size(); ++r) {
-    for(size_t c = 0; c < r; ++c) {
-      INTTYPE_N4 distance = calculateQuartetDistance(trees[r], trees[c]);
-      results[r].push_back(distance);
-    }
-    results[r].push_back(0);
+  // Pre-size rows so threads can write by index without push_back.
+  // Row r: [dist(r,0),...,dist(r,r-1),0(diagonal)] - same layout as before.
+  for (int r = 0; r < nTrees; ++r) {
+    results[r].assign(r + 1, INTTYPE_N4(0));
   }
+
+  // Error flag: written under omp critical, read as early-exit hint.
+  volatile bool hasError = false;
+  std::string errorMsg;
+
+#ifdef _OPENMP
+  #pragma omp parallel for schedule(dynamic, 1)
+#endif
+  for (int r = 1; r < nTrees; ++r) {
+    if (hasError) continue;
+    // Each thread owns its own calculator (member state not re-entrant).
+    QuartetDistanceCalculator localCalc;
+    try {
+      for (int c = 0; c < r; ++c) {
+        results[r][c] = localCalc.calculateQuartetDistance(trees[r], trees[c]);
+      }
+      // results[r][r] already 0 from assign() above.
+    } catch (const std::exception& e) {
+#ifdef _OPENMP
+      #pragma omp critical
+#endif
+      {
+        if (!hasError) {
+          hasError = true;
+          errorMsg = e.what();
+        }
+      }
+    }
+  }
+
+  if (hasError) Rcpp::stop("%s", errorMsg.c_str());
 
   return results;
 }
@@ -304,24 +340,47 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
 
 std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   calculateAllPairsQuartetAgreement(std::vector<UnrootedTree *> trees) {
-  
-  std::vector<std::vector<std::vector<INTTYPE_N4> > > results(trees.size());
-  AE counts;
-  
-  for(size_t r = 0; r < trees.size(); ++r) {
-    for(size_t c = 0; c <= r; ++c) {
-      // comparing a tree with itself gives us (A+B+C) / (D+E)
-      counts = calculateQuartetAgreement(trees[r], trees[c]);
-      std::vector<INTTYPE_N4> ae(2);
-      ae[0] = counts.a;
-      ae[1] = counts.e;
-      results[r].push_back(ae);
+  const int nTrees = (int)trees.size();
+  std::vector<std::vector<std::vector<INTTYPE_N4> > > results(nTrees);
+
+  // Pre-size: row r has r+1 elements including diagonal self-comparison.
+  for (int r = 0; r < nTrees; ++r) {
+    results[r].assign(r + 1, std::vector<INTTYPE_N4>(2, INTTYPE_N4(0)));
+  }
+
+  volatile bool hasError = false;
+  std::string errorMsg;
+
+#ifdef _OPENMP
+  #pragma omp parallel for schedule(dynamic, 1)
+#endif
+  for (int r = 0; r < nTrees; ++r) {
+    if (hasError) continue;
+    QuartetDistanceCalculator localCalc;
+    try {
+      for (int c = 0; c <= r; ++c) {
+        // Self-comparison (c==r) gives total quartet count split.
+        AE counts = localCalc.calculateQuartetAgreement(trees[r], trees[c]);
+        results[r][c][0] = counts.a;
+        results[r][c][1] = counts.e;
+      }
+    } catch (const std::exception& e) {
+#ifdef _OPENMP
+      #pragma omp critical
+#endif
+      {
+        if (!hasError) {
+          hasError = true;
+          errorMsg = e.what();
+        }
+      }
     }
   }
 
+  if (hasError) Rcpp::stop("%s", errorMsg.c_str());
+
   return results;
 }
-
 AE QuartetDistanceCalculator::\
   calculateQuartetAgreement(const char *filename1, const char *filename2) {
   NewickParser parser;
@@ -414,7 +473,7 @@ AE QuartetDistanceCalculator::\
     t2 = tmp;
   }
 
-  this->t1 = t1->convertToRootedTree(NULL);
+  this->t1 = t1->convertToRootedTree(dummyRTFactory);
   this->t2 = t2->convertToRootedTree(this->t1->factory);
   
   this->t1->pairAltWorld(this->t2);
