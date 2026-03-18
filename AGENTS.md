@@ -1,0 +1,260 @@
+# Quartet Multi-Agent Development Notes
+
+## Build isolation — per-agent library directories
+
+Each agent **must** build and test to its own private library:
+
+``` bash
+R CMD INSTALL --library=.agent-X .
+Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/testthat')"
+```
+
+**Never** install to the default library. On Windows, a loaded DLL locks
+the file and blocks other agents.
+
+**Never** use `devtools::load_all()` or
+[`pkgbuild::compile_dll()`](https://pkgbuild.r-lib.org/reference/compile_dll.html)
+— these target a shared temp location and will conflict.
+
+## Build failure recovery
+
+### Debug `.o` contamination
+
+`roxygen2::roxygenise()` (default mode) calls
+`pkgbuild::compile_dll(debug=TRUE)`, which leaves debug `.o` files in
+`src/`. Subsequent `R CMD INSTALL` reuses them, producing a DLL that
+crashes at runtime.
+
+**Fix:** `rm -f src/*.o src/*.dll` then rebuild.
+
+**Prevention:** Never use bare `roxygen2::roxygenise()`. To regenerate
+docs:
+
+``` bash
+Rscript -e ".libPaths(c('.agent-X', .libPaths())); roxygen2::roxygenise(load_code = roxygen2::load_installed)"
+```
+
+### DLL lock
+
+If `R CMD INSTALL` fails with “Access is denied”, another R process has
+the DLL loaded. Kill it or wait, then retry.
+
+### Quick recovery
+
+``` bash
+rm -f src/*.o src/*.dll
+R CMD INSTALL --library=.agent-X .
+```
+
+## CPU limits — max 2 cores per agent
+
+Use at most `-j2` for make. Avoid spawning many parallel R processes.
+
+## Multi-agent workflow protocol
+
+### Assignment
+
+On `/assign X`:
+
+1.  Read `agent-X.md`. If a task is already in-progress, resume it.
+2.  Otherwise, check `issues.md` **before** `to-do.md`:
+    1.  If `issues.md` contains any unclaimed issues (blocks whose first
+        line does **not** start with `CLAIMED`), **claim the bottom-most
+        unclaimed issue** by prepending `CLAIMED (X):` to its first
+        line.
+    2.  Triage the claimed issue: determine what needs doing, then add
+        one or more discrete tasks to `to-do.md` (assign appropriate IDs
+        and priorities — issues may be P0). Begin work on the first
+        task.
+    3.  Once the `to-do.md` tasks are created, delete the entire issue
+        block (including its `---` separator) from `issues.md`.
+    4.  **While `issues.md` still has unclaimed issues, triaging them
+        takes priority over picking up existing `to-do.md` tasks** (an
+        issue may contain a P0).
+3.  If `issues.md` is empty or all issues are already claimed, claim the
+    next OPEN task from `to-do.md` as before.
+
+Set `CONVERSATIONSUMMARY` to `Agent X: <task description>`.
+
+> **Concurrency guard:** Only the bottom-most *unclaimed* issue may be
+> claimed. Because agents always target the bottom and mark it
+> `CLAIMED (X)` immediately, two agents will never parse the same issue.
+> If an agent sees the bottom issue is already `CLAIMED`, it moves up to
+> the next unclaimed one.
+
+### During work
+
+- Update `agent-X.md` after every significant step (crash-recovery
+  record).
+- All work uses `.agent-X/` as library directory.
+- **All builds, tests, and benchmarks in bash subprocesses** — never in
+  the RStudio R session.
+
+### On task completion
+
+1.  Move task to Completed in `to-do.md`.
+2.  Set `agent-X.md` to IDLE.
+3.  Append a brief entry to this file documenting what changed.
+4.  Update `coordination.md` if strategic objectives are affected.
+5.  Take next task.
+
+### Standing tasks
+
+| ID      | Type                | Expertise file                       |
+|---------|---------------------|--------------------------------------|
+| S-RED   | Red-team review     | `.positai/expertise/red-team.md`     |
+| S-COORD | Coordination review | `.positai/expertise/coordination.md` |
+
+Priority: P3 when ≥6 OPEN tasks, P2 when 3–5, P1 when \<3.
+
+### Key files
+
+| File                      | Purpose                                           |
+|---------------------------|---------------------------------------------------|
+| `issues.md`               | Human-entered issues (agents triage → `to-do.md`) |
+| `to-do.md`                | Task queue                                        |
+| `coordination.md`         | Strategic plan                                    |
+| `agent-X.md`              | Agent progress log                                |
+| `AGENTS.md`               | Conventions + architecture reference              |
+| `.positai/expertise/*.md` | Standing task methodology                         |
+
+## Test conventions
+
+Test files live in `tests/testthat/`. Use `Quartet:::` to access
+internal functions in tests. Build and run the full suite with:
+
+``` bash
+R CMD INSTALL --library=.agent-X .
+Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/testthat')"
+```
+
+Snapshot tests (in `tests/testthat/_snaps/`) must be reviewed and
+updated explicitly — never auto-accept changed snapshots without
+inspecting the diff.
+
+## R source file conventions
+
+- `DESCRIPTION` has no explicit `Collate:` field; R sources
+  alphabetically. When adding files whose top-level code depends on
+  another file, verify load order or add a `Collate:` field.
+- Documentation is generated with `roxygen2`. Always use
+  `roxygen2::roxygenise(load_code = roxygen2::load_installed)`.
+
+## Architecture reference
+
+### Package purpose
+
+Quartet calculates tree similarity metrics based on four-taxon subtrees
+(quartets). It wraps the **tqDist algorithm** (Sand et al. 2014, O(n log
+n)) via C++ and provides a suite of R-level similarity/distance metrics.
+
+Supports trees with up to **477 leaves** (32-bit integer constraint in
+the underlying C library).
+
+### R-level API
+
+| Function                                                                                                                                                           | Purpose                                   |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| [`QuartetStates()`](reference/QuartetState.md) / [`QuartetStatus()`](reference/QuartetStatus.md)                                                                   | Quartet states for all four-taxon subsets |
+| [`CompareQuartets()`](reference/CompareQuartets.md) / [`CompareQuartetsMulti()`](reference/CompareQuartetsMulti.md)                                                | Element-wise quartet comparison           |
+| [`QuartetAgreement()`](reference/Distances.md) / [`QuartetDistance()`](reference/Distances.md)                                                                     | Summary agreement / distance              |
+| [`AllPairsQuartetAgreement()`](reference/Distances.md) / [`AllPairsQuartetDistance()`](reference/Distances.md)                                                     | All-pairs matrix                          |
+| [`OneToManyQuartetAgreement()`](reference/Distances.md) / [`TwoListQuartetAgreement()`](reference/QuartetStatus.md)                                                | Batch comparisons                         |
+| [`SimilarityMetrics()`](reference/SimilarityMetrics.md) / [`SimilarityToReference()`](reference/SimilarityMetrics.md)                                              | Multi-metric table                        |
+| [`SplitStatus()`](reference/SplitStatus.md) / [`SymmetricDifference()`](reference/SimilarityMetrics.md)                                                            | Robinson-Foulds / partition metrics       |
+| [`DoNotConflict()`](reference/SimilarityMetrics.md), [`ExplicitlyAgree()`](reference/SimilarityMetrics.md), [`SteelPenny()`](reference/SimilarityMetrics.md), etc. | Individual metrics                        |
+| [`PlotQuartet()`](reference/PlotQuartet.md) / [`VisualizeQuartets()`](reference/VisualizeQuartets.md)                                                              | Quartet visualizations                    |
+| [`QuartetPoints()`](reference/QuartetPoints.md) / [`BipartitionPoints()`](reference/QuartetPoints.md) / [`SplitPoints()`](reference/QuartetPoints.md)              | Ternary plot helpers                      |
+
+### C++ layer
+
+The tqDist C++ code lives in `src/`. The main Rcpp bridge is
+`src/rQuartetDist.cpp`. These files implement the original tqDist
+library (Brodal et al. 2004 / Sand et al. 2014) and should be treated as
+vendored upstream code — modifications should be minimal and
+well-documented.
+
+**Shared file rule:** If multiple agents need to touch `src/`,
+coordinate via `to-do.md` to avoid conflicting edits. Prefer R-level
+changes over C++ changes wherever possible.
+
+### Dependencies
+
+| Type     | Packages                                               |
+|----------|--------------------------------------------------------|
+| Depends  | `TreeTools (≥1.4.0)`, `R (≥3.5.0)`                     |
+| Imports  | `ape`, `PlotTools`, `Rdpack`, `Ternary`, `viridisLite` |
+| Suggests | `phangorn`, `testthat`, `knitr`, `rmarkdown`, `vdiffr` |
+
+## Version and CRAN status
+
+- **Version**: 1.2.7.9000 (development)
+- **Last CRAN release**: 1.2.7 (2024-10-31)
+- **R CMD check**: CI via `.github/workflows/R-CMD-check.yml`
+
+## Completed agent work
+
+2026-03-18 \| B \| T-002 Benchmarking infrastructure \| Created
+`inst/benchmarks/bench_quartet.R` (adaptive timing, single-pair /
+one-to-many / all-pairs at 10–400 tips, 50 trees, 5 reps). Saved
+pre-optimisation baseline to `inst/benchmarks/baseline_2026-03-18.rds`.
+Note: `.TreeToEdge` S3 methods are not in NAMESPACE; benchmark calls
+`.TreeToEdge.list()` directly. 2026-03-18 \| A \| T-001 \| Created
+`tests/testthat/test-regression-correctness.R`: 170 passing assertions
+covering hand-verified 4-tip values (all three resolved topologies +
+star), known file-based values, identity, symmetry, non-negativity,
+round-trip (D = C(n,4) − A − E), self-comparison (A+E = C(n,4)),
+label-relabelling invariance, consistency of all-pairs vs iterated
+single-pair, polytomy handling, star vs resolved exact values. Baseline:
+0 new failures, 170 new passes. Pre-existing failures (15) are in
+`test-AllQuartets.cpp.R`, `test-1-tqdist.R`, `test-CompareQuartets.R` —
+all caused by unexported internal functions unavailable when running via
+[`library()`](https://rdrr.io/r/base/library.html), not related to
+correctness. 2026-03-18 \| B \| T-003 VTune profiling \| Ran VTune
+2025.10 hotspot collection on 100 trees × 200 tips all-pairs +
+one-to-many workload (30 s CPU time). Top hotspot: `HDT::handleCCToC` at
+26.5%; `HDT::handle*` family collectively ~65%. `CountingLinkedList`
+traversals (`gotoIteratorValueForList` + `gotoIteratorValueForNumList` +
+`getIteratorValueForNumList`) = 11.5% — flat-array conversion is T-006
+target. Memory alloc/dealloc + `RootedTreeFactory` ctor/dtor = ~10% —
+pool reuse across pairs is second T-006 target. R overhead is
+negligible. Full results in `.positai/expertise/profiling.md`; raw CSV
+in `inst/benchmarks/vtune_hotspots.csv`; driver script in
+`inst/benchmarks/profiling_driver.R`. Note: VTune sampling driver not
+installed (no admin rights) — hardware counter metrics unavailable but
+function-level sampling unaffected. Hardware: Alderlake-S, 20 logical
+CPUs. 2026-03-18 \| A+B \| T-004 OpenMP all-pairs \| Agent A wrote
+per-thread `localCalc` OpenMP parallelism for
+`calculateAllPairsQuartetDistance` and
+`calculateAllPairsQuartetAgreement` (dynamic(1) schedule, try/catch
+error flag — no `Rcpp::stop()` in parallel region). Agent B fixed
+compile error (extra `std::vector<` in return type) and created
+`src/Makevars` with `$(SHLIB_OPENMP_CXXFLAGS)`. 170/170 correctness
+tests pass. 2026-03-18 \| A \| T-004 thread-safety fix \| Audited
+`convertToRootedTreeImpl` in `unrooted_tree.h`: the prior OpenMP
+implementation had a latent data race — `dontRecurseOnMe` was written
+per-node during DFS traversal, causing UB when two threads traversed the
+same `UnrootedTree` concurrently. Fix: replaced mutable field with a
+`parent` function parameter, making conversion read-only on shared
+nodes. Destructor behaviour unchanged (`dontRecurseOnMe` still set
+during deletion only). Build: clean with `-fopenmp`. Timing: 50×400-tip
+all-pairs agreement 0.67 s (~6× vs 3.99 s baseline). FAIL 15
+(pre-existing), PASS 332 — zero new failures. 2026-03-18 \| B \| T-006
+dummyRTFactory pooling \| Added `dummyRTFactory` member to
+`QuartetDistanceCalculator` (mirrors existing `dummyHDTFactory`
+pattern). `convertToRootedTree(NULL)` →
+`convertToRootedTree(dummyRTFactory)` eliminates per-pair ~4 MB heap
+allocation (2× `MemoryAllocator` ctor/dtor per pair). Combined
+T-004+T-006 speedup at 400 tips all-pairs: **6.2×** (3.99 s → 0.64 s).
+170/170 correctness tests pass. `CountingLinkedList`→flat-array deferred
+(invasive, ~11% gain, lower priority than T-005). Post-opt benchmark:
+`inst/benchmarks/post-opt-T004-T006-2026-03-18.rds`. 2026-03-18 \| A \|
+T-005 OpenMP one-to-many + pairs \| Parallelised
+`oneToManyQuartetAgreement` and `pairs_quartet_distance` using split
+`#pragma omp parallel` / `#pragma omp for` — one `localCalc` per thread
+(preserves T-006 factory pooling). Used `std::vector` intermediates for
+one-to-many (Rcpp vectors not thread-safe). C++ one-to-many speedup at
+400 tips: **4.6×** (0.64s → 0.14s, 199 pairs). R-wrapper improvement
+~15% because 70% of wall time is R-level preprocessing (Preorder,
+.TreeToEdge). 100/100 correctness tests pass (FAIL 0). Post-opt
+benchmark: `inst/benchmarks/post-opt-T005-2026-03-18.rds`.
