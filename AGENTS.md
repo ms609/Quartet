@@ -84,9 +84,6 @@ Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/test
 Snapshot tests (in `tests/testthat/_snaps/`) must be reviewed and updated
 explicitly — never auto-accept changed snapshots without inspecting the diff.
 
-**Pre-existing test failures**: 15 failures in `test-AllQuartets.cpp.R`,
-`test-1-tqdist.R`, `test-CompareQuartets.R` — caused by unexported internal
-functions unavailable when running via `library()`. Not correctness issues.
 
 ## R source file conventions
 

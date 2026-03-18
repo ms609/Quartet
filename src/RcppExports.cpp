@@ -206,6 +206,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// resolved_quartets
+IntegerVector resolved_quartets(IntegerMatrix edge, int nTip);
+RcppExport SEXP _Quartet_resolved_quartets(SEXP edgeSEXP, SEXP nTipSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type edge(edgeSEXP);
+    Rcpp::traits::input_parameter< int >::type nTip(nTipSEXP);
+    rcpp_result_gen = Rcpp::wrap(resolved_quartets(edge, nTip));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_TripletDistance
 IntegerVector tqdist_TripletDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_TripletDistance(SEXP file1SEXP, SEXP file2SEXP) {
@@ -260,6 +272,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Quartet_tqdist_AllPairsQuartetAgreement", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetAgreement, 1},
     {"_Quartet_tqdist_AllPairsQuartetAgreementChar", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetAgreementChar, 1},
     {"_Quartet_tqdist_AllPairsQuartetAgreementEdge", (DL_FUNC) &_Quartet_tqdist_AllPairsQuartetAgreementEdge, 1},
+    {"_Quartet_resolved_quartets", (DL_FUNC) &_Quartet_resolved_quartets, 2},
     {"_Quartet_tqdist_TripletDistance", (DL_FUNC) &_Quartet_tqdist_TripletDistance, 2},
     {"_Quartet_tqdist_PairsTripletDistance", (DL_FUNC) &_Quartet_tqdist_PairsTripletDistance, 2},
     {"_Quartet_tqdist_AllPairsTripletDistance", (DL_FUNC) &_Quartet_tqdist_AllPairsTripletDistance, 1},
