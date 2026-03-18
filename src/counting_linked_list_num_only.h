@@ -37,7 +37,12 @@ class CountingLinkedListNumOnly
 			while (!iteratorHasEnded() && iterator->num < j)
 			{
 				if (iterator->type == End) iterator = NULL;
-				else iterator = iterator->next;
+				else {
+#ifdef __GNUC__
+					__builtin_prefetch(iterator->next, 0, 1);
+#endif
+					iterator = iterator->next;
+				}
 			}
 			if (iteratorHasEnded() || iterator->num > j) return 0;
 			/*iterator->num == j*/ return iterator->value;
