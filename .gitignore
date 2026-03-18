@@ -38,3 +38,4 @@ docs/
 .positai
 /.agent*
 /Quartet.Rcheck
+Quartet_*.tar.gz
