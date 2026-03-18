@@ -37,19 +37,25 @@
 ResolvedQuartets <- function (tree, countTriplets = FALSE) {
   .CheckSize(tree)
   tree <- Preorder(tree)
+  .resolvedQuartetsCounts(tree, countTriplets)
+}
+
+# Core computation for ResolvedQuartets; assumes tree is already Preorder and
+# validated via .CheckSize.  Called directly from hot loops that have already
+# done both steps.
+.resolvedQuartetsCounts <- function (tree, countTriplets = FALSE) {
   nTip <- length(tree$tip.label)
   nNode <- tree$Nnode
-  
+
   edge <- tree$edge
   parent <- edge[, 1]
   child  <- edge[, 2]
-  
-  children <- lapply(nTip + seq_len(nNode), function (node) {
-    child[parent == node]
-  })
-  
+
+  # O(n) children list via split (replaces O(n*nNode) lapply approach)
+  children <- unname(split(child, parent - nTip))
+
   # Algebraic terms follow Brodal et al. (2013)
-  
+
   n <- rep(1, nTip + nNode) # Will be overwritten
   unresolvedTripletsRootedHere <-
     unresolvedQuartetsRootedHere <- integer(nNode)
@@ -74,13 +80,13 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
   unresolved <- ifelse(countTriplets, sum(unresolvedTripletsRootedHere),
                            sum(unresolvedQuartetsRootedHere))
   resolved <- choose(nTip, ifelse(countTriplets, 3, 4)) - unresolved
-  
+
   if (any(c(resolved, unresolved) > .Machine$integer.max)) {
     stop("Sorry: trees too large for integer representation")
   } else if (resolved + unresolved > .Machine$integer.max) {
     warning("Large numbers: integer overflow likely")
   }
-    
+
   # Return:
   as.integer(c(resolved, unresolved))
 
