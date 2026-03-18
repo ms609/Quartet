@@ -210,7 +210,7 @@ test_that("QuartetStatus() with differently-tipped trees", {
 test_that(".TreeToEdge()", {
   # Not called by any function, so test here
   expect_equal(
-    .TreeToEdge.phylo(RenumberTips(BalancedTree(5), paste0("t", 5:1))),
-    .TreeToEdge.phylo(BalancedTree(5), paste0("t", 5:1))
+    Quartet:::.TreeToEdge.phylo(RenumberTips(BalancedTree(5), paste0("t", 5:1))),
+    Quartet:::.TreeToEdge.phylo(BalancedTree(5), paste0("t", 5:1))
   )
 })

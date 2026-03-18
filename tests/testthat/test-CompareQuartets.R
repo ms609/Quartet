@@ -48,7 +48,8 @@ test_that("QuartetStates() == QuartetState()", {
   tree <- TreeTools::BalancedTree(8)
   
   expect_equal(QuartetStates(tree),
-               apply(all_quartets(8), 2, QuartetState, as.Splits(tree)))
+               apply(Quartet:::all_quartets(8), 2, QuartetState,
+                     as.Splits(tree)))
 })
 
 test_that("CompareQuartets() works", {

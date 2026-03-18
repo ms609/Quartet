@@ -10,7 +10,8 @@
   eliminating per-pair heap allocation overhead.
 - Increase internal memory pool chunk size and add prefetch hints for
   improved cache performance during linked-list traversal.
-- Fix O(n²) children-list construction in `ResolvedQuartets()`.
+- Move `ResolvedQuartets()` core computation to C++; fix O(n²) children-list
+  construction.
 - Avoid redundant `Preorder()` and `ResolvedQuartets()` calls in
   `SingleTreeQuartetAgreement()` and `QuartetStatus()`.
 - `TwoListQuartetAgreement()` now pre-processes the first tree list once

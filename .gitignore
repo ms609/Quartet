@@ -37,3 +37,4 @@ docs/
 *.bak
 .positai
 /.agent*
+/Quartet.Rcheck
