@@ -81,6 +81,21 @@ test_that("Three-dimensional calculation is correct", {
   })
 })
 
+test_that("TwoListQuartetAgreement returns correct structure", {
+  trees1 <- sq_trees[1:3]
+  trees2 <- sq_trees[10:13]
+  result <- TwoListQuartetAgreement(trees1, trees2)
+  expect_equal(length(dim(result)), 3L)
+  expect_equal(dim(result)[1], length(trees1))
+  expect_equal(dim(result)[2], length(trees2))
+  expect_equal(dim(result)[3], 7L)
+  # Each column should match SingleTreeQuartetAgreement
+  for (j in seq_along(trees2)) {
+    expect_equal(result[, j, ],
+                 SingleTreeQuartetAgreement(trees1, trees2[[j]]))
+  }
+})
+
 test_that("Quartet metrics handle polytomous pairs", {
   polytomous <- list(
     ape::read.tree(text="(A, (B, (C, (D, (E, F, G)))));"),

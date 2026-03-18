@@ -113,6 +113,10 @@ tqdist_AllPairsQuartetAgreementEdge <- function(edges) {
     .Call(`_Quartet_tqdist_AllPairsQuartetAgreementEdge`, edges)
 }
 
+resolved_quartets <- function(edge, nTip) {
+    .Call(`_Quartet_resolved_quartets`, edge, nTip)
+}
+
 #' @describeIn tqdist_QuartetDistance Triplet distance between two trees
 #' @export
 tqdist_TripletDistance <- function(file1, file2) {

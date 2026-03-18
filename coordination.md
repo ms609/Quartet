@@ -11,7 +11,7 @@
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
-| 1 | **Runtime optimisation** — OpenMP parallelism + profiling-guided micro-opts | **Active** |
+| 1 | **Runtime optimisation** — OpenMP parallelism + profiling-guided micro-opts + R preprocessing | **Complete** |
 | 2 | Maintain CRAN compliance and CI green | Ongoing |
 | 3 | Address any open GitHub issues / user-reported bugs | Pending |
 | 4 | Improve documentation and vignettes | Pending |

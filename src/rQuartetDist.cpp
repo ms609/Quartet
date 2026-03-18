@@ -327,3 +327,88 @@ IntegerMatrix tqdist_AllPairsQuartetAgreementEdge(ListOf<IntegerMatrix> edges) {
   
   return IM_res;
 }
+
+// Count resolved/unresolved quartets for a single preordered tree.
+// Implements the algorithm of Brodal et al. (2013), matching the R-level
+// ResolvedQuartets() but avoiding R loop overhead.
+//
+// edge: integer matrix with columns [parent, child] (1-indexed, preorder)
+// nTip: number of tips in the tree
+//
+// Returns IntegerVector of length 2: [resolved, unresolved].
+// [[Rcpp::export]]
+IntegerVector resolved_quartets(IntegerMatrix edge, int nTip) {
+  int nEdge = edge.nrow();
+
+  // Internal nodes are numbered nTip+1 .. nTip+nNode
+  int maxParent = 0;
+  for (int i = 0; i < nEdge; i++) {
+    int p = edge(i, 0);
+    if (p > maxParent) maxParent = p;
+  }
+  int nNode = maxParent - nTip;
+
+  // Build children lists: childStart[i] and degree[i] index into childBuf
+  // for internal node nTip + 1 + i (0-indexed i).
+  std::vector<int> degree(nNode, 0);
+  for (int i = 0; i < nEdge; i++) {
+    degree[edge(i, 0) - nTip - 1]++;
+  }
+  std::vector<int> childStart(nNode);
+  int total = 0;
+  for (int i = 0; i < nNode; i++) {
+    childStart[i] = total;
+    total += degree[i];
+  }
+  std::vector<int> childBuf(total);
+  std::vector<int> pos(nNode, 0);
+  for (int i = 0; i < nEdge; i++) {
+    int idx = edge(i, 0) - nTip - 1;
+    childBuf[childStart[idx] + pos[idx]] = edge(i, 1);
+    pos[idx]++;
+  }
+
+  // n[v] = subtree size (1-indexed, node v in 1..nTip+nNode)
+  std::vector<int> n(nTip + nNode + 1, 1);
+
+  double totalUnresolved = 0.0;
+
+  // Process internal nodes in reverse order (post-order for preorder trees)
+  for (int nodeIdx = nNode - 1; nodeIdx >= 0; nodeIdx--) {
+    int node = nTip + 1 + nodeIdx;
+    int cStart = childStart[nodeIdx];
+    int cEnd = cStart + degree[nodeIdx];
+
+    int subtreeSize = 0;
+    for (int ci = cStart; ci < cEnd; ci++) {
+      subtreeSize += n[childBuf[ci]];
+    }
+    n[node] = subtreeSize;
+
+    // Brodal et al. (2013) counting
+    double s_vi = n[childBuf[cStart]];
+    double p_vi = 0, t_vi = 0, q_vi = 0;
+    for (int ci = cStart + 1; ci < cEnd; ci++) {
+      double n_vi = n[childBuf[ci]];
+      q_vi += n_vi * t_vi;
+      t_vi += n_vi * p_vi;
+      p_vi += n_vi * s_vi;
+      s_vi += n_vi;
+    }
+    totalUnresolved += q_vi + t_vi * (nTip - s_vi);
+  }
+
+  double nTipD = (double)nTip;
+  double totalQuartets = nTipD * (nTipD - 1) * (nTipD - 2) * (nTipD - 3) / 24.0;
+  double resolved = totalQuartets - totalUnresolved;
+
+  double intMax = (double)INT_MAX;
+  if (resolved > intMax || totalUnresolved > intMax) {
+    Rcpp::stop("Sorry: trees too large for integer representation");
+  }
+
+  IntegerVector result(2);
+  result[0] = (int)resolved;
+  result[1] = (int)totalUnresolved;
+  return result;
+}

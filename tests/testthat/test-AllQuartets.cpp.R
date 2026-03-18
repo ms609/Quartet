@@ -1,3 +1,6 @@
+all_quartets <- Quartet:::all_quartets
+which_index <- Quartet:::which_index
+
 test_that("all_quartets() handles dud input", {
   expect_error(all_quartets(integer(0)),
                "nTips must contain a single integer value")
