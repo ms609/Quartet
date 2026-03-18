@@ -2,10 +2,10 @@
 # https://community.rstudio.com/new-topic?category=Package%20development&tags=github-actions
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * 4'  # Thursdays, 4am
   push:
-    branches:
-      - main
-      - master
+    branches: ["*"]
     paths-ignore:
       - "Meta**"
       - "memcheck**"
@@ -19,9 +19,7 @@ on:
       - "**.R[dD]ata"
       - "**.Rpro*"
   pull_request:
-    branches:
-      - main
-      - master
+    branches: ["*"]
     paths-ignore:
       - "Meta**"
       - "memcheck**"
@@ -29,39 +27,90 @@ on:
       - "**.git"
       - "**.json"
       - "**.md"
-      - "**.R[dD]ata"
-      - "**.Rpro*"
+      - "**.yaml"
       - "**.yml"
       - "!**R-CMD-check.yml"
+      - "**.R[dD]ata"
+      - "**.Rpro*"
 
 name: R-CMD-check
 
 jobs:
-  R-CMD-check:
-    runs-on: ${{ matrix.config.os }}
+  check-release:
+    runs-on: ubuntu-24.04
+    name: ubuntu-24.04 (release)
 
+    env:
+      _R_CHECK_CRAN_INCOMING_: true # Seemingly not set by --as-cran
+      _R_CHECK_FORCE_SUGGESTS_: false # CRAN settings
+      R_COMPILE_AND_INSTALL_PACKAGES: 'never'
+      _R_CHECK_THINGS_IN_CHECK_DIR_: false
+      R_REMOTES_STANDALONE: true
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: "https://packagemanager.posit.co/cran/__linux__/noble/latest"
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout git repo
+        uses: actions/checkout@v5
+
+      - name: Temporarily bump package version
+        run: |
+          old_version=$(grep "Version:" DESCRIPTION | awk '{print $2}')
+          if [[ $(echo "$old_version" | tr -cd '.' | wc -c) -eq 2 ]]; then
+            new_version="${old_version}.8888"
+            if [[ "$RUNNER_OS" == "macOS" ]]; then
+              sed -i "" "s/Version: .*/Version: ${new_version}/" DESCRIPTION
+            else
+              sed -i "s/Version: .*/Version: ${new_version}/" DESCRIPTION
+            fi
+          fi
+        shell: bash
+        
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+
+      - name: Set up R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          needs: |
+            check
+
+      - name: Check package
+        uses: r-lib/actions/check-r-package@v2
+
+
+  check-all:
+    runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release'}
-          - {os: macos-15-intel, r: 'release'} # Until Intel architecture retired 2027-11
-          - {os: ubuntu-24.04-arm, r: "release", rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
+          - {os: windows-latest, r: "release"}
+          - {os: macos-15-intel, r: "release"} # Until Intel architecture retired 2027-11
+          - {os: macOS-latest, r: "release"}
           - {os: ubuntu-22.04, r: '4.1', rspm: "https://packagemanager.posit.co/cran/__linux__/jammy/latest"}
-          - {os: ubuntu-24.04, r: 'release', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
-          - {os: ubuntu-24.04, r: 'devel', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
+          - {os: ubuntu-24.04-arm, r: "release", rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
+          - {os: ubuntu-24.04-arm, r: "devel", rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
 
     env:
+      _R_CHECK_CRAN_INCOMING_: ${{ github.event_name == 'pull_request' }}
       _R_CHECK_FORCE_SUGGESTS_: false # CRAN settings
+      R_COMPILE_AND_INSTALL_PACKAGES: 'never'
+      _R_CHECK_THINGS_IN_CHECK_DIR_: false
+      R_REMOTES_STANDALONE: true
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      R_REALLY_FORCE_SYMBOLS: true # Until R4.3
+      _R_CHECK_CRAN_INCOMING_USE_ASPELL_: false # Set to true when can figure how to install aspell on Windows
       RSPM: ${{ matrix.config.rspm }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout git repo
+        uses: actions/checkout@v5
 
       - name: Temporarily bump package version
         run: |
@@ -76,11 +125,12 @@ jobs:
           fi
           echo "Current package version is now: $(grep "Version:" DESCRIPTION | awk '{print $2}')"
         shell: bash
-
-      - uses: r-lib/actions/setup-r@v2
+        
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
-
+        
       - name: Install apt packages
         if: runner.os == 'Linux'
         run: |
@@ -88,7 +138,7 @@ jobs:
             texlive-fonts-recommended libcurl4-openssl-dev \
             aspell libcurl4-openssl-dev texlive-latex-base \
             texlive-fonts-extra
-            
+          
       - name: Install brew casks (macOS)
         if: runner.os == 'macOS'
         run: |
@@ -126,3 +176,53 @@ jobs:
         run: |
           covr::codecov()
         shell: Rscript {0}
+        
+      - name: Notify on failure
+        if: failure() && github.event_name == 'schedule'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 170,
+              body: 'Scheduled workflow has failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            });
+      
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 170,
+              state: 'open'
+            });
+
+  rev-dep-check:
+    runs-on: ubuntu-latest
+    needs: check-release
+
+    name: revdepcheck
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {deps: '"Depends"'}
+          - {deps: '"Suggests"'}
+          - {deps: '"Imports"'}
+          - {deps: '"LinkingTo"'}
+
+    env:
+      _R_CHECK_CRAN_INCOMING_: false
+      _R_CHECK_FORCE_SUGGESTS_: false # CRAN settings
+      R_COMPILE_AND_INSTALL_PACKAGES: 'never'
+      _R_CHECK_THINGS_IN_CHECK_DIR_: false
+      R_REMOTES_STANDALONE: true
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: ms609/actions/revdepcheck@main
+        with:
+          deps: ${{ matrix.config.deps }}
