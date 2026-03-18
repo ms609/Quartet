@@ -60,6 +60,13 @@ QuartetDistanceCalculator : private AbstractDistanceCalculator {
  private:
   void updateCounters();
 
+  // Persistent RootedTreeFactory whose sole purpose is to keep the underlying
+  // MemoryAllocators alive between per-pair calculateQuartetAgreement() calls.
+  // Without this, convertToRootedTree(NULL) allocates ~4 MB of heap per pair;
+  // sharing these allocators via copyMemAllocFrom drops that to zero after the
+  // first pair (all memory is returned to the free-list on each factory dtor).
+  RootedTreeFactory *dummyRTFactory;
+
   INTTYPE_N4 n;
   INTTYPE_N4 totalNoQuartets;
   INTTYPE_N4 resolvedQuartetsAgree, resolvedQuartetsAgreeDiag, resolvedQuartetsDisagree, resolvedQuartetsDisagreeDiag;

@@ -79,13 +79,10 @@ typedef struct UnrootedTree
 				t = edges.front();
 			}
 
-			t->dontRecurseOnMe = NULL;
 			RootedTreeFactory *factory = new RootedTreeFactory(oldFactory);
-			RootedTree *rooted = t->convertToRootedTreeImpl(factory);
-
-			// Make sure the root always recurses on everything
-			// (e.g. so that we can cleanup properly)
-			dontRecurseOnMe = NULL;
+			// Pass nullptr as parent — no writes to shared UnrootedTree nodes,
+			// making this function safe to call concurrently on the same tree.
+			RootedTree *rooted = t->convertToRootedTreeImpl(factory, nullptr);
 
 			return rooted;
 		}
@@ -125,7 +122,10 @@ typedef struct UnrootedTree
 			}
 		}
 
-		RootedTree* convertToRootedTreeImpl(RootedTreeFactory *factory)
+		// parent replaces dontRecurseOnMe mutation: no writes to shared nodes,
+		// making concurrent calls on the same tree safe (needed for OpenMP).
+		RootedTree* convertToRootedTreeImpl(RootedTreeFactory *factory,
+		                                    UnrootedTree* parent)
 		{
 			RootedTree *result = factory->getRootedTree(this->name);
 			int maxDegreeChildren = 0;
@@ -133,11 +133,10 @@ typedef struct UnrootedTree
 			for(vector<UnrootedTree*>::iterator i = edges.begin(); i != edges.end(); i++)
 			{
 				UnrootedTree *t = *i;
-				if (t != dontRecurseOnMe)
+				if (t != parent)
 				{
 					maxDegreeHere++;
-					t->dontRecurseOnMe = this;
-					RootedTree *rt = t->convertToRootedTreeImpl(factory);
+					RootedTree *rt = t->convertToRootedTreeImpl(factory, this);
 					result->addChild(rt);
 					maxDegreeChildren = max(maxDegreeChildren, rt->maxDegree);
 				}
