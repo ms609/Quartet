@@ -1,4 +1,4 @@
-# Quartet Multi-Agent Development Notes
+# Quartet Agent Notes
 
 ## Build isolation — per-agent library directories
 
@@ -16,35 +16,20 @@ the file and blocks other agents.
 [`pkgbuild::compile_dll()`](https://pkgbuild.r-lib.org/reference/compile_dll.html)
 — these target a shared temp location and will conflict.
 
-## Build failure recovery
+### Build failure recovery
 
-### Debug `.o` contamination
-
-`roxygen2::roxygenise()` (default mode) calls
-`pkgbuild::compile_dll(debug=TRUE)`, which leaves debug `.o` files in
-`src/`. Subsequent `R CMD INSTALL` reuses them, producing a DLL that
-crashes at runtime.
-
-**Fix:** `rm -f src/*.o src/*.dll` then rebuild.
-
-**Prevention:** Never use bare `roxygen2::roxygenise()`. To regenerate
-docs:
-
-``` bash
-Rscript -e ".libPaths(c('.agent-X', .libPaths())); roxygen2::roxygenise(load_code = roxygen2::load_installed)"
-```
-
-### DLL lock
-
-If `R CMD INSTALL` fails with “Access is denied”, another R process has
-the DLL loaded. Kill it or wait, then retry.
-
-### Quick recovery
+`roxygen2::roxygenise()` (default mode) leaves debug `.o` files in
+`src/`. Always clean before building, and use the installed-code loader
+for docs:
 
 ``` bash
 rm -f src/*.o src/*.dll
 R CMD INSTALL --library=.agent-X .
+Rscript -e ".libPaths(c('.agent-X', .libPaths())); roxygen2::roxygenise(load_code = roxygen2::load_installed)"
 ```
+
+If `R CMD INSTALL` fails with “Access is denied”, another R process has
+the DLL loaded. Kill it or wait, then retry.
 
 ## CPU limits — max 2 cores per agent
 
@@ -58,29 +43,11 @@ On `/assign X`:
 
 1.  Read `agent-X.md`. If a task is already in-progress, resume it.
 2.  Otherwise, check `issues.md` **before** `to-do.md`:
-    1.  If `issues.md` contains any unclaimed issues (blocks whose first
-        line does **not** start with `CLAIMED`), **claim the bottom-most
-        unclaimed issue** by prepending `CLAIMED (X):` to its first
-        line.
-    2.  Triage the claimed issue: determine what needs doing, then add
-        one or more discrete tasks to `to-do.md` (assign appropriate IDs
-        and priorities — issues may be P0). Begin work on the first
-        task.
-    3.  Once the `to-do.md` tasks are created, delete the entire issue
-        block (including its `---` separator) from `issues.md`.
-    4.  **While `issues.md` still has unclaimed issues, triaging them
-        takes priority over picking up existing `to-do.md` tasks** (an
-        issue may contain a P0).
-3.  If `issues.md` is empty or all issues are already claimed, claim the
-    next OPEN task from `to-do.md` as before.
-
-Set `CONVERSATIONSUMMARY` to `Agent X: <task description>`.
-
-> **Concurrency guard:** Only the bottom-most *unclaimed* issue may be
-> claimed. Because agents always target the bottom and mark it
-> `CLAIMED (X)` immediately, two agents will never parse the same issue.
-> If an agent sees the bottom issue is already `CLAIMED`, it moves up to
-> the next unclaimed one.
+    1.  Claim the bottom-most unclaimed issue, triage it into `to-do.md`
+        tasks, then delete the issue block from `issues.md`.
+    2.  While `issues.md` still has unclaimed issues, triaging takes
+        priority.
+3.  If `issues.md` is empty, claim the next OPEN task from `to-do.md`.
 
 ### During work
 
@@ -94,18 +61,8 @@ Set `CONVERSATIONSUMMARY` to `Agent X: <task description>`.
 
 1.  Move task to Completed in `to-do.md`.
 2.  Set `agent-X.md` to IDLE.
-3.  Append a brief entry to this file documenting what changed.
-4.  Update `coordination.md` if strategic objectives are affected.
-5.  Take next task.
-
-### Standing tasks
-
-| ID      | Type                | Expertise file                       |
-|---------|---------------------|--------------------------------------|
-| S-RED   | Red-team review     | `.positai/expertise/red-team.md`     |
-| S-COORD | Coordination review | `.positai/expertise/coordination.md` |
-
-Priority: P3 when ≥6 OPEN tasks, P2 when 3–5, P1 when \<3.
+3.  Update `coordination.md` if strategic objectives are affected.
+4.  Take next task.
 
 ### Key files
 
@@ -135,8 +92,7 @@ inspecting the diff.
 ## R source file conventions
 
 - `DESCRIPTION` has no explicit `Collate:` field; R sources
-  alphabetically. When adding files whose top-level code depends on
-  another file, verify load order or add a `Collate:` field.
+  alphabetically.
 - Documentation is generated with `roxygen2`. Always use
   `roxygen2::roxygenise(load_code = roxygen2::load_installed)`.
 
@@ -178,6 +134,11 @@ well-documented.
 coordinate via `to-do.md` to avoid conflicting edits. Prefer R-level
 changes over C++ changes wherever possible.
 
+**OpenMP**: All-pairs, one-to-many, and pairs loops are parallelised
+with OpenMP (per-thread `QuartetDistanceCalculator` instances).
+`Rcpp::stop()` must not be called inside parallel regions — use error
+flags instead.
+
 ### Dependencies
 
 | Type     | Packages                                               |
@@ -192,86 +153,17 @@ changes over C++ changes wherever possible.
 - **Last CRAN release**: 1.2.7 (2024-10-31)
 - **R CMD check**: CI via `.github/workflows/R-CMD-check.yml`
 
-## Completed agent work
+## Remaining optimization opportunities
 
-2026-03-18 \| B \| T-002 Benchmarking infrastructure \| Created
-`inst/benchmarks/bench_quartet.R` (adaptive timing, single-pair /
-one-to-many / all-pairs at 10–400 tips, 50 trees, 5 reps). Saved
-pre-optimisation baseline to `inst/benchmarks/baseline_2026-03-18.rds`.
-Note: `.TreeToEdge` S3 methods are not in NAMESPACE; benchmark calls
-`.TreeToEdge.list()` directly. 2026-03-18 \| A \| T-001 \| Created
-`tests/testthat/test-regression-correctness.R`: 170 passing assertions
-covering hand-verified 4-tip values (all three resolved topologies +
-star), known file-based values, identity, symmetry, non-negativity,
-round-trip (D = C(n,4) − A − E), self-comparison (A+E = C(n,4)),
-label-relabelling invariance, consistency of all-pairs vs iterated
-single-pair, polytomy handling, star vs resolved exact values. Baseline:
-0 new failures, 170 new passes. Pre-existing failures (15) are in
-`test-AllQuartets.cpp.R`, `test-1-tqdist.R`, `test-CompareQuartets.R` —
-all caused by unexported internal functions unavailable when running via
-[`library()`](https://rdrr.io/r/base/library.html), not related to
-correctness. 2026-03-18 \| B \| T-003 VTune profiling \| Ran VTune
-2025.10 hotspot collection on 100 trees × 200 tips all-pairs +
-one-to-many workload (30 s CPU time). Top hotspot: `HDT::handleCCToC` at
-26.5%; `HDT::handle*` family collectively ~65%. `CountingLinkedList`
-traversals (`gotoIteratorValueForList` + `gotoIteratorValueForNumList` +
-`getIteratorValueForNumList`) = 11.5% — flat-array conversion is T-006
-target. Memory alloc/dealloc + `RootedTreeFactory` ctor/dtor = ~10% —
-pool reuse across pairs is second T-006 target. R overhead is
-negligible. Full results in `.positai/expertise/profiling.md`; raw CSV
-in `inst/benchmarks/vtune_hotspots.csv`; driver script in
-`inst/benchmarks/profiling_driver.R`. Note: VTune sampling driver not
-installed (no admin rights) — hardware counter metrics unavailable but
-function-level sampling unaffected. Hardware: Alderlake-S, 20 logical
-CPUs. 2026-03-18 \| A+B \| T-004 OpenMP all-pairs \| Agent A wrote
-per-thread `localCalc` OpenMP parallelism for
-`calculateAllPairsQuartetDistance` and
-`calculateAllPairsQuartetAgreement` (dynamic(1) schedule, try/catch
-error flag — no `Rcpp::stop()` in parallel region). Agent B fixed
-compile error (extra `std::vector<` in return type) and created
-`src/Makevars` with `$(SHLIB_OPENMP_CXXFLAGS)`. 170/170 correctness
-tests pass. 2026-03-18 \| A \| T-004 thread-safety fix \| Audited
-`convertToRootedTreeImpl` in `unrooted_tree.h`: the prior OpenMP
-implementation had a latent data race — `dontRecurseOnMe` was written
-per-node during DFS traversal, causing UB when two threads traversed the
-same `UnrootedTree` concurrently. Fix: replaced mutable field with a
-`parent` function parameter, making conversion read-only on shared
-nodes. Destructor behaviour unchanged (`dontRecurseOnMe` still set
-during deletion only). Build: clean with `-fopenmp`. Timing: 50×400-tip
-all-pairs agreement 0.67 s (~6× vs 3.99 s baseline). FAIL 15
-(pre-existing), PASS 332 — zero new failures. 2026-03-18 \| B \| T-006
-dummyRTFactory pooling \| Added `dummyRTFactory` member to
-`QuartetDistanceCalculator` (mirrors existing `dummyHDTFactory`
-pattern). `convertToRootedTree(NULL)` →
-`convertToRootedTree(dummyRTFactory)` eliminates per-pair ~4 MB heap
-allocation (2× `MemoryAllocator` ctor/dtor per pair). Combined
-T-004+T-006 speedup at 400 tips all-pairs: **6.2×** (3.99 s → 0.64 s).
-170/170 correctness tests pass. `CountingLinkedList`→flat-array deferred
-(invasive, ~11% gain, lower priority than T-005). Post-opt benchmark:
-`inst/benchmarks/post-opt-T004-T006-2026-03-18.rds`. 2026-03-18 \| A \|
-T-005 OpenMP one-to-many + pairs \| Parallelised
-`oneToManyQuartetAgreement` and `pairs_quartet_distance` using split
-`#pragma omp parallel` / `#pragma omp for` — one `localCalc` per thread
-(preserves T-006 factory pooling). Used `std::vector` intermediates for
-one-to-many (Rcpp vectors not thread-safe). C++ one-to-many speedup at
-400 tips: **4.6×** (0.64s → 0.14s, 199 pairs). R-wrapper improvement
-~15% because 70% of wall time is R-level preprocessing (Preorder,
-.TreeToEdge). 100/100 correctness tests pass (FAIL 0). Post-opt
-benchmark: `inst/benchmarks/post-opt-T005-2026-03-18.rds`. 2026-03-18 \|
-A \| T-008 All-pairs per-thread + flatten \| Switched
-`calculateAllPairsQuartetAgreement` and
-`calculateAllPairsQuartetDistance` from per-row `localCalc` to
-per-thread (split `parallel`/`for`). Flattened triangular loop to linear
-index k with analytic `(r,c)` unpack via `std::sqrt`. Guard against
-float rounding. **+14–35% across all tree sizes** vs T-004+T-006
-baseline (biggest gain at small tips). FAIL 0. Benchmark:
-`inst/benchmarks/post-opt-T008-2026-03-18.rds`. 2026-03-18 \| A \| T-009
-Pool size + prefetch \| Increased `HDTFactorySize` from 30 to 256 in
-`HDTFactory.cpp` — larger contiguous pool chunks reduce inter-chunk
-pointer jumps during linked-list traversal. Added `__builtin_prefetch`
-hints (guarded by `__GNUC__`) to `getIteratorValue` in both
-`counting_linked_list.h` and `counting_linked_list_num_only.h`. **+6–33%
-across 50–400-tip trees** (default threads); +20% serial at 400 tips.
-Full flat-array conversion deferred — the pool fix captures most of the
-cache benefit with 3 files touched instead of 8. FAIL 0. Benchmark:
-`inst/benchmarks/post-opt-T009-2026-03-18.rds`.
+- `CountingLinkedList` → flat array conversion (~11% of C++ time from
+  VTune profiling). Deferred — invasive change across ~8 files, and the
+  pool-size increase captured most of the cache benefit.
+- `.TreeToEdge` S3 methods are not registered in NAMESPACE; called via
+  S3 dispatch internally but inaccessible to tests via
+  [`library()`](https://rdrr.io/r/base/library.html).
+
+## Benchmarks
+
+Baseline and post-optimization benchmarks are in `inst/benchmarks/`.
+Profiling results and methodology are in
+`.positai/expertise/profiling.md`.

@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Quartet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.7.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,9 +44,19 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.2.7.9000" id="quartet-v1279000-2026-02-02">Quartet v1.2.7.9000 (2026-02-02)<a class="anchor" aria-label="anchor" href="#quartet-v1279000-2026-02-02"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.2.7.9001" id="quartet-v1279001-development">Quartet v1.2.7.9001 (development)<a class="anchor" aria-label="anchor" href="#quartet-v1279001-development"></a></h2>
 <ul><li>R &lt;4.1 is no longer formally supported.</li>
+</ul><div class="section level3">
+<h3 id="performance-improvements-1-2-7-9001">Performance improvements<a class="anchor" aria-label="anchor" href="#performance-improvements-1-2-7-9001"></a></h3>
+<ul><li>OpenMP parallelism for all-pairs, one-to-many, and paired quartet calculations; ~6× faster all-pairs at 400 tips on multi-core systems.</li>
+<li>Pool and reuse internal tree factory objects across pair comparisons, eliminating per-pair heap allocation overhead.</li>
+<li>Increase internal memory pool chunk size and add prefetch hints for improved cache performance during linked-list traversal.</li>
+<li>Move <code><a href="../reference/ResolvedQuartets.html">ResolvedQuartets()</a></code> core computation to C++; fix O(n²) children-list construction.</li>
+<li>Avoid redundant <code><a href="https://ms609.github.io/TreeTools/reference/Reorder.html" class="external-link">Preorder()</a></code> and <code><a href="../reference/ResolvedQuartets.html">ResolvedQuartets()</a></code> calls in <code><a href="../reference/QuartetStatus.html">SingleTreeQuartetAgreement()</a></code> and <code><a href="../reference/QuartetStatus.html">QuartetStatus()</a></code>.</li>
+<li>
+<code><a href="../reference/QuartetStatus.html">TwoListQuartetAgreement()</a></code> now pre-processes the first tree list once rather than repeating for each comparison tree.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.7" id="quartet-v127-2024-10-31">Quartet v1.2.7 (2024-10-31)<a class="anchor" aria-label="anchor" href="#quartet-v127-2024-10-31"></a></h2><p class="text-muted">CRAN release: 2024-10-31</p>
 <ul><li>
