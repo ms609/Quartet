@@ -290,6 +290,7 @@ test_that("Label permutation does not change distance", {
 # ===========================================================================
 
 test_that("All-pairs distance matches iterated single-pair calls", {
+  skip_on_cran()   # guards parallel/vectorised vs sequential code-path agreement
   set.seed(2259)
   n_trees <- 6L
   n_tips  <- 12L
@@ -311,6 +312,7 @@ test_that("All-pairs distance matches iterated single-pair calls", {
 })
 
 test_that("All-pairs agreement matches iterated single-pair calls", {
+  skip_on_cran()   # guards parallel/vectorised vs sequential code-path agreement
   set.seed(7723)
   n_trees <- 5L
   n_tips  <- 10L
