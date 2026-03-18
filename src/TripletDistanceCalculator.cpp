@@ -9,13 +9,19 @@ using namespace Rcpp;
 #include "rooted_tree.h"
 
 #include <cstdlib>
+#include <memory>
 #include <vector>
 
-// Also defined (identically) in QuartetDistanceCalculator.cpp
-#define DELETE_TREES(x) for(size_t xi = x.size(); xi--; ) {    \
-  UnrootedTree * tmp = x[xi];                                  \
-  delete tmp;                                                  \
-}                                                              
+// RAII guard: deletes all UnrootedTree pointers on destruction.
+struct TripletTreeVecGuard {
+  std::vector<UnrootedTree *> trees;
+  TripletTreeVecGuard() = default;
+  ~TripletTreeVecGuard() {
+    for (size_t i = trees.size(); i--; ) delete trees[i];
+  }
+  TripletTreeVecGuard(const TripletTreeVecGuard &) = delete;
+  TripletTreeVecGuard &operator=(const TripletTreeVecGuard &) = delete;
+};
 
 TripletDistanceCalculator::TripletDistanceCalculator() {
   dummyHDTFactory = new HDTFactory(0);
@@ -32,26 +38,19 @@ std::vector<INTTYPE_REST> TripletDistanceCalculator::pairs_triplet_distance(
   
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees1 = parser.parseMultiFile(filename1); 
-  if (unrootedTrees1.size() == 0 || parser.isError()) {
-    DELETE_TREES(unrootedTrees1);
+  TripletTreeVecGuard guard1;
+  guard1.trees = parser.parseMultiFile(filename1);
+  if (guard1.trees.size() == 0 || parser.isError()) {
     stop("Error: Parsing of filename1 failed.");
   }
 
-  std::vector<UnrootedTree *> unrootedTrees2 = parser.parseMultiFile(filename2); 
-  if (unrootedTrees2.size() == 0 || parser.isError()) {
-    DELETE_TREES(unrootedTrees1);
-    DELETE_TREES(unrootedTrees2);
+  TripletTreeVecGuard guard2;
+  guard2.trees = parser.parseMultiFile(filename2);
+  if (guard2.trees.size() == 0 || parser.isError()) {
     stop("Error: Parsing of filename2 failed.");
   }
 
-  std::vector<INTTYPE_REST> result =
-    pairs_triplet_distance(unrootedTrees1, unrootedTrees2);
-  
-  DELETE_TREES(unrootedTrees1);
-  DELETE_TREES(unrootedTrees2);
-  
-  return result;
+  return pairs_triplet_distance(guard1.trees, guard2.trees);
 }
 
 
@@ -87,18 +86,13 @@ std::vector<std::vector<INTTYPE_REST> > \
     
   NewickParser parser;
   
-  std::vector<UnrootedTree *> unrootedTrees = parser.parseMultiFile(filename); 
-  if (unrootedTrees.size() == 0 || parser.isError()) {
-    DELETE_TREES(unrootedTrees);
+  TripletTreeVecGuard guard;
+  guard.trees = parser.parseMultiFile(filename);
+  if (guard.trees.size() == 0 || parser.isError()) {
     stop("Error: Parsing of filename failed.");
   }
 
-  std::vector<std::vector<INTTYPE_REST> > results =
-    calculateAllPairsTripletDistance(unrootedTrees);
-
-  DELETE_TREES(unrootedTrees);
-  
-  return results;
+  return calculateAllPairsTripletDistance(guard.trees);
 }
 
 std::vector<std::vector<INTTYPE_REST> > 
@@ -129,40 +123,25 @@ std::vector<std::vector<INTTYPE_REST> >
 } 
  
 INTTYPE_REST TripletDistanceCalculator::calculateTripletDistance(const char *filename1, const char *filename2) {
-  UnrootedTree *ut1 = NULL;
-  UnrootedTree *ut2 = NULL;
-  RootedTree *rt1 = NULL;
-  RootedTree *rt2 = NULL;
-
   NewickParser parser;
 
-  ut1 = parser.parseFile(filename1);
-  if (ut1 == NULL || parser.isError()) {
-    if (ut1 != NULL) delete ut1;
-    if (ut2 != NULL) delete ut2;
-    if (rt1 != NULL) delete rt1->factory;
-    if (rt2 != NULL) delete rt2->factory;
+  std::unique_ptr<UnrootedTree> ut1(parser.parseFile(filename1));
+  if (!ut1 || parser.isError()) {
     Rcpp::stop("Failed to parse filename1");
   }
 
-  ut2 = parser.parseFile(filename2);
-  if(ut2 == NULL || parser.isError()) {
-    if (ut1 != NULL) delete ut1;
-    if (ut2 != NULL) delete ut2;
-    if (rt1 != NULL) delete rt1->factory;
-    if (rt2 != NULL) delete rt2->factory;
+  std::unique_ptr<UnrootedTree> ut2(parser.parseFile(filename2));
+  if (!ut2 || parser.isError()) {
     Rcpp::stop("Failed to parse filename2");
   }
 
-  rt1 = ut1->convertToRootedTree(NULL);
-  rt2 = ut2->convertToRootedTree(rt1->factory);
+  RootedTree *rt1 = ut1->convertToRootedTree(NULL);
+  RootedTree *rt2 = ut2->convertToRootedTree(rt1->factory);
 
   INTTYPE_REST result = calculateTripletDistance(rt1, rt2);
 
-  if (ut1 != NULL) delete ut1;
-  if (ut2 != NULL) delete ut2;
-  if (rt1 != NULL) delete rt1->factory;
-  if (rt2 != NULL) delete rt2->factory;
+  delete rt1->factory;
+  delete rt2->factory;
 
   return result;
 }
