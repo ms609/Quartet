@@ -1,21 +1,11 @@
-# Quartet v1.2.7.9001 (development)
+# Quartet v1.3.0 (2026-03-19)
 
+- OpenMP parallelism for quartet calculations.
+- Improvements to memory allocation and cache performance.
+- Move `ResolvedQuartets()` core computation to C++.
+- Reduce inefficient R-side processing in `SingleTreeQuartetAgreement()`,
+  `QuartetStatus()` and `TwoListQuartetAgreement()`.
 - R <4.1 is no longer formally supported.
-
-## Performance improvements
-
-- OpenMP parallelism for all-pairs, one-to-many, and paired quartet
-  calculations; ~6× faster all-pairs at 400 tips on multi-core systems.
-- Pool and reuse internal tree factory objects across pair comparisons,
-  eliminating per-pair heap allocation overhead.
-- Increase internal memory pool chunk size and add prefetch hints for
-  improved cache performance during linked-list traversal.
-- Move `ResolvedQuartets()` core computation to C++; fix O(n²) children-list
-  construction.
-- Avoid redundant `Preorder()` and `ResolvedQuartets()` calls in
-  `SingleTreeQuartetAgreement()` and `QuartetStatus()`.
-- `TwoListQuartetAgreement()` now pre-processes the first tree list once
-  rather than repeating for each comparison tree.
 
 # Quartet v1.2.7 (2024-10-31)
 
