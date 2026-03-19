@@ -81,6 +81,15 @@ test_that("Three-dimensional calculation is correct", {
   })
 })
 
+test_that("TwoListQuartetAgreement() accepts single phylo as trees1", {
+  single <- BalancedTree(8)
+  trees2 <- list(PectinateTree(8), BalancedTree(8))
+  result <- TwoListQuartetAgreement(single, trees2)
+  expect_equal(dim(result), c(1L, 2L, 7L))
+  result_list <- TwoListQuartetAgreement(list(single), trees2)
+  expect_equal(result, result_list, ignore_attr = TRUE)
+})
+
 test_that("TwoListQuartetAgreement returns correct structure", {
   trees1 <- sq_trees[1:3]
   trees2 <- sq_trees[10:13]
@@ -154,6 +163,8 @@ test_that ("Partitions are counted correctly", {
   expect_true(all(rowSums(p_dist[, c('s', 'd2', 'r2')]) == p_dist[, 'P2']))
   
   expect_equal(rf_dist, as.integer(RawSymmetricDifference(p_dist)))
+  expect_warning(rf_dep <- RobinsonFoulds(p_dist), "Deprecated")
+  expect_equal(rf_dep, RawSymmetricDifference(p_dist))
   expect_equal(rf_dist, 
                as.integer(p_dist[, 'N'] -
                             RawSymmetricDifference(p_dist, similarity = TRUE)))

@@ -10,6 +10,11 @@ test_that("all_quartets() handles dud input", {
   expect_error(all_quartets(55109), "nTips must be <")
 })
 
+test_that("quartet_states() rejects out-of-range tip counts", {
+  expect_error(QuartetStates(RandomTree(101)), "Too many leaves")
+  expect_error(QuartetStates(StarTree(3)), "four leaves")
+})
+
 test_that("All quartets are generated", {
   expect_equal(combn(8, 4), all_quartets(8))
 })

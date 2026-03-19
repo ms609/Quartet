@@ -40,9 +40,9 @@ IntegerMatrix all_quartets(IntegerVector nTips) {
   }
   
   int16 n = nTips[0];
-  if (int32(n) != nTips[0]) {
+  if (int32(n) != nTips[0]) { // # nocov start
     Rcpp::stop("Integer overflow: nTips must be < 32768. Contact maintainer.");
-  }
+  } // # nocov end
   if (int32(n) > 55108) {
     // n * (n - 1) * (n - 2) * (n - 3) > INT_FAST32_MAX
     Rcpp::stop("int32 overflow: nTips must be < 55108.");

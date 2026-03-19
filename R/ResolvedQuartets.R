@@ -76,9 +76,9 @@ ResolvedQuartets <- function (tree, countTriplets = FALSE) {
   resolved <- choose(nTip, 3) - unresolved
 
   if (any(c(resolved, unresolved) > .Machine$integer.max)) {
-    stop("Sorry: trees too large for integer representation")
+    stop("Sorry: trees too large for integer representation") # nocov
   } else if (resolved + unresolved > .Machine$integer.max) {
-    warning("Large numbers: integer overflow likely")
+    warning("Large numbers: integer overflow likely") # nocov
   }
 
   as.integer(c(resolved, unresolved))

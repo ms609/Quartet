@@ -1,3 +1,15 @@
+test_that("VisualizeQuartets() legend is drawn for each style", {
+  skip_if_not_installed("TreeTools", "1.7.0")
+  pdf(NULL)
+  on.exit(dev.off())
+  for (sty in c("label", "bar", "pie", "size")) {
+    expect_silent(
+      VisualizeQuartets(BalancedTree(8), PectinateTree(8),
+                        style = sty, legend = TRUE)
+    )
+  }
+})
+
 test_that("VizualiseQuartets()", {
   skip_if_not_installed("vdiffr")
   skip_if_not_installed("TreeTools", "1.7.0")
