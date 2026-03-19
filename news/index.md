@@ -1,27 +1,16 @@
 # Changelog
 
-## Quartet v1.2.7.9001 (development)
+## Quartet v1.3.0 (2026-03-19)
 
-- R \<4.1 is no longer formally supported.
-
-### Performance improvements
-
-- OpenMP parallelism for all-pairs, one-to-many, and paired quartet
-  calculations; ~6× faster all-pairs at 400 tips on multi-core systems.
-- Pool and reuse internal tree factory objects across pair comparisons,
-  eliminating per-pair heap allocation overhead.
-- Increase internal memory pool chunk size and add prefetch hints for
-  improved cache performance during linked-list traversal.
+- OpenMP parallelism for quartet calculations.
+- Improvements to memory allocation and cache performance.
 - Move [`ResolvedQuartets()`](../reference/ResolvedQuartets.md) core
-  computation to C++; fix O(n²) children-list construction.
-- Avoid redundant
-  [`Preorder()`](https://ms609.github.io/TreeTools/reference/Reorder.html)
-  and [`ResolvedQuartets()`](../reference/ResolvedQuartets.md) calls in
-  [`SingleTreeQuartetAgreement()`](../reference/QuartetStatus.md) and
-  [`QuartetStatus()`](../reference/QuartetStatus.md).
-- [`TwoListQuartetAgreement()`](../reference/QuartetStatus.md) now
-  pre-processes the first tree list once rather than repeating for each
-  comparison tree.
+  computation to C++.
+- Reduce inefficient R-side processing in
+  [`SingleTreeQuartetAgreement()`](../reference/QuartetStatus.md),
+  [`QuartetStatus()`](../reference/QuartetStatus.md) and
+  [`TwoListQuartetAgreement()`](../reference/QuartetStatus.md).
+- R \<4.1 is no longer formally supported.
 
 ## Quartet v1.2.7 (2024-10-31)
 

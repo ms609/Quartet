@@ -26,13 +26,13 @@ Source:
 [`inst/CITATION`](https://github.com/ms609/Quartet/blob/main/inst/CITATION)
 
 Smith, MR (2019a). Quartet: comparison of phylogenetic trees using
-quartet and split measures. R package version 1.2.7.9001.
+quartet and split measures. R package version 1.3.0.
 doi:10.5281/zenodo.2536318
 
     @Manual{Quartet,
       title = {Quartet: comparison of phylogenetic trees using quartet and split measures},
       author = {Martin R. Smith},
-      note = {R package version 1.2.7.9001},
+      note = {R package version 1.3.0},
       year = {2019},
       doi = {10.5281/zenodo.2536318},
     }
