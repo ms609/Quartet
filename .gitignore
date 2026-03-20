@@ -35,3 +35,7 @@ vignettes/*.log
 vignettes/*.md
 docs/
 *.bak
+.positai
+/.agent*
+/Quartet.Rcheck
+Quartet_*.tar.gz

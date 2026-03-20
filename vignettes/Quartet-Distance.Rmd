@@ -3,10 +3,10 @@ title: "About the quartet distance"
 author: "Martin R. Smith"
 date: "`r Sys.Date()`"
 output: 
+  rmarkdown::html_document:
   bookdown::pdf_document2:
     includes:
       in_header: ../inst/preamble.tex
-  rmarkdown::html_document:
 bibliography: ../inst/REFERENCES.bib
 csl: ../inst/apa-old-doi-prefix.csl
 vignette: >

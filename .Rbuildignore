@@ -26,3 +26,9 @@ revdep
 ^codemeta\.json$
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
+^AGENTS\.md$
+^coordination\.md$
+^to-do\.md$
+^\.positai$
+^\.agent
+^\.claude$

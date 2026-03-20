@@ -4,7 +4,10 @@
 
 CountingLinkedList CountingLinkedList::dummyLL = CountingLinkedList(true);
 
-#define HDTFactorySize 30
+// Pool chunk size: larger chunks reduce inter-chunk pointer jumps during
+// linked-list traversal, improving cache locality.  Increased from 30 to 256
+// as part of T-009 optimisation (VTune: linked-list traversal ~11.5% CPU).
+#define HDTFactorySize 256
 
 HDTFactory::HDTFactory(int numD, HDTFactory *copyMemAllocFrom)
 {

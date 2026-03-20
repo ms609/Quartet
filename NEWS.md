@@ -1,6 +1,15 @@
-# Quartet v1.3.0 (2025-01-16)
+# Quartet v1.3.0.9000 (2026-03-20)
 
 - `PairwiseQuartets()` compares quartet statuses between all pairs of trees.
+
+# Quartet v1.3.0 (2026-03-19)
+
+- OpenMP parallelism for quartet calculations.
+- Improvements to memory allocation and cache performance.
+- Move `ResolvedQuartets()` core computation to C++.
+- Reduce inefficient R-side processing in `SingleTreeQuartetAgreement()`,
+  `QuartetStatus()` and `TwoListQuartetAgreement()`.
+- R <4.1 is no longer formally supported.
 
 # Quartet v1.2.7 (2024-10-31)
 

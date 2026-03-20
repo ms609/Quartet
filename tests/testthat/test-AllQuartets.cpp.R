@@ -1,3 +1,6 @@
+all_quartets <- Quartet:::all_quartets
+which_index <- Quartet:::which_index
+
 test_that("all_quartets() handles dud input", {
   expect_error(all_quartets(integer(0)),
                "nTips must contain a single integer value")
@@ -5,6 +8,11 @@ test_that("all_quartets() handles dud input", {
   expect_error(all_quartets(0), "nTips must be at least 4")
   expect_error(all_quartets(-1), "nTips must be at least 4")
   expect_error(all_quartets(55109), "nTips must be <")
+})
+
+test_that("quartet_states() rejects out-of-range tip counts", {
+  expect_error(QuartetStates(RandomTree(101)), "Too many leaves")
+  expect_error(QuartetStates(StarTree(3)), "four leaves")
 })
 
 test_that("All quartets are generated", {

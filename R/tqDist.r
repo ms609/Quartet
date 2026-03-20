@@ -78,10 +78,11 @@ QuartetStatus <- function (trees, cf = trees[[1]], nTip = NULL) {
       nTip <- length(AllTipLabels(c(list(cf), c(trees))))
     }
     Q <- choose(nTip, 4)
+    resolvedCf <- ResolvedQuartets(cf)
+    cfLabels <- TipLabels(cf)
     status <- vapply(c(trees), function (x) {
-      commonLabels <- intersect(TipLabels(x), TipLabels(cf))
+      commonLabels <- intersect(TipLabels(x), cfLabels)
       resolvedX <- ResolvedQuartets(x)
-      resolvedCf <- ResolvedQuartets(cf)
       if (length(commonLabels) > 3L) {
         reducedX <- keep.tip(x, commonLabels)
         reducedCf <- keep.tip(cf, commonLabels)
@@ -263,9 +264,37 @@ ManyToManyQuartetAgreement <- function (trees, nTip = NULL) {
 #' QuartetDivergence(TwoListQuartetAgreement(sq_trees[1:3], sq_trees[10:13]))
 #' @export
 TwoListQuartetAgreement <- function (trees1, trees2) {
-  aperm(vapply(trees2, function (cf) SingleTreeQuartetAgreement(trees1, cf),
-         matrix(0L, length(trees1), 7)), c(1, 3, 2))
-  
+  .CheckSize(trees1)
+  if (inherits(trees1, "phylo")) trees1 <- list(trees1)
+  trees1[] <- lapply(trees1, Preorder)
+  trees1DE <- vapply(trees1, .resolvedQuartetsCounts, integer(2))[2, ]
+
+  aperm(vapply(trees2, function (cf) {
+    cf <- Preorder(cf)
+    rq <- .resolvedQuartetsCounts(cf)
+    DE <- trees1DE
+
+    AE <- matrix(.Call("_Quartet_tqdist_OneToManyQuartetAgreementEdge",
+                       .TreeToEdge(cf),
+                       .TreeToEdge(trees1, cf$tip.label)),
+                 ncol = 2L, dimnames = list(NULL, c("A", "E")))
+
+    A   <- AE[, 1]
+    E   <- AE[, 2]
+    ABD <- rq[1]
+    CE  <- rq[2]
+    C   <- CE - E
+    D   <- DE - E
+    B   <- ABD - A - D
+    Q   <- sum(ABD, CE)
+    nTree <- length(DE)
+
+    array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E),
+          dim = c(nTree, 7L),
+          dimnames = list(names(trees1),
+                          c("N", "Q", "s", "d", "r1", "r2", "u")))
+  }, matrix(0L, length(trees1), 7)), c(1, 3, 2))
+
 }
 
 #' @describeIn QuartetStatus Agreement of each quartet in trees in a list with
@@ -280,30 +309,31 @@ TwoListQuartetAgreement <- function (trees1, trees2) {
 SingleTreeQuartetAgreement <- function (trees, comparison) {
   .CheckSize(trees)
   if (inherits(trees, "phylo")) trees <- list(trees)
-  
+
   comparison <- Preorder(comparison)
   trees[] <- lapply(trees, Preorder)
-  
-  rq <- ResolvedQuartets(comparison)
-  DE <- vapply(trees, ResolvedQuartets, integer(2))[2, ]
-  
+
+  # Use internal fast path — trees are already preordered and size-checked
+  rq <- .resolvedQuartetsCounts(comparison)
+  DE <- vapply(trees, .resolvedQuartetsCounts, integer(2))[2, ]
+
   AE <- matrix(.Call("_Quartet_tqdist_OneToManyQuartetAgreementEdge",
                      .TreeToEdge(comparison),
                      .TreeToEdge(trees, comparison$tip.label)),
                ncol = 2L, dimnames = list(NULL, c("A", "E")))
-  
+
   A   <- AE[, 1]
   E   <- AE[, 2]
   ABD <- rq[1]
   CE <-  rq[2]
   C   <- CE - E
   D   <- DE - E
-  
+
   B   <- ABD - A - D
   Q   <- sum(ABD, CE)
-  
+
   nTree <- length(DE)
-  
+
   # Return:
   array(c(rep(2L * Q, nTree), rep(Q, nTree), A, B, C, D, E), dim=c(nTree, 7L),
         dimnames = list(names(trees), c("N", "Q", "s", "d", "r1", "r2", "u")))
