@@ -374,13 +374,23 @@ static std::vector<uint8_t> compat_mat(const PooledSplits& pool) {
 
 
 // ============================================================================
+// Utility: C(n, 4) for small n
+// ============================================================================
+
+static inline int32 choose4(int n) {
+  if (n < 4) return 0;
+  return static_cast<int32>(n) * (n - 1) * (n - 2) * (n - 3) / 24;
+}
+
+
+// ============================================================================
 // Greedy state for quartet consensus
 // ============================================================================
 
 struct QCGreedyState {
   int M;            // number of pooled splits
-  int n_tips;
-  int n_q;          // C(n, 4)
+  int n_tips;       // total tips (original)
+  int n_q;          // C(n_tips, 4) — total quartet slots in profile
   int k;            // number of input trees
   int n_incl;       // currently included splits
 
@@ -396,209 +406,195 @@ struct QCGreedyState {
   // Cached per-split: incompatibility counts with included splits
   std::vector<int>  n_incompat;
 
-  // Current total loss
+  // Current total loss (distance objective)
   double total_loss;
+
+  // ---- Taxon-dropping support (S2R objective) ----
+  bool use_s2r;                          // true when taxon dropping is enabled
+  std::vector<uint8_t> active_tip;       // 1 = active, 0 = dropped
+  std::vector<uint8_t> never_drop;       // 1 = protected
+  int n_active;                          // count of active tips
+  int32 Q_active;                        // C(n_active, 4)
+  int64_t total_value_3x;                // 3x-scaled sum of per-quartet S2R values
+  std::vector<uint8_t> quartet_active;   // 1 = all 4 tips active
+  std::vector<int> dropped_tips;         // tip indices in drop order
+  std::vector<double> drop_scores;       // score after each drop
 
   QCGreedyState(
       std::vector<int>& profile_,
       const PooledSplits& pool_,
       const std::vector<uint8_t>& compat_,
-      int M_, int n_tips_, int k_
+      int M_, int n_tips_, int k_,
+      bool use_s2r_ = false,
+      const std::vector<uint8_t>& never_drop_ = std::vector<uint8_t>()
   ) : M(M_), n_tips(n_tips_),
       n_q(n_quartets(static_cast<int16>(n_tips_))),
       k(k_), n_incl(0),
       incl(M_, 0), profile(profile_), pool(pool_), compat(compat_),
       consensus_state(n_q, 0), resolve_count(n_q, 0),
-      n_incompat(M_, 0), total_loss(0.0)
+      n_incompat(M_, 0), total_loss(0.0),
+      use_s2r(use_s2r_),
+      active_tip(n_tips_, 1),
+      never_drop(never_drop_.empty()
+                   ? std::vector<uint8_t>(n_tips_, 0)
+                   : never_drop_),
+      n_active(n_tips_),
+      Q_active(choose4(n_tips_)),
+      total_value_3x(0),
+      quartet_active(n_q, 1)
   {
-    // Initial loss: all quartets unresolved in consensus
-    // cost(q) = k - count_0[q]
-    for (int q = 0; q < n_q; ++q) {
-      total_loss += k - profile[q * 4 + 0];
+    if (use_s2r) {
+      // S2R: unresolved quartet has 3x-scaled value k (i.e. k/3 * 3)
+      total_value_3x = static_cast<int64_t>(k) * n_q;
+    } else {
+      // Distance: unresolved quartet costs (k - count_0)
+      for (int q = 0; q < n_q; ++q) {
+        total_loss += k - profile[q * 4 + 0];
+      }
     }
+  }
+
+  // S2R score from 3x-scaled total:
+  // (total_value_3x / (3*k*Q) - 1/3) * 3/2
+  //   = (total_value_3x - k*Q) / (2*k*Q)
+  double s2r_score() const {
+    if (Q_active == 0) return 0.0;
+    return static_cast<double>(total_value_3x - static_cast<int64_t>(k) * Q_active)
+           / (2.0 * k * Q_active);
   }
 
   bool is_compatible(int idx) const {
-    return n_incompat[idx] == 0 && n_incl < n_tips - 3;
+    return n_incompat[idx] == 0 && n_incl < n_active - 3;
   }
 
-  // Compute benefit of adding split c.
-  // For each quartet newly resolved by c (currently unresolved in consensus):
-  //   delta = k - 2 * count_j[q]
-  //   benefit = -delta (we want to minimize loss)
+  // ------------------------------------------------------------------
+  // Helpers for active-tip-filtered split sides
+  // ------------------------------------------------------------------
+
+  // Get active tips on each side of split c.
+  void active_split_sides(int c,
+                          std::vector<int16>& a_tips0,
+                          std::vector<int16>& a_tips1) const {
+    const auto& raw_tips1 = pool.tips_on_side1[c];
+    a_tips1.clear();
+    for (int16 tip : raw_tips1) {
+      if (active_tip[tip]) a_tips1.push_back(tip);
+    }
+    a_tips0.clear();
+    int idx1 = 0;
+    const int am1 = static_cast<int>(a_tips1.size());
+    for (int16 tip = 0; tip < n_tips; ++tip) {
+      if (!active_tip[tip]) continue;
+      if (idx1 < am1 && a_tips1[idx1] == tip) {
+        idx1++;
+      } else {
+        a_tips0.push_back(tip);
+      }
+    }
+  }
+
+  // Check whether split c is trivial among active tips.
+  bool is_trivial_active(int c) const {
+    int active_on_1 = 0;
+    for (int16 tip : pool.tips_on_side1[c]) {
+      if (active_tip[tip]) active_on_1++;
+    }
+    return active_on_1 < 2 || (n_active - active_on_1) < 2;
+  }
+
+  // Per-quartet S2R value, scaled by 3 to stay in integer arithmetic.
+  // Unresolved: k.  Resolved (state j): 3*count_j + count_0.
+  int quartet_value_3x(int32 qi) const {
+    if (consensus_state[qi] == 0) {
+      return k;
+    }
+    int state = consensus_state[qi];
+    return 3 * profile[qi * 4 + state] + profile[qi * 4 + 0];
+  }
+
+  // ------------------------------------------------------------------
+  // Benefit/execute for adding a split
+  // ------------------------------------------------------------------
+
   double add_benefit(int c) const {
     const unsigned char bitmask[8] = {1U, 2U, 4U, 8U, 16U, 32U, 64U, 128U};
     const unsigned char* sp = pool.split(c);
-    const auto& tips1 = pool.tips_on_side1[c];
-    const int m1 = static_cast<int>(tips1.size());
-    const int m0 = n_tips - m1;
 
-    // Build side-0 tip list
-    std::vector<int16> tips0;
-    tips0.reserve(m0);
-    {
-      int idx1 = 0;
-      for (int16 tip = 0; tip < n_tips; ++tip) {
-        if (idx1 < m1 && tips1[idx1] == tip) {
-          idx1++;
-        } else {
-          tips0.push_back(tip);
-        }
-      }
-    }
+    std::vector<int16> a_tips0, a_tips1;
+    active_split_sides(c, a_tips0, a_tips1);
+    const int m0 = static_cast<int>(a_tips0.size());
+    const int m1 = static_cast<int>(a_tips1.size());
+    if (m0 < 2 || m1 < 2) return -1e30;
 
-    double benefit = 0.0;
+    int64_t benefit_raw = 0; // 3x-scaled for S2R, 1x for distance
 
-    // Enumerate quartets with 2 tips from each side
     for (int ai = 0; ai < m0 - 1; ++ai) {
       for (int bi = ai + 1; bi < m0; ++bi) {
         for (int ci = 0; ci < m1 - 1; ++ci) {
           for (int di = ci + 1; di < m1; ++di) {
-            // 4 tips: tips0[ai], tips0[bi], tips1[ci], tips1[di]
-            // Sort them
-            int16 t[4] = {tips0[ai], tips0[bi], tips1[ci], tips1[di]};
-            // Insertion sort for 4 elements
+            int16 t[4] = {a_tips0[ai], a_tips0[bi], a_tips1[ci], a_tips1[di]};
             for (int x = 1; x < 4; ++x) {
               int16 key = t[x];
               int y = x - 1;
-              while (y >= 0 && t[y] > key) {
-                t[y + 1] = t[y];
-                y--;
-              }
+              while (y >= 0 && t[y] > key) { t[y + 1] = t[y]; y--; }
               t[y + 1] = key;
             }
 
             int32 qi = quartet_index(t[0], t[1], t[2], t[3],
                                      static_cast<int16>(n_tips));
-
-            // Only count if currently unresolved in consensus
             if (resolve_count[qi] > 0) continue;
 
-            // Determine the state this split gives the quartet
             bool sa = sp[t[0] / 8] & bitmask[t[0] % 8];
             bool sb = sp[t[1] / 8] & bitmask[t[1] % 8];
             bool sc = sp[t[2] / 8] & bitmask[t[2] % 8];
             bool sd = sp[t[3] / 8] & bitmask[t[3] % 8];
             int state = quartet_state_from_sides(sa, sb, sc, sd);
-            if (state == 0) continue;  // shouldn't happen for 2+2 split
+            if (state == 0) continue;
 
-            // benefit = (old cost) - (new cost)
-            // old cost (unresolved) = k - count_0[q]
-            // new cost (resolved as j) = 2(k - count_0[q] - count_j[q]) + count_0[q]
-            // delta = new - old = k - 2*count_j[q]
-            // benefit = -delta = 2*count_j[q] - k
             int count_j = profile[qi * 4 + state];
-            benefit += 2.0 * count_j - k;
-          }
-        }
-      }
-    }
-    return benefit;
-  }
-
-  // Compute benefit of removing split c.
-  // For each quartet uniquely resolved by c (resolve_count == 1):
-  //   benefit = k - 2*count_j[q]
-  double remove_benefit(int c) const {
-    const auto& tips1 = pool.tips_on_side1[c];
-    const int m1 = static_cast<int>(tips1.size());
-
-    std::vector<int16> tips0;
-    tips0.reserve(n_tips - m1);
-    {
-      int idx1 = 0;
-      for (int16 tip = 0; tip < n_tips; ++tip) {
-        if (idx1 < m1 && tips1[idx1] == tip) {
-          idx1++;
-        } else {
-          tips0.push_back(tip);
-        }
-      }
-    }
-    const int m0 = static_cast<int>(tips0.size());
-
-    double benefit = 0.0;
-
-    for (int ai = 0; ai < m0 - 1; ++ai) {
-      for (int bi = ai + 1; bi < m0; ++bi) {
-        for (int ci = 0; ci < m1 - 1; ++ci) {
-          for (int di = ci + 1; di < m1; ++di) {
-            int16 t[4] = {tips0[ai], tips0[bi], tips1[ci], tips1[di]};
-            for (int x = 1; x < 4; ++x) {
-              int16 key = t[x];
-              int y = x - 1;
-              while (y >= 0 && t[y] > key) {
-                t[y + 1] = t[y];
-                y--;
-              }
-              t[y + 1] = key;
+            if (use_s2r) {
+              int count_0 = profile[qi * 4 + 0];
+              benefit_raw += (3 * count_j + count_0) - k;
+            } else {
+              benefit_raw += 2 * count_j - k;
             }
-
-            int32 qi = quartet_index(t[0], t[1], t[2], t[3],
-                                     static_cast<int16>(n_tips));
-
-            // Only count if uniquely resolved by this split
-            if (resolve_count[qi] != 1) continue;
-            // Double-check it's actually resolved
-            if (consensus_state[qi] == 0) continue;
-
-            int state = consensus_state[qi];
-            int count_j = profile[qi * 4 + state];
-            // benefit of removing: old cost - new cost
-            // old cost = 2(k - count_0[q] - count_j[q]) + count_0[q]
-            // new cost = k - count_0[q]
-            // delta = new - old = -(k - 2*count_j[q])
-            // benefit = -delta = k - 2*count_j[q]
-            benefit += k - 2.0 * count_j;
           }
         }
       }
     }
-    return benefit;
+
+    // Normalise to score units for S2R:
+    // benefit_3x / (2 * k * Q_active)
+    if (use_s2r && Q_active > 0) {
+      return static_cast<double>(benefit_raw) / (2.0 * k * Q_active);
+    }
+    return static_cast<double>(benefit_raw);
   }
 
-  // Execute: add split c to the consensus
   void do_add(int c) {
     const unsigned char bitmask[8] = {1U, 2U, 4U, 8U, 16U, 32U, 64U, 128U};
     incl[c] = 1;
     n_incl++;
 
-    // Update n_incompat
     for (int j = 0; j < M; ++j) {
       if (!compat[j * M + c]) n_incompat[j]++;
     }
 
-    // Update quartet states
     const unsigned char* sp = pool.split(c);
-    const auto& tips1 = pool.tips_on_side1[c];
-    const int m1 = static_cast<int>(tips1.size());
-
-    std::vector<int16> tips0;
-    tips0.reserve(n_tips - m1);
-    {
-      int idx1 = 0;
-      for (int16 tip = 0; tip < n_tips; ++tip) {
-        if (idx1 < m1 && tips1[idx1] == tip) {
-          idx1++;
-        } else {
-          tips0.push_back(tip);
-        }
-      }
-    }
-    const int m0 = static_cast<int>(tips0.size());
+    std::vector<int16> a_tips0, a_tips1;
+    active_split_sides(c, a_tips0, a_tips1);
+    const int m0 = static_cast<int>(a_tips0.size());
+    const int m1 = static_cast<int>(a_tips1.size());
 
     for (int ai = 0; ai < m0 - 1; ++ai) {
       for (int bi = ai + 1; bi < m0; ++bi) {
         for (int ci = 0; ci < m1 - 1; ++ci) {
           for (int di = ci + 1; di < m1; ++di) {
-            int16 t[4] = {tips0[ai], tips0[bi], tips1[ci], tips1[di]};
+            int16 t[4] = {a_tips0[ai], a_tips0[bi], a_tips1[ci], a_tips1[di]};
             for (int x = 1; x < 4; ++x) {
               int16 key = t[x];
               int y = x - 1;
-              while (y >= 0 && t[y] > key) {
-                t[y + 1] = t[y];
-                y--;
-              }
+              while (y >= 0 && t[y] > key) { t[y + 1] = t[y]; y--; }
               t[y + 1] = key;
             }
 
@@ -614,12 +610,14 @@ struct QCGreedyState {
 
             resolve_count[qi]++;
             if (resolve_count[qi] == 1) {
-              // Quartet just became resolved
               consensus_state[qi] = state;
               int count_j = profile[qi * 4 + state];
-              // delta_loss = (2(k - count_0 - count_j) + count_0) - (k - count_0)
-              //            = k - 2*count_j
-              total_loss += k - 2.0 * count_j;
+              if (use_s2r) {
+                int count_0 = profile[qi * 4 + 0];
+                total_value_3x += (3 * count_j + count_0) - k;
+              } else {
+                total_loss += k - 2.0 * count_j;
+              }
             }
           }
         }
@@ -627,47 +625,78 @@ struct QCGreedyState {
     }
   }
 
-  // Execute: remove split c from the consensus
-  void do_remove(int c) {
-    const unsigned char bitmask[8] = {1U, 2U, 4U, 8U, 16U, 32U, 64U, 128U};
-    incl[c] = 0;
-    n_incl--;
+  // ------------------------------------------------------------------
+  // Benefit/execute for removing a split
+  // ------------------------------------------------------------------
 
-    // Update n_incompat
-    for (int j = 0; j < M; ++j) {
-      if (!compat[j * M + c]) n_incompat[j]--;
-    }
+  double remove_benefit(int c) const {
+    std::vector<int16> a_tips0, a_tips1;
+    active_split_sides(c, a_tips0, a_tips1);
+    const int m0 = static_cast<int>(a_tips0.size());
+    const int m1 = static_cast<int>(a_tips1.size());
 
-    const unsigned char* sp = pool.split(c);
-    const auto& tips1 = pool.tips_on_side1[c];
-    const int m1 = static_cast<int>(tips1.size());
-
-    std::vector<int16> tips0;
-    tips0.reserve(n_tips - m1);
-    {
-      int idx1 = 0;
-      for (int16 tip = 0; tip < n_tips; ++tip) {
-        if (idx1 < m1 && tips1[idx1] == tip) {
-          idx1++;
-        } else {
-          tips0.push_back(tip);
-        }
-      }
-    }
-    const int m0 = static_cast<int>(tips0.size());
+    int64_t benefit_raw = 0; // 3x-scaled for S2R, 1x for distance
 
     for (int ai = 0; ai < m0 - 1; ++ai) {
       for (int bi = ai + 1; bi < m0; ++bi) {
         for (int ci = 0; ci < m1 - 1; ++ci) {
           for (int di = ci + 1; di < m1; ++di) {
-            int16 t[4] = {tips0[ai], tips0[bi], tips1[ci], tips1[di]};
+            int16 t[4] = {a_tips0[ai], a_tips0[bi], a_tips1[ci], a_tips1[di]};
             for (int x = 1; x < 4; ++x) {
               int16 key = t[x];
               int y = x - 1;
-              while (y >= 0 && t[y] > key) {
-                t[y + 1] = t[y];
-                y--;
-              }
+              while (y >= 0 && t[y] > key) { t[y + 1] = t[y]; y--; }
+              t[y + 1] = key;
+            }
+
+            int32 qi = quartet_index(t[0], t[1], t[2], t[3],
+                                     static_cast<int16>(n_tips));
+            if (resolve_count[qi] != 1) continue;
+            if (consensus_state[qi] == 0) continue;
+
+            int state = consensus_state[qi];
+            int count_j = profile[qi * 4 + state];
+            if (use_s2r) {
+              int count_0 = profile[qi * 4 + 0];
+              benefit_raw += k - (3 * count_j + count_0);
+            } else {
+              benefit_raw += k - 2 * count_j;
+            }
+          }
+        }
+      }
+    }
+
+    if (use_s2r && Q_active > 0) {
+      return static_cast<double>(benefit_raw) / (2.0 * k * Q_active);
+    }
+    return static_cast<double>(benefit_raw);
+  }
+
+  void do_remove(int c) {
+    const unsigned char bitmask[8] = {1U, 2U, 4U, 8U, 16U, 32U, 64U, 128U};
+    incl[c] = 0;
+    n_incl--;
+
+    for (int j = 0; j < M; ++j) {
+      if (!compat[j * M + c]) n_incompat[j]--;
+    }
+
+    const unsigned char* sp = pool.split(c);
+    std::vector<int16> a_tips0, a_tips1;
+    active_split_sides(c, a_tips0, a_tips1);
+    const int m0 = static_cast<int>(a_tips0.size());
+    const int m1 = static_cast<int>(a_tips1.size());
+
+    for (int ai = 0; ai < m0 - 1; ++ai) {
+      for (int bi = ai + 1; bi < m0; ++bi) {
+        for (int ci = 0; ci < m1 - 1; ++ci) {
+          for (int di = ci + 1; di < m1; ++di) {
+            int16 t[4] = {a_tips0[ai], a_tips0[bi], a_tips1[ci], a_tips1[di]};
+            for (int x = 1; x < 4; ++x) {
+              int16 key = t[x];
+              int y = x - 1;
+              while (y >= 0 && t[y] > key) { t[y + 1] = t[y]; y--; }
               t[y + 1] = key;
             }
 
@@ -684,15 +713,113 @@ struct QCGreedyState {
             resolve_count[qi]--;
             if (resolve_count[qi] == 0) {
               int count_j = profile[qi * 4 + consensus_state[qi]];
-              // delta_loss = (k - count_0) - (2(k - count_0 - count_j) + count_0)
-              //            = -(k - 2*count_j)
-              total_loss -= k - 2.0 * count_j;
+              if (use_s2r) {
+                int count_0 = profile[qi * 4 + 0];
+                total_value_3x -= (3 * count_j + count_0) - k;
+              } else {
+                total_loss -= k - 2.0 * count_j;
+              }
               consensus_state[qi] = 0;
             }
           }
         }
       }
     }
+  }
+
+  // ------------------------------------------------------------------
+  // Taxon dropping (S2R mode only)
+  // ------------------------------------------------------------------
+
+  // Benefit (in score units) of dropping a single tip.
+  double drop_benefit(int16 tip) const {
+    if (!use_s2r || !active_tip[tip] || never_drop[tip]) return -1e30;
+    if (n_active <= 4) return -1e30;
+
+    // Sum the 3x-scaled S2R value of every active quartet involving this tip
+    int64_t lost_value_3x = 0;
+
+    // Build list of other active tips
+    std::vector<int16> others;
+    others.reserve(n_active - 1);
+    for (int16 t = 0; t < n_tips; ++t) {
+      if (active_tip[t] && t != tip) others.push_back(t);
+    }
+    const int nO = static_cast<int>(others.size());
+
+    for (int ai = 0; ai < nO - 2; ++ai) {
+      for (int bi = ai + 1; bi < nO - 1; ++bi) {
+        for (int ci = bi + 1; ci < nO; ++ci) {
+          // Quartet: {tip, others[ai], others[bi], others[ci]}
+          int16 t[4] = {tip, others[ai], others[bi], others[ci]};
+          // Sort
+          for (int x = 1; x < 4; ++x) {
+            int16 key = t[x];
+            int y = x - 1;
+            while (y >= 0 && t[y] > key) { t[y + 1] = t[y]; y--; }
+            t[y + 1] = key;
+          }
+          int32 qi = quartet_index(t[0], t[1], t[2], t[3],
+                                   static_cast<int16>(n_tips));
+          lost_value_3x += quartet_value_3x(qi);
+        }
+      }
+    }
+
+    int32 new_Q = choose4(n_active - 1);
+    int64_t new_total_3x = total_value_3x - lost_value_3x;
+    double old_score = s2r_score();
+    double new_score = (new_Q > 0)
+      ? static_cast<double>(new_total_3x - static_cast<int64_t>(k) * new_Q)
+        / (2.0 * k * new_Q)
+      : 0.0;
+    return new_score - old_score;
+  }
+
+  // Execute: drop a tip.
+  void do_drop(int16 tip) {
+    active_tip[tip] = 0;
+
+    // Remove value of all quartets involving this tip
+    std::vector<int16> others;
+    others.reserve(n_active - 1);
+    for (int16 t = 0; t < n_tips; ++t) {
+      if (active_tip[t] && t != tip) others.push_back(t);
+    }
+    const int nO = static_cast<int>(others.size());
+
+    for (int ai = 0; ai < nO - 2; ++ai) {
+      for (int bi = ai + 1; bi < nO - 1; ++bi) {
+        for (int ci = bi + 1; ci < nO; ++ci) {
+          int16 t[4] = {tip, others[ai], others[bi], others[ci]};
+          for (int x = 1; x < 4; ++x) {
+            int16 key = t[x];
+            int y = x - 1;
+            while (y >= 0 && t[y] > key) { t[y + 1] = t[y]; y--; }
+            t[y + 1] = key;
+          }
+          int32 qi = quartet_index(t[0], t[1], t[2], t[3],
+                                   static_cast<int16>(n_tips));
+          total_value_3x -= quartet_value_3x(qi);
+          quartet_active[qi] = 0;
+          resolve_count[qi] = 0;
+          consensus_state[qi] = 0;
+        }
+      }
+    }
+
+    n_active--;
+    Q_active = choose4(n_active);
+
+    // Remove included splits that became trivial
+    for (int s = 0; s < M; ++s) {
+      if (incl[s] && is_trivial_active(s)) {
+        do_remove(s);
+      }
+    }
+
+    dropped_tips.push_back(tip);
+    drop_scores.push_back(s2r_score());
   }
 };
 
@@ -701,14 +828,22 @@ struct QCGreedyState {
 // Greedy "best" strategy
 // ============================================================================
 
+// Move type for the greedy loop
+enum MoveType { SPLIT_ADD, SPLIT_REMOVE, TIP_DROP };
+
+// Tolerance for benefit comparisons (guards against rounding noise
+// in the final double division)
+static const double BENEFIT_TOL = 1e-9;
+
 static void greedy_best(QCGreedyState& st,
                         const std::vector<int>& sort_ord) {
   while (true) {
     Rcpp::checkUserInterrupt();
     double best_ben = 0.0;
     int best_idx = -1;
-    bool best_is_add = false;
+    MoveType best_type = SPLIT_ADD;
 
+    // Evaluate split adds/removes
     for (int si = 0; si < st.M; ++si) {
       int idx = sort_ord[si];
       if (st.incl[idx]) {
@@ -716,7 +851,7 @@ static void greedy_best(QCGreedyState& st,
         if (ben > best_ben) {
           best_ben = ben;
           best_idx = idx;
-          best_is_add = false;
+          best_type = SPLIT_REMOVE;
         }
       } else {
         if (!st.is_compatible(idx)) continue;
@@ -724,17 +859,30 @@ static void greedy_best(QCGreedyState& st,
         if (ben > best_ben) {
           best_ben = ben;
           best_idx = idx;
-          best_is_add = true;
+          best_type = SPLIT_ADD;
         }
       }
     }
 
-    if (best_ben <= 0.0 || best_idx < 0) break;
+    // Evaluate taxon drops (S2R mode only)
+    if (st.use_s2r && st.n_active > 4) {
+      for (int16 tip = 0; tip < st.n_tips; ++tip) {
+        if (!st.active_tip[tip] || st.never_drop[tip]) continue;
+        double ben = st.drop_benefit(tip);
+        if (ben > best_ben) {
+          best_ben = ben;
+          best_idx = tip;
+          best_type = TIP_DROP;
+        }
+      }
+    }
 
-    if (best_is_add) {
-      st.do_add(best_idx);
-    } else {
-      st.do_remove(best_idx);
+    if (best_ben <= BENEFIT_TOL || best_idx < 0) break;
+
+    switch (best_type) {
+      case SPLIT_ADD:    st.do_add(best_idx); break;
+      case SPLIT_REMOVE: st.do_remove(best_idx); break;
+      case TIP_DROP:     st.do_drop(static_cast<int16>(best_idx)); break;
     }
   }
 }
@@ -750,18 +898,33 @@ static void greedy_first(QCGreedyState& st,
   while (improving) {
     Rcpp::checkUserInterrupt();
     improving = false;
+
+    // Try split moves first
     for (int si = 0; si < st.M; ++si) {
       int idx = sort_ord[si];
       if (st.incl[idx]) {
-        if (st.remove_benefit(idx) > 0.0) {
+        if (st.remove_benefit(idx) > BENEFIT_TOL) {
           st.do_remove(idx);
           improving = true;
           break;
         }
       } else {
         if (!st.is_compatible(idx)) continue;
-        if (st.add_benefit(idx) > 0.0) {
+        if (st.add_benefit(idx) > BENEFIT_TOL) {
           st.do_add(idx);
+          improving = true;
+          break;
+        }
+      }
+    }
+    if (improving) continue;
+
+    // Try taxon drops (S2R mode only)
+    if (st.use_s2r && st.n_active > 4) {
+      for (int16 tip = 0; tip < st.n_tips; ++tip) {
+        if (!st.active_tip[tip] || st.never_drop[tip]) continue;
+        if (st.drop_benefit(tip) > BENEFIT_TOL) {
+          st.do_drop(tip);
           improving = true;
           break;
         }
@@ -782,9 +945,13 @@ static void greedy_first(QCGreedyState& st,
 //' @param init_majority Logical: TRUE to start from majority-rule splits.
 //' @param init_extended Logical: TRUE to start from extended majority splits.
 //' @param greedy_best_flag Logical: TRUE for "best", FALSE for "first".
+//' @param never_drop_r Integer vector (1-based) of tip indices that must not
+//'   be dropped, or integer(0) to allow all drops.  If NULL, taxon dropping
+//'   is disabled (distance objective).
 //'
 //' @return A list with `included` (logical), `raw_splits` (raw matrix),
-//'   and `light_side` (integer).
+//'   `light_side` (integer), and — when taxon dropping is enabled —
+//'   `dropped_tips` (integer, 0-based) and `drop_scores` (double).
 //' @keywords internal
 // [[Rcpp::export]]
 List cpp_quartet_consensus(
@@ -792,7 +959,8 @@ List cpp_quartet_consensus(
     const int n_tips,
     const bool init_majority,
     const bool init_extended,
-    const bool greedy_best_flag
+    const bool greedy_best_flag,
+    Rcpp::Nullable<Rcpp::IntegerVector> never_drop_r = R_NilValue
 ) {
   if (n_tips > QC_MAX_TIPS) {
     Rcpp::stop("QuartetConsensus supports at most %d tips.", QC_MAX_TIPS);
@@ -803,6 +971,17 @@ List cpp_quartet_consensus(
 
   const int n_tree = splits_list.size();
 
+  // ---- Taxon dropping configuration ----
+  bool use_s2r = never_drop_r.isNotNull();
+  std::vector<uint8_t> never_drop_vec(n_tips, 0);
+  if (use_s2r) {
+    Rcpp::IntegerVector nd(never_drop_r);
+    for (int i = 0; i < nd.size(); ++i) {
+      int idx = nd[i] - 1;  // convert from 1-based R to 0-based C++
+      if (idx >= 0 && idx < n_tips) never_drop_vec[idx] = 1;
+    }
+  }
+
   // ---- Pool unique splits ----
   PooledSplits pool = pool_splits(splits_list, n_tips);
   const int M = pool.n_splits;
@@ -811,7 +990,10 @@ List cpp_quartet_consensus(
     return List::create(
       Rcpp::Named("included") = LogicalVector(0),
       Rcpp::Named("raw_splits") = RawMatrix(0, 0),
-      Rcpp::Named("light_side") = IntegerVector(0)
+      Rcpp::Named("light_side") = IntegerVector(0),
+      Rcpp::Named("dropped_tips") = IntegerVector(0),
+      Rcpp::Named("drop_scores") = Rcpp::NumericVector(0),
+      Rcpp::Named("active_tips") = LogicalVector(n_tips, true)
     );
   }
 
@@ -828,15 +1010,14 @@ List cpp_quartet_consensus(
             [&](int a, int b) { return pool.count[a] > pool.count[b]; });
 
   // ---- Initialize greedy state ----
-  QCGreedyState st(profile, pool, compat, M, n_tips, n_tree);
+  QCGreedyState st(profile, pool, compat, M, n_tips, n_tree,
+                   use_s2r, never_drop_vec);
 
   // ---- Init from majority or extended majority ----
   if (init_majority || init_extended) {
     double half = n_tree / 2.0;
 
     if (init_extended) {
-      // Extended majority: add splits in order of decreasing count,
-      // as long as compatible with all already-included splits
       for (int si = 0; si < M; ++si) {
         int idx = sort_ord[si];
         if (pool.count[idx] > half) {
@@ -846,7 +1027,6 @@ List cpp_quartet_consensus(
         }
       }
     } else {
-      // Majority rule: add only those appearing in > 50% of trees
       for (int i = 0; i < M; ++i) {
         if (pool.count[i] > half) {
           st.do_add(i);
@@ -877,9 +1057,22 @@ List cpp_quartet_consensus(
   IntegerVector light_side(M);
   for (int i = 0; i < M; ++i) light_side[i] = pool.light_side[i];
 
+  // Dropped tips (convert to 1-based for R)
+  IntegerVector dropped_r(st.dropped_tips.size());
+  for (size_t i = 0; i < st.dropped_tips.size(); ++i) {
+    dropped_r[i] = st.dropped_tips[i] + 1;
+  }
+  Rcpp::NumericVector scores_r(st.drop_scores.begin(), st.drop_scores.end());
+
+  LogicalVector active_r(n_tips);
+  for (int i = 0; i < n_tips; ++i) active_r[i] = st.active_tip[i] != 0;
+
   return List::create(
     Rcpp::Named("included") = incl_r,
     Rcpp::Named("raw_splits") = raw_splits,
-    Rcpp::Named("light_side") = light_side
+    Rcpp::Named("light_side") = light_side,
+    Rcpp::Named("dropped_tips") = dropped_r,
+    Rcpp::Named("drop_scores") = scores_r,
+    Rcpp::Named("active_tips") = active_r
   );
 }
