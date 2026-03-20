@@ -5,7 +5,9 @@ on:
   schedule:
     - cron: '0 4 * * 4'  # Thursdays, 4am
   push:
-    branches: ["*"]
+    branches:
+      - main
+      - master
     paths-ignore:
       - "Meta**"
       - "memcheck**"
@@ -73,6 +75,7 @@ jobs:
       - name: Set up R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          cache-version: 2-${{ runner.arch }}
           needs: |
             check
 

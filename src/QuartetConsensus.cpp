@@ -169,6 +169,10 @@ static PooledSplits pool_splits(const List& splits_list, int n_tips) {
   std::unordered_map<const unsigned char*, int, SplitHash, SplitEqual>
     split_map(64, hasher, eq);
 
+  if (n_bytes < 1) {
+    Rcpp::stop("Internal error: n_bytes < 1 in pool_splits (n_tips = %d).",
+               n_tips);
+  }
   std::vector<unsigned char> canon_buf(n_bytes);
 
   PooledSplits pool;
