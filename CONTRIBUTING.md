@@ -45,8 +45,8 @@ the maintainers of the package.
 ### Code of Conduct
 
 Please note that the project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By contributing to this project you agree
-to abide by its terms.
+Conduct](https://ms609.github.io/Quartet/CODE_OF_CONDUCT.md). By
+contributing to this project you agree to abide by its terms.
 
 ### Prefer to Email?
 

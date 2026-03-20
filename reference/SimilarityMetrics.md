@@ -36,8 +36,10 @@ SimilarityToReference(elementStatus, similarity = TRUE, normalize = FALSE)
 
   Two-dimensional integer array, with rows corresponding to counts of
   matching quartets or partitions for each tree, and columns named
-  according to the output of [`QuartetStatus()`](QuartetStatus.md) or
-  [`SplitStatus()`](SplitStatus.md).
+  according to the output of
+  [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  or
+  [`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md).
 
 - similarity:
 
@@ -190,11 +192,11 @@ new results.” *Systematic Biology*, **42**(2), 126–141.
 
 - Calculate status of each quartet – the raw material from which the
   Estabrook *et al.* metrics are calculated – with
-  [`QuartetStatus()`](QuartetStatus.md):
+  [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md):
 
 - Equivalent metrics for bipartition splits:
-  [`SplitStatus()`](SplitStatus.md),
-  [`CompareSplits()`](CompareSplits.md)
+  [`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md),
+  [`CompareSplits()`](https://ms609.github.io/Quartet/reference/CompareSplits.md)
 
 ## Author
 

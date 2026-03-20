@@ -18,7 +18,8 @@ PairSharedSplitStatus(ref, cf)
 
 ## Value
 
-Named integer of length 6, as per [`CompareSplits()`](CompareSplits.md)
+Named integer of length 6, as per
+[`CompareSplits()`](https://ms609.github.io/Quartet/reference/CompareSplits.md)
 
 ## Author
 

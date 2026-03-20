@@ -52,8 +52,9 @@ relative to `tips[4]`, otherwise.
 
 `QuartetStates()` returns a raw vector listing the status of each
 quartet of leaves (in the order listed by
-[`AllQuartets()`](AllQuartets.md)) in turn, or if multiple trees are
-provided, a matrix in which each row corresponds to such a vector.
+[`AllQuartets()`](https://ms609.github.io/Quartet/reference/AllQuartets.md))
+in turn, or if multiple trees are provided, a matrix in which each row
+corresponds to such a vector.
 
 ## Details
 
@@ -74,16 +75,18 @@ phylogenetic trees based on subtrees of four evolutionary units.”
 ## See also
 
 Compare quartet states between trees (slowly) using
-[`CompareQuartets()`](CompareQuartets.md) and
-[`CompareQuartetsMulti()`](CompareQuartetsMulti.md).
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md)
+and
+[`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md).
 
 Other element-by-element comparisons:
-[`CompareQuartets()`](CompareQuartets.md),
-[`CompareQuartetsMulti()`](CompareQuartetsMulti.md),
-[`CompareSplits()`](CompareSplits.md),
-[`PairSharedQuartetStatus()`](PairSharedQuartetStatus.md),
-[`SharedQuartetStatus()`](QuartetStatus.md),
-[`SplitStatus()`](SplitStatus.md)
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md),
+[`CompareSplits()`](https://ms609.github.io/Quartet/reference/CompareSplits.md),
+[`PairSharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/PairSharedQuartetStatus.md),
+[`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md),
+[`SharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md),
+[`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)
 
 ## Author
 

@@ -12,15 +12,17 @@ Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/test
 **Never** install to the default library. On Windows, a loaded DLL locks
 the file and blocks other agents.
 
-**Never** use `devtools::load_all()` or
+**Never** use
+[`devtools::load_all()`](https://devtools.r-lib.org/reference/load_all.html)
+or
 [`pkgbuild::compile_dll()`](https://pkgbuild.r-lib.org/reference/compile_dll.html)
 — these target a shared temp location and will conflict.
 
 ### Build failure recovery
 
-`roxygen2::roxygenise()` (default mode) leaves debug `.o` files in
-`src/`. Always clean before building, and use the installed-code loader
-for docs:
+[`roxygen2::roxygenise()`](https://roxygen2.r-lib.org/reference/roxygenize.html)
+(default mode) leaves debug `.o` files in `src/`. Always clean before
+building, and use the installed-code loader for docs:
 
 ``` bash
 rm -f src/*.o src/*.dll
@@ -109,18 +111,18 @@ the underlying C library).
 
 ### R-level API
 
-| Function                                                                                                                                                           | Purpose                                   |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| [`QuartetStates()`](reference/QuartetState.md) / [`QuartetStatus()`](reference/QuartetStatus.md)                                                                   | Quartet states for all four-taxon subsets |
-| [`CompareQuartets()`](reference/CompareQuartets.md) / [`CompareQuartetsMulti()`](reference/CompareQuartetsMulti.md)                                                | Element-wise quartet comparison           |
-| [`QuartetAgreement()`](reference/Distances.md) / [`QuartetDistance()`](reference/Distances.md)                                                                     | Summary agreement / distance              |
-| [`AllPairsQuartetAgreement()`](reference/Distances.md) / [`AllPairsQuartetDistance()`](reference/Distances.md)                                                     | All-pairs matrix                          |
-| [`OneToManyQuartetAgreement()`](reference/Distances.md) / [`TwoListQuartetAgreement()`](reference/QuartetStatus.md)                                                | Batch comparisons                         |
-| [`SimilarityMetrics()`](reference/SimilarityMetrics.md) / [`SimilarityToReference()`](reference/SimilarityMetrics.md)                                              | Multi-metric table                        |
-| [`SplitStatus()`](reference/SplitStatus.md) / [`SymmetricDifference()`](reference/SimilarityMetrics.md)                                                            | Robinson-Foulds / partition metrics       |
-| [`DoNotConflict()`](reference/SimilarityMetrics.md), [`ExplicitlyAgree()`](reference/SimilarityMetrics.md), [`SteelPenny()`](reference/SimilarityMetrics.md), etc. | Individual metrics                        |
-| [`PlotQuartet()`](reference/PlotQuartet.md) / [`VisualizeQuartets()`](reference/VisualizeQuartets.md)                                                              | Quartet visualizations                    |
-| [`QuartetPoints()`](reference/QuartetPoints.md) / [`BipartitionPoints()`](reference/QuartetPoints.md) / [`SplitPoints()`](reference/QuartetPoints.md)              | Ternary plot helpers                      |
+| Function                                                                                                                                                                                                                                                           | Purpose                                   |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| [`QuartetStates()`](https://ms609.github.io/Quartet/reference/QuartetState.md) / [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)                                                                                                   | Quartet states for all four-taxon subsets |
+| [`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md) / [`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md)                                                                                | Element-wise quartet comparison           |
+| [`QuartetAgreement()`](https://ms609.github.io/Quartet/reference/Distances.md) / [`QuartetDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)                                                                                                     | Summary agreement / distance              |
+| [`AllPairsQuartetAgreement()`](https://ms609.github.io/Quartet/reference/Distances.md) / [`AllPairsQuartetDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)                                                                                     | All-pairs matrix                          |
+| [`OneToManyQuartetAgreement()`](https://ms609.github.io/Quartet/reference/Distances.md) / [`TwoListQuartetAgreement()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)                                                                                | Batch comparisons                         |
+| [`SimilarityMetrics()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md) / [`SimilarityToReference()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)                                                                              | Multi-metric table                        |
+| [`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md) / [`SymmetricDifference()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)                                                                                            | Robinson-Foulds / partition metrics       |
+| [`DoNotConflict()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md), [`ExplicitlyAgree()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md), [`SteelPenny()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md), etc. | Individual metrics                        |
+| [`PlotQuartet()`](https://ms609.github.io/Quartet/reference/PlotQuartet.md) / [`VisualizeQuartets()`](https://ms609.github.io/Quartet/reference/VisualizeQuartets.md)                                                                                              | Quartet visualizations                    |
+| [`QuartetPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md) / [`BipartitionPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md) / [`SplitPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md)              | Ternary plot helpers                      |
 
 ### C++ layer
 

@@ -46,6 +46,13 @@ PlotQuartet(tree, quartet, overwritePar = TRUE, caption = TRUE, ...)
 tree in which the first two members of `quartet` are highlighted in
 orange, and the second two highlighted in blue.
 
+## See also
+
+Other visualization:
+[`QuartetPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md),
+[`SymmetricDifferenceLineEnds()`](https://ms609.github.io/Quartet/reference/SymmetricDifferenceLineEnds.md),
+[`VisualizeQuartets()`](https://ms609.github.io/Quartet/reference/VisualizeQuartets.md)
+
 ## Author
 
 [Martin R. Smith](https://orcid.org/0000-0001-5660-1727)

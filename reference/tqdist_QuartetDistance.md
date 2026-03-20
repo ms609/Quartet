@@ -54,7 +54,7 @@ The distance between the requested trees.
 ## Details
 
 Functions are called from R with user-friendly functions such as
-[`AllPairsQuartetDistance`](Distances.md).
+[`AllPairsQuartetDistance`](https://ms609.github.io/Quartet/reference/Distances.md).
 
 ## Functions
 

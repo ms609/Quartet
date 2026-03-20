@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Quartet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -158,8 +158,8 @@ tqdist C library (Sand et al. 2014)
 tips that do not occur in both trees being compared.</p></li>
 <li><p><code>ManyToManyQuartetAgreement()</code>: Agreement of each quartet, comparing each pair of
 trees in a list.</p></li>
-<li><p><code>TwoListQuartetAgreement()</code>: Agreement of each quartet in trees in one list with
-each quartet in trees in a second list.</p></li>
+<li><p><code>TwoListQuartetAgreement()</code>: Agreement of each quartet in trees in <code>trees1</code> with
+each quartet in trees in <code>trees2</code>.</p></li>
 <li><p><code>SingleTreeQuartetAgreement()</code>: Agreement of each quartet in trees in a list with
 the quartets in a comparison tree.</p></li>
 </ul></div>
@@ -186,12 +186,14 @@ ISSN 1460-2059, <a href="https://doi.org/10.1093/bioinformatics/btu157" class="e
     <div class="dont-index">
 <ul><li><p>Use splits (groups/clades defined by nodes or edges of the tree) instead
 of quartets as the unit of comparison: <code><a href="SplitStatus.html">SplitStatus()</a></code>.</p></li>
-<li><p>Generate distance metrics from quartet statuses: <code><a href="SimilarityMetrics.html">SimilarityMetrics()</a></code>.</p></li>
+<li><p>Generate distance metrics from quartet statuses: <code><a href="SimilarityMetrics.html">SimilarityMetrics()</a></code>,
+<code>[PairwiseQuartets()]</code>.</p></li>
 </ul><p>Other element-by-element comparisons:
 <code><a href="CompareQuartets.html">CompareQuartets()</a></code>,
 <code><a href="CompareQuartetsMulti.html">CompareQuartetsMulti()</a></code>,
 <code><a href="CompareSplits.html">CompareSplits()</a></code>,
 <code><a href="PairSharedQuartetStatus.html">PairSharedQuartetStatus()</a></code>,
+<code><a href="PairwiseQuartets.html">PairwiseQuartets()</a></code>,
 <code><a href="QuartetState.html">QuartetState()</a></code>,
 <code><a href="SplitStatus.html">SplitStatus()</a></code></p></div>
     </div>
@@ -259,7 +261,7 @@ of quartets as the unit of comparison: <code><a href="SplitStatus.html">SplitSta
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Martin R. Smith.</p>
+  <p>Developed by <a href="https://smithlabdurham.github.io/" class="external-link">Martin R. Smith</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

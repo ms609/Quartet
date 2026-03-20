@@ -16,9 +16,10 @@ al.* 2014). Unlike many other implementations, it distinguishes between
 quartets that are contradicted by one tree, and quartets that are simply
 absent due to a lack of resolution (i.e. the presence of polytomies; see
 Smith 2019). ‘Quartet’ makes this distinction in both the quartet metric
-(function [`QuartetStatus()`](reference/QuartetStatus.md)) and the
-partition metric (i.e. Robinson-Foulds distance; function
-[`SplitStatus()`](reference/SplitStatus.md)).
+(function
+[`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md))
+and the partition metric (i.e. Robinson-Foulds distance; function
+[`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)).
 
 ## Using the package
 

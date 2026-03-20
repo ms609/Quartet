@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Quartet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Martin R.
 Smith</h4>
             
-            <h4 data-toc-skip class="date">2026-03-19</h4>
+            <h4 data-toc-skip class="date">2026-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ms609/Quartet/blob/main/vignettes/Using-Quartet.Rmd" class="external-link"><code>vignettes/Using-Quartet.Rmd</code></a></small>
       <div class="d-none name"><code>Using-Quartet.Rmd</code></div>
@@ -101,10 +101,10 @@ version from the CRAN repository:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"Quartet"</span><span class="op">)</span></span></code></pre></div>
 <p>or the development version, from GitHub:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ms609/Quartet"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install-deprecated.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ms609/Quartet"</span><span class="op">)</span></span></code></pre></div>
 <p>Then we’ll load the package into the R working environment:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/Quartet/" class="external-link">"Quartet"</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/Quartet/">"Quartet"</a></span><span class="op">)</span></span></code></pre></div>
 <p>Now the package’s functions are available within R. Let’s proceed to
 calculate some tree distances.</p>
 <div class="section level3">
@@ -195,43 +195,82 @@ forest:</p>
 </div>
 </div>
 <div class="section level2">
+<h2 id="pairwise-comparison">Pairwise comparison<a class="anchor" aria-label="anchor" href="#pairwise-comparison"></a>
+</h2>
+<p>To compute distances between all pairs of trees in a list, use the
+<code><a href="../reference/PairwiseQuartets.html">PairwiseQuartets()</a></code> function:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/PairwiseQuartets.html">PairwiseQuartets</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##           a         b         c         d         e         f</span></span>
+<span><span class="co">## a 1.0000000 0.9757576 0.9757576 0.9333333 0.9121212 0.9333333</span></span>
+<span><span class="co">## b 0.9757576 1.0000000 0.9757576 0.9121212 0.9333333 0.9333333</span></span>
+<span><span class="co">## c 0.9757576 0.9757576 1.0000000 0.9151515 0.9151515 0.9575758</span></span>
+<span><span class="co">## d 0.9333333 0.9121212 0.9151515 1.0000000 0.9575758 0.9575758</span></span>
+<span><span class="co">## e 0.9121212 0.9333333 0.9151515 0.9575758 1.0000000 0.9575758</span></span>
+<span><span class="co">## f 0.9333333 0.9333333 0.9575758 0.9575758 0.9575758 1.0000000</span></span></code></pre>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># equivalent to QuartetDivergence(ManyToManyQuartetAgreement(forest))</span></span></code></pre></div>
+<p>This function can help to summarise sets of trees:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Map distances between trees</span></span>
+<span><span class="va">forestDist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PairwiseQuartets.html">PairwiseQuartets</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
+<span><span class="va">mapping</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cmdscale.html" class="external-link">cmdscale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="va">forestDist</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mapping</span>, asp <span class="op">=</span> <span class="fl">1</span>, axes <span class="op">=</span> <span class="cn">FALSE</span>, frame.plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">""</span>, ylab <span class="op">=</span> <span class="st">""</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="va">mapping</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Using-Quartet_files/figure-html/treedist-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The TreeDist library is used to compute the median tree</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"TreeDist"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeDist/" class="external-link">"TreeDist"</a></span><span class="op">)</span></span>
+<span>  <span class="co"># Plot the median tree:</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">forest</span>, distance <span class="op">=</span> <span class="va">PairwiseQuartets</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'TreeDist'</span></span></code></pre>
+<pre><code><span><span class="co">## The following object is masked from 'package:Quartet':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     RobinsonFoulds</span></span></code></pre>
+<p><img src="Using-Quartet_files/figure-html/treedist-2.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level2">
 <h2 id="trees-with-different-tip-labels">Trees with different tip labels<a class="anchor" aria-label="anchor" href="#trees-with-different-tip-labels"></a>
 </h2>
 <p>“Quartet” can compare trees of different sizes or with non-identical
 sets of taxa. Quartets pertaining to a leaf that does not occur in one
 tree are treated as unresolved.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">treeAG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">treeBI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">treeEJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">4</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeAG</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeBI</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">treeEJ</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Using-Quartet_files/figure-html/different-tips-1.png" class="r-plt" alt="" width="384" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/QuartetState.html">QuartetState</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">treeAG</span><span class="op">)</span> <span class="co"># 3: C is closest to D</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 3</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/QuartetState.html">QuartetState</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">treeBI</span><span class="op">)</span> <span class="co"># 0: unresolved in this tree</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0</span></span></code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate status for all leaves observed in trees: here, A..I</span></span>
 <span><span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        N   Q  s d r1 r2  u</span></span>
 <span><span class="co">## [1,] 252 126 15 0 20 55 36</span></span></code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate status for specified number of leaves</span></span>
 <span><span class="co"># Here, we have ten taxa A..J, but J does not occur in either of these trees</span></span>
 <span><span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, nTip <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        N   Q  s d r1 r2   u</span></span>
 <span><span class="co">## [1,] 420 210 15 0 20 55 120</span></span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compare a list of trees with different numbers of leaves to a reference</span></span>
 <span><span class="fu"><a href="../reference/QuartetStatus.html">QuartetStatus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, <span class="va">treeEJ</span><span class="op">)</span>, cf <span class="op">=</span> <span class="va">treeAG</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        N   Q  s d r1 r2   u</span></span>
 <span><span class="co">## [1,] 420 210 35 0  0  0 175</span></span>
 <span><span class="co">## [2,] 420 210 15 0 55 20 120</span></span>
 <span><span class="co">## [3,] 420 210  0 0 15 35 160</span></span></code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compare all pairs of trees in a list.</span></span>
 <span><span class="co"># "u" shows how many possible quartets are unresolved in both trees</span></span>
 <span><span class="fu"><a href="../reference/QuartetStatus.html">ManyToManyQuartetAgreement</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">treeAG</span>, <span class="va">treeBI</span>, <span class="va">treeEJ</span><span class="op">)</span>, nTip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, , <span class="st">"u"</span><span class="op">]</span></span></code></pre></div>
@@ -245,7 +284,7 @@ tree are treated as unresolved.</p>
 </h2>
 <p>To calculate how many quartets are unique to a certain tree (akin to
 the partitionwise equivalent <code><a href="https://rdrr.io/pkg/ape/man/boot.phylo.html" class="external-link">ape::prop.clades</a></code>), use:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">interestingTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">42</span>, <span class="fl">7</span><span class="op">)</span></span>
 <span><span class="va">referenceTrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">PectinateTree</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompareQuartetsMulti.html">CompareQuartetsMulti</a></span><span class="op">(</span><span class="va">interestingTree</span>, <span class="va">referenceTrees</span><span class="op">)</span></span></code></pre></div>
@@ -258,7 +297,7 @@ way in <code>interestingTree</code>, but not resolved that way in any
 </h2>
 <p>You may wish to:</p>
 <ul>
-<li><p><a href="https://ms609.github.io/Quartet/articles/Quartet-Distance.html" class="external-link">Read
+<li><p><a href="https://ms609.github.io/Quartet/articles/Quartet-Distance.html">Read
 more</a> about Quartet distances</p></li>
 <li><p>Review <a href="https://ms609.github.io/TreeDist/index.html" class="external-link">alternative distance
 measures</a> and corresponding <a href="https://ms609.github.io/TreeDist/reference/index.html#section-tree-distance-measures" class="external-link">functions</a></p></li>
@@ -273,7 +312,7 @@ or contextualize</a> tree distance metrics</p></li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Martin R. Smith.</p>
+  <p>Developed by <a href="https://smithlabdurham.github.io/" class="external-link">Martin R. Smith</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

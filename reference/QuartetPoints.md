@@ -63,6 +63,13 @@ informative trees from simulated morphological datasets.” *Biology
 Letters*, **15**(2), 20180632.
 [doi:10.1098/rsbl.2018.0632](https://doi.org/10.1098/rsbl.2018.0632) .
 
+## See also
+
+Other visualization:
+[`PlotQuartet()`](https://ms609.github.io/Quartet/reference/PlotQuartet.md),
+[`SymmetricDifferenceLineEnds()`](https://ms609.github.io/Quartet/reference/SymmetricDifferenceLineEnds.md),
+[`VisualizeQuartets()`](https://ms609.github.io/Quartet/reference/VisualizeQuartets.md)
+
 ## Author
 
 [Martin R. Smith](https://orcid.org/0000-0001-5660-1727)

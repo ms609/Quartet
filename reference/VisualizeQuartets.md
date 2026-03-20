@@ -88,7 +88,7 @@ split within that tree; columns correspond to:
 - N, Q, s, d, r1, r2, u:
 
   The status of each quartet relative to that split, as documented in
-  [`QuartetStatus()`](QuartetStatus.md)
+  [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
 
 - res:
 
@@ -98,6 +98,13 @@ split within that tree; columns correspond to:
 
   The proportion of quartets resolved by that node that are resolved in
   the same manner in the other tree; i.e. `s / s + d`
+
+## See also
+
+Other visualization:
+[`PlotQuartet()`](https://ms609.github.io/Quartet/reference/PlotQuartet.md),
+[`QuartetPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md),
+[`SymmetricDifferenceLineEnds()`](https://ms609.github.io/Quartet/reference/SymmetricDifferenceLineEnds.md)
 
 ## Author
 

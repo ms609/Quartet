@@ -16,9 +16,10 @@ al.* 2014). Unlike many other implementations, it distinguishes between
 quartets that are contradicted by one tree, and quartets that are simply
 absent due to a lack of resolution (i.e. the presence of polytomies; see
 Smith 2019). ‘Quartet’ makes this distinction in both the quartet metric
-(function [`QuartetStatus()`](reference/QuartetStatus.md)) and the
-partition metric (i.e. Robinson-Foulds distance; function
-[`SplitStatus()`](reference/SplitStatus.md)).
+(function
+[`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md))
+and the partition metric (i.e. Robinson-Foulds distance; function
+[`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)).
 
 ## Using the package
 
@@ -90,66 +91,105 @@ By contributing to this project, you agree to abide by its terms.
 
 # Package index
 
-## All functions
+## Enumeration
 
-- [`AllQuartets()`](AllQuartets.md) : List all quartets
-- [`CompareQuartets()`](CompareQuartets.md) : Compare quartet states by
-  explicit enumeration
-- [`CompareQuartetsMulti()`](CompareQuartetsMulti.md) : Compare one
-  tree's quartets against others'
-- [`CompareSplits()`](CompareSplits.md)
-  [`CompareBipartitions()`](CompareSplits.md) : Compare status of splits
-- [`QuartetDistance()`](Distances.md)
-  [`QuartetAgreement()`](Distances.md)
-  [`PairsQuartetDistance()`](Distances.md)
-  [`OneToManyQuartetAgreement()`](Distances.md)
-  [`AllPairsQuartetDistance()`](Distances.md)
-  [`AllPairsQuartetAgreement()`](Distances.md)
-  [`TripletDistance()`](Distances.md)
-  [`PairsTripletDistance()`](Distances.md)
-  [`AllPairsTripletDistance()`](Distances.md) : Direct entry points to
-  "tqDist" functions
-- [`PlotQuartet()`](PlotQuartet.md) : Plot quartet on tree topologies
-- [`QuartetPoints()`](QuartetPoints.md)
-  [`SplitPoints()`](QuartetPoints.md)
-  [`BipartitionPoints()`](QuartetPoints.md) : Plot tree differences on
-  ternary plots
-- [`QuartetState()`](QuartetState.md)
-  [`QuartetStates()`](QuartetState.md) : Quartet State(s)
-- [`SharedQuartetStatus()`](QuartetStatus.md)
-  [`QuartetStatus()`](QuartetStatus.md)
-  [`ManyToManyQuartetAgreement()`](QuartetStatus.md)
-  [`TwoListQuartetAgreement()`](QuartetStatus.md)
-  [`SingleTreeQuartetAgreement()`](QuartetStatus.md) : Status of
-  quartets
-- [`ResolvedQuartets()`](ResolvedQuartets.md)
-  [`ResolvedTriplets()`](ResolvedQuartets.md) : Count resolved quartets
-- [`SimilarityMetrics()`](SimilarityMetrics.md)
-  [`DoNotConflict()`](SimilarityMetrics.md)
-  [`ExplicitlyAgree()`](SimilarityMetrics.md)
-  [`StrictJointAssertions()`](SimilarityMetrics.md)
-  [`SemiStrictJointAssertions()`](SimilarityMetrics.md)
-  [`SymmetricDifference()`](SimilarityMetrics.md)
-  [`RawSymmetricDifference()`](SimilarityMetrics.md)
-  [`RobinsonFoulds()`](SimilarityMetrics.md)
-  [`MarczewskiSteinhaus()`](SimilarityMetrics.md)
-  [`SteelPenny()`](SimilarityMetrics.md)
-  [`QuartetDivergence()`](SimilarityMetrics.md)
-  [`SimilarityToReference()`](SimilarityMetrics.md) : Tree similarity
-  measures
-- [`SplitStatus()`](SplitStatus.md)
-  [`SharedSplitStatus()`](SplitStatus.md) : Matching partitions
-- [`SymmetricDifferenceLineEnds()`](SymmetricDifferenceLineEnds.md)
-  [`SymmetricDifferenceLines()`](SymmetricDifferenceLineEnds.md) : Plot
-  contours of equal symmetric difference on a ternary plot
-- [`TQDist()`](TQDist.md) [`TQAE()`](TQDist.md) : Wrapper for tqDist
-- [`VisualizeQuartets()`](VisualizeQuartets.md) : Visualize quartet
-  difference on trees, by split
-- [`sq_trees`](sq_trees.md) : Eighteen example trees
+Count quartets within trees
+
+- [`AllQuartets()`](https://ms609.github.io/Quartet/reference/AllQuartets.md)
+  : List all quartets
+- [`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md)
+  : Compare quartet states by explicit enumeration
+- [`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md)
+  : Compare one tree's quartets against others'
+- [`ResolvedQuartets()`](https://ms609.github.io/Quartet/reference/ResolvedQuartets.md)
+  [`ResolvedTriplets()`](https://ms609.github.io/Quartet/reference/ResolvedQuartets.md)
+  : Count resolved quartets
+
+## Comparison
+
+Compare trees and quartet states
+
+- [`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md)
+  : Compare quartet states by explicit enumeration
+- [`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md)
+  : Compare one tree's quartets against others'
+- [`CompareSplits()`](https://ms609.github.io/Quartet/reference/CompareSplits.md)
+  [`CompareBipartitions()`](https://ms609.github.io/Quartet/reference/CompareSplits.md)
+  : Compare status of splits
+- [`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md)
+  : Pairwise quartet distances
+- [`QuartetState()`](https://ms609.github.io/Quartet/reference/QuartetState.md)
+  [`QuartetStates()`](https://ms609.github.io/Quartet/reference/QuartetState.md)
+  : Quartet State(s)
+- [`SharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  [`ManyToManyQuartetAgreement()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  [`TwoListQuartetAgreement()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  [`SingleTreeQuartetAgreement()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  : Status of quartets
+- [`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)
+  [`SharedSplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)
+  : Matching partitions
+- [`SimilarityMetrics()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`DoNotConflict()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`ExplicitlyAgree()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`StrictJointAssertions()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`SemiStrictJointAssertions()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`SymmetricDifference()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`RawSymmetricDifference()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`RobinsonFoulds()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`MarczewskiSteinhaus()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`SteelPenny()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`QuartetDivergence()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  [`SimilarityToReference()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  : Tree similarity measures
+
+## Visualization
+
+Plot and display quartet statuses and differences
+
+- [`PlotQuartet()`](https://ms609.github.io/Quartet/reference/PlotQuartet.md)
+  : Plot quartet on tree topologies
+- [`QuartetPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md)
+  [`SplitPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md)
+  [`BipartitionPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md)
+  : Plot tree differences on ternary plots
+- [`SymmetricDifferenceLineEnds()`](https://ms609.github.io/Quartet/reference/SymmetricDifferenceLineEnds.md)
+  [`SymmetricDifferenceLines()`](https://ms609.github.io/Quartet/reference/SymmetricDifferenceLineEnds.md)
+  : Plot contours of equal symmetric difference on a ternary plot
+- [`VisualizeQuartets()`](https://ms609.github.io/Quartet/reference/VisualizeQuartets.md)
+  : Visualize quartet difference on trees, by split
+
+## Datasets
+
+Example datasets for use with Quartet
+
+- [`sq_trees`](https://ms609.github.io/Quartet/reference/sq_trees.md) :
+  Eighteen example trees
+
+## TQDist wrappers
+
+Direct access to TQDist functions
+
+- [`QuartetDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  [`QuartetAgreement()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  [`PairsQuartetDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  [`OneToManyQuartetAgreement()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  [`AllPairsQuartetDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  [`AllPairsQuartetAgreement()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  [`TripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  [`PairsTripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  [`AllPairsTripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
+  : Direct entry points to "tqDist" functions
+- [`TQDist()`](https://ms609.github.io/Quartet/reference/TQDist.md)
+  [`TQAE()`](https://ms609.github.io/Quartet/reference/TQDist.md) :
+  Wrapper for tqDist
 
 # Articles
 
 ### All vignettes
 
-- [About the quartet distance](Quartet-Distance.md):
-- [Getting started with Quartet](Using-Quartet.md):
+- [About the quartet
+  distance](https://ms609.github.io/Quartet/articles/Quartet-Distance.md):
+- [Getting started with
+  Quartet](https://ms609.github.io/Quartet/articles/Using-Quartet.md):

@@ -33,6 +33,13 @@ connect points of equal symmetric difference.
 - `SymmetricDifferenceLines()`: Plot the lines onto the active ternary
   plot.
 
+## See also
+
+Other visualization:
+[`PlotQuartet()`](https://ms609.github.io/Quartet/reference/PlotQuartet.md),
+[`QuartetPoints()`](https://ms609.github.io/Quartet/reference/QuartetPoints.md),
+[`VisualizeQuartets()`](https://ms609.github.io/Quartet/reference/VisualizeQuartets.md)
+
 ## Author
 
 [Martin R. Smith](https://orcid.org/0000-0001-5660-1727)

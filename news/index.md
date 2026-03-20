@@ -1,15 +1,24 @@
 # Changelog
 
+## Quartet v1.3.0.9000 (2026-03-20)
+
+- [`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md)
+  compares quartet statuses between all pairs of trees.
+
 ## Quartet v1.3.0 (2026-03-19)
+
+CRAN release: 2026-03-19
 
 - OpenMP parallelism for quartet calculations.
 - Improvements to memory allocation and cache performance.
-- Move [`ResolvedQuartets()`](../reference/ResolvedQuartets.md) core
-  computation to C++.
+- Move
+  [`ResolvedQuartets()`](https://ms609.github.io/Quartet/reference/ResolvedQuartets.md)
+  core computation to C++.
 - Reduce inefficient R-side processing in
-  [`SingleTreeQuartetAgreement()`](../reference/QuartetStatus.md),
-  [`QuartetStatus()`](../reference/QuartetStatus.md) and
-  [`TwoListQuartetAgreement()`](../reference/QuartetStatus.md).
+  [`SingleTreeQuartetAgreement()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md),
+  [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  and
+  [`TwoListQuartetAgreement()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md).
 - R \<4.1 is no longer formally supported.
 
 ## Quartet v1.2.7 (2024-10-31)
@@ -38,8 +47,8 @@ CRAN release: 2022-07-08
 
 CRAN release: 2022-05-02
 
-- [`QuartetStates()`](../reference/QuartetState.md) handles absent
-  leaves gracefully.
+- [`QuartetStates()`](https://ms609.github.io/Quartet/reference/QuartetState.md)
+  handles absent leaves gracefully.
 - Copy-edit documentation.
 
 ## Quartet v1.2.3
@@ -59,36 +68,39 @@ CRAN release: 2020-10-21
 
 ### New features
 
-- [`CompareQuartetsMulti()`](../reference/CompareQuartetsMulti.md)
+- [`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md)
   compares quartet status in one tree with status in multiple others.
-- [`VisualizeQuartets()`](../reference/VisualizeQuartets.md) depicts
-  contribution of splits to quartet score.
-- [`SimilarityToReference()`](../reference/SimilarityMetrics.md) allows
-  comparison against specified reference topology.
+- [`VisualizeQuartets()`](https://ms609.github.io/Quartet/reference/VisualizeQuartets.md)
+  depicts contribution of splits to quartet score.
+- [`SimilarityToReference()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  allows comparison against specified reference topology.
 
 ### Changes
 
-- Deprecate [`RobinsonFoulds()`](../reference/SimilarityMetrics.md):
+- Deprecate
+  [`RobinsonFoulds()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md):
   renamed to
-  [`RawSymmetricDifference()`](../reference/SimilarityMetrics.md).
+  [`RawSymmetricDifference()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md).
 - `QuartetState[s]()` now uses sister-of-4 notation, rather than
   sister-of-1, to give values within \[0, 3\].
-- [`ManyToManyQuartetAgreement()`](../reference/QuartetStatus.md) now
-  returns entries for `N` and `Q`.
+- [`ManyToManyQuartetAgreement()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  now returns entries for `N` and `Q`.
 
 ### Improvements
 
 - Faster C++ implementation of
-  [`AllQuartets()`](../reference/AllQuartets.md) and
-  [`QuartetStates()`](../reference/QuartetState.md).
-- [`QuartetStatus()`](../reference/QuartetStatus.md) now supports
-  non-identical leaf samples.
-- [`SimilarityMetrics()`](../reference/SimilarityMetrics.md) now handles
-  single tree comparisons.
+  [`AllQuartets()`](https://ms609.github.io/Quartet/reference/AllQuartets.md)
+  and
+  [`QuartetStates()`](https://ms609.github.io/Quartet/reference/QuartetState.md).
+- [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  now supports non-identical leaf samples.
+- [`SimilarityMetrics()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+  now handles single tree comparisons.
 - Correctly calculate resolution of unrooted trees with unconventional
   node numbering conventions.
 - Remove errant name when comparing unnamed tree pairs.
-- Small improvements to [`PlotQuartet()`](../reference/PlotQuartet.md).
+- Small improvements to
+  [`PlotQuartet()`](https://ms609.github.io/Quartet/reference/PlotQuartet.md).
 - Minor efficiency improvements.
 - Documentation improvements.
 

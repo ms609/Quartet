@@ -14,8 +14,10 @@ Handles vectors and matrices of two or three dimensions.
 
   Two-dimensional integer array, with rows corresponding to counts of
   matching quartets or partitions for each tree, and columns named
-  according to the output of [`QuartetStatus()`](QuartetStatus.md) or
-  [`SplitStatus()`](SplitStatus.md).
+  according to the output of
+  [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  or
+  [`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md).
 
 - numerator, denominator:
 

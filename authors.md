@@ -2,7 +2,8 @@
 
 ## Authors
 
-- **Martin R. Smith**. Author, maintainer, copyright holder.
+- **[Martin R. Smith](https://smithlabdurham.github.io/)**. Author,
+  maintainer, copyright holder.
   [](https://orcid.org/0000-0001-5660-1727)
 
 - **Andreas Sand**. Bibliographic antecedent.

@@ -52,9 +52,10 @@ Twenty-Fourth Annual ACM-SIAM Symposium on Discrete Algorithms*,
 
 ## See also
 
-Other quartet counting functions: [`AllQuartets()`](AllQuartets.md),
-[`CompareQuartets()`](CompareQuartets.md),
-[`CompareQuartetsMulti()`](CompareQuartetsMulti.md)
+Other enumeration:
+[`AllQuartets()`](https://ms609.github.io/Quartet/reference/AllQuartets.md),
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md)
 
 ## Author
 

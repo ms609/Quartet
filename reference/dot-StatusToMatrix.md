@@ -1,7 +1,8 @@
 # Status vector to matrix
 
 Converts a vector to a matrix that can be analysed by the
-[`DoNotConflict()`](SimilarityMetrics.md) function family.
+[`DoNotConflict()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+function family.
 
 ## Usage
 

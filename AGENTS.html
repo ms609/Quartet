@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="index.html">Quartet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,10 +51,10 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">R</span> CMD INSTALL <span class="at">--library</span><span class="op">=</span>.agent-X .</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/testthat')"</span></span></code></pre></div>
 <p><strong>Never</strong> install to the default library. On Windows, a loaded DLL locks the file and blocks other agents.</p>
-<p><strong>Never</strong> use <code>devtools::load_all()</code> or <code><a href="https://pkgbuild.r-lib.org/reference/compile_dll.html" class="external-link">pkgbuild::compile_dll()</a></code> — these target a shared temp location and will conflict.</p>
+<p><strong>Never</strong> use <code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all()</a></code> or <code><a href="https://pkgbuild.r-lib.org/reference/compile_dll.html" class="external-link">pkgbuild::compile_dll()</a></code> — these target a shared temp location and will conflict.</p>
 <div class="section level3">
 <h3 id="build-failure-recovery">Build failure recovery<a class="anchor" aria-label="anchor" href="#build-failure-recovery"></a></h3>
-<p><code>roxygen2::roxygenise()</code> (default mode) leaves debug <code>.o</code> files in <code>src/</code>. Always clean before building, and use the installed-code loader for docs:</p>
+<p><code><a href="https://roxygen2.r-lib.org/reference/roxygenize.html" class="external-link">roxygen2::roxygenise()</a></code> (default mode) leaves debug <code>.o</code> files in <code>src/</code>. Always clean before building, and use the installed-code loader for docs:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span> src/<span class="pp">*</span>.o src/<span class="pp">*</span>.dll</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">R</span> CMD INSTALL <span class="at">--library</span><span class="op">=</span>.agent-X .</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">".libPaths(c('.agent-X', .libPaths())); roxygen2::roxygenise(load_code = roxygen2::load_installed)"</span></span></code></pre></div>
@@ -225,7 +225,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Martin R. Smith.</p>
+  <p>Developed by <a href="https://smithlabdurham.github.io/" class="external-link">Martin R. Smith</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

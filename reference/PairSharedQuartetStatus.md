@@ -53,12 +53,13 @@ Estabrook *et al*. (1985):
 ## See also
 
 Other element-by-element comparisons:
-[`CompareQuartets()`](CompareQuartets.md),
-[`CompareQuartetsMulti()`](CompareQuartetsMulti.md),
-[`CompareSplits()`](CompareSplits.md),
-[`QuartetState()`](QuartetState.md),
-[`SharedQuartetStatus()`](QuartetStatus.md),
-[`SplitStatus()`](SplitStatus.md)
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md),
+[`CompareSplits()`](https://ms609.github.io/Quartet/reference/CompareSplits.md),
+[`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md),
+[`QuartetState()`](https://ms609.github.io/Quartet/reference/QuartetState.md),
+[`SharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md),
+[`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)
 
 ## Author
 

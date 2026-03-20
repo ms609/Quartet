@@ -83,8 +83,11 @@ between binary or general trees.” *Bioinformatics*, **30**(14),
 
 ## See also
 
-[`CompareQuartets()`](CompareQuartets.md),
-[`QuartetStatus()`](QuartetStatus.md)
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+
+Other TQDist functions:
+[`Distances`](https://ms609.github.io/Quartet/reference/Distances.md)
 
 ## Author
 

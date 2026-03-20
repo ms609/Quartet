@@ -101,16 +101,18 @@ closer to 20 s, and 50 around a minute.
 ## See also
 
 Other element-by-element comparisons:
-[`CompareQuartets()`](CompareQuartets.md),
-[`CompareSplits()`](CompareSplits.md),
-[`PairSharedQuartetStatus()`](PairSharedQuartetStatus.md),
-[`QuartetState()`](QuartetState.md),
-[`SharedQuartetStatus()`](QuartetStatus.md),
-[`SplitStatus()`](SplitStatus.md)
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`CompareSplits()`](https://ms609.github.io/Quartet/reference/CompareSplits.md),
+[`PairSharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/PairSharedQuartetStatus.md),
+[`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md),
+[`QuartetState()`](https://ms609.github.io/Quartet/reference/QuartetState.md),
+[`SharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md),
+[`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)
 
-Other quartet counting functions: [`AllQuartets()`](AllQuartets.md),
-[`CompareQuartets()`](CompareQuartets.md),
-[`ResolvedQuartets()`](ResolvedQuartets.md)
+Other enumeration:
+[`AllQuartets()`](https://ms609.github.io/Quartet/reference/AllQuartets.md),
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`ResolvedQuartets()`](https://ms609.github.io/Quartet/reference/ResolvedQuartets.md)
 
 ## Author
 

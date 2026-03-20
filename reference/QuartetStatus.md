@@ -125,8 +125,8 @@ library (Sand et al. 2014) .
 - `ManyToManyQuartetAgreement()`: Agreement of each quartet, comparing
   each pair of trees in a list.
 
-- `TwoListQuartetAgreement()`: Agreement of each quartet in trees in one
-  list with each quartet in trees in a second list.
+- `TwoListQuartetAgreement()`: Agreement of each quartet in trees in
+  `trees1` with each quartet in trees in `trees2`.
 
 - `SingleTreeQuartetAgreement()`: Agreement of each quartet in trees in
   a list with the quartets in a comparison tree.
@@ -161,17 +161,20 @@ between binary or general trees.” *Bioinformatics*, **30**(14),
 
 - Use splits (groups/clades defined by nodes or edges of the tree)
   instead of quartets as the unit of comparison:
-  [`SplitStatus()`](SplitStatus.md).
+  [`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md).
 
 - Generate distance metrics from quartet statuses:
-  [`SimilarityMetrics()`](SimilarityMetrics.md).
+  [`SimilarityMetrics()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md),
+  `[PairwiseQuartets()]`.
 
 Other element-by-element comparisons:
-[`CompareQuartets()`](CompareQuartets.md),
-[`CompareQuartetsMulti()`](CompareQuartetsMulti.md),
-[`CompareSplits()`](CompareSplits.md),
-[`PairSharedQuartetStatus()`](PairSharedQuartetStatus.md),
-[`QuartetState()`](QuartetState.md), [`SplitStatus()`](SplitStatus.md)
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md),
+[`CompareSplits()`](https://ms609.github.io/Quartet/reference/CompareSplits.md),
+[`PairSharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/PairSharedQuartetStatus.md),
+[`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md),
+[`QuartetState()`](https://ms609.github.io/Quartet/reference/QuartetState.md),
+[`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)
 
 ## Author
 

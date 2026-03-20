@@ -32,12 +32,13 @@ different integers less than or equal to `nTips`.
 
 ## See also
 
-States of quartets in given trees: [`QuartetStates()`](QuartetState.md)
+States of quartets in given trees:
+[`QuartetStates()`](https://ms609.github.io/Quartet/reference/QuartetState.md)
 
-Other quartet counting functions:
-[`CompareQuartets()`](CompareQuartets.md),
-[`CompareQuartetsMulti()`](CompareQuartetsMulti.md),
-[`ResolvedQuartets()`](ResolvedQuartets.md)
+Other enumeration:
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md),
+[`ResolvedQuartets()`](https://ms609.github.io/Quartet/reference/ResolvedQuartets.md)
 
 ## Author
 

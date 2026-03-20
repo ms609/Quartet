@@ -64,15 +64,16 @@ that:
 ## See also
 
 Equivalent function for quartets:
-[`CompareQuartets()`](CompareQuartets.md)
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md)
 
 Other element-by-element comparisons:
-[`CompareQuartets()`](CompareQuartets.md),
-[`CompareQuartetsMulti()`](CompareQuartetsMulti.md),
-[`PairSharedQuartetStatus()`](PairSharedQuartetStatus.md),
-[`QuartetState()`](QuartetState.md),
-[`SharedQuartetStatus()`](QuartetStatus.md),
-[`SplitStatus()`](SplitStatus.md)
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md),
+[`PairSharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/PairSharedQuartetStatus.md),
+[`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md),
+[`QuartetState()`](https://ms609.github.io/Quartet/reference/QuartetState.md),
+[`SharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md),
+[`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)
 
 ## Author
 

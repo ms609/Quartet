@@ -30,7 +30,8 @@ AllPairsTripletDistance(file)
 - file, file1, file2:
 
   Paths to files containing a tree or trees in Newick format, possibly
-  created using [`TQFile()`](TQFile.md).
+  created using
+  [`TQFile()`](https://ms609.github.io/Quartet/reference/TQFile.md).
 
 ## Value
 
@@ -101,11 +102,14 @@ between binary or general trees.” *Bioinformatics*, **30**(14),
 
 ## See also
 
-- [`QuartetStatus()`](QuartetStatus.md) takes trees, rather than files,
-  as input.
+- [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
+  takes trees, rather than files, as input.
 
-- [`TQFile()`](TQFile.md) creates a temporary file containing specified
-  trees.
+- [`TQFile()`](https://ms609.github.io/Quartet/reference/TQFile.md)
+  creates a temporary file containing specified trees.
+
+Other TQDist functions:
+[`TQDist()`](https://ms609.github.io/Quartet/reference/TQDist.md)
 
 ## Author
 

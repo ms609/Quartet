@@ -73,12 +73,13 @@ nor contradicted in tree 1.
 ## See also
 
 Other element-by-element comparisons:
-[`CompareQuartets()`](CompareQuartets.md),
-[`CompareQuartetsMulti()`](CompareQuartetsMulti.md),
-[`CompareSplits()`](CompareSplits.md),
-[`PairSharedQuartetStatus()`](PairSharedQuartetStatus.md),
-[`QuartetState()`](QuartetState.md),
-[`SharedQuartetStatus()`](QuartetStatus.md)
+[`CompareQuartets()`](https://ms609.github.io/Quartet/reference/CompareQuartets.md),
+[`CompareQuartetsMulti()`](https://ms609.github.io/Quartet/reference/CompareQuartetsMulti.md),
+[`CompareSplits()`](https://ms609.github.io/Quartet/reference/CompareSplits.md),
+[`PairSharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/PairSharedQuartetStatus.md),
+[`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md),
+[`QuartetState()`](https://ms609.github.io/Quartet/reference/QuartetState.md),
+[`SharedQuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
 
 ## Author
 

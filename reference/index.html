@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Quartet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,9 +43,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="enumeration">Enumeration<a class="anchor" aria-label="anchor" href="#enumeration"></a></h2>
 
-
+      <div class="section-desc"><p>Count quartets within trees</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -75,6 +75,36 @@
 
         <dt>
 
+          <code><a href="ResolvedQuartets.html">ResolvedQuartets()</a></code> <code><a href="ResolvedQuartets.html">ResolvedTriplets()</a></code>
+
+        </dt>
+        <dd>Count resolved quartets</dd>
+      </dl></div><div class="section level2">
+      <h2 id="comparison">Comparison<a class="anchor" aria-label="anchor" href="#comparison"></a></h2>
+
+      <div class="section-desc"><p>Compare trees and quartet states</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="CompareQuartets.html">CompareQuartets()</a></code>
+
+        </dt>
+        <dd>Compare quartet states by explicit enumeration</dd>
+
+        <dt>
+
+          <code><a href="CompareQuartetsMulti.html">CompareQuartetsMulti()</a></code>
+
+        </dt>
+        <dd>Compare one tree's quartets against others'</dd>
+
+        <dt>
+
           <code><a href="CompareSplits.html">CompareSplits()</a></code> <code><a href="CompareSplits.html">CompareBipartitions()</a></code>
 
         </dt>
@@ -82,24 +112,10 @@
 
         <dt>
 
-          <code><a href="Distances.html">QuartetDistance()</a></code> <code><a href="Distances.html">QuartetAgreement()</a></code> <code><a href="Distances.html">PairsQuartetDistance()</a></code> <code><a href="Distances.html">OneToManyQuartetAgreement()</a></code> <code><a href="Distances.html">AllPairsQuartetDistance()</a></code> <code><a href="Distances.html">AllPairsQuartetAgreement()</a></code> <code><a href="Distances.html">TripletDistance()</a></code> <code><a href="Distances.html">PairsTripletDistance()</a></code> <code><a href="Distances.html">AllPairsTripletDistance()</a></code>
+          <code><a href="PairwiseQuartets.html">PairwiseQuartets()</a></code>
 
         </dt>
-        <dd>Direct entry points to "tqDist" functions</dd>
-
-        <dt>
-
-          <code><a href="PlotQuartet.html">PlotQuartet()</a></code>
-
-        </dt>
-        <dd>Plot quartet on tree topologies</dd>
-
-        <dt>
-
-          <code><a href="QuartetPoints.html">QuartetPoints()</a></code> <code><a href="QuartetPoints.html">SplitPoints()</a></code> <code><a href="QuartetPoints.html">BipartitionPoints()</a></code>
-
-        </dt>
-        <dd>Plot tree differences on ternary plots</dd>
+        <dd>Pairwise quartet distances</dd>
 
         <dt>
 
@@ -117,10 +133,10 @@
 
         <dt>
 
-          <code><a href="ResolvedQuartets.html">ResolvedQuartets()</a></code> <code><a href="ResolvedQuartets.html">ResolvedTriplets()</a></code>
+          <code><a href="SplitStatus.html">SplitStatus()</a></code> <code><a href="SplitStatus.html">SharedSplitStatus()</a></code>
 
         </dt>
-        <dd>Count resolved quartets</dd>
+        <dd>Matching partitions</dd>
 
         <dt>
 
@@ -128,13 +144,29 @@
 
         </dt>
         <dd>Tree similarity measures</dd>
+      </dl></div><div class="section level2">
+      <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a></h2>
+
+      <div class="section-desc"><p>Plot and display quartet statuses and differences</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="PlotQuartet.html">PlotQuartet()</a></code>
+
+        </dt>
+        <dd>Plot quartet on tree topologies</dd>
 
         <dt>
 
-          <code><a href="SplitStatus.html">SplitStatus()</a></code> <code><a href="SplitStatus.html">SharedSplitStatus()</a></code>
+          <code><a href="QuartetPoints.html">QuartetPoints()</a></code> <code><a href="QuartetPoints.html">SplitPoints()</a></code> <code><a href="QuartetPoints.html">BipartitionPoints()</a></code>
 
         </dt>
-        <dd>Matching partitions</dd>
+        <dd>Plot tree differences on ternary plots</dd>
 
         <dt>
 
@@ -145,30 +177,56 @@
 
         <dt>
 
-          <code><a href="TQDist.html">TQDist()</a></code> <code><a href="TQDist.html">TQAE()</a></code>
-
-        </dt>
-        <dd>Wrapper for tqDist</dd>
-
-        <dt>
-
           <code><a href="VisualizeQuartets.html">VisualizeQuartets()</a></code>
 
         </dt>
         <dd>Visualize quartet difference on trees, by split</dd>
+      </dl></div><div class="section level2">
+      <h2 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Example datasets for use with Quartet</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="sq_trees.html">sq_trees</a></code>
 
         </dt>
         <dd>Eighteen example trees</dd>
+      </dl></div><div class="section level2">
+      <h2 id="tqdist-wrappers">TQDist wrappers<a class="anchor" aria-label="anchor" href="#tqdist-wrappers"></a></h2>
+
+      <div class="section-desc"><p>Direct access to TQDist functions</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="Distances.html">QuartetDistance()</a></code> <code><a href="Distances.html">QuartetAgreement()</a></code> <code><a href="Distances.html">PairsQuartetDistance()</a></code> <code><a href="Distances.html">OneToManyQuartetAgreement()</a></code> <code><a href="Distances.html">AllPairsQuartetDistance()</a></code> <code><a href="Distances.html">AllPairsQuartetAgreement()</a></code> <code><a href="Distances.html">TripletDistance()</a></code> <code><a href="Distances.html">PairsTripletDistance()</a></code> <code><a href="Distances.html">AllPairsTripletDistance()</a></code>
+
+        </dt>
+        <dd>Direct entry points to "tqDist" functions</dd>
+
+        <dt>
+
+          <code><a href="TQDist.html">TQDist()</a></code> <code><a href="TQDist.html">TQAE()</a></code>
+
+        </dt>
+        <dd>Wrapper for tqDist</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Martin R. Smith.</p>
+  <p>Developed by <a href="https://smithlabdurham.github.io/" class="external-link">Martin R. Smith</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

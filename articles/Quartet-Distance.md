@@ -68,8 +68,8 @@ proposed (Day, 1986; Estabrook et al., 1985); arguably the most
 appropriate is the Symmetric Quartet Divergence (Smith, 2019), which
 represents the total number of quartets unique to each tree normalized
 against the total number of quartets that could have been resolved. The
-[`SimilarityMetrics()`](../reference/SimilarityMetrics.md) documentation
-page gives further details.
+[`SimilarityMetrics()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+documentation page gives further details.
 
 ## Asymmetric differences
 
@@ -84,8 +84,8 @@ that a randomly chosen quartet is resolved correctly by the tree, where
 an uncertain resolution in either the reference or comparison tree is
 taken as having a 1/3 chance of being correct (Asher & Smith
 forthcoming). More details are given at the
-[`SimilarityMetrics()`](../reference/SimilarityMetrics.md) documentation
-page.
+[`SimilarityMetrics()`](https://ms609.github.io/Quartet/reference/SimilarityMetrics.md)
+documentation page.
 
 ### Quartet similarity in a pair of random trees
 
