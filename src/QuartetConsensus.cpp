@@ -55,9 +55,8 @@ inline int32 quartet_index(int16 a, int16 b, int16 c, int16 d,
        + chosen4;
 }
 
-inline int32 n_quartets(int16 n_tips) {
-  return hyp_num[n_tips - 3];
-}
+// Defined in AllQuartets.cpp
+extern int32 n_quartets(int16 n_tips);
 
 
 // ============================================================================
