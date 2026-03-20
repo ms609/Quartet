@@ -178,6 +178,15 @@ static PooledSplits pool_splits(const List& splits_list, int n_tips) {
   pool.n_splits = 0;
   pool.tree_members.resize(n_tree);
 
+  // Reserve pool.data so it never reallocates.  split_map stores raw pointers
+  // into this buffer, so reallocation would create dangling keys.
+  size_t total_splits = 0;
+  for (int t = 0; t < n_tree; ++t) {
+    const RawMatrix mat_t = Rcpp::as<RawMatrix>(splits_list[t]);
+    total_splits += mat_t.nrow();
+  }
+  pool.data.reserve(total_splits * n_bytes);
+
   for (int t = 0; t < n_tree; ++t) {
     const RawMatrix mat = Rcpp::as<RawMatrix>(splits_list[t]);
     const int n_sp = mat.nrow();
