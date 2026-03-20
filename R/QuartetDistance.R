@@ -32,6 +32,7 @@ WHICH_OTHER_NODE <- 2:4
 #' PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
 #' par(oPar)
 #' 
+#' @family visualization
 #' @importFrom graphics par plot legend
 #' @importFrom TreeTools NTip RenumberTips
 #' @export

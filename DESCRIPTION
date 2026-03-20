@@ -46,6 +46,7 @@ Suggests:
   Rcpp,
   rmarkdown,
   testthat,
+  TreeDist,
   usethis,
   vdiffr,
 Config/Needs/check:
