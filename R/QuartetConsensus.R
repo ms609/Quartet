@@ -58,6 +58,7 @@
 #' cat("Majority-rule splits:", NSplits(mr), "\n")
 #' cat("Quartet consensus splits:", NSplits(qc), "\n")
 #'
+#' @importFrom ape as.phylo
 #' @importFrom TreeTools as.Splits TipLabels NSplits Consensus StarTree
 #' @export
 QuartetConsensus <- function(trees,
