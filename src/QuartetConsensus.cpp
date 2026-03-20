@@ -169,10 +169,10 @@ static PooledSplits pool_splits(const List& splits_list, int n_tips) {
   std::unordered_map<const unsigned char*, int, SplitHash, SplitEqual>
     split_map(64, hasher, eq);
 
-  if (n_bytes < 1) {
+  if (n_bytes < 1) { // # nocov start
     Rcpp::stop("Internal error: n_bytes < 1 in pool_splits (n_tips = %d).",
                n_tips);
-  }
+  } // # nocov end
   std::vector<unsigned char> canon_buf(n_bytes);
 
   PooledSplits pool;
@@ -988,9 +988,8 @@ List cpp_quartet_consensus(
 
   if (M == 0) {
     return List::create(
-      Rcpp::Named("included") = LogicalVector(0),
-      Rcpp::Named("raw_splits") = RawMatrix(0, 0),
-      Rcpp::Named("light_side") = IntegerVector(0),
+      Rcpp::Named("splits") = RawMatrix(0, 0),
+      Rcpp::Named("n_active") = n_tips,
       Rcpp::Named("dropped_tips") = IntegerVector(0),
       Rcpp::Named("drop_scores") = Rcpp::NumericVector(0),
       Rcpp::Named("active_tips") = LogicalVector(n_tips, true)

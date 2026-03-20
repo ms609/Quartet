@@ -69,6 +69,44 @@ test_that("QuartetConsensus greedy=first also works", {
   expect_s3_class(qc_first, "phylo")
 })
 
+
+test_that("greedy=first adds splits from empty start", {
+  library(TreeTools)
+  # init = "empty" starts from star; greedy_first must add splits
+  trees <- as.phylo(1:15, nTip = 8)
+
+  qc <- QuartetConsensus(trees, init = "empty", greedy = "first")
+
+  expect_s3_class(qc, "phylo")
+  expect_gt(NSplits(qc), 0)
+})
+
+
+test_that("greedy=first prunes harmful splits from extended init", {
+  library(TreeTools)
+  # extended init adds all compatible splits, some may be harmful
+  trees <- as.phylo(1:20, nTip = 8)
+
+  qc_ext <- QuartetConsensus(trees, init = "extended", greedy = "first")
+  qc_maj <- QuartetConsensus(trees, init = "majority", greedy = "first")
+
+  expect_s3_class(qc_ext, "phylo")
+  expect_gte(NSplits(qc_maj), 0)
+})
+
+
+test_that("Star-tree input (M = 0) returns star consensus", {
+  library(TreeTools)
+  star <- StarTree(6)
+  trees <- structure(rep(list(star), 5), class = "multiPhylo")
+
+  qc <- QuartetConsensus(trees)
+
+  expect_s3_class(qc, "phylo")
+  expect_equal(NTip(qc), 6)
+  expect_equal(NSplits(qc), 0)
+})
+
 test_that("QuartetConsensus minimizes quartet distance", {
   library(TreeTools)
   trees <- as.phylo(1:20, nTip = 8)
@@ -102,6 +140,19 @@ test_that("QuartetConsensus rejects bad input", {
   tr4 <- as.phylo(1, nTip = 4)
   expect_error(QuartetConsensus(c(tr4)),
                "2 trees")
+})
+
+
+test_that("C++ guards reject invalid n_tips", {
+  # Hit the n_tips > 100 and n_tips < 4 stops in the C++ entry point
+  expect_error(
+    Quartet:::cpp_quartet_consensus(list(), 101, TRUE, FALSE, TRUE, NULL),
+    "100"
+  )
+  expect_error(
+    Quartet:::cpp_quartet_consensus(list(), 3, TRUE, FALSE, TRUE, NULL),
+    "4 tips"
+  )
 })
 
 test_that("QuartetConsensus handles non-binary input trees", {

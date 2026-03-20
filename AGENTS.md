@@ -84,6 +84,11 @@ Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/test
 Snapshot tests (in `tests/testthat/_snaps/`) must be reviewed and updated
 explicitly — never auto-accept changed snapshots without inspecting the diff.
 
+**Coverage target: 100%.** The GHA test suite runs codecov; uncovered lines
+will block the PR. Use `// # nocov start` / `// # nocov end` in C++ (or
+`# nocov` in R) only for truly unreachable defensive guards, with a comment
+explaining why the code can't be reached.
+
 
 ## R source file conventions
 

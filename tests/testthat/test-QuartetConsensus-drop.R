@@ -96,6 +96,106 @@ test_that("Output tree has correct structure after dropping", {
 })
 
 
+test_that("greedy=first detects and drops rogue", {
+  library(TreeTools)
+
+  base <- BalancedTree(8)
+  trees <- AddTipEverywhere(base, "rogue")
+  class(trees) <- "multiPhylo"
+
+  qc <- QuartetConsensus(trees, greedy = "first", neverDrop = FALSE)
+
+  expect_s3_class(qc, "phylo")
+  expect_true("rogue" %in% attr(qc, "dropped"))
+})
+
+
+test_that("Dropping a tip removes trivial splits", {
+  library(TreeTools)
+
+  # 5-tip base + rogue: dropping the rogue can make a cherry split trivial
+  base <- BalancedTree(5)
+  trees <- AddTipEverywhere(base, "rogue")
+  class(trees) <- "multiPhylo"
+
+  qc <- QuartetConsensus(trees, neverDrop = FALSE)
+
+  expect_true("rogue" %in% attr(qc, "dropped"))
+  expect_equal(NTip(qc), 5)
+})
+
+
+test_that("Drop makes included cherry split trivial", {
+  library(TreeTools)
+
+  # Rogue always cherries with t1 in the majority (strong signal), but
+  # a few wild placements make it worth dropping. Extended init includes
+  # the cherry split {rogue, t1}. When rogue is dropped, that split
+  # becomes trivial → do_remove fires in S2R mode.
+  base <- BalancedTree(7)
+  cherry <- AddTip(base, "t1", "rogue")
+  trees_cherry <- rep(list(cherry), 12)
+  trees_wild <- as.list(AddTipEverywhere(base, "rogue"))[c(1, 5, 9)]
+  trees <- c(trees_cherry, trees_wild)
+  class(trees) <- "multiPhylo"
+
+  qc <- QuartetConsensus(trees, init = "extended", neverDrop = FALSE)
+
+  expect_s3_class(qc, "phylo")
+  expect_true("rogue" %in% attr(qc, "dropped"))
+  expect_true(all(paste0("t", 1:7) %in% qc$tip.label))
+})
+
+
+test_that("S2R mode remove path fires when all tips protected", {
+  library(TreeTools)
+
+  # neverDrop = all tips → S2R mode active, but no drops possible.
+  # Extended init adds harmful splits; greedy must remove them
+  # through the S2R branch of do_remove (lines 717-718).
+  trees <- as.phylo(1:20, nTip = 8)
+  allTips <- TipLabels(trees[[1]])
+
+  qc <- QuartetConsensus(trees, init = "extended",
+                         neverDrop = allTips)
+
+  expect_s3_class(qc, "phylo")
+  expect_equal(NTip(qc), 8)
+  expect_equal(length(attr(qc, "dropped")), 0)
+})
+
+
+test_that("Extended init with S2R prunes and drops correctly", {
+  library(TreeTools)
+
+  # Extended init + S2R mode: some included splits involving the rogue
+  # may need removal (do_remove S2R path) or become trivial after drop
+  base <- BalancedTree(8)
+  trees <- AddTipEverywhere(base, "rogue")
+  class(trees) <- "multiPhylo"
+
+  qc <- QuartetConsensus(trees, init = "extended", neverDrop = FALSE)
+
+  expect_s3_class(qc, "phylo")
+  expect_true("rogue" %in% attr(qc, "dropped"))
+})
+
+
+test_that("Extended init + greedy=first with S2R drops rogue", {
+  library(TreeTools)
+
+  base <- BalancedTree(8)
+  trees <- AddTipEverywhere(base, "rogue")
+  class(trees) <- "multiPhylo"
+
+  qc <- QuartetConsensus(trees, init = "extended",
+                         greedy = "first", neverDrop = FALSE)
+
+  expect_s3_class(qc, "phylo")
+  expect_true("rogue" %in% attr(qc, "dropped"))
+})
+
+
 test_that("Two rogues are dropped without spurious extra drops", {
   library(TreeTools)
 
