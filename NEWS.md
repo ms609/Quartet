@@ -4,6 +4,9 @@
 
 # Quartet v1.3.0 (2026-03-19)
 
+- New `QuartetConsensus()` finds the tree minimizing the sum of symmetric
+  quartet distances to a set of input trees (Takazawa et al. 2026),
+  using a greedy add-and-prune heuristic.
 - OpenMP parallelism for quartet calculations.
 - Improvements to memory allocation and cache performance.
 - Move `ResolvedQuartets()` core computation to C++.

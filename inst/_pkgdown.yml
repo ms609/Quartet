@@ -41,10 +41,16 @@ reference:
       - has_concept("TQDist functions")
 
 
+reference:
+  - title: "Consensus"
+    desc: >
+      Construct consensus trees using quartet distance
+    contents:
+      - QuartetConsensus
+
 template:
   bootstrap: 5
   bslib:
     danger: "#A6081A" # Accessibility suggestion
   params:
-    bootswatch: simplex
     ganalytics: G-QEEBN9CF2V

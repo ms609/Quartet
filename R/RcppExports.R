@@ -13,6 +13,21 @@ quartet_states <- function(splits) {
     .Call(`_Quartet_quartet_states`, splits)
 }
 
+#' Quartet consensus (C++ implementation)
+#'
+#' @param splits_list List of raw matrices (one per tree), from as.Splits().
+#' @param n_tips Number of tips.
+#' @param init_majority Logical: TRUE to start from majority-rule splits.
+#' @param init_extended Logical: TRUE to start from extended majority splits.
+#' @param greedy_best_flag Logical: TRUE for "best", FALSE for "first".
+#'
+#' @return A list with `included` (logical), `raw_splits` (raw matrix),
+#'   and `light_side` (integer).
+#' @keywords internal
+cpp_quartet_consensus <- function(splits_list, n_tips, init_majority, init_extended, greedy_best_flag) {
+    .Call(`_Quartet_cpp_quartet_consensus`, splits_list, n_tips, init_majority, init_extended, greedy_best_flag)
+}
+
 #' Direct entry points to 'tqDist' functions
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.
