@@ -84,12 +84,22 @@ Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/test
 Snapshot tests (in `tests/testthat/_snaps/`) must be reviewed and updated
 explicitly — never auto-accept changed snapshots without inspecting the diff.
 
+**Coverage target: 100%.** The GHA test suite runs codecov; uncovered lines
+will block the PR. Use `// # nocov start` / `// # nocov end` in C++ (or
+`# nocov` in R) only for truly unreachable defensive guards, with a comment
+explaining why the code can't be reached.
+
 
 ## R source file conventions
 
 - `DESCRIPTION` has no explicit `Collate:` field; R sources alphabetically.
 - Documentation is generated with `roxygen2`. Always use
   `roxygen2::roxygenise(load_code = roxygen2::load_installed)`.
+- **When any function signature changes** (parameters added, removed, renamed,
+  or reordered — in R or C++), run `devtools::check_man()` before committing.
+  This catches `\usage` / `\arguments` mismatches in `.Rd` files.
+  For C++ exports, also run `Rcpp::compileAttributes()` first so that
+  `R/RcppExports.R` stays in sync with the `// [[Rcpp::export]]` annotations.
 
 ## Architecture reference
 

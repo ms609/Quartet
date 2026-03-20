@@ -7,7 +7,8 @@
 QuartetConsensus(
   trees,
   init = c("majority", "empty", "extended"),
-  greedy = c("best", "first")
+  greedy = c("best", "first"),
+  neverDrop = TRUE
 )
 }
 \arguments{
@@ -29,9 +30,23 @@ highest-benefit action at each step.
 \item \code{"first"}: pick the first improving action encountered (faster but
 may give a slightly worse result).
 }}
+
+\item{neverDrop}{Controls rogue taxon dropping:
+\itemize{
+\item \code{TRUE} (default): never drop taxa; use the symmetric quartet distance
+objective (existing behaviour).
+\item \code{FALSE}: any taxon may be dropped; switches to the
+\code{SimilarityToReference} (chance-corrected) objective to make split
+changes and taxon drops commensurable.
+\item A character vector of tip labels: those tips are protected from
+dropping; all other tips are candidates.  Uses the S2R objective.
+}}
 }
 \value{
-A tree of class \code{phylo}.
+A tree of class \code{phylo}.  When taxon dropping is enabled,
+the tree may have fewer tips than the input trees.  Attributes
+\code{"dropped"} (character vector of dropped tip labels, in drop order)
+and \code{"drop_scores"} (S2R score after each drop) are attached.
 }
 \description{
 Construct a consensus tree that minimizes the sum of symmetric quartet
@@ -56,11 +71,18 @@ when doing so reduces the total symmetric quartet distance to the input
 trees.  Candidate splits must be compatible with all currently included
 splits (four-gamete test).
 
+When \code{neverDrop} enables taxon dropping, the greedy loop also considers
+removing rogue taxa.  At each step, the single best-improving action
+(add split, remove split, or drop taxon) is taken.  The objective
+switches from symmetric quartet distance to the mean chance-corrected
+\code{\link{SimilarityToReference}}, which is comparable across different numbers
+of taxa: 0 for a random tree, 1 for perfect agreement.
+
 The function supports trees with up to 100 tips.  For larger trees,
 the explicit quartet enumeration becomes prohibitively expensive.
 }
 \examples{
-library(TreeTools)
+library("TreeTools")
 
 # Generate bootstrap-like trees
 trees <- as.phylo(1:20, nTip = 8)

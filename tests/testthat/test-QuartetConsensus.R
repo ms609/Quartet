@@ -1,5 +1,14 @@
-test_that("QuartetConsensus returns input when all trees identical", {
-  library(TreeTools)
+test_that("QuartetConsensus() handles bad-sized trees", {
+  expect_error(QuartetConsensus(c(TreeTools::BalancedTree(3),
+                                  TreeTools::BalancedTree(3))),
+               "Need at least 4 tips")
+  expect_error(QuartetConsensus(c(TreeTools::BalancedTree(103),
+                                  TreeTools::BalancedTree(103))),
+               "at most 100 tips")
+})
+
+test_that("QuartetConsensus() returns input when all trees identical", {
+  library("TreeTools")
   tr <- as.phylo(42, nTip = 8)
   trees <- c(tr, tr, tr, tr, tr)
   class(trees) <- "multiPhylo"
@@ -13,7 +22,7 @@ test_that("QuartetConsensus returns input when all trees identical", {
 })
 
 test_that("QuartetConsensus returns star for completely conflicting trees", {
-  library(TreeTools)
+  library("TreeTools")
   # 4-tip trees: all three possible topologies equally represented
   tr1 <- ape::read.tree(text = "((a,b),(c,d));")
   tr2 <- ape::read.tree(text = "((a,c),(b,d));")
@@ -26,7 +35,7 @@ test_that("QuartetConsensus returns star for completely conflicting trees", {
 })
 
 test_that("QuartetConsensus handles n=4 tips", {
-  library(TreeTools)
+  library("TreeTools")
   tr1 <- ape::read.tree(text = "((a,b),(c,d));")
   tr2 <- ape::read.tree(text = "((a,b),(c,d));")
   tr3 <- ape::read.tree(text = "((a,c),(b,d));")
@@ -38,7 +47,7 @@ test_that("QuartetConsensus handles n=4 tips", {
 })
 
 test_that("QuartetConsensus different init strategies give valid trees", {
-  library(TreeTools)
+  library("TreeTools")
   set.seed(4721)
   trees <- as.phylo(sample.int(100, 15), nTip = 8)
 
@@ -59,7 +68,7 @@ test_that("QuartetConsensus different init strategies give valid trees", {
 })
 
 test_that("QuartetConsensus greedy=first also works", {
-  library(TreeTools)
+  library("TreeTools")
   trees <- as.phylo(1:10, nTip = 7)
 
   qc_best <- QuartetConsensus(trees, greedy = "best")
@@ -69,8 +78,46 @@ test_that("QuartetConsensus greedy=first also works", {
   expect_s3_class(qc_first, "phylo")
 })
 
+
+test_that("greedy=first adds splits from empty start", {
+  library("TreeTools")
+  # init = "empty" starts from star; greedy_first must add splits
+  trees <- as.phylo(1:15, nTip = 8)
+
+  qc <- QuartetConsensus(trees, init = "empty", greedy = "first")
+
+  expect_s3_class(qc, "phylo")
+  expect_gt(NSplits(qc), 0)
+})
+
+
+test_that("greedy=first prunes harmful splits from extended init", {
+  library("TreeTools")
+  # extended init adds all compatible splits, some may be harmful
+  trees <- as.phylo(1:20, nTip = 8)
+
+  qc_ext <- QuartetConsensus(trees, init = "extended", greedy = "first")
+  qc_maj <- QuartetConsensus(trees, init = "majority", greedy = "first")
+
+  expect_s3_class(qc_ext, "phylo")
+  expect_gte(NSplits(qc_maj), 0)
+})
+
+
+test_that("Star-tree input (M = 0) returns star consensus", {
+  library("TreeTools")
+  star <- StarTree(6)
+  trees <- structure(rep(list(star), 5), class = "multiPhylo")
+
+  qc <- QuartetConsensus(trees)
+
+  expect_s3_class(qc, "phylo")
+  expect_equal(NTip(qc), 6)
+  expect_equal(NSplits(qc), 0)
+})
+
 test_that("QuartetConsensus minimizes quartet distance", {
-  library(TreeTools)
+  library("TreeTools")
   trees <- as.phylo(1:20, nTip = 8)
 
   qc <- QuartetConsensus(trees)
@@ -93,7 +140,7 @@ test_that("QuartetConsensus minimizes quartet distance", {
 })
 
 test_that("QuartetConsensus rejects bad input", {
-  library(TreeTools)
+  library("TreeTools")
   tr <- as.phylo(1, nTip = 3)
   expect_error(QuartetConsensus(list(tr, tr)),
                "multiPhylo")
@@ -104,8 +151,21 @@ test_that("QuartetConsensus rejects bad input", {
                "2 trees")
 })
 
+
+test_that("C++ guards reject invalid n_tips", {
+  # Hit the n_tips > 100 and n_tips < 4 stops in the C++ entry point
+  expect_error(
+    Quartet:::cpp_quartet_consensus(list(), 101, TRUE, FALSE, TRUE, NULL),
+    "100"
+  )
+  expect_error(
+    Quartet:::cpp_quartet_consensus(list(), 3, TRUE, FALSE, TRUE, NULL),
+    "4 tips"
+  )
+})
+
 test_that("QuartetConsensus handles non-binary input trees", {
-  library(TreeTools)
+  library("TreeTools")
   # Create a polytomy by using CollapseNode
   tr_binary <- as.phylo(42, nTip = 8)
   tr_poly <- CollapseNode(tr_binary, 10)
@@ -117,7 +177,7 @@ test_that("QuartetConsensus handles non-binary input trees", {
 })
 
 test_that("QuartetConsensus is deterministic", {
-  library(TreeTools)
+  library("TreeTools")
   trees <- as.phylo(1:10, nTip = 7)
 
   qc1 <- QuartetConsensus(trees)
@@ -135,7 +195,7 @@ test_that("QuartetConsensus is deterministic", {
 })
 
 test_that("QuartetConsensus brute-force verification (n=5)", {
-  library(TreeTools)
+  library("TreeTools")
   # For 5 tips, there are 15 unrooted tree topologies (as.phylo(1:15, 5))
   # Pick 5 input trees, then verify that QuartetConsensus returns a tree
 
