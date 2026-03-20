@@ -1042,20 +1042,53 @@ List cpp_quartet_consensus(
     greedy_first(st, sort_ord);
   }
 
-  // ---- Build output ----
-  LogicalVector incl_r(M);
-  for (int i = 0; i < M; ++i) incl_r[i] = st.incl[i] != 0;
+  // ---- Build output: remap splits to active tips ----
 
-  RawMatrix raw_splits(M, pool.n_bytes);
+  // Map original tip indices to active-only indices (0-based)
+  std::vector<int> tip_remap(n_tips, -1);
+  int n_active_out = 0;
+  for (int i = 0; i < n_tips; ++i) {
+    if (st.active_tip[i]) {
+      tip_remap[i] = n_active_out++;
+    }
+  }
+  const int n_bytes_new = (n_active_out + 7) / 8;
+
+  // Collect included splits, remap bitvectors, drop trivials
+  std::vector<std::vector<unsigned char>> out_splits;
+  out_splits.reserve(M);
+
+  const unsigned char bitmask_out[8] = {1U, 2U, 4U, 8U, 16U, 32U, 64U, 128U};
+
   for (int i = 0; i < M; ++i) {
+    if (!st.incl[i]) continue;
     const unsigned char* src = pool.split(i);
-    for (int j = 0; j < pool.n_bytes; ++j) {
-      raw_splits(i, j) = Rbyte(src[j]);
+
+    // Repack into active-tip-only bitvector
+    std::vector<unsigned char> row(n_bytes_new, 0);
+    int popcount = 0;
+    for (int tip = 0; tip < n_tips; ++tip) {
+      if (tip_remap[tip] < 0) continue;
+      if (src[tip / 8] & bitmask_out[tip % 8]) {
+        int new_idx = tip_remap[tip];
+        row[new_idx / 8] |= bitmask_out[new_idx % 8];
+        popcount++;
+      }
+    }
+
+    // Keep only non-trivial splits (>= 2 on each side)
+    if (popcount >= 2 && (n_active_out - popcount) >= 2) {
+      out_splits.push_back(std::move(row));
     }
   }
 
-  IntegerVector light_side(M);
-  for (int i = 0; i < M; ++i) light_side[i] = pool.light_side[i];
+  const int n_out = static_cast<int>(out_splits.size());
+  RawMatrix splits_r(n_out, n_bytes_new);
+  for (int i = 0; i < n_out; ++i) {
+    for (int j = 0; j < n_bytes_new; ++j) {
+      splits_r(i, j) = Rbyte(out_splits[i][j]);
+    }
+  }
 
   // Dropped tips (convert to 1-based for R)
   IntegerVector dropped_r(st.dropped_tips.size());
@@ -1068,9 +1101,8 @@ List cpp_quartet_consensus(
   for (int i = 0; i < n_tips; ++i) active_r[i] = st.active_tip[i] != 0;
 
   return List::create(
-    Rcpp::Named("included") = incl_r,
-    Rcpp::Named("raw_splits") = raw_splits,
-    Rcpp::Named("light_side") = light_side,
+    Rcpp::Named("splits") = splits_r,
+    Rcpp::Named("n_active") = n_active_out,
     Rcpp::Named("dropped_tips") = dropped_r,
     Rcpp::Named("drop_scores") = scores_r,
     Rcpp::Named("active_tips") = active_r

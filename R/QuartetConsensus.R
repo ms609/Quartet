@@ -131,70 +131,17 @@ QuartetConsensus <- function(trees,
     never_drop_r = neverDropR
   )
 
-  # Determine active tips
-  activeTips <- res$active_tips
-  activeTipLabels <- tipLabels[activeTips]
+  # Build tree from pre-filtered splits (already remapped to active tips)
+  activeTipLabels <- tipLabels[res$active_tips]
+  nActiveTip <- res$n_active
+  splitsMat <- res$splits
 
-  included <- res$included
-  if (!any(included)) {
+  if (nrow(splitsMat) == 0L) {
     result <- StarTree(activeTipLabels)
   } else {
-    rawSplits <- res$raw_splits[included, , drop = FALSE]
-
-    if (length(activeTipLabels) < nTip) {
-      # Filter split bitvectors to active tips only
-      droppedIdx <- which(!activeTips)
-      keepIdx <- which(activeTips)
-      nActiveTip <- length(keepIdx)
-      nBytesNew <- ceiling(nActiveTip / 8)
-
-      # Rebuild split matrix for active tips
-      newSplits <- matrix(raw(0), nrow = nrow(rawSplits), ncol = nBytesNew)
-      for (i in seq_len(nrow(rawSplits))) {
-        bits <- as.integer(rawSplits[i, ])
-        # Extract bits for each original tip, keep only active ones
-        activeBits <- vapply(keepIdx, function(tip) {
-          byteIdx <- (tip - 1L) %/% 8L + 1L
-          bitIdx <- (tip - 1L) %% 8L
-          as.logical(bitwAnd(bits[byteIdx], bitwShiftL(1L, bitIdx)))
-        }, logical(1))
-        # Pack into new raw bytes
-        for (j in seq_along(activeBits)) {
-          if (activeBits[j]) {
-            byteIdx <- (j - 1L) %/% 8L + 1L
-            bitIdx <- (j - 1L) %% 8L
-            newSplits[i, byteIdx] <- as.raw(
-              bitwOr(as.integer(newSplits[i, byteIdx]),
-                     bitwShiftL(1L, bitIdx))
-            )
-          }
-        }
-      }
-
-      # Filter out trivial splits (< 2 on either side)
-      nontrivial <- apply(newSplits, 1, function(row) {
-        bits <- as.integer(row)
-        popcount <- sum(vapply(bits, function(b) {
-          s <- 0L
-          while (b > 0L) { s <- s + bitwAnd(b, 1L); b <- bitwShiftR(b, 1L) }
-          s
-        }, integer(1)))
-        popcount >= 2L && (nActiveTip - popcount) >= 2L
-      })
-      newSplits <- newSplits[nontrivial, , drop = FALSE]
-
-      if (nrow(newSplits) == 0L) {
-        result <- StarTree(activeTipLabels)
-      } else {
-        sp <- structure(newSplits, nTip = nActiveTip,
-                        tip.label = activeTipLabels, class = "Splits")
-        result <- as.phylo(sp)
-      }
-    } else {
-      sp <- structure(rawSplits, nTip = nTip, tip.label = tipLabels,
-                      class = "Splits")
-      result <- as.phylo(sp)
-    }
+    sp <- structure(splitsMat, nTip = nActiveTip,
+                    tip.label = activeTipLabels, class = "Splits")
+    result <- as.phylo(sp)
   }
 
   # Attach drop metadata
