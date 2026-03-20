@@ -82,7 +82,7 @@ The function supports trees with up to 100 tips.  For larger trees,
 the explicit quartet enumeration becomes prohibitively expensive.
 }
 \examples{
-library(TreeTools)
+library("TreeTools")
 
 # Generate bootstrap-like trees
 trees <- as.phylo(1:20, nTip = 8)

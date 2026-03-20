@@ -62,7 +62,7 @@
 #' \insertAllCited{}
 #'
 #' @examples
-#' library(TreeTools)
+#' library("TreeTools")
 #'
 #' # Generate bootstrap-like trees
 #' trees <- as.phylo(1:20, nTip = 8)

@@ -1,5 +1,5 @@
 test_that("neverDrop = TRUE gives same result as default", {
-  library(TreeTools)
+  library("TreeTools")
   trees <- as.phylo(1:20, nTip = 8)
 
   qc1 <- QuartetConsensus(trees)
@@ -11,7 +11,7 @@ test_that("neverDrop = TRUE gives same result as default", {
 
 
 test_that("No drops for identical trees", {
-  library(TreeTools)
+  library("TreeTools")
   tree <- BalancedTree(8)
   trees <- structure(rep(list(tree), 10), class = "multiPhylo")
 
@@ -23,7 +23,7 @@ test_that("No drops for identical trees", {
 
 
 test_that("Single rogue is detected and dropped", {
-  library(TreeTools)
+  library("TreeTools")
 
   base <- BalancedTree(8)
   trees <- AddTipEverywhere(base, "rogue")
@@ -43,7 +43,7 @@ test_that("Single rogue is detected and dropped", {
 
 
 test_that("neverDrop character vector protects tips", {
-  library(TreeTools)
+  library("TreeTools")
 
   base <- BalancedTree(8)
   trees <- AddTipEverywhere(base, "rogue")
@@ -57,7 +57,7 @@ test_that("neverDrop character vector protects tips", {
 
 
 test_that("neverDrop = FALSE with small tree works", {
-  library(TreeTools)
+  library("TreeTools")
 
   base <- BalancedTree(6)
   trees <- AddTipEverywhere(base, "rogue")
@@ -71,7 +71,7 @@ test_that("neverDrop = FALSE with small tree works", {
 
 
 test_that("Invalid neverDrop labels produce an error", {
-  library(TreeTools)
+  library("TreeTools")
   trees <- as.phylo(1:10, nTip = 8)
 
   expect_error(
@@ -82,7 +82,7 @@ test_that("Invalid neverDrop labels produce an error", {
 
 
 test_that("Output tree has correct structure after dropping", {
-  library(TreeTools)
+  library("TreeTools")
 
   base <- BalancedTree(8)
   trees <- AddTipEverywhere(base, "rogue")
@@ -97,7 +97,7 @@ test_that("Output tree has correct structure after dropping", {
 
 
 test_that("greedy=first detects and drops rogue", {
-  library(TreeTools)
+  library("TreeTools")
 
   base <- BalancedTree(8)
   trees <- AddTipEverywhere(base, "rogue")
@@ -111,7 +111,7 @@ test_that("greedy=first detects and drops rogue", {
 
 
 test_that("Dropping a tip removes trivial splits", {
-  library(TreeTools)
+  library("TreeTools")
 
   # 5-tip base + rogue: dropping the rogue can make a cherry split trivial
   base <- BalancedTree(5)
@@ -126,7 +126,7 @@ test_that("Dropping a tip removes trivial splits", {
 
 
 test_that("Drop makes included cherry split trivial", {
-  library(TreeTools)
+  library("TreeTools")
 
   # Rogue always cherries with t1 in the majority (strong signal), but
   # a few wild placements make it worth dropping. Extended init includes
@@ -148,7 +148,7 @@ test_that("Drop makes included cherry split trivial", {
 
 
 test_that("S2R mode remove path fires when all tips protected", {
-  library(TreeTools)
+  library("TreeTools")
 
   # neverDrop = all tips → S2R mode active, but no drops possible.
   # Extended init adds harmful splits; greedy must remove them
@@ -166,7 +166,7 @@ test_that("S2R mode remove path fires when all tips protected", {
 
 
 test_that("Extended init with S2R prunes and drops correctly", {
-  library(TreeTools)
+  library("TreeTools")
 
   # Extended init + S2R mode: some included splits involving the rogue
   # may need removal (do_remove S2R path) or become trivial after drop
@@ -182,7 +182,7 @@ test_that("Extended init with S2R prunes and drops correctly", {
 
 
 test_that("Extended init + greedy=first with S2R drops rogue", {
-  library(TreeTools)
+  library("TreeTools")
 
   base <- BalancedTree(8)
   trees <- AddTipEverywhere(base, "rogue")
@@ -197,7 +197,7 @@ test_that("Extended init + greedy=first with S2R drops rogue", {
 
 
 test_that("Two rogues are dropped without spurious extra drops", {
-  library(TreeTools)
+  library("TreeTools")
 
   base <- BalancedTree(8)
   base_tips <- paste0("t", 1:8)
