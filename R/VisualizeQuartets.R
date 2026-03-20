@@ -67,6 +67,7 @@
 #' # restore original graphical parameters
 #' par(origPar)
 #' @template MRS
+#' @family visualization
 #' @importFrom ape plot.phylo
 #' @importFrom PlotTools SpectrumLegend
 #' @importFrom viridisLite viridis

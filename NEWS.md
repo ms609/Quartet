@@ -1,3 +1,7 @@
+# Quartet v1.3.0.9000 (2026-03-20)
+
+- `PairwiseQuartets()` compares quartet statuses between all pairs of trees.
+
 # Quartet v1.3.0 (2026-03-19)
 
 - OpenMP parallelism for quartet calculations.

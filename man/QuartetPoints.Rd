@@ -66,7 +66,14 @@ legend("bottomright", c("Quartets", "Splits"), bty = "n", pch = 1, cex = 0.8,
 \references{
 \insertAllCited{}
 }
+\seealso{
+Other visualization: 
+\code{\link{PlotQuartet}()},
+\code{\link{SymmetricDifferenceLineEnds}()},
+\code{\link{VisualizeQuartets}()}
+}
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
+\concept{visualization}
