@@ -9,7 +9,8 @@ cpp_quartet_consensus(
   n_tips,
   init_majority,
   init_extended,
-  greedy_best_flag
+  greedy_best_flag,
+  never_drop_r = NULL
 )
 }
 \arguments{
@@ -28,9 +29,9 @@ be dropped, or integer(0) to allow all drops.  If NULL, taxon dropping
 is disabled (distance objective).}
 }
 \value{
-A list with \code{included} (logical), \code{raw_splits} (raw matrix),
-\code{light_side} (integer), and — when taxon dropping is enabled —
-\code{dropped_tips} (integer, 0-based) and \code{drop_scores} (double).
+A list with \code{splits} (raw matrix of non-trivial splits remapped
+to active tips), \code{n_active} (integer), \code{active_tips} (logical),
+\code{dropped_tips} (integer, 1-based), and \code{drop_scores} (double).
 }
 \description{
 Quartet consensus (C++ implementation)

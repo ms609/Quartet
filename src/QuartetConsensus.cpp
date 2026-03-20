@@ -949,9 +949,9 @@ static void greedy_first(QCGreedyState& st,
 //'   be dropped, or integer(0) to allow all drops.  If NULL, taxon dropping
 //'   is disabled (distance objective).
 //'
-//' @return A list with `included` (logical), `raw_splits` (raw matrix),
-//'   `light_side` (integer), and — when taxon dropping is enabled —
-//'   `dropped_tips` (integer, 0-based) and `drop_scores` (double).
+//' @return A list with `splits` (raw matrix of non-trivial splits remapped
+//'   to active tips), `n_active` (integer), `active_tips` (logical),
+//'   `dropped_tips` (integer, 1-based), and `drop_scores` (double).
 //' @keywords internal
 // [[Rcpp::export]]
 List cpp_quartet_consensus(

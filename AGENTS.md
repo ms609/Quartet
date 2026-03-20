@@ -90,6 +90,11 @@ explicitly — never auto-accept changed snapshots without inspecting the diff.
 - `DESCRIPTION` has no explicit `Collate:` field; R sources alphabetically.
 - Documentation is generated with `roxygen2`. Always use
   `roxygen2::roxygenise(load_code = roxygen2::load_installed)`.
+- **When any function signature changes** (parameters added, removed, renamed,
+  or reordered — in R or C++), run `devtools::check_man()` before committing.
+  This catches `\usage` / `\arguments` mismatches in `.Rd` files.
+  For C++ exports, also run `Rcpp::compileAttributes()` first so that
+  `R/RcppExports.R` stays in sync with the `// [[Rcpp::export]]` annotations.
 
 ## Architecture reference
 

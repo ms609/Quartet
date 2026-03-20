@@ -24,9 +24,9 @@ quartet_states <- function(splits) {
 #'   be dropped, or integer(0) to allow all drops.  If NULL, taxon dropping
 #'   is disabled (distance objective).
 #'
-#' @return A list with `included` (logical), `raw_splits` (raw matrix),
-#'   `light_side` (integer), and — when taxon dropping is enabled —
-#'   `dropped_tips` (integer, 0-based) and `drop_scores` (double).
+#' @return A list with `splits` (raw matrix of non-trivial splits remapped
+#'   to active tips), `n_active` (integer), `active_tips` (logical),
+#'   `dropped_tips` (integer, 1-based), and `drop_scores` (double).
 #' @keywords internal
 cpp_quartet_consensus <- function(splits_list, n_tips, init_majority, init_extended, greedy_best_flag, never_drop_r = NULL) {
     .Call(`_Quartet_cpp_quartet_consensus`, splits_list, n_tips, init_majority, init_extended, greedy_best_flag, never_drop_r)
