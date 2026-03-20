@@ -147,27 +147,12 @@ jobs:
         run: |
           brew install xquartz ghostscript
 
-      - name: Cache R packages
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.github/R-version') }}-1-
-      
-      - name: Install dependencies
-        if: runner.os != 'Linux'
-        run: |
-          install.packages("remotes")
-          remotes::install_cran("rcmdcheck")
-          remotes::install_cran("tinytex")
-          tinytex::install_tinytex()
-        shell: Rscript {0}
-        
       - name: Set up R dependencies (Windows)
         if: runner.os == 'Windows'
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: 2-${{ runner.arch }}
+          extra-packages: any::tinytex
           needs: |
             check
             coverage
@@ -177,8 +162,14 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: 2-${{ runner.arch }}
+          extra-packages: any::tinytex
           needs: |
             check
+
+      - name: Install TinyTeX
+        if: runner.os != 'Linux'
+        run: tinytex::install_tinytex()
+        shell: Rscript {0}
 
       - name: Check package
         uses: r-lib/actions/check-r-package@v2
