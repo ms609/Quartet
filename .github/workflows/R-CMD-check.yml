@@ -152,7 +152,7 @@ jobs:
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.github/R-version') }}-1-
       
       - name: Install dependencies
         if: runner.os != 'Linux'
