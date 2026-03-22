@@ -59,6 +59,43 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cpdt_dist_file
+IntegerVector cpdt_dist_file(CharacterVector file1, CharacterVector file2);
+RcppExport SEXP _Quartet_cpdt_dist_file(SEXP file1SEXP, SEXP file2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type file1(file1SEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type file2(file2SEXP);
+    rcpp_result_gen = Rcpp::wrap(cpdt_dist_file(file1, file2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpdt_pair
+IntegerVector cpdt_pair(const IntegerVector parent1, const IntegerVector child1, const IntegerVector parent2, const IntegerVector child2);
+RcppExport SEXP _Quartet_cpdt_pair(SEXP parent1SEXP, SEXP child1SEXP, SEXP parent2SEXP, SEXP child2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const IntegerVector >::type parent1(parent1SEXP);
+    Rcpp::traits::input_parameter< const IntegerVector >::type child1(child1SEXP);
+    Rcpp::traits::input_parameter< const IntegerVector >::type parent2(parent2SEXP);
+    Rcpp::traits::input_parameter< const IntegerVector >::type child2(child2SEXP);
+    rcpp_result_gen = Rcpp::wrap(cpdt_pair(parent1, child1, parent2, child2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpdt_tree
+List cpdt_tree(const List r_tree);
+RcppExport SEXP _Quartet_cpdt_tree(SEXP r_treeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List >::type r_tree(r_treeSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpdt_tree(r_tree));
+    return rcpp_result_gen;
+END_RCPP
+}
 // tqdist_QuartetDistance
 IntegerVector tqdist_QuartetDistance(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_tqdist_QuartetDistance(SEXP file1SEXP, SEXP file2SEXP) {
@@ -274,6 +311,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Quartet_which_index", (DL_FUNC) &_Quartet_which_index, 2},
     {"_Quartet_quartet_states", (DL_FUNC) &_Quartet_quartet_states, 1},
     {"_Quartet_cpp_quartet_consensus", (DL_FUNC) &_Quartet_cpp_quartet_consensus, 5},
+    {"_Quartet_cpdt_dist_file", (DL_FUNC) &_Quartet_cpdt_dist_file, 2},
+    {"_Quartet_cpdt_pair", (DL_FUNC) &_Quartet_cpdt_pair, 4},
+    {"_Quartet_cpdt_tree", (DL_FUNC) &_Quartet_cpdt_tree, 1},
     {"_Quartet_tqdist_QuartetDistance", (DL_FUNC) &_Quartet_tqdist_QuartetDistance, 2},
     {"_Quartet_tqdist_QuartetAgreement", (DL_FUNC) &_Quartet_tqdist_QuartetAgreement, 2},
     {"_Quartet_tqdist_QuartetAgreementEdge", (DL_FUNC) &_Quartet_tqdist_QuartetAgreementEdge, 2},

@@ -83,6 +83,8 @@ Useful links:
 
 Other contributors:
 \itemize{
+  \item Jesper Jansson \email{jj@i.kyoto-u.ac.jp} (\href{https://orcid.org/0000-0001-6859-8932}{ORCID}) [bibliographic antecedent]
+  \item Ramesh Rajaby [bibliographic antecedent]
   \item Andreas Sand [bibliographic antecedent]
   \item Gerth Stølting Brodal [bibliographic antecedent]
   \item Rolf Fagerberg [bibliographic antecedent]

@@ -28,6 +28,35 @@ cpp_quartet_consensus <- function(splits_list, n_tips, init_majority, init_exten
     .Call(`_Quartet_cpp_quartet_consensus`, splits_list, n_tips, init_majority, init_extended, greedy_best_flag)
 }
 
+#' Direct entry points to 'cpdt' functions
+#' 
+#' Functions to calculate rooted triplet distances between pairs of trees.
+#' Input is not checked for sanity.
+#' 
+#' Functions are called from R with functions such as [`CPDTDist`].
+#' 
+#' @param file1,file2 Paths to files containing a tree or trees in Newick format.
+#' 
+#' @return The distance between the requested trees.
+#' 
+#' @author Martin R. Smith, after Ramesh Rajaby
+#' 
+#' @references \insertRef{Jansson2017jcb}{Quartet}
+#' 
+#' @keywords internal
+#' @export
+cpdt_dist_file <- function(file1, file2) {
+    .Call(`_Quartet_cpdt_dist_file`, file1, file2)
+}
+
+cpdt_pair <- function(parent1, child1, parent2, child2) {
+    .Call(`_Quartet_cpdt_pair`, parent1, child1, parent2, child2)
+}
+
+cpdt_tree <- function(r_tree) {
+    .Call(`_Quartet_cpdt_tree`, r_tree)
+}
+
 #' Direct entry points to 'tqDist' functions
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.
