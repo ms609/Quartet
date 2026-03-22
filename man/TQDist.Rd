@@ -48,7 +48,7 @@ and \insertCite{Estabrook1985;textual}{Quartet} refer to as:
 \code{\link[=CompareQuartets]{CompareQuartets()}}, \code{\link[=QuartetStatus]{QuartetStatus()}}
 
 Other TQDist functions: 
-\code{\link{Distances}}
+\code{\link{TripletDistance.phylo}()}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
