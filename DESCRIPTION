@@ -44,6 +44,7 @@ Depends: R (>= 3.5.0),
   TreeTools (>= 1.4.0),
 Imports:
   ape,
+  lifecycle,
   PlotTools,
   Rdpack (>= 0.7),
   Ternary (>= 1.0),

@@ -507,15 +507,33 @@ AllPairsQuartetAgreement <- function(file) {
   array(result, c(nTrees, nTrees, 2), dimnames=list(NULL, NULL, c("A", "E")))
 }
 
-#' @export
-#' @describeIn Distances Triplet distance between the single tree given
-#'   in each file.  Uses the CPDT algorithm
+#' @describeIn Distances Triplet distance between trees.
+#'   \code{tree1} and \code{tree2} can be \code{phylo} objects,
+#'   file paths to Newick tree files, or lists/\code{multiPhylo} objects.
+#'   If \code{tree1} is a list and \code{tree2 = NULL}, computes all pairwise
+#'   distances; if both are lists, computes distances between corresponding
+#'   pairs.  Uses the CPDT algorithm
 #'   \insertCite{Jansson2017jcb}{Quartet}.
+#' @param tree1,tree2 Arguments to \code{TripletDistance}: file paths
+#'   containing Newick trees, phylogenetic trees of class \code{phylo},
+#'   or lists/\code{multiPhylo} of trees.  If \code{tree1} is a list and
+#'   \code{tree2 = NULL}, returns a distance matrix of all pairwise distances.
+#' @export
+TripletDistance <- function(tree1, tree2 = NULL) UseMethod("TripletDistance")
+
+#' @describeIn Distances Triplet distance between single trees read from
+#'   Newick-format files \code{tree1} and \code{tree2}.
 #' @importFrom ape read.tree
-TripletDistance <- function(file1, file2) {
-  ValidateQuartetFile(file1)
-  ValidateQuartetFile(file2)
-  CPDTDist(read.tree(file1), read.tree(file2))
+#' @export
+TripletDistance.character <- function(tree1, tree2 = NULL) {
+  ValidateQuartetFile(tree1)
+  if (is.null(tree2)) {
+    trees <- read.tree(tree1)
+    if (inherits(trees, "phylo")) trees <- list(trees)
+    return(TripletDistance(trees))
+  }
+  ValidateQuartetFile(tree2)
+  TripletDistance(read.tree(tree1), read.tree(tree2))
 }
 
 #' @export
@@ -527,16 +545,9 @@ PairsTripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (inherits(trees1, "phylo")) {
-    trees1 <- list(trees1)
-    trees2 <- list(trees2)
-  }
-  if (length(trees1) != length(trees2)) {
-    stop("file1 and file2 must contain the same number of trees")
-  }
-  vapply(seq_along(trees1), function(i) {
-    CPDTDist(trees1[[i]], trees2[[i]])
-  }, integer(1))
+  if (inherits(trees1, "phylo")) trees1 <- list(trees1)
+  if (inherits(trees2, "phylo")) trees2 <- list(trees2)
+  TripletDistance(trees1, trees2)
 }
 
 #' @export
@@ -547,16 +558,7 @@ AllPairsTripletDistance <- function(file) {
   ValidateQuartetFile(file)
   trees <- read.tree(file)
   if (inherits(trees, "phylo")) trees <- list(trees)
-  nTrees <- length(trees)
-  result <- matrix(0L, nTrees, nTrees)
-  for (r in seq_len(nTrees)) {
-    for (c in seq_len(r - 1L)) {
-      d <- CPDTDist(trees[[r]], trees[[c]])
-      result[r, c] <- d
-      result[c, r] <- d
-    }
-  }
-  result
+  TripletDistance(trees)
 }
 
 #' Validate filenames

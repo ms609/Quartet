@@ -14,9 +14,10 @@ CPDTDist(tree1, tree2)
 \code{tree2}.
 }
 \description{
-Convenience function that passes a pair of trees to a C++ implementation
-of the centroid path decomposition tree distance algorithm
-\insertCite{Jansson2017jcb}{Quartet}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
+Use \code{\link[=TripletDistance]{TripletDistance()}} instead.
 }
 \examples{
 tree1 <- TreeTools::RootTree(TreeTools::BalancedTree(8), 1)
@@ -24,12 +25,7 @@ tree2 <- TreeTools::PectinateTree(8)
 CPDTDist(tree1, tree2)
 
 }
-\references{
-\insertAllCited{}
-}
 \author{
-C++ code written by Ramesh Rajaby.
-
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }

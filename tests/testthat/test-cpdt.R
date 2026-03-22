@@ -49,9 +49,10 @@ test_that("CPDT reads tree", {
   )
 })
 
-test_that("CPDT input validation", {
-  expect_error(CPDTDist(1, BalancedTree(8)), "`tree1` must be")
-  expect_error(CPDTDist(BalancedTree(8), 2), "`tree2` must be")
+test_that("TripletDistance input validation", {
+  expect_error(TripletDistance(1, BalancedTree(8)), "no applicable method")
+  expect_error(TripletDistance(BalancedTree(8), 2), "`tree2` must be")
+  expect_error(TripletDistance(BalancedTree(8)), "`tree2` is required")
 })
 
 # Helper: compute tqDist triplet distance via file interface
@@ -59,34 +60,34 @@ tqdist_triplet <- function(tree1, tree2) {
   f1 <- TQFile(tree1)
   f2 <- TQFile(tree2)
   on.exit(unlink(c(f1, f2)))
-  TripletDistance(f1, f2)
+  tqdist_TripletDistance(f1, f2)
 }
 
-test_that("CPDT: identical trees give distance 0", {
+test_that("TripletDistance: identical trees give distance 0", {
   for (n in c(4, 8, 16, 50)) {
     bal <- RootTree(BalancedTree(n), 1)
-    expect_equal(CPDTDist(bal, bal), 0L, label = paste0("balanced ", n))
+    expect_equal(TripletDistance(bal, bal), 0L, label = paste0("balanced ", n))
     
     pec <- RootTree(PectinateTree(n), 1)
-    expect_equal(CPDTDist(pec, pec), 0L, label = paste0("pectinate ", n))
+    expect_equal(TripletDistance(pec, pec), 0L, label = paste0("pectinate ", n))
   }
 })
 
-test_that("CPDT: 3-tip trees", {
+test_that("TripletDistance: 3-tip trees", {
   t3a <- ape::read.tree(text = "(1, (2, 3));")
   t3b <- ape::read.tree(text = "(2, (1, 3));")
-  expect_equal(CPDTDist(t3a, t3a), 0L)
-  expect_equal(CPDTDist(t3a, t3b), tqdist_triplet(t3a, t3b))
+  expect_equal(TripletDistance(t3a, t3a), 0L)
+  expect_equal(TripletDistance(t3a, t3b), tqdist_triplet(t3a, t3b))
 })
 
-test_that("CPDT matches tqDist for binary trees at various sizes", {
+test_that("TripletDistance matches tqDist for binary trees at various sizes", {
   set.seed(7284)
   for (n in c(4, 8, 16, 50, 100)) {
     tree1 <- RootTree(BalancedTree(n), 1)
     tree2 <- RootTree(PectinateTree(n), 1)
     
     expected <- tqdist_triplet(tree1, tree2)
-    got <- CPDTDist(tree1, tree2)
+    got <- TripletDistance(tree1, tree2)
     expect_equal(got, expected,
                  label = paste0("balanced vs pectinate, n=", n))
     
@@ -94,13 +95,13 @@ test_that("CPDT matches tqDist for binary trees at various sizes", {
     tree3 <- RootTree(RandomTree(n), 1)
     tree4 <- RootTree(RandomTree(n), 1)
     expected2 <- tqdist_triplet(tree3, tree4)
-    got2 <- CPDTDist(tree3, tree4)
+    got2 <- TripletDistance(tree3, tree4)
     expect_equal(got2, expected2,
                  label = paste0("random vs random, n=", n))
   }
 })
 
-test_that("CPDT matches tqDist for non-binary trees", {
+test_that("TripletDistance matches tqDist for non-binary trees", {
   bal7 <- BalancedTree(7)
   pec7 <- PectinateTree(7)
   
@@ -109,42 +110,96 @@ test_that("CPDT matches tqDist for non-binary trees", {
   expect_true(max(tabulate(cl7$edge[, 1])) > 2) # confirm polytomy
   
   expected <- tqdist_triplet(cl7, pec7)
-  got <- CPDTDist(cl7, pec7)
+  got <- TripletDistance(cl7, pec7)
   expect_equal(got, expected, label = "polytomy vs binary")
   
   # Both non-binary
   cl7b <- CollapseNode(pec7, 10)
   expected2 <- tqdist_triplet(cl7, cl7b)
-  got2 <- CPDTDist(cl7, cl7b)
+  got2 <- TripletDistance(cl7, cl7b)
   expect_equal(got2, expected2, label = "polytomy vs polytomy")
 })
 
-test_that("CPDT: star tree has maximal distance to resolved tree", {
-  # A star tree resolves no triplets, so distance = all resolved triplets
-  # in the other tree
+test_that("TripletDistance: star tree has maximal distance to resolved tree", {
   n <- 8
   star <- StarTree(n)
   resolved <- RootTree(BalancedTree(n), 1)
   
-  # ResolvedTriplets returns c(resolved, unresolved)
   n_resolved <- ResolvedTriplets(resolved)[1]
-  expect_equal(CPDTDist(star, resolved), n_resolved)
+  expect_equal(TripletDistance(star, resolved), n_resolved)
 })
 
-test_that("CPDT is symmetric", {
+test_that("TripletDistance is symmetric", {
   tree1 <- RootTree(BalancedTree(20), 1)
   tree2 <- RootTree(PectinateTree(20), 1)
-  expect_equal(CPDTDist(tree1, tree2), CPDTDist(tree2, tree1))
+  expect_equal(TripletDistance(tree1, tree2), TripletDistance(tree2, tree1))
 })
 
-test_that("CPDT can be called repeatedly (state reset between calls)", {
+test_that("TripletDistance can be called repeatedly (state reset)", {
   tree1 <- RootTree(BalancedTree(16), 1)
   tree2 <- RootTree(PectinateTree(16), 1)
   
-  result1 <- CPDTDist(tree1, tree2)
-  result2 <- CPDTDist(tree1, tree2)
-  result3 <- CPDTDist(tree1, tree2)
+  result1 <- TripletDistance(tree1, tree2)
+  result2 <- TripletDistance(tree1, tree2)
+  result3 <- TripletDistance(tree1, tree2)
   
   expect_equal(result1, result2)
   expect_equal(result2, result3)
+})
+
+test_that("TripletDistance.list: all-pairs", {
+  trees <- list(
+    RootTree(BalancedTree(8), 1),
+    RootTree(PectinateTree(8), 1),
+    StarTree(8)
+  )
+  result <- TripletDistance(trees)
+  expect_equal(dim(result), c(3, 3))
+  expect_equal(diag(result), c(0L, 0L, 0L))
+  # Symmetric
+  expect_equal(result[1, 2], result[2, 1])
+  expect_equal(result[1, 3], result[3, 1])
+  # Matches pairwise calls
+  expect_equal(result[1, 2], TripletDistance(trees[[1]], trees[[2]]))
+  expect_equal(result[1, 3], TripletDistance(trees[[1]], trees[[3]]))
+})
+
+test_that("TripletDistance.list: paired distances", {
+  trees1 <- list(RootTree(BalancedTree(8), 1), StarTree(8))
+  trees2 <- list(RootTree(PectinateTree(8), 1), RootTree(BalancedTree(8), 1))
+  result <- TripletDistance(trees1, trees2)
+  expect_length(result, 2)
+  expect_equal(result[1], TripletDistance(trees1[[1]], trees2[[1]]))
+  expect_equal(result[2], TripletDistance(trees1[[2]], trees2[[2]]))
+})
+
+test_that("TripletDistance.list: length mismatch errors", {
+  trees1 <- list(BalancedTree(8), PectinateTree(8))
+  trees2 <- list(BalancedTree(8))
+  expect_error(TripletDistance(trees1, trees2), "same number of trees")
+})
+
+test_that("TripletDistance.character: all-pairs from file", {
+  trees <- list(RootTree(BalancedTree(8), 1), RootTree(PectinateTree(8), 1))
+  f <- TQFile(trees)
+  on.exit(unlink(f))
+  result <- TripletDistance(f)
+  expect_equal(dim(result), c(2, 2))
+  expect_equal(result[1, 2], TripletDistance(trees[[1]], trees[[2]]))
+})
+
+test_that("TripletDistance.multiPhylo: all-pairs", {
+  trees <- structure(
+    list(RootTree(BalancedTree(8), 1), RootTree(PectinateTree(8), 1)),
+    class = "multiPhylo"
+  )
+  result <- TripletDistance(trees)
+  expect_equal(dim(result), c(2, 2))
+  expect_equal(result[1, 2], TripletDistance(trees[[1]], trees[[2]]))
+})
+
+test_that("CPDTDist is deprecated", {
+  tree1 <- RootTree(BalancedTree(8), 1)
+  tree2 <- PectinateTree(8)
+  lifecycle::expect_deprecated(CPDTDist(tree1, tree2))
 })
