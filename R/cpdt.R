@@ -16,7 +16,6 @@
 #' tree2 <- TreeTools::PectinateTree(8)
 #' CPDTDist(tree1, tree2)
 #' 
-#' @importFrom ape write.tree
 #' @importFrom TreeTools RenumberTips
 #' @template MRS
 #' @author C++ code written by Ramesh Rajaby.

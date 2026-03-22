@@ -383,13 +383,13 @@ TQFile <- function (treeList) {
 #' \insertCite{Holt2014;textual}{Quartet}.
 #' 
 #' @author 
-#'   * Algorithms: \insertCite{Brodal2013;textual}{Quartet}; 
+#'   * Quartet algorithms: \insertCite{Brodal2013;textual}{Quartet}; 
 #' \insertCite{Holt2014;textual}{Quartet}.
-#' 
-#'   * C implementation: \insertCite{Sand2014;textual}{Quartet}; 
+#'   C implementation: \insertCite{Sand2014;textual}{Quartet}; 
 #'   modified for portability by Martin R. Smith.
-#'   
-#'   * R interface: Martin R. Smith.
+#' 
+#'   * Triplet algorithm: \insertCite{Jansson2017jcb;textual}{Quartet}.
+#'   C++ implementation by Ramesh Rajaby; R integration by Martin R. Smith.
 #' 
 #' @seealso 
 #' * [`QuartetStatus()`] takes trees, rather than files, as input.
@@ -508,34 +508,55 @@ AllPairsQuartetAgreement <- function(file) {
 }
 
 #' @export
-#' @describeIn Distances Triplet distance between the single tree given 
-#'   in each file.
+#' @describeIn Distances Triplet distance between the single tree given
+#'   in each file.  Uses the CPDT algorithm
+#'   \insertCite{Jansson2017jcb}{Quartet}.
+#' @importFrom ape read.tree
 TripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
-  .Call("_Quartet_tqdist_TripletDistance", as.character(file1), as.character(file2));
+  CPDTDist(read.tree(file1), read.tree(file2))
 }
 
 #' @export
-#' @describeIn Distances Triplet distance between the tree on each line of `file1`
-#'   and the tree on the corresponding line of `file2`.
+#' @describeIn Distances Triplet distance between the tree on each line of
+#'   `file1` and the tree on the corresponding line of `file2`.
+#' @importFrom ape read.tree
 PairsTripletDistance <- function(file1, file2) {
   ValidateQuartetFile(file1)
   ValidateQuartetFile(file2)
   trees1 <- read.tree(file1)
   trees2 <- read.tree(file2)
-  if (length(trees1) != length(trees2) || !inherits(trees1, class(trees2)[1])) {
+  if (inherits(trees1, "phylo")) {
+    trees1 <- list(trees1)
+    trees2 <- list(trees2)
+  }
+  if (length(trees1) != length(trees2)) {
     stop("file1 and file2 must contain the same number of trees")
   }
-  .Call("_Quartet_tqdist_PairsTripletDistance", as.character(file1), as.character(file2));
+  vapply(seq_along(trees1), function(i) {
+    CPDTDist(trees1[[i]], trees2[[i]])
+  }, integer(1))
 }
 
 #' @export
-#' @describeIn Distances Triplet distance between each tree listed in `file` and 
-#'   each other tree therein.
+#' @describeIn Distances Triplet distance between each tree listed in `file`
+#'   and each other tree therein.
+#' @importFrom ape read.tree
 AllPairsTripletDistance <- function(file) {
   ValidateQuartetFile(file)
-  .Call("_Quartet_tqdist_AllPairsTripletDistance", as.character(file));
+  trees <- read.tree(file)
+  if (inherits(trees, "phylo")) trees <- list(trees)
+  nTrees <- length(trees)
+  result <- matrix(0L, nTrees, nTrees)
+  for (r in seq_len(nTrees)) {
+    for (c in seq_len(r - 1L)) {
+      d <- CPDTDist(trees[[r]], trees[[c]])
+      result[r, c] <- d
+      result[c, r] <- d
+    }
+  }
+  result
 }
 
 #' Validate filenames

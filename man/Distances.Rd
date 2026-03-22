@@ -49,8 +49,9 @@ referred to by \insertCite{Brodal2013;textual}{Quartet} and
 \insertCite{Holt2014;textual}{Quartet}.
 }
 \description{
-Wrappers for functions in "tqDist", which calculate triplet and quartet
-distances between pairs of trees.
+Wrappers that calculate triplet and quartet distances between pairs of trees.
+Quartet functions use the tqDist algorithm; triplet functions use the CPDT
+algorithm \insertCite{Jansson2017jcb}{Quartet}.
 }
 \section{Functions}{
 \itemize{
@@ -74,7 +75,8 @@ each other tree therein.
 \item \code{AllPairsQuartetAgreement()}: Quartet status for each pair of trees in \code{file}.
 
 \item \code{TripletDistance()}: Triplet distance between the single tree given
-in each file.
+in each file.  Uses the CPDT algorithm
+\insertCite{Jansson2017jcb}{Quartet}.
 
 \item \code{PairsTripletDistance()}: Triplet distance between the tree on each line of \code{file1}
 and the tree on the corresponding line of \code{file2}.
@@ -97,11 +99,12 @@ Other TQDist functions:
 }
 \author{
 \itemize{
-\item Algorithms: \insertCite{Brodal2013;textual}{Quartet};
+\item Quartet algorithms: \insertCite{Brodal2013;textual}{Quartet};
 \insertCite{Holt2014;textual}{Quartet}.
-\item C implementation: \insertCite{Sand2014;textual}{Quartet};
+C implementation: \insertCite{Sand2014;textual}{Quartet};
 modified for portability by Martin R. Smith.
-\item R interface: Martin R. Smith.
+\item Triplet algorithm: \insertCite{Jansson2017jcb;textual}{Quartet}.
+C++ implementation by Ramesh Rajaby; R integration by Martin R. Smith.
 }
 }
 \concept{TQDist functions}
