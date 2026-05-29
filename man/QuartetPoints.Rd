@@ -67,10 +67,10 @@ legend("bottomright", c("Quartets", "Splits"), bty = "n", pch = 1, cex = 0.8,
 \insertAllCited{}
 }
 \seealso{
-Other visualization: 
-\code{\link{PlotQuartet}()},
-\code{\link{SymmetricDifferenceLineEnds}()},
-\code{\link{VisualizeQuartets}()}
+Other visualization:
+\code{\link[=PlotQuartet]{PlotQuartet()}},
+\code{\link[=SymmetricDifferenceLineEnds]{SymmetricDifferenceLineEnds()}},
+\code{\link[=VisualizeQuartets]{VisualizeQuartets()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

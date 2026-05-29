@@ -28,14 +28,14 @@ Removes all tips that do not occur in both \code{tree1} and \code{tree2}, then c
 the status of the remaining quartets.
 }
 \seealso{
-Other element-by-element comparisons: 
-\code{\link{CompareQuartets}()},
-\code{\link{CompareQuartetsMulti}()},
-\code{\link{CompareSplits}()},
-\code{\link{PairwiseQuartets}()},
-\code{\link{QuartetState}()},
-\code{\link{SharedQuartetStatus}()},
-\code{\link{SplitStatus}()}
+Other element-by-element comparisons:
+\code{\link[=CompareQuartets]{CompareQuartets()}},
+\code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}},
+\code{\link[=CompareSplits]{CompareSplits()}},
+\code{\link[=PairwiseQuartets]{PairwiseQuartets()}},
+\code{\link[=QuartetState]{QuartetState()}},
+\code{\link[=SharedQuartetStatus]{SharedQuartetStatus()}},
+\code{\link[=SplitStatus]{SplitStatus()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

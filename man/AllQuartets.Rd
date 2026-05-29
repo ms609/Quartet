@@ -36,10 +36,10 @@ combn(5, 4) # Provides the same information, but for large
 \seealso{
 States of quartets in given trees: \code{\link[=QuartetStates]{QuartetStates()}}
 
-Other enumeration: 
-\code{\link{CompareQuartets}()},
-\code{\link{CompareQuartetsMulti}()},
-\code{\link{ResolvedQuartets}()}
+Other enumeration:
+\code{\link[=CompareQuartets]{CompareQuartets()}},
+\code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}},
+\code{\link[=ResolvedQuartets]{ResolvedQuartets()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

@@ -130,8 +130,8 @@ and each other tree therein.
 \item \code{\link[=TQFile]{TQFile()}} creates a temporary file containing specified trees.
 }
 
-Other TQDist functions: 
-\code{\link{TQDist}()}
+Other TQDist functions:
+\code{\link[=TQDist]{TQDist()}}
 }
 \author{
 \itemize{

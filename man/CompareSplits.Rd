@@ -53,14 +53,14 @@ CompareSplits(splits1, splits2)
 \seealso{
 Equivalent function for quartets: \code{\link[=CompareQuartets]{CompareQuartets()}}
 
-Other element-by-element comparisons: 
-\code{\link{CompareQuartets}()},
-\code{\link{CompareQuartetsMulti}()},
-\code{\link{PairSharedQuartetStatus}()},
-\code{\link{PairwiseQuartets}()},
-\code{\link{QuartetState}()},
-\code{\link{SharedQuartetStatus}()},
-\code{\link{SplitStatus}()}
+Other element-by-element comparisons:
+\code{\link[=CompareQuartets]{CompareQuartets()}},
+\code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}},
+\code{\link[=PairSharedQuartetStatus]{PairSharedQuartetStatus()}},
+\code{\link[=PairwiseQuartets]{PairwiseQuartets()}},
+\code{\link[=QuartetState]{QuartetState()}},
+\code{\link[=SharedQuartetStatus]{SharedQuartetStatus()}},
+\code{\link[=SplitStatus]{SplitStatus()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

@@ -99,10 +99,10 @@ nodelabels(percentSame, vq[["tree2"]][, "node"],
 par(origPar)
 }
 \seealso{
-Other visualization: 
-\code{\link{PlotQuartet}()},
-\code{\link{QuartetPoints}()},
-\code{\link{SymmetricDifferenceLineEnds}()}
+Other visualization:
+\code{\link[=PlotQuartet]{PlotQuartet()}},
+\code{\link[=QuartetPoints]{QuartetPoints()}},
+\code{\link[=SymmetricDifferenceLineEnds]{SymmetricDifferenceLineEnds()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}
