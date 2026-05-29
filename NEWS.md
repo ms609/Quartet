@@ -4,8 +4,6 @@
 - `TripletDistance()`, `PairsTripletDistance()`, and `AllPairsTripletDistance()`
   now use the CPDT algorithm (Jansson & Rajaby 2017) instead of the tqDist
   file-based backend, giving a ~100× speedup.
-- New `CPDTDist()` function computes the rooted triplet distance between a
-  pair of trees using the CPDT algorithm.
 
 # Quartet v1.3.0 (2026-03-19)
 

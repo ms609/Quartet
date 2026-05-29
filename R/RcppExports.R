@@ -33,7 +33,7 @@ cpp_quartet_consensus <- function(splits_list, n_tips, init_majority, init_exten
 #' Functions to calculate rooted triplet distances between pairs of trees.
 #' Input is not checked for sanity.
 #' 
-#' Functions are called from R with functions such as [`CPDTDist`].
+#' Functions are called from R with functions such as [`TripletDistance`].
 #' 
 #' @param file1,file2 Paths to files containing a tree or trees in Newick format.
 #' 

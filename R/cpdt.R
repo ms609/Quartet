@@ -64,25 +64,3 @@ TripletDistance.multiPhylo <- TripletDistance.list
     TripletDistance(trees1[[i]], trees2[[i]])
   }, integer(1))
 }
-
-#' Wrapper for CPDT-dist
-#'
-#' `r lifecycle::badge("deprecated")`
-#'
-#' Use [TripletDistance()] instead.
-#'
-#' @param tree1,tree2 Phylogenetic tree of class \code{phylo}.
-#' @return `CPDTDist()` returns the triplet distance between `tree1` and
-#' `tree2`.
-#'
-#' @examples
-#' tree1 <- TreeTools::RootTree(TreeTools::BalancedTree(8), 1)
-#' tree2 <- TreeTools::PectinateTree(8)
-#' CPDTDist(tree1, tree2)
-#'
-#' @template MRS
-#' @export
-CPDTDist <- function(tree1, tree2) {
-  lifecycle::deprecate_warn("1.4.0", "CPDTDist()", "TripletDistance()")
-  TripletDistance(tree1, tree2)
-}
