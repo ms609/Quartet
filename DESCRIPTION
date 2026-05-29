@@ -67,6 +67,7 @@ Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
 Config/Needs/revdeps: revdepcheck
 Config/Needs/website: pkgdown
+Config/roxygen2/version: 8.0.0
 RdMacros: Rdpack
 LinkingTo:
   Rcpp,
@@ -75,4 +76,3 @@ LazyData: true
 ByteCompile: true
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
