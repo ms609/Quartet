@@ -63,14 +63,14 @@ the explicit quartet enumeration becomes prohibitively expensive.
 library(TreeTools)
 
 # Generate bootstrap-like trees
-trees <- as.phylo(1:20, nTip = 8)
+trees <- as.phylo(1:30, nTip = 8)
 
 # Quartet consensus
 qc <- QuartetConsensus(trees)
 plot(qc)
 
 # Compare resolution with majority-rule
-mr <- Consensus(trees, p = 0.5)
+mr <- UnrootTree(Consensus(trees, p = 0.5))
 cat("Majority-rule splits:", NSplits(mr), "\n")
 cat("Quartet consensus splits:", NSplits(qc), "\n")
 
