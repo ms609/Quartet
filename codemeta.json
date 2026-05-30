@@ -212,7 +212,7 @@
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
-      "version": ">= 3.5.0"
+      "version": ">= 3.6.0"
     },
     "2": {
       "@type": "SoftwareApplication",
@@ -277,21 +277,9 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Ternary"
     },
-    "7": {
-      "@type": "SoftwareApplication",
-      "identifier": "viridisLite",
-      "name": "viridisLite",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=viridisLite"
-    },
     "SystemRequirements": null
   },
-  "fileSize": "919.268KB",
+  "fileSize": "919.284KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",

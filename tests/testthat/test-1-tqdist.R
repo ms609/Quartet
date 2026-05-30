@@ -132,7 +132,10 @@ test_that("tqDist runs from temporary files", {
   expect_error(TQFile("Not class phylo"))
   
   expect_error(OneToManyQuartetAgreement(TreePath("all_quartets"), TreePath("all_quartets")))
-  expect_error(OneToManyQuartetAgreement(TreePath("quartet_unresolved"), TreePath("none")))
+  expect_warning(
+    expect_error(OneToManyQuartetAgreement(TreePath("quartet_unresolved"), TreePath("none"))),
+    "semicolon"
+  )
 })
 
 test_that("tqDist returns correct triplet distances", {
