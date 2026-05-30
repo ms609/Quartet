@@ -12,8 +12,8 @@
 
 | ID | Priority | Status | Agent | Task | Notes |
 |----|----------|--------|-------|------|-------|
-| S-RED | P3 | OPEN | — | Red-team review | Priority rises as OPEN task count falls |
-| S-COORD | P3 | OPEN | — | Coordination review | Priority rises as OPEN task count falls |
+| S-RED | P1 | OPEN | — | Red-team review | Priority P1: <3 OPEN tasks |
+| S-COORD | P1 | OPEN | — | Coordination review | Priority P1: <3 OPEN tasks |
 
 ---
 
@@ -21,10 +21,8 @@
 
 | ID | Priority | Status | Agent | Task | Notes |
 |----|----------|--------|-------|------|-------|
-| T-001 | P0 | COMPLETE | A | Correctness regression corpus | Hand-verified known-value tests; **required before any optimisation begins**. See plan. |
-| T-005 | P2 | COMPLETE | A | OpenMP parallelism: one-to-many and pairs loops | Parallelised `oneToManyQuartetAgreement` and `pairs_quartet_distance`. C++ speedup: 4.6× at 400 tips. |
-| T-008 | P2 | COMPLETE | A | All-pairs loop: per-thread localCalc + flatten triangle | +14–35% across all tree sizes. Post-opt benchmark: `inst/benchmarks/post-opt-T008-2026-03-18.rds`. |
-| T-009 | P2 | COMPLETE | A | Pool size + prefetch (was: CountingLinkedList → flat array) | Low-risk alternative: increased HDTFactorySize 30→256, added `__builtin_prefetch` to getIteratorValue. +6–33% across tip sizes. Full flat-array conversion deferred — diminishing returns after pool fix. |
+| T-013 | P3 | OPEN | — | Handle unifurcating root in tqDist (GitHub #64) | Upstream bug; CPDT backend may not have this issue — test and potentially route through CPDT. |
+| T-014 | P3 | OPEN | — | Allow comparison when tips aren't identical (GitHub #60) | Modify `QuartetStatus()` to handle non-overlapping tip sets via confusion table + `choose()`. |
 
 ---
 
