@@ -20,6 +20,7 @@
 <url><loc>https://ms609.github.io/Quartet/reference/PairwiseQuartets.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/PlotQuartet.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/Quartet-package.html</loc></url>
+<url><loc>https://ms609.github.io/Quartet/reference/QuartetConsensus.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/QuartetPoints.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/QuartetState.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/QuartetStatus.html</loc></url>
@@ -31,9 +32,13 @@
 <url><loc>https://ms609.github.io/Quartet/reference/TQFile.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/ValidateQuartetFile.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/VisualizeQuartets.html</loc></url>
+<url><loc>https://ms609.github.io/Quartet/reference/cpdt_dist_file.html</loc></url>
+<url><loc>https://ms609.github.io/Quartet/reference/cpp_quartet_consensus.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/dot-AddSlice.html</loc></url>
+<url><loc>https://ms609.github.io/Quartet/reference/dot-AllPairsTripletDist.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/dot-CheckSize.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/dot-NormalizeStatus.html</loc></url>
+<url><loc>https://ms609.github.io/Quartet/reference/dot-PairsTripletDist.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/dot-StatusToMatrix.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/index.html</loc></url>
 <url><loc>https://ms609.github.io/Quartet/reference/sq_trees.html</loc></url>

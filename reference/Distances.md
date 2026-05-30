@@ -6,6 +6,15 @@ distances between pairs of trees.
 ## Usage
 
 ``` r
+# S3 method for class 'phylo'
+TripletDistance(tree1, tree2 = NULL)
+
+# S3 method for class 'list'
+TripletDistance(tree1, tree2 = NULL)
+
+# S3 method for class 'multiPhylo'
+TripletDistance(tree1, tree2 = NULL)
+
 QuartetDistance(file1, file2)
 
 QuartetAgreement(file1, file2)
@@ -18,7 +27,10 @@ AllPairsQuartetDistance(file)
 
 AllPairsQuartetAgreement(file)
 
-TripletDistance(file1, file2)
+TripletDistance(tree1, tree2 = NULL)
+
+# S3 method for class 'character'
+TripletDistance(tree1, tree2 = NULL)
 
 PairsTripletDistance(file1, file2)
 
@@ -26,6 +38,13 @@ AllPairsTripletDistance(file)
 ```
 
 ## Arguments
+
+- tree1, tree2:
+
+  Arguments to `TripletDistance`: file paths containing Newick trees,
+  phylogenetic trees of class `phylo`, or lists/`multiPhylo` of trees.
+  If `tree1` is a list and `tree2 = NULL`, returns a distance matrix of
+  all pairwise distances.
 
 - file, file1, file2:
 
@@ -50,6 +69,17 @@ referred to by Brodal et al. (2013) and Holt et al. (2014) .
 
 ## Functions
 
+- `TripletDistance(phylo)`: Triplet distance between two trees of class
+  `phylo`. Uses the CPDT algorithm (Jansson and Rajaby 2017) .
+
+- `TripletDistance(list)`: Triplet distance between each pair of trees
+  in a list. If `tree2` is provided, returns pairwise distances between
+  corresponding trees in `tree1` and `tree2`. If `tree2 = NULL`, returns
+  a distance matrix of all pairwise distances within `tree1`.
+
+- `TripletDistance(multiPhylo)`: Triplet distance between each pair of
+  trees in a `multiPhylo` object.
+
 - `QuartetDistance()`: Returns the quartet distance between the tree. in
   `file1` and the tree in `file2`.
 
@@ -70,8 +100,15 @@ referred to by Brodal et al. (2013) and Holt et al. (2014) .
 - `AllPairsQuartetAgreement()`: Quartet status for each pair of trees in
   `file`.
 
-- `TripletDistance()`: Triplet distance between the single tree given in
-  each file.
+- `TripletDistance()`: Triplet distance between trees. `tree1` and
+  `tree2` can be `phylo` objects, file paths to Newick tree files, or
+  lists/`multiPhylo` objects. If `tree1` is a list and `tree2 = NULL`,
+  computes all pairwise distances; if both are lists, computes distances
+  between corresponding pairs. Uses the CPDT algorithm (Jansson and
+  Rajaby 2017) .
+
+- `TripletDistance(character)`: Triplet distance between single trees
+  read from Newick-format files `tree1` and `tree2`.
 
 - `PairsTripletDistance()`: Triplet distance between the tree on each
   line of `file1` and the tree on the corresponding line of `file2`.
@@ -93,10 +130,15 @@ Holt MK, Johansen J, Brodal GS (2014). “On the scalability of computing
 triplet and quartet distances.” In *Proceedings of 16th Workshop on
 Algorithm Engineering and Experiments (ALENEX) Portland, Oregon, USA*.  
   
+Jansson J, Rajaby R (2017). “A More Practical Algorithm for the Rooted
+Triplet Distance.” *Journal of Computational Biology*, **24**(2),
+106–126.
+[doi:10.1089/cmb.2016.0185](https://doi.org/10.1089/cmb.2016.0185) .  
+  
 Sand A, Holt MK, Johansen J, Brodal GS, Mailund T, Pedersen CNS (2014).
 “tqDist: a library for computing the quartet and triplet distances
 between binary or general trees.” *Bioinformatics*, **30**(14),
-2079–2080. ISSN 1460-2059,
+2079–2080. ISSN 1460-2059.
 [doi:10.1093/bioinformatics/btu157](https://doi.org/10.1093/bioinformatics/btu157)
 .
 
@@ -113,9 +155,9 @@ Other TQDist functions:
 
 ## Author
 
-- Algorithms: Brodal et al. (2013) ; Holt et al. (2014) .
-
-- C implementation: Sand et al. (2014) ; modified for portability by
+- Quartet algorithms: Brodal et al. (2013) ; Holt et al. (2014) . C
+  implementation: Sand et al. (2014) ; modified for portability by
   Martin R. Smith.
 
-- R interface: Martin R. Smith.
+- Triplet algorithm: Jansson and Rajaby (2017) . C++ implementation by
+  Ramesh Rajaby; R integration by Martin R. Smith.

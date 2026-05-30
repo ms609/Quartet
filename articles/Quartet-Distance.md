@@ -39,20 +39,19 @@ whereas the third does not; these four tips are divided into
 
 ![](Quartet-Distance_files/figure-html/Plot-a-quartet-1.png)
 
-There are $\left( \frac{n}{4} \right)$ groups of four taxa in a tree
-with $n$ tips; for each of these groups, one of the three trees above
-will be consistent with a given tree. As such, two identical trees will
-have a quartet distance of 0, and a random pair of trees will have an
-expected $\left( \frac{n}{4} \right)/3$ quartets in common. Because
-quartets are not independent of one another, no pair of trees with six
-or more tips can have all $\left( \frac{n}{4} \right)$ quartets in
-common (Steel & Penny, 1993).
+There are $`\binom{n}{4}`$ groups of four taxa in a tree with $`n`$
+tips; for each of these groups, one of the three trees above will be
+consistent with a given tree. As such, two identical trees will have a
+quartet distance of 0, and a random pair of trees will have an expected
+$`\binom{n}{4} / 3`$ quartets in common. Because quartets are not
+independent of one another, no pair of trees with six or more tips can
+have all $`\binom{n}{4}`$ quartets in common (Steel & Penny, 1993).
 
 Properties of the quartet distance are explored fully in Steel & Penny
 (1993). As quartet distances of 1 can only be accomplished for small
 trees (five or fewer leaves; see below), it is perhaps more appropriate
 to consider whether or not trees are more dissimilar than a pair of
-random trees, whose distance will be, on average, $\frac{2}{3}$. (Data
+random trees, whose distance will be, on average, $`\frac{2}{3}`$. (Data
 from real trees, and comparisons with expected values of other metrics,
 are available
 (here)\[<https://ms609.github.io/TreeDistData/articles/09-expected-similarity.html>\].)
@@ -89,7 +88,7 @@ documentation page.
 
 ### Quartet similarity in a pair of random trees
 
-On average, $\frac{1}{3}$ of the quartets resolved in a pair of random
+On average, $`\frac{1}{3}`$ of the quartets resolved in a pair of random
 trees will match. This is because there are three quartets involving any
 set of four tips, each of which is equally likely to occur on a truly
 random tree.
@@ -99,6 +98,7 @@ between 10 random trees (90 pairs) with 4 to 20 leaves, and the
 corresponding standard deviation.
 
 ``` r
+
 round(vapply(4:20, function (nTip) {
  trees <- lapply(rep(nTip, 10), TreeTools::RandomTree)
  s <- ManyToManyQuartetAgreement(trees)[, , 's']
@@ -131,6 +131,7 @@ bifurcating tree, some quartets are necessarily shared between trees.
 Consider the tree:
 
 ``` r
+
 tree_a <- ape::read.tree(text = "((1, 2), (3, (4, 5)));")
 ```
 
@@ -139,6 +140,7 @@ tree_a <- ape::read.tree(text = "((1, 2), (3, (4, 5)));")
 The only trees with no quartets in common with Tree A are symmetric with
 
 ``` r
+
 tree_b <- ape::read.tree(text = "((1, 5), (3, (2, 4)));")
 ```
 
@@ -148,6 +150,7 @@ Now create Tree C by adding a 6^(th) tip as a sister to tip `3` on Tree
 A.
 
 ``` r
+
 tree_c <- ape::read.tree(text="((1, 2), ((3, 6), (4, 5)));")
 ```
 
@@ -162,7 +165,7 @@ As such, the minimum possible quartet similarity is non-zero, and
 becomes increasingly difficult to compute as the number of leaves rises.
 This fact increases the value of comparing low quartet similarity scores
 to the expected similarity of a pair of random trees
-(i.e. $\frac{1}{3}$), rather than to zero.
+(i.e. $`\frac{1}{3}`$), rather than to zero.
 
 ## References
 

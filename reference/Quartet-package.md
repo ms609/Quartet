@@ -86,7 +86,18 @@ Useful links:
 **Maintainer**: Martin R. Smith <martin.smith@durham.ac.uk>
 ([ORCID](https://orcid.org/0000-0001-5660-1727)) \[copyright holder\]
 
+Authors:
+
+- Martin R. Smith <martin.smith@durham.ac.uk>
+  ([ORCID](https://orcid.org/0000-0001-5660-1727)) \[copyright holder\]
+
 Other contributors:
+
+- Jesper Jansson <jj@i.kyoto-u.ac.jp>
+  ([ORCID](https://orcid.org/0000-0001-6859-8932)) \[bibliographic
+  antecedent\]
+
+- Ramesh Rajaby \[bibliographic antecedent\]
 
 - Andreas Sand \[bibliographic antecedent\]
 

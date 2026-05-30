@@ -29,6 +29,7 @@ Named integer of length 6, as per
 ## Examples
 
 ``` r
+
 library("TreeTools")
 ref <- BalancedTree(letters[1:9])
 cf <- BalancedTree(letters[3:13])

@@ -31,6 +31,7 @@ Install and load the library from CRAN as follows:
 For the latest features, install the development version:
 
 ``` r
+
 if(!require("curl")) install.packages("curl")
 if(!require("remotes")) install.packages("remotes")
 remotes::install_github("ms609/Quartet")
@@ -184,6 +185,13 @@ Direct access to TQDist functions
 - [`TQDist()`](https://ms609.github.io/Quartet/reference/TQDist.md)
   [`TQAE()`](https://ms609.github.io/Quartet/reference/TQDist.md) :
   Wrapper for tqDist
+
+## Consensus
+
+Construct consensus trees using quartet distance
+
+- [`QuartetConsensus()`](https://ms609.github.io/Quartet/reference/QuartetConsensus.md)
+  : Consensus tree minimizing quartet distance
 
 # Articles
 

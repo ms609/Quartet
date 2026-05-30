@@ -31,6 +31,7 @@ Install and load the library from CRAN as follows:
 For the latest features, install the development version:
 
 ``` r
+
 if(!require("curl")) install.packages("curl")
 if(!require("remotes")) install.packages("remotes")
 remotes::install_github("ms609/Quartet")

@@ -77,7 +77,7 @@ Algorithm Engineering and Experiments (ALENEX) Portland, Oregon, USA*.
 Sand A, Holt MK, Johansen J, Brodal GS, Mailund T, Pedersen CNS (2014).
 “tqDist: a library for computing the quartet and triplet distances
 between binary or general trees.” *Bioinformatics*, **30**(14),
-2079–2080. ISSN 1460-2059,
+2079–2080. ISSN 1460-2059.
 [doi:10.1093/bioinformatics/btu157](https://doi.org/10.1093/bioinformatics/btu157)
 .
 
@@ -87,7 +87,7 @@ between binary or general trees.” *Bioinformatics*, **30**(14),
 [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md)
 
 Other TQDist functions:
-[`Distances`](https://ms609.github.io/Quartet/reference/Distances.md)
+[`TripletDistance.phylo()`](https://ms609.github.io/Quartet/reference/Distances.md)
 
 ## Author
 

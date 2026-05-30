@@ -185,7 +185,7 @@ metrics for comparing phylogenetic trees.” *Bioinformatics*, **36**(20),
   
 Steel MA, Penny D (1993). “Distributions of tree comparison metrics—some
 new results.” *Systematic Biology*, **42**(2), 126–141.
-[doi:10.1093/sysbio/42.2.126](https://doi.org/10.1093/sysbio/42.2.126) ,
+[doi:10.1093/sysbio/42.2.126](https://doi.org/10.1093/sysbio/42.2.126) .
 <http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf>.
 
 ## See also
