@@ -21,6 +21,14 @@ Smith 2019). ‘Quartet’ makes this distinction in both the quartet metric
 and the partition metric (i.e. Robinson-Foulds distance; function
 [`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)).
 
+‘Quartet’ also calculates the rooted triplet distance via
+[`TripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md),
+using the CPDT algorithm of Jansson & Rajaby (2017), and can identify
+the consensus tree that minimises the summed quartet distance to a set
+of trees via
+[`QuartetConsensus()`](https://ms609.github.io/Quartet/reference/QuartetConsensus.md)
+(Takazawa *et al.* 2026).
+
 ## Using the package
 
 Install and load the library from CRAN as follows:
@@ -65,6 +73,10 @@ useful to you.
   undirected phylogenetic trees based on subtrees of four evolutionary
   units. Syst. Zool. 34:193–200.
 
+- Jansson J., Rajaby R. 2017. A more practical algorithm for the rooted
+  triplet distance. J. Comput. Biol. 24:106–126.
+  <https://doi.org/10.1089/cmb.2016.0185>
+
 - Sand A., Holt M.K., Johansen J., Brodal G.S., Mailund T., Pedersen
   C.N.S. 2014. tqDist: a library for computing the quartet and triplet
   distances between binary or general trees. Bioinformatics
@@ -85,6 +97,10 @@ useful to you.
 - Steel, M. and Penny, D. 1993. Distributions of tree comparison
   metrics: some new results. Syst. Biol. 42: 126-141.
   <https://doi.org/10.1093/sysbio/42.2.126>
+
+- Takazawa Y., Takeda A., Hayamizu M., Gascuel O. 2026. Outperforming
+  the majority-rule consensus tree using fine-grained dissimilarity
+  measures. bioRxiv. <https://doi.org/10.64898/2026.03.16.712085>
 
 Please note that the ‘Quartet’ project is released with a [Contributor
 Code of Conduct](https://ms609.github.io/Quartet/CODE_OF_CONDUCT.html).
