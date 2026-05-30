@@ -53,6 +53,7 @@
 <code><a href="../reference/Distances.html">TripletDistance()</a></code> is now an S3 generic accepting <code>phylo</code>, <code>multiPhylo</code>, <code>list</code>, and file-path (<code>character</code>) inputs (previously file-paths only).</li>
 <li>
 <code><a href="../reference/Distances.html">TripletDistance()</a></code>, <code><a href="../reference/Distances.html">PairsTripletDistance()</a></code>, and <code><a href="../reference/Distances.html">AllPairsTripletDistance()</a></code> now use the CPDT algorithm of Jansson &amp; Rajaby (2017) instead of the tqDist file-based backend, giving a ~100× speedup for triplet-distance calculations.</li>
+<li>Quartet distances no longer abort with “Leaves don’t agree” when a tree has a unifurcating root; the bundled tqDist tree reader treated the redundant root as a spurious extra leaf (<a href="https://github.com/ms609/Quartet/issues/64" class="external-link">#64</a>).</li>
 <li>Require R 3.6, dropping dependency on <code>viridisLite</code>.</li>
 </ul></div>
     <div class="section level2">
