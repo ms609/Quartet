@@ -70,14 +70,13 @@
 #' @family visualization
 #' @importFrom ape plot.phylo
 #' @importFrom PlotTools SpectrumLegend
-#' @importFrom viridisLite viridis
 #' @export
 VisualizeQuartets <- function (tree1, tree2, style = "pie",
                                setPar = TRUE,
                                precision = 3L,
                                Plot = plot.phylo,
                                scale = 1L,
-                               spectrum = viridisLite::viridis(101),
+                               spectrum = hcl.colors(101, palette = "viridis"),
                                legend = TRUE,
                                ...) {
   if (setPar) {
