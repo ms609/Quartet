@@ -217,3 +217,52 @@ test_that(".TreeToEdge()", {
     Quartet:::.TreeToEdge.phylo(BalancedTree(5), paste0("t", 5:1))
   )
 })
+
+test_that("Unifurcating roots are handled (#64)", {
+  skip_on_cran()
+  library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
+
+  writeTree <- function (text) {
+    file <- tempfile(fileext = ".tree")
+    writeLines(text, file)
+    file
+  }
+
+  # Minimum working example from the issue: identical topology, one with a
+  # unifurcating root.  The bundled tqDist reader previously treated the
+  # redundant root as a spurious extra leaf and aborted.
+  f1 <- writeTree("((8,3),(5,6));")
+  f2 <- writeTree("(((3,8),(5,6)));")
+  expect_equal(QuartetDistance(f1, f2), 0)
+  expect_equal(QuartetDistance(f2, f1), 0)
+  expect_equal(QuartetAgreement(f1, f2), c(1, 0))
+  # The low-level Rcpp wrapper goes straight to the tqDist reader
+  expect_equal(tqdist_QuartetDistance(f1, f2), 0)
+  expect_equal(tqdist_TripletDistance(f1, f2), 0)
+
+  # A genuinely non-zero distance must match the equivalent bifurcating tree,
+  # on the file path, the phylo / edge path, and the raw wrappers.
+  ref  <- read.tree(text = "(((1,2),(3,4)),((5,6),(7,8)));")
+  diff <- read.tree(text = "(((1,3),(2,4)),((5,6),(7,8)));")
+  uni  <- read.tree(text = "((((1,3),(2,4)),((5,6),(7,8))));") # diff + unifurcation
+  fRef <- writeTree(write.tree(ref))
+  fDiff <- writeTree(write.tree(diff))
+  fUni <- writeTree(write.tree(uni))
+
+  expect_equal(QuartetDistance(fRef, fUni), QuartetDistance(fRef, fDiff))
+  expect_equal(TripletDistance(fRef, fUni), TripletDistance(fRef, fDiff))
+  expect_equal(TripletDistance(ref, uni), TripletDistance(ref, diff))
+  expect_equal(QuartetStatus(list(ref, uni)), QuartetStatus(list(ref, diff)))
+  expect_equal(tqdist_QuartetDistance(fRef, fUni),
+               tqdist_QuartetDistance(fRef, fDiff))
+
+  # Arbitrarily-nested singletons are also tolerated by the tqDist reader,
+  # since a degree-one internal node induces no quartet or triplet statement.
+  fNested <- writeTree("(((((1,3),(2,4)),((5,6),(7,8)))));")
+  expect_equal(QuartetDistance(fRef, fNested), QuartetDistance(fRef, fDiff))
+  expect_equal(TripletDistance(fRef, fNested), TripletDistance(fRef, fDiff))
+  expect_equal(tqdist_QuartetDistance(fRef, fNested),
+               tqdist_QuartetDistance(fRef, fDiff))
+
+  file.remove(f1, f2, fRef, fDiff, fUni, fNested)
+})

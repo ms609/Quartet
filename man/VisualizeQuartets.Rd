@@ -12,7 +12,7 @@ VisualizeQuartets(
   precision = 3L,
   Plot = plot.phylo,
   scale = 1L,
-  spectrum = viridisLite::viridis(101),
+  spectrum = hcl.colors(101, palette = "viridis"),
   legend = TRUE,
   ...
 )

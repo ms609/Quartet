@@ -71,18 +71,25 @@ typedef struct UnrootedTree
 		RootedTree* convertToRootedTree(RootedTreeFactory *oldFactory)
 		{
 			UnrootedTree *t = this;
+			UnrootedTree *avoid = nullptr;
 
 			// Make sure the root is not a leaf
-			// (unless there are only 2 elements, in which case we can't avoid it)
+			// (unless there are only 2 elements, in which case we can't avoid it).
+			// A degree-1 root also arises from a unifurcating root, e.g. Newick
+			// "(((a,b),(c,d)));".  We reroot at its single neighbour and record
+			// the original root in `avoid` so the recursion does not descend back
+			// into it; otherwise the dummy node would be emitted as a spurious
+			// extra leaf, triggering "Leaves don't agree" (Quartet issue #64).
 			if (isLeaf())
 			{
 				t = edges.front();
+				avoid = this;
 			}
 
 			RootedTreeFactory *factory = new RootedTreeFactory(oldFactory);
-			// Pass nullptr as parent — no writes to shared UnrootedTree nodes,
+			// Pass `avoid` as parent — no writes to shared UnrootedTree nodes,
 			// making this function safe to call concurrently on the same tree.
-			RootedTree *rooted = t->convertToRootedTreeImpl(factory, nullptr);
+			RootedTree *rooted = t->convertToRootedTreeImpl(factory, avoid);
 
 			return rooted;
 		}

@@ -75,7 +75,7 @@ jobs:
       - name: Set up R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 2-${{ runner.arch }}
+          cache-version: 3-${{ runner.arch }}
           needs: |
             check
 
@@ -159,15 +159,17 @@ jobs:
         run: |
           install.packages("remotes")
           remotes::install_cran("rcmdcheck")
-          remotes::install_cran("tinytex")
-          tinytex::install_tinytex()
+          if (Sys.info()["machine"] != "x86_64" || Sys.info()["sysname"] != "Darwin") {
+            remotes::install_cran("tinytex")
+            tinytex::install_tinytex()
+          }
         shell: Rscript {0}
         
       - name: Set up R dependencies (Windows)
         if: runner.os == 'Windows'
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 2-${{ runner.arch }}
+          cache-version: 3-${{ runner.arch }}
           needs: |
             check
             coverage
@@ -176,7 +178,7 @@ jobs:
         if: runner.os != 'Windows'
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 2-${{ runner.arch }}
+          cache-version: 3-${{ runner.arch }}
           needs: |
             check
 
