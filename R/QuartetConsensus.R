@@ -33,7 +33,7 @@
 #' topologies.  Splits are greedily added to (or removed from) the consensus
 #' when doing so reduces the total symmetric quartet distance to the input
 #' trees.  Candidate splits must be compatible with all currently included
-#' splits (four-gamete test).
+#' splits.
 #'
 #' The function supports trees with up to 100 tips.  For larger trees,
 #' the explicit quartet enumeration becomes prohibitively expensive.
