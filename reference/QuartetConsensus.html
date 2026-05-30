@@ -106,7 +106,7 @@ a count of how many input trees resolve it as each of the three possible
 topologies.  Splits are greedily added to (or removed from) the consensus
 when doing so reduces the total symmetric quartet distance to the input
 trees.  Candidate splits must be compatible with all currently included
-splits (four-gamete test).</p>
+splits.</p>
 <p>The function supports trees with up to 100 tips.  For larger trees,
 the explicit quartet enumeration becomes prohibitively expensive.</p>
     </div>
@@ -124,7 +124,7 @@ the explicit quartet enumeration becomes prohibitively expensive.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ms609.github.io/TreeTools/" class="external-link">TreeTools</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Generate bootstrap-like trees</span></span></span>
-<span class="r-in"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, nTip <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html" class="external-link">as.phylo</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span>, nTip <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Quartet consensus</span></span></span>
 <span class="r-in"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="fu">QuartetConsensus</span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span></span>
@@ -132,9 +132,9 @@ the explicit quartet enumeration becomes prohibitively expensive.</p>
 <span class="r-plt img"><img src="QuartetConsensus-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compare resolution with majority-rule</span></span></span>
-<span class="r-in"><span><span class="va">mr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/Consensus.html" class="external-link">Consensus</a></span><span class="op">(</span><span class="va">trees</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/RootTree.html" class="external-link">UnrootTree</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/Consensus.html" class="external-link">Consensus</a></span><span class="op">(</span><span class="va">trees</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Majority-rule splits:"</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/NSplits.html" class="external-link">NSplits</a></span><span class="op">(</span><span class="va">mr</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Majority-rule splits: 3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Majority-rule splits: 2 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Quartet consensus splits:"</span>, <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/NSplits.html" class="external-link">NSplits</a></span><span class="op">(</span><span class="va">qc</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Quartet consensus splits: 3 </span>
 <span class="r-in"><span></span></span>

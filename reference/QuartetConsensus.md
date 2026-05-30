@@ -66,7 +66,7 @@ how many input trees resolve it as each of the three possible
 topologies. Splits are greedily added to (or removed from) the consensus
 when doing so reduces the total symmetric quartet distance to the input
 trees. Candidate splits must be compatible with all currently included
-splits (four-gamete test).
+splits.
 
 The function supports trees with up to 100 tips. For larger trees, the
 explicit quartet enumeration becomes prohibitively expensive.
@@ -85,7 +85,7 @@ majority-rule consensus tree using fine-grained dissimilarity measures.”
 library(TreeTools)
 
 # Generate bootstrap-like trees
-trees <- as.phylo(1:20, nTip = 8)
+trees <- as.phylo(1:30, nTip = 8)
 
 # Quartet consensus
 qc <- QuartetConsensus(trees)
@@ -93,9 +93,9 @@ plot(qc)
 
 
 # Compare resolution with majority-rule
-mr <- Consensus(trees, p = 0.5)
+mr <- UnrootTree(Consensus(trees, p = 0.5))
 cat("Majority-rule splits:", NSplits(mr), "\n")
-#> Majority-rule splits: 3 
+#> Majority-rule splits: 2 
 cat("Quartet consensus splits:", NSplits(qc), "\n")
 #> Quartet consensus splits: 3 
 ```

@@ -95,22 +95,22 @@ Other contributors:
 
 - Jesper Jansson <jj@i.kyoto-u.ac.jp>
   ([ORCID](https://orcid.org/0000-0001-6859-8932)) \[bibliographic
-  antecedent\]
+  antecedent, copyright holder\]
 
-- Ramesh Rajaby \[bibliographic antecedent\]
+- Ramesh Rajaby \[bibliographic antecedent, copyright holder\]
 
-- Andreas Sand \[bibliographic antecedent\]
+- Andreas Sand \[bibliographic antecedent, copyright holder\]
 
-- Gerth Stølting Brodal \[bibliographic antecedent\]
+- Gerth Stølting Brodal \[bibliographic antecedent, copyright holder\]
 
-- Rolf Fagerberg \[bibliographic antecedent\]
+- Rolf Fagerberg \[bibliographic antecedent, copyright holder\]
 
-- Thomas Mailund \[bibliographic antecedent\]
+- Thomas Mailund \[bibliographic antecedent, copyright holder\]
 
 - Christian N. S. Pedersen <cstorm@birc.au.dk>
   ([ORCID](https://orcid.org/0000-0002-8947-6771)) \[bibliographic
-  antecedent\]
+  antecedent, copyright holder\]
 
-- Jens Johansen \[bibliographic antecedent\]
+- Jens Johansen \[bibliographic antecedent, copyright holder\]
 
-- Morten K. Holt \[bibliographic antecedent\]
+- Morten K. Holt \[bibliographic antecedent, copyright holder\]

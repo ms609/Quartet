@@ -186,7 +186,7 @@ Direct access to TQDist functions
   [`TQAE()`](https://ms609.github.io/Quartet/reference/TQDist.md) :
   Wrapper for tqDist
 
-## Consensus
+## Summary trees
 
 Construct consensus trees using quartet distance
 
