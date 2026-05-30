@@ -32,3 +32,6 @@ revdep
 ^\.positai$
 ^\.agent
 ^\.claude$
+^dev$
+^dev/
+\.bak$

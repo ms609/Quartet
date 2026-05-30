@@ -34,6 +34,7 @@ vignettes/*_files
 vignettes/*.log
 vignettes/*.md
 docs/
+dev/
 *.bak
 .positai
 /.agent*

@@ -82,6 +82,19 @@ QuartetConsensus <- function(trees,
          "The explicit quartet enumeration is O(n^4).")
   }
 
+  for (i in seq_len(nTree)[-1]) {
+    labs_i <- TipLabels(trees[[i]])
+    if (!setequal(labs_i, tipLabels)) {
+      extra   <- setdiff(labs_i, tipLabels)
+      missing <- setdiff(tipLabels, labs_i)
+      stop("Tree ", i, " has different tip labels from tree 1.",
+           if (length(missing)) paste0("\n  Missing in tree ", i, ": ",
+                                       paste(missing, collapse = ", ")),
+           if (length(extra))   paste0("\n  Unexpected in tree ", i, ": ",
+                                       paste(extra, collapse = ", ")))
+    }
+  }
+
   # Convert each tree to a raw split matrix
   splitsList <- lapply(trees, function(tr) {
     sp <- as.Splits(tr, tipLabels)

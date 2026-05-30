@@ -37,18 +37,22 @@ TripletDistance.list <- function(tree1, tree2 = NULL) {
 TripletDistance.multiPhylo <- TripletDistance.list
 
 #' All pairwise triplet distances
+#' @importFrom TreeTools RenumberTips
 #' @keywords internal
 .AllPairsTripletDist <- function(trees) {
   nTrees <- length(trees)
-  result <- matrix(0L, nTrees, nTrees,
-                   dimnames = list(names(trees), names(trees)))
-  for (r in seq_len(nTrees)) {
-    for (c in seq_len(r - 1L)) {
-      d <- TripletDistance(trees[[r]], trees[[c]])
-      result[r, c] <- d
-      result[c, r] <- d
-    }
+  treeNames <- names(trees)
+  if (nTrees < 2L) {
+    return(matrix(0L, nTrees, nTrees,
+                  dimnames = list(treeNames, treeNames)))
   }
+  # Renumber every tree to a common leaf ordering so that leaf `i` denotes the
+  # same taxon in each tree; the trees are then parsed once in C++ and reused
+  # across all pairs, rather than being re-parsed for each comparison.
+  trees <- lapply(trees, RenumberTips, trees[[1]])
+  edges <- lapply(trees, function(tr) tr[["edge"]])
+  result <- .Call("_Quartet_cpdt_all_pairs", edges)
+  dimnames(result) <- list(treeNames, treeNames)
   result
 }
 
@@ -60,7 +64,12 @@ TripletDistance.multiPhylo <- TripletDistance.list
   if (length(trees1) != length(trees2)) {
     stop("`tree1` and `tree2` must contain the same number of trees")
   }
-  vapply(seq_along(trees1), function(i) {
+  if (!length(trees1)) {
+    return(integer(0))
+  }
+  # `unlist()` (rather than vapply(integer(1))) preserves a distance that
+  # overflows R's integer range and is returned as a double.
+  unlist(lapply(seq_along(trees1), function(i) {
     TripletDistance(trees1[[i]], trees2[[i]])
-  }, integer(1))
+  }))
 }

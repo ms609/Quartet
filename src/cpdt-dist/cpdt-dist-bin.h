@@ -285,6 +285,18 @@ void leaves_coloring(tree_node* v, bool decolor) {
 }
 
 ull triplet_distance(tree* t1, tree* t2) {
+	// Reset any state left over from a previous call, freeing nodes that a
+	// call interrupted by an exception/longjmp may have failed to clean up.
+	// This keeps each invocation self-contained (the routine is not reentrant).
+	for (size_t i = 0; i < cdp.size(); i++) delete cdp[i];
+	cdp.clear();
+	leaf_to_cdp.clear();
+	t1_leaves.clear();
+	node_range_begin.clear();
+	node_range_end.clear();
+	good_triplets = 0;
+	sol = 0;
+
 	t2->make_biggest_subtree_first();
 	leaf_to_cdp.resize(t2->get_leaves_num());
 	build_cdp(t2->get_root());

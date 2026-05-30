@@ -1,9 +1,13 @@
-# Quartet v1.3.0.9000 (2026-03-20)
+# Quartet v1.4.0 (2026-05-30)
 
+- `QuartetConsensus()` finds the tree minimising summed symmetric quartet
+  distance to a set of trees (Takazawa et al. 2026).
 - `PairwiseQuartets()` compares quartet statuses between all pairs of trees.
+- `TripletDistance()` is now an S3 generic accepting `phylo`, `multiPhylo`,
+  `list`, and file-path (`character`) inputs (previously file-paths only).
 - `TripletDistance()`, `PairsTripletDistance()`, and `AllPairsTripletDistance()`
-  now use the CPDT algorithm (Jansson & Rajaby 2017) instead of the tqDist
-  file-based backend, giving a ~100× speedup.
+  now use the CPDT algorithm of Jansson & Rajaby (2017) instead of the tqDist
+  file-based backend, giving a ~100× speedup for triplet-distance calculations.
 
 # Quartet v1.3.0 (2026-03-19)
 

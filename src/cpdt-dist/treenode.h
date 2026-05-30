@@ -29,13 +29,6 @@ public:
 	}
 	tree_node(int id, int taxa) : id(id), parent(NULL), taxa(taxa) { }
 
-	tree_node(tree_node& other) {
-		this->id = other.id;
-		this->children = other.children;
-		this->parent = other.parent;
-		this->taxa = other.taxa;
-	}
-
 	~tree_node() {
 		children.clear();
 	}

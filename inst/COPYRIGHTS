@@ -1,0 +1,84 @@
+The Quartet package as a whole is copyright (c) Martin R. Smith
+<martin.smith@durham.ac.uk> and is distributed under the terms of the
+GNU General Public License version 2 or later (GPL >= 2); see the file
+LICENSE or https://www.gnu.org/licenses/gpl-2.0.html .
+
+The package bundles two third-party C/C++ codebases, described below.
+Each has been modified by Martin R. Smith for R integration, portability,
+and memory-management fixes.
+
+-------------------------------------------------------------------------------
+Component A: tqDist
+-------------------------------------------------------------------------------
+
+Source files (within src/):
+  AbstractDistanceCalculator.cpp, AbstractDistanceCalculator.h,
+  counting_linked_list.h, counting_linked_list_num_only.h,
+  EdgeParser.cpp, edge_parser.h,
+  HDT.cpp, HDTCountingCCToC.cpp, HDTCountingCTransform.cpp,
+  HDTCountingG.cpp, HDTCountingIGToC.cpp, HDTCountingLeaf.cpp,
+  HDTFactory.cpp, HDTListUtils.cpp,
+  hdt.h, hdt_factory.h,
+  int_stuff.cpp, int_stuff.h,
+  memory_allocator.h,
+  NewickParser.cpp, newick_parser.h,
+  quartet_calc.h,
+  QuartetDistanceCalculator.cpp, QuartetDistanceCalculator.h,
+  rooted_tree.h, RootedTree.cpp, RootedTreeFactory.cpp, rooted_tree_factory.h,
+  templated_linked_list.h,
+  triplet_calc.h,
+  TripletDistanceCalculator.cpp, TripletDistanceCalculator.h,
+  unrooted_tree.h,
+  util.h,
+  rQuartetDist.cpp, rTripletDist.cpp
+
+Original authors / copyright holders:
+  Andreas Sand, Morten K. Holt, Jens Johansen,
+  Gerth Stølting Brodal, Thomas Mailund, Christian N. S. Pedersen
+
+Reference:
+  Sand A, Holt MK, Johansen J, Brodal GS, Mailund T, Pedersen CNS (2014).
+  "tqDist: a library for computing the quartet and triplet distances between
+  binary or general trees."  Bioinformatics 30(14):2079-2080.
+  doi:10.1093/bioinformatics/btu157
+
+Upstream source:
+  http://birc.au.dk/software/tqDist
+
+Licence:
+  GNU Lesser General Public License (LGPL).  LGPL is compatible with and
+  is redistributed here under GPL (>= 2).
+
+-------------------------------------------------------------------------------
+Component B: CPDT / cpdt-dist
+-------------------------------------------------------------------------------
+
+Source files (within src/):
+  cpdt-dist.cpp  (R/Rcpp glue written by Martin R. Smith, after Rajaby)
+  cpdt-dist/bit.h
+  cpdt-dist/cpdt-dist.h
+  cpdt-dist/cpdt-dist-bin.h
+  cpdt-dist/nex_parse.h
+  cpdt-dist/tree.h
+  cpdt-dist/tree_parse.h
+  cpdt-dist/treenode.h
+  cpdt-dist/utils.h
+
+Original authors / copyright holders:
+  Jesper Jansson, Ramesh Rajaby
+
+Reference:
+  Jansson J, Rajaby R (2017).
+  "A more practical algorithm for the rooted triplet distance."
+  Journal of Computational Biology 24(2):106-126.
+  doi:10.1089/cmb.2016.0185
+
+Upstream source:
+  https://github.com/Mesh89/cpdt-dist
+
+Licence:
+  The upstream repository carries no explicit licence.  The authors,
+  Jesper Jansson and Ramesh Rajaby, have granted the Quartet maintainer
+  (Martin R. Smith) permission to incorporate and redistribute this code
+  under the GNU General Public License version 2 or later (GPL >= 2),
+  the licence that governs the Quartet package as a whole.

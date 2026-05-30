@@ -1,15 +1,11 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#include <sstream>
+#include <vector>
 
-std::string vector_to_string(std::vector<int> v) {
-	std::stringstream ss;
-	for (unsigned int i = 0; i < v.size(); i++) {
-		ss << v[i] << " ";
-	}
-	return ss.str();
-}
+#include "bit.h"      /* for ull */
+#include "tree.h"     /* for tree, tree_node */
+#include "treenode.h"
 
 inline ull comb2(ull n) {
 	return n*(n-1)/2;
@@ -29,25 +25,6 @@ inline ull comb3(ull n) {
 		n2 /= 3;
 	}
 	return n*n1*n2;
-}
-
-inline int int_log2(int n) {
-	int targetlevel = 0;
-	while (n >>= 1) ++targetlevel;
-	return targetlevel;
-}
-
-void track_leaves_supp(tree_node* node, std::vector<int>& leaves) {
-	if (node->is_leaf()) {
-		leaves.push_back(node->get_taxa());
-	} else {
-		for (int i = 0; i < node->get_num_children(); i++) {
-			track_leaves_supp(node->get_child(i), leaves);
-		}
-	}
-}
-void track_leaves(tree* t, std::vector<int>& leaves) {
-	track_leaves_supp(t->get_root(), leaves);
 }
 
 void track_leaves(tree_node* node, std::vector<int>& leaves,

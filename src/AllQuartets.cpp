@@ -104,7 +104,7 @@ int which_index(IntegerVector indices, IntegerVector m) {
   }
 }
 
-int32 n_quartets(int16 n_tips) {
+static inline int32 n_quartets(int16 n_tips) {
   return hyp_num[n_tips - 3];
 }
 

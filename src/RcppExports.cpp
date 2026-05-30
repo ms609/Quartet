@@ -60,7 +60,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // cpdt_dist_file
-IntegerVector cpdt_dist_file(CharacterVector file1, CharacterVector file2);
+SEXP cpdt_dist_file(CharacterVector file1, CharacterVector file2);
 RcppExport SEXP _Quartet_cpdt_dist_file(SEXP file1SEXP, SEXP file2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -72,7 +72,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // cpdt_pair
-IntegerVector cpdt_pair(const IntegerVector parent1, const IntegerVector child1, const IntegerVector parent2, const IntegerVector child2);
+SEXP cpdt_pair(const IntegerVector parent1, const IntegerVector child1, const IntegerVector parent2, const IntegerVector child2);
 RcppExport SEXP _Quartet_cpdt_pair(SEXP parent1SEXP, SEXP child1SEXP, SEXP parent2SEXP, SEXP child2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -93,6 +93,17 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const List >::type r_tree(r_treeSEXP);
     rcpp_result_gen = Rcpp::wrap(cpdt_tree(r_tree));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpdt_all_pairs
+SEXP cpdt_all_pairs(List edges);
+RcppExport SEXP _Quartet_cpdt_all_pairs(SEXP edgesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type edges(edgesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpdt_all_pairs(edges));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -314,6 +325,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Quartet_cpdt_dist_file", (DL_FUNC) &_Quartet_cpdt_dist_file, 2},
     {"_Quartet_cpdt_pair", (DL_FUNC) &_Quartet_cpdt_pair, 4},
     {"_Quartet_cpdt_tree", (DL_FUNC) &_Quartet_cpdt_tree, 1},
+    {"_Quartet_cpdt_all_pairs", (DL_FUNC) &_Quartet_cpdt_all_pairs, 1},
     {"_Quartet_tqdist_QuartetDistance", (DL_FUNC) &_Quartet_tqdist_QuartetDistance, 2},
     {"_Quartet_tqdist_QuartetAgreement", (DL_FUNC) &_Quartet_tqdist_QuartetAgreement, 2},
     {"_Quartet_tqdist_QuartetAgreementEdge", (DL_FUNC) &_Quartet_tqdist_QuartetAgreementEdge, 2},

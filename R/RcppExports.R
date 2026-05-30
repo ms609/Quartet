@@ -57,6 +57,10 @@ cpdt_tree <- function(r_tree) {
     .Call(`_Quartet_cpdt_tree`, r_tree)
 }
 
+cpdt_all_pairs <- function(edges) {
+    .Call(`_Quartet_cpdt_all_pairs`, edges)
+}
+
 #' Direct entry points to 'tqDist' functions
 #' 
 #' Functions to calculate triplet and quartet distances between pairs of trees.
