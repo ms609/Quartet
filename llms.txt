@@ -9,25 +9,24 @@ The quartet distance outperforms a number of widely used tree distances
 (e.g. the Robinson–Foulds, path, and rearrangement distances) against a
 number theoretical and practical measures (Steel & Penny 1993; Smith
 2020), and is particularly valuable in the construction of tree spaces
-(Smith 2021).
+(Smith 2021). It can also be used to produce consensus trees that
+display more resolution than standard Robinson–Foulds-based
+majority-rule trees (via
+[`QuartetConsensus()`](https://ms609.github.io/Quartet/reference/QuartetConsensus.md))
+(Takazawa *et al.* 2026).
 
 ‘Quartet’ uses the ‘tqDist’ algorithm (Brodal *et al.* 2004; Sand *et
-al.* 2014). Unlike many other implementations, it distinguishes between
-quartets that are contradicted by one tree, and quartets that are simply
-absent due to a lack of resolution (i.e. the presence of polytomies; see
-Smith 2019). ‘Quartet’ makes this distinction in both the quartet metric
+al.* 2014) to compute quartet distances, and using the CPDT algorithm of
+Jansson & Rajaby (2017) to compute triplet distances (via
+[`TripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)).
+Unlike many other implementations, it distinguishes between quartets
+that are contradicted by one tree, and quartets that are simply absent
+due to a lack of resolution (i.e. the presence of polytomies; see Smith
+2019). ‘Quartet’ makes this distinction in both the quartet metric
 (function
 [`QuartetStatus()`](https://ms609.github.io/Quartet/reference/QuartetStatus.md))
 and the partition metric (i.e. Robinson-Foulds distance; function
 [`SplitStatus()`](https://ms609.github.io/Quartet/reference/SplitStatus.md)).
-
-‘Quartet’ also calculates the rooted triplet distance via
-[`TripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md),
-using the CPDT algorithm of Jansson & Rajaby (2017), and can identify
-the consensus tree that minimises the summed quartet distance to a set
-of trees via
-[`QuartetConsensus()`](https://ms609.github.io/Quartet/reference/QuartetConsensus.md)
-(Takazawa *et al.* 2026).
 
 ## Using the package
 
