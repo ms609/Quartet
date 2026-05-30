@@ -1,75 +1,12 @@
 # Quartet Agent Notes
 
-## Build isolation — per-agent library directories
-
-Each agent **must** build and test to its own private library:
-
-```bash
-R CMD INSTALL --library=.agent-X .
-Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/testthat')"
-```
-
-**Never** install to the default library. On Windows, a loaded DLL locks
-the file and blocks other agents.
-
-**Never** use `devtools::load_all()` or `pkgbuild::compile_dll()` — these
-target a shared temp location and will conflict.
-
-### Build failure recovery
-
-`roxygen2::roxygenise()` (default mode) leaves debug `.o` files in `src/`.
-Always clean before building, and use the installed-code loader for docs:
-
-```bash
-rm -f src/*.o src/*.dll
-R CMD INSTALL --library=.agent-X .
-Rscript -e ".libPaths(c('.agent-X', .libPaths())); roxygen2::roxygenise(load_code = roxygen2::load_installed)"
-```
-
-If `R CMD INSTALL` fails with "Access is denied", another R process has the
-DLL loaded. Kill it or wait, then retry.
-
-## CPU limits — max 2 cores per agent
-
-Use at most `-j2` for make. Avoid spawning many parallel R processes.
-
-## Multi-agent workflow protocol
-
-### Assignment
-
-On `/assign X`:
-
-1. Read `agent-X.md`. If a task is already in-progress, resume it.
-2. Otherwise, check `issues.md` **before** `to-do.md`:
-   a. Claim the bottom-most unclaimed issue, triage it into `to-do.md`
-      tasks, then delete the issue block from `issues.md`.
-   b. While `issues.md` still has unclaimed issues, triaging takes priority.
-3. If `issues.md` is empty, claim the next OPEN task from `to-do.md`.
-
-### During work
-
-- Update `agent-X.md` after every significant step (crash-recovery record).
-- All work uses `.agent-X/` as library directory.
-- **All builds, tests, and benchmarks in bash subprocesses** — never in the
-  RStudio R session.
-
-### On task completion
-
-1. Move task to Completed in `to-do.md`.
-2. Set `agent-X.md` to IDLE.
-3. Update `coordination.md` if strategic objectives are affected.
-4. Take next task.
-
 ### Key files
 
 | File | Purpose |
 |------|---------|
 | `issues.md` | Human-entered issues (agents triage → `to-do.md`) |
 | `to-do.md` | Task queue |
-| `coordination.md` | Strategic plan |
-| `agent-X.md` | Agent progress log |
-| `AGENTS.md` | Conventions + architecture reference |
-| `.positai/expertise/*.md` | Standing task methodology |
+| `dev/coordination.md` | Strategic plan |
 
 ## Test conventions
 
@@ -84,12 +21,22 @@ Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/test
 Snapshot tests (in `tests/testthat/_snaps/`) must be reviewed and updated
 explicitly — never auto-accept changed snapshots without inspecting the diff.
 
+**Coverage target: 100%.** The GHA test suite runs codecov; uncovered lines
+will block the PR. Use `// # nocov start` / `// # nocov end` in C++ (or
+`# nocov` in R) only for truly unreachable defensive guards, with a comment
+explaining why the code can't be reached.
+
 
 ## R source file conventions
 
 - `DESCRIPTION` has no explicit `Collate:` field; R sources alphabetically.
 - Documentation is generated with `roxygen2`. Always use
   `roxygen2::roxygenise(load_code = roxygen2::load_installed)`.
+- **When any function signature changes** (parameters added, removed, renamed,
+  or reordered — in R or C++), run `devtools::check_man()` before committing.
+  This catches `\usage` / `\arguments` mismatches in `.Rd` files.
+  For C++ exports, also run `Rcpp::compileAttributes()` first so that
+  `R/RcppExports.R` stays in sync with the `// [[Rcpp::export]]` annotations.
 
 ## Architecture reference
 
@@ -137,8 +84,8 @@ not be called inside parallel regions — use error flags instead.
 | Type | Packages |
 |------|----------|
 | Depends | `TreeTools (≥1.4.0)`, `R (≥3.5.0)` |
-| Imports | `ape`, `PlotTools`, `Rdpack`, `Ternary`, `viridisLite` |
-| Suggests | `phangorn`, `testthat`, `knitr`, `rmarkdown`, `vdiffr` |
+| Imports | `ape`, `PlotTools`, `Rdpack`, `Ternary`, `TreeDist` |
+| Suggests | `future`, `future.apply`, `phangorn`, `testthat`, `knitr`, `rmarkdown`, `vdiffr` |
 
 ## Version and CRAN status
 
@@ -158,3 +105,81 @@ not be called inside parallel regions — use error flags instead.
 
 Baseline and post-optimization benchmarks are in `inst/benchmarks/`.
 Profiling results and methodology are in `.positai/expertise/profiling.md`.
+
+## ICQ (Information-Corrected Quartet Distance)
+
+**Branch**: `icq` (worktree: `Q-IC`)
+**Status**: Phases 1–4 complete; Phase 5 (vignette, NEWS, CRAN prep) pending
+**Plan file**: `.positai/plans/2026-03-22-0723-icq-implementation-in-quartet-package.md`
+
+### What it is
+
+ICQ measures shared phylogenetic information between two trees in bits,
+accounting for the non-independence of quartet statements. Unlike the
+standard quartet distance (which counts disagreeing quartets uniformly),
+ICQ weights information by how much each agreement constrains the space
+of possible trees.
+
+### Algorithm (3-layer decomposition)
+
+1. **`ICQ(tr1, tr2)`** — entry point; dispatches pairwise, all-pairs,
+   one-to-many, or element-wise based on input types.
+2. **`.ICQ_pair()`** — core pairwise computation:
+   a. **ReduceTrees** (Allen & Steel 2001) collapses shared pendant subtrees.
+      Distance is invariant under this reduction (identity:
+      `NUnrooted(m+1) = NRooted(m)` ensures split weight = CI loss).
+   b. **`.ICQ_decompose()`** — recursive divide-and-conquer at shared splits.
+      Each shared split contributes
+      `Log2Unrooted(n) - Log2Rooted(|A|) - Log2Rooted(|B|)` bits.
+   c. **`.ICQ_base_case()`** — when no shared splits remain. Exact
+      enumeration of all topologies, filtered by agreed quartets.
+      `log2(total) - log2(consistent)`.
+3. **`.ICQ_multi_compute()`** — sequential `vapply` or, when `future.apply`
+   is installed and a non-sequential `plan()` is set, `future_vapply`.
+   No cache to transfer — on-the-fly enumeration is self-contained.
+
+### Key findings
+
+- **Consensus shortcut fails**: the set of trees consistent with agreed
+  quartets is NOT the set of resolutions of any multifurcating tree.
+  Independence approximation, quartet closure, and clustering metrics
+  (SPI, MSI, MCI) all fail — anti-correlated by n=8.
+- **ReduceTrees is the key optimisation**: for 1-swap tree pairs,
+  1000-leaf trees reduce to ≤9 leaves. Verified invariant on 150+ pairs.
+
+### Current limits
+
+- **Exact**: residual subtrees ≤ 11 leaves (NUnrooted(11) ≈ 34.5M;
+  enumerated on-the-fly in C++, ~10 s per base-case call at n=11)
+- **NA**: residual subtrees > 11 (hit for very divergent trees at n ≈ 30+)
+- No sampling fallback (uniform sampling ineffective above n ≈ 9)
+
+### API
+
+```r
+ICQ(tr1, tr2, similarity = FALSE, normalize = FALSE)
+ICQ(trees)                          # all-pairs → dist
+ICQ(tree, trees)                    # one-to-many → vector
+ICQ(trees1, trees2)                 # element-wise → vector
+# Parallelism: library(future); plan(multisession); ICQ(trees)
+```
+
+- `normalize = TRUE`: divide by `CladisticInfo(tr1)`, giving [0, 1]
+- Returns `NA` (with warning) for incalculable pairs
+
+### Dependencies
+
+- **Imports**: `TreeDist` (for `ReduceTrees`)
+- **Suggests**: `future.apply` (for parallelism)
+
+### Files
+
+- `R/ICQ.R` — all R code (dispatch, `.ICQ_pair`, legacy
+  `.ICQ_decompose`/`.ICQ_base_case`/`.ICQ_state_matrix` for regression
+  testing, `.ICQ_multi_compute`, `.ICQ_normalize`)
+- `src/icq.cpp` — C++ decomposition + on-the-fly topology enumeration
+  (`count_matching_topologies`, `decompose`, `edges_to_splits`,
+  `quartet_state`, legacy `icq_base_case_cpp`)
+- `tests/testthat/test-ICQ.R` — tests (pairwise, multi-tree,
+  normalize, incalculable, input validation)
+- `man/ICQ.Rd` — generated documentation

@@ -9,7 +9,8 @@ cpp_quartet_consensus(
   n_tips,
   init_majority,
   init_extended,
-  greedy_best_flag
+  greedy_best_flag,
+  never_drop_r = NULL
 )
 }
 \arguments{
@@ -22,10 +23,15 @@ cpp_quartet_consensus(
 \item{init_extended}{Logical: TRUE to start from extended majority splits.}
 
 \item{greedy_best_flag}{Logical: TRUE for "best", FALSE for "first".}
+
+\item{never_drop_r}{Integer vector (1-based) of tip indices that must not
+be dropped, or integer(0) to allow all drops.  If NULL, taxon dropping
+is disabled (distance objective).}
 }
 \value{
-A list with \code{included} (logical), \code{raw_splits} (raw matrix),
-and \code{light_side} (integer).
+A list with \code{splits} (raw matrix of non-trivial splits remapped
+to active tips), \code{n_active} (integer), \code{active_tips} (logical),
+\code{dropped_tips} (integer, 1-based), and \code{drop_scores} (double).
 }
 \description{
 Quartet consensus (C++ implementation)
