@@ -92,7 +92,7 @@ jobs:
       matrix:
         config:
           - {os: windows-latest, r: "release"}
-          - {os: macos-15-intel, r: "release"} # Until Intel architecture retired 2027-11
+          # - {os: macos-15-intel, r: "release"} # TODO: Until Intel architecture retired 2027-11; currently failing due to runner issue
           - {os: macOS-latest, r: "release"}
           - {os: ubuntu-22.04, r: '4.1', rspm: "https://packagemanager.posit.co/cran/__linux__/jammy/latest"}
           - {os: ubuntu-24.04-arm, r: "release", rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
