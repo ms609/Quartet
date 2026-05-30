@@ -8,6 +8,7 @@
 - `TripletDistance()`, `PairsTripletDistance()`, and `AllPairsTripletDistance()`
   now use the CPDT algorithm of Jansson & Rajaby (2017) instead of the tqDist
   file-based backend, giving a ~100× speedup for triplet-distance calculations.
+- Require R 3.6, dropping dependency on `viridisLite`.
 
 # Quartet v1.3.0 (2026-03-19)
 
