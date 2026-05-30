@@ -1,17 +1,20 @@
 Package: Quartet
-Version: 1.3.0
+Version: 1.4.0
 Title: Comparison of Phylogenetic Trees Using Quartet and Split Measures
 Description: Calculates the number of four-taxon subtrees consistent with a pair
   of cladograms, calculating the symmetric quartet distance of Bandelt & Dress
   (1986), Reconstructing the shape of a tree from observed dissimilarity data,
-  Advances in Applied Mathematics, 7, 309-343 <doi:10.1016/0196-8858(86)90038-2>, 
+  Advances in Applied Mathematics <doi:10.1016/0196-8858(86)90038-2>, 
   using the tqDist algorithm of Sand et al. (2014), tqDist: a library for
   computing the quartet and triplet distances between binary or general trees,
-  Bioinformatics, 30, 2079–2080 <doi:10.1093/bioinformatics/btu157>
-  for pairs of binary trees; and calculating the rooted triplet distance
+  Bioinformatics <doi:10.1093/bioinformatics/btu157>
+  for pairs of binary trees; calculating the rooted triplet distance
   using the CPDT algorithm of Jansson & Rajaby (2017), A more practical
-  algorithm for the rooted triplet distance, Journal of Computational Biology,
-  24, 106–126 <doi:10.1089/cmb.2016.0185>.
+  algorithm for the rooted triplet distance, Journal of Computational Biology
+  <doi:10.1089/cmb.2016.0185>; these distances can be used to
+  construct consensus trees via the greedy heuristic of Takazawa et al. (2026),
+  Outperforming the majority-rule consensus tree using fine-grained
+  dissimilarity measures, bioRxiv <doi:10.64898/2026.03.16.712085>.
 URL: https://ms609.github.io/Quartet/, https://github.com/ms609/Quartet/
 BugReports: https://github.com/ms609/Quartet/issues/
 Authors@R: c(person("Martin R.", "Smith",
@@ -21,18 +24,18 @@ Authors@R: c(person("Martin R.", "Smith",
                person("Jesper", "Jansson",
                       email = "jj@i.kyoto-u.ac.jp",
                       comment = c(ORCID = "0000-0001-6859-8932"),
-                      role = c("ant")),
-               person("Ramesh", "Rajaby", role = c("ant")),
-               person("Andreas", "Sand", role = c("ant")),
-               person("Gerth", "Stølting Brodal", role = c("ant")),
-               person("Rolf", "Fagerberg", role = c("ant")),
-               person("Thomas", "Mailund", role = c("ant")),
+                      role = c("ant", "cph")),
+               person("Ramesh", "Rajaby", role = c("ant", "cph")),
+               person("Andreas", "Sand", role = c("ant", "cph")),
+               person("Gerth", "Stølting Brodal", role = c("ant", "cph")),
+               person("Rolf", "Fagerberg", role = c("ant", "cph")),
+               person("Thomas", "Mailund", role = c("ant", "cph")),
                person("Christian N. S.", "Pedersen",
                       email = "cstorm@birc.au.dk",
                       comment = c(ORCID = "0000-0002-8947-6771"),
-                      role = c("ant")),
-               person("Jens", "Johansen", role = c("ant")),
-               person("Morten K.", "Holt", role = c("ant"))
+                      role = c("ant", "cph")),
+               person("Jens", "Johansen", role = c("ant", "cph")),
+               person("Morten K.", "Holt", role = c("ant", "cph"))
             )
 Copyright: Incorporates code modified from tqDist
   <doi:10.1093/bioinformatics/btu157> and from CPDT-dist
@@ -44,7 +47,6 @@ Depends: R (>= 3.5.0),
   TreeTools (>= 1.4.0),
 Imports:
   ape,
-  lifecycle,
   PlotTools,
   Rdpack (>= 0.7),
   Ternary (>= 1.0),
@@ -67,6 +69,7 @@ Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
 Config/Needs/revdeps: revdepcheck
 Config/Needs/website: pkgdown
+Config/roxygen2/version: 8.0.0
 RdMacros: Rdpack
 LinkingTo:
   Rcpp,
@@ -75,4 +78,3 @@ LazyData: true
 ByteCompile: true
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3

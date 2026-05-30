@@ -79,14 +79,14 @@ CompareQuartetsMulti(trees[[1]], trees[2:3])
 Compare quartet states between trees (slowly) using
 \code{\link[=CompareQuartets]{CompareQuartets()}} and \code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}}.
 
-Other element-by-element comparisons: 
-\code{\link{CompareQuartets}()},
-\code{\link{CompareQuartetsMulti}()},
-\code{\link{CompareSplits}()},
-\code{\link{PairSharedQuartetStatus}()},
-\code{\link{PairwiseQuartets}()},
-\code{\link{SharedQuartetStatus}()},
-\code{\link{SplitStatus}()}
+Other element-by-element comparisons:
+\code{\link[=CompareQuartets]{CompareQuartets()}},
+\code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}},
+\code{\link[=CompareSplits]{CompareSplits()}},
+\code{\link[=PairSharedQuartetStatus]{PairSharedQuartetStatus()}},
+\code{\link[=PairwiseQuartets]{PairwiseQuartets()}},
+\code{\link[=SharedQuartetStatus]{SharedQuartetStatus()}},
+\code{\link[=SplitStatus]{SplitStatus()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

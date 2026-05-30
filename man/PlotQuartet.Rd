@@ -42,10 +42,10 @@ par(oPar)
 
 }
 \seealso{
-Other visualization: 
-\code{\link{QuartetPoints}()},
-\code{\link{SymmetricDifferenceLineEnds}()},
-\code{\link{VisualizeQuartets}()}
+Other visualization:
+\code{\link[=QuartetPoints]{QuartetPoints()}},
+\code{\link[=SymmetricDifferenceLineEnds]{SymmetricDifferenceLineEnds()}},
+\code{\link[=VisualizeQuartets]{VisualizeQuartets()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

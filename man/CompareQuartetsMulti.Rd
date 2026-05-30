@@ -64,19 +64,19 @@ CompareQuartetsMulti(x  = CollapseNode(as.phylo(42, 6), 8:9),
 
 }
 \seealso{
-Other element-by-element comparisons: 
-\code{\link{CompareQuartets}()},
-\code{\link{CompareSplits}()},
-\code{\link{PairSharedQuartetStatus}()},
-\code{\link{PairwiseQuartets}()},
-\code{\link{QuartetState}()},
-\code{\link{SharedQuartetStatus}()},
-\code{\link{SplitStatus}()}
+Other element-by-element comparisons:
+\code{\link[=CompareQuartets]{CompareQuartets()}},
+\code{\link[=CompareSplits]{CompareSplits()}},
+\code{\link[=PairSharedQuartetStatus]{PairSharedQuartetStatus()}},
+\code{\link[=PairwiseQuartets]{PairwiseQuartets()}},
+\code{\link[=QuartetState]{QuartetState()}},
+\code{\link[=SharedQuartetStatus]{SharedQuartetStatus()}},
+\code{\link[=SplitStatus]{SplitStatus()}}
 
-Other enumeration: 
-\code{\link{AllQuartets}()},
-\code{\link{CompareQuartets}()},
-\code{\link{ResolvedQuartets}()}
+Other enumeration:
+\code{\link[=AllQuartets]{AllQuartets()}},
+\code{\link[=CompareQuartets]{CompareQuartets()}},
+\code{\link[=ResolvedQuartets]{ResolvedQuartets()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

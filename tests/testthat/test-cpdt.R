@@ -197,9 +197,3 @@ test_that("TripletDistance.multiPhylo: all-pairs", {
   expect_equal(dim(result), c(2, 2))
   expect_equal(result[1, 2], TripletDistance(trees[[1]], trees[[2]]))
 })
-
-test_that("CPDTDist is deprecated", {
-  tree1 <- RootTree(BalancedTree(8), 1)
-  tree2 <- PectinateTree(8)
-  lifecycle::expect_deprecated(CPDTDist(tree1, tree2))
-})

@@ -41,7 +41,7 @@
 #' topologies.  Splits are greedily added to (or removed from) the consensus
 #' when doing so reduces the total symmetric quartet distance to the input
 #' trees.  Candidate splits must be compatible with all currently included
-#' splits (four-gamete test).
+#' splits.
 #'
 #' When `neverDrop` enables taxon dropping, the greedy loop also considers
 #' removing rogue taxa.  At each step, the single best-improving action
@@ -65,14 +65,14 @@
 #' library("TreeTools")
 #'
 #' # Generate bootstrap-like trees
-#' trees <- as.phylo(1:20, nTip = 8)
+#' trees <- as.phylo(1:30, nTip = 8)
 #'
 #' # Quartet consensus
 #' qc <- QuartetConsensus(trees)
 #' plot(qc)
 #'
 #' # Compare resolution with majority-rule
-#' mr <- Consensus(trees, p = 0.5)
+#' mr <- UnrootTree(Consensus(trees, p = 0.5))
 #' cat("Majority-rule splits:", NSplits(mr), "\n")
 #' cat("Quartet consensus splits:", NSplits(qc), "\n")
 #'
@@ -101,6 +101,18 @@ QuartetConsensus <- function(trees,
          "The explicit quartet enumeration is O(n^4).")
   }
 
+  for (i in seq_len(nTree)[-1]) {
+    labs_i <- TipLabels(trees[[i]])
+    if (!setequal(labs_i, tipLabels)) {
+      extra   <- setdiff(labs_i, tipLabels)
+      missing <- setdiff(tipLabels, labs_i)
+      stop("Tree ", i, " has different tip labels from tree 1.",
+           if (length(missing)) paste0("\n  Missing in tree ", i, ": ",
+                                       paste(missing, collapse = ", ")),
+           if (length(extra))   paste0("\n  Unexpected in tree ", i, ": ",
+                                       paste(extra, collapse = ", ")))
+    }
+  
   # Resolve neverDrop to an integer vector (1-based) or NULL
   if (isTRUE(neverDrop)) {
     neverDropR <- NULL

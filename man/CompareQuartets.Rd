@@ -44,19 +44,19 @@ preferable.
 \item \code{\link[=QuartetStatus]{QuartetStatus()}} generates the same output from a list of trees.
 }
 
-Other element-by-element comparisons: 
-\code{\link{CompareQuartetsMulti}()},
-\code{\link{CompareSplits}()},
-\code{\link{PairSharedQuartetStatus}()},
-\code{\link{PairwiseQuartets}()},
-\code{\link{QuartetState}()},
-\code{\link{SharedQuartetStatus}()},
-\code{\link{SplitStatus}()}
+Other element-by-element comparisons:
+\code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}},
+\code{\link[=CompareSplits]{CompareSplits()}},
+\code{\link[=PairSharedQuartetStatus]{PairSharedQuartetStatus()}},
+\code{\link[=PairwiseQuartets]{PairwiseQuartets()}},
+\code{\link[=QuartetState]{QuartetState()}},
+\code{\link[=SharedQuartetStatus]{SharedQuartetStatus()}},
+\code{\link[=SplitStatus]{SplitStatus()}}
 
-Other enumeration: 
-\code{\link{AllQuartets}()},
-\code{\link{CompareQuartetsMulti}()},
-\code{\link{ResolvedQuartets}()}
+Other enumeration:
+\code{\link[=AllQuartets]{AllQuartets()}},
+\code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}},
+\code{\link[=ResolvedQuartets]{ResolvedQuartets()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

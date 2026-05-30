@@ -51,10 +51,10 @@ vapply(sq_trees, ResolvedQuartets, integer(2))
 \insertAllCited{}
 }
 \seealso{
-Other enumeration: 
-\code{\link{AllQuartets}()},
-\code{\link{CompareQuartets}()},
-\code{\link{CompareQuartetsMulti}()}
+Other enumeration:
+\code{\link[=AllQuartets]{AllQuartets()}},
+\code{\link[=CompareQuartets]{CompareQuartets()}},
+\code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

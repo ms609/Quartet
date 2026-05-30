@@ -139,14 +139,14 @@ of quartets as the unit of comparison: \code{\link[=SplitStatus]{SplitStatus()}}
 \verb{[PairwiseQuartets()]}.
 }
 
-Other element-by-element comparisons: 
-\code{\link{CompareQuartets}()},
-\code{\link{CompareQuartetsMulti}()},
-\code{\link{CompareSplits}()},
-\code{\link{PairSharedQuartetStatus}()},
-\code{\link{PairwiseQuartets}()},
-\code{\link{QuartetState}()},
-\code{\link{SplitStatus}()}
+Other element-by-element comparisons:
+\code{\link[=CompareQuartets]{CompareQuartets()}},
+\code{\link[=CompareQuartetsMulti]{CompareQuartetsMulti()}},
+\code{\link[=CompareSplits]{CompareSplits()}},
+\code{\link[=PairSharedQuartetStatus]{PairSharedQuartetStatus()}},
+\code{\link[=PairwiseQuartets]{PairwiseQuartets()}},
+\code{\link[=QuartetState]{QuartetState()}},
+\code{\link[=SplitStatus]{SplitStatus()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

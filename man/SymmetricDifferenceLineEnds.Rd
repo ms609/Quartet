@@ -30,10 +30,10 @@ of tree 2 can vary.
 
 }}
 \seealso{
-Other visualization: 
-\code{\link{PlotQuartet}()},
-\code{\link{QuartetPoints}()},
-\code{\link{VisualizeQuartets}()}
+Other visualization:
+\code{\link[=PlotQuartet]{PlotQuartet()}},
+\code{\link[=QuartetPoints]{QuartetPoints()}},
+\code{\link[=VisualizeQuartets]{VisualizeQuartets()}}
 }
 \author{
 \href{https://orcid.org/0000-0001-5660-1727}{Martin R. Smith}

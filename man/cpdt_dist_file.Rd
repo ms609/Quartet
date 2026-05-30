@@ -17,7 +17,7 @@ Functions to calculate rooted triplet distances between pairs of trees.
 Input is not checked for sanity.
 }
 \details{
-Functions are called from R with functions such as \code{\link{CPDTDist}}.
+Functions are called from R with functions such as \code{\link{TripletDistance}}.
 }
 \references{
 \insertRef{Jansson2017jcb}{Quartet}

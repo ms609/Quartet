@@ -559,6 +559,20 @@ void leaves_coloring(tree_node* v, bool decolor) {
 }
 
 ull triplet_distance(tree* t1, tree* t2) {
+	// Reset any state left over from a previous call, freeing nodes that a
+	// call interrupted by an exception/longjmp may have failed to clean up.
+	// This keeps each invocation self-contained (the routine is not reentrant).
+	for (size_t i = 0; i < cdp.size(); i++) delete cdp[i];
+	cdp.clear();
+	leaf_to_cdp.clear();
+	t1_leaves.clear();
+	t2_leaves_count.clear();
+	node_range_begin.clear();
+	node_range_end.clear();
+	nonred_colors = 0;
+	good_triplets = 0;
+	sol = 0;
+
 	// the number of colors is the highest degree in T1
 	for (ull i = 0; i < t1->get_nodes_num(); i++) {
 		nonred_colors = std::max(nonred_colors, t1->get_node(i)->get_num_children()-1);
