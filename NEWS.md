@@ -1,7 +1,5 @@
 # Quartet v1.4.0 (2026-05-30)
 
-- `QuartetConsensus()` finds the tree minimising summed symmetric quartet
-  distance to a set of trees (Takazawa et al. 2026).
 - `PairwiseQuartets()` compares quartet statuses between all pairs of trees.
 - `TripletDistance()` is now an S3 generic accepting `phylo`, `multiPhylo`,
   `list`, and file-path (`character`) inputs (previously file-paths only).
