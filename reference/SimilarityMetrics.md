@@ -165,7 +165,7 @@ phylogenetic trees based on subtrees of four evolutionary units.”
   
 Marczewski E, Steinhaus H (1958). “On a certain distance of sets and the
 corresponding distance of functions.” *Colloquium Mathematicae*,
-**6**(1), 319–327. <https://eudml.org/doc/210378>.  
+**6**(1), 319–327.  
   
 Robinson DF, Foulds LR (1981). “Comparison of phylogenetic trees.”
 *Mathematical Biosciences*, **53**(1-2), 131–147.

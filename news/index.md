@@ -2,9 +2,6 @@
 
 ## Quartet v1.4.0 (2026-05-30)
 
-- [`QuartetConsensus()`](https://ms609.github.io/Quartet/reference/QuartetConsensus.md)
-  finds the tree minimising summed symmetric quartet distance to a set
-  of trees (Takazawa et al. 2026).
 - [`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md)
   compares quartet statuses between all pairs of trees.
 - [`TripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
@@ -27,11 +24,9 @@
 
 CRAN release: 2026-03-19
 
-- New
-  [`QuartetConsensus()`](https://ms609.github.io/Quartet/reference/QuartetConsensus.md)
-  finds the tree minimizing the sum of symmetric quartet distances to a
-  set of input trees (Takazawa et al. 2026), using a greedy
-  add-and-prune heuristic.
+- New `QuartetConsensus()` finds the tree minimizing the sum of
+  symmetric quartet distances to a set of input trees (Takazawa et
+  al. 2026), using a greedy add-and-prune heuristic.
 - OpenMP parallelism for quartet calculations.
 - Improvements to memory allocation and cache performance.
 - Move

@@ -12,17 +12,15 @@ Rscript -e "library(Quartet, lib.loc='.agent-X'); testthat::test_dir('tests/test
 **Never** install to the default library. On Windows, a loaded DLL locks
 the file and blocks other agents.
 
-**Never** use
-[`devtools::load_all()`](https://devtools.r-lib.org/reference/load_all.html)
-or
+**Never** use `devtools::load_all()` or
 [`pkgbuild::compile_dll()`](https://pkgbuild.r-lib.org/reference/compile_dll.html)
 — these target a shared temp location and will conflict.
 
 ### Build failure recovery
 
-[`roxygen2::roxygenise()`](https://roxygen2.r-lib.org/reference/roxygenize.html)
-(default mode) leaves debug `.o` files in `src/`. Always clean before
-building, and use the installed-code loader for docs:
+`roxygen2::roxygenise()` (default mode) leaves debug `.o` files in
+`src/`. Always clean before building, and use the installed-code loader
+for docs:
 
 ``` bash
 rm -f src/*.o src/*.dll

@@ -9,11 +9,7 @@ The quartet distance outperforms a number of widely used tree distances
 (e.g. the Robinson–Foulds, path, and rearrangement distances) against a
 number theoretical and practical measures (Steel & Penny 1993; Smith
 2020), and is particularly valuable in the construction of tree spaces
-(Smith 2021). It can also be used to produce consensus trees that
-display more resolution than standard Robinson–Foulds-based
-majority-rule trees (via
-[`QuartetConsensus()`](https://ms609.github.io/Quartet/reference/QuartetConsensus.md))
-(Takazawa *et al.* 2026).
+(Smith 2021).
 
 ‘Quartet’ uses the ‘tqDist’ algorithm (Brodal *et al.* 2004; Sand *et
 al.* 2014) to compute quartet distances, and using the CPDT algorithm of
