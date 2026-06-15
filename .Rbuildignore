@@ -34,4 +34,5 @@ revdep
 ^\.claude$
 ^dev$
 ^dev/
+^inst/dev
 \.bak$
