@@ -38,5 +38,5 @@ dev/
 *.bak
 .positai
 /.agent*
-/Quartet.Rcheck
 Quartet_*.tar.gz
+/*.Rcheck
