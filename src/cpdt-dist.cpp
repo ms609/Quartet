@@ -92,6 +92,9 @@ tree_node* parse_tree_support(const IntegerMatrix& edge,
 tree* parse_edge(const IntegerVector& parent, const IntegerVector& child) {
     
     IntegerMatrix edge = TreeTools::preorder_edges_and_nodes(parent, child);
+    if (edge.nrow() < 1) {
+        Rcpp::stop("`edge` must have at least one row");
+    }
     const int n_tip = edge(0, 0) - 1;
     int row = 0;
     std::vector<tree_node*> nodes;

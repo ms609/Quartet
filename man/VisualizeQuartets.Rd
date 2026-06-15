@@ -92,6 +92,7 @@ vq <- VisualizeQuartets(
 percentSame <- paste(round(vq[["tree2"]][, "same"] * 100, 1), "\%")
 nodelabels(percentSame, vq[["tree2"]][, "node"],
            frame = "n", bg = NA, # No frame or background
+           cex = 0.8, # character expansion / font size
            adj = 0.5 # align label
            )
            
