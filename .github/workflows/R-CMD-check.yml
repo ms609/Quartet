@@ -113,7 +113,7 @@ jobs:
 
     steps:
       - name: Checkout git repo
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Temporarily bump package version
         run: |
