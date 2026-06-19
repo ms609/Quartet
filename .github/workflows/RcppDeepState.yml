@@ -26,7 +26,7 @@ on:
 name: 'RcppDeepState analysis'
 jobs:
   RcppDeepState:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
