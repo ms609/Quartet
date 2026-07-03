@@ -1,6 +1,7 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include <stdexcept> /* for std::runtime_error */
 #include <vector>
 
 #include "bit.h"      /* for ull */
@@ -9,6 +10,32 @@
 
 inline ull comb2(ull n) {
 	return n*(n-1)/2;
+}
+
+// Change in comb2() when `b` reds are removed from a node that currently holds
+// `a` reds, i.e. exactly comb2(a) - comb2(a - b).  This is the delta the CPDT
+// Fenwick "reds2"/"reds2p" trees are decremented by when de-colouring.
+//
+// A2-05: the caller's structural invariant is a >= b (you never de-colour more
+// reds than are present in a subtree -- colour and de-colour come in matched
+// pairs, and `b` counts leaves that are currently red).  If that invariant ever
+// failed, the *unsigned* subtraction a - b would wrap to ~2^64 and comb2() --
+// being quadratic -- would yield a garbage delta that Fenwick's modular (mod
+// 2^64) group arithmetic could NOT later cancel out, unlike the linear +/-reds
+// updates.  The result would be a silently-wrong triplet distance that UBSAN
+// does not flag (unsigned wrap is defined behaviour).
+//
+// The guard converts any future invariant violation into a clean, loud error
+// instead of a silent wrong answer.  It is compiled in unconditionally, so it
+// protects CRAN's -DNDEBUG builds where a bare assert() is a no-op.  On every
+// valid input the branch is not taken and the returned expression is textually
+// identical to the original code, so no computed distance can change.
+inline ull comb2_removed(ull a, ull b) {
+	if (b > a) {
+		throw std::runtime_error(
+			"cpdt: attempted to de-colour more reds than are present");
+	}
+	return comb2(a) - comb2(a - b); // b <= a, so (a - b) cannot wrap
 }
 inline ull comb3(ull n) {
 	ull n1 = n-1, n2 = n-2; 

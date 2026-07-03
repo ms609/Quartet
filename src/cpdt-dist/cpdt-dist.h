@@ -477,13 +477,18 @@ void decolor_node_red(cdp_node_t* cdp_node, int reds) {
 	cdp_node = cdp_child->parent;
 	if (cdp_node != NULL) {
 		if (ull(cdp_child->pos_in_parent) < cdp_node->size-1) {
+			// A2-05: `-reds` wraps to a huge ull, but this is a *linear* Fenwick
+			// decrement (a group homomorphism into Z/2^64); the true "reds"
+			// prefix sums stay in [0, #leaves], so the result is exact. Safe.
 			update_bit(cdp_node->reds, cdp_node->size, cdp_child->pos_in_parent, -reds);
 		}
 
 		if (!cdp_child->singlenode) {
 			ull prev_red = cdp_child->tot_reds;
+			// A2-05: comb2(prev_red)-comb2(prev_red-reds), guarded against the
+			// unsigned wrap a prev_red<reds invariant break would cause.
 			update_bit(cdp_node->singlenode ? cdp_node->reds2 : cdp_node->reds2p,
-					cdp_node->size, cdp_child->pos_in_parent, -(comb2(prev_red)-comb2(prev_red-reds)));
+					cdp_node->size, cdp_child->pos_in_parent, -comb2_removed(prev_red, ull(reds)));
 		} else {
 			ull reds2p = read_prefix_bit(cdp_child->reds2, cdp_child->size-1);
 			set_single(cdp_node->reds2p, cdp_node->size, cdp_child->pos_in_parent, reds2p);
@@ -501,8 +506,10 @@ void decolor_red_leaf(int leaf) {
 		}
 
 		if (!cdp_child->singlenode) {
+			// A2-05: comb2(prev_red)-comb2(prev_red-1), guarded (prev_red>=1
+			// since this leaf is currently red).
 			update_bit(cdp_node->singlenode ? cdp_node->reds2 : cdp_node->reds2p,
-					cdp_node->size, cdp_child->pos_in_parent, -(comb2(prev_red)-comb2(prev_red-1)));
+					cdp_node->size, cdp_child->pos_in_parent, -comb2_removed(prev_red, 1));
 		} else {
 			ull reds2p = read_prefix_bit(cdp_child->reds2, cdp_child->size-1);
 			set_single(cdp_node->reds2p, cdp_node->size, cdp_child->pos_in_parent, reds2p);
