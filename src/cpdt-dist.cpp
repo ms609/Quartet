@@ -2,6 +2,7 @@
 #include <TreeTools/renumber_tree.h> /* for preorder */
 
 #include <climits>
+#include <cstdint>
 #include <cstdlib>
 #include <memory>
 #include <vector>
@@ -156,6 +157,19 @@ List cpdt_tree(const List r_tree) {
 // [[Rcpp::export]]
 SEXP cpdt_all_pairs(List edges) {
     const R_xlen_t n = edges.size();
+
+    // The flat n*n distance buffer and the returned n x n matrix are indexed
+    // in R_xlen_t, which is 32-bit on 32-bit R builds; n*n then wraps for
+    // n >= 65536. R_XLEN_T_MAX is the binding limit on both 32- and 64-bit
+    // (it is always <= SIZE_MAX). Fail fast with a clean error before any
+    // index or allocation can overflow.
+    const uint64_t nn64 = static_cast<uint64_t>(n) * static_cast<uint64_t>(n);
+    if (nn64 > static_cast<uint64_t>(R_XLEN_T_MAX)) {
+        Rcpp::stop("Too many trees (%lld) for all-pairs triplet distance: "
+                   "n * n exceeds the largest representable size",
+                   static_cast<long long>(n));
+    }
+
     std::vector<tree*> trees(n, nullptr);
 
     // Guarantee every parsed tree is freed, even if a later step throws.
@@ -169,7 +183,7 @@ SEXP cpdt_all_pairs(List edges) {
         trees[i] = parse_edge(edge(_, 0), edge(_, 1));
     }
 
-    std::vector<unsigned long long> dist(static_cast<size_t>(n) * n, 0ULL);
+    std::vector<unsigned long long> dist(static_cast<size_t>(nn64), 0ULL);
     unsigned long long maxDist = 0;
     for (R_xlen_t r = 1; r < n; ++r) {
         for (R_xlen_t c = 0; c < r; ++c) {
@@ -180,7 +194,7 @@ SEXP cpdt_all_pairs(List edges) {
         }
     }
 
-    const R_xlen_t nn = n * n;
+    const R_xlen_t nn = static_cast<R_xlen_t>(nn64);
     if (maxDist > static_cast<unsigned long long>(INT_MAX)) {
         NumericMatrix out(n, n);
         for (R_xlen_t i = 0; i < nn; ++i) out[i] = static_cast<double>(dist[i]);
