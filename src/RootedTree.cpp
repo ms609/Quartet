@@ -74,10 +74,10 @@ void RootedTree::pairAltWorld(RootedTree *t)
 		if (j == altWorldEnd)
 		{
 			// This leaf wasn't found in the input tree!
-		  Rcpp::stop("Leaves don't agree: a tip in tree 1 didn't exist in second tree! Aborting.");
-			error = true;
+			// Quartet: free l before Rcpp::stop() throws, since the code after
+			// an [[noreturn]] stop() is unreachable and would otherwise leak l.
 			delete l;
-			return;
+		  Rcpp::stop("Leaves don't agree: a tip in tree 1 didn't exist in second tree! Aborting.");
 		}
 				
 		// If we got this far, we found the match! Setup bidirectional pointers!
@@ -91,13 +91,12 @@ void RootedTree::pairAltWorld(RootedTree *t)
 	// Is there results left in altWorldLeaves? If so it had more leaves than we do...
 	if (altWorldLeaves.size() > 0)
 	{
+		// Quartet: free l before Rcpp::stop() throws, since the code after
+		// an [[noreturn]] stop() is unreachable and would otherwise leak l.
+		delete l;
 		Rcpp::stop("Leaves don't agree: a tip in tree 2 didn't exist in first tree! Aborting.");
 		//if (altWorldLeaves.size() > 1)
 		//	cerr << " (and " << (altWorldLeaves.size() - 1) << " other leaves missing from first tree!)";
-		
-		error = true;
-		delete l;
-		return;
 	}
 
 	delete l;

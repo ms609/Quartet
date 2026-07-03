@@ -22,6 +22,23 @@ static unsigned long long cpdt_distance(tree* t1, tree* t2) {
   return cpdt_dist::triplet_distance(t1, t2);
 }
 
+// Quartet: fail fast with a clean error (not a segfault) if a tree reaches the
+// CPDT builder with a unary (exactly-1-child) internal node. tree::is_binary()
+// only rejects >2 children, so a unary node would pass as "binary" and the
+// builder then does an out-of-bounds get_child(1) read. Leaves (0), binary (2)
+// and polytomies (>=3) are all valid; guard ONLY == 1. This covers the low-level
+// cpdt_dist_file entry, which reads Newick files directly in C++. The mainstream
+// TripletDistance path instead collapses degree-one nodes in R
+// (ape::collapse.singles), tolerating them per the documented contract (a
+// degree-one node induces no triplet statement), so they never reach here.
+static void validate_no_unary(tree* t) {
+  for (size_t i = 0; i < t->get_nodes_num(); i++) {
+    if (t->get_node(static_cast<int>(i))->get_num_children() == 1) {
+      Rcpp::stop("Tree contains a node with a single child");
+    }
+  }
+}
+
 // Return a count to R as an integer where it fits, falling back to a double
 // (exact for counts up to 2^53) when it would overflow R's 32-bit integer.
 static SEXP wrap_count(unsigned long long x) {
@@ -60,6 +77,10 @@ SEXP cpdt_dist_file(CharacterVector file1,
 
     std::unique_ptr<tree> tree1(parse_nex(filename1));
     std::unique_ptr<tree> tree2(parse_nex(filename2));
+
+    // Quartet: reject unary internal nodes on this low-level string entry path
+    validate_no_unary(tree1.get());
+    validate_no_unary(tree2.get());
 
     return wrap_count(cpdt_distance(tree1.get(), tree2.get()));
 }
@@ -100,7 +121,7 @@ tree* parse_edge(const IntegerVector& parent, const IntegerVector& child) {
     std::vector<tree_node*> nodes;
     
     parse_tree_support(edge, n_tip, &row, nodes);
-    
+
     tree* mytree = new tree(nodes);
     return mytree;
 }

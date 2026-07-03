@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <cassert>
+#include <climits>    // Quartet: INT_MAX for overflow-safe parse_int
+#include <stdexcept>  // Quartet: std::runtime_error for input validation
 #include <iostream>
 
 #include "treenode.h"
@@ -18,6 +20,10 @@ bool isdigit(char c) {
 int parse_int(const char*& str) {
 	int i = 0;
 	while (isdigit(*str)) {
+		// Quartet: detect signed-int overflow before it happens (UB under -DNDEBUG)
+		if (i > (INT_MAX - 9) / 10) {
+			throw std::runtime_error("Taxon number too large in tree string");
+		}
 		i = i*10 + (*str-'0');
 		str++;
 	}
@@ -27,13 +33,20 @@ int parse_int(const char*& str) {
 
 tree_node* parse_tree_support(const char*& str, std::vector<tree_node*>& nodes) {
 
-	assert(*str == '(');
+	// Quartet: real runtime check (asserts are no-ops under -DNDEBUG). Catches
+	// empty/no-'(' input before the str++ walks off the end of the string.
+	if (*str != '(') {
+		throw std::runtime_error("Malformed tree string: expected '('");
+	}
 	str++;
 
 	int vecpos = nodes.size();
 	nodes.push_back(new tree_node(vecpos));
 
-	assert(*str == '(' || isdigit(*str));
+	// Quartet: real runtime check for a valid subtree start ('(' or a digit)
+	if (*str != '(' && !isdigit(*str)) {
+		throw std::runtime_error("Malformed tree string: expected '(' or digit");
+	}
 	while (true) {
 		tree_node* subtree;
 		if (*str == '(') {
@@ -43,12 +56,17 @@ tree_node* parse_tree_support(const char*& str, std::vector<tree_node*>& nodes) 
 			nodes.push_back(subtree);
 		}
 		nodes[vecpos]->add_child(subtree);
-		assert(*str == ',' || *str == ')');
+		// Quartet: real runtime check. Must advance str or break; otherwise a
+		// stray/missing char leaves the loop stuck, endlessly new-ing nodes
+		// (infinite hang + unbounded allocation). Throw stops both that and
+		// the walk-off past a missing ')'.
 		if (*str == ',') {
 			str++;
 		} else if (*str == ')') {
 			str++;
 			break;
+		} else {
+			throw std::runtime_error("Malformed tree string: expected ',' or ')'");
 		}
 	}
 

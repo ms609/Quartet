@@ -1,5 +1,7 @@
 #include "AbstractDistanceCalculator.h"
 
+#include <vector> // Quartet: RAII container to avoid raw new[]/delete[] leak on exception (A2-12)
+
 #include "hdt.h"
 #include "hdt_factory.h"
 
@@ -51,7 +53,9 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
   updateCounters();
   
   // Extract
-  RootedTree** extractedVersions = new RootedTree*[v->numChildren - 1];
+  // Quartet: use std::vector instead of raw new[] so the array can't leak if
+  // an intervening Rcpp::stop/HDT call throws before delete[] is reached.
+  std::vector<RootedTree*> extractedVersions(v->numChildren - 1);
   c = 0;
   for(TemplatedLinkedList<RootedTree*> *current = v->children->next;
       current != NULL; current = current->next) {
@@ -113,8 +117,6 @@ void AbstractDistanceCalculator::count(RootedTree *v) {
     c++;
     // HDT is deleted on recursive call
   }
-  
-  delete[] extractedVersions;
 }
 
 void AbstractDistanceCalculator::countChildren(RootedTree *t) {

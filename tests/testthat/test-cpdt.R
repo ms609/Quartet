@@ -49,6 +49,51 @@ test_that("CPDT reads tree", {
   )
 })
 
+test_that("cpdt_dist_file validates malformed input", {
+  # Helper: write text to a temp file and return the path
+  write_tree_file <- function(text) {
+    f <- tempfile(fileext = ".tree")
+    writeLines(text, f)
+    f
+  }
+
+  # Valid input: identical trees give distance 0 (regression: hardening must
+  # not break correct parsing)
+  f_ok <- write_tree_file("((1,2),3);")
+  on.exit(unlink(f_ok), add = TRUE)
+  expect_equal(cpdt_dist_file(f_ok, f_ok), 0L)
+
+  # Empty file: entry '(' check throws before str++ walks off the end
+  f_empty <- write_tree_file("")
+  on.exit(unlink(f_empty), add = TRUE)
+  expect_error(cpdt_dist_file(f_empty, f_ok))
+
+  # Subtree that starts with neither '(' nor a digit: middle check throws
+  f_paren <- write_tree_file("();")
+  on.exit(unlink(f_paren), add = TRUE)
+  expect_error(cpdt_dist_file(f_paren, f_ok))
+
+  # Unterminated tree: loop hits a char that is neither ',' nor ')' -> throw
+  # (guards against the infinite hang / unbounded allocation)
+  f_unterm <- write_tree_file("((1,2")
+  on.exit(unlink(f_unterm), add = TRUE)
+  expect_error(cpdt_dist_file(f_unterm, f_ok))
+
+  # Overflowing taxon number: parse_int detects overflow before UB
+  f_overflow <- write_tree_file("(99999999999,1);")
+  on.exit(unlink(f_overflow), add = TRUE)
+  expect_error(cpdt_dist_file(f_overflow, f_ok))
+
+  # Nonexistent file path: is_open() guard throws
+  f_missing <- file.path(tempdir(), "no_such_file_12345.tree")
+  expect_error(cpdt_dist_file(f_missing, f_ok))
+
+  # Unary (single-child) internal node: validate_no_unary rejects it
+  f_unary <- write_tree_file("(((1,2),3));")
+  on.exit(unlink(f_unary), add = TRUE)
+  expect_error(cpdt_dist_file(f_unary, f_ok))
+})
+
 test_that("TripletDistance input validation", {
   expect_error(TripletDistance(1, BalancedTree(8)), "no applicable method")
   expect_error(TripletDistance(BalancedTree(8), 2), "`tree2` must be")
