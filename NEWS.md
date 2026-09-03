@@ -2,14 +2,11 @@
 
 - `QuartetConsensus()` deprecated: moved to `ConsTree::Quartet()`.
 - `PairwiseQuartets()` compares quartet statuses between all pairs of trees.
-- `TripletDistance()` is now an S3 generic accepting `phylo`, `multiPhylo`,
-  `list`, and file-path (`character`) inputs (previously file-paths only).
+- `TripletDistance()` accepts `phylo`, `multiPhylo`, `list`, and file-path
+  (`character`) inputs.
 - `TripletDistance()`, `PairsTripletDistance()`, and `AllPairsTripletDistance()`
-  now use the CPDT algorithm of Jansson & Rajaby (2017) instead of the tqDist
-  file-based backend, giving a ~100× speedup for triplet-distance calculations.
-- Quartet distances no longer abort with "Leaves don't agree" when a tree has
-  a unifurcating root; the bundled tqDist tree reader treated the redundant
-  root as a spurious extra leaf
+  now use the CPDT algorithm of Jansson & Rajaby (2017), giving a ~100× speedup.
+- Quartet distances support a unifurcating root
   ([#64](https://github.com/ms609/Quartet/issues/64)).
 - Require R 3.6, dropping dependency on `viridisLite`.
 
