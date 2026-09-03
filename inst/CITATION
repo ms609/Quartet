@@ -1,29 +1,53 @@
 mrs <- person(c("Martin", "R."), "Smith", email = "martin.smith@durham.ac.uk")
+vers <- paste("R package version", meta$Version)
 
 bibentry(
-  mheader = paste(
-    "Please acknowledge your use of Quartet and cite the relevant algorithm.",
-    "For example, 'Quartet divergence (Smith 2019a) was calculated using the",
+  mheader = paste0(
+    "Please acknowledge your use of Quartet and cite the relevant algorithm. ",
+    "For example, 'Quartet divergence (Smith 2019b) was calculated using the ",
     "tqDist algorithm (Sand et al. 2014) implemented in the R package Quartet v",
-    meta$Version, " (Smith 2019b).'",
-    "If using triplet distances, cite the CPDT algorithm",
-    "(Jansson & Rajaby 2017) instead."
+    meta$Version, " (Smith 2019a).' ",
+    "For triplet distances, cite the CPDT algorithm (Jansson & Rajaby 2017)."
   ),
   bibtype = "manual",
-  key = "Quartet",
+  key = "Smith2019a",
   title = paste(
     "Quartet: comparison of phylogenetic trees using quartet and split",
     "measures"
   ),
   author = mrs,
-  note = paste0("R package version ", meta$Version),
+  note = vers,
   year = 2019,
-  doi = "10.5281/zenodo.2536318",
+  organization = "Comprehensive R Archive Network",
+  address = "Vienna",
+  doi = "10.32614/CRAN.package.Quartet",
 
   textVersion = paste0(
-    "Smith, MR (2019a). Quartet: comparison of phylogenetic trees using",
-    " quartet and split measures. R package version ", meta$Version, 
-    ". doi:10.5281/zenodo.2536318"
+    "*Smith, M.R. (2019a). Quartet: comparison of phylogenetic trees using",
+    " quartet and split measures.",
+    " R package version ", meta$Version,
+    ". Comprehensive R Archive Network, Vienna. doi:10.32614/CRAN.package.Quartet"
+  )
+)
+
+bibentry(
+  bibtype = "article",
+  key = "Smith2019b",
+  author = mrs,
+  doi = "10.1098/rsbl.2018.0632",
+  journal = "Biology Letters",
+  title = paste(
+    "Bayesian and parsimony approaches reconstruct informative trees from",
+    "simulated morphological datasets"
+  ),
+  volume = 15,
+  number = 2,
+  pages = "20180632",
+  year = "2019",
+  textVersion = paste(
+    "Smith, M.R. (2019b). Bayesian and parsimony approaches reconstruct",
+    "informative trees from simulated morphological datasets.",
+    "Biology Letters 15:20180632. doi:10.1098/rsbl.2018.0632"
   )
 )
 
@@ -50,7 +74,7 @@ bibentry(
   year = 2014,
 
   textVersion = paste(
-    "Sand et al. (2014).",
+    "Sand, A. et al. (2014).",
     "tqDist: a library for computing the quartet and triplet distances",
     "between binary or general trees.",
     "Bioinformatics 30(14): 2079-2080.",
@@ -74,30 +98,9 @@ bibentry(
   year = 2017,
 
   textVersion = paste(
-    "Jansson & Rajaby (2017).",
+    "Jansson, J. & Rajaby, R. (2017).",
     "A more practical algorithm for the rooted triplet distance.",
     "Journal of Computational Biology 24(2): 106-126.",
     "doi:10.1089/cmb.2016.0185"
-  )
-)
-
-bibentry(
-  bibtype = "article",
-  key = "Smith2019",
-  author = mrs,
-  doi = "10.1098/rsbl.2018.0632",
-  journal = "Biology Letters",
-  title = paste(
-    "Bayesian and parsimony approaches reconstruct informative trees from",
-    "simulated morphological datasets"
-  ),
-  volume = 15,
-  number = 2,
-  pages = "20180632",
-  year = "2019",
-  textVersion = paste(
-    "Smith, MR (2019b). Bayesian and parsimony approaches reconstruct",
-    "informative trees from simulated morphological datasets.",
-    "Biology Letters 15:20180632. doi:10.1098/rsbl.2018.0632"
   )
 )
