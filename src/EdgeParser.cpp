@@ -27,6 +27,9 @@ std::vector<UnrootedTree *> EdgeParser::parseEdges(ListOf<IntegerMatrix> edges) 
 }
 
 UnrootedTree* EdgeParser::parse() {
+  if (edg.nrow() < 1) {
+    Rcpp::stop("`edge` must have at least one row");
+  }
   nTip = edg(0, 0) - 1;
   it = -1;
   

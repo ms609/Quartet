@@ -102,13 +102,15 @@ std::vector<UnrootedTree *> NewickParser::parseMultiFile(const char *filename) {
       if(emptyLine(line))
         continue;
       line = trim_comment(line);
+      if(line.empty()) // comment-only line trims to nothing
+        continue;
       ss << line;
       if(line[line.size()-1] == ';') {
         str = ss.str();
-        
+
         trees.push_back(parse());
         ss.str(std::string());
-      }    
+      }
     }
     
     infile.close();
@@ -127,6 +129,8 @@ std::vector<UnrootedTree *> NewickParser::parseMultiStr(CharacterVector string_i
     if(emptyLine(line))
       continue;
     line = trim_comment(line);
+    if(line.empty()) // comment-only line trims to nothing
+      continue;
     ss << line;
     if(line[line.size()-1] == ';') {
       str = ss.str();
@@ -161,8 +165,8 @@ UnrootedTree* NewickParser::parse() {
   parseError = false;
   it = str.begin();
   strEnd = str.end();
-  
-  if (*str.rbegin() != ';') {
+
+  if (str.empty() || *str.rbegin() != ';') {
     return NULL;
   }
   UnrootedTree *t = parseSubTree();

@@ -40,12 +40,6 @@ reference:
     contents:
       - has_concept("TQDist functions")
 
-  - title: "Summary trees"
-    desc: >
-      Construct consensus trees using quartet distance
-    contents:
-      - QuartetConsensus
-
 template:
   bootstrap: 5
   bslib:
