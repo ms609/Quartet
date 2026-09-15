@@ -4,8 +4,12 @@
 #
 # rhub::rhub_setup()
 #
-# Modified to install TeX and pandoc on non-container platforms, which
-# the bookdown::pdf_document2 vignette output and the PDF manual need.
+# Modified for Quartet:
+# - install TeX and pandoc on non-container platforms, for the
+#   bookdown::pdf_document2 vignette output;
+# - strip gfortran-only flags that break flang in the clang containers;
+# - valgrind false positives are suppressed via tools/valgrind.supp, which
+#   R-hub's valgrind pre-check script picks up automatically.
 
 name: R-hub
 run-name: >-
@@ -59,6 +63,17 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+      - name: Make Fortran flags flang-compatible
+        # R in the clang containers was configured with gfortran, so Makeconf's
+        # F_VISIBILITY and SAFE_FFLAGS (used by e.g. quadprog, via phangorn)
+        # carry flags that flang rejects.  User Makevars override Makeconf.
+        shell: bash
+        run: |
+          mv="${R_MAKEVARS_USER:-$HOME/.R/Makevars}"
+          if [ -f "$mv" ] && grep -q '^FC *= *flang' "$mv"; then
+            printf '%s\n' 'F_VISIBILITY =' 'F77_VISIBILITY =' 'SAFE_FFLAGS = -O2' >> "$mv"
+            cat "$mv"
+          fi
       - uses: r-hub/actions/setup-deps@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -79,7 +94,7 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
-      - uses: teatimeguest/setup-texlive-action@v3
+      - uses: TeX-Live/setup-texlive-action@v4
         with:
           packages: |
             booktabs
