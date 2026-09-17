@@ -1,5 +1,7 @@
 # Quartet v1.4.0 (2026-05-30)
 
+- OpenMP calculations are single-threaded by default; set
+  `options(mc.cores = n)` to use `n` threads.
 - `QuartetConsensus()` deprecated: moved to `ConsTree::Quartet()`.
 - `PairwiseQuartets()` compares quartet statuses between all pairs of trees.
 - `TripletDistance()` accepts `phylo`, `multiPhylo`, `list`, and file-path

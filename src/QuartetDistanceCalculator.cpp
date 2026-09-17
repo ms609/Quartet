@@ -30,6 +30,16 @@ struct TreeVecGuard {
   TreeVecGuard &operator=(const TreeVecGuard &) = delete;
 };
 
+// Thread count from getOption("mc.cores"), as in TreeDist; single-threaded
+// unless the user opts in, per CRAN policy.  Must be called outside any
+// parallel region, as it touches the R API.
+#ifdef _OPENMP
+static int requestedThreads() {
+  const int n = Rf_asInteger(Rf_GetOption1(Rf_install("mc.cores")));
+  return (n == NA_INTEGER || n < 1) ? 1 : n;
+}
+#endif
+
 QuartetDistanceCalculator::QuartetDistanceCalculator() {
   dummyHDTFactory = new HDTFactory(0);
   dummyRTFactory  = new RootedTreeFactory();
@@ -51,7 +61,8 @@ Rcpp::IntegerVector QuartetDistanceCalculator::oneToManyQuartetAgreement\
   std::string errorMsg;
 
 #ifdef _OPENMP
-  #pragma omp parallel
+  const int nThreads = requestedThreads();
+  #pragma omp parallel num_threads(nThreads)
 #endif
   {
     // One calculator per thread — member state is not re-entrant.
@@ -159,7 +170,8 @@ std::vector<INTTYPE_N4> QuartetDistanceCalculator::\
   std::string errorMsg;
 
 #ifdef _OPENMP
-  #pragma omp parallel
+  const int nThreads = requestedThreads();
+  #pragma omp parallel num_threads(nThreads)
 #endif
   {
     QuartetDistanceCalculator localCalc;
@@ -274,7 +286,8 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   std::string errorMsg;
 
 #ifdef _OPENMP
-  #pragma omp parallel
+  const int nThreads = requestedThreads();
+  #pragma omp parallel num_threads(nThreads)
 #endif
   {
     // One calculator per thread — member state is not re-entrant.
@@ -371,7 +384,8 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   std::string errorMsg;
 
 #ifdef _OPENMP
-  #pragma omp parallel
+  const int nThreads = requestedThreads();
+  #pragma omp parallel num_threads(nThreads)
 #endif
   {
     // One calculator per thread — member state is not re-entrant.

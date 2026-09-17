@@ -1,0 +1,15 @@
+# libgomp keeps its worker threads alive for reuse, so each thread's TLS
+# block (allocated by glibc in pthread_create) is still held at exit.
+# Valgrind reports this as "possibly lost"; it is not a leak in Quartet.
+{
+   libgomp-thread-pool-tls
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   ...
+   fun:_dl_allocate_tls
+   ...
+   fun:pthread_create*
+   ...
+   obj:*/libgomp.so*
+}

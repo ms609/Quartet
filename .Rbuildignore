@@ -36,3 +36,4 @@ revdep
 ^dev/
 ^inst/dev
 \.bak$
+^tools/valgrind\.supp$
