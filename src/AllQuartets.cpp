@@ -11,8 +11,7 @@ int32 tri_num[QD_MAX_TIPS + 1];
 int32 tet_num[QD_MAX_TIPS + 1];
 int32 hyp_num[QD_MAX_TIPS + 1];
 
-__attribute__((constructor)) // Construction avoids floating point worries
-  void initialize_triangles() {
+void initialize_triangles() {
     tri_num[0] = 0;
     tet_num[0] = 0;
     hyp_num[0] = 0;
@@ -23,6 +22,17 @@ __attribute__((constructor)) // Construction avoids floating point worries
       hyp_num[nxt] = hyp_num[i] + tet_num[nxt];
     }
   }
+
+#if defined(__GNUC__) || defined(__clang__)
+__attribute__((constructor)) // Construction avoids floating point worries
+  void _quartet_init_triangles_ctor() { initialize_triangles(); }
+#else
+namespace {
+  struct QuartetTriangleInitializer {
+    QuartetTriangleInitializer() { initialize_triangles(); }
+  } _quartet_triangle_initializer;
+}
+#endif
 
 
 
