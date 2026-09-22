@@ -4,8 +4,8 @@ test_that("tqDist handles four-leaf trees", {
   library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
   
   dataset <- MatrixToPhyDat(structure(c("1", "2", "2", "2", "2", "2"),
-                                      .Dim = c(6L, 1L),
-                                      .Dimnames = list(1:6, NULL)))
+                                      dim = c(6L, 1L),
+                                      dimnames = list(1:6, NULL)))
   tree <- BalancedTree(dataset)
   
   splits <- as.multiPhylo(as.Splits(tree))
@@ -17,7 +17,9 @@ test_that("tqDist handles four-leaf trees", {
   trees <- trimmed
   comparison <- char
   .CheckSize(trees)
-  if (inherits(trees, "phylo")) trees <- list(trees)
+  if (inherits(trees, "phylo")) {
+    trees <- list(trees)
+  }
   
   comparison <- Preorder(comparison)
   trees[] <- lapply(trees, Preorder)
