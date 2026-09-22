@@ -88,15 +88,15 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Jesper Jansson \email{jj@i.kyoto-u.ac.jp} (\href{https://orcid.org/0000-0001-6859-8932}{ORCID}) [bibliographic antecedent, copyright holder]
-  \item Ramesh Rajaby [bibliographic antecedent, copyright holder]
-  \item Andreas Sand [bibliographic antecedent, copyright holder]
-  \item Gerth Stølting Brodal [bibliographic antecedent, copyright holder]
-  \item Rolf Fagerberg [bibliographic antecedent, copyright holder]
-  \item Thomas Mailund [bibliographic antecedent, copyright holder]
-  \item Christian N. S. Pedersen \email{cstorm@birc.au.dk} (\href{https://orcid.org/0000-0002-8947-6771}{ORCID}) [bibliographic antecedent, copyright holder]
-  \item Jens Johansen [bibliographic antecedent, copyright holder]
-  \item Morten K. Holt [bibliographic antecedent, copyright holder]
+  \item Jesper Jansson \email{jj@i.kyoto-u.ac.jp} (\href{https://orcid.org/0000-0001-6859-8932}{ORCID}) [contributor, copyright holder]
+  \item Ramesh Rajaby [contributor, copyright holder]
+  \item Andreas Sand [contributor, copyright holder]
+  \item Gerth Stølting Brodal [contributor, copyright holder]
+  \item Rolf Fagerberg [contributor, copyright holder]
+  \item Thomas Mailund [contributor, copyright holder]
+  \item Christian N. S. Pedersen \email{cstorm@birc.au.dk} (\href{https://orcid.org/0000-0002-8947-6771}{ORCID}) [contributor, copyright holder]
+  \item Jens Johansen [contributor, copyright holder]
+  \item Morten K. Holt [contributor, copyright holder]
 }
 
 }
