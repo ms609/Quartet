@@ -32,11 +32,20 @@ on:
 
 name: mem-check
 
+permissions:
+  contents: read
+
 jobs:
   mem-check:
     runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
 
     name: valgrind ${{ matrix.config.test }}
+
+    # Each leg runs for up to an hour: a superseding push cancels the stale one.
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.config.test }}-${{ github.ref }}
+      cancel-in-progress: true
 
     strategy:
       fail-fast: false
