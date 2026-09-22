@@ -2,6 +2,7 @@
 #include <TreeTools/renumber_tree.h> /* for preorder */
 
 #include <climits>
+#include <cstdint>
 #include <cstdlib>
 #include <memory>
 #include <vector>
@@ -20,6 +21,23 @@ static unsigned long long cpdt_distance(tree* t1, tree* t2) {
     return cpdt_dist_bin::triplet_distance(t1, t2);
   }
   return cpdt_dist::triplet_distance(t1, t2);
+}
+
+// Quartet: fail fast with a clean error (not a segfault) if a tree reaches the
+// CPDT builder with a unary (exactly-1-child) internal node. tree::is_binary()
+// only rejects >2 children, so a unary node would pass as "binary" and the
+// builder then does an out-of-bounds get_child(1) read. Leaves (0), binary (2)
+// and polytomies (>=3) are all valid; guard ONLY == 1. This covers the low-level
+// cpdt_dist_file entry, which reads Newick files directly in C++. The mainstream
+// TripletDistance path instead collapses degree-one nodes in R
+// (ape::collapse.singles), tolerating them per the documented contract (a
+// degree-one node induces no triplet statement), so they never reach here.
+static void validate_no_unary(tree* t) {
+  for (size_t i = 0; i < t->get_nodes_num(); i++) {
+    if (t->get_node(static_cast<int>(i))->get_num_children() == 1) {
+      Rcpp::stop("Tree contains a node with a single child");
+    }
+  }
 }
 
 // Return a count to R as an integer where it fits, falling back to a double
@@ -61,6 +79,10 @@ SEXP cpdt_dist_file(CharacterVector file1,
     std::unique_ptr<tree> tree1(parse_nex(filename1));
     std::unique_ptr<tree> tree2(parse_nex(filename2));
 
+    // Quartet: reject unary internal nodes on this low-level string entry path
+    validate_no_unary(tree1.get());
+    validate_no_unary(tree2.get());
+
     return wrap_count(cpdt_distance(tree1.get(), tree2.get()));
 }
 
@@ -100,7 +122,7 @@ tree* parse_edge(const IntegerVector& parent, const IntegerVector& child) {
     std::vector<tree_node*> nodes;
     
     parse_tree_support(edge, n_tip, &row, nodes);
-    
+
     tree* mytree = new tree(nodes);
     return mytree;
 }
@@ -135,6 +157,19 @@ List cpdt_tree(const List r_tree) {
 // [[Rcpp::export]]
 SEXP cpdt_all_pairs(List edges) {
     const R_xlen_t n = edges.size();
+
+    // The flat n*n distance buffer and the returned n x n matrix are indexed
+    // in R_xlen_t, which is 32-bit on 32-bit R builds; n*n then wraps for
+    // n >= 65536. R_XLEN_T_MAX is the binding limit on both 32- and 64-bit
+    // (it is always <= SIZE_MAX). Fail fast with a clean error before any
+    // index or allocation can overflow.
+    const uint64_t nn64 = static_cast<uint64_t>(n) * static_cast<uint64_t>(n);
+    if (nn64 > static_cast<uint64_t>(R_XLEN_T_MAX)) {
+        Rcpp::stop("Too many trees (%lld) for all-pairs triplet distance: "
+                   "n * n exceeds the largest representable size",
+                   static_cast<long long>(n));
+    }
+
     std::vector<tree*> trees(n, nullptr);
 
     // Guarantee every parsed tree is freed, even if a later step throws.
@@ -148,7 +183,7 @@ SEXP cpdt_all_pairs(List edges) {
         trees[i] = parse_edge(edge(_, 0), edge(_, 1));
     }
 
-    std::vector<unsigned long long> dist(static_cast<size_t>(n) * n, 0ULL);
+    std::vector<unsigned long long> dist(static_cast<size_t>(nn64), 0ULL);
     unsigned long long maxDist = 0;
     for (R_xlen_t r = 1; r < n; ++r) {
         for (R_xlen_t c = 0; c < r; ++c) {
@@ -159,7 +194,7 @@ SEXP cpdt_all_pairs(List edges) {
         }
     }
 
-    const R_xlen_t nn = n * n;
+    const R_xlen_t nn = static_cast<R_xlen_t>(nn64);
     if (maxDist > static_cast<unsigned long long>(INT_MAX)) {
         NumericMatrix out(n, n);
         for (R_xlen_t i = 0; i < nn; ++i) out[i] = static_cast<double>(dist[i]);

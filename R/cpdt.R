@@ -1,6 +1,7 @@
 #' @describeIn Distances Triplet distance between two trees of class
 #'   \code{phylo}.  Uses the CPDT algorithm
 #'   \insertCite{Jansson2017jcb}{Quartet}.
+#' @importFrom ape collapse.singles
 #' @importFrom TreeTools RenumberTips
 #' @export
 TripletDistance.phylo <- function(tree1, tree2 = NULL) {
@@ -10,6 +11,12 @@ TripletDistance.phylo <- function(tree1, tree2 = NULL) {
   if (!inherits(tree2, "phylo")) {
     stop("`tree2` must be of class phylo")
   }
+  # Collapse degree-one internal nodes (e.g. a unifurcating root): such a node
+  # induces no triplet statement, so its removal does not change the distance,
+  # but if left in place it reaches the CPDT builder as a unary node that the
+  # binary algorithm cannot handle (out-of-bounds child access / segfault).
+  tree1 <- collapse.singles(tree1)
+  tree2 <- collapse.singles(tree2)
   tree2 <- RenumberTips(tree2, tree1)
   .Call("_Quartet_cpdt_pair",
         tree1[["edge"]][, 1], tree1[["edge"]][, 2],
@@ -37,6 +44,7 @@ TripletDistance.list <- function(tree1, tree2 = NULL) {
 TripletDistance.multiPhylo <- TripletDistance.list
 
 #' All pairwise triplet distances
+#' @importFrom ape collapse.singles
 #' @importFrom TreeTools RenumberTips
 #' @keywords internal
 .AllPairsTripletDist <- function(trees) {
@@ -46,6 +54,10 @@ TripletDistance.multiPhylo <- TripletDistance.list
     return(matrix(0L, nTrees, nTrees,
                   dimnames = list(treeNames, treeNames)))
   }
+  # Collapse degree-one internal nodes (e.g. a unifurcating root) before parsing:
+  # they induce no triplet statement, but would otherwise reach the CPDT builder
+  # as unary nodes it cannot handle (out-of-bounds child access / segfault).
+  trees <- lapply(trees, collapse.singles)
   # Renumber every tree to a common leaf ordering so that leaf `i` denotes the
   # same taxon in each tree; the trees are then parsed once in C++ and reused
   # across all pairs, rather than being re-parsed for each comparison.

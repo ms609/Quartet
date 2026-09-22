@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <memory>
 #ifdef GOOGLE_HASH
 #include <sparsehash/dense_hash_map>
 typedef google::dense_hash_map<int, int> hashmap;
@@ -101,9 +102,13 @@ ull sol = 0;
 cdp_node_t* build_cdp_supp(tree_node* t_node);
 
 cdp_node_t* get_cdp_node() {
+	// Hold the fresh node in a unique_ptr across push_back: if the vector's
+	// reallocation throws bad_alloc, the node is not yet in `cdp` (so the
+	// scope-guard cleanup could not reach it) and would otherwise leak.
 	int cdp_id = cdp.size();
-	cdp.push_back(new cdp_node_t(cdp_id));
-	return cdp[cdp_id];
+	std::unique_ptr<cdp_node_t> node(new cdp_node_t(cdp_id));
+	cdp.push_back(node.get());
+	return node.release();
 }
 void resize_bits(cdp_node_t* cdp_node, int leaves) {
 	cdp_node->size++;
@@ -472,13 +477,18 @@ void decolor_node_red(cdp_node_t* cdp_node, int reds) {
 	cdp_node = cdp_child->parent;
 	if (cdp_node != NULL) {
 		if (ull(cdp_child->pos_in_parent) < cdp_node->size-1) {
+			// A2-05: `-reds` wraps to a huge ull, but this is a *linear* Fenwick
+			// decrement (a group homomorphism into Z/2^64); the true "reds"
+			// prefix sums stay in [0, #leaves], so the result is exact. Safe.
 			update_bit(cdp_node->reds, cdp_node->size, cdp_child->pos_in_parent, -reds);
 		}
 
 		if (!cdp_child->singlenode) {
 			ull prev_red = cdp_child->tot_reds;
+			// A2-05: comb2(prev_red)-comb2(prev_red-reds), guarded against the
+			// unsigned wrap a prev_red<reds invariant break would cause.
 			update_bit(cdp_node->singlenode ? cdp_node->reds2 : cdp_node->reds2p,
-					cdp_node->size, cdp_child->pos_in_parent, -(comb2(prev_red)-comb2(prev_red-reds)));
+					cdp_node->size, cdp_child->pos_in_parent, -comb2_removed(prev_red, ull(reds)));
 		} else {
 			ull reds2p = read_prefix_bit(cdp_child->reds2, cdp_child->size-1);
 			set_single(cdp_node->reds2p, cdp_node->size, cdp_child->pos_in_parent, reds2p);
@@ -496,8 +506,10 @@ void decolor_red_leaf(int leaf) {
 		}
 
 		if (!cdp_child->singlenode) {
+			// A2-05: comb2(prev_red)-comb2(prev_red-1), guarded (prev_red>=1
+			// since this leaf is currently red).
 			update_bit(cdp_node->singlenode ? cdp_node->reds2 : cdp_node->reds2p,
-					cdp_node->size, cdp_child->pos_in_parent, -(comb2(prev_red)-comb2(prev_red-1)));
+					cdp_node->size, cdp_child->pos_in_parent, -comb2_removed(prev_red, 1));
 		} else {
 			ull reds2p = read_prefix_bit(cdp_child->reds2, cdp_child->size-1);
 			set_single(cdp_node->reds2p, cdp_node->size, cdp_child->pos_in_parent, reds2p);
@@ -558,10 +570,11 @@ void leaves_coloring(tree_node* v, bool decolor) {
 	}
 }
 
-ull triplet_distance(tree* t1, tree* t2) {
-	// Reset any state left over from a previous call, freeing nodes that a
-	// call interrupted by an exception/longjmp may have failed to clean up.
-	// This keeps each invocation self-contained (the routine is not reentrant).
+// Free the temporary node graph and reset every namespace-global container to
+// a pristine, self-contained starting point.  delete-then-clear() makes a
+// second call a harmless no-op, so this is safe to run both on entry and via
+// the scope guard on exit.
+void reset_state() {
 	for (size_t i = 0; i < cdp.size(); i++) delete cdp[i];
 	cdp.clear();
 	leaf_to_cdp.clear();
@@ -572,6 +585,21 @@ ull triplet_distance(tree* t1, tree* t2) {
 	nonred_colors = 0;
 	good_triplets = 0;
 	sol = 0;
+}
+
+ull triplet_distance(tree* t1, tree* t2) {
+	// Reclaim any state a *longjmp*-interrupted previous call may have left
+	// behind (longjmp bypasses C++ destructors, so the scope guard below cannot
+	// have run).  This keeps each invocation self-contained; the routine is
+	// serial / not reentrant.
+	reset_state();
+
+	// Free the temporary node graph on EVERY exit path — normal return or a
+	// mid-computation C++ exception (e.g. std::bad_alloc from an allocation in
+	// build_cdp) — so a throw can never leak the node graph.
+	struct scope_cleanup {
+		~scope_cleanup() { reset_state(); }
+	} cleanup_guard;
 
 	// the number of colors is the highest degree in T1
 	for (ull i = 0; i < t1->get_nodes_num(); i++) {
@@ -596,18 +624,7 @@ ull triplet_distance(tree* t1, tree* t2) {
 	leaves_coloring(t1->get_root(), false);
 	ull result = comb3(t1->get_leaves_num()) - sol;
 
-	// Clean up for potential re-use
-	for (size_t i = 0; i < cdp.size(); i++) delete cdp[i];
-	cdp.clear();
-	leaf_to_cdp.clear();
-	t1_leaves.clear();
-	t2_leaves_count.clear();
-	node_range_begin.clear();
-	node_range_end.clear();
-	nonred_colors = 0;
-	good_triplets = 0;
-	sol = 0;
-
+	// cleanup_guard's destructor runs reset_state() as the function unwinds.
 	return result;
 }
 

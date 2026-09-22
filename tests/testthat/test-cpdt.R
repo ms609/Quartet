@@ -49,6 +49,51 @@ test_that("CPDT reads tree", {
   )
 })
 
+test_that("cpdt_dist_file validates malformed input", {
+  # Helper: write text to a temp file and return the path
+  write_tree_file <- function(text) {
+    f <- tempfile(fileext = ".tree")
+    writeLines(text, f)
+    f
+  }
+
+  # Valid input: identical trees give distance 0 (regression: hardening must
+  # not break correct parsing)
+  f_ok <- write_tree_file("((1,2),3);")
+  on.exit(unlink(f_ok), add = TRUE)
+  expect_equal(cpdt_dist_file(f_ok, f_ok), 0L)
+
+  # Empty file: entry '(' check throws before str++ walks off the end
+  f_empty <- write_tree_file("")
+  on.exit(unlink(f_empty), add = TRUE)
+  expect_error(cpdt_dist_file(f_empty, f_ok))
+
+  # Subtree that starts with neither '(' nor a digit: middle check throws
+  f_paren <- write_tree_file("();")
+  on.exit(unlink(f_paren), add = TRUE)
+  expect_error(cpdt_dist_file(f_paren, f_ok))
+
+  # Unterminated tree: loop hits a char that is neither ',' nor ')' -> throw
+  # (guards against the infinite hang / unbounded allocation)
+  f_unterm <- write_tree_file("((1,2")
+  on.exit(unlink(f_unterm), add = TRUE)
+  expect_error(cpdt_dist_file(f_unterm, f_ok))
+
+  # Overflowing taxon number: parse_int detects overflow before UB
+  f_overflow <- write_tree_file("(99999999999,1);")
+  on.exit(unlink(f_overflow), add = TRUE)
+  expect_error(cpdt_dist_file(f_overflow, f_ok))
+
+  # Nonexistent file path: is_open() guard throws
+  f_missing <- file.path(tempdir(), "no_such_file_12345.tree")
+  expect_error(cpdt_dist_file(f_missing, f_ok))
+
+  # Unary (single-child) internal node: validate_no_unary rejects it
+  f_unary <- write_tree_file("(((1,2),3));")
+  on.exit(unlink(f_unary), add = TRUE)
+  expect_error(cpdt_dist_file(f_unary, f_ok))
+})
+
 test_that("TripletDistance input validation", {
   expect_error(TripletDistance(1, BalancedTree(8)), "no applicable method")
   expect_error(TripletDistance(BalancedTree(8), 2), "`tree2` must be")
@@ -118,6 +163,54 @@ test_that("TripletDistance matches tqDist for non-binary trees", {
   expected2 <- tqdist_triplet(cl7, cl7b)
   got2 <- TripletDistance(cl7, cl7b)
   expect_equal(got2, expected2, label = "polytomy vs polytomy")
+})
+
+test_that("TripletDistance matches tqDist under heavy polytomies (A2-05)", {
+  # A2-05 regression. Exercises the CPDT non-binary de-colour path -- the
+  # guarded `comb2(prev_red) - comb2(prev_red - reds)` Fenwick updates in
+  # cpdt-dist.h / cpdt-dist-bin.h -- over large trees whose high-degree
+  # polytomies force whole subtrees to be de-coloured in groups (reds > 1),
+  # which is the case that actually forms those comb2 differences. Confirms the
+  # guarded delta stays bit-identical to the original unguarded arithmetic on
+  # valid input (the fix changed no distance) by cross-checking against the
+  # independent tqDist file oracle. NB: this cannot fire the guard itself -- no
+  # valid tree violates prev_red >= reds -- it guards against a regression in
+  # the arithmetic. Sizes stay well under tqdist_TripletDistance's ~2346-tip
+  # cap (finding A6-02), above which the oracle silently truncates.
+  collapse_random <- function(tr, prop) {
+    n <- NTip(tr)
+    internal <- setdiff((n + 1):(n + tr$Nnode), n + 1) # internals bar the root
+    if (length(internal) < 1L) return(tr)
+    k <- max(1L, floor(length(internal) * prop))
+    CollapseNode(tr, sample(internal, k))
+  }
+
+  # Many independent random shapes: broad empirical evidence that the guarded
+  # arithmetic reproduces the oracle across topologies (and that the guard is
+  # dead code on valid input -- it never fires here).
+  for (seed in seq_len(16)) {
+    set.seed(20260703L + seed)
+    n <- sample(60:180, 1L)
+    t1 <- collapse_random(RootTree(RandomTree(n), 1), 0.5)
+    t2 <- collapse_random(RootTree(RandomTree(n), 1), 0.5)
+
+    # Confirm we really built high-degree polytomies on both sides
+    expect_gt(max(tabulate(t1$edge[, 1])), 2)
+    expect_gt(max(tabulate(t2$edge[, 1])), 2)
+
+    expect_equal(TripletDistance(t1, t2), tqdist_triplet(t1, t2),
+                 label = paste0("heavy polytomy, seed = ", seed, ", n = ", n))
+    # Symmetry through the same (guarded) code path
+    expect_equal(TripletDistance(t2, t1), TripletDistance(t1, t2),
+                 label = paste0("heavy polytomy symmetry, seed = ", seed))
+  }
+
+  # One larger case for scale (still well under the ~2346-tip oracle cap)
+  set.seed(20260703L)
+  big1 <- collapse_random(RootTree(RandomTree(400), 1), 0.6)
+  big2 <- collapse_random(RootTree(RandomTree(400), 1), 0.6)
+  expect_equal(TripletDistance(big1, big2), tqdist_triplet(big1, big2),
+               label = "heavy polytomy, n = 400")
 })
 
 test_that("TripletDistance: star tree has maximal distance to resolved tree", {

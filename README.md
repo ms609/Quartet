@@ -94,10 +94,6 @@ useful to you.
   some new results. Syst. Biol. 42: 126-141.
   https://doi.org/10.1093/sysbio/42.2.126
 
-- Takazawa Y., Takeda A., Hayamizu M., Gascuel O. 2026. Outperforming the
-  majority-rule consensus tree using fine-grained dissimilarity measures.
-  bioRxiv. https://doi.org/10.64898/2026.03.16.712085
-
 Please note that the 'Quartet' project is released with a
 [Contributor Code of Conduct](https://ms609.github.io/Quartet/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.

@@ -28,6 +28,7 @@ class MemoryAllocator
 				divided among "arrays" of size "size"
 			*/
 			chunks = (2 * 1024 * 1024 - 2 * sizeof(type)) / (sizeof(type) * size);
+			if (chunks == 0) chunks = 1; // avoid infinite recursion in getMoreSpace() below
 			getMoreSpace();
 		}
 		

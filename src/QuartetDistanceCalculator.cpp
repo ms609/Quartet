@@ -280,7 +280,10 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
   // Flatten the strict lower triangle to a single linear index
   // k = r*(r-1)/2 + c  where  0 <= c < r < nTrees.
   // Inversion: r = floor((1 + sqrt(1 + 8k)) / 2),  c = k - r*(r-1)/2.
-  const int nPairs = nTrees * (nTrees - 1) / 2;
+  // 64-bit throughout: nTrees*(nTrees-1) overflows signed int at
+  // nTrees >= 65536, and r*(r-1) below overflows at r >= 65536 too.
+  const int_fast64_t nPairs =
+    static_cast<int_fast64_t>(nTrees) * (nTrees - 1) / 2;
 
   volatile bool hasError = false;
   std::string errorMsg;
@@ -295,12 +298,13 @@ std::vector<std::vector<INTTYPE_N4> > QuartetDistanceCalculator::\
 #ifdef _OPENMP
     #pragma omp for schedule(dynamic, 1)
 #endif
-    for (int k = 0; k < nPairs; ++k) {
+    for (int_fast64_t k = 0; k < nPairs; ++k) {
       if (hasError) continue;
       try {
-        int r = (int)((1.0 + std::sqrt(1.0 + 8.0 * k)) / 2.0);
+        int_fast64_t r =
+          (int_fast64_t)((1.0 + std::sqrt(1.0 + 8.0 * k)) / 2.0);
         if (r * (r - 1) / 2 > k) --r;  // guard against float rounding
-        const int c = k - r * (r - 1) / 2;
+        const int_fast64_t c = k - r * (r - 1) / 2;
         results[r][c] = localCalc.calculateQuartetDistance(trees[r], trees[c]);
         // results[r][r] remains 0 from assign() above.
       } catch (const std::exception& e) {
@@ -378,7 +382,10 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
   // Flatten the lower triangle (including diagonal) to a single linear index
   // k = r*(r+1)/2 + c  where  0 <= c <= r < nTrees.
   // Inversion: r = floor((-1 + sqrt(1 + 8k)) / 2),  c = k - r*(r+1)/2.
-  const int nPairs = nTrees * (nTrees + 1) / 2;
+  // 64-bit throughout: nTrees*(nTrees+1) overflows signed int at
+  // nTrees >= 65536, and r*(r+1) below overflows at r >= 65535 too.
+  const int_fast64_t nPairs =
+    static_cast<int_fast64_t>(nTrees) * (nTrees + 1) / 2;
 
   volatile bool hasError = false;
   std::string errorMsg;
@@ -393,12 +400,13 @@ std::vector<std::vector<std::vector<INTTYPE_N4> > > QuartetDistanceCalculator::\
 #ifdef _OPENMP
     #pragma omp for schedule(dynamic, 1)
 #endif
-    for (int k = 0; k < nPairs; ++k) {
+    for (int_fast64_t k = 0; k < nPairs; ++k) {
       if (hasError) continue;
       try {
-        int r = (int)((-1.0 + std::sqrt(1.0 + 8.0 * k)) / 2.0);
+        int_fast64_t r =
+          (int_fast64_t)((-1.0 + std::sqrt(1.0 + 8.0 * k)) / 2.0);
         if (r * (r + 1) / 2 > k) --r;  // guard against float rounding
-        const int c = k - r * (r + 1) / 2;
+        const int_fast64_t c = k - r * (r + 1) / 2;
         // Self-comparison (c==r) gives total quartet count split.
         AE counts = localCalc.calculateQuartetAgreement(trees[r], trees[c]);
         results[r][c][0] = counts.a;

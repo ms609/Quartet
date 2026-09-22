@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <memory>
 
 #include "bit.h"
 #include "tree.h"
@@ -56,9 +57,13 @@ ull good_triplets = 0;
 ull sol = 0;
 
 cdp_node_t* get_cdp_node() {
+	// Hold the fresh node in a unique_ptr across push_back: if the vector's
+	// reallocation throws bad_alloc, the node is not yet in `cdp` (so the
+	// scope-guard cleanup could not reach it) and would otherwise leak.
 	int cdp_id = cdp.size();
-	cdp.push_back(new cdp_node_t(cdp_id));
-	return cdp[cdp_id];
+	std::unique_ptr<cdp_node_t> node(new cdp_node_t(cdp_id));
+	cdp.push_back(node.get());
+	return node.release();
 }
 void resize_bits(cdp_node_t* cdp_node) {
 	cdp_node->size++;
@@ -181,11 +186,17 @@ void decolor_node_red(cdp_node_t* cdp_node, ull reds) {
 	cdp_node = cdp_child->parent;
 	if (cdp_node != NULL) {
 		if (cdp_child->pos_in_parent < cdp_node->size-1) {
+			// A2-05: `-reds` wraps to a huge ull, but this is a *linear* Fenwick
+			// decrement: update_bit/read_prefix_bit form a group homomorphism
+			// into Z/2^64, and the true "reds" prefix sums stay in [0, #leaves],
+			// so the mod-2^64 result is exact regardless of the wrap. Safe as-is.
 			update_bit(cdp_node->reds, cdp_node->size, cdp_child->pos_in_parent, -reds);
 		}
 		if (cdp_child->pos_in_parent > 1) {
 			ull prev_red = cdp_child->tot_reds;
-			update_bit(cdp_node->reds2, cdp_node->size, cdp_child->pos_in_parent, -(comb2(prev_red)-comb2(prev_red-reds)));
+			// A2-05: comb2(prev_red)-comb2(prev_red-reds), guarded against the
+			// unsigned wrap that a prev_red<reds invariant break would cause.
+			update_bit(cdp_node->reds2, cdp_node->size, cdp_child->pos_in_parent, -comb2_removed(prev_red, reds));
 		}
 	}
 	cdp_child->tot_reds -= reds;
@@ -236,7 +247,9 @@ void decolor_red_leaf(int leaf) {
 			update_bit(cdp_node->reds, cdp_node->size, cdp_child->pos_in_parent, -1);
 		}
 		if (cdp_child->pos_in_parent > 1) {
-			update_bit(cdp_node->reds2, cdp_node->size, cdp_child->pos_in_parent, -(comb2(prev_red)-comb2(prev_red-1)));
+			// A2-05: comb2(prev_red)-comb2(prev_red-1), guarded (prev_red>=1
+			// since this leaf is currently red, i.e. tot_reds was >0).
+			update_bit(cdp_node->reds2, cdp_node->size, cdp_child->pos_in_parent, -comb2_removed(prev_red, 1));
 		}
 		cdp_child = cdp_node;
 		cdp_node = cdp_node->parent;
@@ -284,10 +297,11 @@ void leaves_coloring(tree_node* v, bool decolor) {
 	}
 }
 
-ull triplet_distance(tree* t1, tree* t2) {
-	// Reset any state left over from a previous call, freeing nodes that a
-	// call interrupted by an exception/longjmp may have failed to clean up.
-	// This keeps each invocation self-contained (the routine is not reentrant).
+// Free the temporary node graph and reset every namespace-global container to
+// a pristine, self-contained starting point.  delete-then-clear() makes a
+// second call a harmless no-op, so this is safe to run both on entry and via
+// the scope guard on exit.
+void reset_state() {
 	for (size_t i = 0; i < cdp.size(); i++) delete cdp[i];
 	cdp.clear();
 	leaf_to_cdp.clear();
@@ -296,6 +310,21 @@ ull triplet_distance(tree* t1, tree* t2) {
 	node_range_end.clear();
 	good_triplets = 0;
 	sol = 0;
+}
+
+ull triplet_distance(tree* t1, tree* t2) {
+	// Reclaim any state a *longjmp*-interrupted previous call may have left
+	// behind (longjmp bypasses C++ destructors, so the scope guard below cannot
+	// have run).  This keeps each invocation self-contained; the routine is
+	// serial / not reentrant.
+	reset_state();
+
+	// Free the temporary node graph on EVERY exit path — normal return or a
+	// mid-computation C++ exception (e.g. std::bad_alloc from an allocation in
+	// build_cdp) — so a throw can never leak the node graph.
+	struct scope_cleanup {
+		~scope_cleanup() { reset_state(); }
+	} cleanup_guard;
 
 	t2->make_biggest_subtree_first();
 	leaf_to_cdp.resize(t2->get_leaves_num());
@@ -319,16 +348,7 @@ ull triplet_distance(tree* t1, tree* t2) {
 	leaves_coloring(t1->get_root(), false);
 	ull result = comb3(t1->get_leaves_num()) - sol;
 
-	// Clean up for potential re-use
-	for (size_t i = 0; i < cdp.size(); i++) delete cdp[i];
-	cdp.clear();
-	leaf_to_cdp.clear();
-	t1_leaves.clear();
-	node_range_begin.clear();
-	node_range_end.clear();
-	good_triplets = 0;
-	sol = 0;
-
+	// cleanup_guard's destructor runs reset_state() as the function unwinds.
 	return result;
 }
 
