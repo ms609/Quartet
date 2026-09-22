@@ -14,7 +14,6 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.6.1 (2026-06-24)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -246,14 +245,14 @@
       "sameAs": "https://CRAN.R-project.org/package=vdiffr"
     }
   ],
-  "softwareRequirements": {
-    "1": {
+  "softwareRequirements": [
+    {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.6.0"
     },
-    "2": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
@@ -266,7 +265,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=TreeTools"
     },
-    "3": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "ape",
       "name": "ape",
@@ -278,7 +277,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ape"
     },
-    "4": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "PlotTools",
       "name": "PlotTools",
@@ -290,7 +289,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=PlotTools"
     },
-    "5": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "Rdpack",
       "name": "Rdpack",
@@ -303,7 +302,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rdpack"
     },
-    "6": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "Ternary",
       "name": "Ternary",
@@ -315,10 +314,8 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=Ternary"
-    },
-    "SystemRequirements": null
-  },
-  "fileSize": "892.637KB",
+    }
+  ],
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -326,7 +323,10 @@
       "author": [
         {
           "@type": "Person",
-          "givenName": ["Martin", "R."],
+          "givenName": [
+            "Martin",
+            "R."
+          ],
           "familyName": "Smith",
           "email": "martin.smith@durham.ac.uk"
         }
@@ -343,7 +343,10 @@
       "author": [
         {
           "@type": "Person",
-          "givenName": ["Martin", "R."],
+          "givenName": [
+            "Martin",
+            "R."
+          ],
           "familyName": "Smith",
           "email": "martin.smith@durham.ac.uk"
         }
@@ -358,7 +361,10 @@
         "issueNumber": "2",
         "datePublished": "2019",
         "isPartOf": {
-          "@type": ["PublicationVolume", "Periodical"],
+          "@type": [
+            "PublicationVolume",
+            "Periodical"
+          ],
           "volumeNumber": "15",
           "name": "Biology Letters"
         }
@@ -375,7 +381,10 @@
         },
         {
           "@type": "Person",
-          "givenName": ["Morten", "K."],
+          "givenName": [
+            "Morten",
+            "K."
+          ],
           "familyName": "Holt"
         },
         {
@@ -385,7 +394,10 @@
         },
         {
           "@type": "Person",
-          "givenName": ["Gerth", "S."],
+          "givenName": [
+            "Gerth",
+            "S."
+          ],
           "familyName": "Brodal"
         },
         {
@@ -395,7 +407,11 @@
         },
         {
           "@type": "Person",
-          "givenName": ["Christian", "N.", "S."],
+          "givenName": [
+            "Christian",
+            "N.",
+            "S."
+          ],
           "familyName": "Pedersen"
         }
       ],
@@ -409,7 +425,10 @@
         "issueNumber": "14",
         "datePublished": "2014",
         "isPartOf": {
-          "@type": ["PublicationVolume", "Periodical"],
+          "@type": [
+            "PublicationVolume",
+            "Periodical"
+          ],
           "volumeNumber": "30",
           "name": "Bioinformatics"
         }
@@ -440,7 +459,10 @@
         "issueNumber": "2",
         "datePublished": "2017",
         "isPartOf": {
-          "@type": ["PublicationVolume", "Periodical"],
+          "@type": [
+            "PublicationVolume",
+            "Periodical"
+          ],
           "volumeNumber": "24",
           "name": "Journal of Computational Biology"
         }
