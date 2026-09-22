@@ -1,0 +1,65 @@
+# Address Sanitizer: Replicate CRAN's gcc-ASAN 'Additional Test'
+# Uses the r-hub gcc-asan container (R-devel built with ASAN/UBSAN).
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+      - '**asan**'
+    paths:
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
+      - '.github/workflows/ASan.yml'
+      - 'src/**'
+      - 'inst/include/**'
+      - 'memcheck/**'
+      - 'tests/testthat/**.R'
+      - 'vignettes/**.Rmd'
+  pull_request:
+    paths:
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
+      - '.github/workflows/ASan.yml'
+      - 'src/**'
+      - 'inst/include/**'
+      - 'memcheck/**'
+      - 'tests/testthat/**.R'
+      - 'vignettes/**.Rmd'
+
+name: gcc-ASAN
+
+permissions:
+  contents: read
+
+jobs:
+  mem-check:
+    # The r-hub gcc-asan image has no arm64 variant: stay on x86.
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    container:
+      image: ghcr.io/r-hub/containers/gcc-asan:latest
+
+    name: AddressSanitizer ${{ matrix.config.test }}
+
+    # Each leg runs for up to an hour: a superseding push cancels the stale one.
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.config.test }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {test: 'tests'}
+          - {test: 'examples'}
+          - {test: 'vignettes'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: ms609/actions/asan@main
+        with:
+          test: ${{ matrix.config.test }}
+          token: ${{ secrets.GITHUB_TOKEN }}
