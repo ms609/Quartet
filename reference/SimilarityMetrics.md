@@ -186,7 +186,7 @@ metrics for comparing phylogenetic trees.” *Bioinformatics*, **36**(20),
 Steel MA, Penny D (1993). “Distributions of tree comparison metrics—some
 new results.” *Systematic Biology*, **42**(2), 126–141.
 [doi:10.1093/sysbio/42.2.126](https://doi.org/10.1093/sysbio/42.2.126) .
-<http://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf>.
+<https://www.math.canterbury.ac.nz/~m.steel/Non_UC/files/research/distributions.pdf>.
 
 ## See also
 
@@ -311,10 +311,10 @@ trees <- c(
 elementStatus <- QuartetStatus(trees, reference)
 SimilarityToReference(elementStatus)
 #> reference binaryRef  balanced pectinate      star    random   random2 
-#> 0.7682540 0.7682540 0.3015873 0.3444444 0.3333333 0.3492063 0.4301587 
+#> 0.7682540 0.7682540 0.3015873 0.3444444 0.3333333 0.2920635 0.2492063 
 SimilarityToReference(elementStatus, normalize = TRUE)
 #>   reference   binaryRef    balanced   pectinate        star      random 
-#>  1.00000000  1.00000000 -0.07299270  0.02554745  0.00000000  0.03649635 
+#>  1.00000000  1.00000000 -0.07299270  0.02554745  0.00000000 -0.09489051 
 #>     random2 
-#>  0.22262774 
+#> -0.19343066 
 ```

@@ -2,21 +2,20 @@
 
 ## Quartet v1.4.0 (2026-05-30)
 
+- OpenMP calculations are single-threaded by default; set
+  `options(mc.cores = n)` to use `n` threads.
 - [`PairwiseQuartets()`](https://ms609.github.io/Quartet/reference/PairwiseQuartets.md)
   compares quartet statuses between all pairs of trees.
 - [`TripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
-  is now an S3 generic accepting `phylo`, `multiPhylo`, `list`, and
-  file-path (`character`) inputs (previously file-paths only).
+  accepts `phylo`, `multiPhylo`, `list`, and file-path (`character`)
+  inputs.
 - [`TripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md),
   [`PairsTripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md),
   and
   [`AllPairsTripletDistance()`](https://ms609.github.io/Quartet/reference/Distances.md)
-  now use the CPDT algorithm of Jansson & Rajaby (2017) instead of the
-  tqDist file-based backend, giving a ~100× speedup for triplet-distance
-  calculations.
-- Quartet distances no longer abort with “Leaves don’t agree” when a
-  tree has a unifurcating root; the bundled tqDist tree reader treated
-  the redundant root as a spurious extra leaf
+  now use the CPDT algorithm of Jansson & Rajaby (2017), giving a ~100×
+  speedup.
+- Quartet distances support a unifurcating root
   ([\#64](https://github.com/ms609/Quartet/issues/64)).
 - Require R 3.6, dropping dependency on `viridisLite`.
 
@@ -24,9 +23,6 @@
 
 CRAN release: 2026-03-19
 
-- New `QuartetConsensus()` finds the tree minimizing the sum of
-  symmetric quartet distances to a set of input trees (Takazawa et
-  al. 2026), using a greedy add-and-prune heuristic.
 - OpenMP parallelism for quartet calculations.
 - Improvements to memory allocation and cache performance.
 - Move

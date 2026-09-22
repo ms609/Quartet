@@ -46,39 +46,50 @@
 <div id="quartet--coordination" class="section level1">
 
 <div class="section level2">
-<h2 id="agent-status">Agent Status<a class="anchor" aria-label="anchor" href="#agent-status"></a></h2>
-<table class="table"><thead><tr><th>Agent</th>
-<th>Status</th>
-<th>Current Task</th>
-</tr></thead><tbody><tr><td>A</td>
-<td>IDLE</td>
-<td>T-001, T-004, T-005, T-008, T-009 complete</td>
-</tr><tr><td>B</td>
-<td>IDLE</td>
-<td>T-002, T-003, T-006 complete</td>
-</tr></tbody></table></div>
-<div class="section level2">
 <h2 id="strategic-objectives">Strategic Objectives<a class="anchor" aria-label="anchor" href="#strategic-objectives"></a></h2>
 <table class="table"><colgroup><col width="26%"><col width="42%"><col width="30%"></colgroup><thead><tr><th>Phase</th>
 <th>Objective</th>
 <th>Status</th>
 </tr></thead><tbody><tr><td>1</td>
-<td>
-<strong>Runtime optimisation</strong> — OpenMP parallelism + profiling-guided micro-opts + R preprocessing</td>
-<td><strong>Complete</strong></td>
-</tr><tr><td>2</td>
 <td>Maintain CRAN compliance and CI green</td>
 <td>Ongoing</td>
-</tr><tr><td>3</td>
+</tr><tr><td>2</td>
 <td>Address any open GitHub issues / user-reported bugs</td>
 <td>Pending</td>
-</tr><tr><td>4</td>
+</tr><tr><td>3</td>
 <td>Improve documentation and vignettes</td>
 <td>Pending</td>
-</tr><tr><td>5</td>
+</tr><tr><td>4</td>
 <td>Evaluate 32-bit integer limit (max 477 leaves) — possible 64-bit migration</td>
 <td>Future</td>
-</tr></tbody></table></div>
+</tr></tbody></table><div class="section level3">
+<h3 id="icq-feature-branch-icq-worktree-q-ic">ICQ Feature (branch: <code>icq</code>, worktree: <code>../Q-IC</code>)<a class="anchor" aria-label="anchor" href="#icq-feature-branch-icq-worktree-q-ic"></a></h3>
+<table class="table"><colgroup><col width="26%"><col width="42%"><col width="30%"></colgroup><thead><tr><th>Phase</th>
+<th>Objective</th>
+<th>Status</th>
+</tr></thead><tbody><tr><td>ICQ-1</td>
+<td>R implementation + tests</td>
+<td>Complete (on <code>icq</code>, unmerged)</td>
+</tr><tr><td>ICQ-2</td>
+<td>Analytical shortcut investigation (rejected — #P-hard)</td>
+<td>Complete (on <code>icq</code>, unmerged)</td>
+</tr><tr><td>ICQ-3</td>
+<td>Performance: ReduceTrees preprocessing, raise exact limit to 9</td>
+<td>Complete (on <code>icq</code>, unmerged)</td>
+</tr><tr><td>ICQ-4</td>
+<td>Multi-tree API (all-pairs/one-to-many/element-wise) + <code>future.apply</code> parallelism + <code>normalize</code>
+</td>
+<td>Complete (on <code>icq</code>, unmerged)</td>
+</tr><tr><td>ICQ-5</td>
+<td>Vignette, NEWS.md, CRAN compliance check</td>
+<td>Complete (on <code>icq</code>, unmerged)</td>
+</tr><tr><td>ICQ-6</td>
+<td>On-the-fly C++ topology enumeration (drop cache, raise limit 9→11)</td>
+<td>
+<strong>Uncommitted WIP in <code>../Q-IC</code></strong>, untested since 2026-03-23</td>
+</tr></tbody></table><p><code>icq</code> is 11 commits ahead of, and 44 behind, <code>main</code> — none of this has ever been merged. Next step is to rebase <code>icq</code> onto <code>main</code>, resolve the ICQ-6 working-tree diff (commit, rebuild, and test it, or discard it), and open a PR. See conversation of 2026-09-22 for the full audit. <code>main</code>’s own <code>to-do.md</code>/<code>coordination.md</code> currently have no ICQ entries.</p>
+</div>
+</div>
 <div class="section level2">
 <h2 id="known-issues--blockers">Known Issues / Blockers<a class="anchor" aria-label="anchor" href="#known-issues--blockers"></a></h2>
 <ul><li>
@@ -119,6 +130,15 @@
 <li>Check <code>issues.md</code> before <code>to-do.md</code> when picking up work.</li>
 <li>All builds and tests must use a per-agent library (<code>.agent-X/</code>).</li>
 </ul></div>
+<div class="section level2">
+<h2 id="known-staleness-audited-2026-09-22">Known Staleness (audited 2026-09-22)<a class="anchor" aria-label="anchor" href="#known-staleness-audited-2026-09-22"></a></h2>
+<ul><li>
+<strong><code>to-do.md</code>’s Open Tasks table lists T-001/T-005/T-008/T-009 as <code>COMPLETE</code></strong> while they’re also correctly listed in the Completed Tasks table below — these rows should be removed from Open Tasks, not just marked complete.</li>
+<li>
+<strong>Three extra worktrees are parked at the same stale detached commit</strong> (<code>3abb47e</code>, “Harden CPDT/tqDist memory safety”, 2026-07-03), each pinned to its own now-merged-or-abandoned <code>claude/*</code> branch: <code>worktrees/Quartet/eloquent-montalcini-db94cd</code>, <code>worktrees/Quartet/happy-cori-bbaddc</code>, <code>worktrees/Quartet/quizzical-moore-2e5b84</code>. Worth checking whether that commit’s content ever reached <code>main</code> before removing them.</li>
+<li>
+<strong><code>origin/icq2</code></strong> is an unrelated, much older (2020) abandoned ICQ prototype — not part of the current <code>icq</code> branch history, large stale diff vs <code>main</code>. Candidate for deletion once confirmed nothing in it is still needed.</li>
+</ul></div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -130,7 +150,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

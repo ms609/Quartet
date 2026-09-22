@@ -6,44 +6,61 @@
   maintainer, copyright holder.
   [](https://orcid.org/0000-0001-5660-1727)
 
-- **Jesper Jansson**. Bibliographic antecedent, copyright holder.
+- **Jesper Jansson**. Contributor, copyright holder.
   [](https://orcid.org/0000-0001-6859-8932)
 
-- **Ramesh Rajaby**. Bibliographic antecedent, copyright holder.
+- **Ramesh Rajaby**. Contributor, copyright holder.
 
-- **Andreas Sand**. Bibliographic antecedent, copyright holder.
+- **Andreas Sand**. Contributor, copyright holder.
 
-- **Gerth Stølting Brodal**. Bibliographic antecedent, copyright holder.
+- **Gerth Stølting Brodal**. Contributor, copyright holder.
 
-- **Rolf Fagerberg**. Bibliographic antecedent, copyright holder.
+- **Rolf Fagerberg**. Contributor, copyright holder.
 
-- **Thomas Mailund**. Bibliographic antecedent, copyright holder.
+- **Thomas Mailund**. Contributor, copyright holder.
 
-- **Christian N. S. Pedersen**. Bibliographic antecedent, copyright
-  holder. [](https://orcid.org/0000-0002-8947-6771)
+- **Christian N. S. Pedersen**. Contributor, copyright holder.
+  [](https://orcid.org/0000-0002-8947-6771)
 
-- **Jens Johansen**. Bibliographic antecedent, copyright holder.
+- **Jens Johansen**. Contributor, copyright holder.
 
-- **Morten K. Holt**. Bibliographic antecedent, copyright holder.
+- **Morten K. Holt**. Contributor, copyright holder.
 
 ## Citation
 
 Source:
 [`inst/CITATION`](https://github.com/ms609/Quartet/blob/main/inst/CITATION)
 
-Smith, MR (2019a). Quartet: comparison of phylogenetic trees using
-quartet and split measures. R package version 1.4.0.
-doi:10.5281/zenodo.2536318
+\*Smith, M.R. (2019a). Quartet: comparison of phylogenetic trees using
+quartet and split measures. R package version 1.4.0. Comprehensive R
+Archive Network, Vienna. doi:10.32614/CRAN.package.Quartet
 
-    @Manual{Quartet,
+    @Manual{Smith2019a,
       title = {Quartet: comparison of phylogenetic trees using quartet and split measures},
       author = {Martin R. Smith},
       note = {R package version 1.4.0},
       year = {2019},
-      doi = {10.5281/zenodo.2536318},
+      organization = {Comprehensive R Archive Network},
+      address = {Vienna},
+      doi = {10.32614/CRAN.package.Quartet},
     }
 
-Sand et al. (2014). tqDist: a library for computing the quartet and
+Smith, M.R. (2019b). Bayesian and parsimony approaches reconstruct
+informative trees from simulated morphological datasets. Biology Letters
+15:20180632. doi:10.1098/rsbl.2018.0632
+
+    @Article{Smith2019b,
+      author = {Martin R. Smith},
+      doi = {10.1098/rsbl.2018.0632},
+      journal = {Biology Letters},
+      title = {Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets},
+      volume = {15},
+      number = {2},
+      pages = {20180632},
+      year = {2019},
+    }
+
+Sand, A. et al. (2014). tqDist: a library for computing the quartet and
 triplet distances between binary or general trees. Bioinformatics
 30(14): 2079-2080. doi:10.1093/bioinformatics/btu157
 
@@ -58,9 +75,9 @@ triplet distances between binary or general trees. Bioinformatics
       year = {2014},
     }
 
-Jansson & Rajaby (2017). A more practical algorithm for the rooted
-triplet distance. Journal of Computational Biology 24(2): 106-126.
-doi:10.1089/cmb.2016.0185
+Jansson, J. & Rajaby, R. (2017). A more practical algorithm for the
+rooted triplet distance. Journal of Computational Biology 24(2):
+106-126. doi:10.1089/cmb.2016.0185
 
     @Article{Jansson2017,
       author = {Jesper Jansson and Ramesh Rajaby},
@@ -71,19 +88,4 @@ doi:10.1089/cmb.2016.0185
       title = {A more practical algorithm for the rooted triplet distance},
       volume = {24},
       year = {2017},
-    }
-
-Smith, MR (2019b). Bayesian and parsimony approaches reconstruct
-informative trees from simulated morphological datasets. Biology Letters
-15:20180632. doi:10.1098/rsbl.2018.0632
-
-    @Article{Smith2019,
-      author = {Martin R. Smith},
-      doi = {10.1098/rsbl.2018.0632},
-      journal = {Biology Letters},
-      title = {Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets},
-      volume = {15},
-      number = {2},
-      pages = {20180632},
-      year = {2019},
     }
