@@ -16,7 +16,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-24.04
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
